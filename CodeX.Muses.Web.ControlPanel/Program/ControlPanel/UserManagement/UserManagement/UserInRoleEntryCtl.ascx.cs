@@ -19,14 +19,18 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private string[] lstSelectedMember = null;
         public override void InitializeDataControl(string param)
         {
-            hdnUserID.Value = param;
+            string[] temp = param.Split('|');
+            hdnUserID.Value = temp[0];
+            hdnSiteID.Value = temp[1];
 
+            Site entitySite = BusinessLayer.GetSite(hdnSiteID.Value);
+            txtSiteName.Text = entitySite.SiteName;
             User entityHd = BusinessLayer.GetUser(Convert.ToInt32(hdnUserID.Value));
             txtUserName.Text = entityHd.UserName;
 
             if (param != "")
             {
-                List<vUserInRole> lstSelected = BusinessLayer.GetvUserInRoleList(string.Format("UserID = {0} AND SiteID = '{1}'", hdnUserID.Value, AppSession.UserLogin.SiteID));
+                List<vUserInRole> lstSelected = BusinessLayer.GetvUserInRoleList(string.Format("UserID = {0} AND SiteID = '{1}'", hdnUserID.Value, hdnSiteID.Value));
                 rptSelected.DataSource = lstSelected;
                 rptSelected.DataBind();
 
@@ -101,7 +105,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 string[] lstSelectedIsMainRole = hdnSelectedIsMainRole.Value.Split(',');
                 int UserID = Convert.ToInt32(hdnUserID.Value);
 
-                List<UserInRole> lstUserInRole = BusinessLayer.GetUserInRoleList(string.Format("UserID = {0} AND SiteID = '{1}'", UserID, AppSession.UserLogin.SiteID), ctx);
+                List<UserInRole> lstUserInRole = BusinessLayer.GetUserInRoleList(string.Format("UserID = {0} AND SiteID = '{1}'", UserID, hdnSiteID.Value), ctx);
                 int ct = 0;
                 foreach (String itemID in lstSelectedMember)
                 {
@@ -110,7 +114,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                     if (entityDt == null)
                     {
                         entityDt = new UserInRole();
-                        entityDt.SiteID = AppSession.UserLogin.SiteID;
+                        entityDt.SiteID = hdnSiteID.Value;
                         entityDt.UserID = UserID;
                         entityDt.IsMainRole = lstSelectedIsMainRole[ct] == "1";
                         entityDt.RoleID = RoleID;
@@ -126,7 +130,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 foreach (UserInRole entity in lstUserInRole)
                 {
                     if (!lstSelectedMember.Contains(entity.RoleID.ToString()))
-                        entityDtDao.Delete(UserID, AppSession.UserLogin.SiteID, entity.RoleID);
+                        entityDtDao.Delete(UserID, hdnSiteID.Value, entity.RoleID);
                 }
                 ctx.CommitTransaction();
             }

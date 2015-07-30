@@ -53,6 +53,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("StandardCodeID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.ItemType.PRODUCT));
             Methods.SetComboBoxField<StandardCode>(cboItemType, lstSc, "StandardCodeName", "StandardCodeID");
             cboItemType.SelectedIndex = 0;
+
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(string.Format("DisplayPath LIKE '%/{0}/%'", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
         }
 
         protected override void OnControlEntrySetting()
@@ -67,6 +70,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(hdnItemGroupID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtItemGroupCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtItemGroupName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(cboSite, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(hdnParentID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtParentCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtParentName, new ControlEntrySetting(false, false, false));
@@ -85,6 +89,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtRestrictionCode.Text = entity.RestrictionCode;
             txtRestrictionName.Text = entity.RestrictionName;
             cboItemType.Value = entity.GCItemType;
+            cboSite.Value = entity.SiteID;
             txtItemGroupCode.Text = entity.ItemGroupCode;
             txtItemGroupName.Text = entity.ItemGroupName1;
             hdnParentID.Value = entity.ParentID.ToString();
@@ -116,6 +121,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.ParentID = null;
             else
                 entity.ParentID = Convert.ToInt32(hdnParentID.Value);
+            entity.SiteID = cboSite.Value.ToString();
 
             entity.IsAllowOverIssued = chkIsAllowOverIssued.Checked;
             entity.IsAvailable = chkIsAvailable.Checked;

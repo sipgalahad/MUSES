@@ -20,13 +20,15 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected int RowCountPerPage = 1;
         public override string OnGetMenuCode()
         {
+            if (Page.Request.QueryString.Count > 0 && Page.Request.QueryString["type"] == "cs")
+                return Constant.MenuCode.Inventory.ITEM_DISTRIBUTION_CONFIRMED_CROSS_SITE;
             return Constant.MenuCode.Inventory.ITEM_DISTRIBUTION_CONFIRMED;
         }
 
         #region Html Getter
         protected string OnGetFilterExpressionToLocation()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_REQUEST);
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, hdnTransactionCodeItemRequest.Value);
         }
         #endregion
 
@@ -37,6 +39,16 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            if (Page.Request.QueryString.Count > 0 && Page.Request.QueryString["type"] == "cs")
+            {
+                hdnTransactionCode.Value = Constant.TransactionCode.ITEM_DISTRIBUTION_CROSS_SITE;
+                hdnTransactionCodeItemRequest.Value = Constant.TransactionCode.ITEM_REQUEST_CROSS_SITE;
+            }
+            else
+            {
+                hdnTransactionCode.Value = Constant.TransactionCode.ITEM_DISTRIBUTION;
+                hdnTransactionCodeItemRequest.Value = Constant.TransactionCode.ITEM_REQUEST;
+            }
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);
         }
@@ -46,7 +58,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += String.Format("GCDistributionStatus = '{0}' AND ToLocationID = {1}", Constant.DistributionStatus.ON_DELIVERY, hdnLocationIDFrom.Value);
+            filterExpression += String.Format("TransactionCode = '{0}' AND GCDistributionStatus = '{1}' AND ToLocationID = {2}", hdnTransactionCode.Value, Constant.DistributionStatus.ON_DELIVERY, hdnLocationIDFrom.Value);
 
             if (isCountPageCount)
             {

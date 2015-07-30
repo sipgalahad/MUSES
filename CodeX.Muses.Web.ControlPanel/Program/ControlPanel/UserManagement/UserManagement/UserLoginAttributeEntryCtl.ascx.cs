@@ -19,14 +19,18 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private string[] lstSelectedMember = null;
         public override void InitializeDataControl(string param)
         {
-            hdnUserID.Value = param;
+            string[] temp = param.Split('|');
+            hdnUserID.Value = temp[0];
+            hdnSiteID.Value = temp[1];
 
-            User entityHd = BusinessLayer.GetUser(Convert.ToInt32(hdnUserID.Value));
-            txtUserName.Text = entityHd.UserName;
+            Site entitySite = BusinessLayer.GetSite(hdnSiteID.Value);
+            txtSiteName.Text = entitySite.SiteName;
+            User entity = BusinessLayer.GetUser(Convert.ToInt32(hdnUserID.Value));
+            txtUserName.Text = entity.UserName;
 
             if (param != "")
             {
-                List<LoginAttribute> lstSelected = BusinessLayer.GetLoginAttributeList(string.Format("LoginAttributeID IN (SELECT LoginAttributeID FROM UserLoginAttribute WHERE SiteID = '{0}' AND UserID = {1})", AppSession.UserLogin.SiteID, hdnUserID.Value));
+                List<LoginAttribute> lstSelected = BusinessLayer.GetLoginAttributeList(string.Format("LoginAttributeID IN (SELECT LoginAttributeID FROM UserLoginAttribute WHERE SiteID = '{0}' AND UserID = {1})", hdnSiteID.Value, hdnUserID.Value));
                 rptSelected.DataSource = lstSelected;
                 rptSelected.DataBind();
 
@@ -62,7 +66,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private string GetFilterExpression()
         {
             string filterExpression = string.Format("LoginAttributeCode LIKE '%{0}%' AND LoginAttributeName LIKE '%{1}%' AND IsDeleted = 0", hdnFilterItemCode.Value, hdnFilterItemName.Value);
-            filterExpression += string.Format(" AND LoginAttributeID IN (SELECT LoginAttributeID FROM UserRoleLoginAttribute WHERE RoleID IN (SELECT RoleID FROM UserInRole WHERE SiteID = '{0}' AND UserID = {1}) AND IsDeleted = 0)", AppSession.UserLogin.SiteID, hdnUserID.Value);
+            filterExpression += string.Format(" AND LoginAttributeID IN (SELECT LoginAttributeID FROM UserRoleLoginAttribute WHERE RoleID IN (SELECT RoleID FROM UserInRole WHERE SiteID = '{0}' AND UserID = {1}) AND IsDeleted = 0)", hdnSiteID.Value, hdnUserID.Value);
             return filterExpression;
         }
 
@@ -101,7 +105,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 lstSelectedMember = hdnSelectedMember.Value.Split(',');
                 int UserID = Convert.ToInt32(hdnUserID.Value);
 
-                List<UserLoginAttribute> lstUserLoginAttribute = BusinessLayer.GetUserLoginAttributeList(string.Format("UserID = {0} AND SiteID = '{1}'", UserID, AppSession.UserLogin.SiteID), ctx);
+                List<UserLoginAttribute> lstUserLoginAttribute = BusinessLayer.GetUserLoginAttributeList(string.Format("UserID = {0} AND SiteID = '{1}'", UserID, hdnSiteID.Value), ctx);
                 int ct = 0;
                 if (hdnSelectedMember.Value != "")
                 {
@@ -113,7 +117,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                         {
                             entityDt = new UserLoginAttribute();
                             entityDt.UserID = UserID;
-                            entityDt.SiteID = AppSession.UserLogin.SiteID;
+                            entityDt.SiteID = hdnSiteID.Value;
                             entityDt.LoginAttributeID = LoginAttributeID;
                             entityDtDao.Insert(entityDt);
                         }
@@ -123,7 +127,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 foreach (UserLoginAttribute entity in lstUserLoginAttribute)
                 {
                     if (!lstSelectedMember.Contains(entity.LoginAttributeID.ToString()))
-                        entityDtDao.Delete(UserID, AppSession.UserLogin.SiteID, entity.LoginAttributeID);
+                        entityDtDao.Delete(UserID, hdnSiteID.Value, entity.LoginAttributeID);
                 }
                 ctx.CommitTransaction();
             }

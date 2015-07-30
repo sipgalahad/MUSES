@@ -592,11 +592,11 @@ namespace CodeX.Common
                 public const string APPROVED_ITEM_REQUEST = "IM030103";
                 public const string REORDER_ITEM_DISTRIBUTION = "IM030201";
                 public const string ITEM_DISTRIBUTION = "IM030202";
+                public const string ITEM_DISTRIBUTION_CONFIRMED = "IM030203";
                 public const string PURCHASE_RECEIVE = "IM030301";
                 public const string PURCHASE_RETURN = "IM030302";
                 public const string CREDIT_NOTE = "IM030303";
                 public const string PURCHASE_REPLACEMENT = "IM030304";
-                public const string ITEM_DISTRIBUTION_CONFIRMED = "IM030203";
                 public const string ITEM_ADJUSTMENT = "IM030502";
                 public const string ITEM_CONSUMPTION = "IM030503";
                 public const string ITEM_PRODUCTION = "IM030504";
@@ -606,6 +606,13 @@ namespace CodeX.Common
                 public const string APPROVED_CONSIGNMENT_ORDER = "IM040102";
                 public const string CONSIGNMENT_RECEIVE = "IM040200";
                 public const string CONSIGNMENT_RETURN = "IM040300";
+
+                public const string REORDER_ITEM_REQUEST_CROSS_SITE = "IM050101";
+                public const string ITEM_REQUEST_CROSS_SITE = "IM050102";
+                public const string APPROVED_ITEM_REQUEST_CROSS_SITE = "IM050103";
+                public const string REORDER_ITEM_DISTRIBUTION_CROSS_SITE = "IM050201";
+                public const string ITEM_DISTRIBUTION_CROSS_SITE = "IM050202";
+                public const string ITEM_DISTRIBUTION_CONFIRMED_CROSS_SITE = "IM050203";
 
                 public const string ITEM_REQUEST_APPROVAL = "IM070101";
                 public const string ITEM_DISTRIBUTION_APPROVAL = "IM070102";
@@ -624,6 +631,9 @@ namespace CodeX.Common
                 public const string CONSIGNMENT_RECEIVE_CONFIRMED = "IM070302";
                 public const string CONSIGNMENT_RECEIVE_APPROVAL = "IM070303";
                 public const string CONSIGNMENT_RETURN_APPROVAL = "IM070304";
+
+                public const string ITEM_REQUEST_CROSS_SITE_APPROVAL = "IM070401";
+                public const string ITEM_DISTRIBUTION_CROSS_SITE_APPROVAL = "IM070402";
 
                 public const string REPORT = "IM090000";
             }
@@ -799,6 +809,8 @@ namespace CodeX.Common
             public const string CONSIGNMENT_ORDER = "4213";
             public const string CONSIGNMENT_RECEIVE = "4214";
             public const string CONSIGNMENT_RETURN = "4215";
+            public const string ITEM_REQUEST_CROSS_SITE = "4301";
+            public const string ITEM_DISTRIBUTION_CROSS_SITE = "4302";
 
             public const string AR_INVOICE_PROSPECTIVE_STUDENT = "5101";
             public const string AR_RECEIVE_PROSPECTIVE_STUDENT = "5102";

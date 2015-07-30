@@ -12,6 +12,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="plhHeader" runat="server">   
     <input type="hidden" id="hdnRowCountPerPage" runat="server" value="" />
+    <input type="hidden" id="hdnTransactionCode" runat="server" />
+    <input type="hidden" id="hdnTransactionCodeItemRequest" runat="server" />
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">

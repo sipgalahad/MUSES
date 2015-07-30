@@ -177,6 +177,10 @@
                             </table>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Base Site")%></label></td>
+                        <td><dxe:ASPxComboBox ID="cboSite" ClientInstanceName="cboSite" Width="120px" runat="server" /></td>
+                    </tr>
                 </table>
             </td>
             <td style="padding:5px;vertical-align:top">

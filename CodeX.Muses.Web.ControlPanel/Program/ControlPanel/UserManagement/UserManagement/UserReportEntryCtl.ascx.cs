@@ -18,7 +18,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected int PageCount = 1;
         public override void InitializeDataControl(string param)
         {
-            hdnUserID.Value = param;
+            string[] temp = param.Split('|');
+            hdnUserID.Value = temp[0];
+            hdnSiteID.Value = temp[1];
+
+            Site entitySite = BusinessLayer.GetSite(hdnSiteID.Value);
+            txtSiteName.Text = entitySite.SiteName;
             User entity = BusinessLayer.GetUser(Convert.ToInt32(hdnUserID.Value));
             txtUserName.Text = entity.UserName;
 
@@ -30,17 +35,17 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             Methods.SetComboBoxField<StandardCode>(cboReportType, lstReportType, "StandardCodeName", "StandardCodeID");
             cboReportType.SelectedIndex = 0;
 
-            List<UserReport> lstReport = BusinessLayer.GetUserReportList(string.Format("UserID = {0} AND SiteID = '{1}'", hdnUserID.Value, AppSession.UserLogin.SiteID));
+            List<UserReport> lstReport = BusinessLayer.GetUserReportList(string.Format("UserID = {0} AND SiteID = '{1}'", hdnUserID.Value, hdnSiteID.Value));
             hdnOldSelectedReport.Value = hdnSelectedReport.Value = String.Join(",", lstReport.Select(p => p.ReportID).ToList());
 
             BindGridView(1, true, ref PageCount);
         }
 
-        
+
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
             string filterExpression = string.Format("ModuleID = '{0}' AND GCReportType = '{1}' AND IsDeleted = 0", cboModule.Value, cboReportType.Value);
-            filterExpression += string.Format(" AND ReportID IN (SELECT ReportID FROM UserRoleReport WHERE RoleID IN (SELECT RoleID FROM UserInRole WHERE SiteID = '{0}' AND UserID = {1}) AND IsDeleted = 0)", AppSession.UserLogin.SiteID, hdnUserID.Value);
+            filterExpression += string.Format(" AND ReportID IN (SELECT ReportID FROM UserRoleReport WHERE RoleID IN (SELECT RoleID FROM UserInRole WHERE SiteID = '{0}' AND UserID = {1}) AND IsDeleted = 0)", hdnSiteID.Value, hdnUserID.Value);
             if (isCountPageCount)
             {
                 int rowCount = BusinessLayer.GetvReportMasterRowCount(filterExpression);
@@ -111,7 +116,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 {
                     if (!listSelectedReport.Contains(oldData))
                     {
-                        BusinessLayer.DeleteUserReport(roleID, AppSession.UserLogin.SiteID, Convert.ToInt32(oldData));
+                        BusinessLayer.DeleteUserReport(roleID, hdnSiteID.Value, Convert.ToInt32(oldData));
                     }
                 }
                 foreach (String newData in listSelectedReport)
@@ -120,7 +125,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                     {
                         UserReport entity = new UserReport();
                         entity.UserID = roleID;
-                        entity.SiteID = AppSession.UserLogin.SiteID;
+                        entity.SiteID = hdnSiteID.Value;
                         entity.ReportID = Convert.ToInt32(newData);
                         entityDao.Insert(entity);
                     }

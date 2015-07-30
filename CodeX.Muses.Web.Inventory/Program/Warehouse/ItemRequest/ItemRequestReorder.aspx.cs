@@ -20,17 +20,19 @@ namespace CodeX.Muses.Web.Inventory.Program
         private string[] lstQtyItemRequest = null;
         public override string OnGetMenuCode()
         {
+            if (Page.Request.QueryString.Count > 0 && Page.Request.QueryString["type"] == "cs")
+                return Constant.MenuCode.Inventory.REORDER_ITEM_REQUEST_CROSS_SITE;
             return Constant.MenuCode.Inventory.REORDER_ITEM_REQUEST;
         }
 
         #region Html Getter
         protected string OnGetFilterExpressionFromLocation()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_REQUEST);
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, hdnTransactionCode.Value);
         }
         protected string OnGetFilterExpressionToLocation()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_DISTRIBUTION);
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, hdnTransactionCodeItemDistribution.Value);
         }
         #endregion
 
@@ -46,6 +48,16 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void InitializeDataControl()
         {
+            if (Page.Request.QueryString.Count > 0 && Page.Request.QueryString["type"] == "cs")
+            {
+                hdnTransactionCode.Value = Constant.TransactionCode.ITEM_REQUEST_CROSS_SITE;
+                hdnTransactionCodeItemDistribution.Value = Constant.TransactionCode.ITEM_DISTRIBUTION_CROSS_SITE;
+            }
+            else
+            {
+                hdnTransactionCode.Value = Constant.TransactionCode.ITEM_REQUEST;
+                hdnTransactionCodeItemDistribution.Value = Constant.TransactionCode.ITEM_REQUEST_CROSS_SITE;
+            }
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
             int PageCount = 1;
             int RowCount = 1;
@@ -143,7 +155,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.TransactionDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
             entityHd.TransactionTime = txtItemOrderTime.Text;
             entityHd.Remarks = txtNotes.Text;
-            entityHd.ItemRequestNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.ITEM_REQUEST, entityHd.TransactionDate, ctx);
+            entityHd.TransactionCode = hdnTransactionCode.Value;
+            entityHd.ItemRequestNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.TransactionDate, ctx);
             retval = entityHd.ItemRequestNo;
             entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
             ctx.CommandType = CommandType.Text;

@@ -96,6 +96,7 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="LocationName" HeaderText="Location Name" />
                                 <asp:BoundField DataField="ShortName" HeaderText="Short Name" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="SiteName" HeaderText="Base Site" HeaderStyle-Width="150px" />
                                 <asp:CheckBoxField DataField="IsAvailable" HeaderStyle-CssClass="thCenter" HeaderText="Available Balance" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" />
                                 <asp:CheckBoxField DataField="IsAllowOverIssued" HeaderStyle-CssClass="thCenter" HeaderText="Over Issued" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" />
                                 <asp:CheckBoxField DataField="IsNettable" HeaderStyle-CssClass="thCenter" HeaderText="Nettable" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" />

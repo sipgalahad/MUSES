@@ -22,6 +22,8 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         public override string OnGetMenuCode()
         {
+            if (Page.Request.QueryString.Count > 0 && Page.Request.QueryString["type"] == "cs")
+                return Constant.MenuCode.Inventory.ITEM_DISTRIBUTION_CROSS_SITE_APPROVAL;
             return Constant.MenuCode.Inventory.ITEM_DISTRIBUTION_APPROVAL;
         }
 

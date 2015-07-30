@@ -82,6 +82,7 @@
 
 <div style="height:450px; overflow-y:auto;overflow-x:hidden">
     <input type="hidden" id="hdnUserID" value="" runat="server" />
+    <input type="hidden" id="hdnSiteID" value="" runat="server" />
     <input type="hidden" id="hdnOldSelectedReport" runat="server" value="" />
     <input type="hidden" id="hdnSelectedReport" runat="server" value="" />
     <table class="tblContentArea">
@@ -99,6 +100,10 @@
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("User")%></label></td>
                         <td colspan="2"><asp:TextBox ID="txtUserName" ReadOnly="true" Width="100%" runat="server" /></td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Site")%></label></td>
+                        <td><asp:TextBox ID="txtSiteName" ReadOnly="true" Width="200px" runat="server" /></td>
+                    </tr> 
                     <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Module")%></label></td>
                         <td colspan="2">
@@ -176,12 +181,11 @@
     </div>
 
     <div style="width:100%;text-align:center">
-    <table style="margin-left: auto; margin-right: auto; margin-top: 10px;">
-        <tr>
-            <td><input type="button" value='<%= GetLabel("Save")%>' style="width:70px" id="btnSaveReportUser" /></td>
-            <td><input type="button" value='<%= GetLabel("Close")%>' style="width:70px" onclick="pcRightPanelContent.Hide();" /></td>
-        </tr>
-    </table>
+        <table style="margin-left: auto; margin-right: auto; margin-top: 10px;">
+            <tr>
+                <td><input type="button" value='<%= GetLabel("Save")%>' style="width:70px" id="btnSaveReportUser" /></td>
+                <td><input type="button" value='<%= GetLabel("Close")%>' style="width:70px" onclick="pcRightPanelContent.Hide();" /></td>
+            </tr>
+        </table>
+    </div>
 </div>
-</div>
-

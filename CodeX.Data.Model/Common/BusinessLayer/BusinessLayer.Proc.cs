@@ -269,7 +269,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetUserRoleMenuList
-        public static List<GetUserRoleMenuList> GetUserRoleMenuList(String moduleID, String SiteID, Int32 roleID, String loginSiteID, Int32 loginUserID)
+        public static List<GetUserRoleMenuList> GetUserRoleMenuList(String moduleID, Int32 roleID, Int32 loginUserID)
         {
             List<GetUserRoleMenuList> result = new List<GetUserRoleMenuList>();
             IDbContext ctx = DbFactory.Configure();
@@ -280,9 +280,7 @@ namespace CodeX.Data.Model
                 ctx.CommandType = CommandType.StoredProcedure;
                 //Add Parameter
                 ctx.Add("p_ModuleID", moduleID);
-                ctx.Add("p_SiteID", SiteID);
                 ctx.Add("p_RoleID", roleID);
-                ctx.Add("p_LoginSiteID", loginSiteID);
                 ctx.Add("p_LoginUserID", loginUserID);
                 //Get DataReader
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))

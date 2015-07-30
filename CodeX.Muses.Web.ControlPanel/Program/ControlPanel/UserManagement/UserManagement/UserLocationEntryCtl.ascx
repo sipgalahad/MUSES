@@ -82,6 +82,7 @@
 
 <div style="height:450px; overflow-y:auto;overflow-x:hidden">
     <input type="hidden" id="hdnUserID" value="" runat="server" />
+    <input type="hidden" id="hdnSiteID" value="" runat="server" />
     <input type="hidden" id="hdnOldSelectedLocation" runat="server" value="" />
     <input type="hidden" id="hdnIsLocationUserRoleEmpty" runat="server" value="" />
     <input type="hidden" id="hdnSelectedLocation" runat="server" value="" />
@@ -100,6 +101,10 @@
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("UserName")%></label></td>
                         <td colspan="2"><asp:TextBox ID="txtUserName" ReadOnly="true" Width="100%" runat="server" /></td>
                     </tr>  
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Site")%></label></td>
+                        <td><asp:TextBox ID="txtSiteName" ReadOnly="true" Width="200px" runat="server" /></td>
+                    </tr> 
                 </table>                
 
                 <dxcp:ASPxCallbackPanel ID="cbpEntryPopupView" runat="server" Width="100%" ClientInstanceName="cbpEntryPopupView"

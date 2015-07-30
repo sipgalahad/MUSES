@@ -5756,6 +5756,7 @@ namespace CodeX.Data.Model
         private Int32 _EmployeeID;
         private String _EmployeeCode;
         private String _SiteID;
+        private String _SiteName;
         private String _GCSalutation;
         private String _FirstName;
         private String _MiddleName;
@@ -5813,6 +5814,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
         }
         [Column(Name = "GCSalutation", DataType = "String")]
         public String GCSalutation
@@ -11395,6 +11402,7 @@ namespace CodeX.Data.Model
     public partial class vItemDistributionHd
     {
         private Int32 _DistributionID;
+        private String _TransactionCode;
         private String _DistributionNo;
         private Int32 _ItemRequestID;
         private DateTime _DeliveryDate;
@@ -11420,6 +11428,12 @@ namespace CodeX.Data.Model
         {
             get { return _DistributionID; }
             set { _DistributionID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
         }
         [Column(Name = "DistributionNo", DataType = "String")]
         public String DistributionNo
@@ -13464,6 +13478,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _LocationID;
         private String _SiteID;
+        private String _SiteName;
         private String _LocationCode;
         private String _LocationName;
         private String _ShortName;
@@ -13497,6 +13512,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
         }
         [Column(Name = "LocationCode", DataType = "String")]
         public String LocationCode
@@ -21650,6 +21671,63 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRoom
+    [Serializable]
+    [Table(Name = "vRoom")]
+    public class vRoom
+    {
+        private Int32 _RoomID;
+        private String _RoomCode;
+        private String _RoomName;
+        private String _SiteID;
+        private String _SiteName;
+        private Boolean _IsShared;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "RoomCode", DataType = "String")]
+        public String RoomCode
+        {
+            get { return _RoomCode; }
+            set { _RoomCode = value; }
+        }
+        [Column(Name = "RoomName", DataType = "String")]
+        public String RoomName
+        {
+            get { return _RoomName; }
+            set { _RoomName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+        [Column(Name = "IsShared", DataType = "Boolean")]
+        public Boolean IsShared
+        {
+            get { return _IsShared; }
+            set { _IsShared = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vRoomSite
     [Serializable]
     [Table(Name = "vRoomSite")]
@@ -27469,6 +27547,7 @@ namespace CodeX.Data.Model
         private Int32 _TeacherID;
         private String _TeacherCode;
         private String _SiteID;
+        private String _SiteName;
         private String _GCSalutation;
         private String _FirstName;
         private String _MiddleName;
@@ -27529,6 +27608,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
         }
         [Column(Name = "GCSalutation", DataType = "String")]
         public String GCSalutation

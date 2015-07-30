@@ -31,7 +31,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             Methods.SetComboBoxField<Module>(ddlModule, lstModule, "ModuleName", "ModuleID");
             hdnSelectedModule.Value = lstModule[0].ModuleID;
 
-            ListUserRoleMenuAccess = BusinessLayer.GetUserRoleMenuList(hdnSelectedModule.Value, AppSession.UserLogin.SiteID, Convert.ToInt32(hdnRoleID.Value), AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID);
+            ListUserRoleMenuAccess = BusinessLayer.GetUserRoleMenuList(hdnSelectedModule.Value, Convert.ToInt32(hdnRoleID.Value), AppSession.UserLogin.UserID);
 
             BindGridView(1, true, ref PageCount);
         }
@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             List<GetUserRoleMenuList> lst = lstEntity.Skip((pageIndex - 1) * 10).Take(10).ToList();
             foreach (GetUserRoleMenuList entity in lst)
             {
-                CUserRoleMenuAccessState obj = ListStateMenuAccess.FirstOrDefault(p => p.SiteID == entity.SiteID && p.MenuID == entity.MenuID);
+                CUserRoleMenuAccessState obj = ListStateMenuAccess.FirstOrDefault(p => p.MenuID == entity.MenuID);
                 if (obj != null)
                     entity.CRUDModeUserRole = obj.CRUDMode;
             }
@@ -76,7 +76,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 }
                 else if (param[0] == "changemodule")
                 {
-                    ListUserRoleMenuAccess = BusinessLayer.GetUserRoleMenuList(hdnSelectedModule.Value, AppSession.UserLogin.SiteID, Convert.ToInt32(hdnRoleID.Value), AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID);
+                    ListUserRoleMenuAccess = BusinessLayer.GetUserRoleMenuList(hdnSelectedModule.Value, Convert.ToInt32(hdnRoleID.Value), AppSession.UserLogin.UserID);
                     BindGridView(1, true, ref pageCount);
                     result = "refresh|" + pageCount;
                 }
@@ -114,7 +114,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 UserRoleMenuDao entityDao = new UserRoleMenuDao(ctx);
 
                 StringBuilder listMenuAccessID = new StringBuilder();
-                List<CUserRoleMenuAccessState> ListState = ListStateMenuAccess.Where(p => p.SiteID == AppSession.UserLogin.SiteID).ToList();
+                List<CUserRoleMenuAccessState> ListState = ListStateMenuAccess.ToList();
                 if (ListState.Count > 0)
                 {
                     foreach (CUserRoleMenuAccessState row in ListState)
@@ -123,7 +123,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                             listMenuAccessID.Append(",");
                         listMenuAccessID.Append(row.MenuID);
                     }
-                    List<UserRoleMenu> lstUserRoleMenu = BusinessLayer.GetUserRoleMenuList(string.Format("RoleID = {0} AND SiteID = '{1}' AND MenuID IN ({2})", hdnRoleID.Value, AppSession.UserLogin.SiteID, listMenuAccessID.ToString()), ctx);
+                    List<UserRoleMenu> lstUserRoleMenu = BusinessLayer.GetUserRoleMenuList(string.Format("RoleID = {0} AND MenuID IN ({1})", hdnRoleID.Value, listMenuAccessID.ToString()), ctx);
 
                     Int32 RoleID = Convert.ToInt32(hdnRoleID.Value);
                     foreach (CUserRoleMenuAccessState row in ListState)
@@ -143,7 +143,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                         {
                             obj = new UserRoleMenu();
                             obj.RoleID = RoleID;
-                            obj.SiteID = AppSession.UserLogin.SiteID;
                             obj.MenuID = row.MenuID;
                             obj.CRUDMode = row.CRUDMode;
                             obj.CreatedBy = AppSession.UserLogin.UserID;
@@ -176,14 +175,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             {
                 if (listMenuID[i] != "")
                 {
-                    GetUserRoleMenuList lst = ListUserRoleMenuAccess.FirstOrDefault(p => p.SiteID == AppSession.UserLogin.SiteID && p.MenuID == Convert.ToInt32(listMenuID[i]));
+                    GetUserRoleMenuList lst = ListUserRoleMenuAccess.FirstOrDefault(p => p.MenuID == Convert.ToInt32(listMenuID[i]));
                     if (lst.CRUDModeUserRole != listCRUDMode[i])
                     {
-                        CUserRoleMenuAccessState obj = ListStateMenuAccess.FirstOrDefault(p => p.SiteID == AppSession.UserLogin.SiteID && p.MenuID == Convert.ToInt32(listMenuID[i]));
+                        CUserRoleMenuAccessState obj = ListStateMenuAccess.FirstOrDefault(p => p.MenuID == Convert.ToInt32(listMenuID[i]));
                         if (obj == null)
                         {
                             obj = new CUserRoleMenuAccessState();
-                            obj.SiteID = AppSession.UserLogin.SiteID;
                             obj.MenuID = Convert.ToInt32(listMenuID[i]);
                             ListStateMenuAccess.Add(obj);
                         }
@@ -196,15 +194,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void SetUserMenuCRUDMode(UserRoleMenu entity, IDbContext ctx)
         {
             UserMenuDao userMenuDao = new UserMenuDao(ctx);
-            List<UserMenu> ListUserMenu = BusinessLayer.GetUserMenuList(string.Format("MenuID = {0} AND SiteID = '{1}' AND IsDeleted = 0", entity.MenuID, entity.SiteID), ctx);
-            List<User> lstUser = BusinessLayer.GetUserList(string.Format("UserID IN (SELECT UserID FROM UserInRole WHERE RoleID = {0} AND SiteID = '{1}')", entity.RoleID, entity.SiteID), ctx);
+            List<UserMenu> ListUserMenu = BusinessLayer.GetUserMenuList(string.Format("MenuID = {0} AND IsDeleted = 0", entity.MenuID), ctx);
+            List<User> lstUser = BusinessLayer.GetUserList(string.Format("UserID IN (SELECT UserID FROM UserInRole WHERE RoleID = {0})", entity.RoleID), ctx);
             char[] CRUDPAVchar = { 'C', 'R', 'U', 'D', 'E', 'P', 'A', 'O' };
             foreach (User user in lstUser)
             {
                 UserMenu userMenu = ListUserMenu.FirstOrDefault(p => p.UserID == user.UserID);
                 if (userMenu != null)
                 {
-                    List<UserRoleMenu> lstUserRoleMenu = BusinessLayer.GetUserRoleMenuList(string.Format("MenuID = '{0}' AND RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {1} AND SiteID = '{2}') AND RoleID != {3}", entity.MenuID, user.UserID, entity.SiteID, entity.RoleID), ctx);
+                    List<UserRoleMenu> lstUserRoleMenu = BusinessLayer.GetUserRoleMenuList(string.Format("MenuID = '{0}' AND RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {1}) AND RoleID != {2}", entity.MenuID, user.UserID, entity.RoleID), ctx);
                     lstUserRoleMenu.Add(entity);
 
                     if (lstUserRoleMenu.Where(p => p.CRUDMode.Contains("R")).Count() < 1)
@@ -255,7 +253,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private class CUserRoleMenuAccessState
         {
-            public string SiteID { get; set; }
             public int MenuID { get; set; }
             public string CRUDMode { get; set; }
         }

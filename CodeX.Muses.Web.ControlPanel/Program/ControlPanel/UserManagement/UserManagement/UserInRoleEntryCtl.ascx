@@ -58,7 +58,7 @@
         });
 
         $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
-        $('#<%=hdnSelectedIsMainRole.ClientID %>').val(lstSelectedIsMainRole.join(',')); 
+        $('#<%=hdnSelectedIsMainRole.ClientID %>').val(lstSelectedIsMainRole.join(','));
     }
 
     //#region Paging
@@ -180,19 +180,23 @@
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
     <input type="hidden" id="hdnSelectedIsMainRole" runat="server" value="" />
+    <input type="hidden" id="hdnSiteID" runat="server" value="" />
     <input type="hidden" id="hdnUserID" runat="server" value="" />
     <input type="hidden" id="hdnParam" runat="server" value="" />
     <input type="hidden" id="hdnFilterItemName" runat="server" />
 
     <table class="tblEntryContent" style="width:70%">
         <colgroup>
-            <col style="width:200px"/>
+            <col style="width:100px"/>
             <col/>
         </colgroup>
         <tr>
-
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("User")%></label></td>
             <td><asp:TextBox ID="txtUserName" ReadOnly="true" Width="200px" runat="server" /></td>
+        </tr> 
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Site")%></label></td>
+            <td><asp:TextBox ID="txtSiteName" ReadOnly="true" Width="200px" runat="server" /></td>
         </tr> 
     </table>
     <table style="width:100%">

@@ -194,7 +194,6 @@
 <input type="hidden" runat="server" id="hdnCRUDMode" value="" />
 <input type="hidden" runat="server" id="hdnListMenuID" value="" />
 <input type="hidden" runat="server" id="hdnRoleID" value="" />
-<input type="hidden" runat="server" id="hdnSiteID" value="" />
 <table class="tblEntryContent" style="width:70%">
     <colgroup>
         <col style="width:160px"/>
@@ -204,10 +203,6 @@
         <td class="tdLabel"><label class="lblNormal" runat="server"><%=GetLabel("User Role")%></label></td>
         <td colspan="2"><asp:TextBox ID="txtUserRoleName" ReadOnly="true" Width="100%" runat="server" /></td>
     </tr>
-    <tr>
-        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Site")%></label></td>
-        <td><asp:TextBox ID="txtSiteName" ReadOnly="true" Width="200px" runat="server" /></td>
-    </tr> 
     <tr>
         <td class="tdLabel"><label class="lblNormal" runat="server" ><%=GetLabel("Module")%></label></td>
         <td colspan="2"><asp:DropDownList ID="ddlModule" ReadOnly="true" Width="100%" runat="server" /></td>
