@@ -120,6 +120,7 @@
     <Content Include="Program\Proses\ProjectTaskDetail\ProjectTaskDetailAssignCtl.ascx" />
     <Content Include="Program\Proses\ProjectTaskDetail\ProjectTaskDetailList.aspx" />
     <Content Include="Program\Proses\ProjectTaskDetail\ProjectTaskLogCtl.ascx" />
+    <Content Include="Program\Proses\ProjectTask\SendEmailCtl.ascx" />
     <Content Include="Program\Proses\ProjectTask\ProjectTaskAssignCtl.ascx" />
     <Content Include="Program\Proses\ProjectTask\ProjectTaskFileCtl.ascx" />
     <Content Include="Program\Proses\ProjectTask\ProjectTaskList.aspx" />
@@ -477,6 +478,13 @@
     </Compile>
     <Compile Include="Program\Proses\ProjectTaskDetail\ProjectTaskLogCtl.ascx.designer.cs">
       <DependentUpon>ProjectTaskLogCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Proses\ProjectTask\SendEmailCtl.ascx.cs">
+      <DependentUpon>SendEmailCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Proses\ProjectTask\SendEmailCtl.ascx.designer.cs">
+      <DependentUpon>SendEmailCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Proses\ProjectTask\ProjectTaskAssignCtl.ascx.cs">
       <DependentUpon>ProjectTaskAssignCtl.ascx</DependentUpon>

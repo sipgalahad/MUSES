@@ -309,6 +309,11 @@ namespace CodeX.Common
             public const string RANGED_TIME = "DT005^001";
             public const string ALL_TIME = "DT005^002";
         }
+
+        public static class TemplateGroup
+        {
+            public const string EMAIL = "X112^001";
+        }
         #endregion
 
         #region Menu Code
