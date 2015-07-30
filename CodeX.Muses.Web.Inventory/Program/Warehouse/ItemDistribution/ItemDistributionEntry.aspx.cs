@@ -93,7 +93,10 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected string GetFilterExpression()
         {
-            return hdnRecordFilterExpression.Value;
+            string filterExpression = String.Format("TransactionCode = '{0}'", Constant.TransactionCode.ITEM_DISTRIBUTION);
+            if (hdnRecordFilterExpression.Value != "")
+                filterExpression += string.Format(" AND {0}", hdnRecordFilterExpression.Value);
+            return filterExpression;
         }
 
         public override int OnGetRowCount()
@@ -188,7 +191,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 ItemDistributionHd entityHd = new ItemDistributionHd();
                 ControlToEntityHd(entityHd);
-                entityHd.DistributionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.ITEM_DISTRIBUTION, entityHd.DeliveryDate, ctx);
+                entityHd.TransactionCode = Constant.TransactionCode.ITEM_DISTRIBUTION;
+                entityHd.DistributionNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.DeliveryDate, ctx);
                 entityHd.GCDistributionStatus = Constant.DistributionStatus.OPEN;
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();

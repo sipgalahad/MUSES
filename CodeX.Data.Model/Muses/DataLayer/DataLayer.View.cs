@@ -11402,6 +11402,7 @@ namespace CodeX.Data.Model
     public partial class vItemDistributionHd
     {
         private Int32 _DistributionID;
+        private String _TransactionCode;
         private String _DistributionNo;
         private Int32 _ItemRequestID;
         private DateTime _DeliveryDate;
@@ -11427,6 +11428,12 @@ namespace CodeX.Data.Model
         {
             get { return _DistributionID; }
             set { _DistributionID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
         }
         [Column(Name = "DistributionNo", DataType = "String")]
         public String DistributionNo

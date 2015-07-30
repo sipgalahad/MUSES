@@ -143,7 +143,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.TransactionDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
             entityHd.TransactionTime = txtItemOrderTime.Text;
             entityHd.Remarks = txtNotes.Text;
-            entityHd.ItemRequestNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.ITEM_REQUEST, entityHd.TransactionDate, ctx);
+            entityHd.TransactionCode = Constant.TransactionCode.ITEM_REQUEST;
+            entityHd.ItemRequestNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.TransactionDate, ctx);
             retval = entityHd.ItemRequestNo;
             entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
             ctx.CommandType = CommandType.Text;

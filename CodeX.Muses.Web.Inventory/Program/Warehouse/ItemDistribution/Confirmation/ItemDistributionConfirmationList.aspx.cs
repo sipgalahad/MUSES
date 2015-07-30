@@ -46,7 +46,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += String.Format("GCDistributionStatus = '{0}' AND ToLocationID = {1}", Constant.DistributionStatus.ON_DELIVERY, hdnLocationIDFrom.Value);
+            filterExpression += String.Format("TransactionCode = '{0}' AND GCDistributionStatus = '{1}' AND ToLocationID = {2}", Constant.TransactionCode.ITEM_DISTRIBUTION, Constant.DistributionStatus.ON_DELIVERY, hdnLocationIDFrom.Value);
 
             if (isCountPageCount)
             {

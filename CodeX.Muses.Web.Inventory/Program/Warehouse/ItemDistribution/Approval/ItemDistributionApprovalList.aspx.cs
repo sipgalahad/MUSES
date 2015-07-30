@@ -39,7 +39,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += String.Format("GCDistributionStatus = '{0}'", Constant.DistributionStatus.WAIT_FOR_APPROVAL);
+            filterExpression += String.Format("TransactionCode = '{0}' AND GCDistributionStatus = '{1}'", Constant.TransactionCode.ITEM_DISTRIBUTION, Constant.DistributionStatus.WAIT_FOR_APPROVAL);
             int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
 
             if (count > 0)

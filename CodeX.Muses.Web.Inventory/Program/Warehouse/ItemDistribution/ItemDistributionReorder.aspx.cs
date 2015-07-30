@@ -151,7 +151,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.DeliveryDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
             entityHd.DeliveryTime = txtItemOrderTime.Text;
             entityHd.DeliveryRemarks = txtNotes.Text;
-            entityHd.DistributionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.ITEM_DISTRIBUTION, entityHd.DeliveryDate, ctx);
+            entityHd.TransactionCode = Constant.TransactionCode.ITEM_DISTRIBUTION;
+            entityHd.DistributionNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.DeliveryDate, ctx);
             retval = entityHd.DistributionNo;
             entityHd.GCDistributionStatus = Constant.DistributionStatus.OPEN;
             ctx.CommandType = CommandType.Text;

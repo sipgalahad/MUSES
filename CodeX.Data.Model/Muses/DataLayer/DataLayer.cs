@@ -13515,6 +13515,7 @@ namespace CodeX.Data.Model
     public class ItemDistributionHd : DbDataModel
     {
         private Int32 _DistributionID;
+        private String _TransactionCode;
         private String _DistributionNo;
         private Int32? _ItemRequestID;
         private Int32 _FromLocationID;
@@ -13539,6 +13540,12 @@ namespace CodeX.Data.Model
         {
             get { return _DistributionID; }
             set { _DistributionID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
         }
         [Column(Name = "DistributionNo", DataType = "String")]
         public String DistributionNo
@@ -13670,11 +13677,13 @@ namespace CodeX.Data.Model
         }
         public int Insert(ItemDistributionHd record)
         {
+            record.CreatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
         public int Update(ItemDistributionHd record)
         {
+            record.LastUpdatedDate = DateTime.Now;
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
@@ -14554,6 +14563,7 @@ namespace CodeX.Data.Model
         private Int32 _ItemRequestID;
         private DateTime _TransactionDate;
         private String _TransactionTime;
+        private String _TransactionCode;
         private String _ItemRequestNo;
         private Int32 _FromLocationID;
         private Int32 _ToLocationID;
@@ -14581,6 +14591,12 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionTime; }
             set { _TransactionTime = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
         }
         [Column(Name = "ItemRequestNo", DataType = "String")]
         public String ItemRequestNo
@@ -14658,8 +14674,7 @@ namespace CodeX.Data.Model
         }
         public int Insert(ItemRequestHd record)
         {
-            record.CreatedDate = record.LastUpdatedDate = DateTime.Now;
-            record.LastUpdatedBy = record.CreatedBy;
+            record.CreatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

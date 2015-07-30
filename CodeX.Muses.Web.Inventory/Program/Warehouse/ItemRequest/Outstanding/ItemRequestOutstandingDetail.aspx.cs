@@ -224,7 +224,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.DeliveryDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
             entityHd.DeliveryTime = txtItemOrderTime.Text;
             entityHd.DeliveryRemarks = string.Format("Distribusi untuk permintaan Nomor {0} dari {1}", Request.Form[txtOrderNo.UniqueID], Request.Form[txtLocationName.UniqueID]);
-            entityHd.DistributionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.ITEM_DISTRIBUTION, entityHd.DeliveryDate, ctx);
+            entityHd.TransactionCode = Constant.TransactionCode.ITEM_DISTRIBUTION;
+            entityHd.DistributionNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.DeliveryDate, ctx);
             entityHd.GCDistributionStatus = Constant.DistributionStatus.OPEN;
             ctx.CommandType = CommandType.Text;
             ctx.Command.Parameters.Clear();
