@@ -38,7 +38,7 @@
             <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />
             <asp:Button ID="btnExport" Visible="true" runat="server" OnClick="btnExport_Click" Text="Export" />
         </div>
-        <table class="tblEntryContent" style="width: 50%">
+        <table class="tblEntryContent" style="width: 50%;">
             <colgroup>
                 <col style="width: 30%" />
                 <col />

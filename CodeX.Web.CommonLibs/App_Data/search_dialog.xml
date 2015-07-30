@@ -37,6 +37,42 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Budget RealizationHd -->
+  <searchdialog type="budgetrealizationhd" methodname="GetvBudgetRealizationHdList" keyfieldname="BudgetRealizationNo" orderbyexpression="BudgetRealizationNo ASC">
+    <gridcolumns>
+      <gridcolumn datafield="BudgetRealizationNo" headertext="No" width="150px" />
+      <gridcolumn datafield="RealizationDateInString" headertext="Tanggal" width="120px" />
+      <gridcolumn datafield="TransactionStatus" headertext="Status" width="70px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="BudgetRealizationNo" headertext="No" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Budget RequestHd -->
+  <searchdialog type="budgetrequesthd" methodname="GetvBudgetRequestHdList" keyfieldname="BudgetRequestNo" orderbyexpression="BudgetRequestNo ASC">
+    <gridcolumns>
+      <gridcolumn datafield="BudgetRequestNo" headertext="No" width="150px" />
+      <gridcolumn datafield="RequestDateInString" headertext="Tanggal" width="120px" />
+      <gridcolumn datafield="TransactionStatus" headertext="Status" width="70px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="BudgetRequestNo" headertext="No" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Budget RequestDt -->
+  <searchdialog type="budgetrequestdt" methodname="GetvBudgetRequestDtList" keyfieldname="BudgetRequestDtID" orderbyexpression="BudgetName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="BudgetCode" headertext="Kode" width="120px" />
+      <gridcolumn datafield="BudgetName" headertext="Nama" width="220px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="BudgetCode" headertext="Kode" description="" />
+      <intellisensetext datafield="BudgetName" headertext="Nama" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Business Partners -->
   <searchdialog type="businesspartners" methodname="GetBusinessPartnersList" keyfieldname="BusinessPartnerCode" orderbyexpression="BusinessPartnerName ASC">
     <gridcolumns>
@@ -487,6 +523,54 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Project -->
+  <searchdialog type="project" methodname="GetvProjectList" keyfieldname="ProjectCode">
+    <gridcolumns>
+      <gridcolumn datafield="ProjectCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="ProjectName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ProjectCode" headertext="Nama" description="" />
+      <intellisensetext datafield="ProjectName" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Project Budget -->
+  <searchdialog type="projectbudget" methodname="GetvProjectBudgetList" keyfieldname="BudgetCode">
+    <gridcolumns>
+      <gridcolumn datafield="BudgetCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="BudgetName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="BudgetCode" headertext="Nama" description="" />
+      <intellisensetext datafield="BudgetName" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Project Task-->
+  <searchdialog type="projecttask" methodname="GetvProjectTaskList" keyfieldname="ProjectTaskID">
+    <gridcolumns>
+      <gridcolumn datafield="ProjectTaskCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="ProjectTaskName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ProjectTaskCode" headertext="Nama" description="" />
+      <intellisensetext datafield="ProjectTaskName" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Project Task-->
+  <searchdialog type="proposedbudgethd" methodname="GetvProposedBudgetHdList" keyfieldname="ProposedBudgetNo">
+    <gridcolumns>
+      <gridcolumn datafield="ProposedBudgetNo" headertext="No. Rancangan Anggaran" width="" />
+      <gridcolumn datafield="ProposedBudgetStatus" headertext="Status" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ProposedBudgetNo" headertext="Nama" description="" />
+      <intellisensetext datafield="ProposedBudgetStatus" headertext="Status" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Prospective Student-->
   <searchdialog type="prospectivestudent" methodname="GetvProspectiveStudentList" keyfieldname="ProspectiveStudentID" orderbyexpression="ProspectiveStudentID DESC">
     <gridcolumns>
@@ -908,6 +992,22 @@
     <intellisensetexts>
       <intellisensetext datafield="TeacherName" headertext="Nama" description="" />
       <intellisensetext datafield="TeacherCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region TeamDt -->
+  <searchdialog type="teamdt" methodname="GetvTeamDtList" keyfieldname="TeamDtID">
+    <gridcolumns>
+      <gridcolumn datafield="Position" headertext="Posisi" width="150px" />
+      <gridcolumn datafield="EmployeeCoordinatorCode" headertext="Kode" width="50px" />
+      <gridcolumn datafield="EmployeeCoordinatorName" headertext="Koordinator" width="150px" />
+      <gridcolumn datafield="ListEmployeeName" headertext="Member" width="200px"/>
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="Position" headertext="Posisi" description="" />
+      <intellisensetext datafield="EmployeeCoordinatorCode" headertext="Kode" description="" />
+      <intellisensetext datafield="EmployeeCoordinatorName" headertext="Koordinator" description="" />
+      <intellisensetext datafield="ListEmployeeName" headertext="Member" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

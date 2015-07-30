@@ -23,6 +23,7 @@ namespace CodeX.Common
             public const string FINANCE = "FN";
             public const string INFORMATION = "IF";
             public const string INVENTORY = "IM";
+            public const string PROJECT_MANAGEMENT = "PM";
             public const string STUDENT_MANAGEMENT = "SM";
         }
         #endregion
@@ -74,6 +75,14 @@ namespace CodeX.Common
             public const string ABSENCE_REASON = "MS032";
             public const string CURRICULUM_SYLLABUS_TYPE = "MS033";
             public const string CURRICULUM_MEETING_PLAN_TYPE = "MS034";
+
+            public const string PROJECT_TASK_STATUS = "DT001";
+            public const string PROJECT_TASK_PRIORITY = "DT002";
+            public const string PROJECT_STATUS = "DT003";
+            public const string PROJECT_TASK_TYPE = "DT004";
+            public const string SCHEDULE_TASK_TYPE = "DT005";
+            public const string PROJECT_FUNDING = "DT006";
+            public const string BUDGET_TYPE = "DT007";
         }
 
         public static class StudentStatus
@@ -254,6 +263,51 @@ namespace CodeX.Common
             public const string EMPLOYEE = "X301^007";
             public const string STUDENT_FAMILY_OFFICE = "X301^007";
             public const string PROSPECTIVE_STUDENT_FAMILY_OFFICE = "X301^008";
+        }
+
+        public static class EmployeeStatus
+        {
+            public const string FULL_TIME_EMPLOYED = "0066^001";
+            public const string PART_TIME_EMPLOYED = "0066^002";
+            public const string CONTRACT = "0066^003";
+        }
+
+        public static class ProjectTaskStatus
+        {
+            public const string OPEN = "DT001^001";
+            public const string IN_PROGRESS = "DT001^002";
+            public const string NEED_CONFIRMATION = "DT001^003";
+            public const string CLOSED = "DT001^004";
+            public const string VOID = "DT001^999";
+        }
+
+        public static class ProjectTaskPriority
+        {
+            public const string LOW = "DT002^001";
+            public const string MEDIUM = "DT002^002";
+            public const string HIGH = "DT002^003";
+        }
+
+        public static class ProjectStatus
+        {
+            public const string OPEN = "DT003^001";
+            public const string PROPOSED = "DT003^002";
+            public const string APPROVED = "DT003^003";
+            public const string IN_PROGRESS = "DT003^004";
+            public const string COMPLETE = "DT003^005";
+            public const string CANCELED = "DT003^999";
+        }
+
+        public static class ProjectTaskType
+        {
+            public const string SCHEDULED = "DT004^001";
+            public const string FLOATING_TASK = "DT004^002";
+        }
+
+        public static class ProjectScheduledTaskType
+        {
+            public const string RANGED_TIME = "DT005^001";
+            public const string ALL_TIME = "DT005^002";
         }
         #endregion
 
@@ -461,6 +515,7 @@ namespace CodeX.Common
                 public const string BANK_UPLOADED_FILE = "FN070400";
                 public const string STUDENT_FEE_PENALTY = "FN070500";
                 public const string DIRECT_SALES_VOID = "FN070600";
+                public const string BUDGET_REALIZATION = "FN070700";
 
                 public const string PROSPECTIVE_STUDENT_PAGE = "FN99010000";
                 public const string AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS = "FN99010101";
@@ -566,6 +621,32 @@ namespace CodeX.Common
                 public const string CONSIGNMENT_RETURN_APPROVAL = "IM070304";
 
                 public const string REPORT = "IM090000";
+            }
+            #endregion
+
+            #region Project Management
+            public static class ProjectManagement
+            {
+                public const string PROJECT = "PM010100";
+                public const string ORGANIZATION = "PM010200";
+
+                public const string PROJECT_TASK = "PM020100";
+                public const string TO_DO_LIST = "PM020200";
+                public const string PROJECT_MANAGEMENT = "PM020300";
+                public const string TO_DO_LIST_IN_CALENDAR = "PM020400";
+
+
+                public const string PROJECT_MANAGEMENT_PAGE = "PM99010000";
+                public const string PROJECT_MANAGEMENT_DETAIL = "PM99010100";
+                public const string PROJECT_TASK_DETAIL = "PM99010101";
+                public const string TIMELINE = "PM99010102";
+                public const string PROJECT_EVALUATION = "PM99010103";
+                public const string PROPOSED_BUDGET = "PM99010104";
+                public const string LIST_PROPOSED_BUDGET = "PM99010105";
+                public const string PROJECT_BUDGET_INFORMATION = "PM99010106";
+                public const string BUDGET_REQUEST = "PM99010107";
+                public const string ITEM_REQUEST = "PM99010108";
+                public const string USE_OF_BUDGET = "PM99010109";
             }
             #endregion
 
@@ -734,6 +815,10 @@ namespace CodeX.Common
             public const string JOURNAL_MEMORIAL = "7201";
             public const string JOURNAL = "72%";
             public const string JOURNAL_MEMORIAL_IKHTISAR = "7299";
+
+            public const string PROPOSED_BUDGET = "8101";
+            public const string BUDGET_REQUEST = "8102";
+            public const string BUDGET_REALIZATION = "8103";
         }
         #endregion
 
@@ -775,6 +860,12 @@ namespace CodeX.Common
         {
             public const string MANDIRI = "MS023^001";
             public const string BCA = "MS023^002";
+        }
+
+        public class BudgetType 
+        { 
+            public const string ANGGARAN = "DT007^001";
+            public const string SARANA = "DT007^002";
         }
     }
 }

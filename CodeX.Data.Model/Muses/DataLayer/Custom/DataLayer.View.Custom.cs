@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Globalization;
 using CodeX.Common;
+using System.Net;
 
 namespace CodeX.Data.Model
 {
@@ -2287,5 +2288,206 @@ namespace CodeX.Data.Model
             }
         }
     }
+    #endregion
+
+    #region Project Management
+    #region vActivityHistory
+    public partial class vActivityHistory
+    {
+        public string CustomRemarks
+        {
+            get { return WebUtility.HtmlEncode(_Remarks).Replace(@"\n", "<br/>"); }
+        }
+
+        public string CreatedDateInDatePicker
+        {
+            get { return _CreatedDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+
+        public string CreatedDateInDateTime
+        {
+            get { return _CreatedDate.ToString(Constant.FormatString.DATE_TIME_FORMAT); }
+        }
+
+    }
+    #endregion
+    #region vBudgetRealizationDt
+    public partial class vBudgetRealizationDt
+    {
+        public bool IsAllowEditItem
+        {
+            get { return _GCItemDetailStatus != Constant.TransactionStatus.OPEN ? false : true; }
+        }
+    }
+    #endregion
+    #region vBudgetRealizationHd
+    public partial class vBudgetRealizationHd 
+    {
+        public String RealizationDateInString 
+        {
+            get { return _RealizationDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
+    #region vBudgetRequestDt
+    public partial class vBudgetRequestDt
+    {
+        public bool IsAllowEditItem
+        {
+            get { return _GCTransactionStatus != Constant.TransactionStatus.OPEN ? false : true; }
+        }
+    }
+    #endregion
+    #region vBudgetRequestHd
+    public partial class vBudgetRequestHd
+    {
+        public String RequestDateInString
+        {
+            get { return _RequestDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
+    #region vProject
+    public partial class vProject
+    {
+        public String StartDateInDatePicker
+        {
+            get { return _StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+
+        public String EndDateInDatePicker
+        {
+            get { return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+    }
+    #endregion
+    #region vProjectTask
+    public partial class vProjectTask
+    {
+        public string StartDateInDatePicker
+        {
+            get { return _StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+
+        public string EndDateInDatePicker
+        {
+            get { return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+
+        public string ScheduleTaskStartDateInDatePicker
+        {
+            get { return _ScheduleTaskStartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+
+        public string ScheduleTaskEndDateInDatePicker
+        {
+            get { return _ScheduleTaskEndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+
+        public string StartDateInString
+        {
+            get { return _StartDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public string EndDateInString
+        {
+            get { return _EndDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public string CustomRemarks
+        {
+            get { return WebUtility.HtmlEncode(_Remarks).Replace(";", "<br/>"); }
+        }
+    }
+    #endregion
+    #region vProjectTaskBudget
+    public partial class vProjectTaskBudget
+    {
+        public string CustomRemarks
+        {
+            get { return WebUtility.HtmlEncode(_Remarks).Replace(";", "<br/>"); }
+        }
+    }
+    #endregion
+    #region vProjectTaskCustom
+    public partial class vProjectTaskCustom
+    {
+        public string StartDateInDatePicker
+        {
+            get { return _StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+
+        public string EndDateInDatePicker
+        {
+            get { return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+
+        public string StartDateInString
+        {
+            get { return _StartDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public string EndDateInString
+        {
+            get { return _EndDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public string CustomRemarks
+        {
+            get { return WebUtility.HtmlEncode(_Remarks).Replace(";", "<br/>"); }
+        }
+
+        public string CustomAssignName
+        {
+            get
+            {
+                String lstString = WebUtility.HtmlEncode(_EmployeeName != "" ? String.Format("{0};{1}", _EmployeeName, _ListAssigneeName) : _ListAssigneeName);
+                List<String> lstName = lstString.Split(';').ToList();
+                return String.Join("<br/>", lstName.Take(3));
+            }
+        }
+    }
+    #endregion
+    #region vProjectTaskLog
+    public partial class vProjectTaskLog
+    {
+        public string NoteDateInDatePicker
+        {
+            get { return _NoteDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+
+        public string NoteDateInString
+        {
+            get { return _NoteDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public string CustomRemarks
+        {
+            get { return WebUtility.HtmlEncode(_Remarks).Replace(";", "<br/>"); }
+        }
+    }
+    #endregion
+    #region vProposedBudgetDt
+    public partial class vProposedBudgetDt
+    {
+        public bool IsAllowEditItem
+        {
+            get { return _GCItemDetailStatus != Constant.ProjectStatus.OPEN ? false : true; }
+        }
+
+        public String RealizationDateInDatePicker
+        {
+            get 
+            {
+                if(_RealizationDate != new DateTime(1900, 1, 1))
+                {
+                    DateTime temp = Convert.ToDateTime(_RealizationDate);
+                    return temp.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+                }
+                return ""; 
+            }
+        }
+    }
+    #endregion
     #endregion
 }

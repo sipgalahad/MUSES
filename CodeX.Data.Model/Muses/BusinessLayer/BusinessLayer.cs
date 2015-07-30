@@ -14971,5 +14971,1043 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+
+        #region Project Management
+        #region ActivityHistory
+        public static ActivityHistory GetActivityHistory(Int32 HistoryID)
+        {
+            return new ActivityHistoryDao().Get(HistoryID);
+        }
+        public static int InsertActivityHistory(ActivityHistory record)
+        {
+            return new ActivityHistoryDao().Insert(record);
+        }
+        public static int UpdateActivityHistory(ActivityHistory record)
+        {
+            return new ActivityHistoryDao().Update(record);
+        }
+        public static int DeleteActivityHistory(Int32 HistoryID)
+        {
+            return new ActivityHistoryDao().Delete(HistoryID);
+        }
+        public static List<ActivityHistory> GetActivityHistoryList(string filterExpression)
+        {
+            List<ActivityHistory> result = new List<ActivityHistory>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ActivityHistory));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ActivityHistory)helper.IDataReaderToObject(reader, new ActivityHistory()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region BudgetRealizationDt
+        public static BudgetRealizationDt GetBudgetRealizationDt(Int32 BudgetRealizationDtID)
+        {
+            return new BudgetRealizationDtDao().Get(BudgetRealizationDtID);
+        }
+        public static int InsertBudgetRealizationDt(BudgetRealizationDt record)
+        {
+            return new BudgetRealizationDtDao().Insert(record);
+        }
+        public static int UpdateBudgetRealizationDt(BudgetRealizationDt record)
+        {
+            return new BudgetRealizationDtDao().Update(record);
+        }
+        public static int DeleteBudgetRealizationDt(Int32 BudgetRealizationDtID)
+        {
+            return new BudgetRealizationDtDao().Delete(BudgetRealizationDtID);
+        }
+        public static List<BudgetRealizationDt> GetBudgetRealizationDtList(string filterExpression)
+        {
+            List<BudgetRealizationDt> result = new List<BudgetRealizationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BudgetRealizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((BudgetRealizationDt)helper.IDataReaderToObject(reader, new BudgetRealizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<BudgetRealizationDt> GetBudgetRealizationDtList(string filterExpression, IDbContext ctx)
+        {
+            List<BudgetRealizationDt> result = new List<BudgetRealizationDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BudgetRealizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((BudgetRealizationDt)helper.IDataReaderToObject(reader, new BudgetRealizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region BudgetRealizationHd
+        public static BudgetRealizationHd GetBudgetRealizationHd(Int32 BudgetRealizationID)
+        {
+            return new BudgetRealizationHdDao().Get(BudgetRealizationID);
+        }
+        public static int InsertBudgetRealizationHd(BudgetRealizationHd record)
+        {
+            return new BudgetRealizationHdDao().Insert(record);
+        }
+        public static int UpdateBudgetRealizationHd(BudgetRealizationHd record)
+        {
+            return new BudgetRealizationHdDao().Update(record);
+        }
+        public static int DeleteBudgetRealizationHd(Int32 BudgetRealizationID)
+        {
+            return new BudgetRealizationHdDao().Delete(BudgetRealizationID);
+        }
+        public static List<BudgetRealizationHd> GetBudgetRealizationHdList(string filterExpression)
+        {
+            List<BudgetRealizationHd> result = new List<BudgetRealizationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BudgetRealizationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((BudgetRealizationHd)helper.IDataReaderToObject(reader, new BudgetRealizationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetBudgetRealizationHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BudgetRealizationHd));
+                ctx.CommandText = helper.SelectMaxColumn("BudgetRealizationID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region BudgetRequestDt
+        public static BudgetRequestDt GetBudgetRequestDt(Int32 BudgetRequestDtID)
+        {
+            return new BudgetRequestDtDao().Get(BudgetRequestDtID);
+        }
+        public static int InsertBudgetRequestDt(BudgetRequestDt record)
+        {
+            return new BudgetRequestDtDao().Insert(record);
+        }
+        public static int UpdateBudgetRequestDt(BudgetRequestDt record)
+        {
+            return new BudgetRequestDtDao().Update(record);
+        }
+        public static int DeleteBudgetRequestDt(Int32 BudgetRequestDtID)
+        {
+            return new BudgetRequestDtDao().Delete(BudgetRequestDtID);
+        }
+        public static List<BudgetRequestDt> GetBudgetRequestDtList(string filterExpression)
+        {
+            List<BudgetRequestDt> result = new List<BudgetRequestDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BudgetRequestDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((BudgetRequestDt)helper.IDataReaderToObject(reader, new BudgetRequestDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region BudgetRequestHd
+        public static BudgetRequestHd GetBudgetRequestHd(Int32 BudgetRequestID)
+        {
+            return new BudgetRequestHdDao().Get(BudgetRequestID);
+        }
+        public static int InsertBudgetRequestHd(BudgetRequestHd record)
+        {
+            return new BudgetRequestHdDao().Insert(record);
+        }
+        public static int UpdateBudgetRequestHd(BudgetRequestHd record)
+        {
+            return new BudgetRequestHdDao().Update(record);
+        }
+        public static int DeleteBudgetRequestHd(Int32 BudgetRequestID)
+        {
+            return new BudgetRequestHdDao().Delete(BudgetRequestID);
+        }
+        public static List<BudgetRequestHd> GetBudgetRequestHdList(string filterExpression)
+        {
+            List<BudgetRequestHd> result = new List<BudgetRequestHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BudgetRequestHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((BudgetRequestHd)helper.IDataReaderToObject(reader, new BudgetRequestHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetBudgetRequestHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BudgetRequestHd));
+                ctx.CommandText = helper.SelectMaxColumn("BudgetRequestID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region MemberTask
+        public static MemberTask GetMemberTask(Int32 ProjectTaskID, Int32 AssigneeID)
+        {
+            return new MemberTaskDao().Get(ProjectTaskID, AssigneeID);
+        }
+        public static int InsertMemberTask(MemberTask record)
+        {
+            return new MemberTaskDao().Insert(record);
+        }
+        public static int UpdateMemberTask(MemberTask record)
+        {
+            return new MemberTaskDao().Update(record);
+        }
+        public static int DeleteMemberTask(Int32 ProjectTaskID, Int32 AssigneeID)
+        {
+            return new MemberTaskDao().Delete(ProjectTaskID, AssigneeID);
+        }
+        public static List<MemberTask> GetMemberTaskList(string filterExpression)
+        {
+            List<MemberTask> result = new List<MemberTask>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MemberTask));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MemberTask)helper.IDataReaderToObject(reader, new MemberTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TeamDt
+        public static TeamDt GetTeamDt(Int32 TeamDtID)
+        {
+            return new TeamDtDao().Get(TeamDtID);
+        }
+        public static int InsertTeamDt(TeamDt record)
+        {
+            return new TeamDtDao().Insert(record);
+        }
+        public static int UpdateTeamDt(TeamDt record)
+        {
+            return new TeamDtDao().Update(record);
+        }
+        public static int DeleteTeamDt(Int32 TeamDtID)
+        {
+            return new TeamDtDao().Delete(TeamDtID);
+        }
+        public static List<TeamDt> GetTeamDtList(string filterExpression)
+        {
+            List<TeamDt> result = new List<TeamDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeamDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeamDt)helper.IDataReaderToObject(reader, new TeamDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTeamDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeamDt));
+                ctx.CommandText = helper.SelectMaxColumn("TeamDtID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TeamDtMember
+        public static TeamDtMember GetTeamDtMember(Int32 TeamDtID, Int32 EmployeeID)
+        {
+            return new TeamDtMemberDao().Get(TeamDtID, EmployeeID);
+        }
+        public static int InsertTeamDtMember(TeamDtMember record)
+        {
+            return new TeamDtMemberDao().Insert(record);
+        }
+        public static int UpdateTeamDtMember(TeamDtMember record)
+        {
+            return new TeamDtMemberDao().Update(record);
+        }
+        public static int DeleteTeamDtMember(Int32 TeamDtID, Int32 EmployeeID)
+        {
+            return new TeamDtMemberDao().Delete(TeamDtID, EmployeeID);
+        }
+        public static List<TeamDtMember> GetTeamDtMemberList(string filterExpression)
+        {
+            List<TeamDtMember> result = new List<TeamDtMember>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeamDtMember));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeamDtMember)helper.IDataReaderToObject(reader, new TeamDtMember()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TeamDtMember> GetTeamDtMemberList(string filterExpression, IDbContext ctx)
+        {
+            List<TeamDtMember> result = new List<TeamDtMember>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeamDtMember));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeamDtMember)helper.IDataReaderToObject(reader, new TeamDtMember()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TeamHd
+        public static TeamHd GetTeamHd(Int32 TeamID)
+        {
+            return new TeamHdDao().Get(TeamID);
+        }
+        public static int InsertTeamHd(TeamHd record)
+        {
+            return new TeamHdDao().Insert(record);
+        }
+        public static int UpdateTeamHd(TeamHd record)
+        {
+            return new TeamHdDao().Update(record);
+        }
+        public static int DeleteTeamHd(Int32 TeamID)
+        {
+            return new TeamHdDao().Delete(TeamID);
+        }
+        public static List<TeamHd> GetTeamHdList(string filterExpression)
+        {
+            List<TeamHd> result = new List<TeamHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeamHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeamHd)helper.IDataReaderToObject(reader, new TeamHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTeamHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeamHd));
+                ctx.CommandText = helper.SelectMaxColumn("TeamID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region Project
+        public static Project GetProject(Int32 ProjectID)
+        {
+            return new ProjectDao().Get(ProjectID);
+        }
+        public static int InsertProject(Project record)
+        {
+            return new ProjectDao().Insert(record);
+        }
+        public static int UpdateProject(Project record)
+        {
+            return new ProjectDao().Update(record);
+        }
+        public static int DeleteProject(Int32 ProjectID)
+        {
+            return new ProjectDao().Delete(ProjectID);
+        }
+        public static List<Project> GetProjectList(string filterExpression)
+        {
+            List<Project> result = new List<Project>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Project));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Project)helper.IDataReaderToObject(reader, new Project()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProjectMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Project));
+                ctx.CommandText = helper.SelectMaxColumn("ProjectID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ProjectBudget
+        public static ProjectBudget GetProjectBudget(Int32 BudgetID)
+        {
+            return new ProjectBudgetDao().Get(BudgetID);
+        }
+        public static int InsertProjectBudget(ProjectBudget record)
+        {
+            return new ProjectBudgetDao().Insert(record);
+        }
+        public static int UpdateProjectBudget(ProjectBudget record)
+        {
+            return new ProjectBudgetDao().Update(record);
+        }
+        public static int DeleteProjectBudget(Int32 BudgetID)
+        {
+            return new ProjectBudgetDao().Delete(BudgetID);
+        }
+        public static List<ProjectBudget> GetProjectBudgetList(string filterExpression)
+        {
+            List<ProjectBudget> result = new List<ProjectBudget>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectBudget));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProjectBudget)helper.IDataReaderToObject(reader, new ProjectBudget()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ProjectScheduledTask
+        public static ProjectScheduledTask GetProjectScheduledTask(Int32 ScheduledTaskID)
+        {
+            return new ProjectScheduledTaskDao().Get(ScheduledTaskID);
+        }
+        public static int InsertProjectScheduledTask(ProjectScheduledTask record)
+        {
+            return new ProjectScheduledTaskDao().Insert(record);
+        }
+        public static int UpdateProjectScheduledTask(ProjectScheduledTask record)
+        {
+            return new ProjectScheduledTaskDao().Update(record);
+        }
+        public static int DeleteProjectScheduledTask(Int32 ScheduledTaskID)
+        {
+            return new ProjectScheduledTaskDao().Delete(ScheduledTaskID);
+        }
+        public static List<ProjectScheduledTask> GetProjectScheduledTaskList(string filterExpression)
+        {
+            List<ProjectScheduledTask> result = new List<ProjectScheduledTask>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectScheduledTask));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProjectScheduledTask)helper.IDataReaderToObject(reader, new ProjectScheduledTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProjectScheduledTaskMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectScheduledTask));
+                ctx.CommandText = helper.SelectMaxColumn("ScheduledTaskID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ProjectTeam
+        public static ProjectTeam GetProjectTeam(Int32 ProjectID, Int32 TeamID)
+        {
+            return new ProjectTeamDao().Get(ProjectID, TeamID);
+        }
+        public static int InsertProjectTeam(ProjectTeam record)
+        {
+            return new ProjectTeamDao().Insert(record);
+        }
+        public static int UpdateProjectTeam(ProjectTeam record)
+        {
+            return new ProjectTeamDao().Update(record);
+        }
+        public static int DeleteProjectTeam(Int32 ProjectID, Int32 TeamID)
+        {
+            return new ProjectTeamDao().Delete(ProjectID, TeamID);
+        }
+        public static List<ProjectTeam> GetProjectTeamList(string filterExpression)
+        {
+            List<ProjectTeam> result = new List<ProjectTeam>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectTeam));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProjectTeam)helper.IDataReaderToObject(reader, new ProjectTeam()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ProjectTask
+        public static ProjectTask GetProjectTask(Int32 ProjectTaskID)
+        {
+            return new ProjectTaskDao().Get(ProjectTaskID);
+        }
+        public static int InsertProjectTask(ProjectTask record)
+        {
+            return new ProjectTaskDao().Insert(record);
+        }
+        public static int UpdateProjectTask(ProjectTask record)
+        {
+            return new ProjectTaskDao().Update(record);
+        }
+        public static int DeleteProjectTask(Int32 ProjectTaskID)
+        {
+            return new ProjectTaskDao().Delete(ProjectTaskID);
+        }
+        public static List<ProjectTask> GetProjectTaskList(string filterExpression)
+        {
+            List<ProjectTask> result = new List<ProjectTask>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectTask));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProjectTask)helper.IDataReaderToObject(reader, new ProjectTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProjectTaskMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectTask));
+                ctx.CommandText = helper.SelectMaxColumn("ProjectTaskID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ProjectTaskBudget
+        public static ProjectTaskBudget GetProjectTaskBudget(Int32 BudgetID, Int32 ProjectTaskID)
+        {
+            return new ProjectTaskBudgetDao().Get(BudgetID, ProjectTaskID);
+        }
+        public static int InsertProjectTaskBudget(ProjectTaskBudget record)
+        {
+            return new ProjectTaskBudgetDao().Insert(record);
+        }
+        public static int UpdateProjectTaskBudget(ProjectTaskBudget record)
+        {
+            return new ProjectTaskBudgetDao().Update(record);
+        }
+        public static int DeleteProjectTaskBudget(Int32 BudgetID, Int32 ProjectTaskID)
+        {
+            return new ProjectTaskBudgetDao().Delete(BudgetID, ProjectTaskID);
+        }
+        public static List<ProjectTaskBudget> GetProjectTaskBudgetList(string filterExpression)
+        {
+            List<ProjectTaskBudget> result = new List<ProjectTaskBudget>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectTaskBudget));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProjectTaskBudget)helper.IDataReaderToObject(reader, new ProjectTaskBudget()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ProjectTaskFile
+        public static ProjectTaskFile GetProjectTaskFile(Int32 FileID)
+        {
+            return new ProjectTaskFileDao().Get(FileID);
+        }
+        public static int InsertProjectTaskFile(ProjectTaskFile record)
+        {
+            return new ProjectTaskFileDao().Insert(record);
+        }
+        public static int UpdateProjectTaskFile(ProjectTaskFile record)
+        {
+            return new ProjectTaskFileDao().Update(record);
+        }
+        public static int DeleteProjectTaskFile(Int32 FileID)
+        {
+            return new ProjectTaskFileDao().Delete(FileID);
+        }
+        public static List<ProjectTaskFile> GetProjectTaskFileList(string filterExpression)
+        {
+            List<ProjectTaskFile> result = new List<ProjectTaskFile>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectTaskFile));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProjectTaskFile)helper.IDataReaderToObject(reader, new ProjectTaskFile()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ProjectTaskLog
+        public static ProjectTaskLog GetProjectTaskLog(Int32 ProjectTaskLogID)
+        {
+            return new ProjectTaskLogDao().Get(ProjectTaskLogID);
+        }
+        public static int InsertProjectTaskLog(ProjectTaskLog record)
+        {
+            return new ProjectTaskLogDao().Insert(record);
+        }
+        public static int UpdateProjectTaskLog(ProjectTaskLog record)
+        {
+            return new ProjectTaskLogDao().Update(record);
+        }
+        public static int DeleteProjectTaskLog(Int32 ProjectTaskLogID)
+        {
+            return new ProjectTaskLogDao().Delete(ProjectTaskLogID);
+        }
+        public static List<ProjectTaskLog> GetProjectTaskLogList(string filterExpression)
+        {
+            List<ProjectTaskLog> result = new List<ProjectTaskLog>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectTaskLog));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProjectTaskLog)helper.IDataReaderToObject(reader, new ProjectTaskLog()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ProjectTaskStructure
+        public static ProjectTaskStructure GetProjectTaskStructure(Int32 ProjectTaskID, Int32 PrevProjectTaskID)
+        {
+            return new ProjectTaskStructureDao().Get(ProjectTaskID, PrevProjectTaskID);
+        }
+        public static int InsertProjectTaskStructure(ProjectTaskStructure record)
+        {
+            return new ProjectTaskStructureDao().Insert(record);
+        }
+        public static int UpdateProjectTaskStructure(ProjectTaskStructure record)
+        {
+            return new ProjectTaskStructureDao().Update(record);
+        }
+        public static int DeleteProjectTaskStructure(Int32 ProjectTaskID, Int32 PrevProjectTaskID)
+        {
+            return new ProjectTaskStructureDao().Delete(ProjectTaskID, PrevProjectTaskID);
+        }
+        public static List<ProjectTaskStructure> GetProjectTaskStructureList(string filterExpression)
+        {
+            List<ProjectTaskStructure> result = new List<ProjectTaskStructure>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectTaskStructure));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProjectTaskStructure)helper.IDataReaderToObject(reader, new ProjectTaskStructure()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ProposedBudgetDt
+        public static ProposedBudgetDt GetProposedBudgetDt(Int32 ProposedBudgetDtID)
+        {
+            return new ProposedBudgetDtDao().Get(ProposedBudgetDtID);
+        }
+        public static int InsertProposedBudgetDt(ProposedBudgetDt record)
+        {
+            return new ProposedBudgetDtDao().Insert(record);
+        }
+        public static int UpdateProposedBudgetDt(ProposedBudgetDt record)
+        {
+            return new ProposedBudgetDtDao().Update(record);
+        }
+        public static int DeleteProposedBudgetDt(Int32 ProposedBudgetDtID)
+        {
+            return new ProposedBudgetDtDao().Delete(ProposedBudgetDtID);
+        }
+        public static List<ProposedBudgetDt> GetProposedBudgetDtList(string filterExpression)
+        {
+            List<ProposedBudgetDt> result = new List<ProposedBudgetDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProposedBudgetDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProposedBudgetDt)helper.IDataReaderToObject(reader, new ProposedBudgetDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ProposedBudgetDt> GetProposedBudgetDtList(string filterExpression, IDbContext ctx)
+        {
+            List<ProposedBudgetDt> result = new List<ProposedBudgetDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProposedBudgetDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProposedBudgetDt)helper.IDataReaderToObject(reader, new ProposedBudgetDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetProposedBudgetDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProposedBudgetDt));
+                ctx.CommandText = helper.SelectMaxColumn("ProposedBudgetDtID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ProposedBudgetDtFund
+        public static ProposedBudgetDtFund GetProposedBudgetDtFund(Int32 ProposedBudgetFundID)
+        {
+            return new ProposedBudgetDtFundDao().Get(ProposedBudgetFundID);
+        }
+        public static int InsertProposedBudgetDtFund(ProposedBudgetDtFund record)
+        {
+            return new ProposedBudgetDtFundDao().Insert(record);
+        }
+        public static int UpdateProposedBudgetDtFund(ProposedBudgetDtFund record)
+        {
+            return new ProposedBudgetDtFundDao().Update(record);
+        }
+        public static int DeleteProposedBudgetDtFund(Int32 ProposedBudgetFundID)
+        {
+            return new ProposedBudgetDtFundDao().Delete(ProposedBudgetFundID);
+        }
+        public static List<ProposedBudgetDtFund> GetProposedBudgetDtFundList(string filterExpression)
+        {
+            List<ProposedBudgetDtFund> result = new List<ProposedBudgetDtFund>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProposedBudgetDtFund));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProposedBudgetDtFund)helper.IDataReaderToObject(reader, new ProposedBudgetDtFund()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ProposedBudgetHd
+        public static ProposedBudgetHd GetProposedBudgetHd(Int32 ProposedBudgetID)
+        {
+            return new ProposedBudgetHdDao().Get(ProposedBudgetID);
+        }
+        public static int InsertProposedBudgetHd(ProposedBudgetHd record)
+        {
+            return new ProposedBudgetHdDao().Insert(record);
+        }
+        public static int UpdateProposedBudgetHd(ProposedBudgetHd record)
+        {
+            return new ProposedBudgetHdDao().Update(record);
+        }
+        public static int DeleteProposedBudgetHd(Int32 ProposedBudgetID)
+        {
+            return new ProposedBudgetHdDao().Delete(ProposedBudgetID);
+        }
+        public static List<ProposedBudgetHd> GetProposedBudgetHdList(string filterExpression)
+        {
+            List<ProposedBudgetHd> result = new List<ProposedBudgetHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProposedBudgetHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProposedBudgetHd)helper.IDataReaderToObject(reader, new ProposedBudgetHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProposedBudgetHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProposedBudgetHd));
+                ctx.CommandText = helper.SelectMaxColumn("ProposedBudgetID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #endregion
     }
 }
