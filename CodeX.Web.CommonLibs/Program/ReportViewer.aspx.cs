@@ -375,6 +375,8 @@ namespace CodeX.Web.CommonLibs.Program
                                          TotalType = sd.Attribute("totaltype") != null ? sd.Attribute("totaltype").Value : "SUM",
                                          IsDataSourceFromSP = sd.Attribute("isdatasourcefromsp") != null ? sd.Attribute("isdatasourcefromsp").Value == "1" : false,
                                          IsShowHeaderFooter = sd.Attribute("isshowheaderfooter") != null ? sd.Attribute("isshowheaderfooter").Value == "1" : true,
+                                         IsShowHeader = sd.Attribute("isshowheader") != null ? sd.Attribute("isshowheader").Value == "1" : false,
+                                         IsShowFooter = sd.Attribute("isshowfooter") != null ? sd.Attribute("isshowfooter").Value == "1" : false,
                                          IsShowParameter = sd.Attribute("isshowparameter") != null ? sd.Attribute("isshowparameter").Value == "1" : false,
                                          IsShowHeaderBorder = sd.Attribute("isshowheaderborder") != null ? sd.Attribute("isshowheaderborder").Value == "1" : false,
                                          IsUsingDotMatrix = sd.Attribute("isusingdotmatrix") != null ? sd.Attribute("isusingdotmatrix").Value == "1" : false
@@ -404,8 +406,10 @@ namespace CodeX.Web.CommonLibs.Program
             SubHeaderText1 = tempReportSetting.SubHeaderText;
             if (!tempReportSetting.IsShowHeaderFooter)
             {
-                divPageHeader.Style.Add("display", "none");
-                divContainerPageFooter.Style.Add("display", "none");
+                if (!tempReportSetting.IsShowHeader)
+                    divPageHeader.Style.Add("display", "none");
+                if (!tempReportSetting.IsShowFooter)
+                    divContainerPageFooter.Style.Add("display", "none");
             }
 
             if (tempReportSetting.HeaderText != "")
@@ -524,7 +528,7 @@ namespace CodeX.Web.CommonLibs.Program
                 rptReport.HeaderTemplate = new MyTemplate(ListItemType.Header, lstTemplateField, lstGroupField, 0, xdocReport.Root.Elements("fields"), tempReportSetting.IsShowHeaderBorder, lstParameterCodeValue);
                 if (lstTemplateField.Count > 0)
                 {
-                    rptReport.ItemTemplate = new MyTemplate(ListItemType.Item, lstTemplateField, lstGroupField, 0);
+                    rptReport.ItemTemplate = new MyTemplate(ListItemType.Item, lstTemplateField, lstGroupField, 0, tempReportSetting.TotalType, tempReportSetting.TotalText);
 
                     object obj = null;
                     if (!tempReportSetting.IsDataSourceFromSP)
@@ -667,12 +671,14 @@ namespace CodeX.Web.CommonLibs.Program
             string _totalText;
             IEnumerable<XElement> _lstField;
             List<Variable> _lstParameterCodeValue;
-            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<GroupField> lstGroupField, int level)
+            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<GroupField> lstGroupField, int level, string totalType, string totalText)
             {
                 _type = type;
                 _lstTemplateField = lstTemplateField;
                 _level = level;
                 _lstGroupField = lstGroupField;
+                _totalType = totalType;
+                _totalType = totalType;
             }
             public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<GroupField> lstGroupField, int level, IEnumerable<XElement> lstField, bool isShowHeaderBorder, List<Variable> lstParameterCodeValue)
             {
@@ -885,7 +891,7 @@ namespace CodeX.Web.CommonLibs.Program
                             Literal lc = new Literal();
                             Repeater rptDetail = new Repeater();
                             rptDetail.ID = "rptDetail";
-                            rptDetail.ItemTemplate = new MyTemplate(ListItemType.Item, _lstTemplateField, _lstGroupField, _level + 1);
+                            rptDetail.ItemTemplate = new MyTemplate(ListItemType.Item, _lstTemplateField, _lstGroupField, _level + 1, _totalType, _totalText);
 
                             container.Controls.Add(lc);
                             container.Controls.Add(rptDetail);
