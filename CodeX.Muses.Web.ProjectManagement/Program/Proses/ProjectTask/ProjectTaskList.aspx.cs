@@ -13,6 +13,8 @@ using System.Web.UI.HtmlControls;
 using CodeX.Data.Core.Dal;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Net.Mail;
+using System.Net;
 
 namespace CodeX.Muses.Web.ProjectManagement.Program
 {
@@ -440,6 +442,13 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 else
                     result += string.Format("fail|{0}", errMessage);
             }
+            else if (param[0] == "email") 
+            {
+                if (OnPopupSendEmail(ref errMessage))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
@@ -506,6 +515,92 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 errMessage = ex.Message;
                 return false;
             }
+        }
+
+        private bool OnPopupSendEmail(ref string errMessage) 
+        {
+            bool result = true;
+            try
+            {
+                ProjectTask task = BusinessLayer.GetProjectTask(Convert.ToInt32(hdnPopupID.Value));
+                List<Employee> lstEmployee = BusinessLayer.GetEmployeeList(String.Format("EmployeeID = {0}", hdnSelectedValue.Value));
+                SendEmail(task, lstEmployee);
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                result = false;
+            }
+            return result;
+        }
+
+        public String GetSmtpAddress(String email)
+        {
+            String[] data = email.Split('@');
+            String SmtpAddress = "";
+            switch (data[1])
+            {
+                case "hotmail.com": SmtpAddress = string.Format("smtp.live.com"); break;
+                case "gmail.com": SmtpAddress = string.Format("smtp.gmail.com"); break;
+                case "yahoo.com": SmtpAddress = string.Format("smtp.mail.yahoo.com"); break;
+                default: SmtpAddress = String.Format("smtp.{0}", data[1]); break;
+            }
+            return SmtpAddress;
+        }
+
+        public Int32 GetPort(String email)
+        {
+            String[] data = email.Split('@');
+            Int32 port = 0;
+            switch (data[1])
+            {
+                case "hotmail.com": port = 587; break;
+                case "gmail.com": port = 587; break;
+                case "yahoo.com": port = 587; break;
+                default: port = 25; break;
+            }
+            return port;
+        }
+
+        public void SendEmail(ProjectTask task, List<Employee> lstEmployee)
+        {
+            string emailFrom = "";
+            string password = "";
+            Employee user = BusinessLayer.GetEmployee(Convert.ToInt32(AppSession.UserLogin.EmployeeID));
+            if (user != null) 
+            {
+                emailFrom = user.EmailAddress1 != "" ? user.EmailAddress1 : user.EmailAddress2;
+                password = "";
+            }
+            
+            //string emailTo = String.Join(";", lstEmployee.Select(x => x.EmailAddress1));
+            string subject = "Remainder Kegiatan";
+            string body = String.Format("Remainder kegiatan \"{0}\" dengan deadline {1}", task.ProjectTaskName, task.EndDate.ToString(Constant.FormatString.DATE_REPORT_FORMAT));//BusinessLayer.GetTemplateText(TemplateID).TemplateContent;
+
+            string smtpAddress = GetSmtpAddress(emailFrom);
+            int portNumber = GetPort(emailFrom);
+            bool enableSSL = true;
+
+            #region Send Email
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress(emailFrom);
+                foreach (String email in lstEmployee.Select(x => x.EmailAddress1))
+                    mail.To.Add(email);
+                
+                mail.Subject = subject;
+                mail.Body = body;//ConvertMessage(emailTo, body);
+                mail.IsBodyHtml = true;
+                // Can set to false, if you are sending pure text.
+
+                using (SmtpClient smtp = new SmtpClient(smtpAddress, portNumber))
+                {
+                    smtp.Credentials = new NetworkCredential(emailFrom, password);
+                    smtp.EnableSsl = enableSSL;
+                    smtp.Send(mail);
+                }
+            }
+            #endregion
         }
         #endregion
     }

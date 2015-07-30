@@ -50,6 +50,20 @@
             });
         });
 
+        $('#btnEmail').die('click');
+        $('#btnEmail').live('click', function () {
+            var param = "";
+            $('.chkIsSelected input:checked').each(function () {
+                var id = $(this).closest('tr').find('.keyField').html();
+                if (param != '') {
+                    param += ',';
+                }
+                param += id;
+            })
+            $('#<%=hdnSelectedValue.ClientID %>').val(param);
+            cbpProcessPopup.PerformCallback('email');
+        });
+
         $('#<%=txtScheduledStartDate.ClientID %>').die('change');
         $('#<%=txtScheduledStartDate.ClientID %>').live('change', function () {
             var val = $(this).val();
@@ -389,9 +403,16 @@
                 else
                     cbpViewPopup.PerformCallback('refresh');
             }
+            else if (param[0] == 'email') {
+                if (param[1] == 'fail')
+                    showToast('Send Email Failed', 'Error Message : ' + param[2]);
+                else
+                    cbpViewPopup.PerformCallback('refresh');
+            }
         }
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
+    <input type="hidden" value="" id="hdnSelectedValue" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <input type="hidden" id="hdnEmployeeCoordinatorID" runat="server" value=""/>
     <table>
@@ -655,6 +676,8 @@
                                                                 <asp:CheckBox CssClass="chkIsSelected" runat="server" />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
+                                                        <asp:BoundField DataField="AssigneeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                        <asp:BoundField DataField="EmployeeName" HeaderText="Nama"/>
                                                         <asp:BoundField DataField="EmployeeName" HeaderText="Nama"/>
                                                         <asp:BoundField DataField="Position" HeaderText="Posisi"/>
                                                         <asp:BoundField DataField="IsAllowChangeStatus" HeaderText="Ubah Status" HeaderStyle-Width="150px" />
@@ -676,7 +699,7 @@
                                                 <table width="100%">
                                                     <tr>
                                                         <td align="center">
-                                                            <input type="button" value="Email" />
+                                                            <input type="button" value="Email" id="btnEmail" />
                                                         </td>
                                                     </tr>
                                                 </table>
