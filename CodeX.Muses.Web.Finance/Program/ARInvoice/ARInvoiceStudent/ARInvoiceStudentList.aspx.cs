@@ -25,6 +25,10 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%')", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
+
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
@@ -35,12 +39,17 @@ namespace CodeX.Muses.Web.Finance.Program
             fieldListValue = new string[] { "StudentCode", "StudentName" };
         }
 
+        protected string OnGetPeriodAdmissionFilterExpression()
+        {
+            return string.Format("GCPeriodAdmissionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
+        }
+
         private string GetFilterExpression()
         {
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            filterExpression += string.Format("SiteID = '{0}' AND IsDeleted = 0", cboSite.Value);
             return filterExpression;
         }
 
