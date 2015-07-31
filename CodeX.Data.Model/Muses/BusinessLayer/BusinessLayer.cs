@@ -14851,6 +14851,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TemplateText
+        public static TemplateText GetTemplateText(Int32 TemplateID)
+        {
+            return new TemplateTextDao().Get(TemplateID);
+        }
+        public static int InsertTemplateText(TemplateText record)
+        {
+            return new TemplateTextDao().Insert(record);
+        }
+        public static int UpdateTemplateText(TemplateText record)
+        {
+            return new TemplateTextDao().Update(record);
+        }
+        public static int DeleteTemplateText(Int32 TemplateID)
+        {
+            return new TemplateTextDao().Delete(TemplateID);
+        }
+        public static List<TemplateText> GetTemplateTextList(string filterExpression)
+        {
+            List<TemplateText> result = new List<TemplateText>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TemplateText));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TemplateText)helper.IDataReaderToObject(reader, new TemplateText()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region Term
         public static Term GetTerm(Int32 TermID)
         {

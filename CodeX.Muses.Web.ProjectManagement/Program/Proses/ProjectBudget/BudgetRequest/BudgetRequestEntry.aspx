@@ -44,6 +44,12 @@
 
             $('#divTransactionAdd').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
+                    $('#<%=hdnEntryID.ClientID %>').val('');
+                    tacProjectBudget.setValue('');
+                    tacProjectBudget.setText('');
+                    $('#<%=hdnBudgetID.ClientID %>').val('');
+                    $('#<%=txtProposedBudget.ClientID %>').val(0).trigger('changeValue');
+                    $('#<%=txtRequestAmount.ClientID %>').val(0).trigger('changeValue');
                     $('#entryDetailContainer').show();
                 }
             });

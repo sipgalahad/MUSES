@@ -5,6 +5,10 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
@@ -65,6 +69,35 @@
         }
         //#endregion
 
+        //#region Period Admission
+        function onGetPeriodAdmissionFilterExpression() {
+            var filterExpression = "<%=OnGetPeriodAdmissionFilterExpression() %>";
+            filterExpression += " AND SchoolPeriodID = " + tacSchoolPeriod.getValue();
+            return filterExpression;
+        }
+
+        function onTacPeriodAdmissionButtonSearchClick() {
+            openSearchDialog('periodadmission', onGetPeriodAdmissionFilterExpression(), function (value) {
+                var filterExpression = onGetPeriodAdmissionFilterExpression() + " AND PeriodAdmissionID = '" + value + "'";
+                Methods.getObject('GetPeriodAdmissionList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacPeriodAdmission.setValue(result.PeriodAdmissionID);
+                        tacPeriodAdmission.setText(result.PeriodAdmissionName);
+                    }
+                    else {
+                        tacPeriodAdmission.setValue('');
+                        tacPeriodAdmission.setText('');
+                    }
+                    cbpView.PerformCallback('refresh');
+                });
+            });
+        }
+
+        function onTacPeriodAdmissionValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+        //#endregion
+
         $('.lnkDetail a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl('~/Program/ARInvoice/ARInvoiceStudent/StudentPageLauncher.aspx?id=' + id);
@@ -79,6 +112,19 @@
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <div style="position: relative;">
+        <table>
+            <colgroup>
+                <col style="width:120px"/>
+            </colgroup>
+            <tr>
+                <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
+                <td>
+                    <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
+                        <ClientSideEvents ValueChanged="function(s,e) { onCboSiteValueChanged(s); }" />
+                    </dxe:ASPxComboBox>
+                </td>
+            </tr>
+        </table>
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"

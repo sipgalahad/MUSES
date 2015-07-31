@@ -37,6 +37,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Bank -->
+  <searchdialog type="bank" methodname="GetvBankList" keyfieldname="BankCode" orderbyexpression="BankCode ASC">
+    <gridcolumns>
+      <gridcolumn datafield="BankCode" headertext="Kode" width="120px" />
+      <gridcolumn datafield="BankName" headertext="Nama" width="150px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="BankCode" headertext="Kode" description="" />
+      <intellisensetext datafield="BankName" headertext="Nama" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Budget RealizationHd -->
   <searchdialog type="budgetrealizationhd" methodname="GetvBudgetRealizationHdList" keyfieldname="BudgetRealizationNo" orderbyexpression="BudgetRealizationNo ASC">
     <gridcolumns>

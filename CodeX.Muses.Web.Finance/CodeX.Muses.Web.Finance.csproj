@@ -139,6 +139,7 @@
     <Content Include="Program\Configuration\CreateTariff\CreateTariffEntry.aspx" />
     <Content Include="Program\Process\BankUploadedFile\BankUploadedFile.aspx" />
     <Content Include="Program\Process\BudgetRealization\BudgetRealizationEntry.aspx" />
+    <Content Include="Program\Process\BudgetRealization\BudgetRealizationQuickPicksEntryCtl.ascx" />
     <Content Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx" />
     <Content Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx" />
     <Content Include="Program\Process\GenerateARStudent\GenerateARStudentEntry.aspx" />
@@ -644,6 +645,13 @@
     </Compile>
     <Compile Include="Program\Process\BudgetRealization\BudgetRealizationEntry.aspx.designer.cs">
       <DependentUpon>BudgetRealizationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\BudgetRealization\BudgetRealizationQuickPicksEntryCtl.ascx.cs">
+      <DependentUpon>BudgetRealizationQuickPicksEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\BudgetRealization\BudgetRealizationQuickPicksEntryCtl.ascx.designer.cs">
+      <DependentUpon>BudgetRealizationQuickPicksEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx.cs">
       <DependentUpon>GenerateARProspectiveStudentDtCtl.ascx</DependentUpon>

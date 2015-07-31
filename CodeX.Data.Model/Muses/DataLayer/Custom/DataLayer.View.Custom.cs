@@ -2336,6 +2336,11 @@ namespace CodeX.Data.Model
         {
             get { return _GCTransactionStatus != Constant.TransactionStatus.OPEN ? false : true; }
         }
+
+        public decimal CustomRequestAmount 
+        {
+            get { return _RequestAmount - _RealizationAmount; }
+        }
     }
     #endregion
     #region vBudgetRequestHd

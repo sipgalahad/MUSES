@@ -28,8 +28,11 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
             hdnRecordFilterExpression.Value = String.Format("ProjectID = {0}", AppSession.ProjectID);
-
-            List<vTeamDt> lstTeamDt = BusinessLayer.GetvTeamDtList(String.Format("ProjectID = '{0}' AND IsDeleted = 0 AND (EmployeeCoordinatorID = {1} OR ListEmployeeID1 LIKE '%;{1};%')", AppSession.ProjectID, AppSession.UserLogin.EmployeeID));
+            List<vTeamDt> lstTeamDt = null;
+            if(AppSession.UserLogin.EmployeeID != 0)
+                lstTeamDt = BusinessLayer.GetvTeamDtList(String.Format("ProjectID = '{0}' AND IsDeleted = 0 AND (EmployeeCoordinatorID = {1} OR ListEmployeeID1 LIKE '%;{1};%')", AppSession.ProjectID, AppSession.UserLogin.EmployeeID));
+            else
+                lstTeamDt = BusinessLayer.GetvTeamDtList(String.Format("ProjectID = '{0}' AND IsDeleted = 0", AppSession.ProjectID));
             Methods.SetComboBoxField(cboTeamDt, lstTeamDt, "Position", "TeamDtID");
             cboTeamDt.SelectedIndex = 0;
             txtRequestDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
@@ -42,7 +45,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         #region Filter Expression Search Dialog
         protected string OnGetProjectBudgetFilterExpression()
         {
-            return string.Format("ProjectID = {0} AND ItemID IS NULL", AppSession.ProjectID);
+            return string.Format("ProjectID = {0} AND ItemID IS NULL AND BudgetID NOT IN (SELECT BudgetID FROM BudgetRequestDt WHERE GCItemDetailStatus = '{1}')", AppSession.ProjectID, Constant.TransactionStatus.OPEN);
         }
         #endregion
 

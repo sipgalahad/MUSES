@@ -20,9 +20,11 @@
         function onLoad() {
             if ($('#<%=hdnIsEditable.ClientID %>').val() == '1') {
                 $('#divTransactionAdd').show();
+                $('#divQuickPick').show();
             }
             else {
                 $('#divTransactionAdd').hide();
+                $('#divQuickPick').hide();
             }
 
             setDatePicker('<%=txtRealizationDate.ClientID %>');
@@ -72,12 +74,19 @@
                 cbpView.PerformCallback('changepage|' + page);
                 setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
             });
-        }
 
+            $('.lblLink.divQuickPick').click(function () {
+                showLoadingPanel();
+                var url = ResolveUrl('~/Program/Process/BudgetRealization/BudgetRealizationQuickPicksEntryCtl.ascx');
+                var id = cboProject.GetValue();
+                openUserControlPopup(url, id, 'Quick Picks', 1000, 600);
+            });
+        }
+        
         //#region ProjectBudget
         function onGetProjectBudgetFilterExpression() {
             var filterExpression = "<%=OnGetProjectBudgetFilterExpression() %>" + " AND ProjectID = " + cboProject.GetValue();
-            filterExpression = "BudgetRequestID IN ( " + filterExpression + " ) AND IsDeleted = 0  AND RealizationAmount = 0";
+            filterExpression = "BudgetRequestID IN ( " + filterExpression + " ) AND IsDeleted = 0  AND (RequestAmount - RealizationAmount) != 0";
             return filterExpression;
         }
 
@@ -90,7 +99,7 @@
                         tacProjectBudget.setValue(result.BudgetRequestDtID);
                         tacProjectBudget.setText(result.BudgetName);
                         $('#<%=txtProposedBudget.ClientID %>').val(result.ProposedAmount - result.RealizationAmount).trigger('changeValue');
-                        $('#<%=txtRequestAmount.ClientID %>').val(result.RequestAmount).trigger('changeValue');
+                        $('#<%=txtRequestAmount.ClientID %>').val(result.RequestAmount - result.RealizationAmount).trigger('changeValue');
                         entityToControlProjectBudget(result);
                     }
                     else {
@@ -143,7 +152,6 @@
             tacProjectBudget.setValue(entity.BudgetRequestDtID);
             tacProjectBudget.setText(entity.BudgetName);
             $('#<%=hdnBudgetID.ClientID %>').val(entity.BudgetRequestDtID);
-
             var filterExpression = "BudgetID = " + entity.BudgetID;
             var realizationAmount = 0;
             Methods.getObject('GetvProjectBudgetList', filterExpression, function (result) {
@@ -154,10 +162,10 @@
                     realizationAmount = 0;
                 }
             });
-
+            
             $('#<%=txtProposedBudget.ClientID %>').val(entity.ProposedAmount - realizationAmount).trigger('changeValue');
             $('#<%=txtRequestAmount.ClientID %>').val(entity.RequestAmount).trigger('changeValue');
-            $('#<%=txtRealizationAmount.ClientID %>').val(0).trigger('changeValue');
+            $('#<%=txtRealizationAmount.ClientID %>').val(entity.RealizationAmount).trigger('changeValue');
 
             $('#entryDetailContainer').show();
         });
@@ -280,6 +288,7 @@
                 <td colspan="2">
                     <div class="divTransactionEntry">
                         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
+                        <span id="divQuickPick" class="lblLink divQuickPick"><%=GetLabel("Quick Pick")%></span>
                         <br />
                         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                             <fieldset id="fsTrx" style="margin: 0">
@@ -344,6 +353,7 @@
                                             <asp:BoundField DataField="BudgetCode" HeaderText="Kode" HeaderStyle-Width="150px"/>
                                             <asp:BoundField DataField="BudgetName" HeaderText="Anggaran"  />
                                             <asp:BoundField DataField="ProposedAmount" HeaderText="Dianggarkan" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right"/>
+                                            <asp:BoundField DataField="RequestAmount" HeaderText="Diminta" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right"/>
                                             <asp:BoundField DataField="RealizationAmount" HeaderText="Direalisasikan" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right"/>
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>

@@ -60,16 +60,17 @@ namespace CodeX.Muses.Web.Finance.Program
         
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}'", AppSession.UserLogin.SiteID));
-            String lstSiteID = "";
-            foreach (Site obj in lstSite)
-            {
-                if (lstSiteID != "") lstSiteID += ',';
-                lstSiteID += String.Format("'{0}'", obj.SiteID);
-            }
+            //List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}'", AppSession.UserLogin.SiteID));
+            //String lstSiteID = "";
+            //foreach (Site obj in lstSite)
+            //{
+            //    if (lstSiteID != "") lstSiteID += ',';
+            //    lstSiteID += String.Format("'{0}'", obj.SiteID);
+            //}
 
-            List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID IN ({0}) AND IsDeleted = 0", lstSiteID));
-            Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%')", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
         }
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
@@ -122,7 +123,7 @@ namespace CodeX.Muses.Web.Finance.Program
             BankDao bankDao = new BankDao(ctx);
             try
             {
-                Bank bank = bankDao.Get(Convert.ToInt32(cboBank.Value));
+                Bank bank = bankDao.Get(Convert.ToInt32(tacBank.Value));
                 List<vARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetvARInvoiceHdList(String.Format("GCTransactionStatus IN ('{0}','{1}')", Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED), ctx);
                 String lstARInvoiceID = String.Join(",", lstARInvoiceHd.Select(x => x.ARInvoiceID).ToList());
                 List<ARInvoiceDt> lstARInvoiceDt = null;

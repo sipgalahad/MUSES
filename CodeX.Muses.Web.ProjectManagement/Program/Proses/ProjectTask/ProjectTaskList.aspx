@@ -61,7 +61,10 @@
                 param += id;
             })
             $('#<%=hdnSelectedValue.ClientID %>').val(param);
-            cbpProcessPopup.PerformCallback('email');
+            //cbpProcessPopup.PerformCallback('email');
+
+            var url = ResolveUrl('~/Program/Proses/ProjectTask/SendEmailCtl.ascx');
+            openUserControlPopup(url, param, 'Email', 600, 400);
         });
 
         $('#<%=txtScheduledStartDate.ClientID %>').die('change');
