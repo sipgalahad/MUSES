@@ -29,16 +29,12 @@ namespace CodeX.Muses.Web.Finance.Program
         String lstSiteID = "";
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}'", AppSession.UserLogin.SiteID));
-            
-            foreach(Site obj in lstSite)
-            {
-                if(lstSiteID != "") lstSiteID += ',';
-                lstSiteID += String.Format("'{0}'", obj.SiteID);
-            }
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%')", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
 
-            List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID IN ({0}) AND IsDeleted = 0", lstSiteID));
-            Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
+            //List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID IN ({0}) AND IsDeleted = 0", lstSiteID));
+            //Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
 
             cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
             {
@@ -84,7 +80,7 @@ namespace CodeX.Muses.Web.Finance.Program
             BankDao bankDao = new BankDao(ctx);
             try
             {
-                Bank bank = bankDao.Get(Convert.ToInt32(cboBank.Value));
+                Bank bank = bankDao.Get(Convert.ToInt32(tacBank.Value));
                 //Build the Text file data.
                 String txt = string.Empty;
                 String format = "";
