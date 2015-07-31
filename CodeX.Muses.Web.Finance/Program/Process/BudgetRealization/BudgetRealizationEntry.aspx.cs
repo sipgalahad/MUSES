@@ -175,7 +175,7 @@ namespace CodeX.Muses.Web.Finance.Program
         public void SaveBudgetRealizationHd(IDbContext ctx, ref int OrderID)
         {
             BudgetRealizationHdDao entityHdDao = new BudgetRealizationHdDao(ctx);
-            if (hdnID.Value == "0")
+            if (hdnID.Value == null || hdnID.Value == "0")
             {
                 BudgetRealizationHd entityHd = new BudgetRealizationHd();
                 entityHd.ProjectID = Convert.ToInt32(cboProject.Value);

@@ -43,6 +43,8 @@
                 $('#<%=txtProposedBudgetName.ClientID %>').val('');
                 $('#<%=txtRealizationDate.ClientID %>').val('');
                 $('#<%=txtEntryRemarks.ClientID %>').val('');
+                $('#<%=txtProposedBudgetCode.ClientID %>').attr('readonly', false);
+                cboBudgetType.SetEnabled(true);
 
                 $('.txtFund').each(function () {
                     $(this).val(0).trigger('changeValue');
@@ -125,7 +127,7 @@
             $('#<%=txtProposedBudgetCode.ClientID %>').attr('readonly', true);
             cboBudgetType.SetEnabled(false);
             
-            if (entity.ItemID != null) {
+            if (entity.ItemID != 0) {
                 cboBudgetType.SetValue('DT007^002');
                 tacItem.setText(entity.ProposedBudgetName);
                 tacItem.setValue(entity.ItemID);
@@ -140,7 +142,7 @@
                 $('#<%=hdnItemUnitValue.ClientID %>').val(entity.ConversionFactor);
                 var conversion = "1 " + baseText + " = " + entity.ConversionFactor + " " + purchaseUnit;
                 $('#<%=txtConversion.ClientID %>').val(conversion);
-                
+
                 $('.trBudgetName').hide();
                 $('.trBudgetItem').show();
             } else {
@@ -150,7 +152,7 @@
                 $('.trBudgetName').show();
                 $('.trBudgetItem').hide();
             }
-            
+
             var listFund = entity.ListFund;
             var data = listFund.split('|');
             var count = 0;
@@ -415,7 +417,7 @@
                     cbpView.PerformCallback('changepage|' + page);
                     setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
-
+                calculateTotalProjectBudget();
             }
         }
         //#endregion
