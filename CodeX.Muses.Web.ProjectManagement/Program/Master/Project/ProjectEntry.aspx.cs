@@ -76,7 +76,10 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             txtEndDate.Text = entity.EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             chkIsHeader.Checked = entity.IsHeader;
             tacParent.Value = entity.ParentID.ToString();
+            hdnParentID.Value = entity.ParentID.ToString();
+            hdnProjectLevel.Value = entity.ProjectLevel.ToString();
             tacParent.Text = entity.ParentProjectName;
+
             tacPIC.Value = entity.PersonInCharge.ToString();
             tacPIC.Text = entity.EmployeeName;
             txtProjectIndicator.Text = entity.ProjectIndicator;
@@ -92,8 +95,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
             entity.IsHeader = chkIsHeader.Checked;
             if (hdnParentID.Value != "" && hdnParentID.Value != "0")
+            {
                 entity.ParentID = Convert.ToInt32(hdnParentID.Value);
-            else entity.ParentID = null;
+                entity.ProjectLevel = Convert.ToInt32(hdnProjectLevel.Value) + 1;
+            }
+            else 
+            {
+                entity.ParentID = null;
+                entity.ProjectLevel = 0;
+            } 
             entity.PersonInCharge = Convert.ToInt32(tacPIC.Value);
             entity.ProjectIndicator = txtProjectIndicator.Text;
             entity.ProjectTarget = txtProjectTarget.Text;

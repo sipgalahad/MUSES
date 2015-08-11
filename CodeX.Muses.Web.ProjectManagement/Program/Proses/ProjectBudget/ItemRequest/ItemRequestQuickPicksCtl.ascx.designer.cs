@@ -10,123 +10,132 @@
 namespace CodeX.Muses.Web.ProjectManagement.Program {
     
     
-    public partial class ProjectEntry {
+    public partial class ItemRequestQuickPicksCtl {
         
         /// <summary>
-        /// hdnID control.
+        /// hdnSelectedMember control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedMember;
         
         /// <summary>
-        /// hdnProjectLevel control.
+        /// hdnTransactionID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnProjectLevel;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTransactionID;
         
         /// <summary>
-        /// txtProjectCode control.
+        /// hdnParam control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProjectCode;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParam;
         
         /// <summary>
-        /// txtProjectName control.
+        /// hdnFilterItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProjectName;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterItem;
         
         /// <summary>
-        /// txtStartDate control.
+        /// hdnSelectedMemberQty control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStartDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedMemberQty;
         
         /// <summary>
-        /// txtEndDate control.
+        /// hdnLocationID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEndDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLocationID;
         
         /// <summary>
-        /// tacPIC control.
+        /// hdnLocationItemGroupID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacPIC;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLocationItemGroupID;
         
         /// <summary>
-        /// hdnParentID control.
+        /// hdnItemGroupDrugLogisticID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParentID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnItemGroupDrugLogisticID;
         
         /// <summary>
-        /// tacParent control.
+        /// txtItemGroupDrugLogisticCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacParent;
+        protected global::System.Web.UI.WebControls.TextBox txtItemGroupDrugLogisticCode;
         
         /// <summary>
-        /// chkIsHeader control.
+        /// txtItemGroupDrugLogisticName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsHeader;
+        protected global::System.Web.UI.WebControls.TextBox txtItemGroupDrugLogisticName;
         
         /// <summary>
-        /// txtProjectIndicator control.
+        /// cbpPopup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProjectIndicator;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopup;
         
         /// <summary>
-        /// txtProjectTarget control.
+        /// PanelContent1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProjectTarget;
+        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// txtRemarks control.
+        /// pnlView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
+        protected global::System.Web.UI.WebControls.Panel pnlView;
+        
+        /// <summary>
+        /// grdView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdView;
     }
 }

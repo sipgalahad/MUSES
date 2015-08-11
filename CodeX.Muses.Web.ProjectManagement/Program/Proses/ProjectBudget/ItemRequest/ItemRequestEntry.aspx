@@ -23,13 +23,13 @@
                 $('#divTransactionAdd').hide();
                 $('#divQuickPicks').hide();
             }
-            
+
             setDatePicker('<%=txtItemOrderDate.ClientID %>');
             $('#<%=txtItemOrderDate.ClientID %>').datepicker('option', 'maxDate', '0');
 
             //#region Order No
             $('#lblOrderNo.lblLink').click(function () {
-                openSearchDialog('purchaserequesthd', "<%=GetFilterExpression() %>", function (value) {
+                openSearchDialog('itemrequesthd', "<%=GetFilterExpression() %>", function (value) {
                     $('#<%=txtOrderNo.ClientID %>').val(value);
                     onTxtOrderNoChanged(value);
                 });
@@ -46,9 +46,7 @@
 
             //#region Location From
             function getLocationFilterExpression() {
-                var filterExpression = "<%=OnGetFilterExpressionLocation() %>";
-                if ($('#<%=hdnLocationItemGroupID.ClientID %>').val() != '')
-                    filterExpression += " AND ParentID = " + $('#<%=hdnLocationItemGroupID.ClientID %>').val();
+                var filterExpression = "<%=OnGetFilterExpressionFromLocation() %>";
                 return filterExpression;
             }
 
@@ -67,47 +65,58 @@
                 var filterExpression = getLocationFilterExpression() + "LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnLocationID.ClientID %>').val(result.LocationID);
+                        $('#<%=hdnLocationIDFrom.ClientID %>').val(result.LocationID);
                         $('#<%=txtLocationName.ClientID %>').val(result.LocationName);
 
                         filterExpression = "LocationID = " + result.LocationID;
                         Methods.getObject('GetLocationList', filterExpression, function (result) {
-                            $('#<%=hdnLocationItemGroupID.ClientID %>').val(result.ItemGroupID);
+                            $('#<%=hdnFromLocationItemGroupID.ClientID %>').val(result.ItemGroupID);
                         });
                     }
                     else {
-                        $('#<%=hdnLocationID.ClientID %>').val('');
+                        $('#<%=hdnLocationIDFrom.ClientID %>').val('');
                         $('#<%=txtLocationCode.ClientID %>').val('');
                         $('#<%=txtLocationName.ClientID %>').val('');
-                        $('#<%=hdnLocationItemGroupID.ClientID %>').val('');
+                        $('#<%=hdnFromLocationItemGroupID.ClientID %>').val('');
                     }
                 });
             }
             //#endregion
 
-            //#region Supplier
-            $('#<%=lblSupplier.ClientID %>.lblLink').click(function () {
-                openSearchDialog('businesspartners', getSupplierFilterExpression(), function (value) {
-                    $('#<%=txtSupplierCode.ClientID %>').val(value);
-                    onTxtSupplierChanged(value);
+            //#region Location To
+            function getLocationFilterExpressionTo() {
+                var filterExpression = "<%=OnGetFilterExpressionToLocation() %>";
+                return filterExpression;
+            }
+
+            $('#<%=lblLocationTo.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('locationroleuser', getLocationFilterExpressionTo(), function (value) {
+                    $('#<%=txtLocationCodeTo.ClientID %>').val(value);
+                    onTxtLocationToCodeChanged(value);
                 });
             });
 
-            $('#<%=txtSupplierCode.ClientID %>').change(function () {
-                onTxtSupplierChanged($(this).val());
+            $('#<%=txtLocationCodeTo.ClientID %>').live('change', function () {
+                onTxtLocationToCodeChanged($(this).val());
             });
 
-            function onTxtSupplierChanged(value) {
-                var filterExpression = getSupplierFilterExpression() + " AND BusinessPartnerCode = '" + value + "'";
-                Methods.getObject('GetBusinessPartnersList', filterExpression, function (result) {
+            function onTxtLocationToCodeChanged(value) {
+                var filterExpression = getLocationFilterExpressionTo() + "LocationCode = '" + value + "'";
+                Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnSupplierID.ClientID %>').val(result.BusinessPartnerID);
-                        $('#<%=txtSupplierName.ClientID %>').val(result.BusinessPartnerName);
+                        $('#<%=hdnLocationIDTo.ClientID %>').val(result.LocationID);
+                        $('#<%=txtLocationNameTo.ClientID %>').val(result.LocationName);
+
+                        filterExpression = "LocationID = " + result.LocationID;
+                        Methods.getObject('GetLocationList', filterExpression, function (result) {
+                            $('#<%=hdnToLocationItemGroupID.ClientID %>').val(result.ItemGroupID);
+                        });
                     }
                     else {
-                        $('#<%=hdnSupplierID.ClientID %>').val('');
-                        $('#<%=txtSupplierCode.ClientID %>').val('');
-                        $('#<%=txtSupplierName.ClientID %>').val('');
+                        $('#<%=hdnLocationIDTo.ClientID %>').val('');
+                        $('#<%=txtLocationCodeTo.ClientID %>').val('');
+                        $('#<%=txtLocationNameTo.ClientID %>').val('');
+                        $('#<%=hdnToLocationItemGroupID.ClientID %>').val('');
                     }
                 });
             }
@@ -116,8 +125,10 @@
             //#region Item Group
             function onGetItemGroupFilterExpression() {
                 var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
-                if ($('#<%=hdnLocationItemGroupID.ClientID %>').val() != '')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnLocationItemGroupID.ClientID %>').val() + "/%')";
+                if ($('#<%=hdnFromLocationItemGroupID.ClientID %>').val() != '')
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnFromLocationItemGroupID.ClientID %>').val() + "/%')";
+                if ($('#<%=hdnToLocationItemGroupID.ClientID %>').val() != '')
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnToLocationItemGroupID.ClientID %>').val() + "/%')";
                 return filterExpression;
             }
 
@@ -134,8 +145,6 @@
 
             function onTxtItemGroupCodeChanged(value) {
                 var filterExpression = onGetItemGroupFilterExpression() + " AND ItemGroupCode = '" + value + "'";
-                $('#<%=txtItemCode.ClientID %>').val('');
-                $('#<%=txtItemName.ClientID %>').val('');
                 Methods.getObject('GetItemGroupMasterList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnItemGroupID.ClientID %>').val(result.ItemGroupID);
@@ -151,25 +160,24 @@
             //#endregion
 
             //#region Item
-            function getFilterExpressionItemProduct() {
-                var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
-                var requestID = $('#<%=hdnRequestID.ClientID %>').val();
-                if ($('#<%=txtItemGroupCode.ClientID %>').val() != '' && $('#<%=txtItemGroupCode.ClientID %>').val() != '0')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
-                else if ($('#<%=hdnLocationItemGroupID.ClientID %>').val() != '' && $('#<%=hdnLocationItemGroupID.ClientID %>').val() != '0')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnLocationItemGroupID.ClientID %>').val() + "/%')";
-                if (requestID != '')
-                    filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM PurchaseRequestDt WHERE PurchaseRequestID = " + requestID + " AND IsDeleted = 0)";
-                return filterExpression;
-            }
-
             function getItemFilterExpression() {
-                var filterExpression = "<%=OnGetItemFilterExpression() %>";
+                var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+                var orderID = $('#<%=hdnOrderID.ClientID %>').val();
+                if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
+                else {
+                    if ($('#<%=hdnFromLocationItemGroupID.ClientID %>').val() != '')
+                        filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnFromLocationItemGroupID.ClientID %>').val() + "/%')";
+                    if ($('#<%=hdnToLocationItemGroupID.ClientID %>').val() != '')
+                        filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnToLocationItemGroupID.ClientID %>').val() + "/%')";
+                }
+                if (orderID != '')
+                    filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM ItemRequestDt WHERE ItemRequestID = " + orderID + " AND IsDeleted = 0)";
                 return filterExpression;
             }
 
             $('#lblItem.lblLink').live('click', function () {
-                openSearchDialog('item', getFilterExpressionItemProduct(), function (value) {
+                openSearchDialog('item', getItemFilterExpression(), function (value) {
                     $('#<%=txtItemCode.ClientID %>').val(value);
                     onTxtItemCodeChanged(value);
                 });
@@ -180,41 +188,25 @@
             });
 
             function onTxtItemCodeChanged(value) {
-                var filterExpression = getFilterExpressionItemProduct() + " AND ItemCode = '" + value + "'";
+                var filterExpression = getItemFilterExpression() + " AND ItemCode = '" + value + "'";
                 Methods.getObject('GetvItemMasterList', filterExpression, function (result) {
                     if (result != null) {
+                        if ($('#<%=txtItemGroupCode.ClientID %>').val() == '') {
+                            $('#<%=hdnItemGroupID.ClientID %>').val(result.ItemGroupID);
+                            $('#<%=txtItemGroupCode.ClientID %>').val(result.ItemGroupCode);
+                            $('#<%=txtItemGroupName.ClientID %>').val(result.ItemGroupName1);
+                        }
                         $('#<%=hdnItemID.ClientID %>').val(result.ItemID);
                         $('#<%=txtItemName.ClientID %>').val(result.ItemName1);
-                        Methods.getItemMasterPurchase(result.ItemID, 0, function (result2) {
-                            if (result2 != null) {
-                                $('#<%=hdnItemGroupID.ClientID %>').val(result2.ItemGroupID);
-                                $('#<%=txtItemGroupCode.ClientID %>').val(result2.ItemGroupCode);
-                                $('#<%=txtItemGroupName.ClientID %>').val(result2.ItemGroupName1);
-                                $('#<%=hdnSupplierID.ClientID %>').val(result2.BusinessPartnerID);
-                                $('#<%=txtSupplierCode.ClientID %>').val(result2.BusinessPartnerCode);
-                                $('#<%=txtSupplierName.ClientID %>').val(result2.BusinessPartnerName);
-                                $('#<%=txtDiscount.ClientID %>').val(result2.Discount);
-                                $('#<%=hdnPrice.ClientID %>').val(result2.Price);
-                                $('#<%=hdnGCBaseUnit.ClientID %>').val(result2.ItemUnit);
-                            }
-                            else {
-                                $('#<%=txtDiscount.ClientID %>').val('0');
-                                $('#<%=txtPrice.ClientID %>').val('0.00');
-                                $('#<%=hdnPrice.ClientID %>').val('0.00');
-                            }
+                        $('#<%=hdnGCBaseUnit.ClientID %>').val(result.GCItemUnit);
+                        $('#<%=hdnGCItemUnit.ClientID %>').val('');
+                        //disini
+                        var pbFilterExpression = "ItemID = " + result.ItemID;
+                        Methods.getObject('GetProjectBudgetList', pbFilterExpression, function (result) {
+                            $('#<%=txtQuantity.ClientID %>').val(result.Quantity);
                         });
-                        var filterExpression1 = getItemFilterExpression() + " AND ItemID = " + result.ItemID;
-                        Methods.getObject('GetvProjectBudgetList', filterExpression1, function (result4) {
-                            if (result4 != null) {
-                                $('#<%=hdnGCItemUnit.ClientID %>').val(result4.PurchaseUnit);
-                                $('#<%=txtQuantity.ClientID %>').val(result4.Quantity);
-                                var price = parseFloat(result4.ProposedAmount) / parseFloat(result4.Quantity);
-                                $('#<%=hdnPrice.ClientID %>').val(price);
-                            } else {
 
-                            }
-                        });
-                        Methods.getItemQtyOnOrder(result.ItemID, $('#<%=hdnLocationID.ClientID %>').val(), 2, function (result3) {
+                        Methods.getItemQtyOnOrder(result.ItemID, $('#<%=hdnLocationIDFrom.ClientID %>').val(), 1, function (result3) {
                             if (result3 != null)
                                 $('#<%=txtQtyOnOrder.ClientID %>').val(result3.QtyOnOrder + " " + result.ItemUnit);
                             else
@@ -226,49 +218,32 @@
                     else {
                         $('#<%=hdnGCBaseUnit.ClientID %>').val('');
                         $('#<%=hdnItemID.ClientID %>').val('');
-                        $('#<%=txtItemCode.ClientID %>').val('');
                         $('#<%=txtItemName.ClientID %>').val('');
                         $('#<%=txtQtyOnOrder.ClientID %>').val('');
-                        $('#<%=txtStockLocation.ClientID %>').val('');
+                        $('#<%=txtStockFromLocation.ClientID %>').val('');
                     }
                 });
             }
             //#endregion
 
-            $('#btnQtyOnOrderDetail').click(function () {
-                var qtyOnOrder = $('#<%=txtQtyOnOrder.ClientID %>').val();
-                if (qtyOnOrder != '' && qtyOnOrder != '0') {
-                    var itemID = $('#<%=hdnItemID.ClientID %>').val();
-                    var locationID = $('#<%=hdnLocationID.ClientID %>').val();
-                    if (itemID != '' && locationID != '') {
-                        var param = locationID + '|' + itemID;
-                        var url = ResolveUrl("~/Program/Procurement/PurchaseRequest/PurchaseRequestQtyOnOrderCtl.ascx");
-                        openUserControlPopup(url, param, 'Qty On Order', 1000, 500);
-                    }
-                }
-            });
-
             $('#divTransactionAdd').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
                     $('#<%=lblLocation.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=lblLocationTo.ClientID %>').attr('class', 'lblDisabled');
                     $('#<%=txtLocationCode.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtLocationCodeTo.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=txtQuantity.ClientID %>').val('1');
                     $('#<%=hdnEntryID.ClientID %>').val('');
-                    $('#<%=hdnItemGroupID.ClientID %>').val('');
-                    $('#<%=txtItemGroupCode.ClientID %>').val('');
-                    $('#<%=txtItemGroupName.ClientID %>').val('');
                     $('#<%=hdnItemID.ClientID %>').val('');
                     $('#<%=txtItemCode.ClientID %>').val('');
                     $('#<%=txtItemName.ClientID %>').val('');
-                    $('#<%=txtSupplierCode.ClientID %>').val('');
-                    $('#<%=txtSupplierName.ClientID %>').val('');
-                    $('#<%=txtPrice.ClientID %>').val('0.00');
-                    $('#<%=txtBaseUnit.ClientID %>').val('');
-                    $('#<%=txtDiscount.ClientID %>').val('0');
-                    $('#<%=txtNotesDt.ClientID %>').val('');
-                    $('#<%=txtStockLocation.ClientID %>').val('');
+                    $('#<%=txtQtyOnOrder.ClientID %>').val('');
+                    $('#<%=txtStockFromLocation.ClientID %>').val('');
                     cboItemUnit.SetValue('');
                     $('#<%=txtConversion.ClientID %>').val('');
+
+                    $('#<%=txtItemGroupCode.ClientID %>').val('');
+                    $('#<%=txtItemGroupName.ClientID %>').val('');
 
                     $('#entryDetailContainer').show();
                 }
@@ -277,23 +252,21 @@
             $('#divQuickPicks').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
                     showLoadingPanel();
-                    var url = ResolveUrl('~/Program/Procurement/PurchaseRequest/PurchaseRequestQuickPicksCtl.ascx');
-                    var transactionID = $('#<%=hdnRequestID.ClientID %>').val();
-                    var locationID = $('#<%=hdnLocationID.ClientID %>').val();
-                    var locationItemGroupID = $('#<%=hdnLocationItemGroupID.ClientID %>').val();
+                    var url = ResolveUrl('~/Program/Proses/ProjectBudget/ItemRequest/ItemRequestQuickPicksCtl.ascx');
+                    var transactionID = $('#<%=hdnOrderID.ClientID %>').val();
+                    var locationID = $('#<%=hdnLocationIDFrom.ClientID %>').val();
+                    var locationItemGroupID = $('#<%=hdnFromLocationItemGroupID.ClientID %>').val();
                     var id = transactionID + '|' + locationID + '|' + locationItemGroupID;
                     openUserControlPopup(url, id, 'Quick Picks', 1000, 600);
                 }
             });
 
             $('#btnCancel').click(function () {
-                $('#<%=lblLocation.ClientID %>').removeClass('lblDisabled');
-                $('#<%=txtLocationCode.ClientID %>').removeClass('lblDisabled');
                 $('#entryDetailContainer').hide();
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrxPopup', 'mpTrxPopup'))
+                if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
             });
 
@@ -308,16 +281,16 @@
         }
 
         function GetItemQtyFromLocation() {
-            var filterExpression = "LocationID = " + $('#<%=hdnLocationID.ClientID %>').val() + " AND ItemID = " + $('#<%=hdnItemID.ClientID %>').val() + " AND IsDeleted = 0";
+            var filterExpression = "LocationID = " + $('#<%=hdnLocationIDFrom.ClientID %>').val() + " AND ItemID = " + $('#<%=hdnItemID.ClientID %>').val() + " AND IsDeleted = 0";
             Methods.getObject('GetvItemBalanceList', filterExpression, function (result) {
-                if (result != null)
-                    $('#<%=txtStockLocation.ClientID %>').val(result.QuantityEND + ' ' + result.ItemUnit);
+                if (result == null)
+                    $('#<%=txtStockFromLocation.ClientID %>').val('');
                 else
-                    $('#<%=txtStockLocation.ClientID %>').val('');
+                    $('#<%=txtStockFromLocation.ClientID %>').val(result.QuantityEND + ' ' + result.ItemUnit);
             });
         }
 
-        //#region delete and edit
+        //#region edit dan delete
         $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
             $row = $(this).closest('tr');
             showToastConfirmation('Are You Sure Want To Delete?', function (result) {
@@ -338,19 +311,12 @@
             $('#<%=hdnGCItemUnit.ClientID %>').val(entity.GCItemUnit);
             $('#<%=txtItemGroupCode.ClientID %>').val(entity.ItemGroupCode);
             $('#<%=txtItemGroupName.ClientID %>').val(entity.ItemGroupName1);
-            var pricePerPurchaseUnit = parseFloat(entity.UnitPrice);
-            var convertion = parseFloat(entity.ConversionFactor);
-            var price = pricePerPurchaseUnit / convertion;
-            $('#<%=hdnPrice.ClientID %>').val(price);
-            $('#<%=txtDiscount.ClientID %>').val(entity.DiscountPercentage);
             $('#<%=hdnItemID.ClientID %>').val(entity.ItemID);
             $('#<%=txtItemCode.ClientID %>').val(entity.ItemCode);
             $('#<%=txtItemName.ClientID %>').val(entity.ItemName1);
             $('#<%=txtQuantity.ClientID %>').val(entity.Quantity);
-            $('#<%=txtSupplierCode.ClientID %>').val(entity.BusinessPartnerCode);
-            $('#<%=txtSupplierName.ClientID %>').val(entity.BusinessPartnerName);
             cboItemUnit.PerformCallback();
-            Methods.getItemQtyOnOrder(entity.ItemID, $('#<%=hdnLocationID.ClientID %>').val(), 2, function (result3) {
+            Methods.getItemQtyOnOrder(entity.ItemID, $('#<%=hdnLocationIDFrom.ClientID %>').val(), 1, function (result3) {
                 if (result3 != null)
                     $('#<%=txtQtyOnOrder.ClientID %>').val((result3.QtyOnOrder - entity.CustomTotal) + " " + entity.BaseUnit);
                 else
@@ -361,17 +327,12 @@
         });
         //#endregion
 
-        function getSupplierFilterExpression() {
-            var filterExpression = "<%=OnGetFilterExpressionSupplier() %>";
-            return filterExpression;
-        }
-
         //#region cboItemUnit
         function onCboItemUnitEndCallBack() {
-            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '') {
+            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '')
                 cboItemUnit.SetValue($('#<%=hdnGCBaseUnit.ClientID %>').val());
-            }
-            else cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val());
+            else
+                cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val());
             onCboItemUnitChanged();
         }
 
@@ -379,7 +340,7 @@
             var baseValue = $('#<%=hdnGCBaseUnit.ClientID %>').val();
             var toUnitItem = cboItemUnit.GetValue();
             var baseText = getItemUnitName(baseValue);
-            $('#<%=txtBaseUnit.ClientID %>').val("Per " + cboItemUnit.GetText());
+
             if (baseValue == toUnitItem) {
                 $('#<%=hdnItemUnitValue.ClientID %>').val('1');
                 var conversion = "1 " + baseText + " = 1 " + baseText;
@@ -395,10 +356,6 @@
                     $('#<%=txtConversion.ClientID %>').val(conversion);
                 });
             }
-            var convertion = parseFloat($('#<%=hdnItemUnitValue.ClientID %>').val());
-            var priceperitemunit = parseFloat(($('#<%=hdnPrice.ClientID %>').val()));
-            var pricePerPurchaseUnit = convertion * priceperitemunit;
-            $('#<%=txtPrice.ClientID %>').val(pricePerPurchaseUnit).trigger('changeValue');
         }
 
         function getItemUnitName(baseValue) {
@@ -411,11 +368,11 @@
         //#endregion
 
         function onAfterSaveRecordDtSuccess(OrderID) {
-            if ($('#<%=hdnRequestID.ClientID %>').val() == '0') {
-                $('#<%=hdnRequestID.ClientID %>').val(OrderID);
-                var filterExpression = 'PurchaseRequestID = ' + OrderID;
-                Methods.getObject('GetPurchaseRequestHdList', filterExpression, function (result) {
-                    $('#<%=txtOrderNo.ClientID %>').val(result.PurchaseRequestNo);
+            if ($('#<%=hdnOrderID.ClientID %>').val() == '0') {
+                $('#<%=hdnOrderID.ClientID %>').val(OrderID);
+                var filterExpression = 'ItemRequestID = ' + OrderID;
+                Methods.getObject('GetItemRequestHdList', filterExpression, function (result) {
+                    $('#<%=txtOrderNo.ClientID %>').val(result.ItemRequestNo);
                     cbpView.PerformCallback('refresh');
                 });
                 onAfterCustomSaveSuccess();
@@ -467,32 +424,14 @@
             }
         }
         //#endregion
-
-        function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
-            var purchaseRequestID = $('#<%=hdnRequestID.ClientID %>').val();
-            var printStatus = $('#<%=hdnPrintStatus.ClientID %>').val();
-            if (printStatus == 'true') {
-                if (purchaseRequestID == '' || purchaseRequestID == '0') {
-                    errMessage.text = 'Please Save Transaction First!';
-                    return false;
-                }
-                else {
-                    filterExpression.text = "PurchaseRequestID = " + purchaseRequestID;
-                    return true;
-                }
-            }
-            else {
-                errMessage.text = "Data Doesn't Approved or Closed";
-                return false;
-            }
-        }
     </script>
-    <input type="hidden" value="false" id="hdnPrintStatus" runat="server" />
-    <input type="hidden" value="" id="hdnRequestID" runat="server" />
+    <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
+    <input type="hidden" value="" id="hdnOrderID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
-    
+    <input type="hidden" id="hdnTransactionCode" runat="server" />
+    <input type="hidden" id="hdnTransactionCodeItemDistribution" runat="server" />
     <div style="height: 495px; overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
             <colgroup>
@@ -513,8 +452,8 @@
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblLocation"><%=GetLabel("Dari Lokasi")%></label></td>
                             <td>
-                                <input type="hidden" id="hdnLocationID" value="" runat="server" />
-                                <input type="hidden" id="hdnLocationItemGroupID" value="" runat="server" />
+                                <input type="hidden" id="hdnLocationIDFrom" value="" runat="server" />
+                                <input type="hidden" id="hdnFromLocationItemGroupID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -528,6 +467,10 @@
                                     </tr>
                                 </table>
                             </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><%=GetLabel("Keterangan") %></td>
+                            <td><asp:TextBox ID="txtNotes" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                         </tr>
                     </table>
                 </td>
@@ -550,9 +493,25 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><%=GetLabel("Keterangan") %></td>
-                            <td><asp:TextBox ID="txtNotes" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblLocationTo"><%=GetLabel("Kepada Lokasi")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnLocationIDTo" value="" runat="server" />
+                                <input type="hidden" id="hdnToLocationItemGroupID" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtLocationCodeTo" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtLocationNameTo" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
+                        
                     </table>
                 </td>
             </tr>
@@ -560,6 +519,7 @@
                 <td colspan="2">
                     <div class="divTransactionEntry">
                         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Barang")%></span>
+                        <span id="divQuickPicks" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Quick Picks")%></span>
                         <br />
                         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                             <fieldset id="fsTrx" style="margin: 0">
@@ -570,9 +530,9 @@
                                     </colgroup>
                                     <tr>
                                         <td valign="top">
-                                            <table style="width: 100%">
+                                            <table style="width: 50%">
                                                 <colgroup>
-                                                    <col style="width: 120px" />
+                                                    <col style="width: 150px" />
                                                 </colgroup>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblLink" id="lblItemGroup"><%=GetLabel("Kelompok Item")%></label></td>
@@ -611,16 +571,16 @@
                                                             </tr>
                                                         </table>
                                                     </td>
-                                                </tr>
+                                                </tr>     
                                                 <tr>
-                                                    <td class="tdLabel"><label><%=GetLabel("Stok")%></label></td>
-                                                    <td><asp:TextBox ID="txtStockLocation" ReadOnly="true" CssClass="number" Width="120px" runat="server"/></td>
-                                                </tr>        
+                                                    <td class="tdLabel"><label><%=GetLabel("Stok (Dari Lokasi)")%></label></td>
+                                                    <td><asp:TextBox ID="txtStockFromLocation" ReadOnly="true" CssClass="number" Width="120px" runat="server"/></td>
+                                                </tr>                           
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jumlah")%></label></td>
-                                                    <td><asp:TextBox ID="txtQuantity" value="1" CssClass="number" Width="120px" runat="server" /></td>
+                                                    <td><asp:TextBox ID="txtQuantity" CssClass="number" Width="120px" runat="server"/></td>
                                                 </tr>
-                                                <tr>
+                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Satuan Item")%></label></td>
                                                     <td>
                                                         <dxe:ASPxComboBox runat="server" ID="cboItemUnit" ClientInstanceName="cboItemUnit"
@@ -636,65 +596,13 @@
                                                         <asp:TextBox ID="txtConversion" Width="180px" runat="server" ReadOnly="true" />
                                                     </td>
                                                 </tr>
-                                            </table>
-                                        </td>
-                                        <td valign="top">
-                                            <table style="width: 100%">
-                                                <colgroup>
-                                                    <col style="width: 150px" />
-                                                </colgroup>
-                                                <tr>
-                                                    <td class="tdLabel"><label class="lblLink" id="lblSupplier" runat="server"><%=GetLabel("Supplier/Penyedia")%></label></td>
-                                                    <td>
-                                                        <input type="hidden" value="" id="hdnSupplierID" runat="server" />
-                                                        <table cellpadding="0" cellspacing="0">
-                                                            <colgroup>
-                                                                <col style="width: 120px" />
-                                                                <col style="width: 3px" />
-                                                                <col style="width: 250px" />
-                                                            </colgroup>
-                                                            <tr>
-                                                                <td><asp:TextBox ID="txtSupplierCode" Width="100%" runat="server" /></td>
-                                                                <td>&nbsp;</td>
-                                                                <td><asp:TextBox ID="txtSupplierName" ReadOnly="true" Width="100%" runat="server" /></td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Harga")%></label></td>
-                                                    <td>
-                                                        <table cellpadding="0" cellspacing="0">
-                                                            <colgroup>
-                                                                <col style="width: 120px" />
-                                                                <col style="width: 3px" />
-                                                                <col style="width: 250px" />
-                                                            </colgroup>
-                                                            <tr>
-                                                                <td>
-                                                                    <input type="hidden" value="0" id="hdnPrice" runat="server" />
-                                                                    <asp:TextBox ID="txtPrice" Width="100%" value="0.00" runat="server" CssClass="txtCurrency" />
-                                                                </td>
-                                                                <td>&nbsp;</td>
-                                                                <td><asp:TextBox ID="txtBaseUnit" ReadOnly="true" Width="100%" runat="server" /></td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Qty On Order")%></label></td>
                                                     <td>
-                                                        <asp:TextBox ID="txtQtyOnOrder" ReadOnly="true" Width="180px" runat="server" Style="text-align: right" />
-                                                        <input type="button" id="btnQtyOnOrderDetail" class="btnMore" value="..."/>
+                                                        <input type="hidden" id="hdnQtyOnOrder" value="" />
+                                                        <asp:TextBox ID="txtQtyOnOrder" ReadOnly="true" Width="100%" runat="server" Style="text-align: right;" />                                                         
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Diskon")%></label></td>
-                                                    <td><asp:TextBox ID="txtDiscount" Width="100px" runat="server" value="0" CssClass="number" /> %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
-                                                    <td><asp:TextBox ID="txtNotesDt" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                                                    <td><input type="button" id="btnQtyOnOrderDetail" class="btnMore" value="..."/></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -711,24 +619,19 @@
                     </div>
                     <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
                         ShowLoadingPanel="false" OnCallback="cbpView_Callback">
-                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
+                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                            EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
                         <PanelCollection>
                             <dx:PanelContent ID="PanelContent1" runat="server">
-                                <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
-                                    position: relative; font-size: 0.95em;">
-                                    <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
-                                        AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
+                                    <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
                                             <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                            <asp:BoundField DataField="ItemName1" HeaderText="Item Name" HeaderStyle-Width="300px" />
-                                            <asp:BoundField DataField="BusinessPartnerName" HeaderText="Supplier" HeaderStyle-Width="200px" />
-                                            <asp:BoundField DataField="CustomPurchaseUnit" HeaderStyle-CssClass="thRight" HeaderText="Diminta" HeaderStyle-Width="150px"
-                                                ItemStyle-HorizontalAlign="Right" />
-                                            <asp:BoundField DataField="CustomUnitPrice" HeaderStyle-CssClass="thRight" HeaderText="Harga / Satuan" ItemStyle-HorizontalAlign="Right"
-                                                HeaderStyle-Width="150px" />
-                                            <asp:BoundField DataField="CustomConversion" HeaderStyle-CssClass="thCenter" HeaderText="Konversi" ItemStyle-HorizontalAlign="Center" />
-                                            <asp:BoundField DataField="CustomPurchaseRequest" HeaderStyle-CssClass="thRight" HeaderText="Total Diminta" HeaderStyle-Width="150px"
-                                                ItemStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="ItemName1" HeaderText="Nama Item" />
+                                            <asp:BoundField DataField="CustomItemUnit" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" HeaderText="Diminta" HeaderStyle-Width="150px" />
+                                            <asp:BoundField DataField="BaseUnit" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderText="Satuan Dasar" HeaderStyle-Width="150px" />
+                                            <asp:BoundField DataField="CustomConversion" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderText="Konversi" />
+                                            <asp:BoundField DataField="CustomItemRequest" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" HeaderText="Total Diminta" HeaderStyle-Width="150px" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <div style='float:right;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
@@ -740,14 +643,11 @@
                                                     <input type="hidden" value="<%#Eval("ItemGroupID") %>" bindingfield="ItemGroupID" />
                                                     <input type="hidden" value="<%#Eval("ItemGroupCode") %>" bindingfield="ItemGroupCode" />
                                                     <input type="hidden" value="<%#Eval("ItemGroupName1") %>" bindingfield="ItemGroupName1" />
-                                                    <input type="hidden" value="<%#Eval("BusinessPartnerCode") %>" bindingfield="BusinessPartnerCode" />
-                                                    <input type="hidden" value="<%#Eval("BusinessPartnerName") %>" bindingfield="BusinessPartnerName" />
                                                     <input type="hidden" value="<%#Eval("Quantity") %>" bindingfield="Quantity" />
-                                                    <input type="hidden" value="<%#Eval("GCPurchaseUnit") %>" bindingfield="GCItemUnit" />
+                                                    <input type="hidden" value="<%#Eval("GCItemUnit") %>" bindingfield="GCItemUnit" />
                                                     <input type="hidden" value="<%#Eval("GCBaseUnit") %>" bindingfield="GCBaseUnit" />
+                                                    <input type="hidden" value="<%#Eval("ItemUnit") %>" bindingfield="ItemUnit" />
                                                     <input type="hidden" value="<%#Eval("BaseUnit") %>" bindingfield="BaseUnit" />
-                                                    <input type="hidden" value="<%#Eval("UnitPrice") %>" bindingfield="UnitPrice" />
-                                                    <input type="hidden" value="<%#Eval("DiscountPercentage") %>" bindingfield="DiscountPercentage" />
                                                     <input type="hidden" value="<%#Eval("ConversionFactor") %>" bindingfield="ConversionFactor" />
                                                     <input type="hidden" value="<%#Eval("GCItemDetailStatus") %>" bindingfield="GCItemDetailStatus" />
                                                     <input type="hidden" value="<%#Eval("CustomTotal") %>" bindingfield="CustomTotal" />
@@ -761,7 +661,7 @@
                                 </asp:Panel>
                             </dx:PanelContent>
                         </PanelCollection>
-                    </dxcp:ASPxCallbackPanel>
+                    </dxcp:ASPxCallbackPanel>  
                     <div class="containerPaging">
                         <div class="divInformationNumEntries" id="informationNumEntries"></div>
                         <div class="wrapperPaging">
@@ -775,6 +675,7 @@
     </div>
     <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
         ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
-        <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
+        <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }"
+            EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
     </dxcp:ASPxCallbackPanel>
 </asp:Content>

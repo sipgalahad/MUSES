@@ -58,6 +58,7 @@
                     if (result != null) {
                         tacParent.setValue(result.ProjectID);
                         tacParent.setText(result.ProjectName);
+                        $('#<%=hdnProjectLevel.ClientID %>').val(result.ProjectLevel);
                         $('#<%=hdnParentID.ClientID %>').val(result.ProjectID);
                     }
                     else {
@@ -74,6 +75,7 @@
         //#endregion
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
+    <input type="hidden" id="hdnProjectLevel" runat="server" value="" />
     <table class="tblContentArea" >
         <colgroup>
             <col style="width:50%"/>

@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.ProjectManagement.Program {
     
     
-    public partial class ProposedBudgetEntry {
+    public partial class BudgetCtl {
         
         /// <summary>
         /// hdnRowCountPerPage control.
@@ -58,24 +58,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstFundItem;
         
         /// <summary>
-        /// hdnEmployeeCoordinatorID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEmployeeCoordinatorID;
-        
-        /// <summary>
-        /// hdnPrice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPrice;
-        
-        /// <summary>
         /// hdnPageCount control.
         /// </summary>
         /// <remarks>
@@ -103,75 +85,111 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsEditable;
         
         /// <summary>
-        /// txtProposedBudgetNo control.
+        /// txtProposedBudgetCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProposedBudgetNo;
+        protected global::System.Web.UI.WebControls.TextBox txtProposedBudgetCode;
         
         /// <summary>
-        /// txtProposedBudgetDate control.
+        /// txtProposedBudgetName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProposedBudgetDate;
+        protected global::System.Web.UI.WebControls.TextBox txtProposedBudgetName;
         
         /// <summary>
-        /// hdnTeamDtID control.
+        /// rptFundHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTeamDtID;
+        protected global::System.Web.UI.WebControls.Repeater rptFundHeader;
         
         /// <summary>
-        /// tacTeamDt control.
+        /// rptFundItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTeamDt;
+        protected global::System.Web.UI.WebControls.Repeater rptFundItem;
         
         /// <summary>
-        /// txtRemarks control.
+        /// txtRealizationDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
+        protected global::System.Web.UI.WebControls.TextBox txtRealizationDate;
         
         /// <summary>
-        /// ctlBudget control.
+        /// txtTotalLineAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Muses.Web.ProjectManagement.Program.BudgetCtl ctlBudget;
+        protected global::System.Web.UI.WebControls.TextBox txtTotalLineAmount;
         
         /// <summary>
-        /// ctlInfrastructure control.
+        /// txtEntryRemarks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Muses.Web.ProjectManagement.Program.InfrastructureBudgetCtl ctlInfrastructure;
+        protected global::System.Web.UI.WebControls.TextBox txtEntryRemarks;
         
         /// <summary>
-        /// txtTotalProjectBudget control.
+        /// cbpBudgetView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTotalProjectBudget;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpBudgetView;
+        
+        /// <summary>
+        /// PanelContent1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        
+        /// <summary>
+        /// pnlView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlView;
+        
+        /// <summary>
+        /// rptViewHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptViewHeader;
+        
+        /// <summary>
+        /// grdView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater grdView;
     }
 }

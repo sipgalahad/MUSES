@@ -82,7 +82,16 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="ProjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ProjectCode" HeaderText="Kode" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
+                                <asp:TemplateField HeaderStyle-Width="200px" >
+                                    <HeaderTemplate>
+                                        <div style="padding-left:3px">
+                                            <%=GetLabel("Project Code")%>
+                                        </div>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <div style='margin-left:<%# Eval("ProjectLevel") %>0px;'><%# Eval("ProjectCode") %></div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:BoundField DataField="ProjectName" HeaderText="Nama" HeaderStyle-Width="220px"  HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan"  HeaderStyle-HorizontalAlign="Left" />
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Team" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">

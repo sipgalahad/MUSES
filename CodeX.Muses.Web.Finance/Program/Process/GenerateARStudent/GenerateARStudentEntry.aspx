@@ -75,11 +75,16 @@
         //#endregion
 
         function getCheckedValue() {
-            var lstID = $('#<%=hdnSelectedValue.ClientID %>').val().split(',');
+            var lstID = null;
+            if ($('#<%=hdnSelectedValue.ClientID %>').val() != '')
+                lstID = $('#<%=hdnSelectedValue.ClientID %>').val().split(',');
+            else
+                lstID = [];
             $('.chkIsSelected input').each(function () {
                 if ($(this).is(':checked')) {
                     var id = $(this).closest('tr').find('.keyField').html();
-                    lstID.push(id);
+                    if (lstID.indexOf(id) < 0)
+                        lstID.push(id);
                 }
                 else {
                     var id = $(this).closest('tr').find('.keyField').html();
@@ -91,7 +96,7 @@
             if (lstID.length == 1)
                 $('#<%=hdnSelectedValue.ClientID %>').val('');
             else
-                $('#<%=hdnSelectedValue.ClientID %>').val(lstID.join(',').substring(1));
+                $('#<%=hdnSelectedValue.ClientID %>').val(lstID.join(','));
         }
 
         function onRefreshControl(filterExpression) {
@@ -127,6 +132,7 @@
         }
 
         function onAfterCustomClickSuccess() {
+            $('#<%=hdnSelectedValue.ClientID %>').val('');
             cbpView.PerformCallback('refresh');            
         }
 
@@ -196,7 +202,6 @@
         }
 
         function onTacSchoolPeriodValueChanged() {
-            cbpView.PerformCallback('refresh');
         }
         //#endregion
 
@@ -251,9 +256,7 @@
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
             <td>
-                <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
-                    <ClientSideEvents ValueChanged="function(s,e) { onCboSiteValueChanged(s); }" />
-                </dxe:ASPxComboBox>
+                <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px" />
             </td>
         </tr>
         <tr>

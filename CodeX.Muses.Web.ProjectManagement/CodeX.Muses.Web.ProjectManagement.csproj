@@ -109,6 +109,9 @@
     <Content Include="Program\Proses\ProjectBudget\BudgetInformation\BudgetInformationList.aspx" />
     <Content Include="Program\Proses\ProjectBudget\BudgetRequest\BudgetRequestEntry.aspx" />
     <Content Include="Program\Proses\ProjectBudget\ItemRequest\ItemRequestEntry.aspx" />
+    <Content Include="Program\Proses\ProjectBudget\ItemRequest\ItemRequestQuickPicksCtl.ascx" />
+    <Content Include="Program\Proses\ProjectBudget\ProposedBudget\BudgetCtl.ascx" />
+    <Content Include="Program\Proses\ProjectBudget\ProposedBudget\InfrastructureBudgetCtl.ascx" />
     <Content Include="Program\Proses\ProjectBudget\ProposedBudget\ProposedBudgetDetailCtl.ascx" />
     <Content Include="Program\Proses\ProjectBudget\ProposedBudget\ProposedBudgetEntry.aspx" />
     <Content Include="Program\Proses\ProjectBudget\ProposedBudget\ProposedBudgetList.aspx" />
@@ -401,6 +404,30 @@
     </Compile>
     <Compile Include="Program\Proses\ProjectBudget\ItemRequest\ItemRequestEntry.aspx.designer.cs">
       <DependentUpon>ItemRequestEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Proses\ProjectBudget\ItemRequest\ItemRequestQuickPicksCtl.ascx.cs">
+      <DependentUpon>ItemRequestQuickPicksCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Proses\ProjectBudget\ItemRequest\ItemRequestQuickPicksCtl.ascx.designer.cs">
+      <DependentUpon>ItemRequestQuickPicksCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Proses\ProjectBudget\ProposedBudget\BasePageTrxCharges.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Proses\ProjectBudget\ProposedBudget\BudgetCtl.ascx.cs">
+      <DependentUpon>BudgetCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Proses\ProjectBudget\ProposedBudget\BudgetCtl.ascx.designer.cs">
+      <DependentUpon>BudgetCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Proses\ProjectBudget\ProposedBudget\InfrastructureBudgetCtl.ascx.cs">
+      <DependentUpon>InfrastructureBudgetCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Proses\ProjectBudget\ProposedBudget\InfrastructureBudgetCtl.ascx.designer.cs">
+      <DependentUpon>InfrastructureBudgetCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Proses\ProjectBudget\ProposedBudget\ProposedBudgetDetailCtl.ascx.cs">
       <DependentUpon>ProposedBudgetDetailCtl.ascx</DependentUpon>

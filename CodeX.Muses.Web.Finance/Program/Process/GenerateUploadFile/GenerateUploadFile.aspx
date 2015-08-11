@@ -37,7 +37,7 @@
 
         //#region Bank
         function onGetBankFilterExpression() {
-            var filterExpression = "SiteID = '" + cboSite.GetValue() + "'";
+            var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND IsDeleted = 0";
             return filterExpression;
         }
 
@@ -78,9 +78,7 @@
             <tr>
                 <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
                 <td>
-                    <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
-                        <ClientSideEvents ValueChanged="function(s,e) { onCboSiteValueChanged(s); }" />
-                    </dxe:ASPxComboBox>
+                    <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px" />
                 </td>
             </tr>
             <tr>

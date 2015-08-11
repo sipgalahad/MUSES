@@ -32645,6 +32645,7 @@ namespace CodeX.Data.Model
         private DateTime _EndDate;
         private Int32 _PersonInCharge;
         private Int32? _ParentID;
+        private Int32 _ProjectLevel;
         private Boolean _IsHeader;
         private String _ProjectIndicator;
         private String _ProjectTarget;
@@ -32703,6 +32704,12 @@ namespace CodeX.Data.Model
         {
             get { return _ParentID; }
             set { _ParentID = value; }
+        }
+        [Column(Name = "ProjectLevel", DataType = "Int32")]
+        public Int32 ProjectLevel
+        {
+            get { return _ProjectLevel; }
+            set { _ProjectLevel = value; }
         }
         [Column(Name = "IsHeader", DataType = "Boolean")]
         public Boolean IsHeader

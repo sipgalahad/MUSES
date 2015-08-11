@@ -24363,6 +24363,7 @@ namespace CodeX.Data.Model
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompTypeID;
         private String _StudentFeeCompTypeName;
+        private String _ShortName;
         private String _GCAdmissionPaymentPeriod;
         private String _AdmissionPaymentPeriod;
         private Int16 _PenaltyPercentage;
@@ -24404,6 +24405,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentFeeCompTypeName; }
             set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "ShortName", DataType = "String")]
+        public String ShortName
+        {
+            get { return _ShortName; }
+            set { _ShortName = value; }
         }
         [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
         public String GCAdmissionPaymentPeriod
@@ -29430,6 +29437,7 @@ namespace CodeX.Data.Model
         private String _EmployeeName;
         private Int32 _ParentID;
         private String _ParentProjectName;
+        private Int32 _ProjectLevel;
         private Boolean _IsHeader;
         private String _GCProjectStatus;
         private String _ProjectStatus;
@@ -29497,6 +29505,12 @@ namespace CodeX.Data.Model
         {
             get { return _ParentProjectName; }
             set { _ParentProjectName = value; }
+        }
+        [Column(Name = "ProjectLevel", DataType = "Int32")]
+        public Int32 ProjectLevel
+        {
+            get { return _ProjectLevel; }
+            set { _ProjectLevel = value; }
         }
         [Column(Name = "IsHeader", DataType = "Boolean")]
         public Boolean IsHeader

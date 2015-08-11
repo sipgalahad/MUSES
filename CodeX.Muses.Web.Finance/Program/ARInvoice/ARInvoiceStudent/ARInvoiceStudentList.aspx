@@ -31,6 +31,10 @@
             return $('#<%=hdnFilterExpression.ClientID %>').val();
         }
 
+        function onCboSiteValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
         var rowCount = parseInt('<%=RowCount %>');

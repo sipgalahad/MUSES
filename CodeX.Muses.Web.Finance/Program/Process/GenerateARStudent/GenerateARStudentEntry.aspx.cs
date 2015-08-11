@@ -39,7 +39,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%')", AppSession.UserLogin.SiteID));
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.SelectedIndex = 0;
 
@@ -163,7 +163,7 @@ namespace CodeX.Muses.Web.Finance.Program
             bool result = true;
             try
             {
-                BusinessLayer.GenerateARInvoiceStudent(hdnSelectedValue.Value, AppSession.UserLogin.SiteID, Convert.ToInt32(cboMonth.Value), Convert.ToInt32(cboYear.Value), AppSession.UserLogin.UserID, ctx);
+                BusinessLayer.GenerateARInvoiceStudent(hdnSelectedValue.Value, cboSite.Value.ToString(), Convert.ToInt32(cboMonth.Value), Convert.ToInt32(cboYear.Value), AppSession.UserLogin.UserID, ctx);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

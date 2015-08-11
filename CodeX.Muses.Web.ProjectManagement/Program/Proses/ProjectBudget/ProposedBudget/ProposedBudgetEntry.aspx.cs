@@ -29,15 +29,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstFundType = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID IN ('{0}','{1}')", Constant.StandardCode.PROJECT_FUNDING, Constant.StandardCode.BUDGET_TYPE));
-            rptFundHeader.DataSource = lstFundType.Where(x => x.ParentID == Constant.StandardCode.PROJECT_FUNDING).ToList();
-            rptFundHeader.DataBind();
+            //List<StandardCode> lstFundType = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID IN ('{0}','{1}')", Constant.StandardCode.PROJECT_FUNDING, Constant.StandardCode.BUDGET_TYPE));
+            //rptFundHeader.DataSource = lstFundType.Where(x => x.ParentID == Constant.StandardCode.PROJECT_FUNDING).ToList();
+            //rptFundHeader.DataBind();
 
-            rptFundItem.DataSource = lstFundType.Where(x => x.ParentID == Constant.StandardCode.PROJECT_FUNDING).ToList();
-            rptFundItem.DataBind();
+            //rptFundItem.DataSource = lstFundType.Where(x => x.ParentID == Constant.StandardCode.PROJECT_FUNDING).ToList();
+            //rptFundItem.DataBind();
 
-            Methods.SetComboBoxField(cboBudgetType,lstFundType.Where(x => x.ParentID == Constant.StandardCode.BUDGET_TYPE).ToList(),"StandardCodeName","StandardCodeID");
-            cboBudgetType.SelectedIndex = 0;
+            //Methods.SetComboBoxField(cboBudgetType,lstFundType.Where(x => x.ParentID == Constant.StandardCode.BUDGET_TYPE).ToList(),"StandardCodeName","StandardCodeID");
+            //cboBudgetType.SelectedIndex = 0;
 
             txtProposedBudgetDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
 
@@ -45,13 +45,13 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
             BindGridView(1, true, ref PageCount, ref RowCount);
 
-            Helper.SetControlEntrySetting(txtProposedBudgetCode, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(txtProposedBudgetName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(tacItem, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(txtItemQuantity, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(txtRealizationDate, new ControlEntrySetting(true, true, false), "mpTrxPopup");
-            Helper.SetControlEntrySetting(txtEntryRemarks, new ControlEntrySetting(true, true, false), "mpTrxPopup");
+            //Helper.SetControlEntrySetting(txtProposedBudgetCode, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            //Helper.SetControlEntrySetting(txtProposedBudgetName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            //Helper.SetControlEntrySetting(tacItem, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            //Helper.SetControlEntrySetting(txtItemQuantity, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            //Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            //Helper.SetControlEntrySetting(txtRealizationDate, new ControlEntrySetting(true, true, false), "mpTrxPopup");
+            //Helper.SetControlEntrySetting(txtEntryRemarks, new ControlEntrySetting(true, true, false), "mpTrxPopup");
         }
 
         protected override void OnControlEntrySetting()
@@ -116,12 +116,12 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             return BusinessLayer.GetvProposedBudgetHdRowCount(filterExpression);
         }
 
-        protected void cboItemUnit_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
-        {
-            List<StandardCode> lst = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND (StandardCodeID IN (SELECT GCAlternateUnit FROM ItemAlternateUnit WHERE ItemID = {1}) OR StandardCodeID = (SELECT GCItemUnit FROM ItemMaster WHERE ItemID = {1}))", Constant.StandardCode.ITEM_UNIT, hdnItemID.Value));
-            Methods.SetComboBoxField<StandardCode>(cboItemUnit, lst, "StandardCodeName", "StandardCodeID");
-            cboItemUnit.SelectedIndex = 0;
-        }
+        //protected void cboItemUnit_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        //{
+        //    List<StandardCode> lst = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND (StandardCodeID IN (SELECT GCAlternateUnit FROM ItemAlternateUnit WHERE ItemID = {1}) OR StandardCodeID = (SELECT GCItemUnit FROM ItemMaster WHERE ItemID = {1}))", Constant.StandardCode.ITEM_UNIT, hdnItemID.Value));
+        //    Methods.SetComboBoxField<StandardCode>(cboItemUnit, lst, "StandardCodeName", "StandardCodeID");
+        //    cboItemUnit.SelectedIndex = 0;
+        //}
 
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
@@ -161,6 +161,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             BindGridView(1, true, ref PageCount, ref RowCount);
             hdnPageCount.Value = PageCount.ToString();
             hdnRowCount.Value = RowCount.ToString();
+
+            ((BudgetCtl)ctlBudget).InitializeTransactionControl(entity);
+            ((InfrastructureBudgetCtl)ctlInfrastructure).InitializeTransactionControl(entity);
         }
 
         private String OnGetFilterExpression() 
@@ -175,68 +178,68 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            String filterExpression = OnGetFilterExpression();
+            //String filterExpression = OnGetFilterExpression();
 
-            if (isCountPageCount)
-            {
-                rowCount = BusinessLayer.GetvProposedBudgetDtRowCount(filterExpression);
-                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MATRIX);
-            }
+            //if (isCountPageCount)
+            //{
+            //    rowCount = BusinessLayer.GetvProposedBudgetDtRowCount(filterExpression);
+            //    pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MATRIX);
+            //}
             
-            List<StandardCode> lstFundType = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID = '{0}'", Constant.StandardCode.PROJECT_FUNDING));
-            rptViewHeader.DataSource = lstFundType.OrderBy(x => x.StandardCodeID);
-            rptViewHeader.DataBind();
+            //List<StandardCode> lstFundType = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID = '{0}'", Constant.StandardCode.PROJECT_FUNDING));
+            //rptViewHeader.DataSource = lstFundType.OrderBy(x => x.StandardCodeID);
+            //rptViewHeader.DataBind();
 
-            List<vProposedBudgetDt> lstEntity = BusinessLayer.GetvProposedBudgetDtList(filterExpression);
-            grdView.DataSource = lstEntity;
-            grdView.DataBind();
+            //List<vProposedBudgetDt> lstEntity = BusinessLayer.GetvProposedBudgetDtList(filterExpression);
+            //grdView.DataSource = lstEntity;
+            //grdView.DataBind();
 
-            txtTotalProjectBudget.Text = lstEntity.Sum(x => x.TotalAmount).ToString("N");
+            //txtTotalProjectBudget.Text = lstEntity.Sum(x => x.TotalAmount).ToString("N");
         }
 
         protected void grdView_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            {
-                vProposedBudgetDt entity = e.Item.DataItem as vProposedBudgetDt;
-                Repeater rptViewItem = e.Item.FindControl("rptViewItem") as Repeater;
-                String[] lst = entity.ListFund.Split('|');
-                rptViewItem.DataSource = lst;
-                rptViewItem.DataBind();
-            }
+            //if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            //{
+            //    vProposedBudgetDt entity = e.Item.DataItem as vProposedBudgetDt;
+            //    Repeater rptViewItem = e.Item.FindControl("rptViewItem") as Repeater;
+            //    String[] lst = entity.ListFund.Split('|');
+            //    rptViewItem.DataSource = lst;
+            //    rptViewItem.DataBind();
+            //}
 
-            if (grdView.Items.Count > 0)
-            {
-                if (e.Item.ItemType == ListItemType.Footer)
-                {
-                    HtmlTableRow trEmpty = (HtmlTableRow)e.Item.FindControl("trEmpty");
-                    trEmpty.Style.Add("Display", "none");
-                }
-            }
+            //if (grdView.Items.Count > 0)
+            //{
+            //    if (e.Item.ItemType == ListItemType.Footer)
+            //    {
+            //        HtmlTableRow trEmpty = (HtmlTableRow)e.Item.FindControl("trEmpty");
+            //        trEmpty.Style.Add("Display", "none");
+            //    }
+            //}
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            int pageCount = 1;
-            int rowCount = 1;
-            string result = "";
-            if (e.Parameter != null && e.Parameter != "")
-            {
-                string[] param = e.Parameter.Split('|');
-                if (param[0] == "changepage")
-                {
-                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
-                    result = "changepage";
-                }
-                else // refresh
-                {
-                    BindGridView(1, true, ref pageCount, ref rowCount);
-                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
-                }
-            }
+            //int pageCount = 1;
+            //int rowCount = 1;
+            //string result = "";
+            //if (e.Parameter != null && e.Parameter != "")
+            //{
+            //    string[] param = e.Parameter.Split('|');
+            //    if (param[0] == "changepage")
+            //    {
+            //        BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
+            //        result = "changepage";
+            //    }
+            //    else // refresh
+            //    {
+            //        BindGridView(1, true, ref pageCount, ref rowCount);
+            //        result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
+            //    }
+            //}
 
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
+            //ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            //panel.JSProperties["cpResult"] = result;
         }
         #endregion
 
@@ -251,31 +254,31 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         private void ControlToEntity(ProposedBudgetDt entity) 
         {
-            entity.ProposedBudgetCode = txtProposedBudgetCode.Text;
-            if (cboBudgetType.Value.ToString() == Constant.BudgetType.ANGGARAN)
-            {
-                entity.ProposedBudgetName = txtProposedBudgetName.Text;
-                entity.ItemID = null;
-                entity.Quantity = null;
-                entity.GCBaseUnit = null;
-                entity.GCPurchaseUnit = null;
-                entity.ConversionFactor = null;
-            }
-            else 
-            {
-                entity.ProposedBudgetName = hdnItemName.Value;
-                entity.ItemID = Convert.ToInt32(hdnItemID.Value);
-                entity.Quantity = Convert.ToInt32(txtItemQuantity.Text);
-                entity.GCBaseUnit = hdnGCBaseUnit.Value;
-                entity.GCPurchaseUnit = cboItemUnit.Value.ToString();
-                entity.ConversionFactor = Convert.ToDecimal(hdnItemUnitValue.Value);
-            }
-            if (txtRealizationDate.Text != "")
-                entity.RealizationDate = Helper.GetDatePickerValue(txtRealizationDate.Text);
-            else
-                entity.RealizationDate = null;
-            entity.TotalAmount = Convert.ToDecimal(Request.Form[txtTotalLineAmount.UniqueID]);
-            entity.Remarks = txtEntryRemarks.Text;
+            //entity.ProposedBudgetCode = txtProposedBudgetCode.Text;
+            //if (cboBudgetType.Value.ToString() == Constant.BudgetType.ANGGARAN)
+            //{
+            //    entity.ProposedBudgetName = txtProposedBudgetName.Text;
+            //    entity.ItemID = null;
+            //    entity.Quantity = null;
+            //    entity.GCBaseUnit = null;
+            //    entity.GCPurchaseUnit = null;
+            //    entity.ConversionFactor = null;
+            //}
+            //else 
+            //{
+            //    entity.ProposedBudgetName = hdnItemName.Value;
+            //    entity.ItemID = Convert.ToInt32(hdnItemID.Value);
+            //    entity.Quantity = Convert.ToInt32(txtItemQuantity.Text);
+            //    entity.GCBaseUnit = hdnGCBaseUnit.Value;
+            //    entity.GCPurchaseUnit = cboItemUnit.Value.ToString();
+            //    entity.ConversionFactor = Convert.ToDecimal(hdnItemUnitValue.Value);
+            //}
+            //if (txtRealizationDate.Text != "")
+            //    entity.RealizationDate = Helper.GetDatePickerValue(txtRealizationDate.Text);
+            //else
+            //    entity.RealizationDate = null;
+            //entity.TotalAmount = Convert.ToDecimal(Request.Form[txtTotalLineAmount.UniqueID]);
+            //entity.Remarks = txtEntryRemarks.Text;
         }
 
         public void SaveHeader(IDbContext ctx, ref Int32 OrderID)
