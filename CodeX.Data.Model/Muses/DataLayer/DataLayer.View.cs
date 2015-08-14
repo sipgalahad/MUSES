@@ -29444,6 +29444,7 @@ namespace CodeX.Data.Model
         private String _ProjectIndicator;
         private String _ProjectTarget;
         private String _ProjectAchievement;
+        private String _listParentID;
         private String _Remarks;
 
         [Column(Name = "ProjectID", DataType = "Int32")]
@@ -29548,6 +29549,12 @@ namespace CodeX.Data.Model
             get { return _ProjectAchievement; }
             set { _ProjectAchievement = value; }
         }
+        [Column(Name = "listParentID", DataType = "String")]
+        public String listParentID
+        {
+            get { return _listParentID; }
+            set { _listParentID = value; }
+        }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
         {
@@ -29579,6 +29586,7 @@ namespace CodeX.Data.Model
         private Decimal _ProposedAmount;
         private Decimal _RealizationAmount;
         private Decimal _UsedAmount;
+        private String _listParentID;
         private String _Remarks;
 
         [Column(Name = "BudgetID", DataType = "Int32")]
@@ -29688,6 +29696,12 @@ namespace CodeX.Data.Model
         {
             get { return _UsedAmount; }
             set { _UsedAmount = value; }
+        }
+        [Column(Name = "ListParentID", DataType = "String")]
+        public String ListParentID
+        {
+            get { return _listParentID; }
+            set { _listParentID = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

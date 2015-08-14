@@ -15341,6 +15341,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<TeamDt> GetTeamDtList(string filterExpression,IDbContext ctx)
+        {
+            List<TeamDt> result = new List<TeamDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeamDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeamDt)helper.IDataReaderToObject(reader, new TeamDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetTeamDtMaxID(IDbContext ctx)
         {
             Int32 result = 0;

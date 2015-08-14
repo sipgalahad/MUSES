@@ -75,8 +75,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             txtEndDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtEndTime.Text = DateTime.Now.ToString("HH:mm");
 
-            
-
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }

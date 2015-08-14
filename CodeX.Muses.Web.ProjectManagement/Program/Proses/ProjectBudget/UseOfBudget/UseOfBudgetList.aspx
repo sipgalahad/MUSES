@@ -37,6 +37,41 @@
             openUserControlPopup(url, param, 'Detail', 700, 440);
         });
 
+        //#region Paging
+        var pageCount = parseInt('<%=PageCount %>');
+        var rowCount = parseInt('<%=RowCount %>');
+        var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
+        var currPage = parseInt('<%=CurrPage %>');
+        $(function () {
+            setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
+            setPaging($("#paging"), pageCount, function (page) {
+                cbpView.PerformCallback('changepage|' + page);
+                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
+            }, null, currPage);
+        });
+
+        function onCbpViewEndCallback(s) {
+            hideLoadingPanel();
+            var param = s.cpResult.split('|');
+            if (param[0] == 'refresh') {
+                var pageCount = parseInt(param[1]);
+                var rowCount = parseInt(param[2]);
+                if (pageCount > 0)
+                    $('#<%=lvwView.ClientID %> tr:eq(1)').click();
+                else
+                    $('#<%=hdnID.ClientID %>').val('');
+
+                setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
+                setPaging($("#paging"), pageCount, function (page) {
+                    cbpView.PerformCallback('changepage|' + page);
+                    setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
+                });
+            }
+            else
+                $('#<%=lvwView.ClientID %> tr:eq(1)').click();
+        }
+        //#endregion
+
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();
             var param = s.cpResult.split('|');
@@ -54,9 +89,26 @@
                     cbpView.PerformCallback('refresh');
             }
         }
+
+        function onCboProjectChanged() {
+            showLoadingPanel();
+            cbpView.PerformCallback('refresh');
+        }
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
+    <input type="hidden" id="hdnLstParentID" runat="server" value="" />
     <input type="hidden" id="hdnUsedAmount" runat="server" value="" />
+    <input type="hidden" id="hdnEmployeeCoordinatorID" runat="server" value=""/>
+    <table>
+        <tr>
+            <td class="tdLabel" style="width:100px;"><%=GetLabel("Project") %></td>
+            <td>
+                <dxe:ASPxComboBox runat="server" ID="cboProject" ClientInstanceName="cboProject" Width="200px">
+                    <ClientSideEvents ValueChanged="function(s,e){onCboProjectChanged()}" />
+                </dxe:ASPxComboBox>
+            </td>
+        </tr>
+    </table>
     <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
         ShowLoadingPanel="false" OnCallback="cbpView_Callback">
         <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
@@ -132,6 +184,15 @@
             </dx:PanelContent>
         </PanelCollection>
     </dxcp:ASPxCallbackPanel>
+    <div class="imgLoadingGrdView" id="containerImgLoadingView" >
+        <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
+    </div>
+    <div class="containerPaging">
+        <div class="divInformationNumEntries" id="informationNumEntries"></div>
+        <div class="wrapperPaging">
+            <div id="paging"></div>
+        </div>
+    </div>
     <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
         ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
         <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />

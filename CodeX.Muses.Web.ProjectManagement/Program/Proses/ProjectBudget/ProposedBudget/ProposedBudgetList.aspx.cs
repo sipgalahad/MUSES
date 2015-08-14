@@ -30,6 +30,25 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         protected override void InitializeDataControl()
         {
+            hdnEmployeeCoordinatorID.Value = AppSession.UserLogin.EmployeeID.ToString();
+            String ProjectFilterExpression = String.Format("((listParentID LIKE '%,{0},%') OR ProjectID = {0})", AppSession.ProjectID);
+
+            if (AppSession.UserLogin.EmployeeID != null && AppSession.UserLogin.EmployeeID != 0)
+            {
+                ProjectFilterExpression += String.Format("GCProjectStatus NOT IN ('{0}','{1}') AND " +
+                                          "ProjectID IN (SELECT ProjectID FROM vTeamDt WHERE EmployeeCoordinatorID = '{2}' OR ListEmployeeID1 LIKE '%;{2};%')", Constant.ProjectStatus.CANCELED, Constant.ProjectStatus.COMPLETE, AppSession.UserLogin.EmployeeID);
+            }
+            else
+            {
+                ProjectFilterExpression += String.Format(" AND GCProjectStatus NOT IN ('{0}','{1}')", Constant.ProjectStatus.CANCELED, Constant.ProjectStatus.COMPLETE);
+            }
+
+            List<vProject> lstProject = BusinessLayer.GetvProjectList(ProjectFilterExpression);
+            hdnLstParentID.Value = String.Join(",", lstProject.Select(x => x.ProjectID));
+            lstProject.Insert(0,new vProject { ProjectName = "All", ProjectID = 0 });
+            Methods.SetComboBoxField(cboProject, lstProject, "ProjectName", "ProjectID");
+            cboProject.SelectedIndex = 0;
+            
             RowCountPerPage = Constant.GridViewPageSize.GRID_MATRIX;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
@@ -37,7 +56,11 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         #region Bind Grid View
         private String OnGetFilterExpression() 
         {
-            String filterExpression = String.Format("GCProposedBudgetStatus = '{0}' AND ProjectID = {1}", Constant.ProjectStatus.PROPOSED, AppSession.ProjectID);
+            String filterExpression = String.Format("GCProposedBudgetStatus = '{0}'", Constant.ProjectStatus.PROPOSED, cboProject.Value);
+            if (cboProject.Value.ToString() != "0")
+                filterExpression += String.Format("AND ProjectID IN ({0})", cboProject.Value);
+            else
+                filterExpression += String.Format("AND ProjectID IN ({0})", hdnLstParentID.Value);
             return filterExpression;
         }
 

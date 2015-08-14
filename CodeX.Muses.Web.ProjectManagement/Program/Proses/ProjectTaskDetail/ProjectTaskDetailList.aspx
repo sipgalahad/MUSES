@@ -84,14 +84,12 @@
 
         function onTacEmployeeCoordinatorButtonSearchClick() {
             var filterExpression = onGetEmployeeFilterExpression();
-            alert(filterExpression);
             openSearchDialog('employee', filterExpression, function (value) {
                 var filterExpression = "EmployeeCode = '" + value + "'";
                 Methods.getObject('GetvEmployeeList', filterExpression, function (result) {
                     if (result != null) {
                         tacEmployee.setValue(result.EmployeeID);
                         tacEmployee.setText(result.EmployeeName);
-                        //cbpView.PerformCallback('refresh');
                     }
                     else {
                         tacEmployee.setValue('');

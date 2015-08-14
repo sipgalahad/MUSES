@@ -33,6 +33,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             hdnID.Value = entity.ProposedBudgetID.ToString();
             BindGridView(1, true, ref PageCount, ref RowCount);
+            hdnRowCount.Value = RowCount.ToString();
+            hdnPageCount.Value = PageCount.ToString();
         }
 
         #region HTML Getter
@@ -58,6 +60,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 //hdnEmployeeCoordinatorID.Value = AppSession.UserLogin.EmployeeID.ToString();
                 hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
                 BindGridView(1, true, ref PageCount, ref RowCount);
+                hdnRowCount.Value = RowCount.ToString();
+                hdnPageCount.Value = PageCount.ToString();
 
                 Helper.SetControlEntrySetting(txtProposedBudgetCode, new ControlEntrySetting(true, true, true), "mpTrxPopup");
                 Helper.SetControlEntrySetting(tacItem, new ControlEntrySetting(true, true, true), "mpTrxPopup");
@@ -174,8 +178,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             List<vProposedBudgetDt> lstEntity = BusinessLayer.GetvProposedBudgetDtList(filterExpression);
             grdInfrastructureView.DataSource = lstEntity;
             grdInfrastructureView.DataBind();
-
-            //txtTotalProjectBudget.Text = lstEntity.Sum(x => x.TotalAmount).ToString("N");
         }
 
         protected void grdInfrastructureView_ItemDataBound(object sender, RepeaterItemEventArgs e)

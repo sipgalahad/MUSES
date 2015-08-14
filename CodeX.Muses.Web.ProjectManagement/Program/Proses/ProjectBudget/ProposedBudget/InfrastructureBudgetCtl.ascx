@@ -19,6 +19,8 @@
             $('#<%=txtProposedBudgetCode.ClientID %>').val('');
             tacItem.setValue('');
             tacItem.setText('');
+            $('#<%=txtItemQuantity.ClientID %>').val('0');
+            $('#<%=txtConversion.ClientID %>').val('');
             $('#<%=txtRealizationDate.ClientID %>').val('');
             $('#<%=txtEntryRemarks.ClientID %>').val('');
             $('#<%=txtProposedBudgetCode.ClientID %>').attr('readonly', false);
@@ -47,6 +49,15 @@
 
         $('#btnInfrastructureCancel').click(function () {
             $('#containerEntryInfrastructure').hide();
+        });
+
+        var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
+        var rowCount = parseInt($('#<%=hdnRowCount.ClientID %>').val());
+        var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
+        setNumEntriesText($('#infrastructureInformationNumEntries'), rowCount, 1, rowCountPerPage);
+        setPaging($("#infrastructurePaging"), pageCount, function (page) {
+            cbpInfrastructureView.PerformCallback('changepage|' + page);
+            setNumEntriesText($('#infrastructureInformationNumEntries'), rowCount, page, rowCountPerPage);
         });
     }
 
@@ -184,12 +195,11 @@
         else if (param[0] == 'refresh') {
             var pageCount = parseInt(param[1]);
             var rowCount = parseInt(param[2]);
-
             var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
-            setNumEntriesText($('#informationNumEntries'), rowCount, 1, rowCountPerPage);
+            setNumEntriesText($('#infrastructureInformationNumEntries'), rowCount, 1, rowCountPerPage);
             setPaging($("#paging"), pageCount, function (page) {
                 cbpInfrastructureView.PerformCallback('changepage|' + page);
-                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
+                setNumEntriesText($('#infrastructureInformationNumEntries'), rowCount, page, rowCountPerPage);
             });
         }
     }
@@ -435,8 +445,8 @@
     <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
 </div>
 <div class="containerPaging">
-    <div class="divInformationNumEntries" id="informationNumEntries"></div>
+    <div class="divInformationNumEntries" id="infrastructureInformationNumEntries"></div>
     <div class="wrapperPaging">
-        <div id="paging"></div>
+        <div id="infrastructurePaging"></div>
     </div>
 </div>

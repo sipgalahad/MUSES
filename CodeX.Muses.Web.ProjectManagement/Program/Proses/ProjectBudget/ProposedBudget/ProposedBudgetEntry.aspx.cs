@@ -29,21 +29,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         protected override void InitializeDataControl()
         {
-            //List<StandardCode> lstFundType = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID IN ('{0}','{1}')", Constant.StandardCode.PROJECT_FUNDING, Constant.StandardCode.BUDGET_TYPE));
-            //rptFundHeader.DataSource = lstFundType.Where(x => x.ParentID == Constant.StandardCode.PROJECT_FUNDING).ToList();
-            //rptFundHeader.DataBind();
-
-            //rptFundItem.DataSource = lstFundType.Where(x => x.ParentID == Constant.StandardCode.PROJECT_FUNDING).ToList();
-            //rptFundItem.DataBind();
-
-            //Methods.SetComboBoxField(cboBudgetType,lstFundType.Where(x => x.ParentID == Constant.StandardCode.BUDGET_TYPE).ToList(),"StandardCodeName","StandardCodeID");
-            //cboBudgetType.SelectedIndex = 0;
-
-            txtProposedBudgetDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-
-            hdnEmployeeCoordinatorID.Value = AppSession.UserLogin.EmployeeID.ToString();
-            hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
-            BindGridView(1, true, ref PageCount, ref RowCount);
+            hdnRecordFilterExpression.Value = String.Format("ProjectID = {0}", AppSession.ProjectID);
 
             //Helper.SetControlEntrySetting(txtProposedBudgetCode, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             //Helper.SetControlEntrySetting(txtProposedBudgetName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
@@ -94,10 +80,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         #region Bind Grid View
         public override void OnAddRecord()
         {
-            hdnPageCount.Value = "0";
-            hdnRowCount.Value = "0";
-            hdnIsEditable.Value = "1";
-            BindGridView(1, true, ref PageCount, ref RowCount);
+            //hdnPageCount.Value = "0";
+            //hdnRowCount.Value = "0";
+            //hdnIsEditable.Value = "1";
         }
 
         protected string IsEditable()
@@ -116,16 +101,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             return BusinessLayer.GetvProposedBudgetHdRowCount(filterExpression);
         }
 
-        //protected void cboItemUnit_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
-        //{
-        //    List<StandardCode> lst = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND (StandardCodeID IN (SELECT GCAlternateUnit FROM ItemAlternateUnit WHERE ItemID = {1}) OR StandardCodeID = (SELECT GCItemUnit FROM ItemMaster WHERE ItemID = {1}))", Constant.StandardCode.ITEM_UNIT, hdnItemID.Value));
-        //    Methods.SetComboBoxField<StandardCode>(cboItemUnit, lst, "StandardCodeName", "StandardCodeID");
-        //    cboItemUnit.SelectedIndex = 0;
-        //}
-
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
-            string filterExpression = "";
+            string filterExpression = GetFilterExpression();
             vProposedBudgetHd entity = BusinessLayer.GetvProposedBudgetHd(filterExpression, PageIndex, "ProposedBudgetID DESC");
             hdnID.Value = entity.ProposedBudgetID.ToString();
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
@@ -133,7 +111,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         protected override void OnLoadEntity(string keyValue, ref int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
-            string filterExpression = "";
+            string filterExpression = GetFilterExpression();
             PageIndex = BusinessLayer.GetvProposedBudgetHdRowIndex(filterExpression, keyValue, "ProposedBudgetID DESC");
             vProposedBudgetHd entity = BusinessLayer.GetvProposedBudgetHd(filterExpression, PageIndex, "ProposedBudgetID DESC");
             hdnID.Value = entity.ProposedBudgetID.ToString();
@@ -158,10 +136,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             tacTeamDt.Value = entity.TeamDtID.ToString();
             hdnTeamDtID.Value = entity.TeamDtID.ToString();
             txtTotalProjectBudget.Text = entity.TotalAmount.ToString("N");
-            BindGridView(1, true, ref PageCount, ref RowCount);
-            hdnPageCount.Value = PageCount.ToString();
-            hdnRowCount.Value = RowCount.ToString();
-
+            
             ((BudgetCtl)ctlBudget).InitializeTransactionControl(entity);
             ((InfrastructureBudgetCtl)ctlInfrastructure).InitializeTransactionControl(entity);
         }
@@ -175,72 +150,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 filterExpression += String.Format(" AND ProposedBudgetID = 0");
             return filterExpression;
         }
-
-        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
-        {
-            //String filterExpression = OnGetFilterExpression();
-
-            //if (isCountPageCount)
-            //{
-            //    rowCount = BusinessLayer.GetvProposedBudgetDtRowCount(filterExpression);
-            //    pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MATRIX);
-            //}
-            
-            //List<StandardCode> lstFundType = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID = '{0}'", Constant.StandardCode.PROJECT_FUNDING));
-            //rptViewHeader.DataSource = lstFundType.OrderBy(x => x.StandardCodeID);
-            //rptViewHeader.DataBind();
-
-            //List<vProposedBudgetDt> lstEntity = BusinessLayer.GetvProposedBudgetDtList(filterExpression);
-            //grdView.DataSource = lstEntity;
-            //grdView.DataBind();
-
-            //txtTotalProjectBudget.Text = lstEntity.Sum(x => x.TotalAmount).ToString("N");
-        }
-
-        protected void grdView_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            //if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            //{
-            //    vProposedBudgetDt entity = e.Item.DataItem as vProposedBudgetDt;
-            //    Repeater rptViewItem = e.Item.FindControl("rptViewItem") as Repeater;
-            //    String[] lst = entity.ListFund.Split('|');
-            //    rptViewItem.DataSource = lst;
-            //    rptViewItem.DataBind();
-            //}
-
-            //if (grdView.Items.Count > 0)
-            //{
-            //    if (e.Item.ItemType == ListItemType.Footer)
-            //    {
-            //        HtmlTableRow trEmpty = (HtmlTableRow)e.Item.FindControl("trEmpty");
-            //        trEmpty.Style.Add("Display", "none");
-            //    }
-            //}
-        }
-
-        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
-        {
-            //int pageCount = 1;
-            //int rowCount = 1;
-            //string result = "";
-            //if (e.Parameter != null && e.Parameter != "")
-            //{
-            //    string[] param = e.Parameter.Split('|');
-            //    if (param[0] == "changepage")
-            //    {
-            //        BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
-            //        result = "changepage";
-            //    }
-            //    else // refresh
-            //    {
-            //        BindGridView(1, true, ref pageCount, ref rowCount);
-            //        result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
-            //    }
-            //}
-
-            //ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            //panel.JSProperties["cpResult"] = result;
-        }
         #endregion
 
         #region Process Detail
@@ -250,35 +159,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             entity.Remarks = txtRemarks.Text;
             entity.TotalAmount = Convert.ToDecimal(Request.Form[txtTotalProjectBudget.UniqueID]);
             entity.ProposedDate = Helper.GetDatePickerValue(txtProposedBudgetDate.Text);
-        }
-
-        private void ControlToEntity(ProposedBudgetDt entity) 
-        {
-            //entity.ProposedBudgetCode = txtProposedBudgetCode.Text;
-            //if (cboBudgetType.Value.ToString() == Constant.BudgetType.ANGGARAN)
-            //{
-            //    entity.ProposedBudgetName = txtProposedBudgetName.Text;
-            //    entity.ItemID = null;
-            //    entity.Quantity = null;
-            //    entity.GCBaseUnit = null;
-            //    entity.GCPurchaseUnit = null;
-            //    entity.ConversionFactor = null;
-            //}
-            //else 
-            //{
-            //    entity.ProposedBudgetName = hdnItemName.Value;
-            //    entity.ItemID = Convert.ToInt32(hdnItemID.Value);
-            //    entity.Quantity = Convert.ToInt32(txtItemQuantity.Text);
-            //    entity.GCBaseUnit = hdnGCBaseUnit.Value;
-            //    entity.GCPurchaseUnit = cboItemUnit.Value.ToString();
-            //    entity.ConversionFactor = Convert.ToDecimal(hdnItemUnitValue.Value);
-            //}
-            //if (txtRealizationDate.Text != "")
-            //    entity.RealizationDate = Helper.GetDatePickerValue(txtRealizationDate.Text);
-            //else
-            //    entity.RealizationDate = null;
-            //entity.TotalAmount = Convert.ToDecimal(Request.Form[txtTotalLineAmount.UniqueID]);
-            //entity.Remarks = txtEntryRemarks.Text;
         }
 
         public void SaveHeader(IDbContext ctx, ref Int32 OrderID)
@@ -303,152 +183,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             {
                 OrderID = Convert.ToInt32(hdnID.Value);
             }
-        }
-
-        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
-        {
-            string result = "";
-            string errMessage = "";
-            int OrderID = 0;
-            string[] param = e.Parameter.Split('|');
-            result = param[0] + "|";
-            if (param[0] == "save")
-            {
-                if (hdnEntryID.Value.ToString() != "")
-                {
-                    OrderID = Convert.ToInt32(hdnID.Value);
-                    if (OnSaveEditRecordEntityDt(ref errMessage))
-                        result += "success";
-                    else
-                        result += string.Format("fail|{0}", errMessage);
-                }
-                else
-                {
-                    if (OnSaveAddRecordEntityDt(ref errMessage, ref OrderID))
-                        result += "success";
-                    else
-                        result += string.Format("fail|{0}", errMessage);
-                }
-            }
-            else if (param[0] == "delete")
-            {
-                OrderID = Convert.ToInt32(hdnEntryID.Value);
-                if (OnDeleteRecordEntityDt(ref errMessage))
-                    result += "success";
-                else
-                    result += string.Format("fail|{0}", errMessage);
-            }
-
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
-            panel.JSProperties["cpOrderID"] = OrderID.ToString();
-        }
-
-        public bool OnSaveEditRecordEntityDt(ref string errMessage) 
-        {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            ProposedBudgetDtDao entityDtDao = new ProposedBudgetDtDao(ctx);
-            ProposedBudgetDtFundDao fundDao = new ProposedBudgetDtFundDao(ctx);
-
-            try
-            {
-                ProposedBudgetDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                ControlToEntity(entityDt);
-                entityDtDao.Update(entityDt);
-
-                List<ProposedBudgetDtFund> lstFund = BusinessLayer.GetProposedBudgetDtFundList(String.Format("ProposedBudgetDtID = {0}", entityDt.ProposedBudgetDtID));
-                String[] data = hdnLstFundItem.Value.Split('|');
-                int count = 0;
-
-                foreach (ProposedBudgetDtFund obj in lstFund)
-                {
-                    obj.Amount = Convert.ToDecimal(data[count]);
-                    obj.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    fundDao.Update(obj);
-                    count++;
-                }
-                ctx.CommitTransaction();
-            }
-            catch (Exception ex)
-            {
-                Helper.InsertErrorLog(ex);
-                errMessage = ex.Message;
-                result = false;
-                ctx.RollBackTransaction();
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-
-        public bool OnSaveAddRecordEntityDt(ref string errMessage, ref Int32 OrderID)
-        {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            ProposedBudgetDtDao entityDtDao = new ProposedBudgetDtDao(ctx);
-            ProposedBudgetDtFundDao fundDao = new ProposedBudgetDtFundDao(ctx);
-
-            try
-            {
-                SaveHeader(ctx, ref OrderID);
-                
-                ProposedBudgetDt entityDt = new ProposedBudgetDt();
-                ControlToEntity(entityDt);
-                entityDt.ProposedBudgetID = OrderID;
-                entityDt.GCItemDetailStatus = Constant.ProjectStatus.OPEN;
-                entityDtDao.Insert(entityDt);
-
-                int ProposedBudgetDtID = BusinessLayer.GetProposedBudgetDtMaxID(ctx);
-                List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID = '{0}'", Constant.StandardCode.PROJECT_FUNDING));
-                String[] data = hdnLstFundItem.Value.Split('|');
-                int count = 0;
-
-                foreach (StandardCode obj in lstStandardCode) 
-                {
-                    ProposedBudgetDtFund item = new ProposedBudgetDtFund();
-                    item.ProposedBudgetDtID = ProposedBudgetDtID;
-                    item.GCProjectFundType = obj.StandardCodeID;
-                    item.Amount = Convert.ToDecimal(data[count]);
-                    item.CreatedBy = AppSession.UserLogin.UserID;
-                    fundDao.Insert(item);
-                    count++;
-                }
-                ctx.CommitTransaction();
-            }
-            catch (Exception ex)
-            {
-                Helper.InsertErrorLog(ex);
-                errMessage = ex.Message;
-                result = false;
-                ctx.RollBackTransaction();
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-
-        public bool OnDeleteRecordEntityDt(ref string errMessage)
-        {
-            bool result = true;
-            try
-            {
-                ProposedBudgetDt entity = BusinessLayer.GetProposedBudgetDt(Convert.ToInt32(hdnEntryID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateProposedBudgetDt(entity);
-            }
-            catch (Exception ex)
-            {
-                Helper.InsertErrorLog(ex);
-                errMessage = ex.Message;
-                result = false;
-            }
-            return result;
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
