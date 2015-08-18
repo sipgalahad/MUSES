@@ -38,15 +38,6 @@
 
             setDatePicker('<%=txtProposedBudgetDate.ClientID %>');
             
-            var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
-            var rowCount = parseInt($('#<%=hdnRowCount.ClientID %>').val());
-            var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
-            setNumEntriesText($('#informationNumEntries'), rowCount, 1, rowCountPerPage);
-            setPaging($("#paging"), pageCount, function (page) {
-                cbpView.PerformCallback('changepage|' + page);
-                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
-            });
-
             $('#ulTabClinicTransaction li').click(function () {
                 $('#ulTabClinicTransaction li.selected').removeAttr('class');
                 $('.containerTransDt').filter(':visible').hide();
@@ -153,7 +144,7 @@
     <input type="hidden" id="hdnID" runat="server" value="" />
     <input type="hidden" id="hdnEntryID" runat="server" value="" />
     <input type="hidden" id="hdnLstFundItem" runat="server" value="" />
-    <input type="hidden" id="hdnEmployeeCoordinatorID" runat="server" value=""/>
+    <input type="hidden" id="hdnEmployeeCoordinatorID" runat="server" value="0"/>
     <input type="hidden" value="0" id="hdnPrice" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />

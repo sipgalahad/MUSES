@@ -40,6 +40,25 @@
         }
 
         function onTacEmployeeValueChanged() {
+            var id = tacPIC.getValue();
+            if (id != '') {
+                var filterExpression = "EmployeeID = " + id;
+                Methods.getObject('GetvEmployeeList', filterExpression, function (result) {
+                    if (result != null) {
+                        entityToControlPIC(result);
+                    }
+                    else
+                        entityToControlPIC(null);
+                });
+            } else {
+                entityToControlPIC(null);
+            }
+        }
+        function entityToControlPIC(result) {
+            if (result != null) {
+            }
+            else {   
+            }
         }
         //#endregion
 
@@ -58,19 +77,44 @@
                     if (result != null) {
                         tacParent.setValue(result.ProjectID);
                         tacParent.setText(result.ProjectName);
-                        $('#<%=hdnProjectLevel.ClientID %>').val(result.ProjectLevel);
-                        $('#<%=hdnParentID.ClientID %>').val(result.ProjectID);
+                        entityToControlProject(result);
                     }
                     else {
                         tacParent.setValue('');
                         tacParent.setText('');
-                        $('#<%=hdnParentID.ClientID %>').val('');
+                        entityToControlProject(null);
                     }
                 });
             });
         }
 
         function onTacProjectValueChanged() {
+            var id = tacParent.getValue();
+            if (id != '') {
+                var filterExpression = "ProjectID = " + id;
+                Methods.getObject('GetvProjectList', filterExpression, function (result) {
+                    if (result != null) {
+                        entityToControlProject(result);
+                    }
+                    else
+                        entityToControlProject(null);
+                });
+            } else {
+                entityToControlProject(null);
+            }
+        }
+
+        function entityToControlProject(result) {
+            if (result != null) {
+                $('#<%=hdnProjectLevel.ClientID %>').val(result.ProjectLevel);
+                $('#<%=hdnParentID.ClientID %>').val(result.ProjectID);
+            }
+
+            else {
+                $('#<%=hdnProjectLevel.ClientID %>').val(null);
+                $('#<%=hdnParentID.ClientID %>').val(null);
+            }
+
         }
         //#endregion
     </script>

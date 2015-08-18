@@ -77,7 +77,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             chkIsHeader.Checked = entity.IsHeader;
             tacParent.Value = entity.ParentID.ToString();
             hdnParentID.Value = entity.ParentID.ToString();
-            hdnProjectLevel.Value = entity.ProjectLevel.ToString();
+            hdnProjectLevel.Value = (entity.ProjectLevel - 1).ToString();
             tacParent.Text = entity.ParentProjectName;
 
             tacPIC.Value = entity.PersonInCharge.ToString();
@@ -114,6 +114,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             ProjectDao entityDao = new ProjectDao(ctx);
+            TeamDtDao teamDtDao = new TeamDtDao(ctx);
             bool result = false;
             try
             {
@@ -127,6 +128,17 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 entityDao.Insert(entity);
                 entity.ProjectID = BusinessLayer.GetProjectMaxID(ctx);
                 retval = entity.ProjectID.ToString();
+
+                TeamDt teamDt = new TeamDt();
+                teamDt.ProjectID = entity.ProjectID;
+                teamDt.Position = "Penanggung Jawab";
+                teamDt.DisplayOrder = 1;
+                teamDt.IsHeader = true;
+                teamDt.EmployeeCoordinatorID = entity.PersonInCharge;
+                teamDt.IsDeleted = false;
+                teamDt.CreatedBy = AppSession.UserLogin.UserID;
+                teamDtDao.Insert(teamDt);
+
                 ctx.CommitTransaction();
                 result = true;
             }
@@ -149,12 +161,22 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             ProjectDao entityDao = new ProjectDao(ctx);
+            TeamDtDao teamDtDao = new TeamDtDao(ctx);
             try
             {
                 Project entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                TeamDt teamDt = BusinessLayer.GetTeamDtList(String.Format("EmployeeCoordinatorID = {0} AND ProjectID = {1}",entity.PersonInCharge, entity.ProjectID), ctx)[0];
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
+
+                if (teamDt.EmployeeCoordinatorID != entity.PersonInCharge) 
+                {
+                    teamDt.EmployeeCoordinatorID = entity.PersonInCharge;
+                    teamDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    teamDtDao.Update(teamDt);
+                }
+
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

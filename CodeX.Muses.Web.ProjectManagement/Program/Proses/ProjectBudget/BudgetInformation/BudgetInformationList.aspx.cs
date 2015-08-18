@@ -21,7 +21,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         protected int RowCount = 1;
         protected int RowCountPerPage = 1;
         protected int CurrPage = 1;
-        List<ProjectTaskLog> lstLog;
+        
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.ProjectManagement.PROJECT_BUDGET_INFORMATION;
@@ -29,6 +29,25 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         protected override void InitializeDataControl()
         {
+            hdnEmployeeCoordinatorID.Value = AppSession.UserLogin.EmployeeID.ToString();
+            String ProjectFilterExpression = String.Format("((listParentID LIKE '%,{0},%') OR ProjectID = {0})", AppSession.ProjectID);
+
+            if (AppSession.UserLogin.EmployeeID != null && AppSession.UserLogin.EmployeeID != 0)
+            {
+                ProjectFilterExpression = String.Format("GCProjectStatus NOT IN ('{0}','{1}') AND " +
+                                          "ProjectID IN (SELECT ProjectID FROM vTeamDt WHERE EmployeeCoordinatorID = '{2}' OR ListEmployeeID1 LIKE '%;{2};%')", Constant.ProjectStatus.CANCELED, Constant.ProjectStatus.COMPLETE, AppSession.UserLogin.EmployeeID);
+            }
+            else
+            {
+                ProjectFilterExpression = String.Format("GCProjectStatus NOT IN ('{0}','{1}')", Constant.ProjectStatus.CANCELED, Constant.ProjectStatus.COMPLETE);
+            }
+
+            List<vProject> lstProject = BusinessLayer.GetvProjectList(ProjectFilterExpression);
+            hdnLstParentID.Value = String.Join(",", lstProject.Select(x => x.ProjectID));
+            lstProject.Insert(0, new vProject { ProjectName = "All", ProjectID = 0 });
+            Methods.SetComboBoxField(cboProject, lstProject, "ProjectName", "ProjectID");
+            cboProject.SelectedIndex = 0;
+
             RowCountPerPage = Constant.GridViewPageSize.GRID_MATRIX;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
@@ -36,19 +55,23 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         #region Bind Grid View
         private String OnGetFilterExpression() 
         {
-            String filterExpression = String.Format("ProjectID = {0}", AppSession.ProjectID);
+            String filterExpression = "";
+            if (cboProject.Value.ToString() != "0")
+                filterExpression += String.Format("ProjectID IN ({0})", cboProject.Value);
+            else
+                filterExpression += String.Format("ProjectID IN ({0})", hdnLstParentID.Value);
             return filterExpression;
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             String filterExpression = OnGetFilterExpression();
-            
-            //if (isCountPageCount)
-            //{
-            //    rowCount = BusinessLayer.GetvProjectTaskCustomRowCount(filterExpression);
-            //    pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MATRIX);
-            //}
+
+            if (isCountPageCount)
+            {
+                rowCount = BusinessLayer.GetvProjectBudgetRowCount(filterExpression);
+                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MATRIX);
+            }
 
             List<StandardCode> lstFundType = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID = '{0}'", Constant.StandardCode.PROJECT_FUNDING));
             rptViewHeader.DataSource = lstFundType.OrderBy(x => x.StandardCodeID);
@@ -56,7 +79,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
             thDana.ColSpan = lstFundType.Count();
 
-            List<vProjectBudget> lstEntity = BusinessLayer.GetvProjectBudgetList(filterExpression);
+            List<vProjectBudget> lstEntity = BusinessLayer.GetvProjectBudgetList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

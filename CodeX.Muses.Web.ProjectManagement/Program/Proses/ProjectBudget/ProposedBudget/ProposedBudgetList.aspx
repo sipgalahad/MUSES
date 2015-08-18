@@ -87,10 +87,26 @@
             }
         }
 
+        function onCboProjectChanged() {
+            showLoadingPanel();
+            cbpView.PerformCallback('refresh');
+        }
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
+    <input type="hidden" id="hdnLstParentID" runat="server" value="" />
     <input type="hidden" id="hdnSelectedItem" runat="server" value="" />
+    <input type="hidden" id="hdnEmployeeCoordinatorID" runat="server" value=""/>
     <div>
+        <table>
+            <tr>
+                <td class="tdLabel" style="width:100px;"><%=GetLabel("Project") %></td>
+                <td>
+                    <dxe:ASPxComboBox runat="server" ID="cboProject" ClientInstanceName="cboProject" Width="200px">
+                        <ClientSideEvents ValueChanged="function(s,e){onCboProjectChanged()}" />
+                    </dxe:ASPxComboBox>
+                </td>
+            </tr>
+        </table>
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
@@ -108,6 +124,7 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="ProposedBudgetNo" HeaderText="No Anggaran" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="ProjectName" HeaderText="Project" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="Position" HeaderText="Bagian" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Catatan" />
                                 <asp:BoundField DataField="TotalAmount" ItemStyle-CssClass="ItemLineAmount" HeaderText="Total" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="120px" DataFormatString="{0:N}" />

@@ -47,6 +47,15 @@
         $('#btnBudgetCancel').click(function () {
             $('#containerEntryBudget').hide();
         });
+
+        var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
+        var rowCount = parseInt($('#<%=hdnRowCount.ClientID %>').val());
+        var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
+        setNumEntriesText($('#informationNumEntries'), rowCount, 1, rowCountPerPage);
+        setPaging($("#paging"), pageCount, function (page) {
+            cbpBudgetView.PerformCallback('changepage|' + page);
+            setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
+        });
     }
 
     //#region Paging

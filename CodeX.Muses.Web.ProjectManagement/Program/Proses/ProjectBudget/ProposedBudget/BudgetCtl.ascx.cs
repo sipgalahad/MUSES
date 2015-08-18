@@ -33,6 +33,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             hdnID.Value = entity.ProposedBudgetID.ToString();
             BindGridView(1, true, ref PageCount, ref RowCount);
+            hdnRowCount.Value = RowCount.ToString();
+            hdnPageCount.Value = PageCount.ToString();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -51,6 +53,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 //hdnEmployeeCoordinatorID.Value = AppSession.UserLogin.EmployeeID.ToString();
                 hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
                 BindGridView(1, true, ref PageCount, ref RowCount);
+                hdnRowCount.Value = RowCount.ToString();
+                hdnPageCount.Value = PageCount.ToString();
 
                 Helper.SetControlEntrySetting(txtProposedBudgetCode, new ControlEntrySetting(true, true, true), "mpTrxPopup");
                 Helper.SetControlEntrySetting(txtProposedBudgetName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
@@ -160,8 +164,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             List<vProposedBudgetDt> lstEntity = BusinessLayer.GetvProposedBudgetDtList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
-
-            //txtTotalProjectBudget.Text = lstEntity.Sum(x => x.TotalAmount).ToString("N");
         }
 
         protected void grdView_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -270,6 +272,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             {
                 ProposedBudgetDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entityDt);
+                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDtDao.Update(entityDt);
 
                 List<ProposedBudgetDtFund> lstFund = BusinessLayer.GetProposedBudgetDtFundList(String.Format("ProposedBudgetDtID = {0}", entityDt.ProposedBudgetDtID));
@@ -314,6 +317,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 ControlToEntity(entityDt);
                 entityDt.ProposedBudgetID = OrderID;
                 entityDt.GCItemDetailStatus = Constant.ProjectStatus.OPEN;
+                entityDt.CreatedBy = AppSession.UserLogin.UserID;
                 entityDtDao.Insert(entityDt);
 
                 int ProposedBudgetDtID = BusinessLayer.GetProposedBudgetDtMaxID(ctx);
