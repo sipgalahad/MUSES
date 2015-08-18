@@ -247,7 +247,7 @@ namespace CodeX.Common
         {
             public const string STUDENT = "X017^001";
             public const string ITEM = "X017^002";
-            public const string USER = "X017^004";
+            public const string USER = "X017^003";
             public const string SUPPLIER = "X017^004";
             public const string CUSTOMER = "X017^005";
         }
@@ -522,6 +522,8 @@ namespace CodeX.Common
                 public const string DIRECT_SALES_VOID = "FN070600";
                 public const string BUDGET_REALIZATION = "FN070700";
 
+                public const string REPORT = "FN090000";
+
                 public const string PROSPECTIVE_STUDENT_PAGE = "FN99010000";
                 public const string AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS = "FN99010101";
                 public const string AR_INVOICE_PROSPECTIVE_STUDENT_EDIT = "FN99010102";
@@ -541,7 +543,6 @@ namespace CodeX.Common
                 public const string AR_INVOICE_CUSTOMER_PROCESS = "FN99030101";
                 public const string AR_INVOICE_CUSTOMER_EDIT = "FN99030102";
                 public const string AR_INVOICE_CUSTOMER_RECEIVE = "FN99030103";
-
             }
             #endregion
 

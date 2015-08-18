@@ -216,8 +216,8 @@
                                         <th class="keyField" rowspan="2">&nbsp;</th>
                                         <th rowspan="2" style="width:20px">&nbsp;</th>
                                         <th rowspan="2" style="width:70px;"><%=GetLabel("Kode")%></th>  
-                                        <th rowspan="2" style="text-align:left"><%=GetLabel("Nama Obat")%></th>                              
-                                        <th rowspan="2" style="width:250px;text-align:left"><%=GetLabel("Kelompok Obat")%></th>                              
+                                        <th rowspan="2" style="text-align:left"><%=GetLabel("Nama Product")%></th>                              
+                                        <th rowspan="2" style="width:250px;text-align:left"><%=GetLabel("Kelompok Product")%></th>                              
                                         <th colspan="2" class="thCenter"><%=GetLabel("Satuan")%></th>                     
                                     </tr>
                                     <tr>
@@ -237,8 +237,8 @@
                                         <th class="keyField" rowspan="2">&nbsp;</th>
                                         <th rowspan="2" style="width:20px">&nbsp;</th>
                                         <th rowspan="2" style="width:70px;text-align:left"><%=GetLabel("Kode")%></th>  
-                                        <th rowspan="2" style="text-align:left"><%=GetLabel("Nama Barang")%></th>                              
-                                        <th rowspan="2" style="width:250px;text-align:left"><%=GetLabel("Kelompok Barang")%></th>                              
+                                        <th rowspan="2" style="text-align:left"><%=GetLabel("Nama Product")%></th>                              
+                                        <th rowspan="2" style="width:250px;text-align:left"><%=GetLabel("Kelompok Product")%></th>                              
                                         <th colspan="2" class="thCenter"><%=GetLabel("Satuan")%></th>                     
                                     </tr>
                                     <tr>

@@ -28702,7 +28702,7 @@ namespace CodeX.Data.Model
         private Boolean _IsPharmacySupplier;
         private Boolean _IsLogisticSupplier;
         private Boolean _IsPaymentHold;
-        private Int16? _LeadTime;
+        private Int16 _LeadTime;
         private String _GCSupplierType;
         private Int32? _SupplierLineID;
         private Int32? _LastUpdatedBy;
@@ -28745,7 +28745,7 @@ namespace CodeX.Data.Model
             set { _IsPaymentHold = value; }
         }
         [Column(Name = "LeadTime", DataType = "Int16", IsNullable = true)]
-        public Int16? LeadTime
+        public Int16 LeadTime
         {
             get { return _LeadTime; }
             set { _LeadTime = value; }

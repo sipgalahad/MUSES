@@ -59,7 +59,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("GCItemType = '{0}' AND ItemID IN (SELECT ItemID FROM SiteItem WHERE SiteID = '{1}' AND IsDeleted = 0) AND IsDeleted = 0", GCItemType, AppSession.UserLogin.SiteID);
+            filterExpression += string.Format("GCItemType = '{0}' AND IsDeleted = 0", GCItemType);
             if (hdnItemGroupID.Value != "")
                 filterExpression += string.Format(" AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/{0}/%')", hdnItemGroupID.Value);
             return filterExpression;            

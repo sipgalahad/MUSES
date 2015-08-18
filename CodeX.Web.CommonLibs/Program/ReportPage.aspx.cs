@@ -34,6 +34,7 @@ namespace CodeX.Web.CommonLibs.Program
             switch (ModuleID)
             {
                 case Constant.Module.INVENTORY: return Constant.MenuCode.Inventory.REPORT;
+                case Constant.Module.FINANCE: return Constant.MenuCode.Finance.REPORT;
                 case Constant.Module.ACCOUNTING: return Constant.MenuCode.Accounting.REPORT;
                 default: return Constant.MenuCode.ControlPanel.REPORT;
             }
