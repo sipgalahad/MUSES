@@ -85,6 +85,10 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Cara Pembelian")%></label></td>
+                        <td colspan="3"><dxe:ASPxComboBox ID="cboPurchaseMethod" Width="100%" runat="server" /></td>
+                    </tr> 
+                    <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Purchase Unit")%></label></td>
                         <td colspan="3"><dxe:ASPxComboBox ID="cboPurchaseUnit" Width="100%" runat="server" /></td>
                     </tr> 

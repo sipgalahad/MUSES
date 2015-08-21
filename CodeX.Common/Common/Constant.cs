@@ -121,6 +121,7 @@ namespace CodeX.Common
             public const string BANK_TRANSACTION_TYPE = "X305";
             public const string CLIENT_TYPE = "X306";
             public const string PURCHASE_TYPE = "X307";
+            public const string PURCHASE_METHOD = "X309";
         }
 
         public static class PaymentMethod

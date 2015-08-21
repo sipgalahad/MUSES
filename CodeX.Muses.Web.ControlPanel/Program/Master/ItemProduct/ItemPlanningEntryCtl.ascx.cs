@@ -33,8 +33,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void SetControlProperties()
         {
             List<StandardCode> lstPurchaseUnit = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND (StandardCodeID IN (SELECT GCAlternateUnit FROM ItemAlternateUnit WHERE ItemID = {1}) OR StandardCodeID = (SELECT GCItemUnit FROM ItemMaster WHERE ItemID = {1}))", Constant.StandardCode.ITEM_UNIT, hdnItemID.Value));
+            lstPurchaseUnit.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
             Methods.SetComboBoxField<StandardCode>(cboPurchaseUnit, lstPurchaseUnit, "StandardCodeName", "StandardCodeID");
-            cboPurchaseUnit.SelectedIndex = -1;
+            cboPurchaseUnit.SelectedIndex = 0;
+
+            List<StandardCode> lstPurchaseMethod = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_METHOD));
+            Methods.SetComboBoxField<StandardCode>(cboPurchaseMethod, lstPurchaseMethod, "StandardCodeName", "StandardCodeID");
+            cboPurchaseMethod.SelectedIndex = 0;
         }
 
         protected override void OnControlEntrySetting()
@@ -50,7 +55,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtBasePrice, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtMinOrderQty, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtMaxOrderQty, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboPurchaseUnit, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboPurchaseUnit, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(cboPurchaseMethod, new ControlEntrySetting(true, true, true));
         }
 
         private void EntityToControl(vItemPlanning entity)
@@ -67,6 +73,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtMinOrderQty.Text = entity.MinOrderQty.ToString();
             txtMaxOrderQty.Text = entity.MaxOrderQty.ToString();
             cboPurchaseUnit.Value = entity.GCPurchaseUnit;
+            cboPurchaseMethod.Value = entity.GCPurchaseMethod;
         }
 
         private void ControlToEntity(ItemPlanning entity)
@@ -83,7 +90,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.AveragePrice = Convert.ToDecimal(txtBasePrice.Text);
             entity.MinOrderQty = Convert.ToDecimal(txtMinOrderQty.Text);
             entity.MaxOrderQty = Convert.ToDecimal(txtMaxOrderQty.Text);
-            entity.GCPurchaseUnit = cboPurchaseUnit.Value.ToString();
+            if (cboPurchaseUnit.Value != null)
+                entity.GCPurchaseUnit = cboPurchaseUnit.Value.ToString();
+            else
+                entity.GCPurchaseUnit = null;
+            entity.GCPurchaseMethod = cboPurchaseMethod.Value.ToString();
         }
 
         protected override bool OnSaveEditRecord(ref string errMessage, ref string retval)

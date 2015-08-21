@@ -164,9 +164,9 @@
             function getItemFilterExpression() {
                 var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
                 var orderID = $('#<%=hdnOrderID.ClientID %>').val();
-                if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
+                if ($('#<%=txtItemGroupCode.ClientID %>').val() != '' && $('#<%=txtItemGroupCode.ClientID %>').val() != '0')
                     filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
-                else if ($('#<%=hdnLocationItemGroupID.ClientID %>').val() != '')
+                else if ($('#<%=hdnLocationItemGroupID.ClientID %>').val() != '' && $('#<%=hdnLocationItemGroupID.ClientID %>').val() != '0')
                     filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnLocationItemGroupID.ClientID %>').val() + "/%')";
                 if (orderID != '')
                     filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM PurchaseOrderDt WHERE PurchaseOrderID = " + orderID + " AND IsDeleted = 0)";

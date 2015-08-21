@@ -14011,16 +14011,17 @@ namespace CodeX.Data.Model
         private String _SiteID;
         private Int32 _ItemID;
         private Int32? _BusinessPartnerID;
+        private String _GCPurchaseMethod;
         private Decimal _AveragePrice;
-        private Byte? _LeadTime;
-        private Byte? _SafetyTime;
+        private Int16? _LeadTime;
+        private Int16? _SafetyTime;
         private Decimal _SafetyStock;
         private String _GCPurchaseUnit;
         private Decimal _MinOrderQty;
         private Decimal _MaxOrderQty;
         private Boolean _IsUsingDynamicROP;
         private Decimal _ToleranceQty;
-        private Byte? _TimeFence;
+        private Int16? _TimeFence;
         private Decimal _PurchaseUnitPrice;
         private Decimal _UnitPrice;
         private Decimal _DiscountPercentage;
@@ -14057,20 +14058,26 @@ namespace CodeX.Data.Model
             get { return _BusinessPartnerID; }
             set { _BusinessPartnerID = value; }
         }
+        [Column(Name = "GCPurchaseMethod", DataType = "String", IsNullable = true)]
+        public String GCPurchaseMethod
+        {
+            get { return _GCPurchaseMethod; }
+            set { _GCPurchaseMethod = value; }
+        }
         [Column(Name = "AveragePrice", DataType = "Decimal", IsNullable = true)]
         public Decimal AveragePrice
         {
             get { return _AveragePrice; }
             set { _AveragePrice = value; }
         }
-        [Column(Name = "LeadTime", DataType = "Byte", IsNullable = true)]
-        public Byte? LeadTime
+        [Column(Name = "LeadTime", DataType = "Int16", IsNullable = true)]
+        public Int16? LeadTime
         {
             get { return _LeadTime; }
             set { _LeadTime = value; }
         }
-        [Column(Name = "SafetyTime", DataType = "Byte", IsNullable = true)]
-        public Byte? SafetyTime
+        [Column(Name = "SafetyTime", DataType = "Int16", IsNullable = true)]
+        public Int16? SafetyTime
         {
             get { return _SafetyTime; }
             set { _SafetyTime = value; }
@@ -14111,8 +14118,8 @@ namespace CodeX.Data.Model
             get { return _ToleranceQty; }
             set { _ToleranceQty = value; }
         }
-        [Column(Name = "TimeFence", DataType = "Byte", IsNullable = true)]
-        public Byte? TimeFence
+        [Column(Name = "TimeFence", DataType = "Int16", IsNullable = true)]
+        public Int16? TimeFence
         {
             get { return _TimeFence; }
             set { _TimeFence = value; }
@@ -14205,11 +14212,13 @@ namespace CodeX.Data.Model
         }
         public int Insert(ItemPlanning record)
         {
+            record.CreatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
         public int Update(ItemPlanning record)
         {
+            record.LastUpdatedDate = DateTime.Now;
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }

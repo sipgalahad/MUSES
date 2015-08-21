@@ -11995,6 +11995,7 @@ namespace CodeX.Data.Model
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerCode;
         private String _BusinessPartnerName;
+        private String _GCPurchaseMethod;
         private Decimal _AveragePrice;
         private Int16 _LeadTime;
         private Int16 _SafetyTime;
@@ -12004,8 +12005,8 @@ namespace CodeX.Data.Model
         private Decimal _MaxOrderQty;
         private Decimal _ToleranceQty;
         private Int16 _TimeFence;
-        private Decimal _UnitPrice;
         private Decimal _PurchaseUnitPrice;
+        private Decimal _UnitPrice;
         private Int32 _LastBusinessPartnerID;
         private Decimal _LastPurchasePrice;
         private Decimal _LastPurchaseDiscount;
@@ -12065,6 +12066,12 @@ namespace CodeX.Data.Model
             get { return _BusinessPartnerName; }
             set { _BusinessPartnerName = value; }
         }
+        [Column(Name = "GCPurchaseMethod", DataType = "String")]
+        public String GCPurchaseMethod
+        {
+            get { return _GCPurchaseMethod; }
+            set { _GCPurchaseMethod = value; }
+        }
         [Column(Name = "AveragePrice", DataType = "Decimal")]
         public Decimal AveragePrice
         {
@@ -12119,19 +12126,18 @@ namespace CodeX.Data.Model
             get { return _TimeFence; }
             set { _TimeFence = value; }
         }
-        [Column(Name = "UnitPrice", DataType = "Decimal")]
-        public Decimal UnitPrice
-        {
-            get { return _UnitPrice; }
-            set { _UnitPrice = value; }
-        }
         [Column(Name = "PurchaseUnitPrice", DataType = "Decimal")]
         public Decimal PurchaseUnitPrice
         {
             get { return _PurchaseUnitPrice; }
             set { _PurchaseUnitPrice = value; }
         }
-
+        [Column(Name = "UnitPrice", DataType = "Decimal")]
+        public Decimal UnitPrice
+        {
+            get { return _UnitPrice; }
+            set { _UnitPrice = value; }
+        }
         [Column(Name = "LastBusinessPartnerID", DataType = "Int32")]
         public Int32 LastBusinessPartnerID
         {
