@@ -10199,6 +10199,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PurchaseRequestDP
+        public static PurchaseRequestDP GetPurchaseRequestDP(Int32 ID)
+        {
+            return new PurchaseRequestDPDao().Get(ID);
+        }
+        public static int InsertPurchaseRequestDP(PurchaseRequestDP record)
+        {
+            return new PurchaseRequestDPDao().Insert(record);
+        }
+        public static int UpdatePurchaseRequestDP(PurchaseRequestDP record)
+        {
+            return new PurchaseRequestDPDao().Update(record);
+        }
+        public static int DeletePurchaseRequestDP(Int32 ID)
+        {
+            return new PurchaseRequestDPDao().Delete(ID);
+        }
+        public static List<PurchaseRequestDP> GetPurchaseRequestDPList(string filterExpression)
+        {
+            List<PurchaseRequestDP> result = new List<PurchaseRequestDP>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseRequestDP));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseRequestDP)helper.IDataReaderToObject(reader, new PurchaseRequestDP()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PurchaseRequestDt
         public static PurchaseRequestDt GetPurchaseRequestDt(Int32 ID)
         {

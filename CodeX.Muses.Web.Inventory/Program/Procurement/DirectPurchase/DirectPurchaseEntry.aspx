@@ -506,8 +506,17 @@
         //#endregion
 
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
-           
+
         }
+
+        $('.lblItemName').live("click", function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var ID = $('#<%=hdnDirectPurchaseID.ClientID %>').val();
+            var param = ID + '|' + entity.ItemID;
+            var url = ResolveUrl("~/Program/Procurement/DirectPurchase/DirectPurchasePRDtCtl.ascx");
+            openUserControlPopup(url, param, 'Purchase Request Detail', 650, 500);
+        });
     </script>
     <input type="hidden" value="" id="hdnDirectPurchaseID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
@@ -739,7 +748,11 @@
                                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                             <Columns>
                                                 <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                                <asp:BoundField DataField="ItemName1" HeaderText="Item Name" />
+                                                <asp:TemplateField HeaderText="Nama Barang">
+                                                <ItemTemplate>
+                                                    <label class="lblLink lblItemName"><%#Eval("ItemName1")%></label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Jumlah Pembelian" HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
                                                     <ItemTemplate>
                                                         <table cellpadding="0" cellspacing="0">

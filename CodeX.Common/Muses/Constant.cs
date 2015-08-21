@@ -96,6 +96,12 @@ namespace CodeX.Common
             public const string CONSIGNMENT = "X307^002";
         }
 
+        public static class PurchaseMethod
+        {
+            public const string PURCHASE_ORDER = "X309^001";
+            public const string DIRECT_PURCHASE = "X309^002";
+        }
+
         public static class AchievementType
         {
             public const string AKADEMIS = "MS019^001";

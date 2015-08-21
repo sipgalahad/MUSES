@@ -66,7 +66,8 @@
             var lstDiscount2 = $('#<%=hdnDiscount2.ClientID %>').val().split('|');
             var lstConversionFactor = $('#<%=hdnListConversionFactor.ClientID %>').val().split('|');
             var lstTermID = $('#<%=hdnListTermID.ClientID %>').val().split('|');
-            var lstSupplierItemName = $('#<%=hdnListSupplierItemName.ClientID %>').val().split('|'); 
+            var lstSupplierItemName = $('#<%=hdnListSupplierItemName.ClientID %>').val().split('|');
+            var lstGCPurchaseMethod = $('#<%=hdnListGCPurchaseMethod.ClientID %>').val().split('|'); 
 
             var result = '';
             var itemEmptySupplier = '';
@@ -87,6 +88,10 @@
                     var conversionFactor = $tr.find('.hdnConversionFactor').val();
                     var termID = $tr.find('.hdnTermID').val();
                     var supplierItemName = $tr.find('.tdSupplierItemName').html();
+                    var idx = $tr.find('.hdnItemIndex').val();
+                    var cboPurchaseMethod = eval('cboPurchaseMethod' + idx);
+                    var purchaseMethod = cboPurchaseMethod.GetValue();
+
                     var idx = lstSelectedMember.indexOf(key);
                     if (idx < 0) {
                         lstSelectedMember.push(key);
@@ -101,6 +106,7 @@
                         lstConversionFactor.push(conversionFactor);
                         lstTermID.push(termID);
                         lstSupplierItemName.push(supplierItemName);
+                        lstGCPurchaseMethod.push(purchaseMethod);
                     }
                     else {
                         lstDiscount1[idx] = discount1;
@@ -114,6 +120,7 @@
                         lstConversionFactor[idx] = conversionFactor;
                         lstTermID[idx] = termID;
                         lstSupplierItemName[idx] = supplierItemName;
+                        lstGCPurchaseMethod[idx] = purchaseMethod;
                     }
                     if (supplierID == '0') {
                         if (itemEmptySupplier != '')
@@ -142,6 +149,7 @@
                         lstConversionFactor.splice(idx, 1);
                         lstTermID.splice(idx, 1);
                         lstSupplierItemName.splice(idx, 1);
+                        lstGCPurchaseMethod.splice(idx, 1);
                     }
                 }
             });
@@ -166,6 +174,7 @@
             $('#<%=hdnDiscount2.ClientID %>').val(lstDiscount2.join('|'));
             $('#<%=hdnListTermID.ClientID %>').val(lstTermID.join('|'));
             $('#<%=hdnListSupplierItemName.ClientID %>').val(lstSupplierItemName.join('|'));
+            $('#<%=hdnListGCPurchaseMethod.ClientID %>').val(lstGCPurchaseMethod.join('|'));
         }
 
         function onAfterCustomClickSuccess(type,retval) {
@@ -176,7 +185,10 @@
                 var paramDetail = orderPerSupplier[a].split('^');
                 if (tempText != '')
                     tempText += "<br />";
-                tempText += "Pemesanan Barang Untuk Supplier <b>" + paramDetail[1] + "</b> Dengan Nomor Pemesanan <b>" + paramDetail[0] + "</b>";
+                if (paramDetail[0] == '1')
+                    tempText += "Pemesanan Barang Untuk Supplier <b>" + paramDetail[2] + "</b> Dengan Nomor Pemesanan <b>" + paramDetail[1] + "</b>";
+                else
+                    tempText += "Pembelian Tunai Untuk Supplier <b>" + paramDetail[2] + "</b> Dengan Nomor Pembelian <b>" + paramDetail[1] + "</b>";
             }
             showToast('Save Success', tempText, function () {
                 $('#<%=hdnSelectedMember.ClientID %>').val('');
@@ -191,6 +203,7 @@
                 $('#<%=hdnPrice.ClientID %>').val('');
                 $('#<%=hdnListTermID.ClientID %>').val('');
                 $('#<%=hdnListSupplierItemName.ClientID %>').val('');
+                $('#<%=hdnListGCPurchaseMethod.ClientID %>').val(''); 
                 if (param[1] == '0') $('#<%=btnOrderListBack.ClientID %>').click();
                 cbpView.PerformCallback('refresh');
             });
@@ -209,6 +222,7 @@
             $('#<%=hdnPrice.ClientID %>').val('');
             $('#<%=hdnListTermID.ClientID %>').val('');
             $('#<%=hdnListSupplierItemName.ClientID %>').val('');
+            $('#<%=hdnListGCPurchaseMethod.ClientID %>').val(''); 
             if (param == '0') $('#<%=btnOrderListBack.ClientID %>').click();
             else cbpView.PerformCallback('refresh');
         }
@@ -354,6 +368,7 @@
         }
         //#endregion
     </script>
+    <input type="hidden" value="" id="hdnDefaultDirectPurchaseType" runat="server" />
     <input type="hidden" value="" id="hdnDefaultPurchaseOrderType" runat="server" />
     <input type="hidden" value="" id="hdnDefaultFrancoRegion" runat="server" />
     <input type="hidden" value="" id="hdnDefaultCurrencyCode" runat="server" />
@@ -370,6 +385,7 @@
     <input type="hidden" value="" id="hdnPurchaseRequestID" runat="server" />
     <input type="hidden" value="" id="hdnListTermID" runat="server" />
     <input type="hidden" value="" id="hdnListSupplierItemName" runat="server" />
+    <input type="hidden" value="" id="hdnListGCPurchaseMethod" runat="server" />
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
     <div style="height: 550px; overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
@@ -450,7 +466,7 @@
                                                     <th rowspan="2" style="width: 20px" align="center"><input id="chkSelectAll" type="checkbox" /></th>
                                                     <th rowspan="2"><%=GetLabel("Nama Barang")%></th>
                                                     <th colspan="4" class="thCenter"><%=GetLabel("JUMLAH BARANG")%></th>
-                                                    <th colspan="2" class="thCenter"><%=GetLabel("SUPPLIER")%></th>
+                                                    <th colspan="3" class="thCenter"><%=GetLabel("SUPPLIER")%></th>
                                                     <th colspan="4" class="thCenter"><%=GetLabel("PROSES PEMESANAN")%></th>
                                                 </tr>
                                                 <tr>
@@ -460,6 +476,7 @@
                                                     <th style="width: 90px" class="thCenter"><%=GetLabel("Qty On Order")%></th>
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Name")%></th>
                                                     <th style="width: 80px" class="thCenter"><%=GetLabel("Kode Item")%></th>
+                                                    <th style="width: 60px" class="thCenter"><%=GetLabel("Cara")%></th>
                                                     <th style="width: 100px;" class="thCenter"><%=GetLabel("Pesan")%></th>
                                                     <th style="width: 130px" class="thCenter"><%=GetLabel("Harga Satuan")%></th>
                                                     <th style="width: 65px" class="thCenter"><%=GetLabel("Disc. 1")%></th>
@@ -479,7 +496,7 @@
                                                     <th rowspan="2" style="width: 20px" align="center"><input id="chkSelectAll" type="checkbox" /></th>
                                                     <th rowspan="2"><%=GetLabel("Nama Barang")%></th>
                                                     <th colspan="4" class="thCenter"><%=GetLabel("JUMLAH BARANG")%></th>
-                                                    <th colspan="2" class="thCenter"><%=GetLabel("SUPPLIER")%></th>
+                                                    <th colspan="3" class="thCenter"><%=GetLabel("SUPPLIER")%></th>
                                                     <th colspan="4" class="thCenter"><%=GetLabel("PROSES PEMESANAN")%></th>
                                                 </tr>
                                                 <tr>
@@ -489,6 +506,7 @@
                                                     <th style="width: 90px" class="thCenter"><%=GetLabel("Qty On Order")%></th>
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Name")%></th>
                                                     <th style="width: 80px" class="thCenter"><%=GetLabel("Kode Item")%></th>
+                                                    <th style="width: 60px" class="thCenter"><%=GetLabel("Cara")%></th>
                                                     <th style="width: 100px;" class="thCenter"><%=GetLabel("Pesan")%></th>
                                                     <th style="width: 130px" class="thCenter"><%=GetLabel("Harga Satuan")%></th>
                                                     <th style="width: 65px" class="thCenter"><%=GetLabel("Disc. 1")%></th>
@@ -547,6 +565,10 @@
                                                     <label runat="server" id="lblSupplier" class="lblSupplier"></label>
                                                 </td>
                                                 <td id="tdSupplierItemName" runat="server" class="tdSupplierItemName"><%# Eval("cfSupplierItem")%></td>
+                                                <td>
+                                                    <input type="hidden" class="hdnItemIndex" value='<%# Container.DataItemIndex %>' />
+                                                    <dxe:ASPxComboBox ID="cboPurchaseMethod" runat="server" Width="100%" />
+                                                </td>
                                                 <td align="right">
                                                     <input type="hidden" value="0" class="hdnGCPurchaseUnit" id="hdnGCPurchaseUnit" runat="server"/>
                                                     <input type="hidden" value="0" class="hdnConversionFactor" id="hdnConversionFactor" runat="server"/>

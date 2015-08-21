@@ -173,7 +173,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtRemarks.Text = entity.Remarks;
             chkPPN.Checked = entity.IsIncludeVAT;
             txtTransactionAmount.Text = entity.TransactionAmount.ToString();
-            txtFinalDiscountPercentage.Text = (entity.FinalDiscountAmount * 100 / (entity.TransactionAmount + entity.VATAmount)).ToString();
+            if (entity.TransactionAmount + entity.VATAmount != 0)
+                txtFinalDiscountPercentage.Text = (entity.FinalDiscountAmount * 100 / (entity.TransactionAmount + entity.VATAmount)).ToString();
+            else
+                txtFinalDiscountPercentage.Text = "0";
             txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
 
             decimal tempTransactionAmount = -1;

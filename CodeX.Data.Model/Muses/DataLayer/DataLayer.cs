@@ -21624,6 +21624,89 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region PurchaseRequestDP
+    [Serializable]
+    [Table(Name = "PurchaseRequestDP")]
+    public class PurchaseRequestDP : DbDataModel
+    {
+        private Int32 _ID;
+        private Int32 _PurchaseRequestID;
+        private Int32 _ItemID;
+        private Int32 _DirectPurchaseID;
+        private Decimal _PurchaseQuantity;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "PurchaseRequestID", DataType = "Int32")]
+        public Int32 PurchaseRequestID
+        {
+            get { return _PurchaseRequestID; }
+            set { _PurchaseRequestID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "DirectPurchaseID", DataType = "Int32")]
+        public Int32 DirectPurchaseID
+        {
+            get { return _DirectPurchaseID; }
+            set { _DirectPurchaseID = value; }
+        }
+        [Column(Name = "PurchaseQuantity", DataType = "Decimal")]
+        public Decimal PurchaseQuantity
+        {
+            get { return _PurchaseQuantity; }
+            set { _PurchaseQuantity = value; }
+        }
+    }
+
+    public class PurchaseRequestDPDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PurchaseRequestDP));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public PurchaseRequestDPDao() { }
+        public PurchaseRequestDPDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PurchaseRequestDP Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PurchaseRequestDP)_helper.DataRowToObject(row, new PurchaseRequestDP());
+        }
+        public int Insert(PurchaseRequestDP record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PurchaseRequestDP record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            PurchaseRequestDP record;
+            if (_ctx.Transaction == null)
+                record = new PurchaseRequestDPDao().Get(ID);
+            else
+                record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PurchaseRequestDt
     [Serializable]
     [Table(Name = "PurchaseRequestDt")]

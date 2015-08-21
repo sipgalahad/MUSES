@@ -123,6 +123,7 @@
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseEntry.aspx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseReturnEntry.aspx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseReturnEntryPicksCtl.ascx" />
+    <Content Include="Program\Procurement\DirectPurchase\DirectPurchasePRDtCtl.ascx" />
     <Content Include="Program\Procurement\PurchaseOrder\Approval\PurchaseOrderApprovalDetail.aspx" />
     <Content Include="Program\Procurement\PurchaseOrder\Approval\PurchaseOrderApprovalList.aspx" />
     <Content Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderOutstandingDetail.aspx" />
@@ -516,6 +517,13 @@
     </Compile>
     <Compile Include="Program\Procurement\DirectPurchase\DirectPurchaseReturnEntryPicksCtl.ascx.designer.cs">
       <DependentUpon>DirectPurchaseReturnEntryPicksCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\DirectPurchasePRDtCtl.ascx.cs">
+      <DependentUpon>DirectPurchasePRDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\DirectPurchasePRDtCtl.ascx.designer.cs">
+      <DependentUpon>DirectPurchasePRDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Procurement\PurchaseOrder\Approval\PurchaseOrderApprovalDetail.aspx.cs">
       <DependentUpon>PurchaseOrderApprovalDetail.aspx</DependentUpon>
@@ -971,6 +979,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master">
       <Link>SharedLibs\MasterPage\MPTrx.master</Link>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

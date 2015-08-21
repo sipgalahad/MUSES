@@ -19764,6 +19764,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPurchaseRequestDP
+    [Serializable]
+    [Table(Name = "vPurchaseRequestDP")]
+    public class vPurchaseRequestDP
+    {
+        private Int32 _ID;
+        private Int32 _PurchaseRequestID;
+        private String _PurchaseRequestNo;
+        private Int32 _ItemID;
+        private String _ItemName1;
+        private String _ItemUnit;
+        private Int32 _DirectPurchaseID;
+        private Decimal _PurchaseQuantity;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "PurchaseRequestID", DataType = "Int32")]
+        public Int32 PurchaseRequestID
+        {
+            get { return _PurchaseRequestID; }
+            set { _PurchaseRequestID = value; }
+        }
+        [Column(Name = "PurchaseRequestNo", DataType = "String")]
+        public String PurchaseRequestNo
+        {
+            get { return _PurchaseRequestNo; }
+            set { _PurchaseRequestNo = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String")]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
+        }
+        [Column(Name = "ItemUnit", DataType = "String")]
+        public String ItemUnit
+        {
+            get { return _ItemUnit; }
+            set { _ItemUnit = value; }
+        }
+        [Column(Name = "DirectPurchaseID", DataType = "Int32")]
+        public Int32 DirectPurchaseID
+        {
+            get { return _DirectPurchaseID; }
+            set { _DirectPurchaseID = value; }
+        }
+        [Column(Name = "PurchaseQuantity", DataType = "Decimal")]
+        public Decimal PurchaseQuantity
+        {
+            get { return _PurchaseQuantity; }
+            set { _PurchaseQuantity = value; }
+        }
+    }
+    #endregion
     #region vPurchaseRequestDt
     [Serializable]
     [Table(Name = "vPurchaseRequestDt")]
@@ -20020,6 +20084,7 @@ namespace CodeX.Data.Model
         private String _BusinessPartnerName;
         private String _SupplierItemCode;
         private String _SupplierItemName;
+        private String _GCPurchaseMethod;
         private Decimal _UnitPrice;
         private Decimal _DiscountPercentage;
         private String _GCItemDetailStatus;
@@ -20144,6 +20209,12 @@ namespace CodeX.Data.Model
         {
             get { return _SupplierItemName; }
             set { _SupplierItemName = value; }
+        }
+        [Column(Name = "GCPurchaseMethod", DataType = "String")]
+        public String GCPurchaseMethod
+        {
+            get { return _GCPurchaseMethod; }
+            set { _GCPurchaseMethod = value; }
         }
         [Column(Name = "UnitPrice", DataType = "Decimal")]
         public Decimal UnitPrice
