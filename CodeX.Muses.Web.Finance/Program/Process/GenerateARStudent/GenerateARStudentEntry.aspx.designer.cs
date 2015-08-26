@@ -49,15 +49,6 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolPeriod;
         
         /// <summary>
-        /// tacPeriodSection control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacPeriodSection;
-        
-        /// <summary>
         /// tacSchoolClass control.
         /// </summary>
         /// <remarks>

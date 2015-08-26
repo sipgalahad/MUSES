@@ -27,16 +27,13 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected override void InitializeDataControl()
         {
+            hdnSiteID.Value = BusinessLayer.GetStudent(AppSession.StudentID).SiteID;
         }
 
         #region HTML Getter
-        public String OnGetStudentFilterExpression() 
-        {
-            return String.Format("IsDeleted = 0 AND SiteID = '{0}'", AppSession.UserLogin.SiteID);
-        }
         public String OnGetSchoolPeriodFilterExpression() 
         {
-            return String.Format("SiteID = '{0}' AND GCSchoolPeriodStatus = '{1}'",AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.START);
+            return String.Format("SiteID = '{0}' AND GCSchoolPeriodStatus = '{1}'", hdnSiteID.Value, Constant.SchoolPeriodStatus.START);
         }
         #endregion
 

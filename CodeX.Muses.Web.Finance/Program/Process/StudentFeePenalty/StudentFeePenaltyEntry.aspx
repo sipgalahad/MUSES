@@ -116,7 +116,6 @@
         function onCboSchoolPeriodValueChanged(s) {
             tacSchoolClass.setValue('');
             tacSchoolClass.setText('');
-            cbpView.PerformCallback('refresh');
         }
 
         //#region School Period
@@ -144,7 +143,8 @@
         }
 
         function onTacSchoolPeriodValueChanged() {
-            cbpView.PerformCallback('refresh');
+            tacSchoolClass.setValue('');
+            tacSchoolClass.setText('');
         }
         //#endregion
 
@@ -176,6 +176,21 @@
             cbpView.PerformCallback('refresh');
         }
         //#endregion
+
+        function onCboSiteValueChanged() {
+            var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND <%=OnGetSchoolPeriodNowFilterExpression() %>";
+            Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
+                if (result != null) {
+                    tacSchoolPeriod.setValue(result.SchoolPeriodID);
+                    tacSchoolPeriod.setText(result.SchoolPeriodName);
+                }
+                else {
+                    tacSchoolPeriod.setValue('');
+                    tacSchoolPeriod.setText('');
+                }
+                onTacSchoolPeriodValueChanged();
+            });
+        }
     </script>
     <div>
         <input type="hidden" id="hdnOldListStudentFeeID" runat="server" />
@@ -190,7 +205,9 @@
             <tr>
                 <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
                 <td>
-                    <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px" />
+                    <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
+                        <ClientSideEvents Init="function(s,e){ onCboSiteValueChanged(); }"  ValueChanged="function(s,e){ onCboSiteValueChanged() }" />
+                    </dxe:ASPxComboBox>
                 </td>
             </tr>
             <tr>

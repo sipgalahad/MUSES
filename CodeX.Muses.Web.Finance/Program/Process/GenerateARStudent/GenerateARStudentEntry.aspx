@@ -143,39 +143,9 @@
         });
 
         function onCboSchoolPeriodValueChanged(s) {
-            tacPeriodSection.setValue('');
-            tacPeriodSection.setText('');
             tacSchoolClass.setValue('');
             tacSchoolClass.setText('');
         }
-
-        //#region Period Section
-        function onGetPeriodSectionFilterExpression() {
-            var filterExpression = "SchoolPeriodID = " + tacSchoolPeriod.getValue() + " AND <%=OnGetPeriodSectionFilterExpression() %>";
-            return filterExpression;
-        }
-
-        function onTacPeriodSectionButtonSearchClick() {
-            openSearchDialog('periodsection', onGetPeriodSectionFilterExpression(), function (value) {
-                var filterExpression = onGetPeriodSectionFilterExpression() + " AND PeriodSectionCode = '" + value + "'";
-                Methods.getObject('GetPeriodSectionList', filterExpression, function (result) {
-                    if (result != null) {
-                        tacPeriodSection.setValue(result.PeriodSectionID);
-                        tacPeriodSection.setText(result.PeriodSectionName);
-                    }
-                    else {
-                        tacPeriodSection.setValue('');
-                        tacPeriodSection.setText('');
-                    }
-                    onTacPeriodSectionValueChanged();
-                });
-            });
-
-        }
-
-        function onTacPeriodSectionValueChanged() {
-        }
-        //#endregion
 
         //#region School Period
         function onGetSchoolPeriodFilterExpression() {
@@ -202,6 +172,8 @@
         }
 
         function onTacSchoolPeriodValueChanged() {
+            tacSchoolClass.setValue('');
+            tacSchoolClass.setText('');
         }
         //#endregion
 
@@ -243,6 +215,27 @@
                 $(this).find('input').prop('checked', isChecked);
             });
         });
+
+        $('.lblStudent').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl('~/Program/ARInvoice/ARInvoiceStudent/StudentPageLauncher.aspx?id=' + id);
+            openWindowPopup(url, 'Student', '1300', '650');
+        });
+
+        function onCboSiteValueChanged() {
+            var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND <%=OnGetSchoolPeriodNowFilterExpression() %>";
+            Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
+                if (result != null) {
+                    tacSchoolPeriod.setValue(result.SchoolPeriodID);
+                    tacSchoolPeriod.setText(result.SchoolPeriodName);
+                }
+                else {
+                    tacSchoolPeriod.setValue('');
+                    tacSchoolPeriod.setText('');
+                }
+                onTacSchoolPeriodValueChanged();
+            });
+        }
     </script>
     <style type="text/css">
         .gridCircle                         { display: block; width: 22px; height: 22px; margin: 0 auto; background-size: cover; background-repeat: no-repeat;
@@ -256,7 +249,9 @@
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
             <td>
-                <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px" />
+                <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
+                    <ClientSideEvents Init="function(s,e){ onCboSiteValueChanged(); }"  ValueChanged="function(s,e){ onCboSiteValueChanged() }" />
+                </dxe:ASPxComboBox>
             </td>
         </tr>
         <tr>
@@ -267,16 +262,6 @@
                     <ClientSideEvents ButtonSearchClick="function(){ onTacSchoolPeriodButtonSearchClick(); }"
                         ValueChanged="function(){ onTacSchoolPeriodValueChanged(); }" />
                 </cdx:CodeXAutoCompleteTextBox>
-            </td>
-        </tr>
-        <tr>
-            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Semester")%></label></td>
-            <td>
-                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacPeriodSection" ClientInstanceName="tacPeriodSection" MethodName="GetPeriodSectionList" GetFilterExpressionFunction="onGetPeriodSectionFilterExpression"
-                    SearchFields="PeriodSectionName,PeriodSectionCode" TextField="PeriodSectionName" ValueField="PeriodSectionID" SearchText="${PeriodSectionName} (<b>${PeriodSectionCode}</b>)" OrderByExpression="PeriodSectionName">
-                    <ClientSideEvents ButtonSearchClick="function(){ onTacPeriodSectionButtonSearchClick(); }"
-                        ValueChanged="function(){ onTacPeriodSectionValueChanged(); }" />
-                </cdx:CodeXAutoCompleteTextBox>   
             </td>
         </tr>
         <tr>
@@ -341,7 +326,11 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="StudentCode" HeaderText="NIS" HeaderStyle-Width="100px" />
                                 <asp:BoundField DataField="VirtualAccountNo" HeaderText="Nomor Bank Siswa" HeaderStyle-Width="100px" />
-                                <asp:BoundField DataField="StudentName" HeaderText="Nama Siswa" />
+                                <asp:TemplateField HeaderText="Nama Siswa">
+                                    <ItemTemplate>
+                                        <label class="lblLink lblStudent"><%#Eval("StudentName") %></label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" HeaderText="Total Transaksi" ItemStyle-HorizontalAlign="Right">
                                     <ItemTemplate>
                                         <label runat="server" id="lblStudentAmount" class="lblLink lblDetail"></label>

@@ -67,42 +67,6 @@
             });
         });
 
-        //#region Student
-        function onGetStudentFilterExpression() {
-            var filterExpression = "<%=OnGetStudentFilterExpression() %>";
-            return filterExpression;
-        }
-
-        function onTacStudentButtonSearchClick() {
-            openSearchDialog('student', onGetStudentFilterExpression(), function (value) {
-                var filterExpression = onGetStudentFilterExpression() + " AND StudentCode = '" + value + "'";
-                Methods.getObject('GetStudentList', filterExpression, function (result) {
-                    if (result != null) {
-                        tacStudent.setValue(result.StudentID);
-                        tacStudent.setText(result.StudentName);
-                        cbpView.PerformCallback('refresh');
-                    }
-                    else {
-                        tacStudent.setValue('');
-                        tacStudent.setText('');
-                        cbpView.PerformCallback('refresh');
-                    }
-                });
-            });
-
-        }
-
-        function onTacStudentValueChanged() {
-            var id = tacStudent.getValue();
-            if (id != '') {
-                var filterExpression = onGetStudentFilterExpression() + " AND StudentCode = '" + value + "'";
-                Methods.getObject('GetStudentList', filterExpression, function (result) {
-                    cbpView.PerformCallback('refresh');
-                });
-            }
-        }
-        //#endregion
-
         //#region SchoolPeriod
         function onGetSchoolPeriodFilterExpression() {
             var filterExpression = "<%=OnGetSchoolPeriodFilterExpression() %>";
@@ -241,6 +205,7 @@
             calculateTotalPayment();
         });
     </script>
+    <input type="hidden" id="hdnSiteID" runat="server" />
     <input type="hidden" id="hdnSaveValue" runat="server" />
     <input type="hidden" id="hdnLstStudentFeeID" runat="server" />
     <div>

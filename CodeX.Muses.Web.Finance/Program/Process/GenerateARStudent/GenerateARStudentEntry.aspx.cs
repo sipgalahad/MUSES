@@ -31,6 +31,10 @@ namespace CodeX.Muses.Web.Finance.Program
             return Constant.ClassStudyType.REGULAR;
         }
 
+        protected string OnGetSchoolPeriodNowFilterExpression()
+        {
+            return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
+        }
 
         protected string OnGetPeriodSectionFilterExpression()
         {
@@ -42,22 +46,6 @@ namespace CodeX.Muses.Web.Finance.Program
             List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.SelectedIndex = 0;
-
-            //List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
-            //Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            //SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
-            //if (selectedSchoolPeriod == null)
-            //    cboSchoolPeriod.SelectedIndex = 0;
-            //else
-            //    cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
-
-            List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("'{0}' BETWEEN StartDate AND EndDate", DateTime.Now.ToString("yyyyMMdd")));
-            if (lstPeriodSection.Count > 0)
-            {
-                PeriodSection periodSection = lstPeriodSection.FirstOrDefault();
-                tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
-                tacPeriodSection.Text = periodSection.PeriodSectionName;
-            }
 
             DateTime date = DateTime.Now.AddMonths(1);
             cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
@@ -89,6 +77,8 @@ namespace CodeX.Muses.Web.Finance.Program
             string filterExpression = string.Format("GCStudentStatus = '{0}'", Constant.StudentStatus.ACTIVE);
             if (tacSchoolClass.Value != "")
                 filterExpression += string.Format(" AND SchoolClassID = {0}", tacSchoolClass.Value);
+            else
+                filterExpression += string.Format(" AND SiteID = '{0}'", cboSite.Value);
             return filterExpression;
         }
 

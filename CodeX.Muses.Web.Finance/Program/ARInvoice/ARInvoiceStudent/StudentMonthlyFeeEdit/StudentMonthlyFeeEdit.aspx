@@ -113,6 +113,7 @@
     <input type="hidden" id="hdnSaveValue" runat="server" />
     <input type="hidden" id="hdnLstStudentFeeCompID" runat="server" />
     <input type="hidden" id="hdnLstStudentFeeID" runat="server" />
+    <input type="hidden" id="hdnSiteID" runat="server" />
     <div>
         <table width="100%">
             <colgroup>
