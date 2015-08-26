@@ -57,7 +57,12 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             return Constant.MenuCode.Finance.BANK_UPLOADED_FILE;
         }
-        
+
+        public string GetSiteID() 
+        {
+            return AppSession.UserLogin.SiteID;
+        }
+
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
             //List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}'", AppSession.UserLogin.SiteID));
@@ -68,9 +73,9 @@ namespace CodeX.Muses.Web.Finance.Program
             //    lstSiteID += String.Format("'{0}'", obj.SiteID);
             //}
 
-            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
-            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
-            cboSite.SelectedIndex = 0;
+            //List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            //Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            //cboSite.SelectedIndex = 0;
         }
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
@@ -534,7 +539,6 @@ namespace CodeX.Muses.Web.Finance.Program
             return new String(tempChar);
         }
 
-        
         protected void cbpPopupProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             string imageData = hdnUploadedFile1.Value;

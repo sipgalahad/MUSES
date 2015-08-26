@@ -42,7 +42,16 @@
 
         //#region Bank
         function onGetBankFilterExpression() {
-            var filterExpression = "SiteID = '" + cboSite.GetValue() + "'";
+            var filterExpression = "SiteID = '<%=GetSiteID() %>'";
+            Methods.getObject('GetvSiteList', filterExpression, function (result) {
+                var display = result.DisplayPath.split('/');
+                var temp = "";
+                for (var i = 1; i < display.length - 1; i++) {
+                    if (temp != "") temp += ",";
+                    temp += "'" + display[i] + "'";
+                }
+                filterExpression = "SiteID IN (" + temp + ")";
+            })
             return filterExpression;
         }
 
@@ -114,12 +123,6 @@
                 <col style="width: 30%" />
                 <col />
             </colgroup>
-            <tr>
-                <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
-                <td>
-                    <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px" />
-                </td>
-            </tr>
             <tr>
                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bank")%></label></td>
                 <td>
