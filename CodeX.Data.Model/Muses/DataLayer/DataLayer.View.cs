@@ -431,6 +431,7 @@ namespace CodeX.Data.Model
         private String _PayedStudentCode;
         private String _PayedStudentName;
         private Int32 _BankID;
+        private String _SiteID;
         private Boolean _IsTransferred;
         private String _Remarks;
 
@@ -619,6 +620,12 @@ namespace CodeX.Data.Model
         {
             get { return _BankID; }
             set { _BankID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
         }
         [Column(Name = "IsTransferred", DataType = "Boolean")]
         public Boolean IsTransferred

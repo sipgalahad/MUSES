@@ -32,6 +32,7 @@ namespace CodeX.Muses.Web.Finance.Program
             List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.SelectedIndex = 0;
+            hdnSiteID.Value = cboSite.Value.ToString();
 
             //List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID IN ({0}) AND IsDeleted = 0", lstSiteID));
             //Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
@@ -85,9 +86,9 @@ namespace CodeX.Muses.Web.Finance.Program
                 String txt = string.Empty;
                 String format = "";
 
-                List<SiteParameter> lstSiteParameter = BusinessLayer.GetSiteParameterList(String.Format("SiteID = '{0}' AND ParameterCode = '{1}'", cboSite.Value, Constant.SiteParameter.SCHOOL_TYPE), ctx);
+                List<SiteParameter> lstSiteParameter = BusinessLayer.GetSiteParameterList(String.Format("SiteID = '{0}' AND ParameterCode = '{1}'", Request.Form[hdnSiteID.UniqueID], Constant.SiteParameter.SCHOOL_TYPE), ctx);
                 List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
-                List<vARInvoiceDt> lstvInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("DueDate <= '{0}' AND GCTransactionStatus IN ('{1}','{2}','{3}')", Helper.GetDatePickerValue(txtEndDate.Text), Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED), ctx);
+                List<vARInvoiceDt> lstvInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("DueDate <= '{0}' AND GCTransactionStatus IN ('{1}','{2}','{3}') AND SiteID = '{4}'", Helper.GetDatePickerValue(txtEndDate.Text), Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED, Request.Form[hdnSiteID.UniqueID]), ctx);
 
                 String lstARInvoiceDtID = String.Join(",", lstvInvoiceDt.Select(p => p.ARInvoiceDtID).ToList());
                 String lstARInvoiceID = String.Join(",", lstvInvoiceDt.Select(p => p.ARInvoiceID).ToList());
@@ -135,7 +136,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 }
 
                 List<ARBalance> lstARBalance = BusinessLayer.GetARBalanceList(filterExpressionARBalance, ctx);
-                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}') AND SiteID = '{2}'", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text), cboSite.Value), ctx)[0];
+                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}') AND SiteID = '{2}'", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text), Request.Form[hdnSiteID.UniqueID]), ctx)[0];
                 List<vStudentFeeComp> sfctList = BusinessLayer.GetvStudentFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID), ctx);
 
                 if (bank.GCBankExportDataType == Constant.BankExportDataType.MANDIRI)
@@ -283,7 +284,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 else if (bank.GCBankExportDataType == Constant.BankExportDataType.BCA)
                 {
                     #region Download BCA File
-                    List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("SiteID = {0}", cboSite.Value), ctx);
+                    List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("SiteID = {0}", Request.Form[hdnSiteID.UniqueID]), ctx);
 
                     foreach (Site site in lstSite) 
                     {

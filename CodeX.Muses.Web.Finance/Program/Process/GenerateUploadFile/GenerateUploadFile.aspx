@@ -37,7 +37,16 @@
 
         //#region Bank
         function onGetBankFilterExpression() {
-            var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND IsDeleted = 0";
+            var filterExpression = "SiteID = '" + cboSite.GetValue() + "'";
+            Methods.getObject('GetvSiteList', filterExpression, function (result) {
+                var display = result.DisplayPath.split('/');
+                var temp = "";
+                for (var i = 1; i < display.length - 1; i++) {
+                    if (temp != "") temp += ",";
+                    temp += "'" + display[i] + "'";
+                }
+                filterExpression = "SiteID IN (" + temp + ")";
+            })
             return filterExpression;
         }
 
@@ -63,8 +72,11 @@
             //cbpView.PerformCallback('refresh');
         }
         //#endregion
-
+        function changedSiteValue() {
+            $('#<%=hdnSiteID.ClientID %>').val(cboSite.GetValue());
+        }
     </script>
+    <input type="hidden" runat="server" id="hdnSiteID" />
     <div>
         <div style="display:none;">
             <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />
@@ -78,7 +90,9 @@
             <tr>
                 <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
                 <td>
-                    <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px" />
+                    <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
+                        <ClientSideEvents SelectedIndexChanged="function(s,e){changedSiteValue()}" />
+                    </dxe:ASPxComboBox>
                 </td>
             </tr>
             <tr>
