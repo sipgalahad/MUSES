@@ -36,7 +36,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("StudentID = {0} AND DueDate LIKE '{1}-{2}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}') AND StudentAmount > 0 AND IsDeleted = 0", hdnStudentID.Value, hdnYear.Value, hdnMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID);
+            string filterExpression = string.Format("StudentID = {0} AND DueDate LIKE '{1}-{2}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}') AND IsPaid = 0 AND StudentAmount > 0 AND IsDeleted = 0", hdnStudentID.Value, hdnYear.Value, hdnMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID);
 
             if (isCountPageCount)
             {
