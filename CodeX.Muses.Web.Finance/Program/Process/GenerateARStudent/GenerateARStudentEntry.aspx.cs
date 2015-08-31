@@ -74,7 +74,15 @@ namespace CodeX.Muses.Web.Finance.Program
 
         private string GetFilterExpression()
         {
+            String[] data = hdnFilterExpressionQuickSearch.Value.Split(';');
             string filterExpression = string.Format("GCStudentStatus = '{0}'", Constant.StudentStatus.ACTIVE);
+            if (data[0] != "" && data.Count() > 0) 
+            {
+                if (data.Count() < 2)
+                    filterExpression += String.Format(" AND Name LIKE '%{0}%'", data[0]);
+                else
+                    filterExpression += String.Format(" AND Name LIKE '%{0}%' AND StudentCode LIKE '%{1}%'", data[0], data[1]);
+            }
             if (tacSchoolClass.Value != "")
                 filterExpression += string.Format(" AND SchoolClassID = {0}", tacSchoolClass.Value);
             else

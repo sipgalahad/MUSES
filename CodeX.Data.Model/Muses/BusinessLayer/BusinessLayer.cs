@@ -15624,6 +15624,86 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ProjectBudgetFund
+        public static ProjectBudgetFund GetProjectBudgetFund(Int32 BudgetFundID)
+        {
+            return new ProjectBudgetFundDao().Get(BudgetFundID);
+        }
+        public static int InsertProjectBudgetFund(ProjectBudgetFund record)
+        {
+            return new ProjectBudgetFundDao().Insert(record);
+        }
+        public static int UpdateProjectBudgetFund(ProjectBudgetFund record)
+        {
+            return new ProjectBudgetFundDao().Update(record);
+        }
+        public static int DeleteProjectBudgetFund(Int32 BudgetFundID)
+        {
+            return new ProjectBudgetFundDao().Delete(BudgetFundID);
+        }
+        public static List<ProjectBudgetFund> GetProjectBudgetFundList(string filterExpression)
+        {
+            List<ProjectBudgetFund> result = new List<ProjectBudgetFund>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectBudgetFund));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProjectBudgetFund)helper.IDataReaderToObject(reader, new ProjectBudgetFund()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ProjectBudgetHd
+        public static ProjectBudgetHd GetProjectBudgetHd(Int32 BudgetID)
+        {
+            return new ProjectBudgetHdDao().Get(BudgetID);
+        }
+        public static int InsertProjectBudgetHd(ProjectBudgetHd record)
+        {
+            return new ProjectBudgetHdDao().Insert(record);
+        }
+        public static int UpdateProjectBudgetHd(ProjectBudgetHd record)
+        {
+            return new ProjectBudgetHdDao().Update(record);
+        }
+        public static int DeleteProjectBudgetHd(Int32 BudgetID)
+        {
+            return new ProjectBudgetHdDao().Delete(BudgetID);
+        }
+        public static List<ProjectBudgetHd> GetProjectBudgetHdList(string filterExpression)
+        {
+            List<ProjectBudgetHd> result = new List<ProjectBudgetHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectBudgetHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProjectBudgetHd)helper.IDataReaderToObject(reader, new ProjectBudgetHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ProjectScheduledTask
         public static ProjectScheduledTask GetProjectScheduledTask(Int32 ScheduledTaskID)
         {

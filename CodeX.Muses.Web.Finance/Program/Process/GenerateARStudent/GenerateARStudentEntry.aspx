@@ -22,7 +22,8 @@
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 
             $('#btnRefresh').click(function () {
-                cbpView.PerformCallback('refresh');
+                onRefreshGridView();
+                //cbpView.PerformCallback('refresh');
             });
 
             $('#<%=btnGenerate.ClientID %>').click(function () {
@@ -236,11 +237,27 @@
                 onTacSchoolPeriodValueChanged();
             });
         }
+
+        function onRefreshGridView() {
+            $('#<%=hdnFilterExpressionQuickSearch.ClientID %>').val(txtSearchView.GetText());
+            cbpView.PerformCallback('refresh');
+        }
+
+        function onTxtSearchViewSearchClick(s) {
+            setTimeout(function () {
+                s.SetBlur();
+                onRefreshGridView();
+                setTimeout(function () {
+                    s.SetFocus();
+                }, 0);
+            }, 0);
+        }
     </script>
     <style type="text/css">
         .gridCircle                         { display: block; width: 22px; height: 22px; margin: 0 auto; background-size: cover; background-repeat: no-repeat;
                                          background-position : center center; -webkit-border-radius: 99em; -moz-border-radius: 99em; border-radius: 99em; border: 1px solid #eee;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
     </style>
+    <input type="hidden" value="" id="hdnFilterExpressionQuickSearch" runat="server" />
     <input type="hidden" id="hdnSelectedValue" runat="server" />
     <table>
         <colgroup>
@@ -272,6 +289,19 @@
                     <ClientSideEvents ButtonSearchClick="function(){ onTacClassButtonSearchClick(); }"
                         ValueChanged="function(){ onTacClassValueChanged(); }" />
                 </cdx:CodeXAutoCompleteTextBox>   
+            </td>
+        </tr>
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Search Filter")%></label></td>
+            <td>
+                <cdx:QISIntellisenseTextBox runat="server" ClientInstanceName="txtSearchView" ID="txtSearchView"
+	                Width="300px" Watermark="Search">
+	                <ClientSideEvents SearchClick="function(s){ onTxtSearchViewSearchClick(s); }" />
+	                <IntellisenseHints>
+		                <cdx:QISIntellisenseHint Text="Nama" FieldName="Name" />
+		                <cdx:QISIntellisenseHint Text="NIS" FieldName="StudentCode" />
+	                </IntellisenseHints>
+                </cdx:QISIntellisenseTextBox>
             </td>
         </tr>
         <tr>
