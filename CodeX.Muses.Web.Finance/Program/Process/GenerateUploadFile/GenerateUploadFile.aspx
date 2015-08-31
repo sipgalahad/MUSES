@@ -20,6 +20,10 @@
             $('#btnGenerate').click(function () {
                 $('#<%=btnExport.ClientID%>').click();
             });
+
+            setTimeout(function () {
+                setStartEndPeriod();
+            }, 100);
         })
 
         function setStartEndPeriod() {
@@ -74,9 +78,11 @@
         //#endregion
         function changedSiteValue() {
             $('#<%=hdnSiteID.ClientID %>').val(cboSite.GetValue());
+            $('#<%=hdnSiteName.ClientID %>').val(cboSite.GetText());
         }
     </script>
     <input type="hidden" runat="server" id="hdnSiteID" />
+    <input type="hidden" runat="server" id="hdnSiteName" />
     <div>
         <div style="display:none;">
             <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />

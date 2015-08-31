@@ -33,10 +33,12 @@ namespace CodeX.Muses.Web.Finance.Program
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.SelectedIndex = 0;
             hdnSiteID.Value = cboSite.Value.ToString();
+            hdnSiteName.Value = cboSite.Text;
 
             //List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID IN ({0}) AND IsDeleted = 0", lstSiteID));
             //Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
 
+            DateTime date = DateTime.Now.AddMonths(1);
             cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
             {
                 MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(a),
@@ -48,14 +50,14 @@ namespace CodeX.Muses.Web.Finance.Program
             cboMonth.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
             cboMonth.DropDownStyle = DropDownStyle.DropDownList;
             cboMonth.DataBind();
-            //cboMonth.Value = DateTime.Now.Month.ToString();
+            cboMonth.Value = date.Month.ToString();
 
             cboYear.DataSource = Enumerable.Range(DateTime.Now.Year - 99, 100).Reverse();
             cboYear.EnableCallbackMode = false;
             cboYear.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
             cboYear.DropDownStyle = DropDownStyle.DropDownList;
             cboYear.DataBind();
-            //cboYear.SelectedIndex = 0;
+            cboYear.Value = date.Year.ToString();
 
             //txtStartDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             //txtEndDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
@@ -271,7 +273,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     #region Download the Text file.
                     Response.Clear();
                     Response.Buffer = true;
-                    Response.AddHeader("content-disposition", string.Format("attachment;filename=TagihanSiswa_{0}.txt", DateTime.Now.ToString("yyyyMMdd")));
+                    Response.AddHeader("content-disposition", string.Format("attachment;filename=TagihanSiswa_{0}_{1}.txt", hdnSiteName.Value.Replace(" ",""), DateTime.Now.ToString("yyyyMMdd")));
                     Response.Charset = "";
                     Response.ContentType = "application/text";
                     Response.Output.Write(txt);
