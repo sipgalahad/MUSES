@@ -93,7 +93,7 @@
                         lstID.splice(idx, 1);
                 }
             });
-            if (lstID.length == 1)
+            if (lstID.length == 0)
                 $('#<%=hdnSelectedValue.ClientID %>').val('');
             else
                 $('#<%=hdnSelectedValue.ClientID %>').val(lstID.join(','));
