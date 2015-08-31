@@ -547,7 +547,7 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
-  <!-- #Region Project Budget -->
+  <!-- #Region Project BudgetDt -->
   <searchdialog type="projectbudgetdt" methodname="GetvProjectBudgetDtList" keyfieldname="BudgetDtCode">
     <gridcolumns>
       <gridcolumn datafield="BudgetDtCode" headertext="Kode" width="100px" />
@@ -556,6 +556,18 @@
     <intellisensetexts>
       <intellisensetext datafield="BudgetDtCode" headertext="Nama" description="" />
       <intellisensetext datafield="BudgetDtName" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Project BudgetHd -->
+  <searchdialog type="projectbudgethd" methodname="GetvProjectBudgetHdList" keyfieldname="BudgetCode">
+    <gridcolumns>
+      <gridcolumn datafield="BudgetCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="BudgetName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="BudgetCode" headertext="Nama" description="" />
+      <intellisensetext datafield="BudgetName" headertext="Kode" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

@@ -650,7 +650,7 @@ namespace CodeX.Common
             public static class ProjectManagement
             {
                 public const string PROJECT = "PM010100";
-                public const string ORGANIZATION = "PM010200";
+                public const string BUDGET = "PM010200";
 
                 public const string PROJECT_TASK = "PM020100";
                 public const string TO_DO_LIST = "PM020200";

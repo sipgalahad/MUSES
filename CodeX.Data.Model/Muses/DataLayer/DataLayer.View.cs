@@ -29802,6 +29802,98 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vProjectBudgetHd
+    [Serializable]
+    [Table(Name = "vProjectBudgetHd")]
+    public class vProjectBudgetHd
+    {
+        private Int32 _BudgetID;
+        private String _BudgetCode;
+        private String _BudgetName;
+        private String _SiteID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Int32 _ParentID;
+        private Boolean _IsHeader;
+        private String _ParentBudgetName;
+        private Int16 _BudgetLevel;
+        private String _GCTransactionStatus;
+        private String _Remarks;
+
+        [Column(Name = "BudgetID", DataType = "Int32")]
+        public Int32 BudgetID
+        {
+            get { return _BudgetID; }
+            set { _BudgetID = value; }
+        }
+        [Column(Name = "BudgetCode", DataType = "String")]
+        public String BudgetCode
+        {
+            get { return _BudgetCode; }
+            set { _BudgetCode = value; }
+        }
+        [Column(Name = "BudgetName", DataType = "String")]
+        public String BudgetName
+        {
+            get { return _BudgetName; }
+            set { _BudgetName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "ParentBudgetName", DataType = "String")]
+        public String ParentBudgetName
+        {
+            get { return _ParentBudgetName; }
+            set { _ParentBudgetName = value; }
+        }
+        [Column(Name = "BudgetLevel", DataType = "Int16")]
+        public Int16 BudgetLevel
+        {
+            get { return _BudgetLevel; }
+            set { _BudgetLevel = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
     #region vProjectTask
     [Serializable]
     [Table(Name = "vProjectTask")]

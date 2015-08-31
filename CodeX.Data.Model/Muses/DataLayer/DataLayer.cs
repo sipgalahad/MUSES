@@ -33104,6 +33104,274 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ProjectBudgetFund
+    [Serializable]
+    [Table(Name = "ProjectBudgetFund")]
+    public class ProjectBudgetFund : DbDataModel
+    {
+        private Int32 _BudgetFundID;
+        private Int32 _BudgetDtID;
+        private String _GCProjectFundType;
+        private Decimal _Amount;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "BudgetFundID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 BudgetFundID
+        {
+            get { return _BudgetFundID; }
+            set { _BudgetFundID = value; }
+        }
+        [Column(Name = "BudgetDtID", DataType = "Int32")]
+        public Int32 BudgetDtID
+        {
+            get { return _BudgetDtID; }
+            set { _BudgetDtID = value; }
+        }
+        [Column(Name = "GCProjectFundType", DataType = "String")]
+        public String GCProjectFundType
+        {
+            get { return _GCProjectFundType; }
+            set { _GCProjectFundType = value; }
+        }
+        [Column(Name = "Amount", DataType = "Decimal")]
+        public Decimal Amount
+        {
+            get { return _Amount; }
+            set { _Amount = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ProjectBudgetFundDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ProjectBudgetFund));
+        private bool _isAuditLog = false;
+        private const string p_BudgetFundID = "@p_BudgetFundID";
+        public ProjectBudgetFundDao() { }
+        public ProjectBudgetFundDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ProjectBudgetFund Get(Int32 BudgetFundID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BudgetFundID, BudgetFundID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ProjectBudgetFund)_helper.DataRowToObject(row, new ProjectBudgetFund());
+        }
+        public int Insert(ProjectBudgetFund record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ProjectBudgetFund record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 BudgetFundID)
+        {
+            ProjectBudgetFund record;
+            if (_ctx.Transaction == null)
+                record = new ProjectBudgetFundDao().Get(BudgetFundID);
+            else
+                record = Get(BudgetFundID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ProjectBudgetHd
+    [Serializable]
+    [Table(Name = "ProjectBudgetHd")]
+    public class ProjectBudgetHd : DbDataModel
+    {
+        private Int32 _BudgetID;
+        private String _BudgetCode;
+        private String _BudgetName;
+        private String _SiteID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Int32? _ParentID;
+        private Boolean _IsHeader;
+        private Int16 _BudgetLevel;
+        private String _GCTransactionStatus;
+        private String _Remarks;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "BudgetID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 BudgetID
+        {
+            get { return _BudgetID; }
+            set { _BudgetID = value; }
+        }
+        [Column(Name = "BudgetCode", DataType = "String", IsNullable = true)]
+        public String BudgetCode
+        {
+            get { return _BudgetCode; }
+            set { _BudgetCode = value; }
+        }
+        [Column(Name = "BudgetName", DataType = "String")]
+        public String BudgetName
+        {
+            get { return _BudgetName; }
+            set { _BudgetName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "BudgetLevel", DataType = "Int16")]
+        public Int16 BudgetLevel
+        {
+            get { return _BudgetLevel; }
+            set { _BudgetLevel = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ProjectBudgetHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ProjectBudgetHd));
+        private bool _isAuditLog = false;
+        private const string p_BudgetID = "@p_BudgetID";
+        public ProjectBudgetHdDao() { }
+        public ProjectBudgetHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ProjectBudgetHd Get(Int32 BudgetID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BudgetID, BudgetID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ProjectBudgetHd)_helper.DataRowToObject(row, new ProjectBudgetHd());
+        }
+        public int Insert(ProjectBudgetHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ProjectBudgetHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 BudgetID)
+        {
+            ProjectBudgetHd record;
+            if (_ctx.Transaction == null)
+                record = new ProjectBudgetHdDao().Get(BudgetID);
+            else
+                record = Get(BudgetID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ProjectScheduledTask
     [Serializable]
     [Table(Name = "ProjectScheduledTask")]
