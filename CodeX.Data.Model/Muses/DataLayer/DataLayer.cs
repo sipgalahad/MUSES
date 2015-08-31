@@ -32065,10 +32065,11 @@ namespace CodeX.Data.Model
     {
         private Int32 _BudgetRequestDtID;
         private Int32 _BudgetRequestID;
-        private Int32 _BudgetID;
+        private Int32 _BudgetDtID;
         private Decimal _RequestAmount;
         private Boolean _IsDeleted;
         private String _GCItemDetailStatus;
+        private String _Remarks;
         private Int32 _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
@@ -32086,11 +32087,11 @@ namespace CodeX.Data.Model
             get { return _BudgetRequestID; }
             set { _BudgetRequestID = value; }
         }
-        [Column(Name = "BudgetID", DataType = "Int32")]
-        public Int32 BudgetID
+        [Column(Name = "BudgetDtID", DataType = "Int32")]
+        public Int32 BudgetDtID
         {
-            get { return _BudgetID; }
-            set { _BudgetID = value; }
+            get { return _BudgetDtID; }
+            set { _BudgetDtID = value; }
         }
         [Column(Name = "RequestAmount", DataType = "Decimal")]
         public Decimal RequestAmount
@@ -32104,11 +32105,17 @@ namespace CodeX.Data.Model
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
         }
-        [Column(Name = "GCItemDetailStatus", DataType = "String")]
+        [Column(Name = "GCItemDetailStatus", DataType = "String", IsNullable = true)]
         public String GCItemDetailStatus
         {
             get { return _GCItemDetailStatus; }
             set { _GCItemDetailStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
         [Column(Name = "CreatedBy", DataType = "Int32")]
         public Int32 CreatedBy
@@ -32907,14 +32914,14 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region ProjectBudget
+    #region ProjectBudgetDt
     [Serializable]
-    [Table(Name = "ProjectBudget")]
-    public class ProjectBudget : DbDataModel
+    [Table(Name = "ProjectBudgetDt")]
+    public class ProjectBudgetDt : DbDataModel
     {
-        private Int32 _BudgetID;
-        private String _BudgetCode;
-        private String _BudgetName;
+        private Int32 _BudgetDtID;
+        private String _BudgetDtCode;
+        private String _BudgetDtName;
         private Int32 _ProjectID;
         private Int32 _TeamDtID;
         private Int32? _ItemID;
@@ -32933,23 +32940,23 @@ namespace CodeX.Data.Model
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
 
-        [Column(Name = "BudgetID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 BudgetID
+        [Column(Name = "BudgetDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 BudgetDtID
         {
-            get { return _BudgetID; }
-            set { _BudgetID = value; }
+            get { return _BudgetDtID; }
+            set { _BudgetDtID = value; }
         }
-        [Column(Name = "BudgetCode", DataType = "String")]
-        public String BudgetCode
+        [Column(Name = "BudgetDtCode", DataType = "String")]
+        public String BudgetDtCode
         {
-            get { return _BudgetCode; }
-            set { _BudgetCode = value; }
+            get { return _BudgetDtCode; }
+            set { _BudgetDtCode = value; }
         }
-        [Column(Name = "BudgetName", DataType = "String")]
-        public String BudgetName
+        [Column(Name = "BudgetDtName", DataType = "String")]
+        public String BudgetDtName
         {
-            get { return _BudgetName; }
-            set { _BudgetName = value; }
+            get { return _BudgetDtName; }
+            set { _BudgetDtName = value; }
         }
         [Column(Name = "ProjectID", DataType = "Int32")]
         public Int32 ProjectID
@@ -33055,43 +33062,43 @@ namespace CodeX.Data.Model
         }
     }
 
-    public class ProjectBudgetDao
+    public class ProjectBudgetDtDao
     {
         private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(ProjectBudget));
+        private readonly DbHelper _helper = new DbHelper(typeof(ProjectBudgetDt));
         private bool _isAuditLog = false;
-        private const string p_BudgetID = "@p_BudgetID";
-        public ProjectBudgetDao() { }
-        public ProjectBudgetDao(IDbContext ctx)
+        private const string p_BudgetDtID = "@p_BudgetDtID";
+        public ProjectBudgetDtDao() { }
+        public ProjectBudgetDtDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public ProjectBudget Get(Int32 BudgetID)
+        public ProjectBudgetDt Get(Int32 BudgetDtID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_BudgetID, BudgetID);
+            _ctx.Add(p_BudgetDtID, BudgetDtID);
             DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (ProjectBudget)_helper.DataRowToObject(row, new ProjectBudget());
+            return (row == null) ? null : (ProjectBudgetDt)_helper.DataRowToObject(row, new ProjectBudgetDt());
         }
-        public int Insert(ProjectBudget record)
+        public int Insert(ProjectBudgetDt record)
         {
             record.CreatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
-        public int Update(ProjectBudget record)
+        public int Update(ProjectBudgetDt record)
         {
             record.LastUpdatedDate = DateTime.Now;
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 BudgetID)
+        public int Delete(Int32 BudgetDtID)
         {
-            ProjectBudget record;
+            ProjectBudgetDt record;
             if (_ctx.Transaction == null)
-                record = new ProjectBudgetDao().Get(BudgetID);
+                record = new ProjectBudgetDtDao().Get(BudgetDtID);
             else
-                record = Get(BudgetID);
+                record = Get(BudgetDtID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -33510,7 +33517,7 @@ namespace CodeX.Data.Model
     [Table(Name = "ProjectTaskBudget")]
     public class ProjectTaskBudget : DbDataModel
     {
-        private Int32 _BudgetID;
+        private Int32 _BudgetDtID;
         private Int32 _ProjectTaskID;
         private Decimal _UsedBudget;
         private Boolean _IsDeleted;
@@ -33520,11 +33527,11 @@ namespace CodeX.Data.Model
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
 
-        [Column(Name = "BudgetID", DataType = "Int32", IsPrimaryKey = true)]
-        public Int32 BudgetID
+        [Column(Name = "BudgetDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 BudgetDtID
         {
-            get { return _BudgetID; }
-            set { _BudgetID = value; }
+            get { return _BudgetDtID; }
+            set { _BudgetDtID = value; }
         }
         [Column(Name = "ProjectTaskID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 ProjectTaskID
@@ -33581,17 +33588,17 @@ namespace CodeX.Data.Model
         private readonly IDbContext _ctx = DbFactory.Configure();
         private readonly DbHelper _helper = new DbHelper(typeof(ProjectTaskBudget));
         private bool _isAuditLog = false;
-        private const string p_BudgetID = "@p_BudgetID";
+        private const string p_BudgetDtID = "@p_BudgetDtID";
         private const string p_ProjectTaskID = "@p_ProjectTaskID";
         public ProjectTaskBudgetDao() { }
         public ProjectTaskBudgetDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public ProjectTaskBudget Get(Int32 BudgetID, Int32 ProjectTaskID)
+        public ProjectTaskBudget Get(Int32 BudgetDtID, Int32 ProjectTaskID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_BudgetID, BudgetID);
+            _ctx.Add(p_BudgetDtID, BudgetDtID);
             _ctx.Add(p_ProjectTaskID, ProjectTaskID);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (ProjectTaskBudget)_helper.DataRowToObject(row, new ProjectTaskBudget());
@@ -33608,13 +33615,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 BudgetID, Int32 ProjectTaskID)
+        public int Delete(Int32 BudgetDtID, Int32 ProjectTaskID)
         {
             ProjectTaskBudget record;
             if (_ctx.Transaction == null)
-                record = new ProjectTaskBudgetDao().Get(BudgetID, ProjectTaskID);
+                record = new ProjectTaskBudgetDao().Get(BudgetDtID, ProjectTaskID);
             else
-                record = Get(BudgetID, ProjectTaskID);
+                record = Get(BudgetDtID, ProjectTaskID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

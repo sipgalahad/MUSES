@@ -15584,34 +15584,34 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region ProjectBudget
-        public static ProjectBudget GetProjectBudget(Int32 BudgetID)
+        #region ProjectBudgetDt
+        public static ProjectBudgetDt GetProjectBudgetDt(Int32 BudgetDtID)
         {
-            return new ProjectBudgetDao().Get(BudgetID);
+            return new ProjectBudgetDtDao().Get(BudgetDtID);
         }
-        public static int InsertProjectBudget(ProjectBudget record)
+        public static int InsertProjectBudgetDt(ProjectBudgetDt record)
         {
-            return new ProjectBudgetDao().Insert(record);
+            return new ProjectBudgetDtDao().Insert(record);
         }
-        public static int UpdateProjectBudget(ProjectBudget record)
+        public static int UpdateProjectBudgetDt(ProjectBudgetDt record)
         {
-            return new ProjectBudgetDao().Update(record);
+            return new ProjectBudgetDtDao().Update(record);
         }
-        public static int DeleteProjectBudget(Int32 BudgetID)
+        public static int DeleteProjectBudgetDt(Int32 BudgetDtID)
         {
-            return new ProjectBudgetDao().Delete(BudgetID);
+            return new ProjectBudgetDtDao().Delete(BudgetDtID);
         }
-        public static List<ProjectBudget> GetProjectBudgetList(string filterExpression)
+        public static List<ProjectBudgetDt> GetProjectBudgetDtList(string filterExpression)
         {
-            List<ProjectBudget> result = new List<ProjectBudget>();
+            List<ProjectBudgetDt> result = new List<ProjectBudgetDt>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(ProjectBudget));
+                DbHelper helper = new DbHelper(typeof(ProjectBudgetDt));
                 ctx.CommandText = helper.Select(filterExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((ProjectBudget)helper.IDataReaderToObject(reader, new ProjectBudget()));
+                        result.Add((ProjectBudgetDt)helper.IDataReaderToObject(reader, new ProjectBudgetDt()));
             }
             catch (Exception ex)
             {

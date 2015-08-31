@@ -47,7 +47,7 @@
                     $('#<%=hdnEntryID.ClientID %>').val('');
                     tacProjectBudget.setValue('');
                     tacProjectBudget.setText('');
-                    $('#<%=hdnBudgetID.ClientID %>').val('');
+                    $('#<%=hdnBudgetDtID.ClientID %>').val('');
                     $('#<%=txtProposedBudget.ClientID %>').val(0).trigger('changeValue');
                     $('#<%=txtRequestAmount.ClientID %>').val(0).trigger('changeValue');
                     $('#entryDetailContainer').show();
@@ -78,9 +78,9 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
             $('#<%=hdnEntryID.ClientID %>').val(entity.BudgetRequestDtID);
-            tacProjectBudget.setValue(entity.BudgetID);
-            tacProjectBudget.setText(entity.BudgetName);
-            $('#<%=hdnBudgetID.ClientID %>').val(entity.BudgetID);
+            tacProjectBudget.setValue(entity.BudgetDtID);
+            tacProjectBudget.setText(entity.BudgetDtName);
+            $('#<%=hdnBudgetDtID.ClientID %>').val(entity.BudgetDtID);
             $('#<%=txtProposedBudget.ClientID %>').val(entity.ProposedAmount).trigger('changeValue');
             $('#<%=txtRequestAmount.ClientID %>').val(entity.RequestAmount).trigger('changeValue');
 
@@ -102,12 +102,12 @@
         }
 
         function onTacProjectBudgetButtonSearchClick() {
-            openSearchDialog('projectbudget', onGetProjectBudgetFilterExpression(), function (value) {
-                var filterExpression = onGetProjectBudgetFilterExpression() + " AND BudgetCode = '" + value + "'";
-                Methods.getObject('GetvProjectBudgetList', filterExpression, function (result) {
+            openSearchDialog('projectbudgetdt', onGetProjectBudgetFilterExpression(), function (value) {
+                var filterExpression = onGetProjectBudgetFilterExpression() + " AND BudgetDtCode = '" + value + "'";
+                Methods.getObject('GetvProjectBudgetDtList', filterExpression, function (result) {
                     if (result != null) {
-                        tacProjectBudget.setValue(result.BudgetID);
-                        tacProjectBudget.setText(result.BudgetName);
+                        tacProjectBudget.setValue(result.BudgetDtID);
+                        tacProjectBudget.setText(result.BudgetDtName);
                         $('#<%=txtProposedBudget.ClientID %>').val(result.ProposedAmount - result.RealizationAmount).trigger('changeValue');
                         entityToControlProjectBudget(result);
                     }
@@ -124,7 +124,7 @@
         function onTacProjectBudgetValueChanged() {
             var id = tacProjectBudget.getValue();
             if (id != '') {
-                var filterExpression = "BudgetID = " + id;
+                var filterExpression = "BudgetDtID = " + id;
                 Methods.getObject('GetvProjectBudgetList', filterExpression, function (result) {
                     if (result != null){
                         $('#<%=txtProposedBudget.ClientID %>').val(result.ProposedAmount - result.RealizationAmount).trigger('changeValue');
@@ -142,9 +142,9 @@
 
         function entityToControlProjectBudget(result) {
             if (result != null)
-                $('#<%=hdnBudgetID.ClientID %>').val(result.BudgetID);
+                $('#<%=hdnBudgetDtID.ClientID %>').val(result.BudgetDtID);
             else
-                $('#<%=hdnBudgetID.ClientID %>').val(null);
+                $('#<%=hdnBudgetDtID.ClientID %>').val(null);
         }
         //#endregion
 
@@ -273,9 +273,9 @@
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Anggaran")%></label></td>
                                                     <td>
-                                                        <input type="hidden" value="" id="hdnBudgetID" runat="server" />
+                                                        <input type="hidden" value="" id="hdnBudgetDtID" runat="server" />
                                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacProjectBudget" ClientInstanceName="tacProjectBudget" MethodName="GetvProjectBudgetList" GetFilterExpressionFunction="onGetProjectBudgetFilterExpression"
-                                                            SearchFields="BudgetName,BudgetCode" TextField="BudgetName" ValueField="BudgetID" SearchText="${BudgetName} (<b>${BudgetCode}</b>)" OrderByExpression="BudgetName">
+                                                            SearchFields="BudgetDtName,BudgetDtCode" TextField="BudgetDtName" ValueField="BudgetDtID" SearchText="${BudgetDtName} (<b>${BudgetDtCode}</b>)" OrderByExpression="BudgetDtName">
                                                             <ClientSideEvents ButtonSearchClick="function(){ onTacProjectBudgetButtonSearchClick(); }"
                                                                 ValueChanged="function(){ onTacProjectBudgetValueChanged(); }" />
                                                         </cdx:CodeXAutoCompleteTextBox>
@@ -313,8 +313,8 @@
                                         AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
                                             <asp:BoundField DataField="BudgetRequestDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                            <asp:BoundField DataField="BudgetCode" HeaderText="Kode" HeaderStyle-Width="150px"/>
-                                            <asp:BoundField DataField="BudgetName" HeaderText="Anggaran"  />
+                                            <asp:BoundField DataField="BudgetDtCode" HeaderText="Kode" HeaderStyle-Width="150px"/>
+                                            <asp:BoundField DataField="BudgetDtName" HeaderText="Anggaran"  />
                                             <asp:BoundField DataField="BudgetRemarks" HeaderText="Catatan" HeaderStyle-Width="300px"/>
                                             <asp:BoundField DataField="ProposedAmount" HeaderText="Anggaran" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right"/>
                                             <asp:BoundField DataField="RequestAmount" HeaderText="Diminta" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right"/>
@@ -324,8 +324,8 @@
                                                     <div style='float:right;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
                                                     <div style='float:right;margin-right:10px;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                                     <input type="hidden" value="<%#Eval("BudgetRequestDtID") %>" bindingfield="BudgetRequestDtID" />
-                                                    <input type="hidden" value="<%#Eval("BudgetID") %>" bindingfield="BudgetID" />
-                                                    <input type="hidden" value="<%#Eval("BudgetName") %>" bindingfield="BudgetName" />
+                                                    <input type="hidden" value="<%#Eval("BudgetDtID") %>" bindingfield="BudgetDtID" />
+                                                    <input type="hidden" value="<%#Eval("BudgetDtName") %>" bindingfield="BudgetDtName" />
                                                     <input type="hidden" value="<%#Eval("ProposedAmount") %>" bindingfield="ProposedAmount" />
                                                     <input type="hidden" value="<%#Eval("RealizationAmount") %>" bindingfield="RealizationAmount" />
                                                     <input type="hidden" value="<%#Eval("RequestAmount") %>" bindingfield="RequestAmount" />

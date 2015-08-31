@@ -34,7 +34,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         }
         protected string OnGetFilterExpressionItemProduct()
         {
-            return string.Format("GCItemType = '{0}' AND IsDeleted = 0 AND ItemID IN (SELECT ItemID FROM ProjectBudget WHERE ItemID IS NOT NULL AND ProjectID = {1})", Constant.ItemType.PRODUCT, AppSession.ProjectID);
+            return string.Format("GCItemType = '{0}' AND IsDeleted = 0 AND ItemID IN (SELECT ItemID FROM ProjectBudgetDt WHERE ItemID IS NOT NULL AND ProjectID = {1})", Constant.ItemType.PRODUCT, AppSession.ProjectID);
         }
         #endregion
 

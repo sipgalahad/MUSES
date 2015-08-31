@@ -28865,9 +28865,9 @@ namespace CodeX.Data.Model
         private String _BudgetRealizationNo;
         private DateTime _RealizationDate;
         private Int32 _BudgetRequestDtID;
-        private Int32 _BudgetID;
-        private String _BudgetCode;
-        private String _BudgetName;
+        private Int32 _BudgetDtID;
+        private String _BudgetDtCode;
+        private String _BudgetDtName;
         private Decimal _ProposedAmount;
         private Decimal _RequestAmount;
         private Decimal _RealizationAmount;
@@ -28910,23 +28910,23 @@ namespace CodeX.Data.Model
             get { return _BudgetRequestDtID; }
             set { _BudgetRequestDtID = value; }
         }
-        [Column(Name = "BudgetID", DataType = "Int32")]
-        public Int32 BudgetID
+        [Column(Name = "BudgetDtID", DataType = "Int32")]
+        public Int32 BudgetDtID
         {
-            get { return _BudgetID; }
-            set { _BudgetID = value; }
+            get { return _BudgetDtID; }
+            set { _BudgetDtID = value; }
         }
-        [Column(Name = "BudgetCode", DataType = "String")]
-        public String BudgetCode
+        [Column(Name = "BudgetDtCode", DataType = "String")]
+        public String BudgetDtCode
         {
-            get { return _BudgetCode; }
-            set { _BudgetCode = value; }
+            get { return _BudgetDtCode; }
+            set { _BudgetDtCode = value; }
         }
-        [Column(Name = "BudgetName", DataType = "String")]
-        public String BudgetName
+        [Column(Name = "BudgetDtName", DataType = "String")]
+        public String BudgetDtName
         {
-            get { return _BudgetName; }
-            set { _BudgetName = value; }
+            get { return _BudgetDtName; }
+            set { _BudgetDtName = value; }
         }
         [Column(Name = "ProposedAmount", DataType = "Decimal")]
         public Decimal ProposedAmount
@@ -29081,9 +29081,9 @@ namespace CodeX.Data.Model
     {
         private Int32 _BudgetRequestDtID;
         private Int32 _BudgetRequestID;
-        private Int32 _BudgetID;
-        private String _BudgetCode;
-        private String _BudgetName;
+        private Int32 _BudgetDtID;
+        private String _BudgetDtCode;
+        private String _BudgetDtName;
         private String _BudgetRemarks;
         private String _ListFund;
         private Decimal _ProposedAmount;
@@ -29091,6 +29091,7 @@ namespace CodeX.Data.Model
         private Decimal _RequestAmount;
         private String _GCTransactionStatus;
         private Boolean _IsDeleted;
+        private String _GCItemDetailStatus;
         private String _Remarks;
 
         [Column(Name = "BudgetRequestDtID", DataType = "Int32")]
@@ -29105,23 +29106,23 @@ namespace CodeX.Data.Model
             get { return _BudgetRequestID; }
             set { _BudgetRequestID = value; }
         }
-        [Column(Name = "BudgetID", DataType = "Int32")]
-        public Int32 BudgetID
+        [Column(Name = "BudgetDtID", DataType = "Int32")]
+        public Int32 BudgetDtID
         {
-            get { return _BudgetID; }
-            set { _BudgetID = value; }
+            get { return _BudgetDtID; }
+            set { _BudgetDtID = value; }
         }
-        [Column(Name = "BudgetCode", DataType = "String")]
-        public String BudgetCode
+        [Column(Name = "BudgetDtCode", DataType = "String")]
+        public String BudgetDtCode
         {
-            get { return _BudgetCode; }
-            set { _BudgetCode = value; }
+            get { return _BudgetDtCode; }
+            set { _BudgetDtCode = value; }
         }
-        [Column(Name = "BudgetName", DataType = "String")]
-        public String BudgetName
+        [Column(Name = "BudgetDtName", DataType = "String")]
+        public String BudgetDtName
         {
-            get { return _BudgetName; }
-            set { _BudgetName = value; }
+            get { return _BudgetDtName; }
+            set { _BudgetDtName = value; }
         }
         [Column(Name = "BudgetRemarks", DataType = "String")]
         public String BudgetRemarks
@@ -29164,6 +29165,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+        [Column(Name = "GCItemDetailStatus", DataType = "String")]
+        public String GCItemDetailStatus
+        {
+            get { return _GCItemDetailStatus; }
+            set { _GCItemDetailStatus = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -29647,14 +29654,14 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vProjectBudget
+    #region vProjectBudgetDt
     [Serializable]
-    [Table(Name = "vProjectBudget")]
-    public class vProjectBudget
+    [Table(Name = "vProjectBudgetDt")]
+    public class vProjectBudgetDt
     {
-        private Int32 _BudgetID;
-        private String _BudgetCode;
-        private String _BudgetName;
+        private Int32 _BudgetDtID;
+        private String _BudgetDtCode;
+        private String _BudgetDtName;
         private Int32 _ItemID;
         private Decimal _Quantity;
         private Int32 _ProjectID;
@@ -29673,23 +29680,23 @@ namespace CodeX.Data.Model
         private String _listParentID;
         private String _Remarks;
 
-        [Column(Name = "BudgetID", DataType = "Int32")]
-        public Int32 BudgetID
+        [Column(Name = "BudgetDtID", DataType = "Int32")]
+        public Int32 BudgetDtID
         {
-            get { return _BudgetID; }
-            set { _BudgetID = value; }
+            get { return _BudgetDtID; }
+            set { _BudgetDtID = value; }
         }
-        [Column(Name = "BudgetCode", DataType = "String")]
-        public String BudgetCode
+        [Column(Name = "BudgetDtCode", DataType = "String")]
+        public String BudgetDtCode
         {
-            get { return _BudgetCode; }
-            set { _BudgetCode = value; }
+            get { return _BudgetDtCode; }
+            set { _BudgetDtCode = value; }
         }
-        [Column(Name = "BudgetName", DataType = "String")]
-        public String BudgetName
+        [Column(Name = "BudgetDtName", DataType = "String")]
+        public String BudgetDtName
         {
-            get { return _BudgetName; }
-            set { _BudgetName = value; }
+            get { return _BudgetDtName; }
+            set { _BudgetDtName = value; }
         }
         [Column(Name = "ItemID", DataType = "Int32")]
         public Int32 ItemID
@@ -29781,8 +29788,8 @@ namespace CodeX.Data.Model
             get { return _UsedAmount; }
             set { _UsedAmount = value; }
         }
-        [Column(Name = "ListParentID", DataType = "String")]
-        public String ListParentID
+        [Column(Name = "listParentID", DataType = "String")]
+        public String listParentID
         {
             get { return _listParentID; }
             set { _listParentID = value; }
@@ -29990,9 +29997,9 @@ namespace CodeX.Data.Model
     [Table(Name = "vProjectTaskBudget")]
     public partial class vProjectTaskBudget
     {
-        private Int32 _BudgetID;
-        private String _BudgetCode;
-        private String _BudgetName;
+        private Int32 _BudgetDtID;
+        private String _BudgetDtCode;
+        private String _BudgetDtName;
         private Int32 _ProjectTaskID;
         private String _ProjectTaskCode;
         private String _ProjectTaskName;
@@ -30002,23 +30009,23 @@ namespace CodeX.Data.Model
         private Boolean _IsDeleted;
         private String _Remarks;
 
-        [Column(Name = "BudgetID", DataType = "Int32")]
-        public Int32 BudgetID
+        [Column(Name = "BudgetDtID", DataType = "Int32")]
+        public Int32 BudgetDtID
         {
-            get { return _BudgetID; }
-            set { _BudgetID = value; }
+            get { return _BudgetDtID; }
+            set { _BudgetDtID = value; }
         }
-        [Column(Name = "BudgetCode", DataType = "String")]
-        public String BudgetCode
+        [Column(Name = "BudgetDtCode", DataType = "String")]
+        public String BudgetDtCode
         {
-            get { return _BudgetCode; }
-            set { _BudgetCode = value; }
+            get { return _BudgetDtCode; }
+            set { _BudgetDtCode = value; }
         }
-        [Column(Name = "BudgetName", DataType = "String")]
-        public String BudgetName
+        [Column(Name = "BudgetDtName", DataType = "String")]
+        public String BudgetDtName
         {
-            get { return _BudgetName; }
-            set { _BudgetName = value; }
+            get { return _BudgetDtName; }
+            set { _BudgetDtName = value; }
         }
         [Column(Name = "ProjectTaskID", DataType = "Int32")]
         public Int32 ProjectTaskID

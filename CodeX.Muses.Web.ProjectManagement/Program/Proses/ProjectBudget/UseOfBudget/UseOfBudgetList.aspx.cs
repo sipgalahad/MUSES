@@ -69,15 +69,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvProjectBudgetRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvProjectBudgetDtRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MATRIX);
             }
 
-            List<vProjectBudget> lstEntity = BusinessLayer.GetvProjectBudgetList(filterExpression);
-            String lstBudgetID = "0";
+            List<vProjectBudgetDt> lstEntity = BusinessLayer.GetvProjectBudgetDtList(filterExpression);
+            String lstBudgetDtID = "0";
             if (lstEntity.Count > 0)
-                lstBudgetID = String.Join(",",lstEntity.Select(x => x.BudgetID));
-            lstProjectTaskBudget = BusinessLayer.GetProjectTaskBudgetList(String.Format("BudgetID IN ({0})",lstBudgetID));
+                lstBudgetDtID = String.Join(",",lstEntity.Select(x => x.BudgetDtID));
+            lstProjectTaskBudget = BusinessLayer.GetProjectTaskBudgetList(String.Format("BudgetDtID IN ({0})",lstBudgetDtID));
             
             lvwView.DataSource = lstEntity;
             lvwView.DataBind();
@@ -87,7 +87,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             if (e.Item.ItemType == ListViewItemType.DataItem)
             {
-                vProjectBudget entity = e.Item.DataItem as vProjectBudget;
+                vProjectBudgetDt entity = e.Item.DataItem as vProjectBudgetDt;
                 int idx = e.Item.DataItemIndex;
 
                 HtmlInputHidden hdnAmount = e.Item.FindControl("hdnAmount") as HtmlInputHidden;
@@ -97,7 +97,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
                 if (lstProjectTaskBudget.Count > 0)
                 {
-                    ProjectTaskBudget temp = lstProjectTaskBudget.FirstOrDefault(x => x.BudgetID == entity.BudgetID);
+                    ProjectTaskBudget temp = lstProjectTaskBudget.FirstOrDefault(x => x.BudgetDtID == entity.BudgetDtID);
                     if (temp != null)
                     {
                         hdnAmount.Value = temp.UsedBudget.ToString();
@@ -176,10 +176,10 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             bool result = true;
             try
             {
-                ProjectBudget entity = BusinessLayer.GetProjectBudget(Convert.ToInt32(hdnID.Value));
+                ProjectBudgetDt entity = BusinessLayer.GetProjectBudgetDt(Convert.ToInt32(hdnID.Value));
                 entity.UsedAmount = Convert.ToDecimal(hdnUsedAmount.Value);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateProjectBudget(entity);
+                BusinessLayer.UpdateProjectBudgetDt(entity);
             }
             catch (Exception ex)
             {

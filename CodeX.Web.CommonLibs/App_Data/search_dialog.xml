@@ -74,14 +74,14 @@
   </searchdialog>
   <!-- #EndRegion -->
   <!-- #Region Budget RequestDt -->
-  <searchdialog type="budgetrequestdt" methodname="GetvBudgetRequestDtList" keyfieldname="BudgetRequestDtID" orderbyexpression="BudgetName ASC">
+  <searchdialog type="budgetrequestdt" methodname="GetvBudgetRequestDtList" keyfieldname="BudgetRequestDtID" orderbyexpression="BudgetDtName ASC">
     <gridcolumns>
-      <gridcolumn datafield="BudgetCode" headertext="Kode" width="120px" />
-      <gridcolumn datafield="BudgetName" headertext="Nama" width="220px" />
+      <gridcolumn datafield="BudgetDtCode" headertext="Kode" width="120px" />
+      <gridcolumn datafield="BudgetDtName" headertext="Nama" width="220px" />
     </gridcolumns>
     <intellisensetexts>
-      <intellisensetext datafield="BudgetCode" headertext="Kode" description="" />
-      <intellisensetext datafield="BudgetName" headertext="Nama" description="" />
+      <intellisensetext datafield="BudgetDtCode" headertext="Kode" description="" />
+      <intellisensetext datafield="BudgetDtName" headertext="Nama" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
@@ -548,14 +548,14 @@
   </searchdialog>
   <!-- #EndRegion -->
   <!-- #Region Project Budget -->
-  <searchdialog type="projectbudget" methodname="GetvProjectBudgetList" keyfieldname="BudgetCode">
+  <searchdialog type="projectbudgetdt" methodname="GetvProjectBudgetDtList" keyfieldname="BudgetDtCode">
     <gridcolumns>
-      <gridcolumn datafield="BudgetCode" headertext="Kode" width="100px" />
-      <gridcolumn datafield="BudgetName" headertext="Nama" width="300px" />
+      <gridcolumn datafield="BudgetDtCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="BudgetDtName" headertext="Nama" width="300px" />
     </gridcolumns>
     <intellisensetexts>
-      <intellisensetext datafield="BudgetCode" headertext="Nama" description="" />
-      <intellisensetext datafield="BudgetName" headertext="Kode" description="" />
+      <intellisensetext datafield="BudgetDtCode" headertext="Nama" description="" />
+      <intellisensetext datafield="BudgetDtName" headertext="Kode" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

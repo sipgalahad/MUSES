@@ -111,9 +111,9 @@
                             <ItemTemplate>
                                 <tbody>
                                     <tr class="trData">
-                                        <td class="keyField"><%#:Eval("BudgetID")%></td>
-                                        <td><%#:Eval("BudgetCode")%></td>
-                                        <td><%#:Eval("BudgetName")%></td>
+                                        <td class="keyField"><%#:Eval("BudgetDtID")%></td>
+                                        <td><%#:Eval("BudgetDtCode")%></td>
+                                        <td><%#:Eval("BudgetDtName")%></td>
                                         <td><%#:Eval("ProjectName")%></td>
                                         <td><%#:Eval("Position")%></td>
                                         <td><%#:Eval("Remarks")%></td>
