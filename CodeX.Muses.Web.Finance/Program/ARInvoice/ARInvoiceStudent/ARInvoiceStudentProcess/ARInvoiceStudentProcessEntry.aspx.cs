@@ -11,6 +11,8 @@ using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Data.Core.Dal;
 using System.Data;
 using CodeX.Common;
+using System.Globalization;
+using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.Finance.Program
 {
@@ -21,10 +23,6 @@ namespace CodeX.Muses.Web.Finance.Program
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.Finance.AR_INVOICE_STUDENT_PROCESS;
-        }
-        public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
-        {
-            IsAllowAdd = false;
         }
 
         protected string OnGetCustomerFilterExpression()
@@ -40,9 +38,33 @@ namespace CodeX.Muses.Web.Finance.Program
             txtInvoiceDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtDueDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
 
+            List<StudentFeeCompType> lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
+            Methods.SetComboBoxField<StudentFeeCompType>(cboStudentFeeCompType, lstStudentFeeCompType, "StudentFeeCompTypeName", "StudentFeeCompTypeID");
+
+            cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
+            {
+                MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(a),
+                MonthNumber = a
+            });
+            cboMonth.TextField = "MonthName";
+            cboMonth.ValueField = "MonthNumber";
+            cboMonth.EnableCallbackMode = false;
+            cboMonth.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+            cboMonth.DropDownStyle = DropDownStyle.DropDownList;
+            cboMonth.DataBind();
+            cboMonth.Value = DateTime.Now.Month.ToString();
+
+            cboYear.DataSource = Enumerable.Range(DateTime.Now.Year - 99, 100).Reverse();
+            cboYear.EnableCallbackMode = false;
+            cboYear.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+            cboYear.DropDownStyle = DropDownStyle.DropDownList;
+            cboYear.DataBind();
+
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
 
             IsLoadFirstRecord = (OnGetRowCount() > 0);
+
+            Helper.SetControlEntrySetting(cboStudentFeeCompType, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         protected override void OnControlEntrySetting()
@@ -65,6 +87,11 @@ namespace CodeX.Muses.Web.Finance.Program
             return onGetARInvoiceFilterExpression();
         }
 
+        protected string IsEditable()
+        {
+            return hdnIsEditable.Value;
+        }
+
         public override int OnGetRowCount()
         {
             string filterExpression = GetFilterExpression();
@@ -73,8 +100,10 @@ namespace CodeX.Muses.Web.Finance.Program
 
         public override void OnAddRecord()
         {
-            hdnIsEditable.Value = "1";
             hdnPageCount.Value = "0";
+            hdnIsEditable.Value = "1";
+            hdnARInvoiceID.Value = "0";
+            BindGridView(1, false, ref PageCount, ref RowCount);
         }
 
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
@@ -117,7 +146,7 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             string filterExpression = "1 = 0";
             if (hdnARInvoiceID.Value != "")
-                filterExpression = string.Format("ARInvoiceID = {0}", hdnARInvoiceID.Value);
+                filterExpression = string.Format("ARInvoiceID = {0} AND IsDeleted = 0", hdnARInvoiceID.Value);
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvARInvoiceDtRowCount(filterExpression);
@@ -152,5 +181,214 @@ namespace CodeX.Muses.Web.Finance.Program
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
         }
+
+        #region Save Edit Header
+        private void ControlToEntity(ARInvoiceHd entityHd)
+        {
+            entityHd.ARInvoiceDate = Helper.GetDatePickerValue(txtInvoiceDate);
+            entityHd.BankID = Convert.ToInt32(cboBank.Value);
+            entityHd.DueDate = Helper.GetDatePickerValue(txtDueDate);            
+            entityHd.Remarks = txtRemarks.Text;
+            entityHd.TermID = null;
+        }
+
+        public void SaveARInvoiceHd(IDbContext ctx, ref int ARInvoiceID)
+        {
+            ARInvoiceHdDao entityHdDao = new ARInvoiceHdDao(ctx);
+            if (hdnARInvoiceID.Value == "0")
+            {
+                ARInvoiceHd entityHd = new ARInvoiceHd();
+                ControlToEntity(entityHd);
+                entityHd.StudentID = AppSession.StudentID;
+                entityHd.BusinessPartnerID = null;
+                entityHd.ProspectiveStudentID = null;
+                entityHd.TransactionCode = Constant.TransactionCode.AR_INVOICE_STUDENT;
+                entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                entityHd.ARInvoiceNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.ARInvoiceDate, ctx);
+                ctx.CommandType = CommandType.Text;
+                ctx.Command.Parameters.Clear();
+                entityHd.CreatedBy = AppSession.UserLogin.UserID;
+                entityHdDao.Insert(entityHd);
+                ARInvoiceID = BusinessLayer.GetARInvoiceHdMaxID(ctx);
+            }
+            else
+            {
+                ARInvoiceID = Convert.ToInt32(hdnARInvoiceID.Value);
+            }
+        }
+
+
+        protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            try
+            {
+                int ARInvoiceID = 0;
+                SaveARInvoiceHd(ctx, ref ARInvoiceID);
+                retval = ARInvoiceID.ToString();
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        protected override bool OnSaveEditRecord(ref string errMessage, ref string retval)
+        {
+            try
+            {
+                ARInvoiceHd entity = BusinessLayer.GetARInvoiceHd(Convert.ToInt32(hdnARInvoiceID.Value));
+                ControlToEntity(entity);
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateARInvoiceHd(entity);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                return false;
+            }
+        }
+        #endregion
+
+        #region Process Detail
+        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string result = "";
+            string errMessage = "";
+            int ARInvoiceID = 0;
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
+            if (param[0] == "save")
+            {
+                if (hdnEntryID.Value.ToString() != "")
+                {
+                    ARInvoiceID = Convert.ToInt32(hdnARInvoiceID.Value);
+                    if (OnSaveEditRecordEntityDt(ref errMessage))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+                else
+                {
+                    if (OnSaveAddRecordEntityDt(ref errMessage, ref ARInvoiceID))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+            }
+            else if (param[0] == "delete")
+            {
+                ARInvoiceID = Convert.ToInt32(hdnARInvoiceID.Value);
+                if (OnDeleteEntityDt(ref errMessage, ARInvoiceID))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+            panel.JSProperties["cpARInvoiceID"] = ARInvoiceID.ToString();
+        }
+
+        private void ControlToEntity(ARInvoiceDt entityDt)
+        {
+            entityDt.StudentFeeCompTypeID = Convert.ToInt32(cboStudentFeeCompType.Value);
+            entityDt.TransactionYear = Convert.ToInt32(cboYear.Value);
+            entityDt.TransactionMonth = Convert.ToInt32(cboMonth.Value);
+            entityDt.ClaimedAmount = entityDt.TransactionAmount = Convert.ToDecimal(Request.Form[txtTransactionAmount.UniqueID]);
+            entityDt.LineAmount = entityDt.TransactionAmount;
+        }
+
+        private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int ARInvoiceID)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ARInvoiceDtDao entityDtDao = new ARInvoiceDtDao(ctx);
+            try
+            {
+                SaveARInvoiceHd(ctx, ref ARInvoiceID);
+                ARInvoiceDt entityDt = new ARInvoiceDt();
+                ControlToEntity(entityDt);
+                entityDt.StudentFeeDtID = null;
+                entityDt.ARInvoiceID = ARInvoiceID;
+                entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                entityDtDao.Insert(entityDt);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                errMessage = ex.Message;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnSaveEditRecordEntityDt(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ARInvoiceDtDao entityDtDao = new ARInvoiceDtDao(ctx);
+            try
+            {
+                ARInvoiceDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                ControlToEntity(entityDt);
+                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityDtDao.Update(entityDt);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                errMessage = ex.Message;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnDeleteEntityDt(ref string errMessage, int ID)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ARInvoiceDtDao entityDtDao = new ARInvoiceDtDao(ctx);
+            try
+            {
+                ARInvoiceDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                entityDt.IsDeleted = true;
+                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityDtDao.Update(entityDt);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
     }
 }

@@ -832,6 +832,8 @@ namespace CodeX.Data.Model
         private Int32 _ARInvoiceID;
         private Int32? _StudentFeeDtID;
         private Int32? _StudentFeeCompTypeID;
+        private Int32? _TransactionYear;
+        private Int32? _TransactionMonth;
         private Decimal _TransactionAmount;
         private Decimal _PenaltyAmount;
         private Decimal? _LineAmount;
@@ -840,6 +842,7 @@ namespace CodeX.Data.Model
         private Decimal? _VarianceAmount;
         private Decimal _PaymentAmount;
         private String _ReferenceNo;
+        private Boolean _IsDeleted;
         private Int32 _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
@@ -868,6 +871,18 @@ namespace CodeX.Data.Model
         {
             get { return _StudentFeeCompTypeID; }
             set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "TransactionYear", DataType = "Int32", IsNullable = true)]
+        public Int32? TransactionYear
+        {
+            get { return _TransactionYear; }
+            set { _TransactionYear = value; }
+        }
+        [Column(Name = "TransactionMonth", DataType = "Int32", IsNullable = true)]
+        public Int32? TransactionMonth
+        {
+            get { return _TransactionMonth; }
+            set { _TransactionMonth = value; }
         }
         [Column(Name = "TransactionAmount", DataType = "Decimal")]
         public Decimal TransactionAmount
@@ -916,6 +931,12 @@ namespace CodeX.Data.Model
         {
             get { return _ReferenceNo; }
             set { _ReferenceNo = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
         [Column(Name = "CreatedBy", DataType = "Int32")]
         public Int32 CreatedBy

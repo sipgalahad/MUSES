@@ -434,6 +434,7 @@ namespace CodeX.Data.Model
         private String _SiteID;
         private Boolean _IsTransferred;
         private String _Remarks;
+        private Boolean _IsDeleted;
 
         [Column(Name = "ARInvoiceDtID", DataType = "Int32")]
         public Int32 ARInvoiceDtID
@@ -638,6 +639,12 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion

@@ -296,7 +296,7 @@
                 else {
                     var PurchaseInvoiceID = s.cpPurchaseInvoiceID;
                     onAfterSaveRecordDtSuccess(PurchaseInvoiceID);
-                    $('#lblAddData').click();
+                    $('#divTransactionAdd').click();
                     cbpView.PerformCallback('refresh');
                 }
             }
