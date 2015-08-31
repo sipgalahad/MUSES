@@ -69,7 +69,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvProjectBudgetRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvProjectBudgetDtRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MATRIX);
             }
 
@@ -79,7 +79,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
             thDana.ColSpan = lstFundType.Count();
 
-            List<vProjectBudget> lstEntity = BusinessLayer.GetvProjectBudgetList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vProjectBudgetDt> lstEntity = BusinessLayer.GetvProjectBudgetDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -112,7 +112,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vProjectBudget entity = e.Item.DataItem as vProjectBudget;
+                vProjectBudgetDt entity = e.Item.DataItem as vProjectBudgetDt;
                 Repeater rptViewItem = e.Item.FindControl("rptViewItem") as Repeater;
                 String[] lst = entity.ListFund.Split('|');
                 rptViewItem.DataSource = lst;

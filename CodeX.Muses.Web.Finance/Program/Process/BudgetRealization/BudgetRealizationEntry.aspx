@@ -97,7 +97,7 @@
                 Methods.getObject('GetvBudgetRequestDtList', filterExpression, function (result) {
                     if (result != null) {
                         tacProjectBudget.setValue(result.BudgetRequestDtID);
-                        tacProjectBudget.setText(result.BudgetName);
+                        tacProjectBudget.setText(result.BudgetDtName);
                         $('#<%=txtProposedBudget.ClientID %>').val(result.ProposedAmount - result.RealizationAmount).trigger('changeValue');
                         $('#<%=txtRequestAmount.ClientID %>').val(result.RequestAmount - result.RealizationAmount).trigger('changeValue');
                         entityToControlProjectBudget(result);
@@ -138,9 +138,9 @@
 
         function entityToControlProjectBudget(result) {
             if (result != null)
-                $('#<%=hdnBudgetID.ClientID %>').val(result.BudgetRequestDtID);
+                $('#<%=hdnBudgetDtID.ClientID %>').val(result.BudgetRequestDtID);
             else
-                $('#<%=hdnBudgetID.ClientID %>').val(null);
+                $('#<%=hdnBudgetDtID.ClientID %>').val(null);
         }
         //#endregion
 
@@ -150,9 +150,9 @@
             var entity = rowToObject($row);
             $('#<%=hdnEntryID.ClientID %>').val(entity.BudgetRealizationDtID);
             tacProjectBudget.setValue(entity.BudgetRequestDtID);
-            tacProjectBudget.setText(entity.BudgetName);
-            $('#<%=hdnBudgetID.ClientID %>').val(entity.BudgetRequestDtID);
-            var filterExpression = "BudgetID = " + entity.BudgetID;
+            tacProjectBudget.setText(entity.BudgetDtName);
+            $('#<%=hdnBudgetDtID.ClientID %>').val(entity.BudgetRequestDtID);
+            var filterExpression = "BudgetDtID = " + entity.BudgetDtID;
             var realizationAmount = 0;
             Methods.getObject('GetvProjectBudgetList', filterExpression, function (result) {
                 if (result != null) {
@@ -306,9 +306,9 @@
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Anggaran")%></label></td>
                                                     <td>
-                                                        <input type="hidden" value="" id="hdnBudgetID" runat="server" />
+                                                        <input type="hidden" value="" id="hdnBudgetDtID" runat="server" />
                                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacProjectBudget" ClientInstanceName="tacProjectBudget" MethodName="GetvBudgetRequestDtList" GetFilterExpressionFunction="onGetProjectBudgetFilterExpression"
-                                                            SearchFields="BudgetName,BudgetCode" TextField="BudgetName" ValueField="BudgetRequestDtID" SearchText="${BudgetName} (<b>${BudgetCode}</b>)" OrderByExpression="BudgetName">
+                                                            SearchFields="BudgetDtName,BudgetDtCode" TextField="BudgetDtName" ValueField="BudgetRequestDtID" SearchText="${BudgetDtName} (<b>${BudgetDtCode}</b>)" OrderByExpression="BudgetDtName">
                                                             <ClientSideEvents ButtonSearchClick="function(){ onTacProjectBudgetButtonSearchClick(); }"
                                                                 ValueChanged="function(){ onTacProjectBudgetValueChanged(); }" />
                                                         </cdx:CodeXAutoCompleteTextBox>
@@ -350,8 +350,8 @@
                                     <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
                                             <asp:BoundField DataField="BudgetRealizationDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                            <asp:BoundField DataField="BudgetCode" HeaderText="Kode" HeaderStyle-Width="150px"/>
-                                            <asp:BoundField DataField="BudgetName" HeaderText="Anggaran"  />
+                                            <asp:BoundField DataField="BudgetDtCode" HeaderText="Kode" HeaderStyle-Width="150px"/>
+                                            <asp:BoundField DataField="BudgetDtName" HeaderText="Anggaran"  />
                                             <asp:BoundField DataField="ProposedAmount" HeaderText="Dianggarkan" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right"/>
                                             <asp:BoundField DataField="RequestAmount" HeaderText="Diminta" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right"/>
                                             <asp:BoundField DataField="RealizationAmount" HeaderText="Direalisasikan" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right"/>
@@ -361,8 +361,8 @@
                                                     <div style='float:right;margin-right:10px;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                                     <input type="hidden" value="<%#Eval("BudgetRealizationDtID") %>" bindingfield="BudgetRealizationDtID" />
                                                     <input type="hidden" value="<%#Eval("BudgetRequestDtID") %>" bindingfield="BudgetRequestDtID" />
-                                                    <input type="hidden" value="<%#Eval("BudgetID") %>" bindingfield="BudgetID" />
-                                                    <input type="hidden" value="<%#Eval("BudgetName") %>" bindingfield="BudgetName" />
+                                                    <input type="hidden" value="<%#Eval("BudgetDtID") %>" bindingfield="BudgetDtID" />
+                                                    <input type="hidden" value="<%#Eval("BudgetDtName") %>" bindingfield="BudgetDtName" />
                                                     <input type="hidden" value="<%#Eval("ProposedAmount") %>" bindingfield="ProposedAmount" />
                                                     <input type="hidden" value="<%#Eval("RealizationAmount") %>" bindingfield="RealizationAmount" />
                                                     <input type="hidden" value="<%#Eval("RequestAmount") %>" bindingfield="RequestAmount" />

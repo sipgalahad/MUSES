@@ -45,7 +45,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         #region Filter Expression Search Dialog
         protected string OnGetProjectBudgetFilterExpression()
         {
-            return string.Format("ProjectID = {0} AND ItemID IS NULL AND BudgetID NOT IN (SELECT BudgetID FROM BudgetRequestDt WHERE GCItemDetailStatus = '{1}')", AppSession.ProjectID, Constant.TransactionStatus.OPEN);
+            return string.Format("ProjectID = {0} AND ItemID IS NULL AND BudgetDtID NOT IN (SELECT BudgetDtID FROM BudgetRequestDt WHERE GCItemDetailStatus = '{1}')", AppSession.ProjectID, Constant.TransactionStatus.OPEN);
         }
         #endregion
 
@@ -132,7 +132,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vBudgetRequestDt> lstEntity = BusinessLayer.GetvBudgetRequestDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "BudgetName ASC");
+            List<vBudgetRequestDt> lstEntity = BusinessLayer.GetvBudgetRequestDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "BudgetDtName ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -389,7 +389,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         private void ControlToEntity(BudgetRequestDt entityDt)
         {
-            entityDt.BudgetID = Convert.ToInt32(hdnBudgetID.Value);
+            entityDt.BudgetDtID = Convert.ToInt32(hdnBudgetDtID.Value);
             entityDt.RequestAmount = Convert.ToDecimal(txtRequestAmount.Text);
         }
 

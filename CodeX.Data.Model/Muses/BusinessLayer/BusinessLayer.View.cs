@@ -11789,18 +11789,18 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region vProjectBudget
-        public static List<vProjectBudget> GetvProjectBudgetList(string filterExpression)
+        #region vProjectBudgetDt
+        public static List<vProjectBudgetDt> GetvProjectBudgetDtList(string filterExpression)
         {
-            List<vProjectBudget> result = new List<vProjectBudget>();
+            List<vProjectBudgetDt> result = new List<vProjectBudgetDt>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(vProjectBudget));
+                DbHelper helper = new DbHelper(typeof(vProjectBudgetDt));
                 ctx.CommandText = helper.Select(filterExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((vProjectBudget)helper.IDataReaderToObject(reader, new vProjectBudget()));
+                        result.Add((vProjectBudgetDt)helper.IDataReaderToObject(reader, new vProjectBudgetDt()));
             }
             catch (Exception ex)
             {
@@ -11812,17 +11812,17 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-        public static List<vProjectBudget> GetvProjectBudgetList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        public static List<vProjectBudgetDt> GetvProjectBudgetDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
         {
-            List<vProjectBudget> result = new List<vProjectBudget>();
+            List<vProjectBudgetDt> result = new List<vProjectBudgetDt>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(vProjectBudget));
+                DbHelper helper = new DbHelper(typeof(vProjectBudgetDt));
                 ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((vProjectBudget)helper.IDataReaderToObject(reader, new vProjectBudget()));
+                        result.Add((vProjectBudgetDt)helper.IDataReaderToObject(reader, new vProjectBudgetDt()));
             }
             catch (Exception ex)
             {
@@ -11835,13 +11835,13 @@ namespace CodeX.Data.Model
             return result;
         }
 
-        public static Int32 GetvProjectBudgetRowCount(string filterExpression)
+        public static Int32 GetvProjectBudgetDtRowCount(string filterExpression)
         {
             Int32 result = 0;
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(vProjectBudget));
+                DbHelper helper = new DbHelper(typeof(vProjectBudgetDt));
                 ctx.CommandText = helper.GetRowCount(filterExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
@@ -11856,13 +11856,13 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-        public static Int32 GetvProjectBudgetRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        public static Int32 GetvProjectBudgetDtRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
         {
             Int32 result = 0;
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(vProjectBudget));
+                DbHelper helper = new DbHelper(typeof(vProjectBudgetDt));
                 ctx.CommandText = helper.GetRowIndex(filterExpression, "BudgetID", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));

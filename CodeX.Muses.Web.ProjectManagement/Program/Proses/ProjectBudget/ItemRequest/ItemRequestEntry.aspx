@@ -202,7 +202,7 @@
                         $('#<%=hdnGCItemUnit.ClientID %>').val('');
                         //disini
                         var pbFilterExpression = "ItemID = " + result.ItemID;
-                        Methods.getObject('GetProjectBudgetList', pbFilterExpression, function (result) {
+                        Methods.getObject('GetProjectBudgetDtList', pbFilterExpression, function (result) {
                             $('#<%=txtQuantity.ClientID %>').val(result.Quantity);
                         });
 

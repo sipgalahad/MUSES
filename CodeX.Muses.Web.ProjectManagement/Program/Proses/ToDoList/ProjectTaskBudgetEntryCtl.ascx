@@ -14,8 +14,8 @@
     $(function () {
         $('#divTransactionAddPopup').click(function () {
             $('#<%=hdnEntryID.ClientID %>').val('');
-            tacProjectBudget.setValue('');
-            tacProjectBudget.setText('');
+            tacProjectBudgetDt.setValue('');
+            tacProjectBudgetDt.setText('');
             $('#<%=txtProposedBudget.ClientID %>').val(0).trigger('changeValue');
             $('#<%=txtRealizationBudget.ClientID %>').val(0).trigger('changeValue');
             $('#<%=txtUsedAmount.ClientID %>').val(0).trigger('changeValue');
@@ -40,7 +40,7 @@
         showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
             if (result) {
                 var entity = rowToObject($row);
-                $('#<%=hdnEntryID.ClientID %>').val(entity.BudgetID);
+                $('#<%=hdnEntryID.ClientID %>').val(entity.BudgetDtID);
                 cbpProcessPopup.PerformCallback('delete');
             }
         });
@@ -50,9 +50,9 @@
     $('#<%=grdView.ClientID %> .divPopupEdit').live('click', function () {
         $row = $(this).closest('tr');
         var entity = rowToObject($row);
-        $('#<%=hdnEntryID.ClientID %>').val(entity.BudgetID);
-        tacProjectBudget.setValue(entity.BudgetID);
-        tacProjectBudget.setText(entity.BudgetName);
+        $('#<%=hdnEntryID.ClientID %>').val(entity.BudgetDtID);
+        tacProjectBudgetDt.setValue(entity.BudgetDtID);
+        tacProjectBudgetDt.setText(entity.BudgetDtName);
         $('#<%=txtProposedBudget.ClientID %>').val(entity.ProposedAmount).trigger('changeValue');
         $('#<%=txtRealizationBudget.ClientID %>').val(entity.RealizationAmount).trigger('changeValue');
         $('#<%=txtUsedAmount.ClientID %>').val(entity.UsedBudget).trigger('changeValue');
@@ -60,60 +60,60 @@
         $('#entryDetailContainerPopup').show();
     });
 
-    //#region ProjectBudget
-    window.onGetProjectBudgetFilterExpression = function () {
+    //#region ProjectBudgetDt
+    window.onGetProjectBudgetDtFilterExpression = function () {
         var filterExpression = "ProjectID = " + $('#<%=hdnProjectID.ClientID %>').val() + " AND ItemID IS NULL";
         return filterExpression;
     }
 
-    function onTacProjectBudgetButtonSearchClick() {
-        openSearchDialog('projectbudget', onGetProjectBudgetFilterExpression(), function (value) {
-            var filterExpression = onGetProjectBudgetFilterExpression() + " AND BudgetCode = '" + value + "'";
-            Methods.getObject('GetvProjectBudgetList', filterExpression, function (result) {
+    function onTacProjectBudgetDtButtonSearchClick() {
+        openSearchDialog('projectbudgetdt', onGetProjectBudgetDtFilterExpression(), function (value) {
+            var filterExpression = onGetProjectBudgetDtFilterExpression() + " AND BudgetDtCode = '" + value + "'";
+            Methods.getObject('GetvProjectBudgetDtList', filterExpression, function (result) {
                 if (result != null) {
-                    tacProjectBudget.setValue(result.BudgetID);
-                    tacProjectBudget.setText(result.BudgetName);
+                    tacProjectBudgetDt.setValue(result.BudgetDtID);
+                    tacProjectBudgetDt.setText(result.BudgetDtName);
                     $('#<%=txtProposedBudget.ClientID %>').val(result.ProposedAmount).trigger('changeValue');
                     $('#<%=txtRealizationBudget.ClientID %>').val(result.RealizationAmount).trigger('changeValue');
-                    entityToControlProjectBudget(result);
+                    entityToControlProjectBudgetDt(result);
                 }
                 else {
-                    tacProjectBudget.setValue('');
-                    tacProjectBudget.setText('');
+                    tacProjectBudgetDt.setValue('');
+                    tacProjectBudgetDt.setText('');
                     $('#<%=txtProposedBudget.ClientID %>').val(0).trigger('changeValue');
                     $('#<%=txtRealizationBudget.ClientID %>').val(0).trigger('changeValue');
-                    entityToControlProjectBudget(null);
+                    entityToControlProjectBudgetDt(null);
                 }
             });
         });
     }
 
-    function onTacProjectBudgetValueChanged() {
-        var id = tacProjectBudget.getValue();
+    function onTacProjectBudgetDtValueChanged() {
+        var id = tacProjectBudgetDt.getValue();
         if (id != '') {
-            var filterExpression = "BudgetID = " + id;
-            Methods.getObject('GetvProjectBudgetList', filterExpression, function (result) {
+            var filterExpression = "BudgetDtID = " + id;
+            Methods.getObject('GetvProjectBudgetDtList', filterExpression, function (result) {
                 if (result != null) {
                     $('#<%=txtProposedBudget.ClientID %>').val(result.ProposedAmount).trigger('changeValue');
                     $('#<%=txtRealizationBudget.ClientID %>').val(result.RealizationAmount).trigger('changeValue');
-                    entityToControlProjectBudget(result);
+                    entityToControlProjectBudgetDt(result);
                 }
                 else {
                     $('#<%=txtProposedBudget.ClientID %>').val(0).trigger('changeValue');
                     $('#<%=txtRealizationBudget.ClientID %>').val(0).trigger('changeValue');
-                    entityToControlProjectBudget(null);
+                    entityToControlProjectBudgetDt(null);
                 }
             });
         } else {
-            entityToControlProjectBudget(null);
+            entityToControlProjectBudgetDt(null);
         }
     }
 
-    function entityToControlProjectBudget(result) {
+    function entityToControlProjectBudgetDt(result) {
         if (result != null)
-            $('#<%=hdnBudgetID.ClientID %>').val(result.BudgetID);
+            $('#<%=hdnBudgetDtID.ClientID %>').val(result.BudgetDtID);
         else
-            $('#<%=hdnBudgetID.ClientID %>').val(null);
+            $('#<%=hdnBudgetDtID.ClientID %>').val(null);
     }
     //#endregion
 
@@ -194,11 +194,11 @@
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Anggaran")%></label></td>
                         <td>
-                            <input type="hidden" value="" id="hdnBudgetID" runat="server" />
-                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacProjectBudget" ClientInstanceName="tacProjectBudget" MethodName="GetvProjectBudgetList" GetFilterExpressionFunction="onGetProjectBudgetFilterExpression"
-                                SearchFields="BudgetName,BudgetCode" TextField="BudgetName" ValueField="BudgetID" SearchText="${BudgetName} (<b>${BudgetCode}</b>)" OrderByExpression="BudgetName">
-                                <ClientSideEvents ButtonSearchClick="function(){ onTacProjectBudgetButtonSearchClick(); }"
-                                    ValueChanged="function(){ onTacProjectBudgetValueChanged(); }" />
+                            <input type="hidden" value="" id="hdnBudgetDtID" runat="server" />
+                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacProjectBudgetDt" ClientInstanceName="tacProjectBudgetDt" MethodName="GetvProjectBudgetDtList" GetFilterExpressionFunction="onGetProjectBudgetDtFilterExpression"
+                                SearchFields="BudgetDtName,BudgetDtCode" TextField="BudgetDtName" ValueField="BudgetDtID" SearchText="${BudgetDtName} (<b>${BudgetDtCode}</b>)" OrderByExpression="BudgetDtName">
+                                <ClientSideEvents ButtonSearchClick="function(){ onTacProjectBudgetDtButtonSearchClick(); }"
+                                    ValueChanged="function(){ onTacProjectBudgetDtValueChanged(); }" />
                             </cdx:CodeXAutoCompleteTextBox>
                         </td>
                     </tr>
@@ -237,7 +237,7 @@
                 <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                         <Columns>
-                            <asp:BoundField DataField="BudgetName" HeaderText="Anggaran" HeaderStyle-Width="250px" />
+                            <asp:BoundField DataField="BudgetDtName" HeaderText="Anggaran" HeaderStyle-Width="250px" />
                             <asp:TemplateField HeaderText="Keterangan" >
                                 <ItemTemplate>
                                     <%#Eval("CustomRemarks")%>
@@ -248,8 +248,8 @@
                                 <ItemTemplate>
                                     <div style='float:right;' class="divPopupDelete">X</div>
                                     <div style='float:right;margin-right:10px;' class="divPopupEdit"><%=GetLabel("Edit")%></div>
-                                    <input type="hidden" value="<%#Eval("BudgetID") %>" bindingfield="BudgetID" />
-                                    <input type="hidden" value="<%#Eval("BudgetName") %>" bindingfield="BudgetName" />
+                                    <input type="hidden" value="<%#Eval("BudgetDtID") %>" bindingfield="BudgetDtID" />
+                                    <input type="hidden" value="<%#Eval("BudgetDtName") %>" bindingfield="BudgetDtName" />
                                     <input type="hidden" value="<%#Eval("ProposedAmount") %>" bindingfield="ProposedAmount" />
                                     <input type="hidden" value="<%#Eval("RealizationAmount") %>" bindingfield="RealizationAmount" />
                                     <input type="hidden" value="<%#Eval("UsedBudget") %>" bindingfield="UsedBudget" />

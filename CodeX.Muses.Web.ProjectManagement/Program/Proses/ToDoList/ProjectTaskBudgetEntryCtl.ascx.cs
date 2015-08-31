@@ -99,7 +99,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         private void ControlToEntity(ProjectTaskBudget entity)
         {
-            entity.BudgetID = Convert.ToInt32(hdnBudgetID.Value);
+            entity.BudgetDtID = Convert.ToInt32(hdnBudgetDtID.Value);
             entity.UsedBudget = Convert.ToDecimal(txtUsedAmount.Text);
             entity.Remarks = txtRemarks.Text;
         }

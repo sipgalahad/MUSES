@@ -165,7 +165,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 rowCount = BusinessLayer.GetvBudgetRealizationDtRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
-            List<vBudgetRealizationDt> lstBudgetRealizationDt = BusinessLayer.GetvBudgetRealizationDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "BudgetName ASC");
+            List<vBudgetRealizationDt> lstBudgetRealizationDt = BusinessLayer.GetvBudgetRealizationDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "BudgetDtName ASC");
             grdView.DataSource = lstBudgetRealizationDt;
             grdView.DataBind();
         }
@@ -245,7 +245,7 @@ namespace CodeX.Muses.Web.Finance.Program
             IDbContext ctx = DbFactory.Configure(true);
             BudgetRealizationHdDao budgetHdDao = new BudgetRealizationHdDao(ctx);
             BudgetRealizationDtDao budgetDtDao = new BudgetRealizationDtDao(ctx);
-            ProjectBudgetDao pBudgetDao = new ProjectBudgetDao(ctx);
+            ProjectBudgetDtDao pBudgetDao = new ProjectBudgetDtDao(ctx);
 
             try
             {
@@ -264,7 +264,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     budgetDtDao.Update(budgetDt);
 
                     vBudgetRealizationDt temp = lst.FirstOrDefault(x => x.BudgetRealizationDtID == budgetDt.BudgetRealizationDtID);
-                    ProjectBudget pBudget = pBudgetDao.Get(temp.BudgetID);
+                    ProjectBudgetDt pBudget = pBudgetDao.Get(temp.BudgetDtID);
                     pBudget.RealizationAmount += budgetDt.RealizationAmount;
                     pBudgetDao.Update(pBudget);
                 }
@@ -328,7 +328,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         private void ControlToEntity(BudgetRealizationDt entityDt)
         {
-            entityDt.BudgetRequestDtID = Convert.ToInt32(hdnBudgetID.Value);
+            entityDt.BudgetRequestDtID = Convert.ToInt32(hdnBudgetDtID.Value);
             entityDt.RealizationAmount = Convert.ToDecimal(txtRealizationAmount.Text);
         }
 

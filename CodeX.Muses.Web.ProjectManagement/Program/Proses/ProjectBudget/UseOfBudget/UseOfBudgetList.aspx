@@ -21,7 +21,7 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
             var idx = entity.ItemIndex;
-            $('#<%=hdnID.ClientID %>').val(entity.BudgetID);
+            $('#<%=hdnID.ClientID %>').val(entity.BudgetDtID);
             var usedAmount = parseFloat($('.txtUsedAmount' + idx).attr('hiddenVal'));
             var amount = parseFloat($row.find('.hdnAmount').val());
             $('#<%=hdnUsedAmount.ClientID %>').val(usedAmount + amount);
@@ -32,7 +32,7 @@
             var url = "~/Program/Proses/ProjectBudget/UseOfBudget/UsedTaskAmountCtl.ascx";
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
-            var id = entity.BudgetID;
+            var id = entity.BudgetDtID;
             var param = id + '|UB';
             openUserControlPopup(url, param, 'Detail', 700, 440);
         });
@@ -161,8 +161,8 @@
                         </LayoutTemplate>
                         <ItemTemplate>
                             <tr>
-                                <td><%#:Eval("BudgetCode") %></td>
-                                <td><%#:Eval("BudgetName") %></td>
+                                <td><%#:Eval("BudgetDtCode") %></td>
+                                <td><%#:Eval("BudgetDtName") %></td>
                                 <td><%#:Eval("Position") %></td>
                                 <td><%#:Eval("Remarks") %></td>
                                 <td align="right"><%#:Eval("ProposedAmount","{0:N}") %></td>
@@ -175,7 +175,7 @@
                                 <td align="center">
                                     <input type="button" value="Simpan" class="btnSave" id="btnSave" runat="server" />
                                     <input type="hidden" class="hdnItemIndex" value='<%# Container.DataItemIndex %>' bindingfield="ItemIndex" />
-                                    <input type="hidden" value="<%#Eval("BudgetID") %>" bindingfield="BudgetID" />
+                                    <input type="hidden" value="<%#Eval("BudgetDtID") %>" bindingfield="BudgetDtID" />
                                 </td>
                             </tr>
                         </ItemTemplate>

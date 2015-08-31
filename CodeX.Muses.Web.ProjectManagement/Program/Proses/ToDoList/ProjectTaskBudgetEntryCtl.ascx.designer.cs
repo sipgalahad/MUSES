@@ -103,22 +103,22 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// hdnBudgetID control.
+        /// hdnBudgetDtID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnBudgetID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnBudgetDtID;
         
         /// <summary>
-        /// tacProjectBudget control.
+        /// tacProjectBudgetDt control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacProjectBudget;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacProjectBudgetDt;
         
         /// <summary>
         /// txtProposedBudget control.
