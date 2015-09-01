@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPProjectManagementPageTrx.master" AutoEventWireup="true" 
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPBudgetManagementPageTrx.master" AutoEventWireup="true" 
     CodeBehind="ProposedBudgetEntry.aspx.cs" Inherits="CodeX.Muses.Web.ProjectManagement.Program.ProposedBudgetEntry" %>
     
 <%@ Register Src="~/Program/Proses/ProjectBudget/ProposedBudget/BudgetCtl.ascx" TagName="BudgetCtl" TagPrefix="uc1" %>

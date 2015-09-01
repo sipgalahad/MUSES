@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPProjectManagementPageTrx.master" AutoEventWireup="true" 
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPBudgetManagementPageTrx.master" AutoEventWireup="true" 
     CodeBehind="BudgetRequestEntry.aspx.cs" Inherits="CodeX.Muses.Web.ProjectManagement.Program.BudgetRequestEntry" %>
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>

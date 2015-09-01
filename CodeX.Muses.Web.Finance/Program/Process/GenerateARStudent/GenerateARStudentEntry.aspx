@@ -239,7 +239,7 @@
         }
 
         function onRefreshGridView() {
-            $('#<%=hdnFilterExpressionQuickSearch.ClientID %>').val(txtSearchView.GetText());
+            $('#<%=hdnFilterExpressionQuickSearch.ClientID %>').val(txtSearchView.GenerateFilterExpression());
             cbpView.PerformCallback('refresh');
         }
 

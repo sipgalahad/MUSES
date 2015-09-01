@@ -630,11 +630,11 @@ namespace CodeX.Web.Common
             {
                 if (HttpContext.Current.Session["_ProjectID"] == null)
                 {
-                    if (HttpContext.Current.Request.Cookies["DTRACK"] != null)
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
                     {
-                        if (HttpContext.Current.Request.Cookies["DTRACK"]["_ProjectID"] != null)
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_ProjectID"] != null)
                         {
-                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["DTRACK"]["_ProjectID"]);
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_ProjectID"]);
                             HttpContext.Current.Session["_ProjectID"] = value;
                             return value;
                         }
@@ -645,13 +645,46 @@ namespace CodeX.Web.Common
             }
             set
             {
-                if (HttpContext.Current.Request.Cookies["DTRACK"] != null)
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
                 {
-                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["DTRACK"];
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
                     myCookie.Values["_ProjectID"] = value.ToString();
                     HttpContext.Current.Response.Cookies.Add(myCookie);
                 }
                 HttpContext.Current.Session["_ProjectID"] = value;
+            }
+        }
+        #endregion
+
+        #region BudgetID
+        public static Int32 BudgetID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_BudgetID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_BudgetID"] != null)
+                        {
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_BudgetID"]);
+                            HttpContext.Current.Session["_BudgetID"] = value;
+                            return value;
+                        }
+                    }
+                    return 0;
+                }
+                return ((Int32)(HttpContext.Current.Session["_BudgetID"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_BudgetID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_BudgetID"] = value;
             }
         }
         #endregion
