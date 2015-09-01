@@ -155,6 +155,8 @@
                 });
                 onAfterCustomSaveSuccess();
             }
+            else
+                cbpView.PerformCallback('refresh');
         }
 
         function onCbpProcesEndCallback(s) {
@@ -167,7 +169,6 @@
                     var ARInvoiceID = s.cpARInvoiceID;
                     onAfterSaveRecordDtSuccess(ARInvoiceID);
                     $('#divTransactionAdd').click();
-                    cbpView.PerformCallback('refresh');
                 }
             }
             else if (param[0] == 'delete') {
