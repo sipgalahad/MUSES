@@ -12174,6 +12174,29 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<Int32> GetStudentIDList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            String columnName = "StudentID";
+            List<Int32> result = new List<Int32>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Student));
+                ctx.CommandText = helper.SelectColumn(columnName, filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add(Convert.ToInt32(reader[columnName]));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region StudentAchievement
         public static StudentAchievement GetStudentAchievement(Int32 StudentAchievementID)
