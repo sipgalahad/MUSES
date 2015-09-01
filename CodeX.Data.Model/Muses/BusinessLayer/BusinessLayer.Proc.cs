@@ -531,6 +531,36 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GetARStudentInformation
+        public static List<GetARStudentInformation> GetARStudentInformation(String MovementDate, String LstStudentID)
+        {
+            List<GetARStudentInformation> result = new List<GetARStudentInformation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetARStudentInformation));
+                ctx.CommandText = "GetARStudentInformation2";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("MovementDate", MovementDate);
+                ctx.Add("LstStudentID", LstStudentID);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetARStudentInformation)helper.IDataReaderToObject(reader, new GetARStudentInformation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetARStudentInformationDt
         public static List<GetARStudentInformationDt> GetARStudentInformationDtList(String MovementDate, Int32 StudentID, Int32 Start, Int32 End)
         {

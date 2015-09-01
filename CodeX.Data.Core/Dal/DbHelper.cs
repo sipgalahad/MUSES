@@ -279,6 +279,23 @@ namespace CodeX.Data.Core.Dal
             return result;
         }
 
+        public string SelectColumn(string columnName, string filterExpression, int numRows, int pageIndex, string orderByExpression)
+        {
+            if (filterExpression != "")
+                filterExpression = " WHERE " + filterExpression;
+            int startIndex = (pageIndex - 1) * numRows;
+            int endIndex = pageIndex * numRows;
+            if (orderByExpression == null || orderByExpression == "")
+                orderByExpression = "(SELECT 0)";
+
+            startIndex++;
+            //endIndex++;
+            //return string.Format("SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY {0}) - 1 as row FROM {1}{4}) a WHERE a.row >= {2} and a.row < {3}", orderByExpression, _tableName, startIndex, endIndex, filterExpression);
+            return string.Format("WITH mytable AS (SELECT *, ROW_NUMBER() OVER (ORDER BY {0}) AS 'RowNumber' FROM {1}{4}) SELECT {5} FROM myTable WHERE RowNumber BETWEEN {2} AND {3}", orderByExpression, _tableName, startIndex, endIndex, filterExpression, columnName);
+            //return string.Format("SELECT * FROM {0} ", _tableName);
+        }
+
+
         public string Select(string filterExpression, params object[] args)
         {
             string result = string.Format("SELECT * FROM {0} ", _tableName);

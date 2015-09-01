@@ -40,6 +40,24 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpressionQuickSearch;
         
         /// <summary>
+        /// cboSite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSite;
+        
+        /// <summary>
+        /// txtSearchView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::CodeX.Web.CustomControl.QISIntellisenseTextBox txtSearchView;
+        
+        /// <summary>
         /// txtDateFrom control.
         /// </summary>
         /// <remarks>

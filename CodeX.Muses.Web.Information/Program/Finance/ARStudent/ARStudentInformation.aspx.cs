@@ -33,6 +33,11 @@ namespace CodeX.Muses.Web.Information.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            lstSite.Insert(0, new vSite { SiteID = "", SiteName = "" });
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
+
             RowCountPerPage = 12;
 
             txtDateFrom.Text = DateTime.Now.AddDays(-7).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
@@ -42,16 +47,24 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
+            string filterExpression = string.Format("StudentID IN (SELECT StudentID FROM ARMovement WHERE StudentID IS NOT NULL) AND IsDeleted = 0");
+            if (hdnFilterExpressionQuickSearch.Value != "")
+                filterExpression += string.Format(" AND {0}", hdnFilterExpressionQuickSearch.Value);
+            if (cboSite.Value != null && cboSite.Value.ToString() != "")
+                filterExpression += string.Format(" AND SiteID = '{0}'", cboSite.Value);
             if (isCountPageCount)
             {
-                string filterExpression = string.Format("StudentID IN (SELECT StudentID FROM ARMovement WHERE StudentID IS NOT NULL) AND IsDeleted = 0");
                 rowCount = BusinessLayer.GetStudentRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, 12);
             }
 
             String MovementDate = String.Format("{0}|{1}", Helper.GetDatePickerValue(txtDateFrom.Text).ToString("yyyyMMdd"), Helper.GetDatePickerValue(txtDateTo.Text).ToString("yyyyMMdd"));
             hdnMovementDate.Value = MovementDate;
-            List<GetARStudentInformation> lstEntity = BusinessLayer.GetARStudentInformation(MovementDate, pageIndex, 12);
+
+            List<Int32> lstStudentID = BusinessLayer.GetStudentIDList(filterExpression, 12, pageIndex, "StudentName");
+            string lstStudentIDString = String.Join(",", lstStudentID.ToList());
+
+            List<GetARStudentInformation> lstEntity = BusinessLayer.GetARStudentInformation(MovementDate, lstStudentIDString);
             lvwView.DataSource = lstEntity;
             lvwView.DataBind();
         }

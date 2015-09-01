@@ -1,10 +1,10 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/MPBaseContent.master" AutoEventWireup="true" 
     CodeBehind="ARStudentInformation.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.ARStudentInformation" %>
 
-<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-    Namespace="CodeX.Web.CustomControl" TagPrefix="qis" %>
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -18,12 +18,9 @@
         $(function () {
             setDatePicker('<%=txtDateFrom.ClientID %>');
             setDatePicker('<%=txtDateTo.ClientID %>');
-            
-            $('#<%=txtDateFrom.ClientID %>').change(function () {
-                cbpView.PerformCallback('refresh');
-            });
-            $('#<%=txtDateTo.ClientID %>').change(function () {
-                cbpView.PerformCallback('refresh');
+
+            $('#btnRefresh').click(function () {
+                onRefreshGridView();
             });
         })
 
@@ -93,6 +90,21 @@
             var param = businessPartnerID + '|' + 90 + '|' + 0;
             openUserControlPopup(url, param, 'Detail Information', 1200, 550);
         });
+
+        function onRefreshGridView() {
+            $('#<%=hdnFilterExpressionQuickSearch.ClientID %>').val(txtSearchView.GenerateFilterExpression());
+            cbpView.PerformCallback('refresh');
+        }
+
+        function onTxtSearchViewSearchClick(s) {
+            setTimeout(function () {
+                s.SetBlur();
+                onRefreshGridView();
+                setTimeout(function () {
+                    s.SetFocus();
+                }, 0);
+            }, 0);
+        }
     </script>
     <input type="hidden" value="" id="hdnListClassID" runat="server" />
     <input type="hidden" value="" id="hdnListClassName" runat="server" />
@@ -102,8 +114,26 @@
             <tr>
                 <td>
                     <table style="width:50%">
+                        
                         <tr>
-                            <td><label><%=GetLabel("Tanggal") %></label></td>
+                            <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
+                            <td><dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Search Filter")%></label></td>
+                            <td>
+                                <cdx:QISIntellisenseTextBox runat="server" ClientInstanceName="txtSearchView" ID="txtSearchView"
+	                                Width="300px" Watermark="Search">
+	                                <ClientSideEvents SearchClick="function(s){ onTxtSearchViewSearchClick(s); }" />
+	                                <IntellisenseHints>
+		                                <cdx:QISIntellisenseHint Text="Nama" FieldName="Name" />
+		                                <cdx:QISIntellisenseHint Text="NIS" FieldName="StudentCode" />
+	                                </IntellisenseHints>
+                                </cdx:QISIntellisenseTextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label><%=GetLabel("Tanggal") %></label></td>
                             <td>
                                 <table cellpadding="0" cellspacing="0">
                                     <tr>
@@ -113,7 +143,11 @@
                                     </tr>
                                 </table>
                             </td>
-                        </tr>   
+                        </tr> 
+                        <tr>
+                            <td></td>
+                            <td><input type="button" id="btnRefresh" value="Refresh" /></td>
+                        </tr>  
                     </table>
                 </td>
             </tr>
@@ -130,21 +164,21 @@
                                     <asp:Panel runat="server" ID="pnlGridView" CssClass="pnlContainerGrid" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;height:380px;overflow-y:auto;">
                                         <asp:ListView runat="server" ID="lvwView">
                                             <EmptyDataTemplate>
-                                                <table id="tblView" runat="server" class="grdView notAllowSelect lvwView" cellspacing="0" rules="all" border="1" >
+                                                <table id="tblView" runat="server" class="grdView grdBorder notAllowSelect lvwView" cellspacing="0" rules="all" border="1" >
                                                     <tr>
                                                         <th rowspan="2" style="width:120px"><%=GetLabel("NIS")%></th>
                                                         <th rowspan="2"><%=GetLabel("Nama Siswa")%></th>
-                                                        <th rowspan="2" style="width:100px"><%=GetLabel("Saldo Awal") %></th>
-                                                        <th rowspan="2" style="width:100px"><%=GetLabel("Penambahan")%></th>
-                                                        <th rowspan="2" style="width:100px"><%=GetLabel("Pengurangan")%></th>
-                                                        <th colspan="5"><%=GetLabel("Saldo Akhir")%></th>
+                                                        <th rowspan="2" style="width:120px" class="thRight"><%=GetLabel("Saldo Awal") %></th>
+                                                        <th rowspan="2" style="width:120px" class="thRight"><%=GetLabel("Penambahan")%></th>
+                                                        <th rowspan="2" style="width:120px" class="thRight"><%=GetLabel("Pengurangan")%></th>
+                                                        <th colspan="5" class="thCenter"><%=GetLabel("SALDO AKHIR")%></th>
                                                     </tr>
                                                     <tr>
-                                                        <th style="width:100px"><%=GetLabel("0-30 hari")%></th>
-                                                        <th style="width:100px"><%=GetLabel(">30-60 hari")%></th>
-                                                        <th style="width:100px"><%=GetLabel(">60-90 hari")%></th>
-                                                        <th style="width:100px"><%=GetLabel(">90 hari")%></th>
-                                                        <th style="width:100px"><%=GetLabel("Total")%></th>
+                                                        <th style="width:100px" class="thRight"><%=GetLabel("0-30 hari")%></th>
+                                                        <th style="width:100px" class="thRight"><%=GetLabel(">30-60 hari")%></th>
+                                                        <th style="width:100px" class="thRight"><%=GetLabel(">60-90 hari")%></th>
+                                                        <th style="width:100px" class="thRight"><%=GetLabel(">90 hari")%></th>
+                                                        <th style="width:100px" class="thRight"><%=GetLabel("Total")%></th>
                                                     </tr>
                                                     <tr class="trEmpty">
                                                         <td colspan="10">
