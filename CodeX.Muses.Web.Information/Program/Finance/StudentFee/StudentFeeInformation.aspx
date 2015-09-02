@@ -18,7 +18,7 @@
 
         //#region Student
         function onGetStudentFilterExpression() {
-            var filterExpression = "<%=OnGetStudentFilterExpression() %>";
+            var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND <%=OnGetStudentFilterExpression() %>";
             return filterExpression;
         }
 
@@ -44,10 +44,7 @@
         function onTacStudentValueChanged() {
             var id = tacStudent.getValue();
             if (id != '') {
-                var filterExpression = onGetStudentFilterExpression() + " AND StudentCode = '" + value + "'";
-                Methods.getObject('GetStudentList', filterExpression, function (result) {
-                    cbpView.PerformCallback('refresh');
-                });
+                cbpView.PerformCallback('refresh');
             }
         }
         //#endregion
@@ -101,6 +98,22 @@
 
             hideLoadingPanel();
         }
+
+        function onCboSiteValueChanged() {
+            var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND <%=OnGetSchoolPeriodNowFilterExpression() %>";
+            Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
+                if (result != null) {
+                    tacSchoolPeriod.setValue(result.SchoolPeriodID);
+                    tacSchoolPeriod.setText(result.SchoolPeriodName);
+                    $('#<%=hdnSchoolPeriodID.ClientID %>').val(result.SchoolPeriodID);
+                }
+                else {
+                    tacSchoolPeriod.setValue('');
+                    tacSchoolPeriod.setText('');
+                    $('#<%=hdnSchoolPeriodID.ClientID %>').val('0');
+                }
+            });
+        }
     </script>
     <table style="width: 100%">
     </table>
@@ -112,13 +125,11 @@
                 <col style="width:150px"/>
             </colgroup>
             <tr>
-                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Siswa")%></label></td>
+                <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
                 <td>
-                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacStudent" ClientInstanceName="tacStudent" MethodName="GetStudentList" GetFilterExpressionFunction="onGetStudentFilterExpression"
-                        SearchFields="StudentName,StudentCode" TextField="StudentName" ValueField="StudentID" SearchText="${StudentName} (<b>${StudentCode}</b>)" OrderByExpression="StudentName">
-                        <ClientSideEvents ButtonSearchClick="function(){ onTacStudentButtonSearchClick(); }"
-                            ValueChanged="function(){ onTacStudentValueChanged(); }" />
-                    </cdx:CodeXAutoCompleteTextBox>   
+                    <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
+                        <ClientSideEvents Init="function(s,e){ onCboSiteValueChanged(); }"  ValueChanged="function(s,e){ onCboSiteValueChanged() }" />
+                    </dxe:ASPxComboBox>
                 </td>
             </tr>
             <tr>
@@ -129,6 +140,16 @@
                         SearchFields="SchoolPeriodName" TextField="SchoolPeriodName" ValueField="SchoolPeriodCode" SearchText="${SchoolPeriodName} (<b>${SchoolPeriodCode}</b>)" OrderByExpression="SchoolPeriodName">
                         <ClientSideEvents ButtonSearchClick="function(){ onTacSchoolPeriodButtonSearchClick(); }"
                             ValueChanged="function(){ onTacSchoolPeriodValueChanged(); }" />
+                    </cdx:CodeXAutoCompleteTextBox>   
+                </td>
+            </tr>
+            <tr>
+                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Siswa")%></label></td>
+                <td>
+                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacStudent" ClientInstanceName="tacStudent" MethodName="GetStudentList" GetFilterExpressionFunction="onGetStudentFilterExpression"
+                        SearchFields="StudentName,StudentCode" TextField="StudentName" ValueField="StudentID" SearchText="${StudentName} (<b>${StudentCode}</b>)" OrderByExpression="StudentName">
+                        <ClientSideEvents ButtonSearchClick="function(){ onTacStudentButtonSearchClick(); }"
+                            ValueChanged="function(){ onTacStudentValueChanged(); }" />
                     </cdx:CodeXAutoCompleteTextBox>   
                 </td>
             </tr>

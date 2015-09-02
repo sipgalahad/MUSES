@@ -62,7 +62,7 @@ namespace CodeX.Muses.Web.Finance.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vStudentFeeComp entity = e.Item.DataItem as vStudentFeeComp;
-                List<vStudentFee> lstTemp = lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID).ToList();
+                List<vStudentFee> lstTemp = lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID).OrderBy(p => p.DisplayOrder).ToList();
                 Repeater rptStudentFee = (Repeater)e.Item.FindControl("rptStudentFee");
                 rptStudentFee.DataSource = lstTemp;
                 rptStudentFee.DataBind();

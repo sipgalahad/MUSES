@@ -26,15 +26,22 @@ namespace CodeX.Muses.Web.Information.Program
             return Constant.MenuCode.Information.STUDENT_FEE;
         }
 
+        protected string OnGetSchoolPeriodNowFilterExpression()
+        {
+            return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
+        }
+
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            base.InitializeDataControl(filterExpression, keyValue);
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
         }
 
         #region HTML Getter
         public String OnGetStudentFilterExpression() 
         {
-            return String.Format("SiteID = '{0}' AND GCStudentStatus = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.StudentStatus.ACTIVE);
+            return String.Format("GCStudentStatus = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.StudentStatus.ACTIVE);
         }
         public String OnGetSchoolPeriodFilterExpression() 
         {
@@ -51,7 +58,7 @@ namespace CodeX.Muses.Web.Information.Program
         }
         private string GetFilterExpression2()
         {
-            string filterExpression = String.Format("StudentID = {0} AND GCAdmissionPaymentPeriod = '{1}' AND IsDeleted = 0 AND SchoolPeriodID = {2}", AppSession.StudentID, Constant.AdmissionPaymentPeriod.BULANAN, hdnSchoolPeriodID.Value);
+            string filterExpression = String.Format("StudentID = {0} AND GCAdmissionPaymentPeriod = '{1}' AND IsDeleted = 0 AND SchoolPeriodID = {2}", tacStudent.Value, Constant.AdmissionPaymentPeriod.BULANAN, hdnSchoolPeriodID.Value);
             return filterExpression;
         }
 
@@ -92,7 +99,7 @@ namespace CodeX.Muses.Web.Information.Program
 
                 if (lstTemp.Count() > 0)
                 {
-                    decimal paymentAmount = lstStudentFeeDt.Where(x => x.StudentFeeID == entity.StudentFeeID && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.StudentAmount);
+                    decimal paymentAmount = lstStudentFeeDt.Where(x => x.StudentFeeID == entity.StudentFeeID && x.IsPaid).Sum(x => x.StudentAmount);
                     Decimal totalAmount = entity.StudentAmount - paymentAmount;
 
                     TextBox txtTotalAmount = e.Item.FindControl("txtTotalAmount") as TextBox;

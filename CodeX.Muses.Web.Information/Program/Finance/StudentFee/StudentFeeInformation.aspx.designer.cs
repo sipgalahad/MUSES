@@ -31,13 +31,13 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstStudentFeeID;
         
         /// <summary>
-        /// tacStudent control.
+        /// cboSite control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacStudent;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSite;
         
         /// <summary>
         /// hdnSchoolPeriodID control.
@@ -56,6 +56,15 @@ namespace CodeX.Muses.Web.Information.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolPeriod;
+        
+        /// <summary>
+        /// tacStudent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacStudent;
         
         /// <summary>
         /// cbpView control.
