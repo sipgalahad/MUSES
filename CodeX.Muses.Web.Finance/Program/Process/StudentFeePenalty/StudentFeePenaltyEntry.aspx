@@ -19,7 +19,7 @@
     <script type="text/javascript">
         $(function () {
             $('#btnRefresh').click(function () {
-                cbpView.PerformCallback('refresh');
+                onRefreshGridView();
             });
 
             $('#<%=btnSave.ClientID %>').click(function () {
@@ -191,8 +191,25 @@
                 onTacSchoolPeriodValueChanged();
             });
         }
+
+        function onRefreshGridView() {
+            $('#<%=hdnFilterExpressionQuickSearch.ClientID %>').val(txtSearchView.GenerateFilterExpression());
+            cbpView.PerformCallback('refresh');
+        }
+
+        function onTxtSearchViewSearchClick(s) {
+            setTimeout(function () {
+                s.SetBlur();
+                onRefreshGridView();
+                setTimeout(function () {
+                    s.SetFocus();
+                }, 0);
+            }, 0);
+        }
+
     </script>
     <div>
+        <input type="hidden" value="" id="hdnFilterExpressionQuickSearch" runat="server" />
         <input type="hidden" id="hdnOldListStudentFeeID" runat="server" />
         <input type="hidden" id="hdnListStudentFeeID" runat="server" />
         <input type="hidden" id="hdnListSaveValue" runat="server" />
@@ -228,6 +245,19 @@
                         <ClientSideEvents ButtonSearchClick="function(){ onTacClassButtonSearchClick(); }"
                             ValueChanged="function(){ onTacClassValueChanged(); }" />
                     </cdx:CodeXAutoCompleteTextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Search Filter")%></label></td>
+                <td>
+                    <cdx:QISIntellisenseTextBox runat="server" ClientInstanceName="txtSearchView" ID="txtSearchView"
+	                    Width="300px" Watermark="Search">
+	                    <ClientSideEvents SearchClick="function(s){ onTxtSearchViewSearchClick(s); }" />
+	                    <IntellisenseHints>
+		                    <cdx:QISIntellisenseHint Text="Name" FieldName="StudentName" />
+		                    <cdx:QISIntellisenseHint Text="NIS" FieldName="StudentCode" />
+	                    </IntellisenseHints>
+                    </cdx:QISIntellisenseTextBox>
                 </td>
             </tr>
             <tr>

@@ -75,6 +75,10 @@ namespace CodeX.Muses.Web.Finance.Program
                 filterExpression = string.Format("StudentID IN (SELECT StudentID FROM Student WHERE SchoolClassID = {0} AND GCStudentStatus = '{1}' AND IsDeleted = 0) AND TransactionMonth = {2} AND TransactionYear = {3} AND GCAdmissionPaymentPeriod = '{4}' AND IsPaid = 0 AND IsDeleted = 0", tacSchoolClass.Value, Constant.StudentStatus.ACTIVE, cboMonth.Value, cboYear.Value, Constant.AdmissionPaymentPeriod.BULANAN);
             else
                 filterExpression = string.Format("StudentID IN (SELECT StudentID FROM Student WHERE SiteID = '{0}' AND GCStudentStatus = '{1}' AND IsDeleted = 0) AND TransactionMonth = {2} AND TransactionYear = {3} AND GCAdmissionPaymentPeriod = '{4}' AND IsPaid = 0 AND IsDeleted = 0", cboSite.Value, Constant.StudentStatus.ACTIVE, cboMonth.Value, cboYear.Value, Constant.AdmissionPaymentPeriod.BULANAN);
+
+            if (hdnFilterExpressionQuickSearch.Value != "")
+                filterExpression += String.Format(" AND {0}",hdnFilterExpressionQuickSearch.Value);
+
             List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(filterExpression);
             lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("GCAdmissionPaymentPeriod = '{0}' AND IsDeleted = 0", Constant.AdmissionPaymentPeriod.BULANAN));
             grdView.DataSource = lstEntity;

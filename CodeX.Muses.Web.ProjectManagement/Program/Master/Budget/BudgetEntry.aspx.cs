@@ -38,7 +38,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
-                String filterExpression = String.Format("ProjectID = {0}", Convert.ToInt32(ID));
+                String filterExpression = String.Format("BudgetID = {0}", Convert.ToInt32(ID));
                 vProjectBudgetHd entity = BusinessLayer.GetvProjectBudgetHdList(filterExpression)[0];
                 SetControlProperties();
                 EntityToControl(entity);

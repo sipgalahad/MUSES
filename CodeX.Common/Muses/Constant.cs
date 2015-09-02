@@ -656,6 +656,7 @@ namespace CodeX.Common
                 public const string TO_DO_LIST = "PM020200";
                 public const string PROJECT_MANAGEMENT = "PM020300";
                 public const string TO_DO_LIST_IN_CALENDAR = "PM020400";
+                public const string BUDGET_MANAGEMENT = "PM020500";
 
 
                 public const string PROJECT_MANAGEMENT_PAGE = "PM99010000";
@@ -663,12 +664,15 @@ namespace CodeX.Common
                 public const string PROJECT_TASK_DETAIL = "PM99010101";
                 public const string TIMELINE = "PM99010102";
                 public const string PROJECT_EVALUATION = "PM99010103";
-                public const string PROPOSED_BUDGET = "PM99010104";
-                public const string LIST_PROPOSED_BUDGET = "PM99010105";
-                public const string PROJECT_BUDGET_INFORMATION = "PM99010106";
+                
                 public const string BUDGET_REQUEST = "PM99010107";
                 public const string ITEM_REQUEST = "PM99010108";
-                public const string USE_OF_BUDGET = "PM99010109";
+                
+                public const string BUDGET_MANAGEMENT_PAGE = "PM99020000";
+                public const string PROPOSED_BUDGET = "PM99020101";
+                public const string LIST_PROPOSED_BUDGET = "PM99020102";
+                public const string PROJECT_BUDGET_INFORMATION = "PM99020103";
+                public const string USE_OF_BUDGET = "PM99020104";
             }
             #endregion
 
