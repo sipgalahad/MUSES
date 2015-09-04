@@ -28,6 +28,7 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             String _NBS;
             String _StudentName;
+            String _PaymentDate;
             Decimal _Amount;
             String _Status;
 
@@ -40,6 +41,11 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 get { return _StudentName; }
                 set { _StudentName = value; }
+            }
+            public String PaymentDate
+            {
+                get { return _PaymentDate; }
+                set { _PaymentDate = value; }
             }
             public Decimal Amount
             {
@@ -176,7 +182,9 @@ namespace CodeX.Muses.Web.Finance.Program
                         {
                             BankData entity = new BankData();
                             entity.NBS = arrData[i].Substring(24, 6);
-                            //entity.StudentName = "test";
+                            String PaymentDate = arrData[i - 1].Substring(4,6);
+                            DateTime date = DateTime.ParseExact(PaymentDate, "yyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                            entity.PaymentDate = date.ToString(Constant.FormatString.DATE_FORMAT);
                             entity.Amount = Convert.ToDecimal(arrData[i - 1].Substring(arrData[i - 1].IndexOf('C') + 1, arrData[i - 1].IndexOf('N') - 1 - arrData[i - 1].IndexOf('C')));
 
                             Student entityStudent = lstStudent.FirstOrDefault(p => p.VirtualAccountNo == entity.NBS);
