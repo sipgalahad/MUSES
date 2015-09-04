@@ -23,7 +23,6 @@
 
             $('#btnRefresh').click(function () {
                 onRefreshGridView();
-                //cbpView.PerformCallback('refresh');
             });
 
             $('#<%=btnGenerate.ClientID %>').click(function () {
