@@ -1194,6 +1194,7 @@ namespace CodeX.Data.Model
         private String _GCTransactionStatus;
         private Boolean _IsDeleted;
         private String _InvoiceNo;
+        private String _lstInvoiceDt;
         private String _TransactionStatusWatermark;
 
         [Column(Name = "ARReceivingID", DataType = "Int32")]
@@ -1315,6 +1316,12 @@ namespace CodeX.Data.Model
         {
             get { return _InvoiceNo; }
             set { _InvoiceNo = value; }
+        }
+        [Column(Name = "lstInvoiceDt", DataType = "String")]
+        public String lstInvoiceDt
+        {
+            get { return _lstInvoiceDt; }
+            set { _lstInvoiceDt = value; }
         }
         [Column(Name = "TransactionStatusWatermark", DataType = "String")]
         public String TransactionStatusWatermark

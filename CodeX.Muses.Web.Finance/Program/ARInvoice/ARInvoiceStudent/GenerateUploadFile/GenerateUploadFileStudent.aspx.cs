@@ -25,7 +25,14 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             return Constant.MenuCode.Finance.GENERATE_STUDENT_UPLOAD_FILE;
         }
-        
+
+        #region HTML Getter
+        public string GetSiteID()
+        {
+            return AppSession.UserLogin.SiteID;
+        }
+        #endregion
+
         protected override void InitializeDataControl()
         {
             ARBalance entityARBalance = BusinessLayer.GetARBalanceList(String.Format("StudentID = {0} AND IsDeleted = 0", AppSession.StudentID)).FirstOrDefault();
@@ -37,8 +44,8 @@ namespace CodeX.Muses.Web.Finance.Program
             else
                 hdnDepositAmount.Value = "0";
 
-            List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
-            Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
+            //List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            //Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
 
             cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
             {
@@ -65,8 +72,9 @@ namespace CodeX.Muses.Web.Finance.Program
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(cboBank, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(tacBank, new ControlEntrySetting(true, true, true), "mpEntry");
         }
+        
         public void BindGridView() 
         {
             List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentID = {0} AND StudentAmount > 0 AND IsPaid = 0", AppSession.StudentID));
@@ -90,7 +98,7 @@ namespace CodeX.Muses.Web.Finance.Program
             BankDao bankDao = new BankDao(ctx);
             try
             {
-                Bank bank = bankDao.Get(Convert.ToInt32(cboBank.Value));
+                Bank bank = bankDao.Get(Convert.ToInt32(tacBank.Value));
                 Student student = studentDao.Get(AppSession.StudentID);
                 List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", hdnSelectedValue.Value), ctx);
                 List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
@@ -148,8 +156,9 @@ namespace CodeX.Muses.Web.Finance.Program
                 #region Build Text File
                 String txt = string.Empty;
                 String format = "";
-                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)), ctx)[0];
-                List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID), ctx);
+                //SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)), ctx)[0];
+                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}') AND SiteID = '{2}'", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text), AppSession.UserLogin.SiteID), ctx)[0];
+                List<vStudentFeeComp> sfctList = BusinessLayer.GetvStudentFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0 AND StudentID = {1}", Period.SchoolPeriodID, student.StudentID), ctx);
                 if (bank.GCBankExportDataType == Constant.BankExportDataType.MANDIRI)
                 {
                     format = @"{NBS}|||IDR|{StudentName}|{Class}|{Unit}|{NA1}{NA2}{NA3}{NA4}{NA5}{NA6}{NA7}{NA8}{NA9}{NA10}{NA11}{NA12}{NA13}{NA14}{NA15}{NA16}{NA17}{NA18}{NA19}{NA20}{NA21}{NA22}{NA23}{NA24}{NA25}|{SchoolPeriod}|{Month}||||||||||||||||||||{StartPeriod}|{EndPeriod}|{Notes1}|{Notes2}|{Notes3}|{Notes4}|{Notes5}|{Notes6}|{Notes7}|{Notes8}|{Notes9}|{Notes10}|{Notes11}|{Notes12}|{Notes13}|{Notes14}|{Notes15}|{Notes16}|{Notes17}|{Notes18}|{Notes19}|{Notes20}|{Notes21}|{Notes22}|{Notes23}|{Notes24}|{Notes25}|~";
@@ -181,7 +190,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     
                     int count = 1;
                     decimal depositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
-                    foreach (vAdmissionFeeComp obj in sfctList)
+                    foreach (vStudentFeeComp obj in sfctList)
                     {
                         List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
                         string ShortName = obj.ShortName;
@@ -287,7 +296,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         StudentName = student.StudentName;
                         
                         decimal depositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
-                        foreach (vAdmissionFeeComp obj in sfctList)
+                        foreach (vStudentFeeComp obj in sfctList)
                         {
                             List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
                             string ShortName = obj.ShortName;

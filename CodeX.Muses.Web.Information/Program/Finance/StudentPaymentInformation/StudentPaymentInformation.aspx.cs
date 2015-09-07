@@ -18,14 +18,14 @@ using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.Information.Program
 {
-    public partial class StudentBillInformation : BasePageList
+    public partial class StudentPaymentInformation : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
         protected int RowCountPerPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Information.STUDENT_BILL_INFORMATION;
+            return Constant.MenuCode.Information.STUDENT_PAYMENT_INFORMATION;
         }
 
         #region HTML Getter
@@ -79,7 +79,7 @@ namespace CodeX.Muses.Web.Information.Program
         private string GetFilterExpression()
         {
             String DueDate = String.Format("{0}{1}", cboYear.Value, Convert.ToInt32(cboMonth.Value).ToString("00"));
-            string filterExpression = string.Format("CONVERT(VARCHAR(8),DueDate,112) LIKE '%{0}%' AND GCTransactionStatus NOT IN ('{1}','{2}')", DueDate,Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
+            string filterExpression = string.Format("CONVERT(VARCHAR(8),ReceivingDate,112) LIKE '%{0}%'", DueDate);
             if(tacSchoolClass.Value != "")
                 filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {0})", tacSchoolClass.Value);
             if (hdnFilterExpressionQuickSearch.Value != "")
@@ -94,13 +94,38 @@ namespace CodeX.Muses.Web.Information.Program
             
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvARInvoiceHdRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvARReceivingHdRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vARInvoiceHd> lstEntity = BusinessLayer.GetvARInvoiceHdList(filterExpression, rowCount, pageIndex);
+            List<vARReceivingHd> lstEntity = BusinessLayer.GetvARReceivingHdList(filterExpression, rowCount, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
+        }
+
+        public void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vARReceivingHd entity = e.Row.DataItem as vARReceivingHd;
+                HtmlGenericControl divPemb = e.Row.FindControl("divPemb") as HtmlGenericControl;
+                HtmlGenericControl divSek = e.Row.FindControl("divUsek") as HtmlGenericControl;
+                HtmlGenericControl divKeg = e.Row.FindControl("divKeg") as HtmlGenericControl;
+                divPemb.InnerHtml = "0.00";
+                divSek.InnerHtml = "0.00";
+                divKeg.InnerHtml = "0.00";
+                List<String> Data = entity.lstInvoiceDt.Split('|').ToList();
+                foreach (String tempData in Data)
+                {
+                    String[] temp = tempData.Split(';');
+                    switch (temp[0])
+                    {
+                        case "1": divPemb.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
+                        case "2": divSek.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
+                        case "3": divKeg.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
+                    }
+                }
+            }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
