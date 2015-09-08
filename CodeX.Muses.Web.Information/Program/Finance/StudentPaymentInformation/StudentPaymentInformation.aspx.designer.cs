@@ -7,64 +7,55 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.Finance.Program {
+namespace CodeX.Muses.Web.Information.Program {
     
     
-    public partial class GenerateUploadFileStudent {
+    public partial class StudentPaymentInformation {
         
         /// <summary>
-        /// btnGenerate control.
+        /// hdnFilterExpressionQuickSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnGenerate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpressionQuickSearch;
         
         /// <summary>
-        /// hdnSelectedValue control.
+        /// cboSite control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedValue;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSite;
         
         /// <summary>
-        /// hdnDepositAmount control.
+        /// tacSchoolPeriod control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDepositAmount;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolPeriod;
         
         /// <summary>
-        /// btnTemp control.
+        /// tacSchoolClass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnTemp;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolClass;
         
         /// <summary>
-        /// btnExport control.
+        /// txtSearchView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnExport;
-        
-        /// <summary>
-        /// tacBank control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacBank;
+        protected global::CodeX.Web.CustomControl.QISIntellisenseTextBox txtSearchView;
         
         /// <summary>
         /// cboMonth control.
@@ -85,33 +76,6 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboYear;
         
         /// <summary>
-        /// txtStartDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStartDate;
-        
-        /// <summary>
-        /// txtEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEndDate;
-        
-        /// <summary>
-        /// txtDepositAmount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDepositAmount;
-        
-        /// <summary>
         /// cbpView control.
         /// </summary>
         /// <remarks>
@@ -130,13 +94,22 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// pnlView control.
+        /// hdnMovementDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMovementDate;
+        
+        /// <summary>
+        /// pnlGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlGridView;
         
         /// <summary>
         /// grdView control.

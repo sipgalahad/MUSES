@@ -313,6 +313,28 @@ namespace CodeX.Data.Model
                 return result;
             return null;
         }
+        public static List<vARInvoiceHd> GetvARInvoiceHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vARInvoiceHd> result = new List<vARInvoiceHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vARInvoiceHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vARInvoiceHd)helper.IDataReaderToObject(reader, new vARInvoiceHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         public static Int32 GetvARInvoiceHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
         {
             Int32 result = 0;

@@ -163,6 +163,7 @@
                                                 <asp:BoundField DataField="NBS" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                                 <asp:BoundField DataField="NBS" HeaderText="No. Bank" HeaderStyle-Width="120px" />
                                                 <asp:BoundField DataField="StudentName" HeaderText="Calon Siswa / Siswa" />
+                                                <asp:BoundField DataField="PaymentDate" HeaderText="Tanggal" HeaderStyle-Width="120px" />
                                                 <asp:BoundField DataField="Amount" HeaderText="Amount" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
                                                 <asp:BoundField DataField="Status" HeaderText="Status" HeaderStyle-Width="120px"  />
                                             </Columns>

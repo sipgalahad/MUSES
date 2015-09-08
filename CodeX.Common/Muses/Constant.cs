@@ -571,6 +571,8 @@ namespace CodeX.Common
                 public const string STUDENT_FEE = "IF030401";                
                 public const string STUDENT_REVENUE_INFO = "IF030402";
                 public const string STUDENT_PAYMENT_SUMMARY_INFO = "IF030403";
+                public const string STUDENT_BILL_INFORMATION = "IF030404";
+                public const string STUDENT_PAYMENT_INFORMATION = "IF030405";
                 public const string STUDENT_COVERAGE_INFO = "IF030501";
                 public const string STUDENT_SCHOLARSHIP_INFO = "IF030502";
 
@@ -579,6 +581,8 @@ namespace CodeX.Common
                 public const string BALANCE_INFORMATION_SUB_ACCOUNT = "IF040300";
                 public const string BALANCE_INFORMATION_PER_ACCOUNT = "IF040400";
                 public const string LABA_RUGI_INFORMATION = "IF040500";
+
+                
             }
             #endregion
 
