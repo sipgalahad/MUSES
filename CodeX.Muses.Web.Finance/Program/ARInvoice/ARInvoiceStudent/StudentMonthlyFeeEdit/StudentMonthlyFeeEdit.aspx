@@ -31,11 +31,12 @@
                             if ($(this).attr('readonly') == null) {
                                 $tr = $(this).closest('tr');
                                 var studentFeeID = $tr.find('.keyField').html();
+                                var amount = $tr.find('.txtAmount').attr('hiddenVal');
                                 if (tempResult != '') {
                                     tempResult += '^';
                                     lstStudentFeeID += ',';
                                 }
-                                tempResult += studentFeeID + ',' + $(this).val();
+                                tempResult += studentFeeID + ',' + $(this).val() + ',' + amount;
                                 lstStudentFeeID += studentFeeID;
                             }
                         });
@@ -52,6 +53,15 @@
                     $('#<%=hdnSaveValue.ClientID %>').val(param);
                     onCustomButtonClick('save');
                 }
+            });
+        });
+
+        $('.txtTotalAmount').live('change', function () {
+            $(this).blur();
+            var totalAmount = $(this).attr('hiddenVal');
+            $(this).closest('tr').next().find('.txtAmount').each(function () {
+                if ($(this).attr('readonly') == null)
+                    $tr = $(this).val(totalAmount).trigger('changeValue');
             });
         });
 
@@ -164,11 +174,13 @@
                                                         <colgroup>
                                                             <col style="width:200px"/>
                                                             <col style="width:150px" />
+                                                            <col style="width:150px" />
                                                             <col style="width:80px" />
                                                         </colgroup>
                                                         <tr>
                                                             <th class="thCenter"><%=GetLabel("Periode") %></th>
                                                             <th class="thCenter"><%=GetLabel("Jatuh Tempo") %></th>
+                                                            <th class="thCenter"><%=GetLabel("Jumlah Bayar") %></th>
                                                             <th class="thCenter"><%=GetLabel("Bayar") %></th>
                                                         </tr>
                                                     </HeaderTemplate>
@@ -177,6 +189,7 @@
                                                             <td class="keyField"><%#:Eval("StudentFeeID") %></td>
                                                             <td align="center"><%#:Eval("PaymentPeriod") %></td>
                                                             <td align="center"><input type="text" id="txtDueDate" <%#Eval("IsPaid").ToString() == "True" ? "readonly='readonly'" : "" %> class="txtDueDate datepicker required" value='<%#:Eval("DueDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
+                                                            <td align="center"><input type="text" id="txtAmount" <%#Eval("IsPaid").ToString() == "True" ? "readonly='readonly'" : "" %> class="txtAmount txtCurrency required" value='<%#:Eval("LineAmount") %>' style="width:120px" /></td>
                                                             <td align="center"><asp:CheckBox ID="chkIsPaid" runat="server" Enabled="false" Checked='<%#Eval("IsPaid") %>' /></td>
                                                         </tr>
                                                     </ItemTemplate>
