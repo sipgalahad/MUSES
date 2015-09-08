@@ -146,7 +146,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     {
                         entityDt.UnitPrice = itemMasterPurchase.Price;
                         entityDt.GCPurchaseUnit = itemMasterPurchase.PurchaseUnit;
-                        //entityDt.ConversionFactor = itemMasterPurchase.ConversionFactor;
+                        entityDt.ConversionFactor = itemMasterPurchase.ConversionFactor;
                         entityDt.DiscountPercentage = itemMasterPurchase.Discount;
                     }
                     else

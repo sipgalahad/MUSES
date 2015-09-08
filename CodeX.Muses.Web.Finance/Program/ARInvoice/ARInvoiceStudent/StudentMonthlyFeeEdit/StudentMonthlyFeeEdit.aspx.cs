@@ -119,10 +119,11 @@ namespace CodeX.Muses.Web.Finance.Program
                         string[] temp1 = saveValue1.Split(',');
                         int studentFeeID = Convert.ToInt32(temp1[0]);
                         DateTime dueDate = Helper.GetDatePickerValue(temp1[1]);
+                        decimal amount = Convert.ToDecimal(temp1[2]);
 
                         StudentFee entityFee = lstStudentFee.FirstOrDefault(x => x.StudentFeeID == studentFeeID);
                         entityFee.DueDate = dueDate;
-                        entityFee.TransactionAmount = totalAmount;
+                        entityFee.TransactionAmount = amount;
                         if (entityFee.IsDiscountAmountInPercentage)
                             entityFee.TotalDiscountAmount = entityFee.TransactionAmount * entityFee.DiscountAmount / 100;
                         entityFee.LineAmount = entityFee.TransactionAmount - entityFee.TotalDiscountAmount;
