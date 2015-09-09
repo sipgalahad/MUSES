@@ -22773,6 +22773,84 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vServiceUnitLocation
+    [Serializable]
+    [Table(Name = "vServiceUnitLocation")]
+    public class vServiceUnitLocation
+    {
+        private Int32 _SiteServiceUnitID;
+        private String _SiteID;
+        private String _SiteName;
+        private String _DepartmentID;
+        private String _DepartmentName;
+        private Int32 _ServiceUnitID;
+        private String _ServiceUnitName;
+        private Int32 _LocationID;
+        private String _LocationName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+        [Column(Name = "DepartmentID", DataType = "String")]
+        public String DepartmentID
+        {
+            get { return _DepartmentID; }
+            set { _DepartmentID = value; }
+        }
+        [Column(Name = "DepartmentName", DataType = "String")]
+        public String DepartmentName
+        {
+            get { return _DepartmentName; }
+            set { _DepartmentName = value; }
+        }
+        [Column(Name = "ServiceUnitID", DataType = "Int32")]
+        public Int32 ServiceUnitID
+        {
+            get { return _ServiceUnitID; }
+            set { _ServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
+        }
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "LocationName", DataType = "String")]
+        public String LocationName
+        {
+            get { return _LocationName; }
+            set { _LocationName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vSiteItem
     [Serializable]
     [Table(Name = "vSiteItem")]
@@ -22821,6 +22899,91 @@ namespace CodeX.Data.Model
         {
             get { return _ItemName1; }
             set { _ItemName1 = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vSiteServiceUnit
+    [Serializable]
+    [Table(Name = "vSiteServiceUnit")]
+    public class vSiteServiceUnit
+    {
+        private Int32 _SiteServiceUnitID;
+        private String _SiteID;
+        private String _SiteName;
+        private String _DepartmentID;
+        private String _DepartmentName;
+        private Int32 _ServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
+        private Int16 _ServiceInterval;
+        private String _ServiceUnitOfficer;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+        [Column(Name = "DepartmentID", DataType = "String")]
+        public String DepartmentID
+        {
+            get { return _DepartmentID; }
+            set { _DepartmentID = value; }
+        }
+        [Column(Name = "DepartmentName", DataType = "String")]
+        public String DepartmentName
+        {
+            get { return _DepartmentName; }
+            set { _DepartmentName = value; }
+        }
+        [Column(Name = "ServiceUnitID", DataType = "Int32")]
+        public Int32 ServiceUnitID
+        {
+            get { return _ServiceUnitID; }
+            set { _ServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
+        }
+        [Column(Name = "ServiceInterval", DataType = "Int16")]
+        public Int16 ServiceInterval
+        {
+            get { return _ServiceInterval; }
+            set { _ServiceInterval = value; }
+        }
+        [Column(Name = "ServiceUnitOfficer", DataType = "String")]
+        public String ServiceUnitOfficer
+        {
+            get { return _ServiceUnitOfficer; }
+            set { _ServiceUnitOfficer = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

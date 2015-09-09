@@ -416,6 +416,8 @@ namespace CodeX.Common
                 public const string TEACHER = "CP010105";
                 public const string EMPLOYEE = "CP010106";
                 public const string TEACHER_MARK_TYPE_GROUP = "CP010107";
+                public const string DEPARTMENT = "CP010108";
+                public const string SERVICE_UNIT = "CP010109";
 
                 public const string SUBJECT = "CP010201";
                 public const string EXTRACURRICULAR_SUBJECT = "CP010202";
@@ -499,6 +501,9 @@ namespace CodeX.Common
                 public const string ST_SUBJECT = "CP99030201";
                 public const string ST_EXTRACURRICULAR_SUBJECT = "CP99030202";
                 public const string ST_PERSONALITY_SUBJECT = "CP99030203";
+
+                public const string SITE_SERVICE_UNIT_PAGE = "CP99040000";
+                public const string SSU_LOCATION = "CP99040100";
             }
             #endregion
 

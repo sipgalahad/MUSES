@@ -4059,6 +4059,110 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region Department
+        public static Department GetDepartment(String DepartmentID)
+        {
+            return new DepartmentDao().Get(DepartmentID);
+        }
+        public static int InsertDepartment(Department record)
+        {
+            return new DepartmentDao().Insert(record);
+        }
+        public static int UpdateDepartment(Department record)
+        {
+            return new DepartmentDao().Update(record);
+        }
+        public static int DeleteDepartment(String DepartmentID)
+        {
+            return new DepartmentDao().Delete(DepartmentID);
+        }
+        public static List<Department> GetDepartmentList(string filterExpression)
+        {
+            List<Department> result = new List<Department>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Department));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Department)helper.IDataReaderToObject(reader, new Department()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<Department> GetDepartmentList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<Department> result = new List<Department>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Department));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Department)helper.IDataReaderToObject(reader, new Department()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetDepartmentRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Department));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetDepartmentRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Department));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "DepartmentID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region DirectPaymentDt
         public static DirectPaymentDt GetDirectPaymentDt(Int32 PaymentDetailID)
         {
@@ -11724,6 +11828,183 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ServiceUnitLocation
+        public static ServiceUnitLocation GetServiceUnitLocation(Int32 SiteServiceUnitID, Int32 LocationID)
+        {
+            return new ServiceUnitLocationDao().Get(SiteServiceUnitID, LocationID);
+        }
+        public static int InsertServiceUnitLocation(ServiceUnitLocation record)
+        {
+            return new ServiceUnitLocationDao().Insert(record);
+        }
+        public static int UpdateServiceUnitLocation(ServiceUnitLocation record)
+        {
+            return new ServiceUnitLocationDao().Update(record);
+        }
+        public static int DeleteServiceUnitLocation(Int32 SiteServiceUnitID, Int32 LocationID)
+        {
+            return new ServiceUnitLocationDao().Delete(SiteServiceUnitID, LocationID);
+        }
+        public static List<ServiceUnitLocation> GetServiceUnitLocationList(string filterExpression)
+        {
+            List<ServiceUnitLocation> result = new List<ServiceUnitLocation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ServiceUnitLocation));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ServiceUnitLocation)helper.IDataReaderToObject(reader, new ServiceUnitLocation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ServiceUnitLocation> GetServiceUnitLocationList(string filterExpression, IDbContext ctx)
+        {
+            List<ServiceUnitLocation> result = new List<ServiceUnitLocation>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ServiceUnitLocation));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ServiceUnitLocation)helper.IDataReaderToObject(reader, new ServiceUnitLocation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ServiceUnitMaster
+        public static ServiceUnitMaster GetServiceUnitMaster(Int32 ServiceUnitID)
+        {
+            return new ServiceUnitMasterDao().Get(ServiceUnitID);
+        }
+        public static int InsertServiceUnitMaster(ServiceUnitMaster record)
+        {
+            return new ServiceUnitMasterDao().Insert(record);
+        }
+        public static int UpdateServiceUnitMaster(ServiceUnitMaster record)
+        {
+            return new ServiceUnitMasterDao().Update(record);
+        }
+        public static int DeleteServiceUnitMaster(Int32 ServiceUnitID)
+        {
+            return new ServiceUnitMasterDao().Delete(ServiceUnitID);
+        }
+        public static List<ServiceUnitMaster> GetServiceUnitMasterList(string filterExpression)
+        {
+            List<ServiceUnitMaster> result = new List<ServiceUnitMaster>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ServiceUnitMaster));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ServiceUnitMaster)helper.IDataReaderToObject(reader, new ServiceUnitMaster()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetServiceUnitMasterRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ServiceUnitMaster));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ServiceUnitMaster> GetServiceUnitMasterList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<ServiceUnitMaster> result = new List<ServiceUnitMaster>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ServiceUnitMaster));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ServiceUnitMaster)helper.IDataReaderToObject(reader, new ServiceUnitMaster()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetServiceUnitMasterRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ServiceUnitMaster));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "ServiceUnitID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetServiceUnitMasterMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ServiceUnitMaster));
+                ctx.CommandText = helper.SelectMaxColumn("ServiceUnitID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region SiteBusinessPartner
         public static SiteBusinessPartner GetSiteBusinessPartner(Int32 SiteBusinessPartnerID)
         {
@@ -11849,6 +12130,46 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((SiteItemGroup)helper.IDataReaderToObject(reader, new SiteItemGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SiteServiceUnit
+        public static SiteServiceUnit GetSiteServiceUnit(Int32 SiteServiceUnitID)
+        {
+            return new SiteServiceUnitDao().Get(SiteServiceUnitID);
+        }
+        public static int InsertSiteServiceUnit(SiteServiceUnit record)
+        {
+            return new SiteServiceUnitDao().Insert(record);
+        }
+        public static int UpdateSiteServiceUnit(SiteServiceUnit record)
+        {
+            return new SiteServiceUnitDao().Update(record);
+        }
+        public static int DeleteSiteServiceUnit(Int32 SiteServiceUnitID)
+        {
+            return new SiteServiceUnitDao().Delete(SiteServiceUnitID);
+        }
+        public static List<SiteServiceUnit> GetSiteServiceUnitList(string filterExpression)
+        {
+            List<SiteServiceUnit> result = new List<SiteServiceUnit>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SiteServiceUnit));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SiteServiceUnit)helper.IDataReaderToObject(reader, new SiteServiceUnit()));
             }
             catch (Exception ex)
             {
