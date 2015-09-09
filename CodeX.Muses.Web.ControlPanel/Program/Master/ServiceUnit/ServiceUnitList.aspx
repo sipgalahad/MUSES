@@ -86,8 +86,6 @@
                                 <asp:BoundField DataField="ServiceUnitCode" HeaderText="Code" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="ServiceUnitName" HeaderText="Name" />
                                 <asp:BoundField DataField="ShortName" HeaderText="Short Name" HeaderStyle-Width="300px" />
-                                <asp:BoundField DataField="ServiceInterval" HeaderText="Service Interval" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
-                                <asp:HyperLinkField HeaderText="Waktu Tunggu" Text="Waktu Tunggu" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkWaitingTime" />
                                 <asp:HyperLinkField HeaderText="Site" Text="Site" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSite" />
                             </Columns>
                             <EmptyDataTemplate>
