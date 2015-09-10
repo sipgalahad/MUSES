@@ -355,6 +355,39 @@ namespace CodeX.Web.Common
         }
         #endregion
 
+        #region SiteServiceUnitID
+        public static Int32 SiteServiceUnitID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_SiteServiceUnitID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_SiteServiceUnitID"] != null)
+                        {
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_SiteServiceUnitID"]);
+                            HttpContext.Current.Session["_SiteServiceUnitID"] = value;
+                            return value;
+                        }
+                    }
+                    return 0;
+                }
+                return ((Int32)(HttpContext.Current.Session["_SiteServiceUnitID"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_SiteServiceUnitID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_SiteServiceUnitID"] = value;
+            }
+        }
+        #endregion
+
         #region StudentID
         public static Int32 StudentID
         {

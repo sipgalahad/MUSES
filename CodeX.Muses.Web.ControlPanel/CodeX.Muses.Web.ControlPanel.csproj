@@ -113,6 +113,7 @@
     <Content Include="MasterPage\SchoolTypeBannerDtCtl.ascx" />
     <Content Include="MasterPage\CurriculumBannerDtCtl.ascx" />
     <Content Include="MasterPage\MPSubjectPageTrxVisit.master" />
+    <Content Include="MasterPage\SiteServiceUnitBannerDtCtl.ascx" />
     <Content Include="MasterPage\SubjectBannerDtCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeList.aspx" />
@@ -131,6 +132,8 @@
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesReportEntryCtl.ascx" />
     <Content Include="Program\Master\Bank\BankEntry.aspx" />
     <Content Include="Program\Master\Bank\BankList.aspx" />
+    <Content Include="Program\Master\Department\DepartmentEntry.aspx" />
+    <Content Include="Program\Master\Department\DepartmentList.aspx" />
     <Content Include="Program\Master\Employee\EmployeeEntry.aspx" />
     <Content Include="Program\Master\Employee\EmployeeList.aspx" />
     <Content Include="Program\Master\Curriculum\GradePromotionFormula\GradePromotionFormulaDtEntryCtl.ascx" />
@@ -175,6 +178,12 @@
     <Content Include="Program\Master\SchoolType\SchoolTypePageLauncher.aspx" />
     <Content Include="Program\Master\SchoolType\SchoolTypeEntry.aspx" />
     <Content Include="Program\Master\SchoolType\SchoolTypeList.aspx" />
+    <Content Include="Program\Master\ServiceUnit\ServiceUnitEntry.aspx" />
+    <Content Include="Program\Master\ServiceUnit\ServiceUnitList.aspx" />
+    <Content Include="Program\Master\ServiceUnit\ServiceUnitLocation\ServiceUnitLocationEntry.aspx" />
+    <Content Include="Program\Master\ServiceUnit\ServiceUnitLocation\ServiceUnitLocationQuickPicksEntryCtl.ascx" />
+    <Content Include="Program\Master\ServiceUnit\ServiceUnitSiteEntryCtl.ascx" />
+    <Content Include="Program\Master\ServiceUnit\SiteServiceUnitPageLauncher.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypeDueDateEntryCtl.ascx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypePaymentEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
@@ -480,6 +489,13 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MasterPage\MPSiteServiceUnitPageTrxVisit.master.cs">
+      <DependentUpon>MPSiteServiceUnitPageTrxVisit.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPSiteServiceUnitPageTrxVisit.master.designer.cs">
+      <DependentUpon>MPSiteServiceUnitPageTrxVisit.master</DependentUpon>
+    </Compile>
     <Compile Include="MasterPage\SchoolTypeBannerDtCtl.ascx.cs">
       <DependentUpon>SchoolTypeBannerDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -514,6 +530,13 @@
     </Compile>
     <Compile Include="MasterPage\MPSubjectPageTrxVisit.master.designer.cs">
       <DependentUpon>MPSubjectPageTrxVisit.master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\SiteServiceUnitBannerDtCtl.ascx.cs">
+      <DependentUpon>SiteServiceUnitBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\SiteServiceUnitBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>SiteServiceUnitBannerDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="MasterPage\SubjectBannerDtCtl.ascx.cs">
       <DependentUpon>SubjectBannerDtCtl.ascx</DependentUpon>
@@ -640,6 +663,20 @@
     </Compile>
     <Compile Include="Program\Master\Bank\BankList.aspx.designer.cs">
       <DependentUpon>BankList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Department\DepartmentEntry.aspx.cs">
+      <DependentUpon>DepartmentEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Department\DepartmentEntry.aspx.designer.cs">
+      <DependentUpon>DepartmentEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Department\DepartmentList.aspx.cs">
+      <DependentUpon>DepartmentList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Department\DepartmentList.aspx.designer.cs">
+      <DependentUpon>DepartmentList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Employee\EmployeeEntry.aspx.cs">
       <DependentUpon>EmployeeEntry.aspx</DependentUpon>
@@ -948,6 +985,48 @@
     </Compile>
     <Compile Include="Program\Master\SchoolType\SchoolTypeList.aspx.designer.cs">
       <DependentUpon>SchoolTypeList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitEntry.aspx.cs">
+      <DependentUpon>ServiceUnitEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitEntry.aspx.designer.cs">
+      <DependentUpon>ServiceUnitEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitList.aspx.cs">
+      <DependentUpon>ServiceUnitList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitList.aspx.designer.cs">
+      <DependentUpon>ServiceUnitList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitLocation\ServiceUnitLocationEntry.aspx.cs">
+      <DependentUpon>ServiceUnitLocationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitLocation\ServiceUnitLocationEntry.aspx.designer.cs">
+      <DependentUpon>ServiceUnitLocationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitLocation\ServiceUnitLocationQuickPicksEntryCtl.ascx.cs">
+      <DependentUpon>ServiceUnitLocationQuickPicksEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitLocation\ServiceUnitLocationQuickPicksEntryCtl.ascx.designer.cs">
+      <DependentUpon>ServiceUnitLocationQuickPicksEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitSiteEntryCtl.ascx.cs">
+      <DependentUpon>ServiceUnitSiteEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitSiteEntryCtl.ascx.designer.cs">
+      <DependentUpon>ServiceUnitSiteEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\SiteServiceUnitPageLauncher.aspx.cs">
+      <DependentUpon>SiteServiceUnitPageLauncher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\SiteServiceUnitPageLauncher.aspx.designer.cs">
+      <DependentUpon>SiteServiceUnitPageLauncher.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\StudentFeeComp\StudentFeeCompTypeDueDateEntryCtl.ascx.cs">
       <DependentUpon>StudentFeeCompTypeDueDateEntryCtl.ascx</DependentUpon>
@@ -1740,6 +1819,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage\MPSchoolTypePageTrxVisit.master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MasterPage\MPSiteServiceUnitPageTrxVisit.master" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
