@@ -704,6 +704,8 @@ namespace CodeX.Common
                 public const string STUDENT_MARK_LEDGER = "SM031100";
                 public const string STUDENT_MOVE_OUT = "SM031200";
 
+                public const string TEACHER_PROFILE = "SM040100";
+
                 public const string SUBJECT = "SM110100";
                 public const string TEACHER_PERIOD_CLASS_TYPE_SUBJECT = "SM110200";
 
