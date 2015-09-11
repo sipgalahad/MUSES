@@ -8833,6 +8833,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PersonalityType
+        public static PersonalityType GetPersonalityType(Int32 PersonalityTypeID)
+        {
+            return new PersonalityTypeDao().Get(PersonalityTypeID);
+        }
+        public static int InsertPersonalityType(PersonalityType record)
+        {
+            return new PersonalityTypeDao().Insert(record);
+        }
+        public static int UpdatePersonalityType(PersonalityType record)
+        {
+            return new PersonalityTypeDao().Update(record);
+        }
+        public static int DeletePersonalityType(Int32 PersonalityTypeID)
+        {
+            return new PersonalityTypeDao().Delete(PersonalityTypeID);
+        }
+        public static List<PersonalityType> GetPersonalityTypeList(string filterExpression)
+        {
+            List<PersonalityType> result = new List<PersonalityType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PersonalityType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PersonalityType)helper.IDataReaderToObject(reader, new PersonalityType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ProductBrand
         public static ProductBrand GetProductBrand(Int32 ProductBrandID)
         {
@@ -11816,6 +11856,46 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((SchoolSubject)helper.IDataReaderToObject(reader, new SchoolSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SchoolTypeTeacherProfileGroup
+        public static SchoolTypeTeacherProfileGroup GetSchoolTypeTeacherProfileGroup(Int32 GCSchoolType, Int32 TeacherProfileGroupID)
+        {
+            return new SchoolTypeTeacherProfileGroupDao().Get(GCSchoolType, TeacherProfileGroupID);
+        }
+        public static int InsertSchoolTypeTeacherProfileGroup(SchoolTypeTeacherProfileGroup record)
+        {
+            return new SchoolTypeTeacherProfileGroupDao().Insert(record);
+        }
+        public static int UpdateSchoolTypeTeacherProfileGroup(SchoolTypeTeacherProfileGroup record)
+        {
+            return new SchoolTypeTeacherProfileGroupDao().Update(record);
+        }
+        public static int DeleteSchoolTypeTeacherProfileGroup(Int32 GCSchoolType, Int32 TeacherProfileGroupID)
+        {
+            return new SchoolTypeTeacherProfileGroupDao().Delete(GCSchoolType, TeacherProfileGroupID);
+        }
+        public static List<SchoolTypeTeacherProfileGroup> GetSchoolTypeTeacherProfileGroupList(string filterExpression)
+        {
+            List<SchoolTypeTeacherProfileGroup> result = new List<SchoolTypeTeacherProfileGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolTypeTeacherProfileGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolTypeTeacherProfileGroup)helper.IDataReaderToObject(reader, new SchoolTypeTeacherProfileGroup()));
             }
             catch (Exception ex)
             {
@@ -15081,6 +15161,104 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TeacherProfileGroup
+        public static TeacherProfileGroup GetTeacherProfileGroup(Int32 TeacherProfileGroupID)
+        {
+            return new TeacherProfileGroupDao().Get(TeacherProfileGroupID);
+        }
+        public static int InsertTeacherProfileGroup(TeacherProfileGroup record)
+        {
+            return new TeacherProfileGroupDao().Insert(record);
+        }
+        public static int UpdateTeacherProfileGroup(TeacherProfileGroup record)
+        {
+            return new TeacherProfileGroupDao().Update(record);
+        }
+        public static int DeleteTeacherProfileGroup(Int32 TeacherProfileGroupID)
+        {
+            return new TeacherProfileGroupDao().Delete(TeacherProfileGroupID);
+        }
+        public static List<TeacherProfileGroup> GetTeacherProfileGroupList(string filterExpression)
+        {
+            List<TeacherProfileGroup> result = new List<TeacherProfileGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherProfileGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherProfileGroup)helper.IDataReaderToObject(reader, new TeacherProfileGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TeacherProfileItem
+        public static TeacherProfileItem GetTeacherProfileItem(Int32 TeacherProfileItemID)
+        {
+            return new TeacherProfileItemDao().Get(TeacherProfileItemID);
+        }
+        public static int InsertTeacherProfileItem(TeacherProfileItem record)
+        {
+            return new TeacherProfileItemDao().Insert(record);
+        }
+        public static int UpdateTeacherProfileItem(TeacherProfileItem record)
+        {
+            return new TeacherProfileItemDao().Update(record);
+        }
+        public static int DeleteTeacherProfileItem(Int32 TeacherProfileItemID)
+        {
+            return new TeacherProfileItemDao().Delete(TeacherProfileItemID);
+        }
+        public static List<TeacherProfileItem> GetTeacherProfileItemList(string filterExpression)
+        {
+            List<TeacherProfileItem> result = new List<TeacherProfileItem>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherProfileItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherProfileItem)helper.IDataReaderToObject(reader, new TeacherProfileItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TeacherProfileItem> GetTeacherProfileItemList(string filterExpression,IDbContext ctx)
+        {
+            List<TeacherProfileItem> result = new List<TeacherProfileItem>();
+            
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherProfileItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherProfileItem)helper.IDataReaderToObject(reader, new TeacherProfileItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region TeacherSchedule
         public static TeacherSchedule GetTeacherSchedule(Int32 TeacherScheduleID)
         {
@@ -15385,6 +15563,158 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(Term));
                 ctx.CommandText = helper.SelectMaxColumn("TermID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransTeacherProfileDt
+        public static TransTeacherProfileDt GetTransTeacherProfileDt(Int32 ID)
+        {
+            return new TransTeacherProfileDtDao().Get(ID);
+        }
+        public static int InsertTransTeacherProfileDt(TransTeacherProfileDt record)
+        {
+            return new TransTeacherProfileDtDao().Insert(record);
+        }
+        public static int UpdateTransTeacherProfileDt(TransTeacherProfileDt record)
+        {
+            return new TransTeacherProfileDtDao().Update(record);
+        }
+        public static int DeleteTransTeacherProfileDt(Int32 ID)
+        {
+            return new TransTeacherProfileDtDao().Delete(ID);
+        }
+        public static List<TransTeacherProfileDt> GetTransTeacherProfileDtList(string filterExpression)
+        {
+            List<TransTeacherProfileDt> result = new List<TransTeacherProfileDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransTeacherProfileDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransTeacherProfileDt)helper.IDataReaderToObject(reader, new TransTeacherProfileDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransTeacherProfileDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransTeacherProfileDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransTeacherProfileDtItem
+        public static TransTeacherProfileDtItem GetTransTeacherProfileDtItem(Int32 TransTeacherProfileDtID, Int32 TeacherProfileItemID)
+        {
+            return new TransTeacherProfileDtItemDao().Get(TransTeacherProfileDtID, TeacherProfileItemID);
+        }
+        public static int InsertTransTeacherProfileDtItem(TransTeacherProfileDtItem record)
+        {
+            return new TransTeacherProfileDtItemDao().Insert(record);
+        }
+        public static int UpdateTransTeacherProfileDtItem(TransTeacherProfileDtItem record)
+        {
+            return new TransTeacherProfileDtItemDao().Update(record);
+        }
+        public static int DeleteTransTeacherProfileDtItem(Int32 TransTeacherProfileDtID, Int32 TeacherProfileItemID)
+        {
+            return new TransTeacherProfileDtItemDao().Delete(TransTeacherProfileDtID, TeacherProfileItemID);
+        }
+        public static List<TransTeacherProfileDtItem> GetTransTeacherProfileDtItemList(string filterExpression)
+        {
+            List<TransTeacherProfileDtItem> result = new List<TransTeacherProfileDtItem>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransTeacherProfileDtItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransTeacherProfileDtItem)helper.IDataReaderToObject(reader, new TransTeacherProfileDtItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TransTeacherProfileHd
+        public static TransTeacherProfileHd GetTransTeacherProfileHd(Int32 TransactionID)
+        {
+            return new TransTeacherProfileHdDao().Get(TransactionID);
+        }
+        public static int InsertTransTeacherProfileHd(TransTeacherProfileHd record)
+        {
+            return new TransTeacherProfileHdDao().Insert(record);
+        }
+        public static int UpdateTransTeacherProfileHd(TransTeacherProfileHd record)
+        {
+            return new TransTeacherProfileHdDao().Update(record);
+        }
+        public static int DeleteTransTeacherProfileHd(Int32 TransactionID)
+        {
+            return new TransTeacherProfileHdDao().Delete(TransactionID);
+        }
+        public static List<TransTeacherProfileHd> GetTransTeacherProfileHdList(string filterExpression)
+        {
+            List<TransTeacherProfileHd> result = new List<TransTeacherProfileHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransTeacherProfileHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransTeacherProfileHd)helper.IDataReaderToObject(reader, new TransTeacherProfileHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransTeacherProfileHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransTeacherProfileHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
