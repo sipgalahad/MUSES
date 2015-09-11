@@ -15,7 +15,6 @@
     <script type="text/javascript">
         $(function () {
             $('#btnUploadFile').click(function () {
-                //cbpPopupProcess.PerformCallback('save');
                 cbpView.PerformCallback('refresh');
             });
 
@@ -36,47 +35,8 @@
 
         function onCbpPopupProcess() {
             hideLoadingPanel();
-            //cbpView.PerformCallback('refresh');
             pcRightPanelContent.Hide();
         }
-
-        //#region Bank
-        function onGetBankFilterExpression() {
-            var filterExpression = "SiteID = '<%=GetSiteID() %>'";
-            Methods.getObject('GetvSiteList', filterExpression, function (result) {
-                var display = result.DisplayPath.split('/');
-                var temp = "";
-                for (var i = 1; i < display.length - 1; i++) {
-                    if (temp != "") temp += ",";
-                    temp += "'" + display[i] + "'";
-                }
-                filterExpression = "SiteID IN (" + temp + ")";
-            })
-            return filterExpression;
-        }
-
-        function onTacBankButtonSearchClick() {
-            openSearchDialog('bank', onGetBankFilterExpression(), function (value) {
-                var filterExpression = onGetBankFilterExpression() + " AND BankCode = '" + value + "'";
-                Methods.getObject('GetvBankList', filterExpression, function (result) {
-                    if (result != null) {
-                        tacBank.setValue(result.BankID);
-                        tacBank.setText(result.BankName);
-                    }
-                    else {
-                        tacBank.setValue('');
-                        tacBank.setText('');
-                    }
-                    onTacBankValueChanged();
-                });
-            });
-
-        }
-
-        function onTacBankValueChanged() {
-            //cbpView.PerformCallback('refresh');
-        }
-        //#endregion
 
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
@@ -124,13 +84,9 @@
                 <col />
             </colgroup>
             <tr>
-                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bank")%></label></td>
+                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Grade")%></label></td>
                 <td>
-                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacBank" ClientInstanceName="tacBank" MethodName="GetvBankList" GetFilterExpressionFunction="onGetBankFilterExpression"
-                        SearchFields="BankName,BankCode" TextField="BankName" ValueField="BankID" SearchText="${BankName} (<b>${BankCode}</b>)" OrderByExpression="BankName">
-                        <ClientSideEvents ButtonSearchClick="function(){ onTacBankButtonSearchClick(); }"
-                            ValueChanged="function(){ onTacBankValueChanged(); }" />
-                    </cdx:CodeXAutoCompleteTextBox>
+                    <dxe:ASPxComboBox runat="server" ID="cboGrade" />
                 </td>
             </tr>
             <tr>
@@ -140,10 +96,6 @@
                     <input type="hidden" id="hdnUploadedFile1" runat="server" value="" />
                     <asp:FileUpload ID="FileUpload1" runat="server" />
                     <input type="button" id="btnUploadFile" value="Upload" />
-                    <dxcp:ASPxCallbackPanel ID="cbpPopupProcess" runat="server" Width="100%" ClientInstanceName="cbpPopupProcess"
-                        ShowLoadingPanel="false" OnCallback="cbpPopupProcess_Callback">
-                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpPopupProcess(); }" />
-                    </dxcp:ASPxCallbackPanel>
                 </td>
             </tr>
         </table>
@@ -160,12 +112,16 @@
                                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid" Style="overflow-y: scroll;">
                                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                             <Columns>
-                                                <asp:BoundField DataField="NBS" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                                <asp:BoundField DataField="NBS" HeaderText="No. Bank" HeaderStyle-Width="120px" />
-                                                <asp:BoundField DataField="StudentName" HeaderText="Calon Siswa / Siswa" />
-                                                <asp:BoundField DataField="PaymentDate" HeaderText="Tanggal" HeaderStyle-Width="120px" />
-                                                <asp:BoundField DataField="Amount" HeaderText="Amount" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
-                                                <asp:BoundField DataField="Status" HeaderText="Status" HeaderStyle-Width="120px"  />
+                                                <asp:BoundField DataField="NIK" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                <asp:BoundField DataField="NIK" HeaderText="No. Karyawan" HeaderStyle-Width="120px" />
+                                                <asp:BoundField DataField="Name" HeaderText="Nama" />
+                                                <asp:BoundField DataField="Talent" HeaderText="Talenta" HeaderStyle-Width="120px" />
+                                                <asp:BoundField DataField="IQ" HeaderText="IQ" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" />
+                                                <asp:BoundField DataField="Drive" HeaderText="D" HeaderStyle-Width="120px"  />
+                                                <asp:BoundField DataField="Komunikasi" HeaderText="K" HeaderStyle-Width="120px"  />
+                                                <asp:BoundField DataField="Loyalitas" HeaderText="L" HeaderStyle-Width="120px"  />
+                                                <asp:BoundField DataField="Teliti" HeaderText="T" HeaderStyle-Width="120px"  />
+                                                <asp:BoundField DataField="Konsistensi" HeaderText="K" HeaderStyle-Width="120px"  />
                                             </Columns>
                                             <EmptyDataTemplate>
                                                 <%=GetLabel("No Data To Display")%>
