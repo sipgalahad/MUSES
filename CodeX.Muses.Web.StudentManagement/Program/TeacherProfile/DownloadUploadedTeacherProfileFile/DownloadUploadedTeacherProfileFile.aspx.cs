@@ -5,32 +5,24 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CodeX.Web.Common.UI;
-using CodeX.Data.Model;
 using CodeX.Web.Common;
+using CodeX.Data.Model;
 using DevExpress.Web.ASPxCallbackPanel;
-using CodeX.Common;
-using DevExpress.Web.ASPxEditors;
-using System.Globalization;
 using CodeX.Data.Core.Dal;
-using System.IO;
-using System.Text.RegularExpressions;
 using System.Data;
+using CodeX.Common;
+using System.Text.RegularExpressions;
+using System.IO;
+
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class DownloadUploadedTeacherProfileFile : BasePageList
+    public partial class DownloadUploadedTeacherProfileFile : BasePageTrx
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
-        protected int RowCountPerPage = 1;
-        protected int CurrPage = 1;
         List<TeacherProfile> lstTp = new List<TeacherProfile>();
 
-        public override string OnGetMenuCode()
-        {
-            return Constant.MenuCode.StudentManagement.TEACHER_PROFILE;
-        }
-
-        public class TeacherProfile 
+        public class TeacherProfile
         {
             Int32 _NIK;
             public Int32 NIK
@@ -652,7 +644,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 get { return _SosCol1Score; }
                 set { _SosCol1Score = value; }
             }
-            
+
             String _SosCol2;
 
             public String SosCol2
@@ -752,41 +744,526 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
         }
 
-        public string GetSiteID() 
+        public override string OnGetMenuCode()
         {
-            return AppSession.UserLogin.SiteID;
+            return Constant.MenuCode.StudentManagement.TEACHER_PROFILE;
         }
 
-        protected override void InitializeDataControl(string filterExpression, string keyValue)
+        protected override void InitializeDataControl()
         {
-            List<StandardCode> lstVar = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0",Constant.StandardCode.SCHOOL_TYPE));
+            hdnTransactionCode.Value = Constant.TransactionCode.TEACHER_PROFILE;
+
+            hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
+
+            List<StandardCode> lstVar = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboGrade, lstVar, "StandardCodeName", "StandardCodeID");
             cboGrade.SelectedIndex = 0;
+
+            BindGridView(1, true, ref PageCount, ref RowCount);
+            //Helper.SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true), "mpTrx");
+            //Helper.SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, true), "mpTrx");
+            //Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
-        private string GetFilterExpression()
+        protected override void OnControlEntrySetting()
         {
-            string filterExpression = "";
+            SetControlEntrySetting(hdnTransactionID, new ControlEntrySetting(false, false, false, "0"));
+            SetControlEntrySetting(txtTransactionNo, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtNotes, new ControlEntrySetting(true, true, false));
+
+            SetControlEntrySetting(txtTransactionDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
+        }
+
+        #region Load Entity
+        public override void OnAddRecord()
+        {
+            hdnPageCount.Value = "0";
+            hdnIsEditable.Value = "1";
+        }
+
+        protected string IsEditable()
+        {
+            return hdnIsEditable.Value;
+        }
+
+        protected string GetFilterExpression()
+        {
+            string filterExpression = String.Format("TransactionCode = '{0}'", hdnTransactionCode.Value);
+            if (hdnRecordFilterExpression.Value != "")
+                filterExpression += string.Format(" AND {0}", hdnRecordFilterExpression.Value);
             return filterExpression;
         }
 
-        public void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
+        public override int OnGetRowCount()
         {
-            String data = GetDataFromFile();
-            UploadFile(data);
-            SaveData();
-            grdView.DataSource = lstTp;
-            grdView.DataBind();
+            string filterExpression = GetFilterExpression();
+            return BusinessLayer.GetvTransTeacherProfileHdRowCount(filterExpression);
         }
 
-        public void UploadFile(String data) 
+        protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
+        {
+            string filterExpression = GetFilterExpression();
+            vTransTeacherProfileHd entity = BusinessLayer.GetvTransTeacherProfileHd(filterExpression, PageIndex, "TransactionID DESC");
+            EntityToControl(entity, ref isShowWatermark, ref watermarkText);
+        }
+
+        protected override void OnLoadEntity(string keyValue, ref int PageIndex, ref bool isShowWatermark, ref string watermarkText)
+        {
+            string filterExpression = GetFilterExpression();
+            PageIndex = BusinessLayer.GetvTransTeacherProfileHdRowIndex(filterExpression, keyValue, "TransactionID DESC");
+            vTransTeacherProfileHd entity = BusinessLayer.GetvTransTeacherProfileHd(filterExpression, PageIndex, "TransactionID DESC");
+            EntityToControl(entity, ref isShowWatermark, ref watermarkText);
+        }
+
+        private void EntityToControl(vTransTeacherProfileHd entity, ref bool isShowWatermark, ref string watermarkText)
+        {
+            if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN)
+            {
+                hdnIsEditable.Value = "0";
+                isShowWatermark = true;
+                watermarkText = entity.TransactionStatusWatermark;
+            }
+            else
+                hdnIsEditable.Value = "1";
+
+            //if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN && entity.GCTransactionStatus != Constant.TransactionStatus.VOID)
+            //    hdnPrintStatus.Value = "true";
+            //else
+            //    hdnPrintStatus.Value = "false";
+
+            hdnTransactionID.Value = entity.TransactionID.ToString();
+            txtTransactionNo.Text = entity.TransactionNo;
+            txtTransactionDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            cboGrade.Value = entity.GCSchoolType.ToString();
+            txtNotes.Text = entity.Remarks;
+
+            BindGridView(1, true, ref PageCount, ref RowCount);
+            hdnPageCount.Value = PageCount.ToString();
+            hdnRowCount.Value = RowCount.ToString();
+        }
+
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
+        {
+            string filterExpression = "1 = 0";
+            if (hdnTransactionID.Value != "")
+                filterExpression = string.Format("TransactionID = {0}", hdnTransactionID.Value);
+
+            if (isCountPageCount)
+            {
+                rowCount = BusinessLayer.GetvTransTeacherProfileDtRowCount(filterExpression);
+                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
+            }
+
+            List<vTransTeacherProfileDt> lstEntity = BusinessLayer.GetvTransTeacherProfileDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "TeacherName ASC");
+            hdnPageCount.Value = pageCount.ToString();
+            grdView.DataSource = lstEntity;
+            grdView.DataBind();
+        }
+        #endregion
+
+        #region Save & Edit Header
+        private void ControlToEntityHd(TransTeacherProfileHd entityHd) 
+        {
+            entityHd.TransactionDate = Helper.GetDatePickerValue(txtTransactionDate.Text);
+            entityHd.GCSchoolType = cboGrade.Value.ToString();
+            entityHd.Remarks = txtNotes.Text;
+        }
+
+        public void SaveTransTeacherProfileHd(IDbContext ctx, ref int TransactionID)
+        {
+            TransTeacherProfileHdDao ttpDao = new TransTeacherProfileHdDao(ctx);
+            if (hdnTransactionID.Value == "0")
+            {
+                TransTeacherProfileHd ttphd = new TransTeacherProfileHd();
+                ttphd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.TEACHER_PROFILE, DateTime.Now, ctx);
+                ctx.CommandType = CommandType.Text;
+                ctx.Command.Parameters.Clear();
+                ttphd.TransactionCode = Constant.TransactionCode.TEACHER_PROFILE;
+                ttphd.TransactionDate = Helper.GetDatePickerValue(txtTransactionDate.Text);
+                ttphd.GCSchoolType = cboGrade.Value.ToString();
+                ttphd.Remarks = txtNotes.Text;
+                ttphd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                ttphd.CreatedBy = AppSession.UserLogin.UserID;
+                ttpDao.Insert(ttphd);
+                TransactionID = BusinessLayer.GetTransTeacherProfileHdMaxID(ctx);
+            }
+            else
+            {
+                TransactionID = Convert.ToInt32(hdnTransactionID.Value);
+            }
+        }
+        
+        protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
+        {
+            bool result = true;
+            //IDbContext ctx = DbFactory.Configure(true);
+            try
+            {
+                //int OrderID = 0;
+                //SaveItemRequestHd(ctx, ref OrderID);
+                //retval = OrderID.ToString();
+                //ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                //ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            finally
+            {
+                //ctx.Close();
+            }
+            return result;
+        }
+
+        protected override bool OnSaveEditRecord(ref string errMessage, ref string retval)
         {
             try
             {
-                data = data.Replace("\r","");
+                //ItemRequestHd entity = BusinessLayer.GetItemRequestHd(Convert.ToInt32(hdnTransactionID.Value));
+                //ControlToEntityHd(entity);
+                //entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                //BusinessLayer.UpdateItemRequestHd(entity);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                return false;
+            }
+        }
+
+        #region Approved Proposed Void Entity
+        protected override bool OnApproveRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            TransTeacherProfileHdDao ttphdDao = new TransTeacherProfileHdDao(ctx);
+            TransTeacherProfileDtDao ttpdtDao = new TransTeacherProfileDtDao(ctx);
+            try
+            {
+                TransTeacherProfileHd entityHd = ttphdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                ControlToEntityHd(entityHd);
+                entityHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                ttphdDao.Update(entityHd);
+
+                string filterExpression = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{0}'", hdnTransactionID.Value, Constant.TransactionStatus.VOID);
+                List<TransTeacherProfileDt> lstTransTeacherProfileDt = BusinessLayer.GetTransTeacherProfileDtList(filterExpression, ctx);
+                foreach (TransTeacherProfileDt entityDt in lstTransTeacherProfileDt)
+                {
+                    entityDt.GCTeacherDetailStatus = Constant.TransactionStatus.APPROVED;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    ttpdtDao.Update(entityDt);
+                }
+
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        protected override bool OnProposeRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            TransTeacherProfileHdDao ttphdDao = new TransTeacherProfileHdDao(ctx);
+            TransTeacherProfileDtDao ttpdtDao = new TransTeacherProfileDtDao(ctx);
+            try
+            {
+                TransTeacherProfileHd entityHd = ttphdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                ControlToEntityHd(entityHd);
+                entityHd.GCTransactionStatus = Constant.TransactionStatus.PROCESSED;
+                entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                ttphdDao.Update(entityHd);
+
+                string filterExpression = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{0}'", hdnTransactionID.Value, Constant.TransactionStatus.VOID);
+                List<TransTeacherProfileDt> lstTransTeacherProfileDt = BusinessLayer.GetTransTeacherProfileDtList(filterExpression, ctx);
+                foreach (TransTeacherProfileDt entityDt in lstTransTeacherProfileDt)
+                {
+                    entityDt.GCTeacherDetailStatus = Constant.TransactionStatus.PROCESSED;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    ttpdtDao.Update(entityDt);
+                }
+
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        protected override bool OnVoidRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            TransTeacherProfileHdDao ttphdDao = new TransTeacherProfileHdDao(ctx);
+            TransTeacherProfileDtDao ttpdtDao = new TransTeacherProfileDtDao(ctx);
+            try
+            {
+                TransTeacherProfileHd entityHd = ttphdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                ControlToEntityHd(entityHd);
+                entityHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                ttphdDao.Update(entityHd);
+
+                string filterExpression = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{0}'", hdnTransactionID.Value, Constant.TransactionStatus.VOID);
+                List<TransTeacherProfileDt> lstTransTeacherProfileDt = BusinessLayer.GetTransTeacherProfileDtList(filterExpression, ctx);
+                foreach (TransTeacherProfileDt entityDt in lstTransTeacherProfileDt)
+                {
+                    entityDt.GCTeacherDetailStatus = Constant.TransactionStatus.VOID;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    ttpdtDao.Update(entityDt);
+                }
+
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+
+        #endregion
+
+        #region Process Detail
+        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string result = "";
+            string errMessage = "";
+            int TransactionID = 0;
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
+            if (param[0] == "save")
+            {
+                if (hdnEntryID.Value.ToString() != "")
+                {
+                    TransactionID = Convert.ToInt32(hdnTransactionID.Value);
+                    if (OnSaveEditRecordEntityDt(ref errMessage))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+                else
+                {
+                    if (OnSaveAddRecordEntityDt(ref errMessage, ref TransactionID))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+            }
+            else if (param[0] == "delete")
+            {
+                TransactionID = Convert.ToInt32(hdnTransactionID.Value);
+                if (OnDeleteEntityDt(ref errMessage, TransactionID))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+            else if (param[0] == "upload") 
+            {
+                if (OnUploadAddRecordEntityDt(ref errMessage, ref TransactionID))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+            panel.JSProperties["cpTransactionID"] = TransactionID.ToString();
+        }
+
+        private void ControlToEntity(ItemRequestDt entityDt)
+        {
+            //entityDt.ItemID = Convert.ToInt32(hdnItemID.Value);
+            //entityDt.Quantity = Convert.ToDecimal(txtQuantity.Text);
+            //entityDt.GCItemUnit = cboItemUnit.Value.ToString();
+            //entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
+            //entityDt.ConversionFactor = Convert.ToDecimal(hdnItemUnitValue.Value);
+            //entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+        }
+
+        private bool OnUploadAddRecordEntityDt(ref string errMessage, ref int TransactionID) 
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            try
+            {
+                String data = GetDataFromFile();
+                UploadFile(data);
+                OnUploadAddRecord(ctx, ref TransactionID);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally 
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int OrderID)
+        {
+            bool result = true;
+            //IDbContext ctx = DbFactory.Configure(true);
+            //ItemRequestDtDao entityDtDao = new ItemRequestDtDao(ctx);
+            try
+            {
+                //SaveItemRequestHd(ctx, ref OrderID);
+                //ItemRequestDt entityDt = new ItemRequestDt();
+                //ControlToEntity(entityDt);
+                //entityDt.ItemRequestID = OrderID;
+                //entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                //entityDtDao.Insert(entityDt);
+                //ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                errMessage = ex.Message;
+                //ctx.RollBackTransaction();
+            }
+            finally
+            {
+                //ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnSaveEditRecordEntityDt(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            //ItemRequestDtDao entityDtDao = new ItemRequestDtDao(ctx);
+            try
+            {
+                //ItemRequestDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                //ControlToEntity(entityDt);
+                //entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                //entityDtDao.Update(entityDt);
+                //ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                errMessage = ex.Message;
+                //ctx.RollBackTransaction();
+            }
+            finally
+            {
+                //ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnDeleteEntityDt(ref string errMessage, int ID)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            //ItemRequestDtDao entityDtDao = new ItemRequestDtDao(ctx);
+            try
+            {
+                //ItemRequestDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                //entityDt.IsDeleted = true;
+                //entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                //entityDtDao.Update(entityDt);
+                //ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                //result = false;
+            }
+            finally
+            {
+                //ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+
+        #region CallBack Trigger
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            int pageCount = 1;
+            int rowCount = 1;
+            string result = "";
+            if (e.Parameter != null && e.Parameter != "")
+            {
+                string[] param = e.Parameter.Split('|');
+                if (param[0] == "changepage")
+                {
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
+                    result = "changepage";
+                }
+                else // refresh
+                {
+                    BindGridView(1, true, ref pageCount, ref rowCount);
+                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
+                }
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+        }
+        #endregion
+
+        #region Upload Data
+        public String GetDataFromFile()
+        {
+            string imageData = hdnUploadedFile1.Value;
+            if (imageData != "")
+            {
+                string[] parts = Regex.Split(imageData, ",").Skip(1).ToArray();
+                imageData = String.Join(",", parts);
+            }
+
+            byte[] data = Convert.FromBase64String(imageData);
+            var stream = new StreamReader(new MemoryStream(data));
+            string text = stream.ReadToEnd();
+            return text;
+        }
+        public void UploadFile(String data)
+        {
+            try
+            {
+                data = data.Replace("\r", "");
                 List<String> lstData = data.Split('\n').ToList();
                 lstData.Remove("");
-                foreach (String temp in lstData.Skip(4)) 
+                foreach (String temp in lstData.Skip(4))
                 {
                     String[] obj = temp.Split(',');
                     TeacherProfile tp = new TeacherProfile();
@@ -845,7 +1322,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.PedagogikScore = obj[16];
                         tp.PedagogikScoreInPercentage = obj[17];
                         tp.PedagogikResult = obj[18];
-                        tp.DataFromFile = String.Join(",", obj.Skip(2).Take(14).Select(x => x.Replace("%","")));
+                        tp.DataFromFile = String.Join(",", obj.Skip(2).Take(14).Select(x => x.Replace("%", "")));
                         #endregion
 
                         #region Kompetensi Profesional
@@ -942,12 +1419,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.DataFromFile += "," + String.Join(",", obj.Skip(86).Take(10).Select(x => x.Replace("%", "")));
                         #endregion
                         #endregion
-                        
+
                         #region OpenQuestion
                         #endregion
                         #endregion
                     }
-                    else if (cboGrade.Value.ToString() == Constant.SchoolTypeName.SMP) 
+                    else if (cboGrade.Value.ToString() == Constant.SchoolTypeName.SMP)
                     {
                         #region Kompetensi Pedagogik & Profesional
                         #region Pedagogik
@@ -1217,141 +1694,66 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 String errMessage = ex.Message;
             }
-            finally 
+            finally
             {
 
             }
         }
-
-        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        public void OnUploadAddRecord(IDbContext ctx, ref int TransactionID)
         {
-            int pageCount = 1;
-            int rowCount = 1;
-            string result = "";
-            if (e.Parameter != null && e.Parameter != "")
-            {
-                string[] param = e.Parameter.Split('|');
-                if (param[0] == "changepage")
-                {
-                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
-                    result = "changepage";
-                }
-                else // refresh
-                {
-                    BindGridView(1, true, ref pageCount, ref rowCount);
-                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
-                }
-            }
-
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
-        }
-
-        public String GetDataFromFile() 
-        {
-            string imageData = hdnUploadedFile1.Value;
-            if (imageData != "")
-            {
-                string[] parts = Regex.Split(imageData, ",").Skip(1).ToArray();
-                imageData = String.Join(",", parts);
-            }
-
-            byte[] data = Convert.FromBase64String(imageData);
-            var stream = new StreamReader(new MemoryStream(data));
-            string text = stream.ReadToEnd();
-            return text;
-        }
-
-        public void SaveTransTeacherProfileHd(ref int ID, IDbContext ctx)
-        {
-            TransTeacherProfileHdDao ttpDao = new TransTeacherProfileHdDao(ctx);
-            TransTeacherProfileHd ttphd = new TransTeacherProfileHd();
-            ttphd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.TEACHER_PROFILE, DateTime.Now, ctx);
-            ctx.CommandType = CommandType.Text;
-            ctx.Command.Parameters.Clear();
-            ttphd.TransactionCode = Constant.TransactionCode.TEACHER_PROFILE;
-            ttphd.TransactionDate = DateTime.Now;
-            ttphd.GCSchoolType = cboGrade.Value.ToString();
-            ttphd.Remarks = "";
-            ttphd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-            ttphd.CreatedBy = AppSession.UserLogin.UserID;
-            ttpDao.Insert(ttphd);
-            ID = BusinessLayer.GetTransTeacherProfileHdMaxID(ctx);
-        }
-
-        public bool SaveData() 
-        {
-            bool result = true;
-            String errMessage;
             String lstNIK = String.Join("','", lstTp.Select(x => x.NIK));
-            List<vTeacher> tch = BusinessLayer.GetvTeacherList(String.Format("TeacherCode IN ('{0}')",lstNIK));
+            List<vTeacher> tch = BusinessLayer.GetvTeacherList(String.Format("TeacherCode IN ('{0}')", lstNIK));
             List<PersonalityType> lstPersonType = BusinessLayer.GetPersonalityTypeList("IsDeleted = 0");
 
-            IDbContext ctx = DbFactory.Configure(true);
             TransTeacherProfileDtDao ttpdtDao = new TransTeacherProfileDtDao(ctx);
             TransTeacherProfileDtItemDao ttpItemDao = new TransTeacherProfileDtItemDao(ctx);
-            try
+            
+            SaveTransTeacherProfileHd(ctx, ref TransactionID);
+            foreach (TeacherProfile tp in lstTp)
             {
-                int ID = 0;
-                SaveTransTeacherProfileHd(ref ID, ctx);
-                foreach(TeacherProfile tp in lstTp)
+                TransTeacherProfileDt ttpdt = new TransTeacherProfileDt();
+                ttpdt.TransactionID = TransactionID;
+                ttpdt.TeacherID = tch.FirstOrDefault(x => x.TeacherCode == tp.NIK.ToString()).TeacherID;
+                ttpdt.PersonalityTypeID = lstPersonType.FirstOrDefault(x => x.PersonalityTypeName.Contains(tp.Talent)).PersonalityTypeID;
+                ttpdt.IQScore = Convert.ToInt32(tp.IQ);
+                ttpdt.DScore = Convert.ToInt32(tp.Drive);
+                ttpdt.KScore = Convert.ToInt32(tp.Komunikasi);
+                ttpdt.LScore = Convert.ToInt32(tp.Loyalitas);
+                ttpdt.TScore = Convert.ToInt32(tp.Teliti);
+                ttpdt.KonsScoreInPercentage = Convert.ToInt32(Convert.ToDecimal(tp.Konsistensi.Replace("%", "")));
+                ttpdt.Remarks = "";
+                ttpdt.GCTeacherDetailStatus = Constant.TransactionStatus.OPEN;
+                ttpdt.CreatedBy = AppSession.UserLogin.UserID;
+                ttpdtDao.Insert(ttpdt);
+
+                Int32 DtID = BusinessLayer.GetTransTeacherProfileDtMaxID(ctx);
+                List<TeacherProfileItem> LstTeacherProfileItem = BusinessLayer.GetTeacherProfileItemList(String.Format("TeacherProfileGroupID IN (SELECT TeacherProfileGroupID FROM SchoolTypeTeacherProfileGroup WHERE GCSchoolType = '{0}') AND IsDeleted = 0 ORDER BY TeacherProfileGroupID ASC,DisplayOrder ASC", cboGrade.Value), ctx);
+                String[] temp = tp.DataFromFile.Split(',');
+                int i = 0;
+                List<Int32> lstGroupID = LstTeacherProfileItem.GroupBy(x => x.TeacherProfileGroupID).Select(x => x.Key).ToList();
+
+                foreach (TeacherProfileItem tpi in LstTeacherProfileItem)
                 {
-                    TransTeacherProfileDt ttpdt = new TransTeacherProfileDt();
-                    ttpdt.TransactionID = ID;
-                    ttpdt.TeacherID = tch.FirstOrDefault(x => x.TeacherCode == tp.NIK.ToString()).TeacherID;                    
-                    ttpdt.PersonalityTypeID = lstPersonType.FirstOrDefault(x => x.PersonalityTypeName.Contains(tp.Talent)).PersonalityTypeID;
-                    ttpdt.IQScore = Convert.ToInt32(tp.IQ);
-                    ttpdt.DScore = Convert.ToInt32(tp.Drive);
-                    ttpdt.KScore = Convert.ToInt32(tp.Komunikasi);
-                    ttpdt.LScore = Convert.ToInt32(tp.Loyalitas);
-                    ttpdt.TScore = Convert.ToInt32(tp.Teliti);
-                    ttpdt.KonsScoreInPercentage = Convert.ToInt32(Convert.ToDecimal(tp.Konsistensi.Replace("%","")));
-                    ttpdt.Remarks = "";
-                    ttpdt.GCTeacherDetailStatus = Constant.TransactionStatus.OPEN;
-                    ttpdt.CreatedBy = AppSession.UserLogin.UserID;
-                    ttpdtDao.Insert(ttpdt);
-                    
-                    Int32 DtID = BusinessLayer.GetTransTeacherProfileDtMaxID(ctx);
-                    List<TeacherProfileItem> LstTeacherProfileItem = BusinessLayer.GetTeacherProfileItemList(String.Format("TeacherProfileGroupID IN (SELECT TeacherProfileGroupID FROM SchoolTypeTeacherProfileGroup WHERE GCSchoolType = '{0}') AND IsDeleted = 0 ORDER BY TeacherProfileGroupID ASC,DisplayOrder ASC", cboGrade.Value), ctx);
-                    String[] temp = tp.DataFromFile.Split(',');
-                    int i = 0;
-                    List<Int32> lstGroupID = LstTeacherProfileItem.GroupBy(x => x.TeacherProfileGroupID).Select(x => x.Key).ToList();
-
-                    foreach (TeacherProfileItem tpi in LstTeacherProfileItem)
+                    TransTeacherProfileDtItem ttpItem = new TransTeacherProfileDtItem();
+                    ttpItem.TransTeacherProfileDtID = DtID;
+                    ttpItem.TeacherProfileItemID = tpi.TeacherProfileItemID;
+                    ttpItem.Score = Convert.ToDecimal(temp[i]);
+                    if (tpi.IsDynamicQualityPercentage)
                     {
-                        TransTeacherProfileDtItem ttpItem = new TransTeacherProfileDtItem();
-                        ttpItem.TransTeacherProfileDtID = DtID;
-                        ttpItem.TeacherProfileItemID = tpi.TeacherProfileItemID;
-                        ttpItem.Score = Convert.ToDecimal(temp[i]);
-                        if (tpi.IsDynamicQualityPercentage)
-                        {
-                            ttpItem.ScoreInPercentage = Convert.ToDecimal(temp[i + 1]);
-                            ttpItem.QualityPercentage = Convert.ToDecimal(temp[i + 1]);
-                        }
-                        else
-                        {
-                            ttpItem.ScoreInPercentage = ttpItem.Score / tpi.QualityPercentage * 100;
-                            ttpItem.QualityPercentage = ttpItem.Score / tpi.QualityPercentage * 100;
-                        }
-
-                        ttpItemDao.Insert(ttpItem);
-                        i += 2;
+                        ttpItem.ScoreInPercentage = Convert.ToDecimal(temp[i + 1]);
+                        ttpItem.QualityPercentage = Convert.ToDecimal(temp[i + 1]);
+                    }
+                    else
+                    {
+                        ttpItem.ScoreInPercentage = ttpItem.Score / tpi.QualityPercentage * 100;
+                        ttpItem.QualityPercentage = ttpItem.Score / tpi.QualityPercentage * 100;
                     }
 
+                    ttpItemDao.Insert(ttpItem);
+                    i += 2;
                 }
-                ctx.CommitTransaction();
             }
-            catch (Exception ex)
-            {
-                errMessage = ex.Message;
-                result = false;
-                ctx.RollBackTransaction();
-            }
-            finally 
-            {
-                ctx.Close();
-            }
-            return result;
         }
+        #endregion
     }
 }

@@ -4546,7 +4546,6 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-
         public static Int32 GetvItemRequestDtRowCount(string filterExpression)
         {
             Int32 result = 0;
@@ -4568,7 +4567,6 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-
         public static List<vItemRequestDt> GetvItemRequestDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
         {
             List<vItemRequestDt> result = new List<vItemRequestDt>();
@@ -4684,7 +4682,6 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-
         public static vItemRequestHd GetvItemRequestHd(string filterExpression, int pageIndex, string orderByExpression = "")
         {
             List<vItemRequestHd> result = new List<vItemRequestHd>();
@@ -4730,7 +4727,6 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-
         public static List<vItemRequestHd> GetvItemRequestHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
         {
             List<vItemRequestHd> result = new List<vItemRequestHd>();
@@ -11308,6 +11304,185 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vTeacherSubstitution)helper.IDataReaderToObject(reader, new vTeacherSubstitution()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTransTeacherProfileDt
+        public static List<vTransTeacherProfileDt> GetvTransTeacherProfileDtList(string filterExpression)
+        {
+            List<vTransTeacherProfileDt> result = new List<vTransTeacherProfileDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransTeacherProfileDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransTeacherProfileDt)helper.IDataReaderToObject(reader, new vTransTeacherProfileDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTransTeacherProfileDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransTeacherProfileDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTransTeacherProfileDt> GetvTransTeacherProfileDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransTeacherProfileDt> result = new List<vTransTeacherProfileDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransTeacherProfileDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransTeacherProfileDt)helper.IDataReaderToObject(reader, new vTransTeacherProfileDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTransTeacherProfileHd
+        public static List<vTransTeacherProfileHd> GetvTransTeacherProfileHdList(string filterExpression)
+        {
+            List<vTransTeacherProfileHd> result = new List<vTransTeacherProfileHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransTeacherProfileHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransTeacherProfileHd)helper.IDataReaderToObject(reader, new vTransTeacherProfileHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTransTeacherProfileHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransTeacherProfileHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static vTransTeacherProfileHd GetvTransTeacherProfileHd(string filterExpression, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransTeacherProfileHd> result = new List<vTransTeacherProfileHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransTeacherProfileHd));
+                ctx.CommandText = helper.SelectByPageIndex(filterExpression, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransTeacherProfileHd)helper.IDataReaderToObject(reader, new vTransTeacherProfileHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            if (result.Count > 0)
+                return result[0];
+            return null;
+        }
+        public static Int32 GetvTransTeacherProfileHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransTeacherProfileHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TransactionNo", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTransTeacherProfileHd> GetvTransTeacherProfileHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransTeacherProfileHd> result = new List<vTransTeacherProfileHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransTeacherProfileHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransTeacherProfileHd)helper.IDataReaderToObject(reader, new vTransTeacherProfileHd()));
             }
             catch (Exception ex)
             {

@@ -15612,6 +15612,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<TransTeacherProfileDt> GetTransTeacherProfileDtList(string filterExpression,IDbContext ctx)
+        {
+            List<TransTeacherProfileDt> result = new List<TransTeacherProfileDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransTeacherProfileDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransTeacherProfileDt)helper.IDataReaderToObject(reader, new TransTeacherProfileDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetTransTeacherProfileDtMaxID(IDbContext ctx)
         {
             Int32 result = 0;

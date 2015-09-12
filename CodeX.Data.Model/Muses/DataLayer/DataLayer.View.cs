@@ -28980,6 +28980,225 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTransTeacherProfileDt
+    [Serializable]
+    [Table(Name = "vTransTeacherProfileDt")]
+    public class vTransTeacherProfileDt
+    {
+        private Int32 _ID;
+        private Int32 _TransactionID;
+        private Int32 _TeacherID;
+        private String _TeacherCode;
+        private String _TeacherName;
+        private Int32 _PersonalityTypeID;
+        private String _PersonalityTypeName;
+        private String _Character;
+        private String _Advantages;
+        private String _Weakness;
+        private Int32 _IQScore;
+        private Int32 _DScore;
+        private Int32 _KScore;
+        private Int32 _LScore;
+        private Int32 _TScore;
+        private Int32 _KonsScoreInPercentage;
+        private String _Remarks;
+        private String _GCTeacherDetailStatus;
+        private String _TeacherDetailStatus;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "TeacherCode", DataType = "String")]
+        public String TeacherCode
+        {
+            get { return _TeacherCode; }
+            set { _TeacherCode = value; }
+        }
+        [Column(Name = "TeacherName", DataType = "String")]
+        public String TeacherName
+        {
+            get { return _TeacherName; }
+            set { _TeacherName = value; }
+        }
+        [Column(Name = "PersonalityTypeID", DataType = "Int32")]
+        public Int32 PersonalityTypeID
+        {
+            get { return _PersonalityTypeID; }
+            set { _PersonalityTypeID = value; }
+        }
+        [Column(Name = "PersonalityTypeName", DataType = "String")]
+        public String PersonalityTypeName
+        {
+            get { return _PersonalityTypeName; }
+            set { _PersonalityTypeName = value; }
+        }
+        [Column(Name = "Character", DataType = "String")]
+        public String Character
+        {
+            get { return _Character; }
+            set { _Character = value; }
+        }
+        [Column(Name = "Advantages", DataType = "String")]
+        public String Advantages
+        {
+            get { return _Advantages; }
+            set { _Advantages = value; }
+        }
+        [Column(Name = "Weakness", DataType = "String")]
+        public String Weakness
+        {
+            get { return _Weakness; }
+            set { _Weakness = value; }
+        }
+        [Column(Name = "IQScore", DataType = "Int32")]
+        public Int32 IQScore
+        {
+            get { return _IQScore; }
+            set { _IQScore = value; }
+        }
+        [Column(Name = "DScore", DataType = "Int32")]
+        public Int32 DScore
+        {
+            get { return _DScore; }
+            set { _DScore = value; }
+        }
+        [Column(Name = "KScore", DataType = "Int32")]
+        public Int32 KScore
+        {
+            get { return _KScore; }
+            set { _KScore = value; }
+        }
+        [Column(Name = "LScore", DataType = "Int32")]
+        public Int32 LScore
+        {
+            get { return _LScore; }
+            set { _LScore = value; }
+        }
+        [Column(Name = "TScore", DataType = "Int32")]
+        public Int32 TScore
+        {
+            get { return _TScore; }
+            set { _TScore = value; }
+        }
+        [Column(Name = "KonsScoreInPercentage", DataType = "Int32")]
+        public Int32 KonsScoreInPercentage
+        {
+            get { return _KonsScoreInPercentage; }
+            set { _KonsScoreInPercentage = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTeacherDetailStatus", DataType = "String")]
+        public String GCTeacherDetailStatus
+        {
+            get { return _GCTeacherDetailStatus; }
+            set { _GCTeacherDetailStatus = value; }
+        }
+        [Column(Name = "TeacherDetailStatus", DataType = "String")]
+        public String TeacherDetailStatus
+        {
+            get { return _TeacherDetailStatus; }
+            set { _TeacherDetailStatus = value; }
+        }
+    }
+    #endregion
+    #region vTransTeacherProfileHd
+    [Serializable]
+    [Table(Name = "vTransTeacherProfileHd")]
+    public class vTransTeacherProfileHd
+    {
+        private Int32 _TransactionID;
+        private String _TransactionCode;
+        private DateTime _TransactionDate;
+        private String _TransactionNo;
+        private String _GCSchoolType;
+        private String _SchoolType;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "GCSchoolType", DataType = "String")]
+        public String GCSchoolType
+        {
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
+        }
+        [Column(Name = "SchoolType", DataType = "String")]
+        public String SchoolType
+        {
+            get { return _SchoolType; }
+            set { _SchoolType = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+    }
+    #endregion
 
     #region Project Management
     #region vActivityHistory
