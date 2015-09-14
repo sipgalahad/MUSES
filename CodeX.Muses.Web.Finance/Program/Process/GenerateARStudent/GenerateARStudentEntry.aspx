@@ -11,12 +11,19 @@
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnGenerate" runat="server" crudmode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Generate")%></div></li>
+    <li id="btnGenerate" runat="server" crudmode="R" title="Ctrl + G"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Generate")%></div></li>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
+        $('body').live('keydown', function (e) {
+            if (e.ctrlKey && e.keyCode == 71) { //G
+                $('#<%=btnGenerate.ClientID %>').click();
+                e.preventDefault();
+            }
+        });
+        
         $(function () {
             var grd = new customGridView();
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
@@ -319,6 +326,10 @@
                     </tr>
                 </table>
             </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><asp:CheckBox ID="chkIsShowOnlyInvoiceAvailable" runat="server" /><%=GetLabel("Tampilkan Hanya yang Mempunyai Tagihan") %></td>
         </tr>
         <tr>
             <td></td>

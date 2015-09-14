@@ -15,7 +15,6 @@
     <script type="text/javascript">
         $(function () {
             $('#btnUploadFile').click(function () {
-                //cbpPopupProcess.PerformCallback('save');
                 cbpView.PerformCallback('refresh');
             });
 
@@ -94,6 +93,8 @@
         function onCbpViewEndCallback(s) {
             hideLoadingPanel();
 
+            if (s.cpErrorMessage != '')
+                showToast('Error', s.cpErrorMessage);
             var param = s.cpResult.split('|');
             if (param[0] == 'refresh') {
                 var pageCount = parseInt(param[1]);
@@ -114,7 +115,23 @@
         }
         //#endregion
 
+        $('.lblStudent').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var temp = id.split('|');
+            if (temp[0] != '0') {
+                var url = ResolveUrl('~/Program/ARInvoice/ARInvoiceStudent/StudentPageLauncher.aspx?id=' + temp[0]);
+                openWindowPopup(url, 'Student', '1300', '650');
+            }
+            else {
+                var url = ResolveUrl('~/Program/ARInvoice/ARInvoiceProspectiveStudent/ProspectiveStudentPageLauncher.aspx?id=' + temp[1]);
+                openWindowPopup(url, 'ProspectiveStudent', '1300', '650');
+            }
+        });
+
     </script>
+    <style type="text/css">
+        .grdSelected .highlighted td       { background-color: #F54F49; }
+    </style>
     <div>
         <input type="hidden" value="" id="hdnID" runat="server" />
         <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -140,10 +157,6 @@
                     <input type="hidden" id="hdnUploadedFile1" runat="server" value="" />
                     <asp:FileUpload ID="FileUpload1" runat="server" />
                     <input type="button" id="btnUploadFile" value="Upload" />
-                    <dxcp:ASPxCallbackPanel ID="cbpPopupProcess" runat="server" Width="100%" ClientInstanceName="cbpPopupProcess"
-                        ShowLoadingPanel="false" OnCallback="cbpPopupProcess_Callback">
-                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpPopupProcess(); }" />
-                    </dxcp:ASPxCallbackPanel>
                 </td>
             </tr>
         </table>
@@ -158,11 +171,15 @@
                             <PanelCollection>
                                 <dx:PanelContent ID="PanelContent1" runat="server">
                                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid" Style="overflow-y: scroll;">
-                                        <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                        <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
                                             <Columns>
-                                                <asp:BoundField DataField="NBS" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                <asp:BoundField DataField="cfStudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                                 <asp:BoundField DataField="NBS" HeaderText="No. Bank" HeaderStyle-Width="120px" />
-                                                <asp:BoundField DataField="StudentName" HeaderText="Calon Siswa / Siswa" />
+                                                <asp:TemplateField HeaderText="Calon Siswa / Siswa">
+                                                    <ItemTemplate>
+                                                        <label class="lblLink lblStudent"><%#Eval("StudentName") %></label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="PaymentDate" HeaderText="Tanggal" HeaderStyle-Width="120px" />
                                                 <asp:BoundField DataField="Amount" HeaderText="Amount" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
                                                 <asp:BoundField DataField="Status" HeaderText="Status" HeaderStyle-Width="120px"  />
