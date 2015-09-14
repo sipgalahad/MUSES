@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using CodeX.Web.Common.UI;
+using CodeX.Data.Model;
+using System.Web.UI.HtmlControls;
+using CodeX.Web.Common;
+using CodeX.Common;
+
+namespace CodeX.Muses.Web.StudentManagement.Report
+{
+    public partial class BProfilGuruRpt : BaseCustomReportCtl
+    {
+        List<vTransTeacherProfileDtItem> lstProfileItem = null;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            
+        }
+        
+        public override void Bind(string filterExpression, string[] param)
+        {
+            String text = divPersonalityType.InnerHtml;
+            vTransTeacherProfileDt ttpdt = BusinessLayer.GetvTransTeacherProfileDtList(filterExpression)[0];
+            divRBHeader.InnerHtml = divRBHeader.InnerHtml.Replace("{TeacherName}", ttpdt.TeacherName);
+            divPersonalityType.InnerHtml = text.Replace("{PersonalityType}", ttpdt.PersonalityTypeName);
+
+            text = divPersonal.InnerHtml;
+            text = text.Replace("{TeacherName}", ttpdt.TeacherName);
+            text = text.Replace("{IQ}", ttpdt.IQScore.ToString());
+            text = text.Replace("{Drive}", ttpdt.DScore.ToString("N"));
+            text = text.Replace("{Komunikasi}", ttpdt.KScore.ToString("N"));
+            text = text.Replace("{Loyalitas}", ttpdt.LScore.ToString("N"));
+            text = text.Replace("{Ketelitian}", ttpdt.TScore.ToString("N"));
+            text = text.Replace("{Konsistensi}", ttpdt.KonsScoreInPercentage.ToString("N"));
+            divPersonal.InnerHtml = text;
+
+            text = divPersonalDesc.InnerHtml;
+            text = text.Replace("{Adventages}", ttpdt.Advantages.Replace("<br>","<br/>"));
+            text = text.Replace("{Weakness}", ttpdt.Weakness.Replace("<br>", "<br/>"));
+            divPersonalDesc.InnerHtml = text;
+
+            filterExpression = String.Format("TransTeacherProfileDtID = {0}",ttpdt.ID);
+            lstProfileItem = BusinessLayer.GetvTransTeacherProfileDtItemList(filterExpression);
+            List<Variable> lstGroup = (from grp in lstProfileItem group grp by new { grp.TeacherProfileGroupID, grp.TeacherProfileGroupDisplayText } into NewGrp select new Variable { Code = NewGrp.Key.TeacherProfileGroupID.ToString(), Value = NewGrp.Key.TeacherProfileGroupDisplayText }).ToList();
+            rptReportBody.DataSource = lstGroup;
+            rptReportBody.DataBind();
+        }
+
+        protected void rptReportBody_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
+            {
+                Repeater rptGroupItem = e.Item.FindControl("rptGroupItem") as Repeater;
+                HtmlGenericControl divHeader = e.Item.FindControl("divHeader") as HtmlGenericControl;
+                Variable group = e.Item.DataItem as Variable;
+
+                switch (group.Code) 
+                { 
+                    case "2" :
+                        divHeader.Style.Remove("display");
+                        divHeader.InnerHtml = "B. KOMPETENSI PEDAGOGIK & PROFESIONAL";
+                        break;
+                    case "5":
+                        divHeader.Style.Remove("display");
+                        divHeader.InnerHtml = "B. KOMPETENSI PEDAGOGIK & PROFESIONAL"; 
+                        break;
+                    case "8":
+                        divHeader.Style.Remove("display");
+                        divHeader.InnerHtml = "C. PROFIL MENURUT SISWA";
+                        break;
+                    default : 
+                        divHeader.Style.Add("display","none"); 
+                        break;
+                }
+
+                List<vTransTeacherProfileDtItem> lstTemp = lstProfileItem.Where(x => x.TeacherProfileGroupID == Convert.ToInt32(group.Code)).ToList();
+                rptGroupItem.DataSource = lstTemp;
+                rptGroupItem.DataBind();
+                HtmlTableRow trMutu = e.Item.FindControl("trMutu") as HtmlTableRow;
+                if (lstTemp.Count() > 1)
+                {
+                    HtmlTableCell tdFinalScore = e.Item.FindControl("tdFinalScore") as HtmlTableCell;
+                    HtmlTableCell tdQualityScore = e.Item.FindControl("tdQualityScore") as HtmlTableCell;
+                    Decimal TotScore = lstTemp.Sum(x => x.Score);
+                    Int32 QualityPercentage = lstTemp.Sum(x => x.QualityPercentage);
+                    Decimal DynamicQualityPercentage = lstTemp.Sum(x => x.DynamicQualityPercentage);
+                    Decimal FinalScore = 0;
+                    if (QualityPercentage == 0)
+                    {
+                        FinalScore = (TotScore / DynamicQualityPercentage * 100);
+                    }
+                    else
+                    {
+                        FinalScore = (TotScore / QualityPercentage * 100);
+                    }
+                    tdFinalScore.InnerHtml = FinalScore.ToString("N2");
+                    tdQualityScore.InnerHtml = GetMutu(FinalScore);
+                }
+                else 
+                {
+                    trMutu.Style.Add("display", "none");
+                }
+            }
+        }
+
+        protected String GetMutu(decimal percentage) 
+        {
+            if (percentage >= 80 && percentage <= 100) return "Amat Baik";
+            else if (percentage >= 65 && percentage <= 79) return "Baik";
+            else if (percentage >= 55 && percentage <= 64) return "Sedang";
+            else if (percentage >= 40 && percentage <= 54) return "Kurang";
+            else return "Kurang Sekali";
+        }
+    }
+}
