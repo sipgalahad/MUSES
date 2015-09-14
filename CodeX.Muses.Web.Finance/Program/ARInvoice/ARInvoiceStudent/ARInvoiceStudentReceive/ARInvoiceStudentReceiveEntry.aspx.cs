@@ -105,7 +105,7 @@ namespace CodeX.Muses.Web.Finance.Program
             SetControlEntrySetting(txtRemainingTotal, new ControlEntrySetting(false, false, false));
 
             SetControlEntrySetting(txtPaymentAmount, new ControlEntrySetting(false, false, false));
-            SetControlEntrySetting(txtCashbackAmount, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(txtDepositAmount, new ControlEntrySetting(false, false, true));
 
             SetControlEntrySetting(cboCardType, new ControlEntrySetting(true, false, false));
             SetControlEntrySetting(cboCardProvider, new ControlEntrySetting(true, false, false));
@@ -173,7 +173,11 @@ namespace CodeX.Muses.Web.Finance.Program
             txtRemarks.Text = entity.Remarks;
             txtRemainingTotal.Text = entity.TotalInvoiceAmount.ToString();
             txtPaymentAmount.Text = entity.TotalReceivingAmount.ToString();
-            txtCashbackAmount.Text = entity.CashBackAmount.ToString();
+
+            decimal DepositAmount = entity.TotalReceivingAmount - entity.TotalInvoiceAmount;
+            if (DepositAmount < 0)
+                DepositAmount = 0;
+            txtDepositAmount.Text = DepositAmount.ToString();
 
             BindGrdARReceivingDetail();
 
@@ -188,6 +192,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
             IDbContext ctx = DbFactory.Configure(true);
 
+            ARBalanceDao entityARBalanceDao = new ARBalanceDao(ctx);
             ARInvoiceHdDao entityInvoiceHdDao = new ARInvoiceHdDao(ctx);
             ARInvoiceDtDao entityInvoiceDtDao = new ARInvoiceDtDao(ctx);
             ARReceivingHdDao entityReceivingHdDao = new ARReceivingHdDao(ctx);
@@ -206,7 +211,6 @@ namespace CodeX.Muses.Web.Finance.Program
                 entityReceivingHd.ReceivingDate = Helper.GetDatePickerValue(txtReceivingDate);
                 entityReceivingHd.TotalReceivingAmount = Convert.ToDecimal(hdnTotalPaymentAmount.Value);
                 entityReceivingHd.TotalFeeAmount = Convert.ToDecimal(hdnTotalFeeAmount.Value);
-                entityReceivingHd.CashBackAmount = Convert.ToDecimal(hdnCashbackAmount.Value);
                 //entityReceivingHd.TotalInvoiceAmount = Convert.ToDecimal(hdnTotalTransactionAmount.Value);
                 entityReceivingHd.Remarks = txtRemarks.Text;
                 entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
@@ -226,6 +230,26 @@ namespace CodeX.Muses.Web.Finance.Program
                 entityReceivingHdDao.Insert(entityReceivingHd);
                 entityReceivingHd.ARReceivingID = BusinessLayer.GetARReceivingHdMaxID(ctx);
                 #endregion
+
+                decimal DepositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
+                if (DepositAmount > 0)
+                {
+                    ARBalance entityARBalance = BusinessLayer.GetARBalanceList(string.Format("StudentID = {0}", AppSession.StudentID), ctx).FirstOrDefault();
+                    if (entityARBalance == null)
+                    {
+                        entityARBalance = new ARBalance();
+                        entityARBalance.StudentID = AppSession.StudentID;
+                        entityARBalance.DepositAmount += DepositAmount;
+                        entityARBalance.CreatedBy = AppSession.UserLogin.UserID;
+                        entityARBalanceDao.Insert(entityARBalance);
+                    }
+                    else
+                    {
+                        entityARBalance.DepositAmount += DepositAmount;
+                        entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityARBalanceDao.Update(entityARBalance);
+                    }
+                }
                 
                 #region ARReceivingDt
                 foreach(String param in listParam){

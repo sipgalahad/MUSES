@@ -67,15 +67,6 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
         
         /// <summary>
-        /// cbpPopupProcess control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopupProcess;
-        
-        /// <summary>
         /// cbpView control.
         /// </summary>
         /// <remarks>

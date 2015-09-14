@@ -68,7 +68,7 @@ namespace CodeX.Muses.Web.Finance.Program
             cboYear.DataBind();
             cboYear.Value = date.Year.ToString();
 
-            RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
+            RowCountPerPage = 10;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
@@ -81,6 +81,8 @@ namespace CodeX.Muses.Web.Finance.Program
                 filterExpression += string.Format(" AND SchoolClassID = {0}", tacSchoolClass.Value);
             else
                 filterExpression += string.Format(" AND SiteID = '{0}'", cboSite.Value);
+            if (chkIsShowOnlyInvoiceAvailable.Checked)
+                filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM vStudentFeeDt WHERE DueDate LIKE '{0}-{1}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{2}' AND StudentFeeDtID IS NOT NULL) AND IsPaid = 0)", cboYear.Value, cboMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID);
             return filterExpression;
         }
 
@@ -92,10 +94,10 @@ namespace CodeX.Muses.Web.Finance.Program
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvStudentRowCount(filterExpression);
-                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
+                pageCount = Helper.GetPageCount(rowCount, 10);
             }
             lstID = hdnSelectedValue.Value.Split(',');
-            List<vStudent> lstEntity = BusinessLayer.GetvStudentList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "StudentName ASC");
+            List<vStudent> lstEntity = BusinessLayer.GetvStudentList(filterExpression, 10, pageIndex, "StudentName ASC");
             if (lstEntity.Count > 0)
             {
                 string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());

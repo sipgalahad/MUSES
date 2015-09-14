@@ -58,13 +58,13 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTotalTransactionAmount;
         
         /// <summary>
-        /// hdnCashbackAmount control.
+        /// hdnDepositAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCashbackAmount;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDepositAmount;
         
         /// <summary>
         /// hdnCreditCardFeeFilterExpression control.
@@ -220,13 +220,13 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdARPaymentMethod;
         
         /// <summary>
-        /// txtCashbackAmount control.
+        /// txtDepositAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCashbackAmount;
+        protected global::System.Web.UI.WebControls.TextBox txtDepositAmount;
         
         /// <summary>
         /// cboPaymentMethod control.
