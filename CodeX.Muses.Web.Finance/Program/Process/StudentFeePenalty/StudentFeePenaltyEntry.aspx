@@ -40,8 +40,8 @@
                 var penaltyPercentage = $tr.find('.hdnPenaltyPercentage').val();
                 var studentID = $tr.find('.hdnStudentID').val();
                 if (param != '') {
-                    param += ',';
-                    lstStudentFeeID += '|';
+                    param += '|';
+                    lstStudentFeeID += ',';
                     lstStudentID += ',';
                 }
                 param += id + ';' + penaltyPercentage;

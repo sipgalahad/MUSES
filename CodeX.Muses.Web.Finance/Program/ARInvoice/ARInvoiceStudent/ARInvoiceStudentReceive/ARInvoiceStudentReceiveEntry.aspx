@@ -205,7 +205,7 @@
                     //grdPayment.setComboBoxProperties($row, 'cboBank', { "isEnabled": isBankTransferOrCreditOrDebit, "value": "" });
 
                     if (isCreditOrDebit) {
-                        var amount = parseInt($('#<%=hdnCashbackAmount.ClientID %>').val()) * -1;
+                        var amount = parseInt($('#<%=hdnDepositAmount.ClientID %>').val()) * -1;
                         if (amount < 0)
                             amount = 0;
                         grdPayment.setTextBoxProperties($row, 'txtPayment', { "value": amount });
@@ -279,16 +279,19 @@
             $('#<%=hdnTotalPaymentAmount.ClientID %>').val(totalPayment);
             $('#<%=hdnTotalFeeAmount.ClientID %>').val(totalCardFee);
 
-            calculateCashbackAmount();
+            calculateDepositAmount();
         }
 
-        function calculateCashbackAmount() {
+        function calculateDepositAmount() {
             var totalTransaction = parseFloat($('#<%=txtRemainingTotal.ClientID %>').attr('hiddenVal'));
             var totalPayment = parseFloat($('#<%=hdnTotalPaymentAmount.ClientID %>').val());
-            var cashBackAmount = totalPayment - totalTransaction;
+            var depositAmount = totalPayment - totalTransaction;
 
-            $('#<%=hdnCashbackAmount.ClientID %>').val(cashBackAmount);
-            $('#<%=txtCashbackAmount.ClientID %>').val(cashBackAmount).trigger('changeValue');
+            $('#<%=hdnDepositAmount.ClientID %>').val(depositAmount);
+            if (depositAmount > 0)
+                $('#<%=txtDepositAmount.ClientID %>').val(depositAmount).trigger('changeValue');
+            else
+                $('#<%=txtDepositAmount.ClientID %>').val(0).trigger('changeValue');
         }
 
         function closePcCardInformation(action) {
@@ -341,7 +344,7 @@
         <input type="hidden" value="" id="hdnARReceivingID" runat="server" />
         <input type="hidden" value="" id="hdnTotalPaymentAmount" runat="server" />
         <input type="hidden" value="" id="hdnTotalTransactionAmount" runat="server" />
-        <input type="hidden" value="" id="hdnCashbackAmount" runat="server" /> 
+        <input type="hidden" value="" id="hdnDepositAmount" runat="server" /> 
         <input type="hidden" value="" id="hdnCreditCardFeeFilterExpression" runat="server" />  
         <input type="hidden" value="" id="hdnTotalFeeAmount" runat="server" />  
     
@@ -760,8 +763,8 @@
                     </div>
                     <table style="width:100%" id="tblCashback">
                         <tr>
-                            <td align="right" style="padding-right:5px"><%=GetLabel("Uang Kembalian") %></td>
-                            <td style="width:150px"><asp:TextBox ID="txtCashbackAmount" runat="server" CssClass="txtCurrency min" Width="150px" /></td>
+                            <td align="right" style="padding-right:5px"><%=GetLabel("Deposit") %></td>
+                            <td style="width:150px"><asp:TextBox ID="txtDepositAmount" runat="server" CssClass="txtCurrency min" Width="150px" /></td>
                         </tr>
                     </table>
                 </td>
