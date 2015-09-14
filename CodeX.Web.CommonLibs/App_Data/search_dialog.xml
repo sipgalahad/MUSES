@@ -1035,6 +1035,21 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Trans Teacher Profile -->
+  <searchdialog type="transteacherprofilehd" methodname="GetvTransTeacherProfileHdList" keyfieldname="TransactionNo">
+    <gridcolumns>
+      <gridcolumn datafield="TransactionNo" headertext="No. Transaksi" width="150px" />
+      <gridcolumn datafield="SchoolType" headertext="Kelas" width="50px" />
+      <gridcolumn datafield="TransactionStatus" headertext="Status" width="150px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="TransactionNo" headertext="No. Transaksi" description="" />
+      <intellisensetext datafield="SchoolType" headertext="Kelas" description="" />
+      <intellisensetext datafield="TransactionStatus" headertext="Status" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  
   <!-- #Region User-->
   <searchdialog type="user" methodname="GetvUserList" keyfieldname="UserID">
     <gridcolums>

@@ -243,6 +243,7 @@
     <Content Include="Program\TeacherPage\TeacherClassList.aspx" />
     <Content Include="Program\TeacherPage\TeacherWeeklyScheduleList.aspx" />
     <Content Include="Program\ClassList\ClassWeeklyScheduleList.aspx" />
+    <Content Include="Program\TeacherProfile\DownloadUploadedTeacherProfileFile\DownloadUploadedTeacherProfileFile.aspx" />
     <Content Include="Report\VID_RCI\StudentManagement\BBukuIndukRpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BSuratPenentuanPembayaranRpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterRpt.ascx" />
@@ -1484,6 +1485,13 @@
     </Compile>
     <Compile Include="Program\ClassList\ClassWeeklyScheduleList.aspx.designer.cs">
       <DependentUpon>ClassWeeklyScheduleList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\TeacherProfile\DownloadUploadedTeacherProfileFile\DownloadUploadedTeacherProfileFile.aspx.cs">
+      <DependentUpon>DownloadUploadedTeacherProfileFile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\TeacherProfile\DownloadUploadedTeacherProfileFile\DownloadUploadedTeacherProfileFile.aspx.designer.cs">
+      <DependentUpon>DownloadUploadedTeacherProfileFile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report\VID_RCI\StudentManagement\BBukuIndukRpt.ascx.cs">
