@@ -1741,7 +1741,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     if (tpi.IsDynamicQualityPercentage)
                     {
                         ttpItem.ScoreInPercentage = Convert.ToDecimal(temp[i + 1]);
-                        ttpItem.QualityPercentage = Convert.ToDecimal(temp[i + 1]);
+                        ttpItem.QualityPercentage = ttpItem.Score / ttpItem.ScoreInPercentage * 100;
                     }
                     else
                     {

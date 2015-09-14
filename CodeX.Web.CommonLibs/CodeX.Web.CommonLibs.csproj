@@ -190,6 +190,7 @@
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BRaporSemester2013.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\report\VID_RCI\studentmanagement\BProfilGuru.xml" />
     <Content Include="App_Data\right_panel\SM.xml">
       <SubType>Designer</SubType>
     </Content>

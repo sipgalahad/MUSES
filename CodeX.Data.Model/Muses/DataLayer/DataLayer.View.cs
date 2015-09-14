@@ -29121,6 +29121,98 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTransTeacherProfileDtItem
+    [Serializable]
+    [Table(Name = "vTransTeacherProfileDtItem")]
+    public class vTransTeacherProfileDtItem
+    {
+        private Int32 _TransTeacherProfileDtID;
+        private Int32 _TeacherProfileGroupID;
+        private String _TeacherProfileGroupName;
+        private String _TeacherProfileGroupDisplayText;
+        private Int32 _TeacherProfileItemID;
+        private String _TeacherProfileItemName;
+        private Decimal _Score;
+        private Decimal _ScoreInPercentage;
+        private Boolean _IsDynamicQualityPercentage;
+        private Int16 _QualityPercentage;
+        private Decimal _DynamicQualityPercentage;
+        private String _Remarks;
+
+        [Column(Name = "TransTeacherProfileDtID", DataType = "Int32")]
+        public Int32 TransTeacherProfileDtID
+        {
+            get { return _TransTeacherProfileDtID; }
+            set { _TransTeacherProfileDtID = value; }
+        }
+        [Column(Name = "TeacherProfileGroupID", DataType = "Int32")]
+        public Int32 TeacherProfileGroupID
+        {
+            get { return _TeacherProfileGroupID; }
+            set { _TeacherProfileGroupID = value; }
+        }
+        [Column(Name = "TeacherProfileGroupName", DataType = "String")]
+        public String TeacherProfileGroupName
+        {
+            get { return _TeacherProfileGroupName; }
+            set { _TeacherProfileGroupName = value; }
+        }
+        [Column(Name = "TeacherProfileGroupDisplayText", DataType = "String")]
+        public String TeacherProfileGroupDisplayText
+        {
+            get { return _TeacherProfileGroupDisplayText; }
+            set { _TeacherProfileGroupDisplayText = value; }
+        }
+        [Column(Name = "TeacherProfileItemID", DataType = "Int32")]
+        public Int32 TeacherProfileItemID
+        {
+            get { return _TeacherProfileItemID; }
+            set { _TeacherProfileItemID = value; }
+        }
+        [Column(Name = "TeacherProfileItemName", DataType = "String")]
+        public String TeacherProfileItemName
+        {
+            get { return _TeacherProfileItemName; }
+            set { _TeacherProfileItemName = value; }
+        }
+        [Column(Name = "Score", DataType = "Decimal")]
+        public Decimal Score
+        {
+            get { return _Score; }
+            set { _Score = value; }
+        }
+        [Column(Name = "ScoreInPercentage", DataType = "Decimal")]
+        public Decimal ScoreInPercentage
+        {
+            get { return _ScoreInPercentage; }
+            set { _ScoreInPercentage = value; }
+        }
+        [Column(Name = "IsDynamicQualityPercentage", DataType = "Boolean")]
+        public Boolean IsDynamicQualityPercentage
+        {
+            get { return _IsDynamicQualityPercentage; }
+            set { _IsDynamicQualityPercentage = value; }
+        }
+        [Column(Name = "QualityPercentage", DataType = "Int16")]
+        public Int16 QualityPercentage
+        {
+            get { return _QualityPercentage; }
+            set { _QualityPercentage = value; }
+        }
+        [Column(Name = "DynamicQualityPercentage", DataType = "Decimal")]
+        public Decimal DynamicQualityPercentage
+        {
+            get { return _DynamicQualityPercentage; }
+            set { _DynamicQualityPercentage = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
     #region vTransTeacherProfileHd
     [Serializable]
     [Table(Name = "vTransTeacherProfileHd")]

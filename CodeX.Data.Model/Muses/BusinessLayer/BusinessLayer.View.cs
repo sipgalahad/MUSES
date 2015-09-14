@@ -11383,6 +11383,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vTransTeacherProfileDtItem
+        public static List<vTransTeacherProfileDtItem> GetvTransTeacherProfileDtItemList(string filterExpression)
+        {
+            List<vTransTeacherProfileDtItem> result = new List<vTransTeacherProfileDtItem>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransTeacherProfileDtItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransTeacherProfileDtItem)helper.IDataReaderToObject(reader, new vTransTeacherProfileDtItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vTransTeacherProfileHd
         public static List<vTransTeacherProfileHd> GetvTransTeacherProfileHdList(string filterExpression)
         {
