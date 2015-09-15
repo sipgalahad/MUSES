@@ -759,7 +759,17 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<StandardCode>(cboGrade, lstVar, "StandardCodeName", "StandardCodeID");
             cboGrade.SelectedIndex = 0;
 
+            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
+            Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
+            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
+            if (selectedSchoolPeriod == null)
+                cboSchoolPeriod.SelectedIndex = 0;
+            else
+                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
+
             BindGridView(1, true, ref PageCount, ref RowCount);
+
+
             //Helper.SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true), "mpTrx");
             //Helper.SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, true), "mpTrx");
             //Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -1737,11 +1747,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     TransTeacherProfileDtItem ttpItem = new TransTeacherProfileDtItem();
                     ttpItem.TransTeacherProfileDtID = DtID;
                     ttpItem.TeacherProfileItemID = tpi.TeacherProfileItemID;
-                    ttpItem.Score = Convert.ToDecimal(temp[i]);
+                    if (temp[i] != "")
+                        ttpItem.Score = Convert.ToDecimal(temp[i]);
+                    else
+                        ttpItem.Score = 0;
+
                     if (tpi.IsDynamicQualityPercentage)
                     {
-                        ttpItem.ScoreInPercentage = Convert.ToDecimal(temp[i + 1]);
-                        ttpItem.QualityPercentage = ttpItem.Score / ttpItem.ScoreInPercentage * 100;
+                        if (temp[i + 1] != "")
+                        {
+                            ttpItem.ScoreInPercentage = Convert.ToDecimal(temp[i + 1]);
+                            ttpItem.QualityPercentage = ttpItem.Score / ttpItem.ScoreInPercentage * 100;
+                        }
+                        else 
+                        {
+                            ttpItem.ScoreInPercentage = 0;
+                            ttpItem.QualityPercentage = 0;
+                        }
                     }
                     else
                     {
