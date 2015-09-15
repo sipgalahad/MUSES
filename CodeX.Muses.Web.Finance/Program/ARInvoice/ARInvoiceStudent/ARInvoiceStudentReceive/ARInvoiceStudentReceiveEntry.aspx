@@ -71,6 +71,34 @@
                 if (cboPaymentMethod != null && cboEDCMachine != null && cboBank != null)
                     init();
 
+
+                var totalOutstandingDP = parseInt($('#<%=hdnOutstandingDP.ClientID %>').val());
+
+                setTimeout(function () {
+                    if (totalOutstandingDP > 0) {
+                        grdPayment.addRow();
+                        $row = grdPayment.getRow(0);
+                        var tempCboDPOut = $('#<%=hdnCboDPOut.ClientID %>').val().split('|');
+                        cboPaymentMethod.AddItem(tempCboDPOut[1], tempCboDPOut[0]);
+
+                        grdPayment.setComboBoxProperties($row, 'cboPaymentMethod', { "value": tempCboDPOut[0] });
+
+                        cboPaymentMethod.RemoveItem(4);
+                        var total = 0;
+
+                        total = totalOutstandingDP;
+                        grdPayment.setTextBoxProperties($row, 'txtPayment', { "value": total });
+                        grdPayment.setTextBoxProperties($row, 'txtLineTotal', { "value": total });
+                        grdPayment.setCellHiddenValue($row, 'hdnCardFee ', '0');
+                        grdPayment.setTextBoxProperties($row, 'txtFee', { "value": 0 });
+
+                        grdPayment.setRowEnabled($row, false);
+                        grdPayment.setRowChanged($row, true);
+
+
+                        calculatePaymentDtTotal();
+                    }
+                }, 200);
                 $('#divContainerGrdDetailAdd').show();
                 $('#divContainerGrdDetailEdit').hide();
                 $('#divContainerGrdDetailAR').hide();
@@ -153,7 +181,7 @@
             listParam[1] = { "type": "cbo", "className": "cboEDCMachine", "cboID": cboEDCMachineID, "isRequired": true, "isUnique": false, "isEnabled": false };
             listParam[2] = { "type": "bte", "className": "bteCardInformation", "isEnabled": false, "isRequired": true, "isButtonEnabled": false };
             listParam[3] = { "type": "cbo", "className": "cboBank", "cboID": cboBankID, "isUnique": false, "isRequired": true, "isEnabled": false };
-            listParam[4] = { "type": "txt", "className": "txtReferenceNo", "isRequired": true, "isEnabled": false };
+            listParam[4] = { "type": "txt", "className": "txtReferenceNo", "isRequired": false, "isEnabled": false };
             listParam[5] = { "type": "txt", "className": "txtPayment", "isRequired": true, "isEnabled": true, "dataType": "money" };
             listParam[6] = { "type": "txt", "className": "txtFee", "isEnabled": false, "dataType": "money" };
             listParam[7] = { "type": "txt", "className": "txtLineTotal", "isEnabled": false, "dataType": "money" };
@@ -347,6 +375,7 @@
         <input type="hidden" value="" id="hdnDepositAmount" runat="server" /> 
         <input type="hidden" value="" id="hdnCreditCardFeeFilterExpression" runat="server" />  
         <input type="hidden" value="" id="hdnTotalFeeAmount" runat="server" />  
+        <input type="hidden" value="" id="hdnCboDPOut" runat="server" />  
     
         <input type="hidden" id="hdnSelectedMember" runat="server" />
         <table class="tblContentArea">
@@ -356,7 +385,7 @@
             </colgroup>
             <tr>
                 <td style="padding:5px; vertical-align:top">
-                    <h4><%=GetLabel("Informasi Pembayar") %></h4>
+                    <h4><%=GetLabel("Informasi Pembayaran") %></h4>
                     <table style="width:100%">
                         <colgroup>
                             <col style="width:30%" />
@@ -369,6 +398,13 @@
                         <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal")%></label></td>
                             <td><asp:TextBox ID="txtReceivingDate" Width="120px" CssClass="datepicker" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Sisa Deposit")%></label></td>
+                            <td colspan="2">
+                                <input type="hidden" id="hdnOutstandingDP" runat="server" />
+                                <asp:TextBox ID="txtOutstandingDP" ReadOnly="true" CssClass="number" Width="150px" runat="server" />
+                            </td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan")%></label></td>

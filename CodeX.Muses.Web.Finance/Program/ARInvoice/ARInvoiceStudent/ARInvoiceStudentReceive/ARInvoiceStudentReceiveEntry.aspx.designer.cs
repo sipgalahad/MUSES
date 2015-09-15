@@ -85,6 +85,15 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTotalFeeAmount;
         
         /// <summary>
+        /// hdnCboDPOut control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCboDPOut;
+        
+        /// <summary>
         /// hdnSelectedMember control.
         /// </summary>
         /// <remarks>
@@ -110,6 +119,24 @@ namespace CodeX.Muses.Web.Finance.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtReceivingDate;
+        
+        /// <summary>
+        /// hdnOutstandingDP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnOutstandingDP;
+        
+        /// <summary>
+        /// txtOutstandingDP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtOutstandingDP;
         
         /// <summary>
         /// txtRemarks control.
