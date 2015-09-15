@@ -20,7 +20,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         {
             
         }
-        
+        vTeacherSubject ts = null;
         public override void Bind(string filterExpression, string[] param)
         {
             String text = divPersonalityType.InnerHtml;
@@ -45,9 +45,14 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
             filterExpression = String.Format("TransTeacherProfileDtID = {0}",ttpdt.ID);
             lstProfileItem = BusinessLayer.GetvTransTeacherProfileDtItemList(filterExpression);
+
+            ts = BusinessLayer.GetvTeacherSubjectList(String.Format("TeacherID = {0}",ttpdt.TeacherID)).FirstOrDefault();
+            
             List<Variable> lstGroup = (from grp in lstProfileItem group grp by new { grp.TeacherProfileGroupID, grp.TeacherProfileGroupDisplayText } into NewGrp select new Variable { Code = NewGrp.Key.TeacherProfileGroupID.ToString(), Value = NewGrp.Key.TeacherProfileGroupDisplayText }).ToList();
             rptReportBody.DataSource = lstGroup;
             rptReportBody.DataBind();
+
+            
         }
 
         protected void rptReportBody_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -78,6 +83,14 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 }
 
                 List<vTransTeacherProfileDtItem> lstTemp = lstProfileItem.Where(x => x.TeacherProfileGroupID == Convert.ToInt32(group.Code)).ToList();
+                if (lstTemp.Count() == 1 && ts != null)
+                {
+                    lstTemp[0].TeacherProfileItemName = lstTemp[0].TeacherProfileItemName.Replace("{SubjectName}", ts.SubjectName);
+                }
+                else 
+                {
+                    lstTemp[0].TeacherProfileItemName = lstTemp[0].TeacherProfileItemName.Replace("{SubjectName}", "");
+                }
                 rptGroupItem.DataSource = lstTemp;
                 rptGroupItem.DataBind();
                 HtmlTableRow trMutu = e.Item.FindControl("trMutu") as HtmlTableRow;

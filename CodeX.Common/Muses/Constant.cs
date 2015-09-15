@@ -859,7 +859,7 @@ namespace CodeX.Common
             public const string BUDGET_REQUEST = "8102";
             public const string BUDGET_REALIZATION = "8103";
 
-            public const string TEACHER_PROFILE = "1101";
+            public const string TEACHER_PROFILE = "9101";
         }
         #endregion
 

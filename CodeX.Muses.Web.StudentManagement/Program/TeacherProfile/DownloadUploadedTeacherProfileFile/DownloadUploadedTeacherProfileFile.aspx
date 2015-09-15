@@ -154,6 +154,10 @@
                             <td><asp:TextBox ID="txtTransactionNo" Width="150px" ReadOnly="true" runat="server" /></td>
                         </tr>
                         <tr>
+                            <td class="tdLabel"><%=GetLabel("Tahun Ajaran") %></td>
+                            <td><dxe:ASPxComboBox ID="cboSchoolPeriod" runat="server" ClientInstanceName="cboSchoolPeriod" Width="200px" /></td>
+                        </tr>
+                        <tr>
                             <td class="tdLabel"><%=GetLabel("Tanggal") %></td>
                             <td>
                                 <table cellpadding="0" cellspacing="0">
