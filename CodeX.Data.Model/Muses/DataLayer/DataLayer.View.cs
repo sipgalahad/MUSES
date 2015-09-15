@@ -20309,12 +20309,14 @@ namespace CodeX.Data.Model
         private String _TransactionTime;
         private String _PurchaseRequestNo;
         private Int32 _ItemRequestID;
+        private String _SiteID;
         private Int32 _FromLocationID;
         private String _LocationCode;
         private String _LocationName;
         private Int32 _LocationItemGroupID;
         private String _Remarks;
         private String _GCTransactionStatus;
+        private String _TransactionStatus;
         private String _TransactionStatusWatermark;
         private Int32 _NumberOfItems;
         private Int32 _NumberOfApprovedItems;
@@ -20351,6 +20353,12 @@ namespace CodeX.Data.Model
             get { return _ItemRequestID; }
             set { _ItemRequestID = value; }
         }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
         [Column(Name = "FromLocationID", DataType = "Int32")]
         public Int32 FromLocationID
         {
@@ -20386,6 +20394,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCTransactionStatus; }
             set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
         }
         [Column(Name = "TransactionStatusWatermark", DataType = "String")]
         public String TransactionStatusWatermark

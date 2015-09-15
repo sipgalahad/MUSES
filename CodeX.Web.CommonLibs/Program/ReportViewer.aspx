@@ -107,7 +107,7 @@
                     else {
                         var p2Height = 0;
                         var ctr = 0;
-                        while (p2Height < cont2Height) {
+                        while (p2Height + 10 < cont2Height) {
                             $elm = $tbody.find('tr.trReportBody').first();
                             $tbody2.append($elm);
 
@@ -316,6 +316,8 @@
             .tblReportParameterDt td:nth-child(2)          { width: 10px; }
             
             .divCircle          { border-radius: 50%;width: 22px; height: 22px;background: #0099CC; padding: 3px 0 0 0px; }
+            
+            .divPageNumber               { <%=divPageNumberStyle%> }
         </style>
     </head>
     <body>

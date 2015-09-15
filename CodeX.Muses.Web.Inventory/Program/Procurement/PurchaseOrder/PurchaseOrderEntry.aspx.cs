@@ -440,6 +440,44 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             return result;
         }
+
+        protected override bool OnReopenRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            PurchaseOrderHdDao purchaseHdDao = new PurchaseOrderHdDao(ctx);
+            PurchaseOrderDtDao purchaseDtDao = new PurchaseOrderDtDao(ctx);
+            try
+            {
+                PurchaseOrderHd purchaseHd = purchaseHdDao.Get(Convert.ToInt32(hdnOrderID.Value));
+                ControlToEntityHd(purchaseHd);
+                purchaseHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                purchaseHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                purchaseHdDao.Update(purchaseHd);
+
+                string filterExpressionPurchaseOrderHd = String.Format("PurchaseOrderID = {0} AND IsDeleted = 0", hdnOrderID.Value);
+                List<PurchaseOrderDt> lstPurchaseOrderDt = BusinessLayer.GetPurchaseOrderDtList(filterExpressionPurchaseOrderHd, ctx);
+                foreach (PurchaseOrderDt purchaseDt in lstPurchaseOrderDt)
+                {
+                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    purchaseDtDao.Update(purchaseDt);
+                }
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
 
         #region callBack Trigger
