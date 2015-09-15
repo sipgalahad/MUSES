@@ -22,6 +22,24 @@
         <tbody class="reportBody">
             <tr class="trReportBody">
                 <td valign="top">
+                    <table cellpadding='0' cellspacing='0' width="100%">
+                        <colgroup>
+                            <col width="25%" />
+                            <col width="25%" />
+                            <col width="25%" />
+                            <col width="25%" />
+                        </colgroup>
+                        <tr>
+                            <td>Mulai Dinas :</td>
+                            <td>Pensiun :</td>
+                            <td>Status Kerja :</td>
+                            <td>Fungsi :</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="trReportBody">
+                <td valign="top">
                     <h3 style="font-weight:bold;">A. KEPRIBADIAN</h3>
                     <h3 style="font-weight:bold;" id="divPersonalityType" runat="server">Tipe Kepribadian : {PersonalityType}</h3>
                     <div style="padding-left:10px;" id="divPersonal" runat="server">
@@ -51,7 +69,7 @@
                                 <td>1.</td>
                                 <td>{TeacherName}</td>
                                 <td align="right">{IQ}</td>
-                                <td align="right">{IQInPercentage}</td>
+                                <td align="center">{IQInPercentage}</td>
                                 <td align="right">{Drive}</td>
                                 <td align="right">{Komunikasi}</td>
                                 <td align="right">{Loyalitas}</td>
@@ -85,10 +103,12 @@
             <asp:Repeater runat="server" ID="rptReportBody" OnItemDataBound="rptReportBody_ItemDataBound">
                 <ItemTemplate>
                     <tr class="trReportBody">
+                        <td><h3 style="font-weight:bold; display:none;" id="divHeader" runat="server" >B. Kompetensi Pedagogik & Profesional</h3></td>
+                    </tr>
+                    <tr class="trReportBody">
                         <td valign="top">
-                            <h3 style="font-weight:bold; display:none;" id="divHeader" runat="server" >B. Kompetensi Pedagogik & Profesional</h3>
                             <div style="padding-left:10px;" id="div1" runat="server">
-                               <table  cellpadding='0' cellspacing='0' border="1" width="100%" style="margin-bottom:20px;" >
+                               <table  cellpadding='0' cellspacing='0' border="1" width="100%">
                                     <colgroup>
                                         <col width="3px;"/>
                                         <col />
@@ -107,7 +127,11 @@
                                                 <td valign="top" align="right" class="number"><%# Container.ItemIndex + 1 %></td>
                                                 <td valign="top" style="white-space:normal;"><%#Eval("TeacherProfileItemName") %></td>
                                                 <td valign="top" align="center" class="number"><%# Eval("QualityPercentage").ToString() == "0" ? (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("DynamicQualityPercentage")) * 100).ToString("N") : (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("QualityPercentage")) * 100).ToString("N") %></td>
-                                                <td valign="top" ><%#GetMutu(Eval("QualityPercentage").ToString() == "0" ? (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("DynamicQualityPercentage")) * 100) : (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("QualityPercentage")) * 100)) %></td>
+                                                <td valign="top" ><%#
+                                                                  Convert.ToInt32(Eval("TeacherProfileGroupID")) < 7 ?
+                                                                  GetMutu(Eval("QualityPercentage").ToString() == "0" ? (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("DynamicQualityPercentage")) * 100) : (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("QualityPercentage")) * 100))
+                                                                    : GetPetaUmpanBalik(Eval("QualityPercentage").ToString() == "0" ? (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("DynamicQualityPercentage")) * 100) : (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("QualityPercentage")) * 100))
+                                                                  %></td>
                                             </tr>
                                         </ItemTemplate>
                                     </asp:Repeater>
@@ -124,8 +148,10 @@
                 </ItemTemplate>
             </asp:Repeater>
             <tr class="trReportBody">
+                <td><h3 style="font-weight:bold;">D. PRESENSI : </h3></td>
+            </tr>
+            <tr class="trReportBody">
                 <td valign="top">
-                    <h3 style="font-weight:bold;">D. PRESENSI : {FromDate}-{ToDate}</h3>
                     <div style="padding-left:10px;" id="div2" runat="server">
                         <table cellpadding='0' cellspacing='0' border="1">
                             <colgroup>
@@ -144,25 +170,27 @@
                             </tr>
                             <tr>
                                 <td>JML HARI</td>
-                                <td>{hrKehadiran}</td>
-                                <td>{hrSakit}</td>
-                                <td>{hrIzin}</td>
-                                <td>{hrAlpha}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>%</td>
-                                <td>{prsnKehadiran}</td>
-                                <td>{prsnhrSakit}</td>
-                                <td>{prsnhrIzin}</td>
-                                <td>{prsnhrAlpha}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </table>
                     </div>
                 </td>
             </tr>
             <tr class="trReportBody">
+                <td><h3 style="font-weight:bold;">E. CATATAN KEPALA SEKOLAH/PIMPINAN LANGSUNG TERKAIT SIKAP/PERILAKU/KINERJA YBS</h3></td>
+            </tr>
+            <tr class="trReportBody">
                 <td>
-                    <h3 style="font-weight:bold;">E. CATATAN KEPALA SEKOLAH/PIMPINAN LANGSUNG TERKAIT SIKAP/PERILAKU/KINERJA YBS</h3>
                     <div style="padding-left:10px;" id="div3" runat="server">
                         <table cellpadding='0' cellspacing='0' border="1" width="100%">
                             <colgroup>
@@ -200,8 +228,10 @@
                 </td>
             </tr>
             <tr class="trReportBody">
+                <td><h3 style="font-weight:bold;">F. PROGRAM PENGEMBANGAN DIRI YANG AKAN SAYA LAKUKAN</h3></td>
+            </tr>
+            <tr class="trReportBody" style="margin-bottom:200px;">
                 <td>
-                    <h3 style="font-weight:bold;">F. PROGRAM PENGEMBANGAN DIRI YANG AKAN SAYA LAKUKAN</h3>
                     <div style="padding-left:10px;" id="div4" runat="server">
                         <table cellpadding='0' cellspacing='0' border="1" width="100%">
                             <colgroup>
@@ -248,8 +278,10 @@
                 </td>
             </tr>
             <tr class="trReportBody">
+                <td><h3 style="font-weight:bold;">G. PROGRAM PENGEMBANGAN DIRI YANG PERLU DILAKUKAN GURU YBS MENURUT KEPALA SEKOLAH/PIMPINAN LANGSUNG</h3></td>
+            </tr>
+            <tr class="trReportBody">
                 <td>
-                    <h3 style="font-weight:bold;">G. PROGRAM PENGEMBANGAN DIRI YANG PERLU DILAKUKAN GURU YBS MENURUT KEPALA SEKOLAH/PIMPINAN LANGSUNG</h3>
                     <div style="padding-left:10px;" id="div5" runat="server">
                         <table cellpadding='0' cellspacing='0' border="1" width="100%">
                             <colgroup>
@@ -293,6 +325,32 @@
                             </tr>
                         </table>
                     </div>
+                </td>
+            </tr>
+            <tr class="trReportBody">
+                <td>
+                    <table cellpadding='0' cellspacing='0' width="100%">
+                        <colgroup>
+                            <col width="50%" />
+                            <col width="50%" />
+                        </colgroup>
+                        <tr>
+                            <td align="center"></td>
+                            <td align="center">..................... .....-.....-.....</td>
+                        </tr>
+                        <tr>
+                            <td align="center">Kepala Sekolah</td>
+                            <td align="center">Guru Yang Bersangkutan</td>
+                        </tr>
+                        <tr>
+                            <td style="height:70px"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="center">(________________________________)</td>
+                            <td align="center">(________________________________)</td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </tbody>

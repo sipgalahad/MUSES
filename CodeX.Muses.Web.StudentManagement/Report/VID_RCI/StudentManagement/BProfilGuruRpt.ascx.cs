@@ -31,6 +31,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             text = divPersonal.InnerHtml;
             text = text.Replace("{TeacherName}", ttpdt.TeacherName);
             text = text.Replace("{IQ}", ttpdt.IQScore.ToString());
+            text = text.Replace("{IQInPercentage}", GetIQScore(ttpdt.IQScore));
             text = text.Replace("{Drive}", ttpdt.DScore.ToString("N"));
             text = text.Replace("{Komunikasi}", ttpdt.KScore.ToString("N"));
             text = text.Replace("{Loyalitas}", ttpdt.LScore.ToString("N"));
@@ -111,13 +112,34 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                         FinalScore = (TotScore / QualityPercentage * 100);
                     }
                     tdFinalScore.InnerHtml = FinalScore.ToString("N2");
-                    tdQualityScore.InnerHtml = GetMutu(FinalScore);
+                    if(Convert.ToInt32(group.Code) < 7)
+                        tdQualityScore.InnerHtml = GetMutu(FinalScore);
+                    else
+                        tdQualityScore.InnerHtml = GetPetaUmpanBalik(FinalScore);
                 }
                 else 
                 {
                     trMutu.Style.Add("display", "none");
                 }
             }
+        }
+
+        protected String GetPetaUmpanBalik(decimal percentage) 
+        {
+            if (percentage > Convert.ToDecimal(4.1)) return "SB";
+            else if (percentage > Convert.ToDecimal(3.34)) return "B";
+            else if (percentage > Convert.ToDecimal(2.5)) return "KB";
+            else return "SK";
+        }
+
+        protected String GetIQScore(Int32 iq) 
+        { 
+            if(iq > 129) return "Very Superior";
+            else if(iq > 119) return "Superior";
+            else if(iq > 109) return "High Average";
+            else if(iq > 89) return "Average";
+            else if (iq > 79) return "Low Average";
+            else return "Extremely Low";
         }
 
         protected String GetMutu(decimal percentage) 
