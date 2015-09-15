@@ -77,7 +77,7 @@
             var locationID = $('#<%=hdnLocationID.ClientID %>').val();
             var param = locationID + '|' + itemID;
             var url = ResolveUrl("~/Program/Procurement/PurchaseRequest/PurchaseRequestQtyOnOrderCtl.ascx");
-            openUserControlPopup(url, param, 'Qty On Order', 1000, 500);
+            openUserControlPopup(url, param, 'Qty On Process', 1000, 500);
         });
 
         $('#chkSelectAll').die('change');
@@ -247,7 +247,7 @@
                                                     <asp:TextBox ID="txtPurchaseRequest" Width="50%" runat="server" CssClass="number txtPurchaseRequest" ReadOnly="true"/>&nbsp;<%# Eval("ItemUnit")%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Quantity On Order" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" >
+                                            <asp:TemplateField HeaderText="Quantity On Process" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" >
                                                 <ItemTemplate>
                                                     <input type="hidden" class="hdnItemID" value='<%#Eval("ItemID") %>' />
                                                     <%#Eval("CustomQtyOnOrderPurchaseRequest")%> <input type="button" class="btnQtyOnOrderDetail btnMore" value="..."/>

@@ -90,6 +90,7 @@ CodeBehind="PurchaseOrderOutstandingList.aspx.cs" Inherits="CodeX.Muses.Web.Inve
                             <Columns>
                                 <asp:BoundField DataField="PurchaseOrderID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="PurchaseOrderNo" HeaderText="No Permintaan" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="BusinessPartnerName" HeaderText="Supplier" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="OrderDateInString" HeaderText="Tanggal Pemesanan" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="DeliveryDateInString" HeaderText="Tanggal Pengiriman" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="ExpiredDateInString" HeaderText="Tanggal Expired" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />

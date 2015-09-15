@@ -344,39 +344,119 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override bool OnProposeRecord(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            PurchaseReturnHdDao purchaseReturnHdDao = new PurchaseReturnHdDao(ctx);
+            PurchaseReturnDtDao purchaseReturnDtDao = new PurchaseReturnDtDao(ctx);
             try
             {
-                PurchaseReturnHd entity = BusinessLayer.GetPurchaseReturnHd(Convert.ToInt32(hdnPRID.Value));
-                ControlToEntity(entity);
-                entity.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdatePurchaseReturnHd(entity);
-                return true;
+                PurchaseReturnHd purchaseReturnHd = purchaseReturnHdDao.Get(Convert.ToInt32(hdnPRID.Value));
+                ControlToEntity(purchaseReturnHd);
+                purchaseReturnHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                purchaseReturnHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                purchaseReturnHdDao.Update(purchaseReturnHd);
+
+                string filterExpressionPurchaseReturnHd = String.Format("PurchaseReturnID IN ({0})", hdnPRID.Value);
+                List<PurchaseReturnDt> lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionPurchaseReturnHd);
+                foreach (PurchaseReturnDt purchaseDt in lstPurchaseReturnDt)
+                {
+                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    purchaseReturnDtDao.Update(purchaseDt);
+                }
+
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
-                return false;
+                result = false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         protected override bool OnVoidRecord(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            PurchaseReturnHdDao purchaseReturnHdDao = new PurchaseReturnHdDao(ctx);
+            PurchaseReturnDtDao purchaseReturnDtDao = new PurchaseReturnDtDao(ctx);
             try
             {
-                PurchaseReturnHd entity = BusinessLayer.GetPurchaseReturnHd(Convert.ToInt32(hdnPRID.Value));
-                entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdatePurchaseReturnHd(entity);
-                return true;
+                PurchaseReturnHd purchaseReturnHd = purchaseReturnHdDao.Get(Convert.ToInt32(hdnPRID.Value));
+                ControlToEntity(purchaseReturnHd);
+                purchaseReturnHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                purchaseReturnHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                purchaseReturnHdDao.Update(purchaseReturnHd);
+
+                string filterExpressionPurchaseReturnHd = String.Format("PurchaseReturnID IN ({0})", hdnPRID.Value);
+                List<PurchaseReturnDt> lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionPurchaseReturnHd);
+                foreach (PurchaseReturnDt purchaseDt in lstPurchaseReturnDt)
+                {
+                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    purchaseReturnDtDao.Update(purchaseDt);
+                }
+
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
-                return false;
+                result = false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        protected override bool OnReopenRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            PurchaseReturnHdDao purchaseReturnHdDao = new PurchaseReturnHdDao(ctx);
+            PurchaseReturnDtDao purchaseReturnDtDao = new PurchaseReturnDtDao(ctx);
+            try
+            {
+                PurchaseReturnHd purchaseReturnHd = purchaseReturnHdDao.Get(Convert.ToInt32(hdnPRID.Value));
+                ControlToEntity(purchaseReturnHd);
+                purchaseReturnHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                purchaseReturnHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                purchaseReturnHdDao.Update(purchaseReturnHd);
+
+                string filterExpressionPurchaseReturnHd = String.Format("PurchaseReturnID IN ({0})", hdnPRID.Value);
+                List<PurchaseReturnDt> lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionPurchaseReturnHd);
+                foreach (PurchaseReturnDt purchaseDt in lstPurchaseReturnDt)
+                {
+                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    purchaseReturnDtDao.Update(purchaseDt);
+                }
+
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         #endregion

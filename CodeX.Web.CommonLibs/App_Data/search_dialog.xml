@@ -699,12 +699,14 @@
       <gridcolumn datafield="LocationName" headertext="Dari Lokasi" width="100px" />
       <gridcolumn datafield="TransactionDate" displaycustomfield="TransactionDateInString" horizontalalign="center" headertext="Tanggal Transaksi" width="100px" />
       <gridcolumn datafield="Remarks" headertext="Keterangan" width="100px" />
+      <gridcolumn datafield="TransactionStatus" headertext="Status" width="100px" />
     </gridcolumns>
     <intellisensetexts>
       <intellisensetext datafield="PurchaseRequestNo" headertext="No Permintaan" description="" />
       <intellisensetext datafield="LocationName" headertext="Dari Lokasi" description="" />
       <intellisensetext datafield="TransactionDate" headertext="Tanggal Permintaan" description="" />
       <intellisensetext datafield="Remarks" headertext="Keterangan" description="" />
+      <intellisensetext datafield="TransactionStatus" headertext="Status" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

@@ -76,6 +76,7 @@ namespace CodeX.Web.CommonLibs.Program
         protected string h1FontSize = "";
         protected string pagePaperPadding = "";
         protected string leftRightPosition = "";
+        protected string divPageNumberStyle = "";
 
         #region Generate Filter Expression
         string[] param = null;
@@ -293,6 +294,8 @@ namespace CodeX.Web.CommonLibs.Program
                 templateText = templateText.Replace("{Site." + columnName + "}", fieldValue);
             }
 
+            templateText = templateText.Replace("{AppSession.UserName}", AppSession.UserLogin.UserName);
+
             regex = new Regex("{SettingParameter.([(a-zA-Z0-9_.,)]*)}");
             collection = regex.Matches(templateText);
             foreach (Match m in collection)
@@ -367,26 +370,41 @@ namespace CodeX.Web.CommonLibs.Program
                                          DataSourceHd = sd.Attribute("datasourcehd") != null ? sd.Attribute("datasourcehd").Value : "",
                                          HeaderText = sd.Attribute("headertext") != null ? sd.Attribute("headertext").Value : "",
                                          SubHeaderText = sd.Attribute("subheadertext") != null ? sd.Attribute("subheadertext").Value : "",
+                                         DotMatrixDPI = sd.Attribute("dotmatrixdpi") != null ? sd.Attribute("dotmatrixdpi").Value : "",
                                          PaperType = sd.Attribute("papertype").Value,
                                          FontSize = sd.Attribute("fontsize") != null ? sd.Attribute("fontsize").Value : "9pt",
-                                         FontFamily = sd.Attribute("fontfamily") != null ? sd.Attribute("fontfamily").Value : "Tahoma",
+                                         FontFamily = sd.Attribute("fontfamily") != null ? sd.Attribute("fontfamily").Value : "",
                                          TotalText = sd.Attribute("totaltext") != null ? sd.Attribute("totaltext").Value : "",
                                          IsShowTotal = sd.Attribute("isshowtotal") != null ? sd.Attribute("isshowtotal").Value == "1" : false,
                                          TotalType = sd.Attribute("totaltype") != null ? sd.Attribute("totaltype").Value : "SUM",
+                                         IsUsingDotMatrix = sd.Attribute("isusingdotmatrix") != null ? sd.Attribute("isusingdotmatrix").Value == "1" : false,
                                          IsDataSourceFromSP = sd.Attribute("isdatasourcefromsp") != null ? sd.Attribute("isdatasourcefromsp").Value == "1" : false,
                                          IsShowHeaderFooter = sd.Attribute("isshowheaderfooter") != null ? sd.Attribute("isshowheaderfooter").Value == "1" : true,
                                          IsShowHeader = sd.Attribute("isshowheader") != null ? sd.Attribute("isshowheader").Value == "1" : false,
                                          IsShowFooter = sd.Attribute("isshowfooter") != null ? sd.Attribute("isshowfooter").Value == "1" : false,
+                                         IsShowPageNumber = sd.Attribute("isshowpagenumber") != null ? sd.Attribute("isshowpagenumber").Value == "1" : true,
                                          IsShowParameter = sd.Attribute("isshowparameter") != null ? sd.Attribute("isshowparameter").Value == "1" : false,
-                                         IsShowHeaderBorder = sd.Attribute("isshowheaderborder") != null ? sd.Attribute("isshowheaderborder").Value == "1" : false,
-                                         IsUsingDotMatrix = sd.Attribute("isusingdotmatrix") != null ? sd.Attribute("isusingdotmatrix").Value == "1" : false
+                                         IsShowHeaderBorder = sd.Attribute("isshowheaderborder") != null ? sd.Attribute("isshowheaderborder").Value == "1" : false
                                      }).FirstOrDefault();
+            fontFamily = tempReportSetting.FontFamily;
             if (tempReportSetting.IsUsingDotMatrix)
             {
-                if (AppConfigManager.CDXDotMatrixDPI == "120x144")
-                    letterSpacingPrint = "0px";
+                if (fontFamily == "")
+                    fontFamily = "Courier New";
+                if (tempReportSetting.DotMatrixDPI == "")
+                {
+                    if (AppConfigManager.CDXDotMatrixDPI == "120x144")
+                        letterSpacingPrint = "0px";
+                    else
+                        letterSpacingPrint = "4.5px";
+                }
                 else
-                    letterSpacingPrint = "4px";
+                {
+                    if (tempReportSetting.DotMatrixDPI == "120x144")
+                        letterSpacingPrint = "0px";
+                    else
+                        letterSpacingPrint = "4.5px";
+                }
                 pagePaperPadding = "0";
                 fontWeight = "normal";
                 h1FontSize = "14pt";
@@ -394,6 +412,8 @@ namespace CodeX.Web.CommonLibs.Program
             }
             else
             {
+                if (fontFamily == "")
+                    fontFamily = "Tahoma";
                 letterSpacingPrint = "0";
                 fontWeight = "bold;";
                 h1FontSize = "12pt";
@@ -401,7 +421,6 @@ namespace CodeX.Web.CommonLibs.Program
                 leftRightPosition = "0.7cm";
             }
             fontSize = tempReportSetting.FontSize;
-            fontFamily = tempReportSetting.FontFamily;
 
             SubHeaderText1 = tempReportSetting.SubHeaderText;
             if (!tempReportSetting.IsShowHeaderFooter)
@@ -411,6 +430,8 @@ namespace CodeX.Web.CommonLibs.Program
                 if (!tempReportSetting.IsShowFooter)
                     divContainerPageFooter.Style.Add("display", "none");
             }
+            if (!tempReportSetting.IsShowPageNumber)
+                divPageNumberStyle = "display:none";
 
             if (tempReportSetting.HeaderText != "")
             {
