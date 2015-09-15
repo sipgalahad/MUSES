@@ -614,6 +614,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ARReceivingDt> GetARReceivingDtList(string filterExpression, IDbContext ctx)
+        {
+            List<ARReceivingDt> result = new List<ARReceivingDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARReceivingDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARReceivingDt)helper.IDataReaderToObject(reader, new ARReceivingDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region ARReceivingHd
         public static ARReceivingHd GetARReceivingHd(Int32 ARReceivingID)

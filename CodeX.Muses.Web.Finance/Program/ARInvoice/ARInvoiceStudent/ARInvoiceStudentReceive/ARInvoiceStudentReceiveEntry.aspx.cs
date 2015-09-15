@@ -404,12 +404,27 @@ namespace CodeX.Muses.Web.Finance.Program
             ARInvoiceDtDao entityARIDtDao = new ARInvoiceDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
             StudentFeeDtDao entityStudentFeeDtDao = new StudentFeeDtDao(ctx);
+            ARBalanceDao entityARBalanceDao = new ARBalanceDao(ctx);
             try
             {
                 ARReceivingHd entityARR = entityARRHdDao.Get(Convert.ToInt32(hdnARReceivingID.Value));
                 entityARR.GCTransactionStatus = Constant.TransactionStatus.VOID;
                 entityARR.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityARRHdDao.Update(entityARR);
+
+                decimal depositAmount = 0;
+                List<ARReceivingDt> lstARReceivingDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingID = {0} AND GCARPaymentMethod = '{1}'", hdnARReceivingID.Value, Constant.PaymentMethod.DOWN_PAYMENT), ctx);
+                foreach (ARReceivingDt arReceivingDt in lstARReceivingDt)
+                    depositAmount += arReceivingDt.PaymentAmount;
+                depositAmount -= entityARR.TotalReceivingAmount - entityARR.TotalInvoiceAmount;
+
+                if (depositAmount != 0)
+                {
+                    ARBalance entityARBalance = BusinessLayer.GetARBalanceList(string.Format("StudentID = {0}", AppSession.StudentID), ctx).FirstOrDefault();
+                    entityARBalance.DepositAmount += depositAmount;
+                    entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityARBalanceDao.Update(entityARBalance);
+                }
 
                 List<ARInvoiceReceiving> lstARIR = BusinessLayer.GetARInvoiceReceivingList(string.Format("ARReceivingID = {0}", hdnARReceivingID.Value), ctx);
                 string lstARInvoiceID = string.Join(",", lstARIR.Select(p => p.ARInvoiceID).ToList());
