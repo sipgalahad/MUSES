@@ -35,7 +35,21 @@ namespace CodeX.Muses.Web.Finance.Program
         private void InitializeControlProperties()
         {
             hdnCreditCardFeeFilterExpression.Value = string.Format("SiteID = '{0}' AND GCCardType = '[GCCardType]' AND GCCardProvider = '[GCCardProvider]' AND EDCMachineID = [EDCMachineID]", AppSession.UserLogin.SiteID);
-            
+
+            decimal depositAmount = 0;
+            ARBalance entityARBalance = BusinessLayer.GetARBalanceList(string.Format("StudentID = {0}", AppSession.StudentID)).FirstOrDefault();
+            if (entityARBalance != null)
+                depositAmount = entityARBalance.DepositAmount;
+            hdnOutstandingDP.Value = depositAmount.ToString();
+            txtOutstandingDP.Text = depositAmount.ToString("N");
+
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}','{2}','{3}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CARD_TYPE, Constant.StandardCode.PAYMENT_METHOD, Constant.StandardCode.PAYMENT_TYPE, Constant.StandardCode.CARD_PROVIDER));
+            Methods.SetComboBoxField<StandardCode>(cboCardType, lstSc.Where(p => p.ParentID == Constant.StandardCode.CARD_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+
+            StandardCode entityDPOut = lstSc.FirstOrDefault(p => p.StandardCodeID == Constant.PaymentMethod.DOWN_PAYMENT);
+            hdnCboDPOut.Value = string.Format("{0}|{1}", entityDPOut.StandardCodeID, entityDPOut.StandardCodeName);
+
+
             List<EDCMachine> lstEDCMachine = BusinessLayer.GetEDCMachineList("IsDeleted = 0");
             Methods.SetComboBoxField<EDCMachine>(cboEDCMachine, lstEDCMachine, "EDCMachineName", "EDCMachineID");
             cboEDCMachine.SelectedIndex = 0;
@@ -43,10 +57,6 @@ namespace CodeX.Muses.Web.Finance.Program
             List<Bank> lstBank = BusinessLayer.GetBankList("IsDeleted = 0");
             Methods.SetComboBoxField<Bank>(cboBank, lstBank, "BankName", "BankID");
             cboBank.SelectedIndex = 0;
-
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}','{2}','{3}') AND StandardCodeID NOT IN ('{4}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CARD_TYPE, Constant.StandardCode.PAYMENT_METHOD, Constant.StandardCode.PAYMENT_TYPE, Constant.StandardCode.CARD_PROVIDER, Constant.PaymentMethod.BANK_TRANSFER));
-            Methods.SetComboBoxField<StandardCode>(cboCardType, lstSc.Where(p => p.ParentID == Constant.StandardCode.CARD_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
-
             Methods.SetComboBoxField<StandardCode>(cboPaymentMethod, lstSc.Where(p => p.ParentID == Constant.StandardCode.PAYMENT_METHOD && p.StandardCodeID != Constant.PaymentMethod.ACCOUNT_RECEIVABLES && p.StandardCodeID != Constant.PaymentMethod.DOWN_PAYMENT).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboCardProvider, lstSc.Where(p => p.ParentID == Constant.StandardCode.CARD_PROVIDER).ToList(), "StandardCodeName", "StandardCodeID");
 
@@ -203,7 +213,11 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 #region ARReceivingHD
                 ARReceivingHd entityReceivingHd = new ARReceivingHd();
-                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", hdnListInvoiceID.Value));
+                List<ARInvoiceHd> lstARInvoiceHd = null;
+                if (hdnListInvoiceID.Value != "")
+                    lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", hdnListInvoiceID.Value));
+                else
+                    lstARInvoiceHd = new List<ARInvoiceHd>();
                 decimal totalInvoice = 0;
 
                 entityReceivingHd.StudentID = AppSession.StudentID;
@@ -256,16 +270,16 @@ namespace CodeX.Muses.Web.Finance.Program
                     String[] data = param.Split(';');
                     bool isChanged = data[0] == "1" ? true : false;
                     int ID = Convert.ToInt32(data[1]);
-                    if(isChanged || ID > 0)
+                    if (isChanged || ID > 0)
                     {
                         ARReceivingDt entityDt = new ARReceivingDt();
                         entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
                         entityDt.GCARPaymentMethod = data[2];
-                        if(entityDt.GCARPaymentMethod != Constant.PaymentMethod.CASH)
+                        if (entityDt.GCARPaymentMethod != Constant.PaymentMethod.CASH)
                         {
-                            if(data[3] != "")
-                               entityDt.EDCMachineID = Convert.ToInt32(data[3]);
-                            else 
+                            if (data[3] != "")
+                                entityDt.EDCMachineID = Convert.ToInt32(data[3]);
+                            else
                                 entityDt.EDCMachineID = null;
                             if (data[5] != "")
                                 entityDt.BankID = Convert.ToInt32(data[5]);
@@ -288,6 +302,17 @@ namespace CodeX.Muses.Web.Finance.Program
                         entityDt.CardFeeAmount = Convert.ToDecimal(data[8].Replace(",00", "").Replace(".", ""));
                         entityDt.CreatedBy = AppSession.UserLogin.UserID;
                         entityReceivingDtDao.Insert(entityDt);
+
+                        if (entityDt.GCARPaymentMethod == Constant.PaymentMethod.DOWN_PAYMENT)
+                        {
+                            ARBalance entityARBalance = BusinessLayer.GetARBalanceList(string.Format("StudentID = {0}", AppSession.StudentID), ctx).FirstOrDefault();
+                            if (entityARBalance != null)
+                            {
+                                entityARBalance.DepositAmount -= entityDt.PaymentAmount;
+                                entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                entityARBalanceDao.Update(entityARBalance);
+                            }
+                        }
                     }
                 }
                 #endregion
@@ -379,12 +404,27 @@ namespace CodeX.Muses.Web.Finance.Program
             ARInvoiceDtDao entityARIDtDao = new ARInvoiceDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
             StudentFeeDtDao entityStudentFeeDtDao = new StudentFeeDtDao(ctx);
+            ARBalanceDao entityARBalanceDao = new ARBalanceDao(ctx);
             try
             {
                 ARReceivingHd entityARR = entityARRHdDao.Get(Convert.ToInt32(hdnARReceivingID.Value));
                 entityARR.GCTransactionStatus = Constant.TransactionStatus.VOID;
                 entityARR.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityARRHdDao.Update(entityARR);
+
+                decimal depositAmount = 0;
+                List<ARReceivingDt> lstARReceivingDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingID = {0} AND GCARPaymentMethod = '{1}'", hdnARReceivingID.Value, Constant.PaymentMethod.DOWN_PAYMENT), ctx);
+                foreach (ARReceivingDt arReceivingDt in lstARReceivingDt)
+                    depositAmount += arReceivingDt.PaymentAmount;
+                depositAmount -= entityARR.TotalReceivingAmount - entityARR.TotalInvoiceAmount;
+
+                if (depositAmount != 0)
+                {
+                    ARBalance entityARBalance = BusinessLayer.GetARBalanceList(string.Format("StudentID = {0}", AppSession.StudentID), ctx).FirstOrDefault();
+                    entityARBalance.DepositAmount += depositAmount;
+                    entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityARBalanceDao.Update(entityARBalance);
+                }
 
                 List<ARInvoiceReceiving> lstARIR = BusinessLayer.GetARInvoiceReceivingList(string.Format("ARReceivingID = {0}", hdnARReceivingID.Value), ctx);
                 string lstARInvoiceID = string.Join(",", lstARIR.Select(p => p.ARInvoiceID).ToList());

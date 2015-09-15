@@ -218,6 +218,7 @@
                                                 <col style="width:100px" />
                                                 <col style="width:100px" />
                                                 <col style="width:100px" />
+                                                <col style="width:100px" />
                                                 <col style="width:80px" />
                                                 <col style="width:40px" />
                                             </colgroup>
@@ -226,6 +227,7 @@
                                                 <th align="left"><%=GetLabel("Keterangan") %></th>
                                                 <th align="left"><%=GetLabel("No Referensi") %></th>
                                                 <th class="thRight"><%=GetLabel("Transaksi") %></th>
+                                                <th class="thRight"><%=GetLabel("Denda") %></th>
                                                 <th class="thRight"><%=GetLabel("Diskon") %></th>
                                                 <th class="thRight"><%=GetLabel("Total") %></th>
                                                 <th class="thCenter"></th>
@@ -248,6 +250,7 @@
                                                         <td><%#:Eval("cfStudentFeeCompTypeName") %></td>
                                                         <td align="left"><%#:Eval("ReferenceNo") %></td>
                                                         <td align="right"><%#:Eval("TransactionAmount","{0:N}") %></td>
+                                                        <td align="right"><%#:Eval("PenaltyAmount","{0:N}") %></td>
                                                         <td align="center"><asp:TextBox ID="txtDiscountAmount" runat="server" Width="95%" CssClass="txtCurrency txtDiscountAmount" /></td>
                                                         <td align="center"><asp:TextBox ID="txtClaimedAmount" runat="server" Width="95%" ReadOnly="true" CssClass="txtCurrency txtClaimedAmount" /></td>
                                                         <td align="center">

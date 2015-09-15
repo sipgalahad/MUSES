@@ -79,6 +79,8 @@ namespace CodeX.Muses.Web.Finance.Program
             if (hdnFilterExpressionQuickSearch.Value != "")
                 filterExpression += String.Format(" AND {0}",hdnFilterExpressionQuickSearch.Value);
 
+            if (filterExpression != "1 = 0")
+                filterExpression += " ORDER BY StudentCode";
             List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(filterExpression);
             lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("GCAdmissionPaymentPeriod = '{0}' AND IsDeleted = 0", Constant.AdmissionPaymentPeriod.BULANAN));
             grdView.DataSource = lstEntity;

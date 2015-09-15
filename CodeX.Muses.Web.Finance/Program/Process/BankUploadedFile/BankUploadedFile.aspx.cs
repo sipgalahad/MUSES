@@ -137,7 +137,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         public void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            grdView.DataSource = lstBankData;
+            grdView.DataSource = lstBankData.OrderBy(p => p.NBS).ToList();
             grdView.DataBind();
         }
 
@@ -286,10 +286,30 @@ namespace CodeX.Muses.Web.Finance.Program
                                     ARReceivingDt entityDt = new ARReceivingDt();
                                     entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
                                     entityDt.GCARPaymentMethod = Constant.PaymentMethod.BANK_TRANSFER;
-                                    entityDt.PaymentAmount = totalAmount;
+                                    entityDt.PaymentAmount = entity.Amount - bank.AdministrationAmount;
                                     entityDt.CardFeeAmount = bank.AdministrationAmount;
                                     entityDt.CreatedBy = AppSession.UserLogin.UserID;
                                     entityReceivingDtDao.Insert(entityDt);
+                                    #endregion
+
+                                    #region ARBalance
+                                    if (entityARBalance != null && entityARBalance.DepositAmount > 0)
+                                    {
+                                        ARReceivingDt entityDt2 = new ARReceivingDt();
+                                        entityDt2.ARReceivingID = entityReceivingHd.ARReceivingID;
+                                        entityDt2.GCARPaymentMethod = Constant.PaymentMethod.DOWN_PAYMENT_RETURN;
+                                        if (totalAmount < entityARBalance.DepositAmount)
+                                            entityDt2.PaymentAmount = totalAmount;
+                                        else
+                                            entityDt2.PaymentAmount = entityARBalance.DepositAmount;
+                                        entityDt2.CardFeeAmount = 0;
+                                        entityDt2.CreatedBy = AppSession.UserLogin.UserID;
+                                        entityReceivingDtDao.Insert(entityDt2);
+
+                                        entityARBalance.DepositAmount -= entityDt2.PaymentAmount;
+                                        entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                        arBalanceDao.Update(entityARBalance);
+                                    }
                                     #endregion
 
                                     #region ARInvoice
@@ -322,26 +342,6 @@ namespace CodeX.Muses.Web.Finance.Program
                                             aRInvoiceDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                                             entityInvoiceDtDao.Update(aRInvoiceDt);
                                         }
-                                    }
-                                    #endregion
-
-                                    #region ARBalance
-                                    if (entityARBalance != null && entityARBalance.DepositAmount > 0)
-                                    {
-                                        ARReceivingDt entityDt2 = new ARReceivingDt();
-                                        entityDt2.ARReceivingID = entityReceivingHd.ARReceivingID;
-                                        entityDt2.GCARPaymentMethod = Constant.PaymentMethod.DOWN_PAYMENT_RETURN;
-                                        if (totalInvoiceAmount < entityARBalance.DepositAmount)
-                                            entityDt2.PaymentAmount = totalInvoiceAmount;
-                                        else
-                                            entityDt2.PaymentAmount = entityARBalance.DepositAmount;
-                                        entityDt2.CardFeeAmount = 0;
-                                        entityDt2.CreatedBy = AppSession.UserLogin.UserID;
-                                        entityReceivingDtDao.Insert(entityDt2);
-
-                                        entityARBalance.DepositAmount -= entityDt2.PaymentAmount;
-                                        entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                        arBalanceDao.Update(entityARBalance);
                                     }
                                     #endregion
 

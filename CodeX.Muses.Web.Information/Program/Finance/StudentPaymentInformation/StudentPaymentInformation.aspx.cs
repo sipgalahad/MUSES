@@ -98,7 +98,7 @@ namespace CodeX.Muses.Web.Information.Program
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vARReceivingHd> lstEntity = BusinessLayer.GetvARReceivingHdList(filterExpression, rowCount, pageIndex);
+            List<vARReceivingHd> lstEntity = BusinessLayer.GetvARReceivingHdList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
