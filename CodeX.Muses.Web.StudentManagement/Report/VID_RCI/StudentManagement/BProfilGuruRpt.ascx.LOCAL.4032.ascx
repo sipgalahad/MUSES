@@ -232,10 +232,10 @@
                     <br />
                 </td>
             </tr>
-            <tr class="trReportBody">
+            <tr class="trReportBody" id="trTest1">
                 <td><h3 style="font-weight:bold;">F. PROGRAM PENGEMBANGAN DIRI YANG AKAN SAYA LAKUKAN</h3></td>
             </tr>
-            <tr class="trReportBody">
+            <tr class="trReportBody" id="trTest2">
                 <td>
                     <div style="padding-left:10px; max-height: 170px;" id="div4" runat="server">
                         <table cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">

@@ -13,16 +13,16 @@
         .tblRapor tr td { border-top: 1px solid; border-left:1px solid; }   
         .tblRapor        { border-right:1px solid; border-bottom: 1px solid;}        
         .tdScore { width:50px; }
-        .tblProfilGuruItem tr td {padding:3px;}
+        table tr td {padding:3px;}
     </style>
     <div style="text-align:center" id="divRBHeader" runat="server">
         <h1>PROFIL {TeacherName}</h1>
     </div>
-    <table class='tblReport' style='width:100%;margin-top: 15px' cellpadding='0' cellspacing='0'>
+    <table class='tblReport' style='width:100%; margin-top:15px;' cellpadding='0' cellspacing='0'>
         <tbody class="reportBody">
             <tr class="trReportBody">
                 <td valign="top">
-                    <table cellpadding='0' cellspacing='0' width="100%" class="tblProfilGuruItem">
+                    <table cellpadding='0' cellspacing='0' width="100%">
                         <colgroup>
                             <col width="25%" />
                             <col width="25%" />
@@ -43,7 +43,7 @@
                     <h3 style="font-weight:bold;">A. KEPRIBADIAN</h3>
                     <h3 style="font-weight:bold;" id="divPersonalityType" runat="server">Tipe Kepribadian : {PersonalityType}</h3>
                     <div style="padding-left:10px;" id="divPersonal" runat="server">
-                        <table cellpadding='0' cellspacing='0' border="1" class="tblProfilGuruItem">
+                        <table cellpadding='0' cellspacing='0' border="1">
                             <colgroup>
                                 <col width="20px;" />
                                 <col />
@@ -78,13 +78,12 @@
                             </tr>
                         </table>
                     </div>
-                    <br />
                 </td>
             </tr>
             <tr class="trReportBody">
                 <td valign="top">
                     <div style="padding-left:10px;" id="divPersonalDesc" runat="server">
-                        <table cellpadding='0' cellspacing='0' border="1" width="100%" style="white-space: normal; text-align: justify;" class="tblProfilGuruItem">
+                        <table cellpadding='0' cellspacing='0' border="1" width="100%" style="white-space: normal; text-align: justify;">
                             <colgroup>
                                 <col width="50%" />
                                 <col />
@@ -99,7 +98,6 @@
                             </tr>
                         </table>
                     </div>
-                    <br />
                 </td>
             </tr>
             <asp:Repeater runat="server" ID="rptReportBody" OnItemDataBound="rptReportBody_ItemDataBound">
@@ -110,7 +108,7 @@
                     <tr class="trReportBody">
                         <td valign="top">
                             <div style="padding-left:10px;" id="div1" runat="server">
-                               <table  cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">
+                               <table  cellpadding='0' cellspacing='0' border="1" width="100%">
                                     <colgroup>
                                         <col width="3px;"/>
                                         <col />
@@ -145,7 +143,6 @@
                                     </tr>
                                 </table> 
                             </div>
-                            <br />
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -156,7 +153,7 @@
             <tr class="trReportBody">
                 <td valign="top">
                     <div style="padding-left:10px;" id="div2" runat="server">
-                        <table cellpadding='0' cellspacing='0' border="1" class="tblProfilGuruItem">
+                        <table cellpadding='0' cellspacing='0' border="1">
                             <colgroup>
                                 <col width="120px" />
                                 <col width="120px" />
@@ -187,7 +184,6 @@
                             </tr>
                         </table>
                     </div>
-                    <br />
                 </td>
             </tr>
             <tr class="trReportBody">
@@ -196,7 +192,7 @@
             <tr class="trReportBody">
                 <td>
                     <div style="padding-left:10px;" id="div3" runat="server">
-                        <table cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">
+                        <table cellpadding='0' cellspacing='0' border="1" width="100%">
                             <colgroup>
                                 <col width="3px" />
                                 <col width="120px" />
@@ -229,7 +225,6 @@
                             </tr>
                         </table>
                     </div>
-                    <br />
                 </td>
             </tr>
             <tr class="trReportBody">
@@ -237,8 +232,8 @@
             </tr>
             <tr class="trReportBody">
                 <td>
-                    <div style="padding-left:10px; max-height: 170px;" id="div4" runat="server">
-                        <table cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">
+                    <div style="padding-left:10px;" id="div4" runat="server">
+                        <table cellpadding='0' cellspacing='0' border="1" width="100%">
                             <colgroup>
                                 <col width="3px" />
                                 <col />
@@ -280,16 +275,15 @@
                             </tr>
                         </table>
                     </div>
-                    <br />
                 </td>
             </tr>
             <tr class="trReportBody">
                 <td><h3 style="font-weight:bold;">G. PROGRAM PENGEMBANGAN DIRI YANG PERLU DILAKUKAN GURU YBS MENURUT KEPALA SEKOLAH/PIMPINAN LANGSUNG</h3></td>
             </tr>
-            <tr class="trReportBody" id="trTest">
+            <tr class="trReportBody">
                 <td>
                     <div style="padding-left:10px;" id="div5" runat="server">
-                        <table cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">
+                        <table cellpadding='0' cellspacing='0' border="1" width="100%">
                             <colgroup>
                                 <col width="3px" />
                                 <col />
@@ -335,7 +329,7 @@
             </tr>
             <tr class="trReportBody">
                 <td>
-                    <table cellpadding='0' cellspacing='0' width="100%" class="tblProfilGuruItem">
+                    <table cellpadding='0' cellspacing='0' width="100%">
                         <colgroup>
                             <col width="50%" />
                             <col width="50%" />

@@ -18,7 +18,7 @@
     <div style="text-align:center" id="divRBHeader" runat="server">
         <h1>PROFIL {TeacherName}</h1>
     </div>
-    <table class='tblReport' style='width:100%;margin-top: 15px' cellpadding='0' cellspacing='0'>
+    <table class='tblReport' style='width:100%; margin-top:15px;' cellpadding='0' cellspacing='0'>
         <tbody class="reportBody">
             <tr class="trReportBody">
                 <td valign="top">
@@ -232,10 +232,14 @@
                     <br />
                 </td>
             </tr>
-            <tr class="trReportBody">
+            <tr class="trReportBody" id="trTest1">
                 <td><h3 style="font-weight:bold;">F. PROGRAM PENGEMBANGAN DIRI YANG AKAN SAYA LAKUKAN</h3></td>
             </tr>
+<<<<<<< HEAD
+            <tr class="trReportBody" id="trTest2">
+=======
             <tr class="trReportBody">
+>>>>>>> 053b541bbff8ffe6e5bd9b9beefb80739f5316c4
                 <td>
                     <div style="padding-left:10px; max-height: 170px;" id="div4" runat="server">
                         <table cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">
