@@ -158,11 +158,11 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     tdPercentage.InnerHtml = entity.Remarks;
                 }
 
-                if (entity.TeacherProfileGroupID < 7 && entity.Remarks == "")
+                if (entity.TeacherProfileGroupID < 7 && entity.TeacherProfileGroupID != 12)
                 {
                     tdMutu.InnerHtml = GetMutu(percentage);
                 }
-                else if (entity.Remarks == "")
+                else if (entity.TeacherProfileGroupID != 12)
                 {
                     tdMutu.InnerHtml = GetPetaUmpanBalik(percentage);
                 }
