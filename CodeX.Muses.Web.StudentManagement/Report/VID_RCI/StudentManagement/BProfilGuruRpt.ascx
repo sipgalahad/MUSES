@@ -18,7 +18,7 @@
     <div style="text-align:center" id="divRBHeader" runat="server">
         <h1>PROFIL {TeacherName}</h1>
     </div>
-    <table class='tblReport' style='width:100%;margin-top: 15px' cellpadding='0' cellspacing='0'>
+    <table class='tblReport' style='width:100%; margin-top:15px;' cellpadding='0' cellspacing='0'>
         <tbody class="reportBody">
             <tr class="trReportBody">
                 <td valign="top">
@@ -230,7 +230,7 @@
             <tr class="trReportBody">
                 <td><h3 style="font-weight:bold;">F. PROGRAM PENGEMBANGAN DIRI YANG AKAN SAYA LAKUKAN</h3></td>
             </tr>
-            <tr class="trReportBody" style="margin-bottom:200px;">
+            <tr class="trReportBody">
                 <td>
                     <div style="padding-left:10px;" id="div4" runat="server">
                         <table cellpadding='0' cellspacing='0' border="1" width="100%">
