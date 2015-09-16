@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvPurchaseOrderDtList" datasourcehd="GetvPurchaseOrderHdList" filterexpressionhd="" headertext="" subheadertext="" filterexpression="IsDeleted = 0" isshowheaderfooter="0" papertype="A4_portrait" fontsize="8pt"/>
+  <table datasource="GetvPurchaseOrderDtList" datasourcehd="GetvPurchaseOrderHdList" custompadding="0.2cm 1.3cm" filterexpressionhd="" headertext="" subheadertext="" filterexpression="IsDeleted = 0" isshowheaderfooter="0" papertype="A4_portrait" fontsize="8pt"/>
   <parameters>
     <parameter code="FP001"/>
   </parameters>

@@ -422,12 +422,14 @@
     <gridcolumns>
       <gridcolumn datafield="TransactionNo" headertext="Transaction No" width="100px" />
       <gridcolumn datafield="TransactionDateInString" headertext="Transaction Date" width="100px" horizontalalign="center" />
-      <gridcolumn datafield="FromLocationName" headertext="Location" width="300px" />
+      <gridcolumn datafield="FromLocationName" headertext="Location" width="150px" />
+      <gridcolumn datafield="ServiceUnitName" headertext="Bagian" width="150px" />
     </gridcolumns>
     <intellisensetexts>
       <intellisensetext datafield="TransactionNo" headertext="Transaction No" description="" />
       <intellisensetext datafield="TransactionDateInString" headertext="Transaction Date" description="" />
       <intellisensetext datafield="FromLocationName" headertext="Location" description="" />
+      <intellisensetext datafield="ServiceUnitName" headertext="Bagian" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
@@ -813,6 +815,18 @@
     <intellisensetexts>
       <intellisensetext datafield="SiteName" headertext="Nama" description="" />
       <intellisensetext datafield="Initial" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Site Service Unit -->
+  <searchdialog type="serviceunitpersite" methodname="GetvSiteServiceUnitList" keyfieldname="ServiceUnitCode">
+    <gridcolumns>
+      <gridcolumn datafield="ServiceUnitCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="ServiceUnitName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ServiceUnitName" headertext="Nama" description="" />
+      <intellisensetext datafield="ServiceUnitCode" headertext="Kode" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

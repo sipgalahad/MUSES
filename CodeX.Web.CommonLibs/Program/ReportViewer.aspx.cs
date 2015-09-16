@@ -384,6 +384,7 @@ namespace CodeX.Web.CommonLibs.Program
                                          IsShowFooter = sd.Attribute("isshowfooter") != null ? sd.Attribute("isshowfooter").Value == "1" : false,
                                          IsShowPageNumber = sd.Attribute("isshowpagenumber") != null ? sd.Attribute("isshowpagenumber").Value == "1" : true,
                                          IsShowParameter = sd.Attribute("isshowparameter") != null ? sd.Attribute("isshowparameter").Value == "1" : false,
+                                         CustomPadding = sd.Attribute("custompadding") != null ? sd.Attribute("custompadding").Value : "",
                                          IsShowHeaderBorder = sd.Attribute("isshowheaderborder") != null ? sd.Attribute("isshowheaderborder").Value == "1" : false
                                      }).FirstOrDefault();
             fontFamily = tempReportSetting.FontFamily;
@@ -417,7 +418,10 @@ namespace CodeX.Web.CommonLibs.Program
                 letterSpacingPrint = "0";
                 fontWeight = "bold;";
                 h1FontSize = "12pt";
-                pagePaperPadding = "0.2cm 0.7cm";
+                if (tempReportSetting.CustomPadding == "")
+                    pagePaperPadding = "0.2cm 0.7cm";
+                else
+                    pagePaperPadding = tempReportSetting.CustomPadding;
                 leftRightPosition = "0.7cm";
             }
             fontSize = tempReportSetting.FontSize;

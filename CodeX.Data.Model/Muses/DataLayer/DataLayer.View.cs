@@ -13146,6 +13146,9 @@ namespace CodeX.Data.Model
         private Int32 _ToLocationID;
         private String _ToLocationCode;
         private String _ToLocationName;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private String _GCAdjustmentType;
         private String _AdjustmentType;
         private String _GCConsumptionType;
@@ -13217,6 +13220,24 @@ namespace CodeX.Data.Model
         {
             get { return _ToLocationName; }
             set { _ToLocationName = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
         }
         [Column(Name = "GCAdjustmentType", DataType = "String")]
         public String GCAdjustmentType

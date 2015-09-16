@@ -32,6 +32,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             return string.Format("IsDeleted = 0");
         }
+        protected string OnGetFilterExpressionServiceUnit()
+        {
+            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+        }
         #endregion
 
         protected override void InitializeDataControl()
@@ -74,7 +78,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtConsumptionDate, new ControlEntrySetting(true, false, false, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(lblLocation, new ControlEntrySetting(true, false));
             SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true, ""));
-            SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, false,""));
+            SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, false, ""));
+            SetControlEntrySetting(lblSiteServiceUnit, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, false, true, ""));
+            SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, false, ""));
+            SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(false, false));
 
             SetControlEntrySetting(cboGCConsumptionType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false,""));
@@ -141,6 +149,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnLocationID.Value = entity.FromLocationID.ToString();
             txtLocationCode.Text = entity.FromLocationCode;
             txtLocationName.Text = entity.FromLocationName;
+            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
+            txtServiceUnitCode.Text = entity.ServiceUnitCode;
+            txtServiceUnitName.Text = entity.ServiceUnitName;
 
             cboGCConsumptionType.Value = entity.GCConsumptionType;
             txtRemarks.Text = entity.Remarks;
@@ -176,6 +187,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ItemTransactionHd entityHd = new ItemTransactionHd();
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtConsumptionDate.UniqueID]);
                 entityHd.FromLocationID = Convert.ToInt32(hdnLocationID.Value);
+                entityHd.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
                 entityHd.ToLocationID = null;
                 entityHd.GCConsumptionType = cboGCConsumptionType.Value.ToString();
                 entityHd.Remarks = txtRemarks.Text;
@@ -227,6 +239,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ItemTransactionHd entityHd = BusinessLayer.GetItemTransactionHd(Convert.ToInt32(hdnConsumptionID.Value));
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtConsumptionDate.UniqueID]);
                 entityHd.FromLocationID = Convert.ToInt32(hdnLocationID.Value);
+                entityHd.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
                 entityHd.ToLocationID = null;
                 entityHd.GCConsumptionType = cboGCConsumptionType.Value.ToString();
                 entityHd.Remarks = txtRemarks.Text;

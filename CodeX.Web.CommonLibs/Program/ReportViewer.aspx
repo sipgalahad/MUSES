@@ -248,7 +248,7 @@
                     border-radius: 5px;
                     background: white;
                     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                    padding: 0.2cm 0.7cm;
+                    padding: <%=pagePaperPadding %>;
                     margin: 0 auto 0.5cm auto;
                     width: <%=paperWidth %>mm;
                     height: <%=paperHeight%>mm;

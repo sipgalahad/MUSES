@@ -151,26 +151,28 @@
         var lstPurchaseOrderDtID = '';
 
         $('.chkIsSelected input').each(function () {
-            $tr = $(this).closest('tr');
-            var purchaseOrderDtID = $tr.find('.keyField').val();
-            var purchaseOrderID = $tr.find('.hdnPOHdID').val();
-            var receivedItem = $tr.find('.txtReceivedItem').val();
-            var unitPrice = $tr.find('.txtUnitPrice').attr('hiddenVal');
-            var batchNo = $tr.find('.txtBatchNo').val();
-            var expired = $tr.find('.txtExpired').val();
-            var discountPercentage1 = $tr.find('.txtDiscountPercentage1').val();
-            var discountAmount1 = $tr.find('.txtDiscountAmount1').attr('hiddenVal');
-            var discountPercentage2 = $tr.find('.txtDiscountPercentage2').val();
-            var discountAmount2 = $tr.find('.txtDiscountAmount2').attr('hiddenVal');
-            var conversionFactor = $tr.find('.hdnConversionFactor').val();
-            var GCPurchaseUnit = $tr.find('.hdnGCPurchaseUnit').val();
+            if ($(this).is(':checked')) {
+                $tr = $(this).closest('tr');
+                var purchaseOrderDtID = $tr.find('.keyField').val();
+                var purchaseOrderID = $tr.find('.hdnPOHdID').val();
+                var receivedItem = $tr.find('.txtReceivedItem').val();
+                var unitPrice = $tr.find('.txtUnitPrice').attr('hiddenVal');
+                var batchNo = $tr.find('.txtBatchNo').val();
+                var expired = $tr.find('.txtExpired').val();
+                var discountPercentage1 = $tr.find('.txtDiscountPercentage1').val();
+                var discountAmount1 = $tr.find('.txtDiscountAmount1').attr('hiddenVal');
+                var discountPercentage2 = $tr.find('.txtDiscountPercentage2').val();
+                var discountAmount2 = $tr.find('.txtDiscountAmount2').attr('hiddenVal');
+                var conversionFactor = $tr.find('.hdnConversionFactor').val();
+                var GCPurchaseUnit = $tr.find('.hdnGCPurchaseUnit').val();
 
-            if (result != '') {
-                result += '|';
-                lstPurchaseOrderDtID += ',';
+                if (result != '') {
+                    result += '|';
+                    lstPurchaseOrderDtID += ',';
+                }
+                result += purchaseOrderDtID + ';' + purchaseOrderID + ';' + receivedItem + ';' + unitPrice + ';' + batchNo + ';' + expired + ';' + discountPercentage1 + ';' + discountAmount1 + ';' + discountPercentage2 + ';' + discountAmount2 + ';' + conversionFactor + ';' + GCPurchaseUnit;
+                lstPurchaseOrderDtID += purchaseOrderDtID;
             }
-            result += purchaseOrderDtID + ';' + purchaseOrderID + ';' + receivedItem + ';' + unitPrice + ';' + batchNo + ';' + expired + ';' + discountPercentage1 + ';' + discountAmount1 + ';' + discountPercentage2 + ';' + discountAmount2 + ';' + conversionFactor + ';' + GCPurchaseUnit;
-            lstPurchaseOrderDtID += purchaseOrderDtID;
         });
         if (result == '') {
             errMessage.text = 'Please Select Item First';

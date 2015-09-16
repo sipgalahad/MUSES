@@ -15347,10 +15347,11 @@ namespace CodeX.Data.Model
         private String _TransactionNo;
         private Int32 _FromLocationID;
         private Int32? _ToLocationID;
+        private Int32? _SiteServiceUnitID;
         private String _GCAdjustmentType;
         private String _GCConsumptionType;
-        private Boolean _IsBySystem;
         private String _ReferenceNo;
+        private Boolean _IsBySystem;
         private String _Remarks;
         private String _GCTransactionStatus;
         private Int32 _CreatedBy;
@@ -15394,6 +15395,12 @@ namespace CodeX.Data.Model
             get { return _ToLocationID; }
             set { _ToLocationID = value; }
         }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
         [Column(Name = "GCAdjustmentType", DataType = "String", IsNullable = true)]
         public String GCAdjustmentType
         {
@@ -15406,17 +15413,17 @@ namespace CodeX.Data.Model
             get { return _GCConsumptionType; }
             set { _GCConsumptionType = value; }
         }
-        [Column(Name = "IsBySystem", DataType = "Boolean")]
-        public Boolean IsBySystem
-        {
-            get { return _IsBySystem; }
-            set { _IsBySystem = value; }
-        }
         [Column(Name = "ReferenceNo", DataType = "String", IsNullable = true)]
         public String ReferenceNo
         {
             get { return _ReferenceNo; }
             set { _ReferenceNo = value; }
+        }
+        [Column(Name = "IsBySystem", DataType = "Boolean")]
+        public Boolean IsBySystem
+        {
+            get { return _IsBySystem; }
+            set { _IsBySystem = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

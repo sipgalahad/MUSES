@@ -30,6 +30,7 @@
             <tr><td>No Pemakaian</td><td align="center">:</td><td>{TransactionNo}</td></tr>
             <tr><td>Tanggal Pemakaian</td><td align="center">:</td><td>{TransactionDateInString}</td></tr>
             <tr><td>Lokasi</td><td align="center">:</td><td>{FromLocationName}</td></tr>
+            <tr><td>Bagian</td><td align="center">:</td><td>{ServiceUnitName}</td></tr>
           </table>
         </td>
       </tr>
