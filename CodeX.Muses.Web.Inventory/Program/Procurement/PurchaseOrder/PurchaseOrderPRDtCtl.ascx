@@ -67,7 +67,8 @@
                                     AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
                                         <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:BoundField DataField="PurchaseRequestNo" HeaderText="No Permintaan" />
+                                        <asp:BoundField DataField="PurchaseRequestNo" HeaderText="No Permintaan" HeaderStyle-Width="150px" />
+                                        <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                                         <asp:BoundField DataField="OrderQuantity" HeaderText="Jumlah Pesanan" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" />
                                         <asp:BoundField DataField="ReceivedQuantity" HeaderText="Jumlah Terima" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" />
                                     </Columns>

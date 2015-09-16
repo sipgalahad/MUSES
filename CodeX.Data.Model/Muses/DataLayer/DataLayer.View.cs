@@ -20468,6 +20468,7 @@ namespace CodeX.Data.Model
         private Int32 _PurchaseOrderID;
         private Decimal _OrderQuantity;
         private Decimal _ReceivedQuantity;
+        private String _Remarks;
 
         [Column(Name = "ID", DataType = "Int32")]
         public Int32 ID
@@ -20522,6 +20523,12 @@ namespace CodeX.Data.Model
         {
             get { return _ReceivedQuantity; }
             set { _ReceivedQuantity = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
     }
     #endregion
