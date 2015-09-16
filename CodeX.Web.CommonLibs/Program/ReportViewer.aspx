@@ -107,14 +107,21 @@
                     else {
                         var p2Height = 0;
                         var ctr = 0;
-                        while (p2Height + 10 < cont2Height) {
+                        while (true) {
                             $elm = $tbody.find('tr.trReportBody').first();
-                            $tbody2.append($elm);
+                            /*if ($elm.attr('id') == 'trTest1') {
+                            alert($elm.height() + ';' + p2Height + ';' + ($elm.height() + p2Height) + ';' + cont2Height);
+                            }*/
+                            if ($elm.height() + p2Height < cont2Height - 15) {
+                                $tbody2.append($elm);
 
-                            //re-evaluate height
-                            p2Height = p2.height();
-                            //loop
-                            ctr++;
+                                //re-evaluate height
+                                p2Height = p2.height();
+                                //loop
+                                ctr++;
+                            }
+                            else
+                                break;
                         }
 
                         $tempBody = $tbody2.html();
