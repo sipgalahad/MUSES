@@ -1431,6 +1431,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         #endregion
 
                         #region OpenQuestion
+                        tp.DataFromFile += "," + String.Join(",", obj.Skip(100).Take(2).Select(x => x.Replace("%", "")));
                         #endregion
                         #endregion
                     }
@@ -1562,6 +1563,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         #endregion
 
                         #region OpenQuestion
+                        tp.DataFromFile += "," + String.Join(",", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
                         #endregion
                     }
 
@@ -1695,6 +1697,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         #endregion
 
                         #region OpenQuestion
+                        tp.DataFromFile += "," + String.Join(",", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
                         #endregion
                     }
                     lstTp.Add(tp);
@@ -1747,32 +1750,40 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     TransTeacherProfileDtItem ttpItem = new TransTeacherProfileDtItem();
                     ttpItem.TransTeacherProfileDtID = DtID;
                     ttpItem.TeacherProfileItemID = tpi.TeacherProfileItemID;
-                    if (temp[i] != "")
-                        ttpItem.Score = Convert.ToDecimal(temp[i]);
-                    else
-                        ttpItem.Score = 0;
-
-                    if (tpi.IsDynamicQualityPercentage)
+                    if (tpi.TeacherProfileGroupID == 12)
                     {
-                        if (temp[i + 1] != "")
-                        {
-                            ttpItem.ScoreInPercentage = Convert.ToDecimal(temp[i + 1]);
-                            ttpItem.QualityPercentage = ttpItem.Score / ttpItem.ScoreInPercentage * 100;
-                        }
-                        else 
-                        {
-                            ttpItem.ScoreInPercentage = 0;
-                            ttpItem.QualityPercentage = 0;
-                        }
+                        ttpItem.Remarks = temp[i];
+                        ttpItemDao.Insert(ttpItem);
+                        i += 1;
                     }
                     else
                     {
-                        ttpItem.ScoreInPercentage = ttpItem.Score / tpi.QualityPercentage * 100;
-                        ttpItem.QualityPercentage = ttpItem.Score / tpi.QualityPercentage * 100;
-                    }
+                        if (temp[i] != "")
+                            ttpItem.Score = Convert.ToDecimal(temp[i]);
+                        else
+                            ttpItem.Score = 0;
 
-                    ttpItemDao.Insert(ttpItem);
-                    i += 2;
+                        if (tpi.IsDynamicQualityPercentage)
+                        {
+                            if (temp[i + 1] != "")
+                            {
+                                ttpItem.ScoreInPercentage = Convert.ToDecimal(temp[i + 1]);
+                                ttpItem.QualityPercentage = ttpItem.Score / ttpItem.ScoreInPercentage * 100;
+                            }
+                            else
+                            {
+                                ttpItem.ScoreInPercentage = 0;
+                                ttpItem.QualityPercentage = 0;
+                            }
+                        }
+                        else
+                        {
+                            ttpItem.ScoreInPercentage = ttpItem.Score / tpi.QualityPercentage * 100;
+                            ttpItem.QualityPercentage = ttpItem.Score / tpi.QualityPercentage * 100;
+                        }
+                        ttpItemDao.Insert(ttpItem);
+                        i += 2;
+                    }
                 }
             }
         }

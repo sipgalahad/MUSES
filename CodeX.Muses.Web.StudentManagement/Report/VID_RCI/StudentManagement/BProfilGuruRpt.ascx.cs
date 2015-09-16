@@ -62,6 +62,9 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             {
                 Repeater rptGroupItem = e.Item.FindControl("rptGroupItem") as Repeater;
                 HtmlGenericControl divHeader = e.Item.FindControl("divHeader") as HtmlGenericControl;
+                HtmlTableCell tdHeaderPercentage = e.Item.FindControl("tdHeaderPercentage") as HtmlTableCell;
+                HtmlTableCell tdHeaderMutu = e.Item.FindControl("tdHeaderMutu") as HtmlTableCell;
+
                 Variable group = e.Item.DataItem as Variable;
 
                 switch (group.Code) 
@@ -78,6 +81,12 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                         divHeader.Style.Remove("display");
                         divHeader.InnerHtml = "C. PROFIL MENURUT SISWA";
                         break;
+                    case "12":
+                        tdHeaderPercentage.InnerHtml = "Jawaban";
+                        tdHeaderPercentage.ColSpan = 2;
+                        tdHeaderPercentage.Width = "50%";
+                        tdHeaderMutu.Visible = false;
+                        break;
                     default : 
                         divHeader.Style.Add("display","none"); 
                         break;
@@ -92,10 +101,11 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 {
                     lstTemp[0].TeacherProfileItemName = lstTemp[0].TeacherProfileItemName.Replace("{SubjectName}", "");
                 }
+                rptGroupItem.ItemDataBound += new RepeaterItemEventHandler(rptGroupItem_ItemDataBound);
                 rptGroupItem.DataSource = lstTemp;
                 rptGroupItem.DataBind();
                 HtmlTableRow trMutu = e.Item.FindControl("trMutu") as HtmlTableRow;
-                if (lstTemp.Count() > 1)
+                if (lstTemp.Count() > 1 && group.Code != "12")
                 {
                     HtmlTableCell tdFinalScore = e.Item.FindControl("tdFinalScore") as HtmlTableCell;
                     HtmlTableCell tdQualityScore = e.Item.FindControl("tdQualityScore") as HtmlTableCell;
@@ -119,7 +129,48 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 }
                 else 
                 {
-                    trMutu.Style.Add("display", "none");
+                    trMutu.Visible = false;
+                }
+            }
+        }
+
+        void rptGroupItem_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
+            {
+                vTransTeacherProfileDtItem entity = e.Item.DataItem as vTransTeacherProfileDtItem;
+                HtmlTableCell tdPercentage = e.Item.FindControl("tdPercentage") as HtmlTableCell;
+                HtmlTableCell tdMutu = e.Item.FindControl("tdMutu") as HtmlTableCell;
+
+                Decimal percentage = 0;
+                if (entity.QualityPercentage == 0 && entity.DynamicQualityPercentage != 0)
+                {
+                    percentage = entity.Score / entity.DynamicQualityPercentage * 100;
+                    tdPercentage.InnerHtml = percentage.ToString("N2");
+                }
+                else if (entity.QualityPercentage != 0)
+                {
+                    percentage = entity.Score / entity.QualityPercentage * 100;
+                    tdPercentage.InnerHtml = percentage.ToString("N2");
+                }
+                else 
+                {
+                    tdPercentage.InnerHtml = entity.Remarks;
+                }
+
+                if (entity.TeacherProfileGroupID < 7 && entity.TeacherProfileGroupID != 12)
+                {
+                    tdMutu.InnerHtml = GetMutu(percentage);
+                }
+                else if (entity.TeacherProfileGroupID != 12)
+                {
+                    tdMutu.InnerHtml = GetPetaUmpanBalik(percentage);
+                }
+                else 
+                {
+                    tdPercentage.ColSpan = 2;
+                    tdPercentage.Align = "Left";
+                    tdMutu.Visible = false;
                 }
             }
         }

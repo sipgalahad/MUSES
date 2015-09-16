@@ -120,20 +120,16 @@
                                     <tr class="trReportBody">
                                         <td valign="top">No.</td>
                                         <td style="font-weight:bold;"><%#Eval("Value")%></td>
-                                        <td align="center">%</td>
-                                        <td align="center">Mutu</td>
+                                        <td align="center" id="tdHeaderPercentage" runat="server">%</td>
+                                        <td align="center" id="tdHeaderMutu" runat="server">Mutu</td>
                                     </tr>
                                     <asp:Repeater runat="server" ID="rptGroupItem">
                                         <ItemTemplate>
                                             <tr class="trReportBody">
                                                 <td valign="top" align="right" class="number"><%# Container.ItemIndex + 1 %></td>
                                                 <td valign="top" style="white-space:normal;"><%#Eval("TeacherProfileItemName") %></td>
-                                                <td valign="top" align="center" class="number"><%# Eval("QualityPercentage").ToString() == "0" ? (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("DynamicQualityPercentage")) * 100).ToString("N") : (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("QualityPercentage")) * 100).ToString("N") %></td>
-                                                <td valign="top" ><%#
-                                                                  Convert.ToInt32(Eval("TeacherProfileGroupID")) < 7 ?
-                                                                  GetMutu(Eval("QualityPercentage").ToString() == "0" ? (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("DynamicQualityPercentage")) * 100) : (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("QualityPercentage")) * 100))
-                                                                    : GetPetaUmpanBalik(Eval("QualityPercentage").ToString() == "0" ? (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("DynamicQualityPercentage")) * 100) : (Convert.ToDecimal(Eval("Score")) / Convert.ToDecimal(Eval("QualityPercentage")) * 100))
-                                                                  %></td>
+                                                <td valign="top" align="center" class="number" id="tdPercentage" runat="server"></td>
+                                                <td valign="top" id="tdMutu" runat="server"></td>
                                             </tr>
                                         </ItemTemplate>
                                     </asp:Repeater>
