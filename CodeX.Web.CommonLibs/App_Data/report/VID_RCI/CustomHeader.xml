@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <pageheadertemplate>
+    <![CDATA[
+    <table style="width:100%;border-bottom:3px solid black" >
+      <tr>
+        <td style="width:100px;" align="right"><img src='{ResolveUrl.~/Libs/Images/Client/logo_ricci.png}' width="80px" />
+        <td align="center">
+          <b style="font-weight:bold; font-size:20px;">{Site.SiteName}</b><br style="margin-bottom:10px;"/>
+          <b style="font-weight:bold; font-size:12px;">{Site.StreetName}</b><br/>
+          <b style="font-weight:bold; font-size:12px;">Telp. {Site.PhoneNo1} - {Site.PhoneNo2} Fax. {Site.FaxNo1} </b><br/>
+        </td>
+      </tr>
+    </table>
+    <div style="border-top:1px solid black; width:100%; margin-top:2px;">&nbsp;</div>
+    ]]>
+  </pageheadertemplate>
+</root>

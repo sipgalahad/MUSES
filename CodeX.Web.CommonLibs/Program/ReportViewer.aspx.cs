@@ -424,6 +424,43 @@ namespace CodeX.Web.CommonLibs.Program
                     pagePaperPadding = tempReportSetting.CustomPadding;
                 leftRightPosition = "0.7cm";
             }
+
+            string reportHeaderXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/{0}/CustomHeader.xml", AppConfigManager.CDXAppClientID, reportMaster.ReportUrl));
+            physicalPath = HttpContext.Current.Request.MapPath(reportHeaderXML);
+            if (File.Exists(physicalPath))
+            {
+                XDocument xdocReportCustomHeader = XDocument.Load(physicalPath);
+                IEnumerable<XElement> x1 = xdocReportCustomHeader.Descendants("pageheadertemplate");
+                if (x1.Count() > 0)
+                {
+                    string headerTemplate = x1.Single().Value;
+
+                    Regex regex = new Regex("{ResolveUrl.([(a-zA-Z0-9_.,~/)]*)}");
+                    MatchCollection collection = regex.Matches(headerTemplate);
+                    foreach (Match m in collection)
+                    {
+                        var url = m.Groups[1].Value;
+                        headerTemplate = headerTemplate.Replace("{ResolveUrl." + url + "}", ResolveUrl(url));
+                    }
+
+                    regex = new Regex("{Site.([(a-zA-Z0-9_.,)]*)}");
+                    collection = regex.Matches(headerTemplate);
+                    foreach (Match m in collection)
+                    {
+                        var columnName = m.Groups[1].Value;
+                        var prop = oSite.GetType().GetProperty(columnName);
+                        if (prop == null)
+                            throw new Exception(string.Format("Property {0} Not Found in Site", columnName));
+                        var fieldValue = prop.GetValue(oSite, null).ToString();
+                        headerTemplate = headerTemplate.Replace("{Site." + columnName + "}", fieldValue);
+                    }
+                    //headerTemplate = SetTemplateText(headerTemplate, tempReportSetting.DataSourceHd, entityHd);
+
+                    divPageHeader.InnerHtml = headerTemplate;
+                }
+            }
+                
+
             fontSize = tempReportSetting.FontSize;
 
             SubHeaderText1 = tempReportSetting.SubHeaderText;

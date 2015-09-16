@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvPurchaseReceiveDtList" datasourcehd="GetvPurchaseReceiveHdList" filterexpressionhd="" headertext="" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="A4_portrait" isshowheaderfooter="0" fontsize="8pt"/>
+  <table datasource="GetvPurchaseReceiveDtList" datasourcehd="GetvPurchaseReceiveHdList" filterexpressionhd="" headertext="BUKTI PENERIMAAN PEMBELIAN" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="A4_portrait" fontsize="9pt"/>
   <parameters>
     <parameter code="FP001"/>
   </parameters>
@@ -15,8 +15,6 @@
   </fields>
   <headertemplate>
     <![CDATA[
-    <div style="margin-top:150px;"></div>
-    <center><h1>BUKTI PENERIMAAN PEMBELIAN</h1></center><br style="display: none" />
     <table style="width:100%" cellspacing="0" cellpadding="0">
       <colgroup>
         <col style="width:60%"/>
@@ -67,16 +65,16 @@
         <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
       </tr>
       <tr>
+        <td valign="top" align="center">&nbsp;</td>
         <td valign="top" align="center">Dibuat Oleh</td>
-        <td valign="top" align="center">Disetujui Oleh</td>
       </tr>
       <tr>
         <td colspan="2" class="tdSignature">&nbsp;</td>
       </tr>
       <tr>
-        <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div></td>
+        <td valign="top" align="center"></td>
         <td valign="top" align="center">
-          <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
+          <div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div>
         </td>
       </tr>
     </table>

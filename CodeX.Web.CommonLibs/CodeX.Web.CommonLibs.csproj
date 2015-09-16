@@ -179,6 +179,7 @@
     <Content Include="App_Data\report\general\accounting\LDaftarAkun.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\report\VID_RCI\CustomHeader.xml" />
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BBukuInduk.xml" />
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BSuratPenentuanPembayaran.xml" />
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BRaporMidSemester.xml">
