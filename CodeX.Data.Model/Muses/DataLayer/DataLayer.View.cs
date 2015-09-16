@@ -5157,6 +5157,7 @@ namespace CodeX.Data.Model
         private String _GCTransactionStatus;
         private String _TransactionStatusWatermark;
         private Int32 _CreatedBy;
+        private String _CreatedByName;
         private String _CreatedByUserName;
 
         [Column(Name = "DirectPurchaseID", DataType = "Int32")]
@@ -5302,6 +5303,12 @@ namespace CodeX.Data.Model
         {
             get { return _CreatedBy; }
             set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedByName", DataType = "String")]
+        public String CreatedByName
+        {
+            get { return _CreatedByName; }
+            set { _CreatedByName = value; }
         }
         [Column(Name = "CreatedByUserName", DataType = "String")]
         public String CreatedByUserName

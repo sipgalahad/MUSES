@@ -506,6 +506,22 @@
         //#endregion
 
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
+            var ID = $('#<%=hdnDirectPurchaseID.ClientID %>').val();
+            var printStatus = $('#<%=hdnPrintStatus.ClientID %>').val();
+            if (printStatus == 'true') {
+                if (ID == '' || ID == '0') {
+                    errMessage.text = 'Please Save Transaction First!';
+                    return false;
+                }
+                else {
+                    filterExpression.text = "DirectPurchaseID = " + ID;
+                    return true;
+                }
+            }
+            else {
+                errMessage.text = "Data Doesn't Approved or Closed";
+                return false;
+            }
 
         }
 
@@ -518,6 +534,7 @@
             openUserControlPopup(url, param, 'Purchase Request Detail', 650, 500);
         });
     </script>
+    <input type="hidden" value="false" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnDirectPurchaseID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
