@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvDirectPurchaseDtList" headertext="Laporan Pembelian Tunai Per Item" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="A4_portrait" fontsize="9pt" isshowtotal="1" totaltext="Total : "/>
+  <parameters>
+    <parameter code="DT005" isshowassubtitle="1"/>
+    <parameter code="CB001" isshowassubtitle="1" isrequired="1"/>
+    <parameter code="SD001" isshowassubtitle="1" isrequired="1"/>
+  </parameters>
+  <groups>
+    <group fieldname="BusinessPartnerName" orderby="BusinessPartnerName" orderbytype="ASC" headertext="Supplier: [GroupName]" />
+  </groups>
+  <fields>
+    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldname="DirectPurchaseNo" headertext="No Transaksi" width="15"/>
+    <field fieldname="PurchaseDate" fieldtype="date" headertext="Tanggal" width="15"/>
+    <field headertext="Quantity" width="10" fieldtype="customfield" align="right">
+      <![CDATA[
+        {Quantity} {ItemUnit}
+      ]]>
+    </field>
+    <field fieldname="UnitPrice" headertext="Harga" width="10" fieldtype="currency"/>
+    <field fieldname="DiscountPercentage" headertext="Disc %" width="10" fieldtype="currency"/>
+    <field fieldname="LineAmount" headertext="Total" width="15" fieldtype="currency" isshowsubtotal="1"/>
+  </fields>
+</root>

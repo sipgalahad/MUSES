@@ -224,6 +224,17 @@ namespace CodeX.Data.Model
                 return UnitPrice.ToString("N") + " / " + _ItemUnit;
             }
         }
+        public String PurchaseDateInString
+        {
+            get { return _PurchaseDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+        public String cfTransactionHeaderInformation
+        {
+            get
+            {
+                return String.Format("{0} Supplier : {1}", _DirectPurchaseNo, _BusinessPartnerName);
+            }
+        }
     }
     #endregion
     #region vDirectPurchaseHd

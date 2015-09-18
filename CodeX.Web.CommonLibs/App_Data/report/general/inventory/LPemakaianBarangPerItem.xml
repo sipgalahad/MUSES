@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvItemTransactionDtList" headertext="Laporan Pemakaian Barang Per Item" filterexpression="TransactionCode = '4105'" papertype="A4_portrait" fontsize="9pt" />
+  <table datasource="GetvItemTransactionDtList" headertext="Laporan Pemakaian Barang Per Item" filterexpression="TransactionCode = '4105' AND GCItemDetailStatus != 'X121^999'" papertype="A4_portrait" fontsize="9pt" />
   <parameters>
     <parameter code="DT004" isshowassubtitle="1"/>
     <parameter code="CB002" isshowassubtitle="1" isrequired="1"/>

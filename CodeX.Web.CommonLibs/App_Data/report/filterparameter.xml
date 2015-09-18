@@ -24,7 +24,10 @@
     <!-- #Endregion -->
     <!-- #Region DT004 - Transaction Date Past Period -->
     <filterparameter code="DT004" name="Transaction Date Past Period" caption="Tanggal" fieldname="TransactionDate" />
-    <!-- #Endregion --> 
+    <!-- #Endregion -->
+    <!-- #Region DT005 - Purchase Date Past Period -->
+    <filterparameter code="DT005" name="Purchase Date Past Period" caption="Tanggal" fieldname="PurchaseDate" />
+    <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
 
@@ -49,6 +52,9 @@
     <!-- #Endregion -->
     <!-- #Region SD004 - Site Service Unit -->
     <filterparameter code="SD004" name="SD Site Service Unit" caption="Bagian" fieldname="SiteServiceUnitID" sdtype="serviceunitpersite" sdmethodname="GetvSiteServiceUnitList" sdfilterexpression="SiteID = '@SiteID' AND IsDeleted = 0" sdidfield="SiteServiceUnitID" sdcodefield="ServiceUnitCode" sdnamefield="ServiceUnitName" />
+    <!-- #Endregion -->
+    <!-- #Region SD005 - Business Partner Supplier -->
+    <filterparameter code="SD005" name="SD Business Partner Supplier" caption="Supplier" fieldname="BusinessPartnerID" sdtype="businesspartners" sdmethodname="GetBusinessPartnersList" sdfilterexpression="GCBusinessPartnerType = 'X017^004' AND IsDeleted = 0" sdidfield="BusinessPartnerID" sdcodefield="BusinessPartnerCode" sdnamefield="BusinessPartnerName" />
     <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
