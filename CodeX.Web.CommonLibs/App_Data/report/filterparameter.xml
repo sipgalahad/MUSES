@@ -28,6 +28,9 @@
     <!-- #Region DT005 - Purchase Date Past Period -->
     <filterparameter code="DT005" name="Purchase Date Past Period" caption="Tanggal" fieldname="PurchaseDate" />
     <!-- #Endregion -->
+    <!-- #Region DT006 - Received Date Past Period -->
+    <filterparameter code="DT006" name="Received Date Past Period" caption="Tanggal" fieldname="ReceivedDate" />
+    <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
 
@@ -55,6 +58,9 @@
     <!-- #Endregion -->
     <!-- #Region SD005 - Business Partner Supplier -->
     <filterparameter code="SD005" name="SD Business Partner Supplier" caption="Supplier" fieldname="BusinessPartnerID" sdtype="businesspartners" sdmethodname="GetBusinessPartnersList" sdfilterexpression="GCBusinessPartnerType = 'X017^004' AND IsDeleted = 0" sdidfield="BusinessPartnerID" sdcodefield="BusinessPartnerCode" sdnamefield="BusinessPartnerName" />
+    <!-- #Endregion -->
+    <!-- #Region SD006 - Supplier -->
+    <filterparameter code="SD006" name="SD Supplier" caption="Supplier" fieldname="SupplierID" sdtype="businesspartners" sdmethodname="GetBusinessPartnersList" sdfilterexpression="GCBusinessPartnerType = 'X017^004' AND IsDeleted = 0" sdidfield="BusinessPartnerID" sdcodefield="BusinessPartnerCode" sdnamefield="BusinessPartnerName" />
     <!-- #Endregion -->
   </type>
   <!-- #Endregion -->

@@ -1364,6 +1364,13 @@ namespace CodeX.Data.Model
                 return _GCItemDetailStatus == "X121^002" ? true : false;
             }
         }
+        public String cfTransactionHeaderInformation
+        {
+            get
+            {
+                return String.Format("{0} Supplier : {1}", _PurchaseReceiveNo, _SupplierName);
+            }
+        }
     }
     #endregion
     #region vPurchaseReceiveHd
