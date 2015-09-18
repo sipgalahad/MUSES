@@ -5,7 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>OTTIMO</title>
+    <title>VIDA</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 </head>
 <body>

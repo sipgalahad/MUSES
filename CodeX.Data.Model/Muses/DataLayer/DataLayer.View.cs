@@ -12975,6 +12975,9 @@ namespace CodeX.Data.Model
         private Int32 _FromLocationID;
         private String _FromLocationCode;
         private String _FromLocationName;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private Int32 _ItemID;
         private String _ItemCode;
         private String _ItemName1;
@@ -12990,6 +12993,7 @@ namespace CodeX.Data.Model
         private String _GCAdjustmentReason;
         private String _AdjustmentReason;
         private String _Remarks;
+        private String _HeaderRemarks;
         private String _GCItemDetailStatus;
 
         [Column(Name = "ID", DataType = "Int32")]
@@ -13039,6 +13043,24 @@ namespace CodeX.Data.Model
         {
             get { return _FromLocationName; }
             set { _FromLocationName = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
         }
         [Column(Name = "ItemID", DataType = "Int32")]
         public Int32 ItemID
@@ -13129,6 +13151,12 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
+        }
+        [Column(Name = "HeaderRemarks", DataType = "String")]
+        public String HeaderRemarks
+        {
+            get { return _HeaderRemarks; }
+            set { _HeaderRemarks = value; }
         }
         [Column(Name = "GCItemDetailStatus", DataType = "String")]
         public String GCItemDetailStatus

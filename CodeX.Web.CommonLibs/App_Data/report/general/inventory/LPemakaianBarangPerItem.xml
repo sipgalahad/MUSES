@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvItemTransactionDtList" headertext="Laporan Pemakaian Barang Per Item" filterexpression="TransactionCode = '4105'" papertype="A4_portrait" fontsize="9pt" />
+  <parameters>
+    <parameter code="DT004" isshowassubtitle="1"/>
+    <parameter code="CB002" isshowassubtitle="1" isrequired="1"/>
+    <parameter code="SD001" isshowassubtitle="1" isrequired="1"/>
+  </parameters>
+  <fields>
+    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldname="TransactionNo" headertext="No Transaksi" width="15"/>
+    <field fieldname="TransactionDate" fieldtype="date" headertext="Tanggal" width="15"/>
+    <field headertext="Quantity" width="10" fieldtype="customfield" align="right">
+      <![CDATA[
+        {Quantity} {ItemUnit}
+      ]]>
+    </field>
+    <field fieldname="ServiceUnitName" headertext="Bagian" width="15"/>
+    <field fieldname="HeaderRemarks" headertext="Keterangan" />
+  </fields>
+</root>

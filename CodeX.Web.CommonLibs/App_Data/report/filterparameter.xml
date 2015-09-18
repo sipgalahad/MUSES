@@ -5,6 +5,9 @@
     <!-- #Region CB001 - Location User -->
     <filterparameter code="CB001" name="Cbo Location User" caption="Lokasi" fieldname="LocationID" methodname="GetLocationUserAccessList" filterexpression="@SiteID;@UserID;;" valuefieldname="LocationID" textfieldname="LocationName" clientinstancename="cboLocation" />
     <!-- #Endregion -->
+    <!-- #Region CB002 - From Location User -->
+    <filterparameter code="CB002" name="Cbo From Location User" caption="Lokasi" fieldname="FromLocationID" methodname="GetLocationUserAccessList" filterexpression="@SiteID;@UserID;;" valuefieldname="LocationID" textfieldname="LocationName" clientinstancename="cboLocation" />
+    <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
 
@@ -20,7 +23,7 @@
     <filterparameter code="DT003" name="Procurement Date Past Period" caption="Tanggal" fieldname="ProcurementDate" />
     <!-- #Endregion -->
     <!-- #Region DT004 - Transaction Date Past Period -->
-    <filterparameter code="DT004" name="Procurement Date Past Period" caption="Tanggal" fieldname="TransactionDate" />
+    <filterparameter code="DT004" name="Transaction Date Past Period" caption="Tanggal" fieldname="TransactionDate" />
     <!-- #Endregion --> 
   </type>
   <!-- #Endregion -->
@@ -43,6 +46,9 @@
     <!-- #Endregion -->
     <!-- #Region SD003 - SD Fixed Asset Item -->
     <filterparameter code="SD003" name="SD Fixed Asset Item" caption="Item" fieldname="FixedAssetID" sdtype="faitem" sdmethodname="GetFAItemList" sdfilterexpression="IsDeleted = 0" sdidfield="FixedAssetID" sdcodefield="FixedAssetCode" sdnamefield="FixedAssetName" />
+    <!-- #Endregion -->
+    <!-- #Region SD004 - Site Service Unit -->
+    <filterparameter code="SD004" name="SD Site Service Unit" caption="Bagian" fieldname="SiteServiceUnitID" sdtype="serviceunitpersite" sdmethodname="GetvSiteServiceUnitList" sdfilterexpression="SiteID = '@SiteID' AND IsDeleted = 0" sdidfield="SiteServiceUnitID" sdcodefield="ServiceUnitCode" sdnamefield="ServiceUnitName" />
     <!-- #Endregion -->
   </type>
   <!-- #Endregion -->

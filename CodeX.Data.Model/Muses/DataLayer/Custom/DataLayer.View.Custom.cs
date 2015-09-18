@@ -690,6 +690,24 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
+        public String cfTransactionHeaderInformation
+        {
+            get
+            {
+                if (_HeaderRemarks != "")
+                    return String.Format("{0} Bagian : {1} ({2})", _TransactionNo, _ServiceUnitName, _HeaderRemarks);
+                return String.Format("{0} Bagian : {1}", _TransactionNo, _ServiceUnitName);
+            }
+        }
+        public String cfTransactionHeaderInformation2
+        {
+            get
+            {
+                if (_HeaderRemarks != "")
+                    return String.Format("{0} Keterangan : {1}", _TransactionNo, _HeaderRemarks);
+                return String.Format("{0}", _TransactionNo);
+            }
+        }
     }
     #endregion
     #region vItemTransactionHd

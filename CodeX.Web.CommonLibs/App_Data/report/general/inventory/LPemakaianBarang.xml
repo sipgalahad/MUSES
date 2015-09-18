@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvItemTransactionDtList" headertext="Laporan Pemakaian Barang" filterexpression="TransactionCode = '4105'" papertype="A4_portrait" fontsize="9pt" />
+  <parameters>
+    <parameter code="DT004" isshowassubtitle="1"/>
+    <parameter code="CB002" isshowassubtitle="1" isrequired="1"/>
+  </parameters>
+  <groups>
+    <group fieldname="TransactionDateInString" orderby="TransactionDate" orderbytype="ASC" headertext="Tanggal: [GroupName]" />
+    <group fieldname="cfTransactionHeaderInformation" orderby="TransactionNo" orderbytype="ASC" headertext="No Transaksi : [GroupName]" />
+  </groups>
+  <fields>
+    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldname="ItemCode" headertext="Kode" width="10"/>
+    <field fieldname="ItemName1" headertext="Nama" />
+    <field headertext="Quantity" width="10" fieldtype="customfield" align="right">
+      <![CDATA[
+        {Quantity} {ItemUnit}
+      ]]>
+    </field>
+  </fields>
+</root>
