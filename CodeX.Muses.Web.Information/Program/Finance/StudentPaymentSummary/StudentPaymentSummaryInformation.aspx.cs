@@ -68,13 +68,17 @@ namespace CodeX.Muses.Web.Information.Program
         {
             hdnTempPeriodText.Value = string.Format("BULAN {0} {1}", cboMonth.Text, cboYear.Value);
 
-            lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}'", AppSession.UserLogin.SiteID));
+            lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}' AND IsHeader = 0", AppSession.UserLogin.SiteID));
             lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
 
             lstStudentReceive = new List<GetStudentReceiveSummary>();
             foreach (Site site in lstSite)
             {
                 List<GetStudentReceiveSummary> lstStudentReceive1 = BusinessLayer.GetStudentReceiveSummary(site.SiteID, Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value));
+                foreach (GetStudentReceiveSummary studentReceive in lstStudentReceive1)
+                {
+                    studentReceive.SiteID = site.SiteID;
+                }
                 lstStudentReceive = lstStudentReceive.Concat(lstStudentReceive1).ToList();
             }
             rptSite.DataSource = lstSite;
@@ -143,12 +147,13 @@ namespace CodeX.Muses.Web.Information.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 Site entity = (Site)e.Item.DataItem;
+                List<GetStudentReceiveSummary> lstStudentReceive1 = lstStudentReceive.Where(p => p.SiteID == entity.SiteID).ToList();
                 StudentFeeCompType studentFeeCompType = ((RepeaterItem)e.Item.Parent.Parent).DataItem as StudentFeeCompType;
 
                 CStudentFeeCompTypeTotal studentFeeCompTypeTotal = lstStudentFeeCompTypeTotal.FirstOrDefault(p => p.SiteID == entity.SiteID && p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID);
 
                 decimal totalAmount = 0;
-                GetStudentReceiveSummary studentReceive = lstStudentReceive.FirstOrDefault(p => p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID && p.Code == type);
+                GetStudentReceiveSummary studentReceive = lstStudentReceive1.FirstOrDefault(p => p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID && p.Code == type);
                 if (studentReceive != null)
                 {
                     totalAmount = studentReceive.TotalAmount;

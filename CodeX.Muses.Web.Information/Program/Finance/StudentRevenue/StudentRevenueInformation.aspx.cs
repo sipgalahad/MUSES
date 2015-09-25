@@ -85,7 +85,7 @@ namespace CodeX.Muses.Web.Information.Program
 
             lstStudentFeeCompTypeTotal = new List<CStudentFeeCompTypeTotal>();
 
-            List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}'", AppSession.UserLogin.SiteID));
+            List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}' AND IsHeader = 0", AppSession.UserLogin.SiteID));
             foreach (Site site in lstSite)
             {
                 foreach (StudentFeeCompType studentFeeCompType in lstStudentFeeCompType)

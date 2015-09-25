@@ -327,9 +327,12 @@ namespace CodeX.Muses.Web.Finance.Program
                                         foreach (ARInvoiceDt aRInvoiceDt in lstARInvoiceDt1)
                                         {
                                             StudentFeeDt studentFeeDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeDtID == aRInvoiceDt.StudentFeeDtID);
-                                            studentFeeDt.IsPaid = true;
-                                            studentFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                            entityStudentFeeDtDao.Update(studentFeeDt);
+                                            if (studentFeeDt != null)
+                                            {
+                                                studentFeeDt.IsPaid = true;
+                                                studentFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                                entityStudentFeeDtDao.Update(studentFeeDt);
+                                            }
 
                                             ARInvoiceReceiving ARInvoiceReceivingObj = new ARInvoiceReceiving();
                                             ARInvoiceReceivingObj.ARInvoiceID = arInvoiceHD.ARInvoiceID;
