@@ -117,7 +117,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 string remarks = String.Join(", ",lstStudentFeeDt.Select(x => x.cfStudentFeeCompTypeName));
                 
                 DateTime DueDate = new DateTime(Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value), 1).AddMonths(1).AddDays(-1);
-                Int32 BankID = Convert.ToInt32(siteParameterDao.Get(AppSession.UserLogin.SiteID, Constant.SiteParameter.DEFAULT_BANK).ParameterValue);
+                Int32 BankID = bank.BankID;
 
                 ARInvoiceHd entityARInvoiceHd = new ARInvoiceHd();
                 entityARInvoiceHd.TransactionCode = Constant.TransactionCode.AR_INVOICE_STUDENT;
@@ -157,7 +157,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 String txt = string.Empty;
                 String format = "";
                 //SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)), ctx)[0];
-                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}') AND SiteID = '{2}'", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text), AppSession.UserLogin.SiteID), ctx)[0];
+                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}') AND SiteID = '{2}'", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text), student.SiteID), ctx)[0];
                 List<vStudentFeeComp> sfctList = BusinessLayer.GetvStudentFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0 AND StudentID = {1}", Period.SchoolPeriodID, student.StudentID), ctx);
                 if (bank.GCBankExportDataType == Constant.BankExportDataType.MANDIRI)
                 {
