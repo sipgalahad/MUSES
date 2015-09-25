@@ -960,7 +960,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 ttphdDao.Update(entityHd);
 
-                string filterExpression = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{0}'", hdnTransactionID.Value, Constant.TransactionStatus.VOID);
+                string filterExpression = String.Format("TransactionID = {0} AND GCTeacherDetailStatus != '{0}'", hdnTransactionID.Value, Constant.TransactionStatus.VOID);
                 List<TransTeacherProfileDt> lstTransTeacherProfileDt = BusinessLayer.GetTransTeacherProfileDtList(filterExpression, ctx);
                 foreach (TransTeacherProfileDt entityDt in lstTransTeacherProfileDt)
                 {
@@ -998,7 +998,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 ttphdDao.Update(entityHd);
 
-                string filterExpression = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{0}'", hdnTransactionID.Value, Constant.TransactionStatus.VOID);
+                string filterExpression = String.Format("TransactionID = {0} AND GCTeacherDetailStatus != '{0}'", hdnTransactionID.Value, Constant.TransactionStatus.VOID);
                 List<TransTeacherProfileDt> lstTransTeacherProfileDt = BusinessLayer.GetTransTeacherProfileDtList(filterExpression, ctx);
                 foreach (TransTeacherProfileDt entityDt in lstTransTeacherProfileDt)
                 {
@@ -1036,7 +1036,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 ttphdDao.Update(entityHd);
 
-                string filterExpression = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{0}'", hdnTransactionID.Value, Constant.TransactionStatus.VOID);
+                string filterExpression = String.Format("TransactionID = {0} AND GCTeacherDetailStatus != '{0}'", hdnTransactionID.Value, Constant.TransactionStatus.VOID);
                 List<TransTeacherProfileDt> lstTransTeacherProfileDt = BusinessLayer.GetTransTeacherProfileDtList(filterExpression, ctx);
                 foreach (TransTeacherProfileDt entityDt in lstTransTeacherProfileDt)
                 {
