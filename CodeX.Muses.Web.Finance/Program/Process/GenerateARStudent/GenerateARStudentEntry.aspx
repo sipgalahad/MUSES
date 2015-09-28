@@ -85,6 +85,8 @@
                         });
                         $('#<%=btnGenerate.ClientID %>').click();
                     }
+                    else
+                        isClickGenerate = false;
                 }
             }
             else
