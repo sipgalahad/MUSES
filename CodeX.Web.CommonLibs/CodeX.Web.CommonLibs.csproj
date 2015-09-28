@@ -160,6 +160,14 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="App_Data\report\general\inventory\LPemesananBarang.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\report\general\inventory\LPermintaanPembelian.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\report\general\inventory\LPenerimaanPembelianPerItem.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -216,6 +224,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Data\report\VID_RCI\CustomHeader.xml" />
+    <Content Include="App_Data\report\VID_RCI\finance\BSuratPenagihanPiutang.xml" />
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BBukuInduk.xml" />
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BSuratPenentuanPembayaran.xml" />
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BRaporMidSemester.xml">
@@ -1102,6 +1111,9 @@
     <Content Include="Scripts\Webcam\webcam.swf" />
     <Content Include="Service\MethodService.asmx" />
     <Content Include="Service\SyncService.asmx" />
+    <Content Include="SQLJobScripts\ATDLogCensus.txt" />
+    <Content Include="SQLJobScripts\AutoBackup\backup.sql" />
+    <Content Include="SQLJobScripts\AutoBedCharges.txt" />
     <Content Include="Styles\common.css" />
     <Content Include="Styles\excel.css" />
     <Content Include="Styles\MetroBlue\medinfras.css" />
@@ -1453,6 +1465,7 @@
     <None Include="Scripts\jquery\jqplot\syntaxhighlighter\LGPL-LICENSE" />
     <None Include="Scripts\jquery\jqplot\syntaxhighlighter\MIT-LICENSE" />
     <None Include="Scripts\TinyMce\classes\firebug\FIREBUG.LICENSE" />
+    <None Include="SQLJobScripts\AutoBackup\backup.bat" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\report\VID_RCI\accounting\" />

@@ -12,94 +12,48 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.StudentManagement.Report
 {
-    public partial class BProfilGuruRpt : BaseCustomReportCtl
+    public partial class BProfilGuru1Rpt : BaseCustomReportCtl
     {
-        vTeacherSubject ts = null;
-        List<vTeacherSubject> lstTeacheSubject = null;
-        List<vTransTeacherProfileDtItem> lstProfileAllItem = null;
         List<vTransTeacherProfileDtItem> lstProfileItem = null;
-        List<vEmployee> lstEmployee = null;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             
         }
-        
-
+        vTeacherSubject ts = null;
         public override void Bind(string filterExpression, string[] param)
         {
-            List<vTransTeacherProfileDt> lstTtpdt = BusinessLayer.GetvTransTeacherProfileDtList(filterExpression);
-            String lstTeacherID = String.Join(",", lstTtpdt.Select(x => x.TeacherID));
-            lstTeacheSubject = BusinessLayer.GetvTeacherSubjectList(String.Format("TeacherID IN ({0})", lstTeacherID));
-            lstProfileAllItem = BusinessLayer.GetvTransTeacherProfileDtItemList(String.Format("TransTeacherProfileDtID IN ({0})", String.Join(",", lstTtpdt.Select(x => x.ID))));
-            lstEmployee = BusinessLayer.GetvEmployeeList(String.Format("EmployeeID IN ({0})",String.Join(",",lstTtpdt.Select(x => x.TeacherID))));
-            rptMainBody.DataSource = lstTtpdt;
-            rptMainBody.DataBind();
-        }
+            String text = divPersonalityType.InnerHtml;
+            vTransTeacherProfileDt ttpdt = BusinessLayer.GetvTransTeacherProfileDtList(filterExpression)[0];
+            divRBHeader.InnerHtml = divRBHeader.InnerHtml.Replace("{TeacherName}", ttpdt.TeacherName);
+            divPersonalityType.InnerHtml = text.Replace("{PersonalityType}", ttpdt.PersonalityTypeName);
 
-        protected void rptMainBody_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item) 
-            {
-                
-                vTransTeacherProfileDt ttpdt = e.Item.DataItem as vTransTeacherProfileDt;
-                HtmlGenericControl divPersonalityType = e.Item.FindControl("divPersonalityType") as HtmlGenericControl;
-                HtmlGenericControl divPersonal = e.Item.FindControl("divPersonal") as HtmlGenericControl;
-                HtmlGenericControl divPersonalDesc = e.Item.FindControl("divPersonalDesc") as HtmlGenericControl;
-                HtmlGenericControl divEmploymentStatus = e.Item.FindControl("divEmploymentStatus") as HtmlGenericControl;
-                
-                Repeater rptReportBody = e.Item.FindControl("rptReportBody") as Repeater;
+            text = divPersonal.InnerHtml;
+            text = text.Replace("{TeacherName}", ttpdt.TeacherName);
+            text = text.Replace("{IQ}", ttpdt.IQScore.ToString());
+            text = text.Replace("{IQInPercentage}", GetIQScore(ttpdt.IQScore));
+            text = text.Replace("{Drive}", ttpdt.DScore.ToString("N"));
+            text = text.Replace("{Komunikasi}", ttpdt.KScore.ToString("N"));
+            text = text.Replace("{Loyalitas}", ttpdt.LScore.ToString("N"));
+            text = text.Replace("{Ketelitian}", ttpdt.TScore.ToString("N"));
+            text = text.Replace("{Konsistensi}", ttpdt.KonsScoreInPercentage.ToString("N"));
+            divPersonal.InnerHtml = text;
 
-                String text = divPersonalityType.InnerHtml;
-                divPersonalityType.InnerHtml = text.Replace("{PersonalityType}", ttpdt.PersonalityTypeName);
-                vEmployee emp = lstEmployee.FirstOrDefault(x => x.EmployeeID == ttpdt.TeacherID);
+            text = divPersonalDesc.InnerHtml;
+            text = text.Replace("{Adventages}", ttpdt.Advantages.Replace("<br>","<br/>"));
+            text = text.Replace("{Weakness}", ttpdt.Weakness.Replace("<br>", "<br/>"));
+            divPersonalDesc.InnerHtml = text;
 
-                if (emp != null)
-                {
-                    text = divEmploymentStatus.InnerHtml;
-                    if (emp.HiredDate.ToString(Constant.FormatString.DATE_FORMAT) != "01-Jan-1900")
-                        text = text.Replace("{HiredDate}", emp.HiredDate.ToString(Constant.FormatString.DATE_FORMAT));
-                    else
-                        text = text.Replace("{HiredDate}", "-");
-                    if (emp.TerminatedDate.ToString(Constant.FormatString.DATE_FORMAT) != "01-Jan-1900")
-                        text = text.Replace("{TerminatedDate}", emp.TerminatedDate.ToString(Constant.FormatString.DATE_FORMAT));
-                    else
-                        text = text.Replace("{TerminatedDate}", "-");
-                    divEmploymentStatus.InnerHtml = text;
-                }
-                else 
-                {
-                    text = divEmploymentStatus.InnerHtml;
-                    text = text.Replace("{HiredDate}", "-");
-                    text = text.Replace("{TerminatedDate}", "-");
-                    divEmploymentStatus.InnerHtml = text;
-                }
+            filterExpression = String.Format("TransTeacherProfileDtID = {0}",ttpdt.ID);
+            lstProfileItem = BusinessLayer.GetvTransTeacherProfileDtItemList(filterExpression);
 
-                text = divPersonal.InnerHtml;
-                text = text.Replace("{TeacherName}", ttpdt.TeacherName);
-                text = text.Replace("{IQ}", ttpdt.IQScore.ToString());
-                text = text.Replace("{IQInPercentage}", GetIQScore(ttpdt.IQScore));
-                text = text.Replace("{Drive}", ttpdt.DScore.ToString("N"));
-                text = text.Replace("{Komunikasi}", ttpdt.KScore.ToString("N"));
-                text = text.Replace("{Loyalitas}", ttpdt.LScore.ToString("N"));
-                text = text.Replace("{Ketelitian}", ttpdt.TScore.ToString("N"));
-                text = text.Replace("{Konsistensi}", ttpdt.KonsScoreInPercentage.ToString("N"));
-                divPersonal.InnerHtml = text;
+            ts = BusinessLayer.GetvTeacherSubjectList(String.Format("TeacherID = {0}",ttpdt.TeacherID)).FirstOrDefault();
+            
+            List<Variable> lstGroup = (from grp in lstProfileItem group grp by new { grp.TeacherProfileGroupID, grp.TeacherProfileGroupDisplayText } into NewGrp select new Variable { Code = NewGrp.Key.TeacherProfileGroupID.ToString(), Value = NewGrp.Key.TeacherProfileGroupDisplayText }).ToList();
+            rptReportBody.DataSource = lstGroup;
+            rptReportBody.DataBind();
 
-                text = divPersonalDesc.InnerHtml;
-                text = text.Replace("{Adventages}", ttpdt.Advantages.Replace("<br>", "<br/>"));
-                text = text.Replace("{Weakness}", ttpdt.Weakness.Replace("<br>", "<br/>"));
-                divPersonalDesc.InnerHtml = text;
-
-                //String filterExpression = String.Format("TransTeacherProfileDtID = {0}", ttpdt.ID);
-                //lstProfileItem = BusinessLayer.GetvTransTeacherProfileDtItemList(filterExpression);
-                lstProfileItem = lstProfileAllItem.Where(x => x.TransTeacherProfileDtID == ttpdt.ID).ToList();
-                ts = lstTeacheSubject.Where(x => x.TeacherID == ttpdt.TeacherID).FirstOrDefault();
-
-                List<Variable> lstGroup = (from grp in lstProfileItem group grp by new { grp.TeacherProfileGroupID, grp.TeacherProfileGroupDisplayText } into NewGrp select new Variable { Code = NewGrp.Key.TeacherProfileGroupID.ToString(), Value = NewGrp.Key.TeacherProfileGroupDisplayText }).ToList();
-                rptReportBody.DataSource = lstGroup;
-                rptReportBody.DataBind();
-            }
+            
         }
 
         protected void rptReportBody_ItemDataBound(object sender, RepeaterItemEventArgs e)

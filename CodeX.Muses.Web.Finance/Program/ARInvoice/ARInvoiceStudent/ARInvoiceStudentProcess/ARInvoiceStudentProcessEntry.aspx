@@ -178,6 +178,17 @@
                     cbpView.PerformCallback('refresh');
             }
         }
+
+        function onGetCurrID() {
+            return $('#<%=hdnARInvoiceID.ClientID %>').val();
+        }
+
+        function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
+            if (reportCode == "FN-00001") {
+                filterExpression.text = onGetCurrID();
+                return true;
+            }
+        }
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" />
     <input type="hidden" id="hdnARInvoiceID" runat="server" />

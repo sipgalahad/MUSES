@@ -250,6 +250,7 @@
     <Content Include="Report\VID_RCI\StudentManagement\BRaporSemesterRpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BRaporSemester2013Rpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BProfilGuruRpt.ascx" />
+    <Content Include="Report\VID_RCI\StudentManagement\BProfilGuru1Rpt.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1536,6 +1537,13 @@
     </Compile>
     <Compile Include="Report\VID_RCI\StudentManagement\BProfilGuruRpt.ascx.designer.cs">
       <DependentUpon>BProfilGuruRpt.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Report\VID_RCI\StudentManagement\BProfilGuru1Rpt.ascx.cs">
+      <DependentUpon>BProfilGuru1Rpt.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\VID_RCI\StudentManagement\BProfilGuru1Rpt.ascx.designer.cs">
+      <DependentUpon>BProfilGuru1Rpt.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -78,8 +78,11 @@ namespace CodeX.Muses.Web.Information.Program
 
         private string GetFilterExpression()
         {
-            String DueDate = String.Format("{0}{1}", cboYear.Value, Convert.ToInt32(cboMonth.Value).ToString("00"));
-            string filterExpression = string.Format("CONVERT(VARCHAR(8),DueDate,112) LIKE '%{0}%' AND GCTransactionStatus NOT IN ('{1}','{2}')", DueDate,Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
+            //String DueDate = String.Format("{0}{1}", cboYear.Value, Convert.ToInt32(cboMonth.Value).ToString("00"));
+            //string filterExpression = string.Format("CONVERT(VARCHAR(8),DueDate,112) LIKE '%{0}%' AND GCTransactionStatus NOT IN ('{1}','{2}')", DueDate,Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
+            String filterExpression = String.Format("((StudentFeeCompTypeID = 2 AND TransactionMonth <= {0} AND TransactionYear = {1}) OR (StudentFeeCompTypeID = 1 AND TransactionYear IS NULL) OR (StudentFeeCompTypeID = 3 AND TransactionYear = {1})) AND SiteID = '{2}'", cboMonth.Value, cboYear.Value, cboSite.Value);
+            if (true)
+                filterExpression += String.Format(" AND IsPaid = 0");
             if(tacSchoolClass.Value != "")
                 filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {0})", tacSchoolClass.Value);
             if (hdnFilterExpressionQuickSearch.Value != "")
@@ -91,15 +94,18 @@ namespace CodeX.Muses.Web.Information.Program
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = GetFilterExpression();
-            
-            if (isCountPageCount)
-            {
-                rowCount = BusinessLayer.GetvARInvoiceHdRowCount(filterExpression);
-                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
-            }
+            //List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(filterExpression);
+            var lstObject = (from grp in lstEntity group grp by new { grp.StudentID, grp.StudentCode, grp.StudentName } into NewGrp select new { StudentID = NewGrp.Key.StudentID, StudentCode = NewGrp.Key.StudentCode, StudentName = NewGrp.Key.StudentName, TotalClaimedAmount = NewGrp.Sum(x => x.TotalStudentAmount) }).ToList();
 
-            List<vARInvoiceHd> lstEntity = BusinessLayer.GetvARInvoiceHdList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
-            grdView.DataSource = lstEntity;
+            //if (isCountPageCount)
+            //{
+            //    //rowCount = BusinessLayer.GetvStudentFeeDtRowCount(filterExpression);
+            //    rowCount = lstObject.Count();
+            //    pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
+            //}
+            
+            grdView.DataSource = lstObject.OrderBy(s => s.StudentCode);
             grdView.DataBind();
         }
 

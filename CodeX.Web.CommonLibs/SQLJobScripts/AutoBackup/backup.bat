@@ -1,0 +1,1 @@
+sqlcmd -S .\SQLEXP2K12 -U sa -P p455w0rd. -i D:\AutomaticBackup\backup.sql
