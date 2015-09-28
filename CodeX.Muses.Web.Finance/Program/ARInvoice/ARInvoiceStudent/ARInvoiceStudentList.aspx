@@ -103,7 +103,7 @@
         //#endregion
 
         $('.lnkDetail a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
+            var id = $(this).closest('tr').find('.keyField').html() + "|" + cboSite.GetValue();
             var url = ResolveUrl('~/Program/ARInvoice/ARInvoiceStudent/StudentPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'Student', '1300', '650');
         });

@@ -7,45 +7,63 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Report {
+namespace CodeX.Muses.Web.Information.Program {
     
     
-    public partial class BProfilGuruRpt {
+    public partial class StudentBillInformationDtCtl {
         
         /// <summary>
-        /// divReportHeader control.
+        /// hdnLstID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportHeader;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstID;
         
         /// <summary>
-        /// divReportBody control.
+        /// txtItemName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportBody;
+        protected global::System.Web.UI.WebControls.TextBox txtItemName;
         
         /// <summary>
-        /// rptMainBody control.
+        /// cbpPopupView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMainBody;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopupView;
         
         /// <summary>
-        /// divPageFooter control.
+        /// PanelContent1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPageFooter;
+        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        
+        /// <summary>
+        /// pnlView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlView;
+        
+        /// <summary>
+        /// grdPopupView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdPopupView;
     }
 }

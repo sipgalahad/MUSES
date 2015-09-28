@@ -131,6 +131,17 @@
             }
         }
         //#endregion
+
+        function onGetCurrID() {
+            return $('#<%=hdnTransactionID.ClientID %>').val();
+        }
+
+        function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
+            if (reportCode == "SM-00006") {
+                filterExpression.text = "TransactionID = " + onGetCurrID();
+                return true;
+            }
+        }
     </script>
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
@@ -152,10 +163,6 @@
                         <tr>
                             <td class="tdLabel"><label class="lblLink" id="lblTransactionNo"><%=GetLabel("No. Penilaian")%></label></td>
                             <td><asp:TextBox ID="txtTransactionNo" Width="150px" ReadOnly="true" runat="server" /></td>
-                        </tr>
-                        <tr>
-                            <td class="tdLabel"><%=GetLabel("Tahun Ajaran") %></td>
-                            <td><dxe:ASPxComboBox ID="cboSchoolPeriod" runat="server" ClientInstanceName="cboSchoolPeriod" Width="200px" /></td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><%=GetLabel("Tanggal") %></td>

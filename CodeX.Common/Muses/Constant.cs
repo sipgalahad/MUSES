@@ -34,6 +34,7 @@ namespace CodeX.Common
             public const string DEFAULT_INTERFACE_JOURNAL_START_DATE = "AC0003";
             public const string IP_ADDRESS_SYNC = "CP0001";
             public const string SCHOOL_TYPE = "CP0002";
+            public const string FINANCE_MANAGER = "FN0001";
             public const string DEFAULT_BANK = "FN0003";
             public const string IS_ITEM_DISTRIBUTION_AUTO_RECEIVED = "IM0002";
             public const string MAX_STUDENT = "SM0001";

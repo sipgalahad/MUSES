@@ -7,108 +7,117 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.Information.Program {
+namespace CodeX.Muses.Web.StudentManagement.Report {
     
     
-    public partial class StudentPaymentInformation {
+    public partial class BProfilGuru1Rpt {
         
         /// <summary>
-        /// hdnFilterExpressionQuickSearch control.
+        /// divReportHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpressionQuickSearch;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportHeader;
         
         /// <summary>
-        /// cboSite control.
+        /// divReportBody control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSite;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportBody;
         
         /// <summary>
-        /// tacSchoolPeriod control.
+        /// divRBHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolPeriod;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divRBHeader;
         
         /// <summary>
-        /// tacSchoolClass control.
+        /// divPersonalityType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolClass;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPersonalityType;
         
         /// <summary>
-        /// txtSearchView control.
+        /// divPersonal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.QISIntellisenseTextBox txtSearchView;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPersonal;
         
         /// <summary>
-        /// txtTransactionDate control.
+        /// divPersonalDesc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTransactionDate;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPersonalDesc;
         
         /// <summary>
-        /// cbpView control.
+        /// rptReportBody control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.WebControls.Repeater rptReportBody;
         
         /// <summary>
-        /// PanelContent1 control.
+        /// div2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div2;
         
         /// <summary>
-        /// hdnMovementDate control.
+        /// div3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMovementDate;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div3;
         
         /// <summary>
-        /// pnlGridView control.
+        /// div4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlGridView;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div4;
         
         /// <summary>
-        /// grdView control.
+        /// div5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdView;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div5;
+        
+        /// <summary>
+        /// divPageFooter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPageFooter;
     }
 }

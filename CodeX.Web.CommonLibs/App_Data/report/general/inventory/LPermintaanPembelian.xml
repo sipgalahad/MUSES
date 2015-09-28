@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvPurchaseRequestDtList" headertext="Laporan Permintaan Pembelian" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="A4_portrait" fontsize="9pt"/>
+  <parameters>
+    <parameter code="DT004" isshowassubtitle="1"/>
+  </parameters>
+  <groups>
+    <group fieldname="PurchaseRequestNo" orderby="PurchaseRequestNo" orderbytype="ASC" headertext="No. Permintaan: [GroupName]" />
+  </groups>
+  <fields>
+    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldname="ItemCode" headertext="Kode" width="10"/>
+    <field fieldname="ItemName1" headertext="Nama" />
+    <field headertext="Quantity" width="10" fieldtype="customfield" align="right">
+      <![CDATA[
+        {Quantity} {PurchaseUnit}
+      ]]>
+    </field>
+  </fields>
+</root>

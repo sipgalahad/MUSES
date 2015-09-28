@@ -16,6 +16,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server">
     <script type="text/javascript">
         $(function () {
+            setDatePicker('<%=txtTransactionDate.ClientID %>');
+
             $('#btnRefresh').click(function () {
                 onRefreshGridView();
             });
@@ -189,18 +191,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><%=GetLabel("Bulan") %></td>
-                            <td style="padding-right: 1px;">
-                                <table cellpadding="0" cellspacing="0" >
-                                    <colgroup>
-                                        <col width="120px" />
-                                        <col width="70px" />
-                                        <col width="120px" />
-                                    </colgroup>
+                            <td class="tdLabel"><%=GetLabel("Tanggal") %></td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
                                     <tr>
-                                        <td class="tdMonth"><dxe:ASPxComboBox ID="cboMonth" runat="server" ClientInstanceName="cboMonth" Width="120px" /></td>
-                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tahun")%></label></td>
-                                        <td><dxe:ASPxComboBox ID="cboYear" runat="server" ClientInstanceName="cboYear" Width="120px" /></td>
+                                        <td style="padding-right: 1px; width: 145px"><asp:TextBox ID="txtTransactionDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                                     </tr>
                                 </table>
                             </td>

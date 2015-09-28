@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Report {
+namespace CodeX.Muses.Web.Finance.Report {
     
     
-    public partial class BProfilGuruRpt {
+    public partial class BSuratPenagihanPiutangRpt {
         
         /// <summary>
         /// divReportHeader control.
@@ -31,13 +31,22 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportBody;
         
         /// <summary>
-        /// rptMainBody control.
+        /// divStudent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMainBody;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divStudent;
+        
+        /// <summary>
+        /// rptPiutang control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptPiutang;
         
         /// <summary>
         /// divPageFooter control.

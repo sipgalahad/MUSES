@@ -93,6 +93,7 @@
     <Content Include="Program\Finance\ARCustomer\ARCustomerInformation.aspx" />
     <Content Include="Program\Finance\ARCustomer\ARCustomerInformationDtCtl.ascx" />
     <Content Include="Program\Finance\ARCustomer\ARCustomerMovementInformationDtCtl.ascx" />
+    <Content Include="Program\Finance\StudentBillInformation\StudentBillInformationDtCtl.ascx" />
     <Content Include="Program\Finance\StudentBillInformation\StudentBillInformation.aspx" />
     <Content Include="Program\Finance\StudentPaymentInformation\StudentPaymentInformation.aspx" />
     <Content Include="Program\Finance\StudentScholarship\StudentScholarshipInformation.aspx" />
@@ -310,6 +311,13 @@
     <Compile Include="Program\Finance\ARCustomer\ARCustomerMovementInformationDtCtl.ascx.designer.cs">
       <DependentUpon>ARCustomerMovementInformationDtCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Finance\StudentBillInformation\StudentBillInformationDtCtl.ascx.cs">
+      <DependentUpon>StudentBillInformationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Finance\StudentBillInformation\StudentBillInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentBillInformationDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Finance\StudentBillInformation\StudentBillInformation.aspx.cs">
       <DependentUpon>StudentBillInformation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -468,6 +476,7 @@
     <Content Include="..\CodeX.Web.CommonLibs\ConnectionString.config">
       <Link>ConnectionString.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -31,6 +31,9 @@
     <!-- #Region DT006 - Received Date Past Period -->
     <filterparameter code="DT006" name="Received Date Past Period" caption="Tanggal" fieldname="ReceivedDate" />
     <!-- #Endregion -->
+    <!-- #Region DT007 - Order Date Past Period -->
+    <filterparameter code="DT007" name="Order Date Past Period" caption="Tanggal" fieldname="OrderDate" />
+    <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
 

@@ -1,0 +1,98 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using CodeX.Web.Common.UI;
+using CodeX.Data.Model;
+using CodeX.Web.Common;
+using DevExpress.Web.ASPxCallbackPanel;
+using System.Web.UI.HtmlControls;
+using CodeX.Data.Core.Dal;
+using CodeX.Muses.Web.Information.Program;
+
+namespace CodeX.Muses.Web.Information.Program
+{
+    public partial class StudentBillInformationDtCtl : BaseViewPopupCtl
+    {
+        protected int PageCount = 1;
+        protected int CurrPage = 1;
+
+        //private ARProspectiveStudentInformation DetailPage
+        //{
+        //    get { return (ARProspectiveStudentInformation)Page; }
+        //}
+
+        public override void InitializeDataControl(string param)
+        {
+            hdnLstID.Value = param;
+            //String[] lstParam = param.Split('|');
+            //hdnProspectiveStudentID.Value = lstParam[0];
+
+            //ProspectiveStudent im = BusinessLayer.GetProspectiveStudent(Convert.ToInt32(hdnProspectiveStudentID.Value));
+            //txtItemName.Text = string.Format("{0} - {1}", im.ProspectiveStudentCode, im.ProspectiveStudentName);
+
+            //hdnDateFrom.Value = lstParam[1];
+            //hdnDateTo.Value = lstParam[2];
+
+            BindGridView(1, true, ref PageCount);
+        }
+
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
+        {
+            string filterExpression = String.Format("StudentFeeDtID IN ({0})",hdnLstID.Value);
+            if (isCountPageCount)
+            {
+                int rowCount = BusinessLayer.GetvStudentFeeDtRowCount(filterExpression);
+                pageCount = Helper.GetPageCount(rowCount, 10);
+            }
+            
+            List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(filterExpression);
+            txtItemName.Text = lstEntity[0].StudentName;
+            grdPopupView.DataSource = lstEntity;
+            grdPopupView.DataBind();
+        }
+
+        protected void cbpPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            int pageCount = 1;
+            string result = "";
+            if (e.Parameter != null && e.Parameter != "")
+            {
+                string[] param = e.Parameter.Split('|');
+                if (param[0] == "changepage")
+                {
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount);
+                    result = "changepage";
+                }
+                else // refresh
+                {
+                    BindGridView(1, true, ref pageCount);
+                    result = "refresh|" + pageCount;
+                }
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+        }
+
+        public override void SetToolbarVisibility(ref bool IsAllowExport)
+        {
+            IsAllowExport = true;
+        }        
+
+        //public override Control OnGetExportControl()
+        //{
+        //    List<GetARProspectiveStudentInformationDt> lstEntity = BusinessLayer.GetARProspectiveStudentInformationDtList(DetailPage.GetMovementDate(), Convert.ToInt32(hdnProspectiveStudentID.Value), Convert.ToInt32(hdnDateFrom.Value), Convert.ToInt32(hdnDateTo.Value));
+        //    grdPopupView.DataSource = lstEntity;
+        //    grdPopupView.DataBind();
+        //    HtmlGenericControl div = new HtmlGenericControl("DIV");
+        //    HtmlGenericControl h4 = new HtmlGenericControl("h4");
+        //    h4.InnerHtml = String.Format("Siswa : {0}", Request.Form[txtItemName.UniqueID]);
+        //    div.Controls.Add(h4);
+        //    div.Controls.Add(grdPopupView);
+        //    return div;
+        //}
+    }
+}

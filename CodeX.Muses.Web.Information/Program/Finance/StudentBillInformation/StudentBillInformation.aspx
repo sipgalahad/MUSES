@@ -137,6 +137,13 @@
             });
         }
 
+        $('.lblDetail.lblLink').live('click', function () {
+            $tr = $(this).closest('tr');
+            var lstStudentFeeID = $tr.find('.keyField').text();
+            var url = ResolveUrl("~/Program/Finance/StudentBillInformation/StudentBillInformationDtCtl.ascx");
+            openUserControlPopup(url, lstStudentFeeID, 'Detail Information', 1200, 550);
+        });
+
     </script>
     <input type="hidden" value="" id="hdnFilterExpressionQuickSearch" runat="server" />
     <div>
@@ -207,6 +214,12 @@
                         </tr>
                         <tr>
                             <td></td>
+                            <td>
+                                <asp:CheckBox runat="server" Text="Belum Dibayar" ID="chkNotPaid" Checked="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
                             <td><input type="button" id="btnRefresh" value="Refresh" /></td>
                         </tr>
                     </table>
@@ -225,10 +238,10 @@
                                     <asp:Panel runat="server" ID="pnlGridView" CssClass="pnlContainerGrid" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;height:380px;overflow-y:auto;">
                                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                             <Columns>
-                                                <asp:BoundField DataField="StudentCode" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                <asp:BoundField DataField="lstStudentFeeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                                 <asp:BoundField DataField="StudentCode" HeaderText="No. Siswa" HeaderStyle-Width="120px" />
                                                 <asp:BoundField DataField="StudentName" HeaderText="Siswa" />
-                                                <asp:BoundField DataField="TotalClaimedAmount" HeaderText="Tagihan" DataFormatString="{0:N}" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
+                                                <asp:BoundField DataField="TotalClaimedAmount" HeaderText="Tagihan" ItemStyle-CssClass="lblDetail lblLink" DataFormatString="{0:N}" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                             </Columns>
                                         </asp:GridView>
                                     </asp:Panel>
