@@ -96,10 +96,15 @@ namespace CodeX.Web.CommonLibs.Program
         private void BindGridView()
         {
             ReportMaster reportMaster = BusinessLayer.GetReportMasterList(string.Format("ReportCode = '{0}'", Request.Form[hdnReportCode.UniqueID])).FirstOrDefault();
-            string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ReportUrl));
+            string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/{0}/{1}.xml", AppConfigManager.CDXAppClientID, reportMaster.ReportUrl));
             string physicalPath = HttpContext.Current.Request.MapPath(reportXML);
             if (!File.Exists(physicalPath))
-                return;
+            {
+                reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ReportUrl));
+                physicalPath = HttpContext.Current.Request.MapPath(reportXML);
+                if (!File.Exists(physicalPath))
+                    return;
+            }
 
             XDocument xdocReport = XDocument.Load(physicalPath);
             List<ReportParameter> lstReportParameter = (from sd in xdocReport.Descendants("parameter")

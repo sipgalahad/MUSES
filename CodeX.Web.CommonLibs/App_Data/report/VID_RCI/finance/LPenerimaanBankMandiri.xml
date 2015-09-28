@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table iscustom="1" customreporturl="~/Report/VID_RCI/Finance/LPenerimaanBankMandiriRpt.ascx" papertype="A4_portrait" isshowheaderfooter="0" fontsize="8pt" />
+  <parameters>
+    <parameter code="CB003"/>
+    <parameter code="SG001" isrequired="1"/>
+  </parameters>
+</root>

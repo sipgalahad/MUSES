@@ -24,30 +24,8 @@
         })
 
         //#region Paging
-        var pageCount = parseInt('<%=PageCount %>');
-        var rowCount = parseInt('<%=RowCount %>');
-        var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
-        $(function () {
-            setNumEntriesText($('#informationNumEntries'), rowCount, 1, rowCountPerPage);
-            setPaging($("#paging"), pageCount, function (page) {
-                cbpView.PerformCallback('changepage|' + page);
-                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
-            });
-        });
-
         function onCbpViewEndCallback(s) {
             hideLoadingPanel();
-
-            var param = s.cpResult.split('|');
-            if (param[0] == 'refresh') {
-                var pageCount = parseInt(param[1]);
-                var rowCount = parseInt(param[2]);
-                setNumEntriesText($('#informationNumEntries'), rowCount, 1, rowCountPerPage);
-                setPaging($("#paging"), pageCount, function (page) {
-                    cbpView.PerformCallback('changepage|' + page);
-                    setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
-                });
-            }
         }
         //#endregion
 
@@ -137,10 +115,15 @@
                 }
                 onTacSchoolPeriodValueChanged();
             });
+
+            $('#<%=hdnSiteID.ClientID %>').val(cboSite.GetValue());
+            $('#<%=hdnSiteName.ClientID %>').val(cboSite.GetText());
         }
 
     </script>
     <input type="hidden" value="" id="hdnFilterExpressionQuickSearch" runat="server" />
+    <input type="hidden" value="" id="hdnSiteID" runat="server" />
+    <input type="hidden" value="" id="hdnSiteName" runat="server" />
     <div>
         <table style="width: 100%">
             <tr>
@@ -218,39 +201,50 @@
                                 <dx:PanelContent ID="PanelContent1" runat="server">
                                     <input type="hidden" value="" id="hdnMovementDate" runat="server" />
                                     <asp:Panel runat="server" ID="pnlGridView" CssClass="pnlContainerGrid" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;height:380px;overflow-y:auto;">
-                                        <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
-                                            <Columns>
-                                                <asp:BoundField DataField="StudentCode" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                                <asp:BoundField DataField="StudentCode" HeaderText="No. Siswa" HeaderStyle-Width="120px" />
-                                                <asp:BoundField DataField="StudentName" HeaderText="Siswa" />
-                                                <asp:TemplateField HeaderText="Uang Pembangunan" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right">
-                                                    <ItemTemplate>
-                                                        <div id="divPemb" runat="server"></div>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Uang Kegiatan" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right">
-                                                    <ItemTemplate>
-                                                        <div id="divKeg" runat="server"></div>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Uang Sekolah" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right">
-                                                    <ItemTemplate>
-                                                        <div id="divUsek" runat="server"></div>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                            </Columns>
-                                        </asp:GridView>
+                                        <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
+                                            <HeaderTemplate>
+                                                <table cellpadding="0" cellspacing="0" border="1" rules="all" class="grdSelected grdBorder">
+                                                    <colgroup>
+                                                        <col style="width:120px"/>
+                                                        <col/>
+                                                        <col style="width:150px"/>
+                                                        <col style="width:120px"/>
+                                                        <col style="width:120px"/>
+                                                        <col style="width:120px"/>
+                                                        <col style="width:120px"/>
+                                                    </colgroup>
+                                                    <tr>
+                                                        <th rowspan="2" class="thCenter"><%=GetLabel("NBS") %></th>
+                                                        <th rowspan="2" class="thCenter"><%=GetLabel("Nama") %></th>
+                                                        <th rowspan="2" class="thCenter"><%=GetLabel("Kelas") %></th>
+                                                        <th colspan="3" class="thCenter"><%=GetLabel("Jenis Pembayaran") %></th>
+                                                        <th rowspan="2" class="thCenter"><%=GetLabel("Total") %></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="thCenter"><%=GetLabel("Uang Sekolah") %></th>
+                                                        <th class="thCenter"><%=GetLabel("Uang Kegiatan") %></th>
+                                                        <th class="thCenter"><%=GetLabel("Uang Pembangunan") %></th>
+                                                    </tr>
+                                            </HeaderTemplate>
+                                            <ItemTemplate>
+                                                <tr>
+                                                    <td><%#Eval("StudentCode") %></td>
+                                                    <td><%#Eval("StudentName") %></td>
+                                                    <td><%#Eval("SchoolClassCode") %></td>
+                                                    <td align="right"><div id="divUsek" runat="server"></div></td>
+                                                    <td align="right"><div id="divKeg" runat="server"></div></td>
+                                                    <td align="right"><div id="divPemb" runat="server"></div></td>
+                                                    <td align="right"><div id="divTotal" runat="server"></div></td>
+                                                </tr>
+                                            </ItemTemplate>
+                                            <FooterTemplate>
+                                                </table>
+                                            </FooterTemplate>
+                                        </asp:Repeater>
                                     </asp:Panel>
                                 </dx:PanelContent>
                             </PanelCollection>
                         </dxcp:ASPxCallbackPanel>
-                        <div class="containerPaging">
-                            <div class="divInformationNumEntries" id="informationNumEntries"></div>
-                            <div class="wrapperPaging">
-                                <div id="paging">
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </td>
             </tr>

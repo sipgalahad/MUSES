@@ -192,9 +192,12 @@ namespace CodeX.Web.CommonLibs.MasterPage
         protected void btnExport_Click(object sender, EventArgs e)
         {
             bool isShowTitle = true;
-            Control controlHtml = BasePageList.OnGetExportControl(ref isShowTitle);
+            string fileName = "";
+            Control controlHtml = BasePageList.OnGetExportControl(ref isShowTitle, ref fileName);
             if (controlHtml == null)
                 controlHtml = BasePageList.OnGetExportControl();
+            if (fileName == "")
+                fileName = hdnMenuCaption.Value;
             Helper.ExportExcel(hdnMenuCaption.Value, hdnMenuCaption.Value, controlHtml, this, isShowTitle);
             //Control control = BasePageList.OnGetExportControl();
 

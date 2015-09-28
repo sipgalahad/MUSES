@@ -20,9 +20,6 @@ namespace CodeX.Muses.Web.Information.Program
 {
     public partial class StudentPaymentInformation : BasePageList
     {
-        protected int PageCount = 1;
-        protected int RowCount = 1;
-        protected int RowCountPerPage = 1;
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.Information.STUDENT_PAYMENT_INFORMATION;
@@ -50,86 +47,99 @@ namespace CodeX.Muses.Web.Information.Program
             List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.SelectedIndex = 0;
-            
+
+            hdnSiteID.Value = cboSite.Value.ToString();
+            hdnSiteName.Value = cboSite.Text;
+
             txtTransactionDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             
-            RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
-            BindGridView(1, true, ref PageCount, ref RowCount);
+            BindGridView();
         }
 
         private string GetFilterExpression()
         {
-            string filterExpression = string.Format("CONVERT(VARCHAR(10),ReceivingDate,105) = '{0}'", Helper.GetDatePickerValue(txtTransactionDate.Text));
-            if(tacSchoolClass.Value != "")
+            string filterExpression ="";
+            if (Request.Form[txtTransactionDate.UniqueID] != null && Request.Form[txtTransactionDate.UniqueID] != "")
+                filterExpression = string.Format("ReceivingDate = '{0}'", Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]).ToString("yyyyMMdd"));
+            else
+                filterExpression = string.Format("ReceivingDate = '{0}'", Helper.GetDatePickerValue(txtTransactionDate.Text).ToString("yyyyMMdd"));
+            if (tacSchoolClass.Value != "")
                 filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {0})", tacSchoolClass.Value);
+            else
+            {
+                if (Request.Form[hdnSiteID.UniqueID] != null && Request.Form[hdnSiteID.UniqueID] != "")
+                    filterExpression += string.Format(" AND SiteID = '{0}'", Request.Form[hdnSiteID.UniqueID]);
+                else
+                    filterExpression += string.Format(" AND SiteID = '{0}'", hdnSiteID.Value);
+            }
             if (hdnFilterExpressionQuickSearch.Value != "")
                 filterExpression += string.Format(" AND {0}", hdnFilterExpressionQuickSearch.Value);
+            filterExpression += string.Format(" AND GCTransactionStatus != '{0}' ORDER BY StudentCode", Constant.TransactionStatus.VOID);
             
             return filterExpression;
         }
 
-        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
+        private void BindGridView()
         {
             string filterExpression = GetFilterExpression();
-            
-            if (isCountPageCount)
-            {
-                rowCount = BusinessLayer.GetvARReceivingHdRowCount(filterExpression);
-                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
-            }
-
-            List<vARReceivingHd> lstEntity = BusinessLayer.GetvARReceivingHdList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
-            grdView.DataSource = lstEntity;
-            grdView.DataBind();
+            List<vARReceivingHd> lstEntity = BusinessLayer.GetvARReceivingHdList(filterExpression);
+            rptView.DataSource = lstEntity;
+            rptView.DataBind();
         }
 
-        public void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                vARReceivingHd entity = e.Row.DataItem as vARReceivingHd;
-                HtmlGenericControl divPemb = e.Row.FindControl("divPemb") as HtmlGenericControl;
-                HtmlGenericControl divSek = e.Row.FindControl("divUsek") as HtmlGenericControl;
-                HtmlGenericControl divKeg = e.Row.FindControl("divKeg") as HtmlGenericControl;
+                vARReceivingHd entity = e.Item.DataItem as vARReceivingHd;
+                HtmlGenericControl divPemb = e.Item.FindControl("divPemb") as HtmlGenericControl;
+                HtmlGenericControl divSek = e.Item.FindControl("divUsek") as HtmlGenericControl;
+                HtmlGenericControl divKeg = e.Item.FindControl("divKeg") as HtmlGenericControl;
+                HtmlGenericControl divTotal = e.Item.FindControl("divTotal") as HtmlGenericControl;
                 divPemb.InnerHtml = "0.00";
                 divSek.InnerHtml = "0.00";
                 divKeg.InnerHtml = "0.00";
+                divTotal.InnerHtml = "0.00";
                 List<String> Data = entity.lstInvoiceDt.Split('|').ToList();
+                decimal total = 0;
                 foreach (String tempData in Data)
                 {
                     String[] temp = tempData.Split(';');
                     switch (temp[0])
                     {
-                        case "1": divPemb.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
-                        case "2": divSek.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
-                        case "3": divKeg.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
+                        case "1": total += Convert.ToDecimal(temp[1]); divPemb.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
+                        case "2": total += Convert.ToDecimal(temp[1]); divSek.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
+                        case "3": total += Convert.ToDecimal(temp[1]); divKeg.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
                     }
                 }
+                divTotal.InnerHtml = total.ToString("N2");
             }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            int pageCount = 1;
-            int rowCount = 1;
-            string result = "";
-            if (e.Parameter != null && e.Parameter != "")
-            {
-                string[] param = e.Parameter.Split('|');
-                if (param[0] == "changepage")
-                {
-                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
-                    result = "changepage";
-                }
-                else // refresh
-                {
-                    BindGridView(1, true, ref pageCount, ref rowCount);
-                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
-                }
-            }
+            BindGridView();
+        }
 
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
+        public override Control OnGetExportControl(ref bool isShowTitle, ref string fileName)
+        {
+            fileName = string.Format("PenerimaanBankMandiri{0}_{1}", Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]).ToString("yyyyMMdd"), Request.Form[hdnSiteName.UniqueID]);
+            isShowTitle = false;
+
+            string filterExpression = GetFilterExpression();
+            List<vARReceivingHd> lstEntity = BusinessLayer.GetvARReceivingHdList(filterExpression);
+            rptView.DataSource = lstEntity;
+            rptView.DataBind();
+
+            HtmlGenericControl div = new HtmlGenericControl("DIV");
+            HtmlGenericControl h4 = new HtmlGenericControl("h4");
+            HtmlGenericControl h42 = new HtmlGenericControl("h4");
+            h4.InnerHtml = String.Format("Tanggal : {0}", Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]).ToString(Constant.FormatString.DATE_FORMAT));
+            h42.InnerHtml = String.Format("Unit : {0}", Request.Form[hdnSiteName.UniqueID]);
+            div.Controls.Add(h4);
+            div.Controls.Add(h42);
+            div.Controls.Add(pnlGridView);
+            return div;
         }
     }
 }

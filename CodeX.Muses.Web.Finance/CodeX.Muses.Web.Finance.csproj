@@ -159,6 +159,7 @@
     <Content Include="Program\Transaction\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx" />
     <Content Include="Program\Process\StudentFeePenalty\StudentFeePenaltyEntry.aspx" />
     <Content Include="Report\VID_RCI\Finance\BSuratPenagihanPiutangRpt.ascx" />
+    <Content Include="Report\VID_RCI\Finance\LPenerimaanBankMandiriRpt.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -778,6 +779,13 @@
     </Compile>
     <Compile Include="Report\VID_RCI\Finance\BSuratPenagihanPiutangRpt.ascx.designer.cs">
       <DependentUpon>BSuratPenagihanPiutangRpt.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Report\VID_RCI\Finance\LPenerimaanBankMandiriRpt.ascx.cs">
+      <DependentUpon>LPenerimaanBankMandiriRpt.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\VID_RCI\Finance\LPenerimaanBankMandiriRpt.ascx.designer.cs">
+      <DependentUpon>LPenerimaanBankMandiriRpt.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

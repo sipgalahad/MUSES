@@ -1180,6 +1180,9 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
+        private Int32 _SchoolClassID;
+        private String _SchoolClassCode;
+        private String _SchoolClassName;
         private Int32 _ProspectiveStudentID;
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
@@ -1232,6 +1235,24 @@ namespace CodeX.Data.Model
         {
             get { return _StudentName; }
             set { _StudentName = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "SchoolClassCode", DataType = "String")]
+        public String SchoolClassCode
+        {
+            get { return _SchoolClassCode; }
+            set { _SchoolClassCode = value; }
+        }
+        [Column(Name = "SchoolClassName", DataType = "String")]
+        public String SchoolClassName
+        {
+            get { return _SchoolClassName; }
+            set { _SchoolClassName = value; }
         }
         [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
         public Int32 ProspectiveStudentID

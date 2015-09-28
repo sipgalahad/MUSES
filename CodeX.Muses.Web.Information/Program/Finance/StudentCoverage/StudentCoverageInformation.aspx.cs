@@ -91,7 +91,7 @@ namespace CodeX.Muses.Web.Information.Program
         }
         #endregion
 
-        public override Control OnGetExportControl(ref bool isShowTitle)
+        public override Control OnGetExportControl(ref bool isShowTitle, ref string fileName)
         {
             isShowTitle = false;
             HtmlGenericControl div = new HtmlGenericControl("DIV");

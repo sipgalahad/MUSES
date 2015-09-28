@@ -239,6 +239,7 @@
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BProfilGuru.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\report\VID_RCI\finance\LPenerimaanBankMandiri.xml" />
     <Content Include="App_Data\right_panel\SM.xml">
       <SubType>Designer</SubType>
     </Content>

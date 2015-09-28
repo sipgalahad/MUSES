@@ -41,7 +41,7 @@ namespace CodeX.Web.Common
             //Response.End();
 
 
-            string attachment = string.Format("attachment;filename=\"{0}.xls\"", title);
+            string attachment = string.Format("attachment;filename=\"{0}.xls\"", fileName);
             HttpContext.Current.Response.ClearContent();
             HttpContext.Current.Response.AddHeader("content-disposition", attachment);
             HttpContext.Current.Response.ContentType = "application/ms-excel";

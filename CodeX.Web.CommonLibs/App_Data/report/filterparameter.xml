@@ -8,6 +8,9 @@
     <!-- #Region CB002 - From Location User -->
     <filterparameter code="CB002" name="Cbo From Location User" caption="Lokasi" fieldname="FromLocationID" methodname="GetLocationUserAccessList" filterexpression="@SiteID;@UserID;;" valuefieldname="LocationID" textfieldname="LocationName" clientinstancename="cboLocation" />
     <!-- #Endregion -->
+    <!-- #Region CB003 - Site -->
+    <filterparameter code="CB003" name="Cbo Site" caption="Unit" fieldname="SiteID" methodname="GetvSiteList" filterexpression="IsHeader = 0" valuefieldname="SiteID" textfieldname="SiteName" clientinstancename="cboSite" />
+    <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
 
@@ -105,5 +108,13 @@
     <filterparameter code="CT003" caption="SubLedger" name="CT Sub Ledger" fieldname="SubLedger" defaultvalue="1" />
     <!-- #Endregion -->
   </type>
-  <!-- #Endregion -->  
+  <!-- #Endregion -->
+
+  <!-- #Region Single Date -->
+  <type type="X108^013">
+    <!-- #Region SG001 - Single Date Receive Date-->
+    <filterparameter code="SG001" caption="Tanggal" name="Single Date Receive Date" fieldname="ReceivedDate" defaultvalue="@DateNow" />
+    <!-- #Endregion -->
+  </type>
+  <!-- #Endregion -->
 </root>
