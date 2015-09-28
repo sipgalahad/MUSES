@@ -1587,6 +1587,7 @@ namespace CodeX.Data.Model
     #region GetStudentReceiveSummary
     public class GetStudentReceiveSummary
     {
+        public String SiteID { get; set; }
         private String _Code;
         private Int32 _StudentFeeCompTypeID;
         private Decimal _TotalAmount;

@@ -137,49 +137,54 @@ namespace CodeX.Muses.Web.Finance.Program
             StudentFeeDtDao entityDtDao = new StudentFeeDtDao(ctx);
             try
             {
-                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID IN ({0}) AND GCTransactionStatus != '{1}'", hdnListStudentID.Value, Constant.TransactionStatus.VOID), ctx);
-                foreach (ARInvoiceHd arInvoiceHD in lstARInvoiceHd)
+                if (hdnListStudentID.Value != "")
                 {
-                    arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                    arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    arInvoiceHdDao.Update(arInvoiceHD);
+                    List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID IN ({0}) AND GCTransactionStatus != '{1}'", hdnListStudentID.Value, Constant.TransactionStatus.VOID), ctx);
+                    foreach (ARInvoiceHd arInvoiceHD in lstARInvoiceHd)
+                    {
+                        arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                        arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        arInvoiceHdDao.Update(arInvoiceHD);
+                    }
                 }
 
-                string[] lstSaveValue = hdnListSaveValue.Value.Split('|');
-                List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(string.Format("StudentFeeID IN ({0})", hdnListStudentFeeID.Value), ctx);
                 List<StudentFee> lstOldStudentFee = null;
                 if (hdnOldListStudentFeeID.Value != "")
                     lstOldStudentFee = BusinessLayer.GetStudentFeeList(string.Format("StudentFeeID IN ({0})", hdnOldListStudentFeeID.Value), ctx);
                 else
                     lstOldStudentFee = new List<StudentFee>();
-                List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0}) AND StudentAmount > 0", hdnListStudentFeeID.Value), ctx);
-                for (int i = 0; i < lstSaveValue.Length; ++i)
+                if (hdnListStudentFeeID.Value != "")
                 {
-                    string[] temp = lstSaveValue[i].Split(';');
-                    StudentFee entity = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == Convert.ToInt32(temp[0]));
-                    entity.IsStudentPenaltyAmountInPercentage = true;
-                    entity.StudentPenaltyAmount = Convert.ToDecimal(temp[1]);
-                    entity.TotalStudentPenaltyAmount = entity.StudentAmount * entity.StudentPenaltyAmount / 100;
-                    entity.TotalStudentAmount = entity.StudentAmount + entity.TotalStudentPenaltyAmount;
-                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityDao.Update(entity);
+                    string[] lstSaveValue = hdnListSaveValue.Value.Split('|');
+                    List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(string.Format("StudentFeeID IN ({0})", hdnListStudentFeeID.Value), ctx);
+                    List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0}) AND StudentAmount > 0", hdnListStudentFeeID.Value), ctx);
+                    for (int i = 0; i < lstSaveValue.Length; ++i)
+                    {
+                        string[] temp = lstSaveValue[i].Split(';');
+                        StudentFee entity = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == Convert.ToInt32(temp[0]));
+                        entity.IsStudentPenaltyAmountInPercentage = true;
+                        entity.StudentPenaltyAmount = Convert.ToDecimal(temp[1]);
+                        entity.TotalStudentPenaltyAmount = entity.StudentAmount * entity.StudentPenaltyAmount / 100;
+                        entity.TotalStudentAmount = entity.StudentAmount + entity.TotalStudentPenaltyAmount;
+                        entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityDao.Update(entity);
 
-                    StudentFee oldEntity = lstOldStudentFee.FirstOrDefault(p => p.StudentFeeID == entity.StudentFeeID);
-                    if (oldEntity != null)
-                        lstOldStudentFee.Remove(oldEntity);
+                        StudentFee oldEntity = lstOldStudentFee.FirstOrDefault(p => p.StudentFeeID == entity.StudentFeeID);
+                        if (oldEntity != null)
+                            lstOldStudentFee.Remove(oldEntity);
 
-                    StudentFeeDt entityDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeID == Convert.ToInt32(temp[0]));
-                    entityDt.StudentAmount = entity.StudentAmount;
-                    entityDt.TotalStudentPenaltyAmount = entity.TotalStudentPenaltyAmount;
-                    entityDt.TotalStudentAmount = entity.TotalStudentAmount;
-                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityDtDao.Update(entityDt);
+                        StudentFeeDt entityDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeID == Convert.ToInt32(temp[0]));
+                        entityDt.StudentAmount = entity.StudentAmount;
+                        entityDt.TotalStudentPenaltyAmount = entity.TotalStudentPenaltyAmount;
+                        entityDt.TotalStudentAmount = entity.TotalStudentAmount;
+                        entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityDtDao.Update(entityDt);
+                    }
                 }
-
                 string lstOldStudentFeeID = string.Join(",", lstOldStudentFee.Select(p => p.StudentFeeID).ToList());
                 if (lstOldStudentFeeID != "")
                 {
-                    lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0}) AND StudentAmount > 0", lstOldStudentFeeID), ctx);
+                    List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0}) AND StudentAmount > 0", lstOldStudentFeeID), ctx);
                     foreach (StudentFee entity in lstOldStudentFee)
                     {
                         entity.IsStudentPenaltyAmountInPercentage = false;
