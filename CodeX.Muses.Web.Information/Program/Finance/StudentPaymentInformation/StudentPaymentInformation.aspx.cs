@@ -50,36 +50,16 @@ namespace CodeX.Muses.Web.Information.Program
             List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.SelectedIndex = 0;
-
-            DateTime date = DateTime.Now.AddMonths(1);
-            cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
-            {
-                MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(a),
-                MonthNumber = a
-            });
-            cboMonth.TextField = "MonthName";
-            cboMonth.ValueField = "MonthNumber";
-            cboMonth.EnableCallbackMode = false;
-            cboMonth.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
-            cboMonth.DropDownStyle = DropDownStyle.DropDownList;
-            cboMonth.DataBind();
-            cboMonth.Value = date.Month.ToString();
-
-            cboYear.DataSource = Enumerable.Range(DateTime.Now.Year - 1, 2).Reverse();
-            cboYear.EnableCallbackMode = false;
-            cboYear.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
-            cboYear.DropDownStyle = DropDownStyle.DropDownList;
-            cboYear.DataBind();
-            cboYear.Value = date.Year.ToString();
-
+            
+            txtTransactionDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);
         }
 
         private string GetFilterExpression()
         {
-            String DueDate = String.Format("{0}{1}", cboYear.Value, Convert.ToInt32(cboMonth.Value).ToString("00"));
-            string filterExpression = string.Format("CONVERT(VARCHAR(8),ReceivingDate,112) LIKE '%{0}%'", DueDate);
+            string filterExpression = string.Format("CONVERT(VARCHAR(10),ReceivingDate,105) = '{0}'", Helper.GetDatePickerValue(txtTransactionDate.Text));
             if(tacSchoolClass.Value != "")
                 filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {0})", tacSchoolClass.Value);
             if (hdnFilterExpressionQuickSearch.Value != "")
