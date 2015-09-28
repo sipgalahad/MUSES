@@ -76,6 +76,15 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboYear;
         
         /// <summary>
+        /// chkNotPaid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkNotPaid;
+        
+        /// <summary>
         /// cbpView control.
         /// </summary>
         /// <remarks>
