@@ -26,7 +26,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         public override void InitializeDataControl(string param)
         {
-            hdnLstID.Value = param;
+            hdnARInvoiceID.Value = param;
             //String[] lstParam = param.Split('|');
             //hdnProspectiveStudentID.Value = lstParam[0];
 
@@ -41,14 +41,14 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            string filterExpression = String.Format("StudentFeeDtID IN ({0})",hdnLstID.Value);
+            string filterExpression = String.Format("ARInvoiceID = {0}",hdnARInvoiceID.Value);
             if (isCountPageCount)
             {
-                int rowCount = BusinessLayer.GetvStudentFeeDtRowCount(filterExpression);
+                int rowCount = BusinessLayer.GetvARInvoiceDtRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, 10);
             }
             
-            List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(filterExpression);
+            List<vARInvoiceDt> lstEntity = BusinessLayer.GetvARInvoiceDtList(filterExpression);
             txtItemName.Text = lstEntity[0].StudentName;
             grdPopupView.DataSource = lstEntity;
             grdPopupView.DataBind();

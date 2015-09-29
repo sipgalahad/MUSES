@@ -30,7 +30,7 @@
     //#endregion
 
 </script>
-<input type="hidden" id="hdnLstID" runat="server" />
+<input type="hidden" id="hdnARInvoiceID" runat="server" />
 
 <table class="tblContentArea">
     <tr>
@@ -57,12 +57,7 @@
                                 <asp:GridView ID="grdPopupView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
                                         <asp:BoundField DataField="cfStudentFeeCompTypeName" HeaderText="Pembayaran" />
-                                        <asp:BoundField DataField="TotalStudentAmount" HeaderText="Tagihan" ItemStyle-CssClass="lblDetail lblLink" DataFormatString="{0:N}" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
-                                        <asp:TemplateField HeaderText="Status" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" >
-                                            <ItemTemplate>
-                                                <%#Eval("IsPaid").ToString() == "True" ? "Sudah Dibayar" : "Belum Dibayar" %>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                                        <asp:BoundField DataField="ClaimedAmount" HeaderText="Tagihan" DataFormatString="{0:N}" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>
