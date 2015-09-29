@@ -139,9 +139,9 @@
 
         $('.lblDetail.lblLink').live('click', function () {
             $tr = $(this).closest('tr');
-            var lstStudentFeeID = $tr.find('.keyField').text();
+            var arInvoiceID = $tr.find('.keyField').text();
             var url = ResolveUrl("~/Program/Finance/StudentBillInformation/StudentBillInformationDtCtl.ascx");
-            openUserControlPopup(url, lstStudentFeeID, 'Detail Information', 1200, 550);
+            openUserControlPopup(url, arInvoiceID, 'Detail Information', 1200, 550);
         });
 
     </script>
@@ -236,11 +236,12 @@
                                 <dx:PanelContent ID="PanelContent1" runat="server">
                                     <input type="hidden" value="" id="hdnMovementDate" runat="server" />
                                     <asp:Panel runat="server" ID="pnlGridView" CssClass="pnlContainerGrid" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;height:380px;overflow-y:auto;">
-                                        <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                        <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                             <Columns>
-                                                <asp:BoundField DataField="lstStudentFeeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                <asp:BoundField DataField="ARInvoiceID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                                 <asp:BoundField DataField="StudentCode" HeaderText="No. Siswa" HeaderStyle-Width="120px" />
                                                 <asp:BoundField DataField="StudentName" HeaderText="Siswa" />
+                                                <asp:BoundField DataField="ARInvoiceNo" HeaderText="No. Tagihan" HeaderStyle-Width="150px" />
                                                 <asp:BoundField DataField="TotalClaimedAmount" HeaderText="Tagihan" ItemStyle-CssClass="lblDetail lblLink" DataFormatString="{0:N}" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                             </Columns>
                                         </asp:GridView>
@@ -261,3 +262,4 @@
         </table>
     </div>
 </asp:Content>
+
