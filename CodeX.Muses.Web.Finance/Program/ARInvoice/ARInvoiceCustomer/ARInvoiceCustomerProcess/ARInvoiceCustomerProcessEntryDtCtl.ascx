@@ -39,6 +39,7 @@
             }
         });
         $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
+        alert($('#<%=hdnSelectedMember.ClientID %>').val());
     }
 
     function onBeforeSaveRecord(errMessage) {
@@ -51,33 +52,8 @@
     }
 
     //#region Paging
-    var pageCountPopup = parseInt('<%=PageCount %>');
-    var rowCountPopup = parseInt('<%=RowCount %>');
-    var rowCountPerPagePopup = parseInt('<%=RowCountPerPage %>');
-    $(function () {
-        setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, 1, rowCountPerPagePopup);
-        setPaging($("#pagingPopup"), pageCountPopup, function (page) {
-            getCheckedMember();
-            cbpEntryPopupView.PerformCallback('changepage|' + page);
-            setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, page, rowCountPerPagePopup);
-        });
-    });
-
     function onCbpEntryPopupViewEndCallback(s) {
         hideLoadingPanel();
-        var param = s.cpResult.split('|');
-        if (param[0] == 'refresh') {
-            var pageCount = parseInt(param[1]);
-            var rowCount = parseInt(param[2]);
-
-            setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, 1, rowCountPerPage);
-            setPaging($("#pagingPopup"), pageCount, function (page) {
-                getCheckedMember();
-                cbpEntryPopupView.PerformCallback('changepage|' + page);
-                setNumEntriesText($('#informationNumEntriesPopup'), rowCount, page, rowCountPerPage);
-            });
-
-        }
     }
     //#endregion
 </script>
@@ -125,7 +101,7 @@
                             <asp:Panel runat="server" ID="pnlEntryPopupGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                                 <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
-                                        <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                        <asp:BoundField DataField="StudentFeeDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:TemplateField ItemStyle-HorizontalAlign="center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="50px">
                                             <HeaderTemplate>
                                                 <input type="checkbox" id="chkCheckAll" style="text-align:center;" />
@@ -135,7 +111,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="StudentName" HeaderText="Nama" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
-                                        <asp:BoundField DataField="Remarks" HeaderText="Keterangan" HeaderStyle-Width="500px" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
+                                        <asp:BoundField DataField="cfStudentFeeCompTypeName" HeaderText="Keterangan" HeaderStyle-Width="500px" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
                                         <asp:BoundField DataField="PayerAmount" HeaderText="Total Piutang" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="200px" />
                                     </Columns>
                                     <EmptyDataTemplate>

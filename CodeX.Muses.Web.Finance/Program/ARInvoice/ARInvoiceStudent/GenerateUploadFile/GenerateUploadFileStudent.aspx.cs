@@ -29,7 +29,7 @@ namespace CodeX.Muses.Web.Finance.Program
         #region HTML Getter
         public string GetSiteID()
         {
-            return AppSession.UserLogin.SiteID;
+            return hdnSiteID.Value;
         }
         #endregion
 
@@ -69,6 +69,8 @@ namespace CodeX.Muses.Web.Finance.Program
 
             txtStartDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtEndDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+
+            hdnSiteID.Value = BusinessLayer.GetStudent(AppSession.StudentID).SiteID;
 
             BindGridView();
 

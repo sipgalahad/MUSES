@@ -32,11 +32,16 @@
                                 $tr = $(this).closest('tr');
                                 var studentFeeID = $tr.find('.keyField').html();
                                 var amount = $tr.find('.txtAmount').attr('hiddenVal');
+                                var discountPercentage = $tr.find('.txtDiscountPercentage').attr('hiddenVal');
+                                var totalDiscount = $tr.find('.txtTotalDiscount').attr('hiddenVal');
+                                var businessPartnerID = $tr.find('.ddlBusinessPartner').val();
+                                var studentAmount = $tr.find('.txtStudentAmount').attr('hiddenVal');
+                                var payerAmount = $tr.find('.txtPayerAmount').attr('hiddenVal');
                                 if (tempResult != '') {
                                     tempResult += '^';
                                     lstStudentFeeID += ',';
                                 }
-                                tempResult += studentFeeID + ',' + $(this).val() + ',' + amount;
+                                tempResult += studentFeeID + ',' + $(this).val() + ',' + amount + ',' + discountPercentage + ',' + totalDiscount + ',' + businessPartnerID + ',' + studentAmount + ',' + payerAmount;
                                 lstStudentFeeID += studentFeeID;
                             }
                         });
@@ -60,10 +65,92 @@
             $(this).blur();
             var totalAmount = $(this).attr('hiddenVal');
             $(this).closest('tr').next().find('.txtAmount').each(function () {
-                if ($(this).attr('readonly') == null)
-                    $tr = $(this).val(totalAmount).trigger('changeValue');
+                if ($(this).attr('readonly') == null) {
+                    $(this).val(totalAmount).trigger('changeValue');
+                    $(this).change();
+                }
             });
         });
+
+        $('.txtAmount').live('change', function () {
+            $(this).blur();
+            $tr = $(this).closest('tr');
+            var discountPercentage = parseFloat($tr.find('.txtDiscountPercentage').attr('hiddenVal'));
+            var totalAmount = parseFloat($(this).attr('hiddenVal'));
+            var discountTotal = discountPercentage * totalAmount / 100;
+            $tr.find('.txtTotalDiscount').val(discountTotal).trigger('changeValue');
+            calculateTotalStudentAmount($tr);
+        });
+
+        $('.txtDiscountPercentage').live('change', function () {
+            $(this).blur();
+            $tr = $(this).closest('tr');
+            var totalAmount = parseFloat($tr.find('.txtAmount').attr('hiddenVal'));
+            var discountPercentage = parseFloat($(this).attr('hiddenVal'));
+            var discountTotal = discountPercentage * totalAmount / 100;
+            $tr.find('.txtTotalDiscount').val(discountTotal).trigger('changeValue');
+            calculateTotalStudentAmount($tr);
+        });
+
+        $('.txtTotalDiscount').live('change', function () {
+            $(this).blur();
+            $tr = $(this).closest('tr');
+            var totalAmount = parseFloat($tr.find('.txtAmount').attr('hiddenVal'));
+            var discountTotal = parseFloat($(this).attr('hiddenVal'));
+            var discountPercentage = discountTotal * 100 / totalAmount;
+            $tr.find('.txtDiscountPercentage').val(discountPercentage).trigger('changeValue');
+            calculateTotalStudentAmount($tr);
+        });
+
+        $('.ddlBusinessPartner').live('change', function () {
+            $(this).blur();
+            $tr = $(this).closest('tr');
+            if ($(this).val() == '0') {
+                $tr.find('.txtStudentAmount').attr('readonly', 'readonly');
+                $tr.find('.txtPayerAmount').attr('readonly', 'readonly');
+                $tr.find('.txtPayerAmount').val('0').trigger('changeValue');
+                $tr.find('.txtPayerAmount').change();
+            }
+            else {
+                $tr.find('.txtStudentAmount').removeAttr('readonly');
+                $tr.find('.txtPayerAmount').removeAttr('readonly');
+            }
+        });
+
+        function calculateTotalStudentAmount($tr) {
+            var totalAmount = parseFloat($tr.find('.txtAmount').attr('hiddenVal'));
+            var totalDiscount = parseFloat($tr.find('.txtTotalDiscount').attr('hiddenVal'));
+            var lineAmount = totalAmount - totalDiscount;
+            var payerAmount = parseFloat($tr.find('.txtPayerAmount').attr('hiddenVal'));
+            if (lineAmount < payerAmount)
+                payerAmount = lineAmount;
+            if (payerAmount < 0)
+                payerAmount = 0;
+
+            var studentAmount = lineAmount - payerAmount;
+            $tr.find('.txtPayerAmount').val(payerAmount).trigger('changeValue');
+            $tr.find('.txtStudentAmount').val(studentAmount).trigger('changeValue');                        
+        }
+
+        $('.txtStudentAmount').live('change', function () {
+            $(this).blur();
+            $tr = $(this).closest('tr');
+            var totalAmount = parseFloat($tr.find('.txtAmount').attr('hiddenVal'));
+            var studentAmount = parseFloat($tr.find('.txtStudentAmount').attr('hiddenVal'));
+            var totalDiscount = parseFloat($tr.find('.txtTotalDiscount').attr('hiddenVal'));
+            var payerAmount = totalAmount - totalDiscount - studentAmount;
+            $tr.find('.txtPayerAmount').val(payerAmount).trigger('changeValue');
+        }); 
+
+        $('.txtPayerAmount').live('change', function () {
+            $(this).blur();
+            $tr = $(this).closest('tr');
+            var totalAmount = parseFloat($tr.find('.txtAmount').attr('hiddenVal'));
+            var payerAmount = parseFloat($tr.find('.txtPayerAmount').attr('hiddenVal'));
+            var totalDiscount = parseFloat($tr.find('.txtTotalDiscount').attr('hiddenVal'));
+            var studentAmount = totalAmount - totalDiscount - payerAmount;
+            $tr.find('.txtStudentAmount').val(studentAmount).trigger('changeValue');
+        }); 
 
         //#region SchoolPeriod
         function onGetSchoolPeriodFilterExpression() {
@@ -155,7 +242,7 @@
                             <colgroup>
                                 <col width="250px"/>
                                 <col width="3px"/>
-                                <col width="300px"/>
+                                <col width="900px"/>
                             </colgroup>
                             <asp:Repeater runat="server" ID="rptStudentFeeComp" OnItemDataBound="rptStudentFeeComp_ItemDataBound">
                                 <ItemTemplate>                                        
@@ -165,23 +252,26 @@
                                         <td><asp:TextBox ID="txtTotalAmount" runat="server" CssClass="txtTotalAmount txtCurrency" Width="120px" /></td>
                                     </tr>  
                                     <tr id="trDataDetail" runat="server">
-                                        <td colspan="3">
+                                        <td colspan="5">
                                             <input type="hidden" class="hdnStudentFeeCompTypeName" value='<%#:Eval("StudentFeeCompTypeName") %>' />
                                             <input type="hidden" class="hdnStudentFeeCompID" runat="server" value='<%#:Eval("StudentFeeCompID") %>' />
                                             <table rules="all" class="grdNormal grdBorder notAllowSelect tblView">
-                                                <asp:Repeater runat="server" ID="rptStudentFee">
+                                                <asp:Repeater runat="server" ID="rptStudentFee" OnItemDataBound="rptStudentFee_ItemDataBound">
                                                     <HeaderTemplate>
-                                                        <colgroup>
-                                                            <col style="width:200px"/>
-                                                            <col style="width:150px" />
-                                                            <col style="width:150px" />
-                                                            <col style="width:80px" />
-                                                        </colgroup>
                                                         <tr>
-                                                            <th class="thCenter"><%=GetLabel("Periode") %></th>
-                                                            <th class="thCenter"><%=GetLabel("Jatuh Tempo") %></th>
-                                                            <th class="thCenter"><%=GetLabel("Jumlah Bayar") %></th>
-                                                            <th class="thCenter"><%=GetLabel("Bayar") %></th>
+                                                            <th style="width:200px" class="thCenter" rowspan="2"><%=GetLabel("Periode") %></th>
+                                                            <th style="width:150px" class="thCenter" rowspan="2"><%=GetLabel("Jatuh Tempo") %></th>
+                                                            <th style="width:150px" class="thCenter" rowspan="2"><%=GetLabel("Jumlah Bayar") %></th>
+                                                            <th class="thCenter" colspan="2"><%=GetLabel("Diskon") %></th>
+                                                            <th style="width:150px" class="thCenter" rowspan="2"><%=GetLabel("Siswa") %></th>
+                                                            <th class="thCenter" colspan="2"><%=GetLabel("Pembayar") %></th>
+                                                            <th style="width:40px" class="thCenter" rowspan="2"><%=GetLabel("Bayar") %></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th style="width:80px" class="thCenter"><%=GetLabel("[%]") %></th>
+                                                            <th style="width:120px" class="thCenter"><%=GetLabel("Total") %></th>
+                                                            <th style="width:120px" class="thCenter"><%=GetLabel("Pembayar") %></th>
+                                                            <th style="width:120px" class="thCenter"><%=GetLabel("Jumlah") %></th>
                                                         </tr>
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
@@ -189,7 +279,12 @@
                                                             <td class="keyField"><%#:Eval("StudentFeeID") %></td>
                                                             <td align="center"><%#:Eval("PaymentPeriod") %></td>
                                                             <td align="center"><input type="text" id="txtDueDate" <%#Eval("IsPaid").ToString() == "True" ? "readonly='readonly'" : "" %> class="txtDueDate datepicker required" value='<%#:Eval("DueDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
-                                                            <td align="center"><input type="text" id="txtAmount" <%#Eval("IsPaid").ToString() == "True" ? "readonly='readonly'" : "" %> class="txtAmount txtCurrency required" value='<%#:Eval("LineAmount") %>' style="width:120px" /></td>
+                                                            <td align="center"><input type="text" id="txtAmount" <%#Eval("IsPaid").ToString() == "True" ? "readonly='readonly'" : "" %> class="txtAmount txtCurrency required" value='<%#:Eval("TransactionAmount") %>' style="width:120px" /></td>
+                                                            <td align="center"><input type="text" id="txtDiscountPercentage" <%#Eval("IsPaid").ToString() == "True" ? "readonly='readonly'" : "" %> class="txtDiscountPercentage txtCurrency required" value='<%#:Eval("DiscountAmount") %>' style="width:80px" /></td>
+                                                            <td align="center"><input type="text" id="txtTotalDiscount" <%#Eval("IsPaid").ToString() == "True" ? "readonly='readonly'" : "" %> class="txtTotalDiscount txtCurrency required" value='<%#:Eval("TotalDiscountAmount") %>' style="width:120px" /></td>
+                                                            <td align="center"><input type="text" id="txtStudentAmount" <%#Eval("IsPaid").ToString() == "True" || Eval("BusinessPartnerID").ToString() == "0" ? "readonly='readonly'" : "" %> class="txtStudentAmount txtCurrency required" value='<%#:Eval("TotalStudentAmount") %>' style="width:120px" /></td>
+                                                            <td align="center"><asp:DropDownList ID="ddlBusinessPartner" runat="server" CssClass="ddlBusinessPartner" Style="width:120px" /> </td>
+                                                            <td align="center"><input type="text" id="txtPayerAmount" <%#Eval("IsPaid").ToString() == "True" || Eval("BusinessPartnerID").ToString() == "0" ? "readonly='readonly'" : "" %> class="txtPayerAmount txtCurrency required" value='<%#:Eval("PayerAmount") %>' style="width:120px" /></td>
                                                             <td align="center"><asp:CheckBox ID="chkIsPaid" runat="server" Enabled="false" Checked='<%#Eval("IsPaid") %>' /></td>
                                                         </tr>
                                                     </ItemTemplate>
