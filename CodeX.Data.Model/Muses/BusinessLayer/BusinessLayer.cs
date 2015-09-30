@@ -12696,6 +12696,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentAttribute
+        public static StudentAttribute GetStudentAttribute(Int32 StudentID)
+        {
+            return new StudentAttributeDao().Get(StudentID);
+        }
+        public static int InsertStudentAttribute(StudentAttribute record)
+        {
+            return new StudentAttributeDao().Insert(record);
+        }
+        public static int UpdateStudentAttribute(StudentAttribute record)
+        {
+            return new StudentAttributeDao().Update(record);
+        }
+        public static int DeleteStudentAttribute(Int32 StudentID)
+        {
+            return new StudentAttributeDao().Delete(StudentID);
+        }
+        public static List<StudentAttribute> GetStudentAttributeList(string filterExpression)
+        {
+            List<StudentAttribute> result = new List<StudentAttribute>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentAttribute));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentAttribute)helper.IDataReaderToObject(reader, new StudentAttribute()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region StudentCoverageTransactionDt
         public static StudentCoverageTransactionDt GetStudentCoverageTransactionDt(Int32 ID)
         {

@@ -35,6 +35,7 @@
                 cboReligion.SetValue('');
                 cboEducationLevel.SetValue('');
                 cboGender.SetValue('');
+                $('#<%=chkIsSameSchool.ClientID %>').attr('checked', false);
                 $('#entryDetailContainer').show();
             });
 
@@ -71,12 +72,16 @@
             $('#<%=txtMiddleName.ClientID %>').val(entity.MiddleName);
             $('#<%=txtLastName.ClientID %>').val(entity.LastName);
             $('#<%=txtBirthPlace.ClientID %>').val(entity.CityOfBirth);
-            $('#<%=txtDOB.ClientID %>').val(entity.DateOfBirthInDatePickerFormat); 
+            $('#<%=txtDOB.ClientID %>').val(entity.DateOfBirthInDatePickerFormat);
             cboSuffix.SetValue(entity.GCSuffix);
             cboNationality.SetValue(entity.GCNationality);
             cboReligion.SetValue(entity.GCReligion);
             cboEducationLevel.SetValue(entity.GCEducationLevel);
             cboGender.SetValue(entity.GCGender);
+            if (entity.IsSameSchool == "True")
+                $('#<%=chkIsSameSchool.ClientID %>').attr('checked', true);
+            else
+                $('#<%=chkIsSameSchool.ClientID %>').attr('checked', false);
             $('#entryDetailContainer').show();
         });
 
@@ -183,6 +188,10 @@
                                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pendidikan Terakhir")%></label></td>
                                         <td><dxe:ASPxComboBox ID="cboEducationLevel" ClientInstanceName="cboEducationLevel" Width="120px" runat="server" /></td>
                                     </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><asp:CheckBox runat="server" ID="chkIsSameSchool" Text="Bersekolah di sekolah yang sama" /></td>
+                                    </tr>
                                 </table>
                             </td>
                         </tr>
@@ -226,6 +235,7 @@
                                             <input type="hidden" value="<%#Eval("CityOfBirth") %>" bindingfield="CityOfBirth" />
                                             <input type="hidden" value="<%#Eval("DateOfBirthInDatePickerFormat") %>" bindingfield="DateOfBirthInDatePickerFormat" />
                                             <input type="hidden" value="<%#Eval("GCGender") %>" bindingfield="GCGender" />
+                                            <input type="hidden" value="<%#Eval("IsSameSchool") %>" bindingfield="IsSameSchool" />
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>

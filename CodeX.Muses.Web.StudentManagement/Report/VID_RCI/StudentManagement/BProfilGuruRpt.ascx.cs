@@ -26,7 +26,6 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             
         }
         
-
         public override void Bind(string filterExpression, string[] param)
         {
             List<vTransTeacherProfileDt> lstTtpdt = BusinessLayer.GetvTransTeacherProfileDtList(filterExpression);
@@ -94,7 +93,6 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 text = text.Replace("{Weakness}", ttpdt.Weakness.Replace("<br>", "<br/>"));
                 divPersonalDesc.InnerHtml = text;
 
-                
                 EmployeeAttendanceSummary eas = lstEAS.FirstOrDefault(x => x.EmployeeID == emp.EmployeeID);
                 if (eas != null) 
                 {
@@ -103,12 +101,22 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     text = text.Replace("{SickDays}",eas.SickDays.ToString());
                     text = text.Replace("{PermitDays}",eas.PermitDays.ToString());
                     text = text.Replace("{AlphaDays}",eas.AlphaDays.ToString());
-
                     text = text.Replace("{EffectiveDaysInPercentage}", (Convert.ToInt32((eas.EfectiveDays / (Decimal) eas.WorkDays) * 100)).ToString());
                     text = text.Replace("{SickDaysInPercentage}", (Convert.ToInt32((eas.SickDays / (Decimal)eas.WorkDays) * 100)).ToString());
                     text = text.Replace("{PermitDaysInPercentage}", (Convert.ToInt32((eas.PermitDays / (Decimal)eas.WorkDays) * 100)).ToString());
                     text = text.Replace("{AlphaDaysInPercentage}", (Convert.ToInt32((eas.AlphaDays / (Decimal)eas.WorkDays) * 100)).ToString());
-
+                    divEmployeeAttendanceSummary.InnerHtml = text;
+                }else
+                {
+                    text = divEmployeeAttendanceSummary.InnerHtml;
+                    text = text.Replace("{EffectiveDays}", "-");
+                    text = text.Replace("{SickDays}", "-");
+                    text = text.Replace("{PermitDays}", "-");
+                    text = text.Replace("{AlphaDays}", "-");
+                    text = text.Replace("{EffectiveDaysInPercentage}", "-");
+                    text = text.Replace("{SickDaysInPercentage}", "-");
+                    text = text.Replace("{PermitDaysInPercentage}", "-");
+                    text = text.Replace("{AlphaDaysInPercentage}", "-");
                     divEmployeeAttendanceSummary.InnerHtml = text;
                 }
                 

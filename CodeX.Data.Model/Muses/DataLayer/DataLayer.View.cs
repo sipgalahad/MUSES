@@ -16844,6 +16844,7 @@ namespace CodeX.Data.Model
         private String _GCJob;
         private String _Occupation;
         private Decimal _Salary;
+        private Boolean _IsSameSchool;
         private Boolean _IsHomeAddressSameWithStudent;
         private String _HomeAddressID;
         private String _HomeStreetName;
@@ -17013,6 +17014,12 @@ namespace CodeX.Data.Model
         {
             get { return _Salary; }
             set { _Salary = value; }
+        }
+        [Column(Name = "IsSameSchool", DataType = "Boolean")]
+        public Boolean IsSameSchool
+        {
+            get { return _IsSameSchool; }
+            set { _IsSameSchool = value; }
         }
         [Column(Name = "IsHomeAddressSameWithStudent", DataType = "Boolean")]
         public Boolean IsHomeAddressSameWithStudent

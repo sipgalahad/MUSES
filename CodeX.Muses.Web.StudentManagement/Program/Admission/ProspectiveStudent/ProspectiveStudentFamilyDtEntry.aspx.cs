@@ -50,6 +50,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Helper.SetControlEntrySetting(cboNationality, new ControlEntrySetting(true, true, true), "mpTrx");
                 Helper.SetControlEntrySetting(cboEducationLevel, new ControlEntrySetting(true, true, false), "mpTrx");
                 Helper.SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true), "mpTrx");
+                Helper.SetControlEntrySetting(chkIsSameSchool, new ControlEntrySetting(true, true, true), "mpTrx");
                 #endregion
             }
         }
@@ -127,6 +128,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.GCNationality = cboNationality.Value.ToString();
             entity.GCReligion = cboReligion.Value.ToString();
             entity.GCEducationLevel = cboEducationLevel.Value == null ? "" : cboEducationLevel.Value.ToString();
+            entity.IsSameSchool = chkIsSameSchool.Checked;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
