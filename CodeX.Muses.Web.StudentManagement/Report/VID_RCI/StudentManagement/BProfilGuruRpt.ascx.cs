@@ -19,6 +19,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         List<vTransTeacherProfileDtItem> lstProfileAllItem = null;
         List<vTransTeacherProfileDtItem> lstProfileItem = null;
         List<vEmployee> lstEmployee = null;
+        List<EmployeeAttendanceSummary> lstEAS = null;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -32,7 +33,9 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             String lstTeacherID = String.Join(",", lstTtpdt.Select(x => x.TeacherID));
             lstTeacheSubject = BusinessLayer.GetvTeacherSubjectList(String.Format("TeacherID IN ({0})", lstTeacherID));
             lstProfileAllItem = BusinessLayer.GetvTransTeacherProfileDtItemList(String.Format("TransTeacherProfileDtID IN ({0})", String.Join(",", lstTtpdt.Select(x => x.ID))));
-            lstEmployee = BusinessLayer.GetvEmployeeList(String.Format("EmployeeID IN ({0})",String.Join(",",lstTtpdt.Select(x => x.TeacherID))));
+            String lstEmployeeID = String.Join(",",lstTtpdt.Select(x => x.TeacherID));
+            lstEmployee = BusinessLayer.GetvEmployeeList(String.Format("EmployeeID IN ({0})", lstEmployeeID));
+            lstEAS = BusinessLayer.GetEmployeeAttendanceSummaryList(String.Format("EmployeeID IN ({0}) AND IsDeleted = 0", lstEmployeeID));
             rptMainBody.DataSource = lstTtpdt;
             rptMainBody.DataBind();
         }
@@ -41,13 +44,13 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         {
             if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item) 
             {
-                
                 vTransTeacherProfileDt ttpdt = e.Item.DataItem as vTransTeacherProfileDt;
                 HtmlGenericControl divPersonalityType = e.Item.FindControl("divPersonalityType") as HtmlGenericControl;
                 HtmlGenericControl divPersonal = e.Item.FindControl("divPersonal") as HtmlGenericControl;
                 HtmlGenericControl divPersonalDesc = e.Item.FindControl("divPersonalDesc") as HtmlGenericControl;
                 HtmlGenericControl divEmploymentStatus = e.Item.FindControl("divEmploymentStatus") as HtmlGenericControl;
-                
+                HtmlGenericControl divEmployeeAttendanceSummary = e.Item.FindControl("divEmployeeAttendanceSummary") as HtmlGenericControl;
+
                 Repeater rptReportBody = e.Item.FindControl("rptReportBody") as Repeater;
 
                 String text = divPersonalityType.InnerHtml;
@@ -91,8 +94,24 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 text = text.Replace("{Weakness}", ttpdt.Weakness.Replace("<br>", "<br/>"));
                 divPersonalDesc.InnerHtml = text;
 
-                //String filterExpression = String.Format("TransTeacherProfileDtID = {0}", ttpdt.ID);
-                //lstProfileItem = BusinessLayer.GetvTransTeacherProfileDtItemList(filterExpression);
+                
+                EmployeeAttendanceSummary eas = lstEAS.FirstOrDefault(x => x.EmployeeID == emp.EmployeeID);
+                if (eas != null) 
+                {
+                    text = divEmployeeAttendanceSummary.InnerHtml;
+                    text = text.Replace("{EffectiveDays}",eas.EfectiveDays.ToString());
+                    text = text.Replace("{SickDays}",eas.SickDays.ToString());
+                    text = text.Replace("{PermitDays}",eas.PermitDays.ToString());
+                    text = text.Replace("{AlphaDays}",eas.AlphaDays.ToString());
+
+                    text = text.Replace("{EffectiveDaysInPercentage}", (Convert.ToInt32((eas.EfectiveDays / (Decimal) eas.WorkDays) * 100)).ToString());
+                    text = text.Replace("{SickDaysInPercentage}", (Convert.ToInt32((eas.SickDays / (Decimal)eas.WorkDays) * 100)).ToString());
+                    text = text.Replace("{PermitDaysInPercentage}", (Convert.ToInt32((eas.PermitDays / (Decimal)eas.WorkDays) * 100)).ToString());
+                    text = text.Replace("{AlphaDaysInPercentage}", (Convert.ToInt32((eas.AlphaDays / (Decimal)eas.WorkDays) * 100)).ToString());
+
+                    divEmployeeAttendanceSummary.InnerHtml = text;
+                }
+                
                 lstProfileItem = lstProfileAllItem.Where(x => x.TransTeacherProfileDtID == ttpdt.ID).ToList();
                 ts = lstTeacheSubject.Where(x => x.TeacherID == ttpdt.TeacherID).FirstOrDefault();
 

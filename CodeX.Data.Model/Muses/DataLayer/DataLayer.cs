@@ -9389,6 +9389,147 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region EmployeeAttendanceSummary
+    [Serializable]
+    [Table(Name = "EmployeeAttendanceSummary")]
+    public class EmployeeAttendanceSummary : DbDataModel
+    {
+        private Int32 _AttendanceSummaryID;
+        private Int32 _EmployeeID;
+        private Int32 _SchoolPeriodID;
+        private Int32 _WorkDays;
+        private Int32 _EfectiveDays;
+        private Int32 _SickDays;
+        private Int32 _PermitDays;
+        private Int32 _AlphaDays;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "AttendanceSummaryID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 AttendanceSummaryID
+        {
+            get { return _AttendanceSummaryID; }
+            set { _AttendanceSummaryID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "WorkDays", DataType = "Int32")]
+        public Int32 WorkDays
+        {
+            get { return _WorkDays; }
+            set { _WorkDays = value; }
+        }
+        [Column(Name = "EfectiveDays", DataType = "Int32")]
+        public Int32 EfectiveDays
+        {
+            get { return _EfectiveDays; }
+            set { _EfectiveDays = value; }
+        }
+        [Column(Name = "SickDays", DataType = "Int32")]
+        public Int32 SickDays
+        {
+            get { return _SickDays; }
+            set { _SickDays = value; }
+        }
+        [Column(Name = "PermitDays", DataType = "Int32")]
+        public Int32 PermitDays
+        {
+            get { return _PermitDays; }
+            set { _PermitDays = value; }
+        }
+        [Column(Name = "AlphaDays", DataType = "Int32")]
+        public Int32 AlphaDays
+        {
+            get { return _AlphaDays; }
+            set { _AlphaDays = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class EmployeeAttendanceSummaryDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(EmployeeAttendanceSummary));
+        private bool _isAuditLog = false;
+        private const string p_AttendanceSummaryID = "@p_AttendanceSummaryID";
+        public EmployeeAttendanceSummaryDao() { }
+        public EmployeeAttendanceSummaryDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public EmployeeAttendanceSummary Get(Int32 AttendanceSummaryID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_AttendanceSummaryID, AttendanceSummaryID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (EmployeeAttendanceSummary)_helper.DataRowToObject(row, new EmployeeAttendanceSummary());
+        }
+        public int Insert(EmployeeAttendanceSummary record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(EmployeeAttendanceSummary record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 AttendanceSummaryID)
+        {
+            EmployeeAttendanceSummary record;
+            if (_ctx.Transaction == null)
+                record = new EmployeeAttendanceSummaryDao().Get(AttendanceSummaryID);
+            else
+                record = Get(AttendanceSummaryID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ExamClassSchedule
     [Serializable]
     [Table(Name = "ExamClassSchedule")]

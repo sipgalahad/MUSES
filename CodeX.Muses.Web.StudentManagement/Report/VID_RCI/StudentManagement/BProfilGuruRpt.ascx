@@ -157,7 +157,7 @@
                     </tr>
                     <tr class="trReportBody">
                         <td valign="top">
-                            <div style="padding-left:10px;" id="div2" runat="server">
+                            <div style="padding-left:10px;" id="divEmployeeAttendanceSummary" runat="server">
                                 <table cellpadding='0' cellspacing='0' border="1" class="tblProfilGuruItem">
                                     <colgroup>
                                         <col width="120px" />
@@ -175,17 +175,17 @@
                                     </tr>
                                     <tr>
                                         <td>JML HARI</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td align="center">{EffectiveDays}</td>
+                                        <td align="center">{SickDays}</td>
+                                        <td align="center">{PermitDays}</td>
+                                        <td align="center">{AlphaDays}</td>
                                     </tr>
                                     <tr>
                                         <td>%</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td align="center">{EffectiveDaysInPercentage}</td>
+                                        <td align="center">{SickDaysInPercentage}</td>
+                                        <td align="center">{PermitDaysInPercentage}</td>
+                                        <td align="center">{AlphaDaysInPercentage}</td>
                                     </tr>
                                 </table>
                             </div>

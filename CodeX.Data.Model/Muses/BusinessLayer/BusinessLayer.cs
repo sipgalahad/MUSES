@@ -4686,6 +4686,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region EmployeeAttendanceSummary
+        public static EmployeeAttendanceSummary GetEmployeeAttendanceSummary(Int32 AttendanceSummaryID)
+        {
+            return new EmployeeAttendanceSummaryDao().Get(AttendanceSummaryID);
+        }
+        public static int InsertEmployeeAttendanceSummary(EmployeeAttendanceSummary record)
+        {
+            return new EmployeeAttendanceSummaryDao().Insert(record);
+        }
+        public static int UpdateEmployeeAttendanceSummary(EmployeeAttendanceSummary record)
+        {
+            return new EmployeeAttendanceSummaryDao().Update(record);
+        }
+        public static int DeleteEmployeeAttendanceSummary(Int32 AttendanceSummaryID)
+        {
+            return new EmployeeAttendanceSummaryDao().Delete(AttendanceSummaryID);
+        }
+        public static List<EmployeeAttendanceSummary> GetEmployeeAttendanceSummaryList(string filterExpression)
+        {
+            List<EmployeeAttendanceSummary> result = new List<EmployeeAttendanceSummary>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(EmployeeAttendanceSummary));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((EmployeeAttendanceSummary)helper.IDataReaderToObject(reader, new EmployeeAttendanceSummary()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ExamClassSchedule
         public static ExamClassSchedule GetExamClassSchedule(Int32 ExamScheduleDtID, Int32 SchoolClassID)
         {
