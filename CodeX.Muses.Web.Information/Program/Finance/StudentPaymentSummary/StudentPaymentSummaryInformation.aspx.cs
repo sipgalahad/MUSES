@@ -159,8 +159,8 @@ namespace CodeX.Muses.Web.Information.Program
                     totalAmount = studentReceive.TotalAmount;
                     studentFeeCompTypeTotal.TotalAmount += totalAmount;
                 }
-                HtmlTableCell tdStudentReceiveAmount = (HtmlTableCell)e.Item.FindControl("tdStudentReceiveAmount");
-                tdStudentReceiveAmount.InnerHtml = totalAmount.ToString("N");
+                HtmlGenericControl lblStudentReceiveAmount = (HtmlGenericControl)e.Item.FindControl("lblStudentReceiveAmount");
+                lblStudentReceiveAmount.InnerHtml = totalAmount.ToString("N");
             }
         }
 
