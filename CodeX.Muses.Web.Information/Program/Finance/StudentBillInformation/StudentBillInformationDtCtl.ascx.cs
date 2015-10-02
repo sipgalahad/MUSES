@@ -11,6 +11,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using System.Web.UI.HtmlControls;
 using CodeX.Data.Core.Dal;
 using CodeX.Muses.Web.Information.Program;
+using CodeX.Common;
 
 namespace CodeX.Muses.Web.Information.Program
 {
@@ -41,7 +42,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            string filterExpression = String.Format("ARInvoiceID IN ({0})",hdnARInvoiceID.Value);
+            string filterExpression = String.Format("ARInvoiceID IN ({0}) AND GCTransactionStatus NOT IN ('{1}','{2}')",hdnARInvoiceID.Value, Constant.TransactionStatus.VOID, Constant.TransactionStatus.CLOSED);
             if (isCountPageCount)
             {
                 int rowCount = BusinessLayer.GetvARInvoiceDtRowCount(filterExpression);

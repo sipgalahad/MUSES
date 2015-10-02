@@ -70,6 +70,12 @@
     <Content Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx">
       <Link>SharedLibs\ErrorPage.aspx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Program\ReportPage.aspx">
+      <Link>SharedLibs\Program\ReportPage.aspx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx">
+      <Link>SharedLibs\Program\ReportViewer.aspx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx">
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
@@ -111,6 +117,7 @@
     <Content Include="Program\StudentManagement\ExtracurricularScheduleInfo.aspx" />
     <Content Include="Program\StudentManagement\TeacherPICInfo.aspx" />
     <Content Include="Program\StudentManagement\TeacherScheduleInfo.aspx" />
+    <Content Include="Report\VID_RCI\Finance\BSuratPenagihanPiutangRpt.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -155,6 +162,24 @@
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBase.Master.designer.cs">
       <Link>SharedLibs\MasterPage\MPBase.Master.designer.cs</Link>
       <DependentUpon>MPBase.Master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportPage.aspx.cs">
+      <Link>SharedLibs\Program\ReportPage.aspx.cs</Link>
+      <DependentUpon>ReportPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportPage.aspx.designer.cs">
+      <Link>SharedLibs\Program\ReportPage.aspx.designer.cs</Link>
+      <DependentUpon>ReportPage.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.cs">
+      <Link>SharedLibs\Program\ReportViewer.aspx.cs</Link>
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.designer.cs">
+      <Link>SharedLibs\Program\ReportViewer.aspx.designer.cs</Link>
+      <DependentUpon>ReportViewer.aspx.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx.cs">
       <Link>SharedLibs\Service\MethodService.asmx.cs</Link>
@@ -438,6 +463,13 @@
       <DependentUpon>TeacherScheduleInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\VID_RCI\Finance\BSuratPenagihanPiutangRpt.ascx.cs">
+      <DependentUpon>BSuratPenagihanPiutangRpt.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\VID_RCI\Finance\BSuratPenagihanPiutangRpt.ascx.designer.cs">
+      <DependentUpon>BSuratPenagihanPiutangRpt.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
