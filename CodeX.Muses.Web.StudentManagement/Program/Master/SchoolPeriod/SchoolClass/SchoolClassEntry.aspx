@@ -144,6 +144,7 @@
         }
     </script>
     <input type="hidden" id="hdnMaxStudent" value="" runat="server" />
+    <input type="hidden" id="hdnSiteID" value="" runat="server" />
     <table>
         <colgroup>
             <col style="width: 150px"/>

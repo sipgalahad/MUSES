@@ -20,6 +20,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (!Page.IsPostBack)
             {
+                PeriodAdmission periodAdmission = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID);
+                hdnSchoolPeriodID.Value = periodAdmission.SchoolPeriodID.ToString();
+                hdnInitial.Value = periodAdmission.Initial;
+
+                hdnSiteID.Value = BusinessLayer.GetSchoolPeriod(periodAdmission.SchoolPeriodID).SiteID;
                 if (Request.QueryString.Count > 0)
                 {
                     hdnIsAdd.Value = "0";
@@ -38,9 +43,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     SetControlProperties();
                     hdnIsAdd.Value = "1";
                 }
-                PeriodAdmission periodAdmission = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID);
-                hdnSchoolPeriodID.Value = periodAdmission.SchoolPeriodID.ToString();
-                hdnInitial.Value = periodAdmission.Initial;
 
                 OnControlEntrySetting();
             }
@@ -106,6 +108,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #region Other Information
             Helper.SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtStudentCode, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtNationalStudentNo, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtSchoolDate, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpEntry");
@@ -114,7 +117,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void SetControlProperties()
         {
-            String GCSchoolType = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
+            String GCSchoolType = BusinessLayer.GetSiteParameter(hdnSiteID.Value, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
 
             String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}') AND IsActive = 1 AND IsDeleted = 0",
                 Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER, Constant.StandardCode.NATIONALITY, Constant.StandardCode.RELIGION, Constant.StandardCode.REGISTRATION_TYPE);
@@ -238,7 +241,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
 
             #region Student
-            entity.ProspectiveStudentCode = "";
+            entity.ProspectiveStudentCode = txtStudentCode.Text;
             entity.GCSalutation = cboSalutation.Value == null ? "" : cboSalutation.Value.ToString();
             entity.GCSuffix = cboSuffix.Value == null ? "" : cboSuffix.Value.ToString();
             entity.GCTitle = cboTitle.Value == null ? "" : cboTitle.Value.ToString();
@@ -316,7 +319,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Address address = new Address();
                 ControlToEntity(entityRegistration, entity, address);
 
-                entity.SiteID = AppSession.UserLogin.SiteID;
+                entity.SiteID = hdnSiteID.Value;
                 entity.PeriodAdmissionID = AppSession.PeriodAdmissionID;
                 entity.AddressID = null;
                 entity.CreatedBy = AppSession.UserLogin.UserID;

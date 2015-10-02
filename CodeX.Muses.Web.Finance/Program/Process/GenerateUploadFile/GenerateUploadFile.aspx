@@ -97,7 +97,7 @@
                 <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
                 <td>
                     <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
-                        <ClientSideEvents SelectedIndexChanged="function(s,e){changedSiteValue()}" />
+                        <ClientSideEvents ValueChanged="function(s,e){changedSiteValue()}" />
                     </dxe:ASPxComboBox>
                 </td>
             </tr>

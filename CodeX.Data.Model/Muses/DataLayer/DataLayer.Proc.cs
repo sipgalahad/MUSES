@@ -1612,6 +1612,119 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetStudentReceiveSummaryDt
+    [Serializable]
+    [Table(Name = "GetStudentReceiveSummaryDt")]
+    public partial class GetStudentReceiveSummaryDt
+    {
+        private Int32 _ARInvoiceDtID;
+        private Int32 _StudentID;
+        private String _VirtualAccountNo;
+        private String _StudentName;
+        private Int32 _ProspectiveStudentID;
+        private String _ProspectiveStudentCode;
+        private String _ProspectiveStudentName;
+        private Int32 _TransactionMonth;
+        private Int32 _TransactionYear;
+        private Int32 _StudentFeeCompTypeID;
+        private String _StudentFeeCompTypeName;
+        private String _GCAdmissionPaymentPeriod;
+        private DateTime _DueDate;
+        private String _SiteID;
+        private Decimal _ReceivingAmount;
+
+        [Column(Name = "ARInvoiceDtID", DataType = "Int32")]
+        public Int32 ARInvoiceDtID
+        {
+            get { return _ARInvoiceDtID; }
+            set { _ARInvoiceDtID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "VirtualAccountNo", DataType = "String")]
+        public String VirtualAccountNo
+        {
+            get { return _VirtualAccountNo; }
+            set { _VirtualAccountNo = value; }
+        }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "ProspectiveStudentCode", DataType = "String")]
+        public String ProspectiveStudentCode
+        {
+            get { return _ProspectiveStudentCode; }
+            set { _ProspectiveStudentCode = value; }
+        }
+        [Column(Name = "ProspectiveStudentName", DataType = "String")]
+        public String ProspectiveStudentName
+        {
+            get { return _ProspectiveStudentName; }
+            set { _ProspectiveStudentName = value; }
+        }
+        [Column(Name = "TransactionMonth", DataType = "Int32")]
+        public Int32 TransactionMonth
+        {
+            get { return _TransactionMonth; }
+            set { _TransactionMonth = value; }
+        }
+        [Column(Name = "TransactionYear", DataType = "Int32")]
+        public Int32 TransactionYear
+        {
+            get { return _TransactionYear; }
+            set { _TransactionYear = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
+        public String StudentFeeCompTypeName
+        {
+            get { return _StudentFeeCompTypeName; }
+            set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
+        public String GCAdmissionPaymentPeriod
+        {
+            get { return _GCAdmissionPaymentPeriod; }
+            set { _GCAdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "DueDate", DataType = "DateTime")]
+        public DateTime DueDate
+        {
+            get { return _DueDate; }
+            set { _DueDate = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "ReceivingAmount", DataType = "Decimal")]
+        public Decimal ReceivingAmount
+        {
+            get { return _ReceivingAmount; }
+            set { _ReceivingAmount = value; }
+        }
+    }
+    #endregion
     #region GetStudentRevenue
     public class GetStudentRevenue
     {

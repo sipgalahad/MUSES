@@ -162,6 +162,7 @@
     <input type="hidden" id="hdnSchoolType" runat="server" value="" />
     <input type="hidden" id="hdnIsAdd" runat="server" value="0" />
     <input type="hidden" id="hdnAddressPrefix" runat="server" value="" />
+    <input type="hidden" id="hdnSiteID" runat="server" value="" />
     <input type="hidden" id="hdnListGrade" runat="server" value="" />
     <div style="height: 410px; overflow-y:auto">
         <fieldset id="fsMPEntry">            
@@ -394,6 +395,10 @@
                                 <tr id="trMajor" runat="server">
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jurusan")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboMajor" Width="120px" runat="server" /></td>
+                                </tr>
+                                <tr id="trStudentCode" runat="server">
+                                    <td class="tdLabel"><label class="lblNormal" id="lblStudentCode"><%=GetLabel("Kode Siswa")%></label></td>
+                                    <td><asp:TextBox ID="txtStudentCode" Width="150px" runat="server" /></td>
                                 </tr>
                                 <tr id="trNationalStudentNo" runat="server">
                                     <td class="tdLabel"><label class="lblNormal" id="lblNationalStudentNo"><%=GetLabel("NIS Nasional")%></label></td>

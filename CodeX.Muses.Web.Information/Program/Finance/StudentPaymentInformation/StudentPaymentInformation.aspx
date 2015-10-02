@@ -237,10 +237,15 @@
                                                     <td align="right"><div id="divTotal" runat="server"></div></td>
                                                 </tr>
                                             </ItemTemplate>
-                                            <FooterTemplate>
-                                                </table>
-                                            </FooterTemplate>
                                         </asp:Repeater>
+                                            <tr>
+                                                <td colspan="3" style="font-weight:bold;" align="right"><%=GetLabel("Total") %></td>
+                                                <td align="right"><div id="divTotalUsek" runat="server"></div></td>
+                                                <td align="right"><div id="divTotalKeg" runat="server"></div></td>
+                                                <td align="right"><div id="divTotalPemb" runat="server"></div></td>
+                                                <td align="right"><div id="divTotalAll" runat="server"></div></td>
+                                            </tr>
+                                        </table>
                                     </asp:Panel>
                                 </dx:PanelContent>
                             </PanelCollection>

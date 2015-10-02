@@ -32,6 +32,36 @@
             $('#<%=hdnExportPeriodText.ClientID %>').val($('.hdnTempPeriodText').val());
             hideLoadingPanel();
         }
+
+        $('.lblThisMonth').live('click', function () {
+            $td = $(this).closest('td');
+            var siteID = $td.find('.hdnSiteID').val();
+            openDetail(siteID, 'ThisMonth');
+        });
+
+        $('.lblDownPayment').live('click', function () {
+            $td = $(this).closest('td');
+            var siteID = $td.find('.hdnSiteID').val();
+            openDetail(siteID, 'DownPayment');
+        });
+
+        $('.lblProspectiveStudent').live('click', function () {
+            $td = $(this).closest('td');
+            var siteID = $td.find('.hdnSiteID').val();
+            openDetail(siteID, 'ProspectiveStudent');
+        });
+
+        $('.lblARStudent').live('click', function () {
+            $td = $(this).closest('td');
+            var siteID = $td.find('.hdnSiteID').val();
+            openDetail(siteID, 'ARStudent');
+        });
+
+        function openDetail(siteID, type) {
+            var url = ResolveUrl("~/Program/Finance/StudentPaymentSummary/StudentPaymentSummaryInformationDtCtl.ascx");
+            var param = siteID + '|' + cboMonth.GetValue() + '|' + cboYear.GetValue() + '|' + type;
+            openUserControlPopup(url, param, 'Detail Information', 1200, 550);
+        }
     </script>
     <style type="text/css">
         .divRemarks             { height: 30px; }
@@ -90,7 +120,10 @@
                                             <td>Bulan Ini</td>
                                             <asp:Repeater ID="rptSiteDt2" runat="server" OnItemDataBound="rptSiteDt2_ItemDataBound">
                                                 <ItemTemplate>
-                                                    <td align="right" id="tdStudentReceiveAmount" runat="server"></td>
+                                                    <td align="right">
+                                                        <input type="hidden" class="hdnSiteID" value='<%#Eval("SiteID") %>' />
+                                                        <label id="lblStudentReceiveAmount" runat="server" class="lblStudentReceiveAmount lblThisMonth lblLink"></label>
+                                                    </td>
                                                 </ItemTemplate>
                                             </asp:Repeater>
                                             <td align="right" id="tdTotalThisMonth" runat="server"></td>
@@ -99,7 +132,10 @@
                                             <td>Uang muka (bln yang akan datang)</td>
                                             <asp:Repeater ID="rptSiteDt3" runat="server" OnItemDataBound="rptSiteDt3_ItemDataBound">
                                                 <ItemTemplate>
-                                                    <td align="right" id="tdStudentReceiveAmount" runat="server"></td>
+                                                    <td align="right">
+                                                        <input type="hidden" class="hdnSiteID" value='<%#Eval("SiteID") %>' />
+                                                        <label id="lblStudentReceiveAmount" runat="server" class="lblStudentReceiveAmount lblDownPayment lblLink"></label>
+                                                    </td>
                                                 </ItemTemplate>
                                             </asp:Repeater>
                                             <td align="right" id="tdTotalDP" runat="server"></td>
@@ -108,7 +144,10 @@
                                             <td>Siswa baru masuk</td>
                                             <asp:Repeater ID="rptSiteDt4" runat="server" OnItemDataBound="rptSiteDt4_ItemDataBound">
                                                 <ItemTemplate>
-                                                    <td align="right" id="tdStudentReceiveAmount" runat="server"></td>
+                                                    <td align="right">
+                                                        <input type="hidden" class="hdnSiteID" value='<%#Eval("SiteID") %>' />
+                                                        <label id="lblStudentReceiveAmount" runat="server" class="lblStudentReceiveAmount lblProspectiveStudent lblLink"></label>
+                                                    </td>
                                                 </ItemTemplate>
                                             </asp:Repeater>
                                             <td align="right" id="tdTotalProspectiveStudent" runat="server"></td>
@@ -117,7 +156,10 @@
                                             <td>Piutang</td>
                                             <asp:Repeater ID="rptSiteDt5" runat="server" OnItemDataBound="rptSiteDt5_ItemDataBound">
                                                 <ItemTemplate>
-                                                    <td align="right" id="tdStudentReceiveAmount" runat="server"></td>
+                                                    <td align="right">
+                                                        <input type="hidden" class="hdnSiteID" value='<%#Eval("SiteID") %>' />
+                                                        <label id="lblStudentReceiveAmount" runat="server" class="lblStudentReceiveAmount lblARStudent lblLink"></label>
+                                                    </td>
                                                 </ItemTemplate>
                                             </asp:Repeater>
                                             <td align="right" id="tdTotalAR" runat="server"></td>

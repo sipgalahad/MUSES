@@ -22,12 +22,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected string OnGetRoomFilterExpression()
         {
-            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            return string.Format("SiteID = '{0}' AND IsDeleted = 0", hdnSiteID.Value);
         }
 
         protected string OnGetTeacherFilterExpression()
         {
-            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            return string.Format("SiteID = '{0}' AND IsDeleted = 0", hdnSiteID.Value);
         }
         protected override void InitializeDataControl()
         {
@@ -35,7 +35,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<vPeriodClassType>(cboClassType, lstClassType, "CurriculumClassTypeName", "PeriodClassTypeID");
             cboClassType.SelectedIndex = 0;
 
-            hdnMaxStudent.Value = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.MAX_STUDENT).ParameterValue;
+            hdnSiteID.Value = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID).SiteID;
+
+            hdnMaxStudent.Value = BusinessLayer.GetSiteParameter(hdnSiteID.Value, Constant.SiteParameter.MAX_STUDENT).ParameterValue;
 
             BindGridView();
 
