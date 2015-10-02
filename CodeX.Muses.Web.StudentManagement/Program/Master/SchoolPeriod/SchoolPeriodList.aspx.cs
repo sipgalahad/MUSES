@@ -25,6 +25,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
+
             hdnFilterExpression.Value = filterExpression;
             hdnID.Value = keyValue;
             filterExpression = GetFilterExpression();
@@ -51,7 +55,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID);
+            filterExpression += string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", cboSite.Value, Constant.SchoolPeriodStatus.VOID);
             return filterExpression;
         }
 

@@ -23,17 +23,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.MenuCode.StudentManagement.PERIOD_ADMISSION;
         }
 
+        protected string OnGetSchoolPeriodNowFilterExpression()
+        {
+            return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
+        }
+
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
-            Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
-            if (selectedSchoolPeriod == null)
-                cboSchoolPeriod.SelectedIndex = 0;
-            else
-                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
-            if (Request.Form["schoolPeriodID"] != null)
-                cboSchoolPeriod.Value = Request.Form["schoolPeriodID"].ToString();
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
 
             hdnFilterExpression.Value = filterExpression;
             hdnID.Value = keyValue;
@@ -58,10 +57,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private string GetFilterExpression()
         {
+            if (tacSchoolPeriod.Value == "")
+                return "1 = 0";
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SchoolPeriodID = '{0}' AND GCPeriodAdmissionStatus != '{1}'", cboSchoolPeriod.Value, Constant.SchoolPeriodStatus.VOID);
+            filterExpression += string.Format("SchoolPeriodID = '{0}' AND GCPeriodAdmissionStatus != '{1}'", tacSchoolPeriod.Value, Constant.SchoolPeriodStatus.VOID);
             return filterExpression;
         }
 
@@ -106,7 +107,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl(string.Format("~/Program/Admission/PeriodAdmissionEntry.aspx?id=add|{0}", cboSchoolPeriod.Value));
+            url = ResolveUrl(string.Format("~/Program/Admission/PeriodAdmissionEntry.aspx?id=add|{0}", tacSchoolPeriod.Value));
             return true;
         }
 

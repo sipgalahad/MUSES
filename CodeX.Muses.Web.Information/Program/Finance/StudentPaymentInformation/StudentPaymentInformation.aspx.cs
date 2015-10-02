@@ -85,8 +85,16 @@ namespace CodeX.Muses.Web.Information.Program
             List<vARReceivingHd> lstEntity = BusinessLayer.GetvARReceivingHdList(filterExpression);
             rptView.DataSource = lstEntity;
             rptView.DataBind();
+
+            divTotalPemb.InnerHtml = totalUangPemb.ToString("N2");
+            divTotalUsek.InnerHtml = totalUangSek.ToString("N2");
+            divTotalKeg.InnerHtml = totalUangKeg.ToString("N2");
+            divTotalAll.InnerHtml = (totalUangPemb + totalUangSek + totalUangKeg).ToString("N2");
         }
 
+        decimal totalUangPemb = 0;
+        decimal totalUangSek = 0;
+        decimal totalUangKeg = 0;
         protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -100,6 +108,10 @@ namespace CodeX.Muses.Web.Information.Program
                 divSek.InnerHtml = "0.00";
                 divKeg.InnerHtml = "0.00";
                 divTotal.InnerHtml = "0.00";
+
+                decimal pemb = 0;
+                decimal usek = 0;
+                decimal keg = 0;
                 List<String> Data = entity.lstInvoiceDt.Split('|').ToList();
                 decimal total = 0;
                 foreach (String tempData in Data)
@@ -107,11 +119,19 @@ namespace CodeX.Muses.Web.Information.Program
                     String[] temp = tempData.Split(';');
                     switch (temp[0])
                     {
-                        case "1": total += Convert.ToDecimal(temp[1]); divPemb.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
-                        case "2": total += Convert.ToDecimal(temp[1]); divSek.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
-                        case "3": total += Convert.ToDecimal(temp[1]); divKeg.InnerHtml = Convert.ToDecimal(temp[1]).ToString("N2"); break;
+                        case "1": pemb += Convert.ToDecimal(temp[1]); break;
+                        case "2": usek += Convert.ToDecimal(temp[1]); break;
+                        case "3": keg += Convert.ToDecimal(temp[1]); break;
                     }
                 }
+                totalUangPemb += pemb;
+                totalUangSek += usek;
+                totalUangKeg += keg;
+
+                total = pemb + usek + keg;
+                divPemb.InnerHtml = pemb.ToString("N2");
+                divSek.InnerHtml = usek.ToString("N2");
+                divKeg.InnerHtml = keg.ToString("N2");
                 divTotal.InnerHtml = total.ToString("N2");
             }
         }

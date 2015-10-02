@@ -141,7 +141,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     entityARInvoiceDt.ARInvoiceID = ARInvoiceHdID;
                     entityARInvoiceDt.StudentFeeDtID = studentFeeDt.StudentFeeDtID;
                     entityARInvoiceDt.StudentFeeCompTypeID = studentFeeDt.StudentFeeCompTypeID;
-                    entityARInvoiceDt.ClaimedAmount = entityARInvoiceDt.TransactionAmount = studentFeeDt.StudentAmount;
+                    entityARInvoiceDt.ClaimedAmount = entityARInvoiceDt.TransactionAmount = studentFeeDt.TotalStudentAmount;
                     entityARInvoiceDt.DiscountAmount = 0;
                     entityARInvoiceDt.VarianceAmount = null;
                     entityARInvoiceDt.CreatedBy = AppSession.UserLogin.UserID;
@@ -198,7 +198,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         string ShortName = obj.ShortName;
                         if (lstStudentFeeDt1.Count > 0)
                         {
-                            decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.StudentAmount));
+                            decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.TotalStudentAmount));
 
                             if (depositAmount < amount)
                             {
@@ -304,7 +304,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             string ShortName = obj.ShortName;
                             if (lstStudentFeeDt1.Count > 0)
                             {
-                                decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.StudentAmount));
+                                decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.TotalStudentAmount));
 
                                 if (depositAmount < amount)
                                 {

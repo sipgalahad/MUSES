@@ -83,8 +83,8 @@ namespace CodeX.Muses.Web.Information.Program
             if (chkNotPaid.Checked)
                 filterExpression += String.Format(" AND GCTransactionStatus NOT IN ('{0}','{1}')", Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
             else
-                filterExpression += String.Format(" AND GCTransactionStatus = '{0}'", Constant.TransactionStatus.VOID);
-            if(tacSchoolClass.Value != "")
+                filterExpression += String.Format(" AND GCTransactionStatus != '{0}'", Constant.TransactionStatus.VOID);
+            if (tacSchoolClass.Value != "")
                 filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {0})", tacSchoolClass.Value);
             if (hdnFilterExpressionQuickSearch.Value != "")
                 filterExpression += string.Format(" AND {0}", hdnFilterExpressionQuickSearch.Value);

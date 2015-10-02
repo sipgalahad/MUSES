@@ -149,6 +149,7 @@
     <input type="hidden" id="hdnSchoolClassID" runat="server" value="" />
     <input type="hidden" id="hdnGCGrade" runat="server" value="" />
     <input type="hidden" id="hdnGCMajor" runat="server" value="" />
+    <input type="hidden" id="hdnSiteID" runat="server" value="" />
     <input type="hidden" id="hdnFilterItem" runat="server" />
 
     <table style="width:100%">
