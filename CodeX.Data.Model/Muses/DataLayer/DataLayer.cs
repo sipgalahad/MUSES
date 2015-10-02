@@ -9389,6 +9389,147 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region EmployeeAttendanceSummary
+    [Serializable]
+    [Table(Name = "EmployeeAttendanceSummary")]
+    public class EmployeeAttendanceSummary : DbDataModel
+    {
+        private Int32 _AttendanceSummaryID;
+        private Int32 _EmployeeID;
+        private Int32 _SchoolPeriodID;
+        private Int32 _WorkDays;
+        private Int32 _EfectiveDays;
+        private Int32 _SickDays;
+        private Int32 _PermitDays;
+        private Int32 _AlphaDays;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "AttendanceSummaryID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 AttendanceSummaryID
+        {
+            get { return _AttendanceSummaryID; }
+            set { _AttendanceSummaryID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "WorkDays", DataType = "Int32")]
+        public Int32 WorkDays
+        {
+            get { return _WorkDays; }
+            set { _WorkDays = value; }
+        }
+        [Column(Name = "EfectiveDays", DataType = "Int32")]
+        public Int32 EfectiveDays
+        {
+            get { return _EfectiveDays; }
+            set { _EfectiveDays = value; }
+        }
+        [Column(Name = "SickDays", DataType = "Int32")]
+        public Int32 SickDays
+        {
+            get { return _SickDays; }
+            set { _SickDays = value; }
+        }
+        [Column(Name = "PermitDays", DataType = "Int32")]
+        public Int32 PermitDays
+        {
+            get { return _PermitDays; }
+            set { _PermitDays = value; }
+        }
+        [Column(Name = "AlphaDays", DataType = "Int32")]
+        public Int32 AlphaDays
+        {
+            get { return _AlphaDays; }
+            set { _AlphaDays = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class EmployeeAttendanceSummaryDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(EmployeeAttendanceSummary));
+        private bool _isAuditLog = false;
+        private const string p_AttendanceSummaryID = "@p_AttendanceSummaryID";
+        public EmployeeAttendanceSummaryDao() { }
+        public EmployeeAttendanceSummaryDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public EmployeeAttendanceSummary Get(Int32 AttendanceSummaryID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_AttendanceSummaryID, AttendanceSummaryID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (EmployeeAttendanceSummary)_helper.DataRowToObject(row, new EmployeeAttendanceSummary());
+        }
+        public int Insert(EmployeeAttendanceSummary record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(EmployeeAttendanceSummary record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 AttendanceSummaryID)
+        {
+            EmployeeAttendanceSummary record;
+            if (_ctx.Transaction == null)
+                record = new EmployeeAttendanceSummaryDao().Get(AttendanceSummaryID);
+            else
+                record = Get(AttendanceSummaryID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ExamClassSchedule
     [Serializable]
     [Table(Name = "ExamClassSchedule")]
@@ -19126,6 +19267,7 @@ namespace CodeX.Data.Model
         private String _GCJob;
         private String _Occupation;
         private Decimal _Salary;
+        private Boolean _IsSameSchool;
         private Boolean _IsHomeAddressSameWithStudent;
         private String _HomeAddressID;
         private String _OfficeAddressID;
@@ -19269,6 +19411,12 @@ namespace CodeX.Data.Model
         {
             get { return _Salary; }
             set { _Salary = value; }
+        }
+        [Column(Name = "IsSameSchool", DataType = "Boolean")]
+        public Boolean IsSameSchool
+        {
+            get { return _IsSameSchool; }
+            set { _IsSameSchool = value; }
         }
         [Column(Name = "IsHomeAddressSameWithStudent", DataType = "Boolean")]
         public Boolean IsHomeAddressSameWithStudent
@@ -26235,6 +26383,322 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region StudentAttribute
+    [Serializable]
+    [Table(Name = "StudentAttribute")]
+    public class StudentAttribute : DbDataModel
+    {
+        private Int32 _StudentID;
+        private String _ReasonRegister;
+        private String _GCTransportToSchool;
+        private String _GCStateInWomb;
+        private String _GCStateAtBirth;
+        private Boolean _IsDisability;
+        private String _DisabilityRemarks;
+        private String _GCLivingWith;
+        private Int32? _HouseHolderAdult;
+        private Int32? _HouseHolderChild;
+        private String _IsPlaygroundInHouse;
+        private String _GCChanceToHangout;
+        private Boolean _IsFailInSchool;
+        private String _GCFailInSchoolGrade;
+        private Boolean _IsFatherless;
+        private Boolean _IsMotherless;
+        private String _TalentOrInterest;
+        private String _StateWhenEnterKindergarten;
+        private String _GCAppetiteAtBreakfast;
+        private String _GCAppetiteAtLunch;
+        private String _GCAppetiteAtDinner;
+        private String _GCAppetiteAtOtherTime;
+        private String _GCRelationshipWithFather;
+        private String _GCRelationshipWithMother;
+        private String _GCRelationshipWithBrother;
+        private String _GCUrinateStatus;
+        private String _SleepingAtNight;
+        private String _WakeUpAtMorning;
+        private Boolean _SleepingAtRandomTime;
+        private Int32? _BreastfedDuration;
+        private Boolean _IsBreastfed;
+        private String _AnotherFood;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "ReasonRegister", DataType = "String", IsNullable = true)]
+        public String ReasonRegister
+        {
+            get { return _ReasonRegister; }
+            set { _ReasonRegister = value; }
+        }
+        [Column(Name = "GCTransportToSchool", DataType = "String", IsNullable = true)]
+        public String GCTransportToSchool
+        {
+            get { return _GCTransportToSchool; }
+            set { _GCTransportToSchool = value; }
+        }
+        [Column(Name = "GCStateInWomb", DataType = "String", IsNullable = true)]
+        public String GCStateInWomb
+        {
+            get { return _GCStateInWomb; }
+            set { _GCStateInWomb = value; }
+        }
+        [Column(Name = "GCStateAtBirth", DataType = "String", IsNullable = true)]
+        public String GCStateAtBirth
+        {
+            get { return _GCStateAtBirth; }
+            set { _GCStateAtBirth = value; }
+        }
+        [Column(Name = "IsDisability", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsDisability
+        {
+            get { return _IsDisability; }
+            set { _IsDisability = value; }
+        }
+        [Column(Name = "DisabilityRemarks", DataType = "String", IsNullable = true)]
+        public String DisabilityRemarks
+        {
+            get { return _DisabilityRemarks; }
+            set { _DisabilityRemarks = value; }
+        }
+        [Column(Name = "GCLivingWith", DataType = "String", IsNullable = true)]
+        public String GCLivingWith
+        {
+            get { return _GCLivingWith; }
+            set { _GCLivingWith = value; }
+        }
+        [Column(Name = "HouseHolderAdult", DataType = "Int32", IsNullable = true)]
+        public Int32? HouseHolderAdult
+        {
+            get { return _HouseHolderAdult; }
+            set { _HouseHolderAdult = value; }
+        }
+        [Column(Name = "HouseHolderChild", DataType = "Int32", IsNullable = true)]
+        public Int32? HouseHolderChild
+        {
+            get { return _HouseHolderChild; }
+            set { _HouseHolderChild = value; }
+        }
+        [Column(Name = "IsPlaygroundInHouse", DataType = "String", IsNullable = true)]
+        public String IsPlaygroundInHouse
+        {
+            get { return _IsPlaygroundInHouse; }
+            set { _IsPlaygroundInHouse = value; }
+        }
+        [Column(Name = "GCChanceToHangout", DataType = "String", IsNullable = true)]
+        public String GCChanceToHangout
+        {
+            get { return _GCChanceToHangout; }
+            set { _GCChanceToHangout = value; }
+        }
+        [Column(Name = "IsFailInSchool", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsFailInSchool
+        {
+            get { return _IsFailInSchool; }
+            set { _IsFailInSchool = value; }
+        }
+        [Column(Name = "GCFailInSchoolGrade", DataType = "String", IsNullable = true)]
+        public String GCFailInSchoolGrade
+        {
+            get { return _GCFailInSchoolGrade; }
+            set { _GCFailInSchoolGrade = value; }
+        }
+        [Column(Name = "IsFatherless", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsFatherless
+        {
+            get { return _IsFatherless; }
+            set { _IsFatherless = value; }
+        }
+        [Column(Name = "IsMotherless", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsMotherless
+        {
+            get { return _IsMotherless; }
+            set { _IsMotherless = value; }
+        }
+        [Column(Name = "TalentOrInterest", DataType = "String", IsNullable = true)]
+        public String TalentOrInterest
+        {
+            get { return _TalentOrInterest; }
+            set { _TalentOrInterest = value; }
+        }
+        [Column(Name = "StateWhenEnterKindergarten", DataType = "String", IsNullable = true)]
+        public String StateWhenEnterKindergarten
+        {
+            get { return _StateWhenEnterKindergarten; }
+            set { _StateWhenEnterKindergarten = value; }
+        }
+        [Column(Name = "GCAppetiteAtBreakfast", DataType = "String", IsNullable = true)]
+        public String GCAppetiteAtBreakfast
+        {
+            get { return _GCAppetiteAtBreakfast; }
+            set { _GCAppetiteAtBreakfast = value; }
+        }
+        [Column(Name = "GCAppetiteAtLunch", DataType = "String", IsNullable = true)]
+        public String GCAppetiteAtLunch
+        {
+            get { return _GCAppetiteAtLunch; }
+            set { _GCAppetiteAtLunch = value; }
+        }
+        [Column(Name = "GCAppetiteAtDinner", DataType = "String", IsNullable = true)]
+        public String GCAppetiteAtDinner
+        {
+            get { return _GCAppetiteAtDinner; }
+            set { _GCAppetiteAtDinner = value; }
+        }
+        [Column(Name = "GCAppetiteAtOtherTime", DataType = "String", IsNullable = true)]
+        public String GCAppetiteAtOtherTime
+        {
+            get { return _GCAppetiteAtOtherTime; }
+            set { _GCAppetiteAtOtherTime = value; }
+        }
+        [Column(Name = "GCRelationshipWithFather", DataType = "String", IsNullable = true)]
+        public String GCRelationshipWithFather
+        {
+            get { return _GCRelationshipWithFather; }
+            set { _GCRelationshipWithFather = value; }
+        }
+        [Column(Name = "GCRelationshipWithMother", DataType = "String", IsNullable = true)]
+        public String GCRelationshipWithMother
+        {
+            get { return _GCRelationshipWithMother; }
+            set { _GCRelationshipWithMother = value; }
+        }
+        [Column(Name = "GCRelationshipWithBrother", DataType = "String", IsNullable = true)]
+        public String GCRelationshipWithBrother
+        {
+            get { return _GCRelationshipWithBrother; }
+            set { _GCRelationshipWithBrother = value; }
+        }
+        [Column(Name = "GCUrinateStatus", DataType = "String", IsNullable = true)]
+        public String GCUrinateStatus
+        {
+            get { return _GCUrinateStatus; }
+            set { _GCUrinateStatus = value; }
+        }
+        [Column(Name = "SleepingAtNight", DataType = "String", IsNullable = true)]
+        public String SleepingAtNight
+        {
+            get { return _SleepingAtNight; }
+            set { _SleepingAtNight = value; }
+        }
+        [Column(Name = "WakeUpAtMorning", DataType = "String", IsNullable = true)]
+        public String WakeUpAtMorning
+        {
+            get { return _WakeUpAtMorning; }
+            set { _WakeUpAtMorning = value; }
+        }
+        [Column(Name = "SleepingAtRandomTime", DataType = "Boolean", IsNullable = true)]
+        public Boolean SleepingAtRandomTime
+        {
+            get { return _SleepingAtRandomTime; }
+            set { _SleepingAtRandomTime = value; }
+        }
+        [Column(Name = "BreastfedDuration", DataType = "Int32", IsNullable = true)]
+        public Int32? BreastfedDuration
+        {
+            get { return _BreastfedDuration; }
+            set { _BreastfedDuration = value; }
+        }
+        [Column(Name = "IsBreastfed", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsBreastfed
+        {
+            get { return _IsBreastfed; }
+            set { _IsBreastfed = value; }
+        }
+        [Column(Name = "AnotherFood", DataType = "String", IsNullable = true)]
+        public String AnotherFood
+        {
+            get { return _AnotherFood; }
+            set { _AnotherFood = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentAttributeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentAttribute));
+        private bool _isAuditLog = false;
+        private const string p_StudentID = "@p_StudentID";
+        public StudentAttributeDao() { }
+        public StudentAttributeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentAttribute Get(Int32 StudentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentID, StudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentAttribute)_helper.DataRowToObject(row, new StudentAttribute());
+        }
+        public int Insert(StudentAttribute record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentAttribute record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentID)
+        {
+            StudentAttribute record;
+            if (_ctx.Transaction == null)
+                record = new StudentAttributeDao().Get(StudentID);
+            else
+                record = Get(StudentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region StudentCoverageTransactionDt
     [Serializable]
     [Table(Name = "StudentCoverageTransactionDt")]
@@ -26479,6 +26943,7 @@ namespace CodeX.Data.Model
         private String _GCJob;
         private String _Occupation;
         private Decimal _Salary;
+        private Boolean _IsSameSchool;
         private Boolean _IsHomeAddressSameWithStudent;
         private String _HomeAddressID;
         private String _OfficeAddressID;
@@ -26622,6 +27087,12 @@ namespace CodeX.Data.Model
         {
             get { return _Salary; }
             set { _Salary = value; }
+        }
+        [Column(Name = "IsSameSchool", DataType = "Boolean")]
+        public Boolean IsSameSchool
+        {
+            get { return _IsSameSchool; }
+            set { _IsSameSchool = value; }
         }
         [Column(Name = "IsHomeAddressSameWithStudent", DataType = "Boolean", IsNullable = true)]
         public Boolean IsHomeAddressSameWithStudent

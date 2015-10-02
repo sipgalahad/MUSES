@@ -4686,6 +4686,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region EmployeeAttendanceSummary
+        public static EmployeeAttendanceSummary GetEmployeeAttendanceSummary(Int32 AttendanceSummaryID)
+        {
+            return new EmployeeAttendanceSummaryDao().Get(AttendanceSummaryID);
+        }
+        public static int InsertEmployeeAttendanceSummary(EmployeeAttendanceSummary record)
+        {
+            return new EmployeeAttendanceSummaryDao().Insert(record);
+        }
+        public static int UpdateEmployeeAttendanceSummary(EmployeeAttendanceSummary record)
+        {
+            return new EmployeeAttendanceSummaryDao().Update(record);
+        }
+        public static int DeleteEmployeeAttendanceSummary(Int32 AttendanceSummaryID)
+        {
+            return new EmployeeAttendanceSummaryDao().Delete(AttendanceSummaryID);
+        }
+        public static List<EmployeeAttendanceSummary> GetEmployeeAttendanceSummaryList(string filterExpression)
+        {
+            List<EmployeeAttendanceSummary> result = new List<EmployeeAttendanceSummary>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(EmployeeAttendanceSummary));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((EmployeeAttendanceSummary)helper.IDataReaderToObject(reader, new EmployeeAttendanceSummary()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ExamClassSchedule
         public static ExamClassSchedule GetExamClassSchedule(Int32 ExamScheduleDtID, Int32 SchoolClassID)
         {
@@ -12644,6 +12684,46 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((StudentAchievement)helper.IDataReaderToObject(reader, new StudentAchievement()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region StudentAttribute
+        public static StudentAttribute GetStudentAttribute(Int32 StudentID)
+        {
+            return new StudentAttributeDao().Get(StudentID);
+        }
+        public static int InsertStudentAttribute(StudentAttribute record)
+        {
+            return new StudentAttributeDao().Insert(record);
+        }
+        public static int UpdateStudentAttribute(StudentAttribute record)
+        {
+            return new StudentAttributeDao().Update(record);
+        }
+        public static int DeleteStudentAttribute(Int32 StudentID)
+        {
+            return new StudentAttributeDao().Delete(StudentID);
+        }
+        public static List<StudentAttribute> GetStudentAttributeList(string filterExpression)
+        {
+            List<StudentAttribute> result = new List<StudentAttribute>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentAttribute));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentAttribute)helper.IDataReaderToObject(reader, new StudentAttribute()));
             }
             catch (Exception ex)
             {

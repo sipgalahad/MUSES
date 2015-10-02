@@ -314,7 +314,7 @@
                                         <Columns>
                                             <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="TeacherCode" HeaderText="NIK" />
-                                            <asp:BoundField ItemStyle-CssClass="lblDetail lblLink" DataField="TeacherName" HeaderText="Nama" />
+                                            <asp:BoundField DataField="TeacherName" HeaderText="Nama" />
                                             <asp:BoundField DataField="PersonalityTypeName" HeaderText="Kepribadian" HeaderStyle-Width="150px"/>
                                             <asp:BoundField DataField="IQScore" HeaderText="IQ" HeaderStyle-Width="120px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right"/>
                                             <asp:BoundField DataField="DScore" HeaderText="Drive" HeaderStyle-Width="120px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right"/>

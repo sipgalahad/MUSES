@@ -51,40 +51,19 @@ namespace CodeX.Muses.Web.Information.Program
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.SelectedIndex = 0;
 
-            DateTime date = DateTime.Now.AddMonths(1);
-            cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
-            {
-                MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(a),
-                MonthNumber = a
-            });
-            cboMonth.TextField = "MonthName";
-            cboMonth.ValueField = "MonthNumber";
-            cboMonth.EnableCallbackMode = false;
-            cboMonth.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
-            cboMonth.DropDownStyle = DropDownStyle.DropDownList;
-            cboMonth.DataBind();
-            cboMonth.Value = date.Month.ToString();
-
-            cboYear.DataSource = Enumerable.Range(DateTime.Now.Year - 1, 2).Reverse();
-            cboYear.EnableCallbackMode = false;
-            cboYear.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
-            cboYear.DropDownStyle = DropDownStyle.DropDownList;
-            cboYear.DataBind();
-            cboYear.Value = date.Year.ToString();
-
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);
         }
 
         private string GetFilterExpression()
         {
-            String DueDate = String.Format("{0}{1}", cboYear.Value, Convert.ToInt32(cboMonth.Value).ToString("00"));
-            String filterExpression = string.Format("CONVERT(VARCHAR(8),DueDate,112) LIKE '%{0}%'", DueDate);
+            //String DueDate = String.Format("{0}{1}", cboYear.Value, Convert.ToInt32(cboMonth.Value).ToString("00"));
+            String filterExpression = String.Format("StudentID IN (SELECT StudentID FROM Student WHERE SiteID = '{0}')", cboSite.Value);
             if (chkNotPaid.Checked)
                 filterExpression += String.Format(" AND GCTransactionStatus NOT IN ('{0}','{1}')", Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
             else
                 filterExpression += String.Format(" AND GCTransactionStatus != '{0}'", Constant.TransactionStatus.VOID);
-            if (tacSchoolClass.Value != "")
+            if(tacSchoolClass.Value != "")
                 filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {0})", tacSchoolClass.Value);
             if (hdnFilterExpressionQuickSearch.Value != "")
                 filterExpression += string.Format(" AND {0}", hdnFilterExpressionQuickSearch.Value);
@@ -96,14 +75,25 @@ namespace CodeX.Muses.Web.Information.Program
         {
             string filterExpression = GetFilterExpression();
             
-            if (isCountPageCount)
-            {
-                rowCount = BusinessLayer.GetvARInvoiceHdRowCount(filterExpression);
-                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
-            }
+            //if (isCountPageCount)
+            //{
+            //    rowCount = BusinessLayer.GetvARInvoiceHdRowCount(filterExpression);
+            //    pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
+            //}
 
             List<vARInvoiceHd> lstEntity = BusinessLayer.GetvARInvoiceHdList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
-            grdView.DataSource = lstEntity;
+            var lstObject = (from grp in lstEntity
+                             group grp by new { grp.StudentID, grp.StudentCode, grp.StudentName } into NewGrp
+                             select new
+                             {
+                                 StudentID = NewGrp.Key.StudentID,
+                                 StudentCode = NewGrp.Key.StudentCode,
+                                 StudentName = NewGrp.Key.StudentName,
+                                 TotalClaimedAmount = NewGrp.Sum(x => x.GCTransactionStatus == Constant.TransactionStatus.CLOSED ? 0 : x.TotalClaimedAmount),
+                                 lstARInvoiceID = String.Join(",", NewGrp.Select(x => x.ARInvoiceID))
+                             }).ToList();
+
+            grdView.DataSource = lstObject;
             grdView.DataBind();
 
         }
