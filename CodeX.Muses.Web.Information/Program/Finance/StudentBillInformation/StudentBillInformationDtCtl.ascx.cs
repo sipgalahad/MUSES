@@ -41,7 +41,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            string filterExpression = String.Format("ARInvoiceID = {0}",hdnARInvoiceID.Value);
+            string filterExpression = String.Format("ARInvoiceID IN ({0})",hdnARInvoiceID.Value);
             if (isCountPageCount)
             {
                 int rowCount = BusinessLayer.GetvARInvoiceDtRowCount(filterExpression);

@@ -139,7 +139,7 @@
 
         $('.lblDetail.lblLink').live('click', function () {
             $tr = $(this).closest('tr');
-            var arInvoiceID = $tr.find('.keyField').text();
+            var arInvoiceID = $tr.find('#hdnLstARInvoiceID').val();
             var url = ResolveUrl("~/Program/Finance/StudentBillInformation/StudentBillInformationDtCtl.ascx");
             openUserControlPopup(url, arInvoiceID, 'Detail Information', 1200, 550);
         });
@@ -196,23 +196,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><%=GetLabel("Bulan") %></td>
-                            <td style="padding-right: 1px;">
-                                <table cellpadding="0" cellspacing="0" >
-                                    <colgroup>
-                                        <col width="120px" />
-                                        <col width="70px" />
-                                        <col width="120px" />
-                                    </colgroup>
-                                    <tr>
-                                        <td class="tdMonth"><dxe:ASPxComboBox ID="cboMonth" runat="server" ClientInstanceName="cboMonth" Width="120px" /></td>
-                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tahun")%></label></td>
-                                        <td><dxe:ASPxComboBox ID="cboYear" runat="server" ClientInstanceName="cboYear" Width="120px" /></td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
                             <td></td>
                             <td>
                                 <asp:CheckBox runat="server" Text="Belum Dibayar" ID="chkNotPaid" Checked="true" />
@@ -238,11 +221,15 @@
                                     <asp:Panel runat="server" ID="pnlGridView" CssClass="pnlContainerGrid" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;height:380px;overflow-y:auto;">
                                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                             <Columns>
-                                                <asp:BoundField DataField="ARInvoiceID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                                 <asp:BoundField DataField="StudentCode" HeaderText="No. Siswa" HeaderStyle-Width="120px" />
                                                 <asp:BoundField DataField="StudentName" HeaderText="Siswa" />
-                                                <asp:BoundField DataField="ARInvoiceNo" HeaderText="No. Tagihan" HeaderStyle-Width="150px" />
                                                 <asp:BoundField DataField="TotalClaimedAmount" HeaderText="Tagihan" ItemStyle-CssClass="lblDetail lblLink" DataFormatString="{0:N}" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <input type="hidden" id="hdnLstARInvoiceID" value="<%#Eval("lstARInvoiceID") %>" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                             </Columns>
                                         </asp:GridView>
                                     </asp:Panel>

@@ -58,24 +58,6 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::CodeX.Web.CustomControl.QISIntellisenseTextBox txtSearchView;
         
         /// <summary>
-        /// cboMonth control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMonth;
-        
-        /// <summary>
-        /// cboYear control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboYear;
-        
-        /// <summary>
         /// chkNotPaid control.
         /// </summary>
         /// <remarks>
