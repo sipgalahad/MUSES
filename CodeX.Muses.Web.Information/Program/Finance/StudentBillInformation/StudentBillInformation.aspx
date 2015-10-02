@@ -141,7 +141,7 @@
             $tr = $(this).closest('tr');
             var arInvoiceID = $tr.find('#hdnLstARInvoiceID').val();
             var url = ResolveUrl("~/Program/Finance/StudentBillInformation/StudentBillInformationDtCtl.ascx");
-            openUserControlPopup(url, arInvoiceID, 'Detail Information', 1200, 550);
+            openUserControlPopup(url, arInvoiceID, 'Detail Information', 700, 550);
         });
 
     </script>

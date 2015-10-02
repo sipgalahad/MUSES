@@ -89,7 +89,7 @@ namespace CodeX.Muses.Web.Information.Program
                                  StudentID = NewGrp.Key.StudentID,
                                  StudentCode = NewGrp.Key.StudentCode,
                                  StudentName = NewGrp.Key.StudentName,
-                                 TotalClaimedAmount = NewGrp.Sum(x => x.TotalClaimedAmount),
+                                 TotalClaimedAmount = NewGrp.Sum(x => x.GCTransactionStatus == Constant.TransactionStatus.CLOSED ? 0 : x.TotalClaimedAmount),
                                  lstARInvoiceID = String.Join(",", NewGrp.Select(x => x.ARInvoiceID))
                              }).ToList();
 

@@ -59,6 +59,7 @@
                                         <asp:BoundField DataField="cfStudentFeeCompTypeName" HeaderText="Pembayaran" />
                                         <asp:BoundField DataField="ARInvoiceNo" HeaderText="No. Transaksi" HeaderStyle-Width="150px"  />
                                         <asp:BoundField DataField="ClaimedAmount" HeaderText="Tagihan" DataFormatString="{0:N}" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
+                                        <asp:BoundField DataField="TransactionStatus" HeaderText="Status" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter"  />
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>
