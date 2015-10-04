@@ -790,7 +790,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected string GetFilterExpression()
         {
-            string filterExpression = String.Format("TransactionCode = '{0}'", hdnTransactionCode.Value);
+            string filterExpression = String.Format("TransactionCode = '{0}' AND GCTransactionStatus != '{1}'", hdnTransactionCode.Value,Constant.TransactionStatus.VOID);
             if (hdnRecordFilterExpression.Value != "")
                 filterExpression += string.Format(" AND {0}", hdnRecordFilterExpression.Value);
             return filterExpression;
@@ -1268,430 +1268,432 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     String[] obj = temp.Split(',');
                     TeacherProfile tp = new TeacherProfile();
-                    tp.NIK = Convert.ToInt32(obj[0]);
-                    tp.Name = obj[1];
-
-                    if (cboGrade.Value.ToString() == Constant.SchoolTypeName.TK)
+                    if (obj[0] != "") 
                     {
-                        #region TK
-                        #region Kompetensi Pedagogik
-                        tp.Col1 = obj[2];
-                        tp.Col1Score = obj[3];
-                        tp.Col2 = obj[4];
-                        tp.Col2Score = obj[5];
-                        tp.Col3 = obj[6];
-                        tp.Col3Score = obj[7];
-                        tp.PedagogikScore = obj[8];
-                        tp.PedagogikScoreInPercentage = obj[9];
-                        tp.PedagogikResult = obj[10];
-                        tp.DataFromFile = String.Join(",", obj.Skip(2).Take(9).Select(x => x.Replace("%", "")));
-                        #endregion
+                        tp.NIK = Convert.ToInt32(obj[0]);
+                        tp.Name = obj[1];
 
-                        #region Profil Talent
-                        tp.Talent = obj[12];
-                        tp.IQ = obj[13];
-                        tp.Drive = obj[15];
-                        tp.Komunikasi = obj[16];
-                        tp.Loyalitas = obj[17];
-                        tp.Teliti = obj[18];
-                        tp.Konsistensi = obj[19].Replace("%", "");
-                        #endregion
+                        if (cboGrade.Value.ToString() == Constant.SchoolTypeName.TK)
+                        {
+                            #region TK
+                            #region Kompetensi Pedagogik
+                            tp.Col1 = obj[2];
+                            tp.Col1Score = obj[3];
+                            tp.Col2 = obj[4];
+                            tp.Col2Score = obj[5];
+                            tp.Col3 = obj[6];
+                            tp.Col3Score = obj[7];
+                            tp.PedagogikScore = obj[8];
+                            tp.PedagogikScoreInPercentage = obj[9];
+                            tp.PedagogikResult = obj[10];
+                            tp.DataFromFile = String.Join(",", obj.Skip(2).Take(9).Select(x => x.Replace("%", "")));
+                            #endregion
 
-                        #region Presensi
-                        #endregion
-                        #endregion
+                            #region Profil Talent
+                            tp.Talent = obj[12];
+                            tp.IQ = obj[13];
+                            tp.Drive = obj[15];
+                            tp.Komunikasi = obj[16];
+                            tp.Loyalitas = obj[17];
+                            tp.Teliti = obj[18];
+                            tp.Konsistensi = obj[19].Replace("%", "");
+                            #endregion
+
+                            #region Presensi
+                            #endregion
+                            #endregion
+                        }
+                        else if (cboGrade.Value.ToString() == Constant.SchoolTypeName.SD)
+                        {
+                            #region SD
+                            #region Kompetensi Pedagogik & Profesional
+                            #region Pedagogik
+                            tp.Col1 = obj[2];
+                            tp.Col1Score = obj[3];
+                            tp.Col2 = obj[4];
+                            tp.Col2Score = obj[5];
+                            tp.Col3 = obj[6];
+                            tp.Col3Score = obj[7];
+                            tp.Col4 = obj[8];
+                            tp.Col4Score = obj[9];
+                            tp.Col5 = obj[10];
+                            tp.Col5Score = obj[11];
+                            tp.Col6 = obj[12];
+                            tp.Col6Score = obj[13];
+                            tp.Col7 = obj[14];
+                            tp.Col7Score = obj[15];
+                            tp.PedagogikScore = obj[16];
+                            tp.PedagogikScoreInPercentage = obj[17];
+                            tp.PedagogikResult = obj[18];
+                            tp.DataFromFile = String.Join(",", obj.Skip(2).Take(14).Select(x => x.Replace("%", "")));
+                            #endregion
+
+                            #region Kompetensi Profesional
+                            tp.Subject = obj[20];
+                            tp.Score = obj[21];
+                            tp.ScoreInPercentage = obj[22];
+                            tp.Mutu = obj[23];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(21).Take(2).Select(x => x.Replace("%", "")));
+                            #endregion
+                            #endregion
+
+                            #region Profil Talent
+                            tp.Talent = obj[25];
+                            tp.IQ = obj[26];
+                            tp.Drive = obj[28];
+                            tp.Komunikasi = obj[29];
+                            tp.Loyalitas = obj[30];
+                            tp.Teliti = obj[31];
+                            tp.Konsistensi = obj[32].Replace("%", "");
+                            #endregion
+
+                            #region Profil Menurut Siswa
+                            #region Aspek Kepribadian
+                            tp.Discipline = obj[35];
+                            tp.DisciplineScore = obj[36];
+                            tp.Atmosphere = obj[37];
+                            tp.AtmosphereScore = obj[38];
+                            tp.Encourage = obj[39];
+                            tp.EncourageScore = obj[40];
+                            tp.RoleModel = obj[41];
+                            tp.RoleModelScore = obj[42];
+                            tp.Inspirator = obj[43];
+                            tp.InspiratorScore = obj[44];
+                            tp.Sympathy = obj[45];
+                            tp.SympathyScore = obj[46];
+                            tp.PersonalityAverage = obj[47];
+                            tp.PersonalityResult = obj[48];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(35).Take(12).Select(x => x.Replace("%", "")));
+                            #endregion
+                            #region Aspek Pedagogik
+                            tp.DeliveryOfMaterial = obj[50];
+                            tp.DeliveryOfMaterialScore = obj[51];
+                            tp.Kindess = obj[52];
+                            tp.KindessScore = obj[53];
+                            tp.TempatCurhat = obj[54];
+                            tp.TempatCurhatScore = obj[55];
+                            tp.SiswaBertanya = obj[56];
+                            tp.SiswaBertanyaScore = obj[57];
+                            tp.AnswerQuestion = obj[58];
+                            tp.AnswerQuestionScore = obj[58];
+                            tp.PedagogikSiswaAverage = obj[60];
+                            tp.PedagogikSiswaResult = obj[61];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(50).Take(10).Select(x => x.Replace("%", "")));
+                            #endregion
+                            #region Kompetensi Profesional
+                            tp.ProCol1 = obj[63];
+                            tp.ProCol1Score = obj[64];
+                            tp.ProCol2 = obj[65];
+                            tp.ProCol2Score = obj[66];
+                            tp.ProCol3 = obj[67];
+                            tp.ProCol3Score = obj[68];
+                            tp.ProCol4 = obj[69];
+                            tp.ProCol4Score = obj[70];
+                            tp.ProCol5 = obj[71];
+                            tp.ProCol5Score = obj[72];
+                            tp.ProCol6 = obj[73];
+                            tp.ProCol6Score = obj[74];
+                            tp.ProCol7 = obj[75];
+                            tp.ProCol7Score = obj[76];
+                            tp.ProCol8 = obj[77];
+                            tp.ProCol8Score = obj[78];
+                            tp.ProCol9 = obj[79];
+                            tp.ProCol9Score = obj[80];
+                            tp.ProCol10 = obj[81];
+                            tp.ProCol10Score = obj[82];
+                            tp.ProAverage = obj[83];
+                            tp.ProResult = obj[84];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(63).Take(20).Select(x => x.Replace("%", "")));
+                            #endregion
+                            #region Kompetensi Sosial
+                            tp.SosCol1 = obj[86];
+                            tp.SosCol1Score = obj[87];
+                            tp.SosCol2 = obj[88];
+                            tp.SosCol2Score = obj[89];
+                            tp.SosCol3 = obj[90];
+                            tp.SosCol3Score = obj[91];
+                            tp.SosCol4 = obj[92];
+                            tp.SosCol4Score = obj[93];
+                            tp.SosCol5 = obj[94];
+                            tp.SosCol5Score = obj[95];
+
+                            tp.SosColAverage = obj[96];
+                            tp.SosColResult = obj[97];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(86).Take(10).Select(x => x.Replace("%", "")));
+                            #endregion
+                            #endregion
+
+                            #region OpenQuestion
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(100).Take(2).Select(x => x.Replace("%", "")));
+                            #endregion
+                            #endregion
+                        }
+                        else if (cboGrade.Value.ToString() == Constant.SchoolTypeName.SMP)
+                        {
+                            #region Kompetensi Pedagogik & Profesional
+                            #region Pedagogik
+                            tp.Col1 = obj[2];
+                            tp.Col1Score = obj[3];
+                            tp.Col2 = obj[4];
+                            tp.Col2Score = obj[5];
+                            tp.Col3 = obj[6];
+                            tp.Col3Score = obj[7];
+                            tp.Col4 = obj[8];
+                            tp.Col4Score = obj[9];
+                            tp.Col5 = obj[10];
+                            tp.Col5Score = obj[11];
+                            tp.Col6 = obj[12];
+                            tp.Col6Score = obj[13];
+                            tp.Col7 = obj[14];
+                            tp.Col7Score = obj[15];
+                            tp.Col8 = obj[16];
+                            tp.Col8Score = obj[17];
+                            tp.Col9 = obj[18];
+                            tp.Col9Score = obj[19];
+
+                            tp.PedagogikScore = obj[20];
+                            tp.PedagogikScoreInPercentage = obj[21];
+                            tp.PedagogikResult = obj[22];
+                            tp.DataFromFile = String.Join(",", obj.Skip(2).Take(18).Select(x => x.Replace("%", "")));
+                            #endregion
+
+                            #region Kompetensi Profesional
+                            tp.Subject = obj[24];
+                            tp.Score = obj[25];
+                            tp.ScoreInPercentage = obj[26];
+                            tp.Mutu = obj[27];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(25).Take(2).Select(x => x.Replace("%", "")));
+                            #endregion
+                            #endregion
+
+                            #region Profil Talent
+                            tp.Talent = obj[29];
+                            tp.IQ = obj[30];
+                            tp.Drive = obj[32];
+                            tp.Komunikasi = obj[33];
+                            tp.Loyalitas = obj[34];
+                            tp.Teliti = obj[35];
+                            tp.Konsistensi = obj[36].Replace("%", "");
+                            #endregion
+
+                            #region Profil Menurut Siswa
+                            #region Aspek Kepribadian
+                            tp.Discipline = obj[39];
+                            tp.DisciplineScore = obj[40];
+                            tp.Atmosphere = obj[41];
+                            tp.AtmosphereScore = obj[42];
+                            tp.Encourage = obj[43];
+                            tp.EncourageScore = obj[44];
+                            tp.RoleModel = obj[45];
+                            tp.RoleModelScore = obj[46];
+                            tp.Inspirator = obj[47];
+                            tp.InspiratorScore = obj[48];
+                            tp.Sympathy = obj[49];
+                            tp.SympathyScore = obj[50];
+                            tp.PersonalityAverage = obj[51];
+                            tp.PersonalityResult = obj[52];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(39).Take(12).Select(x => x.Replace("%", "")));
+                            #endregion
+
+                            #region Aspek Pedagogik
+                            tp.DeliveryOfMaterial = obj[54];
+                            tp.DeliveryOfMaterialScore = obj[55];
+                            tp.Kindess = obj[56];
+                            tp.KindessScore = obj[57];
+                            tp.TempatCurhat = obj[58];
+                            tp.TempatCurhatScore = obj[59];
+                            tp.SiswaBertanya = obj[60];
+                            tp.SiswaBertanyaScore = obj[61];
+                            tp.AnswerQuestion = obj[62];
+                            tp.AnswerQuestionScore = obj[63];
+                            tp.PedagogikSiswaAverage = obj[64];
+                            tp.PedagogikSiswaResult = obj[65];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(54).Take(10).Select(x => x.Replace("%", "")));
+                            #endregion
+
+                            #region Kompetensi Profesional
+                            tp.ProCol1 = obj[67];
+                            tp.ProCol1Score = obj[68];
+                            tp.ProCol2 = obj[69];
+                            tp.ProCol2Score = obj[70];
+                            tp.ProCol3 = obj[71];
+                            tp.ProCol3Score = obj[72];
+                            tp.ProCol4 = obj[73];
+                            tp.ProCol4Score = obj[74];
+                            tp.ProCol5 = obj[75];
+                            tp.ProCol5Score = obj[76];
+                            tp.ProCol6 = obj[77];
+                            tp.ProCol6Score = obj[78];
+                            tp.ProCol7 = obj[79];
+                            tp.ProCol7Score = obj[80];
+                            tp.ProCol8 = obj[81];
+                            tp.ProCol8Score = obj[82];
+                            tp.ProCol9 = obj[83];
+                            tp.ProCol9Score = obj[84];
+                            tp.ProCol10 = obj[85];
+                            tp.ProCol10Score = obj[86];
+                            tp.ProAverage = obj[87];
+                            tp.ProResult = obj[88];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(67).Take(20).Select(x => x.Replace("%", "")));
+                            #endregion
+
+                            #region Kompetensi Sosial
+                            tp.SosCol1 = obj[90];
+                            tp.SosCol1Score = obj[91];
+                            tp.SosCol2 = obj[92];
+                            tp.SosCol2Score = obj[93];
+                            tp.SosCol3 = obj[94];
+                            tp.SosCol3Score = obj[95];
+                            tp.SosCol4 = obj[96];
+                            tp.SosCol4Score = obj[97];
+                            tp.SosCol5 = obj[98];
+                            tp.SosCol5Score = obj[99];
+
+                            tp.SosColAverage = obj[100];
+                            tp.SosColResult = obj[101];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(90).Take(10).Select(x => x.Replace("%", "")));
+                            #endregion
+                            #endregion
+
+                            #region OpenQuestion
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
+                            #endregion
+                        }
+                        else if (cboGrade.Value.ToString() == Constant.SchoolTypeName.SMA)
+                        {
+                            #region Kompetensi Pedagogik & Profesional
+                            #region Pedagogik
+                            tp.Col1 = obj[2];
+                            tp.Col1Score = obj[3];
+                            tp.Col2 = obj[4];
+                            tp.Col2Score = obj[5];
+                            tp.Col3 = obj[6];
+                            tp.Col3Score = obj[7];
+                            tp.Col4 = obj[8];
+                            tp.Col4Score = obj[9];
+                            tp.Col5 = obj[10];
+                            tp.Col5Score = obj[11];
+                            tp.Col6 = obj[12];
+                            tp.Col6Score = obj[13];
+                            tp.Col7 = obj[14];
+                            tp.Col7Score = obj[15];
+
+                            tp.Col8 = obj[16];
+                            tp.Col8Score = obj[17];
+
+                            tp.Col9 = obj[18];
+                            tp.Col9Score = obj[19];
+
+                            tp.PedagogikScore = obj[20];
+                            tp.PedagogikScoreInPercentage = obj[21];
+                            tp.PedagogikResult = obj[22];
+                            tp.DataFromFile = String.Join(",", obj.Skip(2).Take(18).Select(x => x.Replace("%", "")));
+                            #endregion
+
+                            #region Kompetensi Profesional
+                            tp.Subject = obj[24];
+                            tp.Score = obj[25];
+                            tp.ScoreInPercentage = obj[26];
+                            tp.Mutu = obj[27];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(25).Take(2).Select(x => x.Replace("%", "")));
+                            #endregion
+                            #endregion
+
+                            #region Profil Talent
+                            tp.Talent = obj[29];
+                            tp.IQ = obj[30];
+                            tp.Drive = obj[32];
+                            tp.Komunikasi = obj[33];
+                            tp.Loyalitas = obj[34];
+                            tp.Teliti = obj[35];
+                            tp.Konsistensi = obj[36].Replace("%", "");
+                            #endregion
+
+                            #region Profil Menurut Siswa
+                            #region Aspek Kepribadian
+                            tp.Discipline = obj[39];
+                            tp.DisciplineScore = obj[40];
+                            tp.Atmosphere = obj[41];
+                            tp.AtmosphereScore = obj[42];
+                            tp.Encourage = obj[43];
+                            tp.EncourageScore = obj[44];
+                            tp.RoleModel = obj[45];
+                            tp.RoleModelScore = obj[46];
+                            tp.Inspirator = obj[47];
+                            tp.InspiratorScore = obj[48];
+                            tp.Sympathy = obj[49];
+                            tp.SympathyScore = obj[50];
+                            tp.PersonalityAverage = obj[51];
+                            tp.PersonalityResult = obj[52];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(39).Take(12).Select(x => x.Replace("%", "")));
+                            #endregion
+
+                            #region Aspek Pedagogik
+                            tp.DeliveryOfMaterial = obj[54];
+                            tp.DeliveryOfMaterialScore = obj[55];
+                            tp.Kindess = obj[56];
+                            tp.KindessScore = obj[57];
+                            tp.TempatCurhat = obj[58];
+                            tp.TempatCurhatScore = obj[59];
+                            tp.SiswaBertanya = obj[60];
+                            tp.SiswaBertanyaScore = obj[61];
+                            tp.AnswerQuestion = obj[62];
+                            tp.AnswerQuestionScore = obj[63];
+                            tp.PedagogikSiswaAverage = obj[64];
+                            tp.PedagogikSiswaResult = obj[65];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(54).Take(10).Select(x => x.Replace("%", "")));
+                            #endregion
+
+                            #region Kompetensi Profesional
+                            tp.ProCol1 = obj[67];
+                            tp.ProCol1Score = obj[68];
+                            tp.ProCol2 = obj[69];
+                            tp.ProCol2Score = obj[70];
+                            tp.ProCol3 = obj[71];
+                            tp.ProCol3Score = obj[72];
+                            tp.ProCol4 = obj[73];
+                            tp.ProCol4Score = obj[74];
+                            tp.ProCol5 = obj[75];
+                            tp.ProCol5Score = obj[76];
+                            tp.ProCol6 = obj[77];
+                            tp.ProCol6Score = obj[78];
+                            tp.ProCol7 = obj[79];
+                            tp.ProCol7Score = obj[80];
+                            tp.ProCol8 = obj[81];
+                            tp.ProCol8Score = obj[82];
+                            tp.ProCol9 = obj[83];
+                            tp.ProCol9Score = obj[84];
+                            tp.ProCol10 = obj[85];
+                            tp.ProCol10Score = obj[86];
+                            tp.ProAverage = obj[87];
+                            tp.ProResult = obj[88];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(67).Take(20).Select(x => x.Replace("%", "")));
+                            #endregion
+
+                            #region Kompetensi Sosial
+                            tp.SosCol1 = obj[90];
+                            tp.SosCol1Score = obj[91];
+                            tp.SosCol2 = obj[92];
+                            tp.SosCol2Score = obj[93];
+                            tp.SosCol3 = obj[94];
+                            tp.SosCol3Score = obj[95];
+                            tp.SosCol4 = obj[96];
+                            tp.SosCol4Score = obj[97];
+                            tp.SosCol5 = obj[98];
+                            tp.SosCol5Score = obj[99];
+
+                            tp.SosColAverage = obj[100];
+                            tp.SosColResult = obj[101];
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(90).Take(10).Select(x => x.Replace("%", "")));
+                            #endregion
+                            #endregion
+
+                            #region OpenQuestion
+                            tp.DataFromFile += "," + String.Join(",", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
+                            #endregion
+                        }
+                        lstTp.Add(tp);
                     }
-                    else if (cboGrade.Value.ToString() == Constant.SchoolTypeName.SD)
-                    {
-                        #region SD
-                        #region Kompetensi Pedagogik & Profesional
-                        #region Pedagogik
-                        tp.Col1 = obj[2];
-                        tp.Col1Score = obj[3];
-                        tp.Col2 = obj[4];
-                        tp.Col2Score = obj[5];
-                        tp.Col3 = obj[6];
-                        tp.Col3Score = obj[7];
-                        tp.Col4 = obj[8];
-                        tp.Col4Score = obj[9];
-                        tp.Col5 = obj[10];
-                        tp.Col5Score = obj[11];
-                        tp.Col6 = obj[12];
-                        tp.Col6Score = obj[13];
-                        tp.Col7 = obj[14];
-                        tp.Col7Score = obj[15];
-                        tp.PedagogikScore = obj[16];
-                        tp.PedagogikScoreInPercentage = obj[17];
-                        tp.PedagogikResult = obj[18];
-                        tp.DataFromFile = String.Join(",", obj.Skip(2).Take(14).Select(x => x.Replace("%", "")));
-                        #endregion
-
-                        #region Kompetensi Profesional
-                        tp.Subject = obj[20];
-                        tp.Score = obj[21];
-                        tp.ScoreInPercentage = obj[22];
-                        tp.Mutu = obj[23];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(21).Take(2).Select(x => x.Replace("%", "")));
-                        #endregion
-                        #endregion
-
-                        #region Profil Talent
-                        tp.Talent = obj[25];
-                        tp.IQ = obj[26];
-                        tp.Drive = obj[28];
-                        tp.Komunikasi = obj[29];
-                        tp.Loyalitas = obj[30];
-                        tp.Teliti = obj[31];
-                        tp.Konsistensi = obj[32].Replace("%", "");
-                        #endregion
-
-                        #region Profil Menurut Siswa
-                        #region Aspek Kepribadian
-                        tp.Discipline = obj[35];
-                        tp.DisciplineScore = obj[36];
-                        tp.Atmosphere = obj[37];
-                        tp.AtmosphereScore = obj[38];
-                        tp.Encourage = obj[39];
-                        tp.EncourageScore = obj[40];
-                        tp.RoleModel = obj[41];
-                        tp.RoleModelScore = obj[42];
-                        tp.Inspirator = obj[43];
-                        tp.InspiratorScore = obj[44];
-                        tp.Sympathy = obj[45];
-                        tp.SympathyScore = obj[46];
-                        tp.PersonalityAverage = obj[47];
-                        tp.PersonalityResult = obj[48];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(35).Take(12).Select(x => x.Replace("%", "")));
-                        #endregion
-                        #region Aspek Pedagogik
-                        tp.DeliveryOfMaterial = obj[50];
-                        tp.DeliveryOfMaterialScore = obj[51];
-                        tp.Kindess = obj[52];
-                        tp.KindessScore = obj[53];
-                        tp.TempatCurhat = obj[54];
-                        tp.TempatCurhatScore = obj[55];
-                        tp.SiswaBertanya = obj[56];
-                        tp.SiswaBertanyaScore = obj[57];
-                        tp.AnswerQuestion = obj[58];
-                        tp.AnswerQuestionScore = obj[58];
-                        tp.PedagogikSiswaAverage = obj[60];
-                        tp.PedagogikSiswaResult = obj[61];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(50).Take(10).Select(x => x.Replace("%", "")));
-                        #endregion
-                        #region Kompetensi Profesional
-                        tp.ProCol1 = obj[63];
-                        tp.ProCol1Score = obj[64];
-                        tp.ProCol2 = obj[65];
-                        tp.ProCol2Score = obj[66];
-                        tp.ProCol3 = obj[67];
-                        tp.ProCol3Score = obj[68];
-                        tp.ProCol4 = obj[69];
-                        tp.ProCol4Score = obj[70];
-                        tp.ProCol5 = obj[71];
-                        tp.ProCol5Score = obj[72];
-                        tp.ProCol6 = obj[73];
-                        tp.ProCol6Score = obj[74];
-                        tp.ProCol7 = obj[75];
-                        tp.ProCol7Score = obj[76];
-                        tp.ProCol8 = obj[77];
-                        tp.ProCol8Score = obj[78];
-                        tp.ProCol9 = obj[79];
-                        tp.ProCol9Score = obj[80];
-                        tp.ProCol10 = obj[81];
-                        tp.ProCol10Score = obj[82];
-                        tp.ProAverage = obj[83];
-                        tp.ProResult = obj[84];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(63).Take(20).Select(x => x.Replace("%", "")));
-                        #endregion
-                        #region Kompetensi Sosial
-                        tp.SosCol1 = obj[86];
-                        tp.SosCol1Score = obj[87];
-                        tp.SosCol2 = obj[88];
-                        tp.SosCol2Score = obj[89];
-                        tp.SosCol3 = obj[90];
-                        tp.SosCol3Score = obj[91];
-                        tp.SosCol4 = obj[92];
-                        tp.SosCol4Score = obj[93];
-                        tp.SosCol5 = obj[94];
-                        tp.SosCol5Score = obj[95];
-
-                        tp.SosColAverage = obj[96];
-                        tp.SosColResult = obj[97];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(86).Take(10).Select(x => x.Replace("%", "")));
-                        #endregion
-                        #endregion
-
-                        #region OpenQuestion
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(100).Take(2).Select(x => x.Replace("%", "")));
-                        #endregion
-                        #endregion
-                    }
-                    else if (cboGrade.Value.ToString() == Constant.SchoolTypeName.SMP)
-                    {
-                        #region Kompetensi Pedagogik & Profesional
-                        #region Pedagogik
-                        tp.Col1 = obj[2];
-                        tp.Col1Score = obj[3];
-                        tp.Col2 = obj[4];
-                        tp.Col2Score = obj[5];
-                        tp.Col3 = obj[6];
-                        tp.Col3Score = obj[7];
-                        tp.Col4 = obj[8];
-                        tp.Col4Score = obj[9];
-                        tp.Col5 = obj[10];
-                        tp.Col5Score = obj[11];
-                        tp.Col6 = obj[12];
-                        tp.Col6Score = obj[13];
-                        tp.Col7 = obj[14];
-                        tp.Col7Score = obj[15];
-                        tp.Col8 = obj[16];
-                        tp.Col8Score = obj[17];
-                        tp.Col9 = obj[18];
-                        tp.Col9Score = obj[19];
-
-                        tp.PedagogikScore = obj[20];
-                        tp.PedagogikScoreInPercentage = obj[21];
-                        tp.PedagogikResult = obj[22];
-                        tp.DataFromFile = String.Join(",", obj.Skip(2).Take(18).Select(x => x.Replace("%", "")));
-                        #endregion
-
-                        #region Kompetensi Profesional
-                        tp.Subject = obj[24];
-                        tp.Score = obj[25];
-                        tp.ScoreInPercentage = obj[26];
-                        tp.Mutu = obj[27];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(25).Take(2).Select(x => x.Replace("%", "")));
-                        #endregion
-                        #endregion
-
-                        #region Profil Talent
-                        tp.Talent = obj[29];
-                        tp.IQ = obj[30];
-                        tp.Drive = obj[32];
-                        tp.Komunikasi = obj[33];
-                        tp.Loyalitas = obj[34];
-                        tp.Teliti = obj[35];
-                        tp.Konsistensi = obj[36].Replace("%", "");
-                        #endregion
-
-                        #region Profil Menurut Siswa
-                        #region Aspek Kepribadian
-                        tp.Discipline = obj[39];
-                        tp.DisciplineScore = obj[40];
-                        tp.Atmosphere = obj[41];
-                        tp.AtmosphereScore = obj[42];
-                        tp.Encourage = obj[43];
-                        tp.EncourageScore = obj[44];
-                        tp.RoleModel = obj[45];
-                        tp.RoleModelScore = obj[46];
-                        tp.Inspirator = obj[47];
-                        tp.InspiratorScore = obj[48];
-                        tp.Sympathy = obj[49];
-                        tp.SympathyScore = obj[50];
-                        tp.PersonalityAverage = obj[51];
-                        tp.PersonalityResult = obj[52];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(39).Take(12).Select(x => x.Replace("%", "")));
-                        #endregion
-
-                        #region Aspek Pedagogik
-                        tp.DeliveryOfMaterial = obj[54];
-                        tp.DeliveryOfMaterialScore = obj[55];
-                        tp.Kindess = obj[56];
-                        tp.KindessScore = obj[57];
-                        tp.TempatCurhat = obj[58];
-                        tp.TempatCurhatScore = obj[59];
-                        tp.SiswaBertanya = obj[60];
-                        tp.SiswaBertanyaScore = obj[61];
-                        tp.AnswerQuestion = obj[62];
-                        tp.AnswerQuestionScore = obj[63];
-                        tp.PedagogikSiswaAverage = obj[64];
-                        tp.PedagogikSiswaResult = obj[65];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(54).Take(10).Select(x => x.Replace("%", "")));
-                        #endregion
-
-                        #region Kompetensi Profesional
-                        tp.ProCol1 = obj[67];
-                        tp.ProCol1Score = obj[68];
-                        tp.ProCol2 = obj[69];
-                        tp.ProCol2Score = obj[70];
-                        tp.ProCol3 = obj[71];
-                        tp.ProCol3Score = obj[72];
-                        tp.ProCol4 = obj[73];
-                        tp.ProCol4Score = obj[74];
-                        tp.ProCol5 = obj[75];
-                        tp.ProCol5Score = obj[76];
-                        tp.ProCol6 = obj[77];
-                        tp.ProCol6Score = obj[78];
-                        tp.ProCol7 = obj[79];
-                        tp.ProCol7Score = obj[80];
-                        tp.ProCol8 = obj[81];
-                        tp.ProCol8Score = obj[82];
-                        tp.ProCol9 = obj[83];
-                        tp.ProCol9Score = obj[84];
-                        tp.ProCol10 = obj[85];
-                        tp.ProCol10Score = obj[86];
-                        tp.ProAverage = obj[87];
-                        tp.ProResult = obj[88];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(67).Take(20).Select(x => x.Replace("%", "")));
-                        #endregion
-
-                        #region Kompetensi Sosial
-                        tp.SosCol1 = obj[90];
-                        tp.SosCol1Score = obj[91];
-                        tp.SosCol2 = obj[92];
-                        tp.SosCol2Score = obj[93];
-                        tp.SosCol3 = obj[94];
-                        tp.SosCol3Score = obj[95];
-                        tp.SosCol4 = obj[96];
-                        tp.SosCol4Score = obj[97];
-                        tp.SosCol5 = obj[98];
-                        tp.SosCol5Score = obj[99];
-
-                        tp.SosColAverage = obj[100];
-                        tp.SosColResult = obj[101];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(90).Take(10).Select(x => x.Replace("%", "")));
-                        #endregion
-                        #endregion
-
-                        #region OpenQuestion
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
-                        #endregion
-                    }
-
-                    else if (cboGrade.Value.ToString() == Constant.SchoolTypeName.SMA)
-                    {
-                        #region Kompetensi Pedagogik & Profesional
-                        #region Pedagogik
-                        tp.Col1 = obj[2];
-                        tp.Col1Score = obj[3];
-                        tp.Col2 = obj[4];
-                        tp.Col2Score = obj[5];
-                        tp.Col3 = obj[6];
-                        tp.Col3Score = obj[7];
-                        tp.Col4 = obj[8];
-                        tp.Col4Score = obj[9];
-                        tp.Col5 = obj[10];
-                        tp.Col5Score = obj[11];
-                        tp.Col6 = obj[12];
-                        tp.Col6Score = obj[13];
-                        tp.Col7 = obj[14];
-                        tp.Col7Score = obj[15];
-
-                        tp.Col8 = obj[16];
-                        tp.Col8Score = obj[17];
-
-                        tp.Col9 = obj[18];
-                        tp.Col9Score = obj[19];
-
-                        tp.PedagogikScore = obj[20];
-                        tp.PedagogikScoreInPercentage = obj[21];
-                        tp.PedagogikResult = obj[22];
-                        tp.DataFromFile = String.Join(",", obj.Skip(2).Take(18).Select(x => x.Replace("%", "")));
-                        #endregion
-
-                        #region Kompetensi Profesional
-                        tp.Subject = obj[24];
-                        tp.Score = obj[25];
-                        tp.ScoreInPercentage = obj[26];
-                        tp.Mutu = obj[27];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(25).Take(2).Select(x => x.Replace("%", "")));
-                        #endregion
-                        #endregion
-
-                        #region Profil Talent
-                        tp.Talent = obj[29];
-                        tp.IQ = obj[30];
-                        tp.Drive = obj[32];
-                        tp.Komunikasi = obj[33];
-                        tp.Loyalitas = obj[34];
-                        tp.Teliti = obj[35];
-                        tp.Konsistensi = obj[36].Replace("%", "");
-                        #endregion
-
-                        #region Profil Menurut Siswa
-                        #region Aspek Kepribadian
-                        tp.Discipline = obj[39];
-                        tp.DisciplineScore = obj[40];
-                        tp.Atmosphere = obj[41];
-                        tp.AtmosphereScore = obj[42];
-                        tp.Encourage = obj[43];
-                        tp.EncourageScore = obj[44];
-                        tp.RoleModel = obj[45];
-                        tp.RoleModelScore = obj[46];
-                        tp.Inspirator = obj[47];
-                        tp.InspiratorScore = obj[48];
-                        tp.Sympathy = obj[49];
-                        tp.SympathyScore = obj[50];
-                        tp.PersonalityAverage = obj[51];
-                        tp.PersonalityResult = obj[52];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(39).Take(12).Select(x => x.Replace("%", "")));
-                        #endregion
-
-                        #region Aspek Pedagogik
-                        tp.DeliveryOfMaterial = obj[54];
-                        tp.DeliveryOfMaterialScore = obj[55];
-                        tp.Kindess = obj[56];
-                        tp.KindessScore = obj[57];
-                        tp.TempatCurhat = obj[58];
-                        tp.TempatCurhatScore = obj[59];
-                        tp.SiswaBertanya = obj[60];
-                        tp.SiswaBertanyaScore = obj[61];
-                        tp.AnswerQuestion = obj[62];
-                        tp.AnswerQuestionScore = obj[63];
-                        tp.PedagogikSiswaAverage = obj[64];
-                        tp.PedagogikSiswaResult = obj[65];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(54).Take(10).Select(x => x.Replace("%", "")));
-                        #endregion
-
-                        #region Kompetensi Profesional
-                        tp.ProCol1 = obj[67];
-                        tp.ProCol1Score = obj[68];
-                        tp.ProCol2 = obj[69];
-                        tp.ProCol2Score = obj[70];
-                        tp.ProCol3 = obj[71];
-                        tp.ProCol3Score = obj[72];
-                        tp.ProCol4 = obj[73];
-                        tp.ProCol4Score = obj[74];
-                        tp.ProCol5 = obj[75];
-                        tp.ProCol5Score = obj[76];
-                        tp.ProCol6 = obj[77];
-                        tp.ProCol6Score = obj[78];
-                        tp.ProCol7 = obj[79];
-                        tp.ProCol7Score = obj[80];
-                        tp.ProCol8 = obj[81];
-                        tp.ProCol8Score = obj[82];
-                        tp.ProCol9 = obj[83];
-                        tp.ProCol9Score = obj[84];
-                        tp.ProCol10 = obj[85];
-                        tp.ProCol10Score = obj[86];
-                        tp.ProAverage = obj[87];
-                        tp.ProResult = obj[88];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(67).Take(20).Select(x => x.Replace("%", "")));
-                        #endregion
-
-                        #region Kompetensi Sosial
-                        tp.SosCol1 = obj[90];
-                        tp.SosCol1Score = obj[91];
-                        tp.SosCol2 = obj[92];
-                        tp.SosCol2Score = obj[93];
-                        tp.SosCol3 = obj[94];
-                        tp.SosCol3Score = obj[95];
-                        tp.SosCol4 = obj[96];
-                        tp.SosCol4Score = obj[97];
-                        tp.SosCol5 = obj[98];
-                        tp.SosCol5Score = obj[99];
-
-                        tp.SosColAverage = obj[100];
-                        tp.SosColResult = obj[101];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(90).Take(10).Select(x => x.Replace("%", "")));
-                        #endregion
-                        #endregion
-
-                        #region OpenQuestion
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
-                        #endregion
-                    }
-                    lstTp.Add(tp);
                 }
             }
             catch (Exception ex)
@@ -1719,12 +1721,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ttpdt.TransactionID = TransactionID;
                 ttpdt.TeacherID = tch.FirstOrDefault(x => x.TeacherCode == tp.NIK.ToString()).TeacherID;
                 ttpdt.PersonalityTypeID = lstPersonType.FirstOrDefault(x => x.PersonalityTypeName.Contains(tp.Talent)).PersonalityTypeID;
-                ttpdt.IQScore = Convert.ToInt32(tp.IQ);
-                ttpdt.DScore = Convert.ToInt32(tp.Drive);
-                ttpdt.KScore = Convert.ToInt32(tp.Komunikasi);
-                ttpdt.LScore = Convert.ToInt32(tp.Loyalitas);
-                ttpdt.TScore = Convert.ToInt32(tp.Teliti);
-                ttpdt.KonsScoreInPercentage = Convert.ToInt32(Convert.ToDecimal(tp.Konsistensi.Replace("%", "")));
+                ttpdt.IQScore = Convert.ToInt32(tp.IQ != ""? tp.IQ : "0");
+                ttpdt.DScore = Convert.ToInt32(tp.Drive != "" ? tp.IQ : "0");
+                ttpdt.KScore = Convert.ToInt32(tp.Komunikasi != "" ? tp.Komunikasi : "0");
+                ttpdt.LScore = Convert.ToInt32(tp.Loyalitas != "" ? tp.Loyalitas : "0");
+                ttpdt.TScore = Convert.ToInt32(tp.Teliti != "" ? tp.Teliti : "0");
+                String konsistensi = tp.Konsistensi.Replace("%", "");
+                ttpdt.KonsScoreInPercentage = Convert.ToInt32(Convert.ToDecimal(konsistensi != "" ? konsistensi : "0"));
                 ttpdt.Remarks = "";
                 ttpdt.GCTeacherDetailStatus = Constant.TransactionStatus.OPEN;
                 ttpdt.CreatedBy = AppSession.UserLogin.UserID;
