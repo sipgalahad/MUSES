@@ -5843,6 +5843,7 @@ namespace CodeX.Data.Model
         private DateTime _TerminatedDate;
         private String _PictureFileName;
         private String _GCEmployeeStatus;
+        private String _EmployeeStatus;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -6091,6 +6092,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCEmployeeStatus; }
             set { _GCEmployeeStatus = value; }
+        }
+        [Column(Name = "EmployeeStatus", DataType = "String")]
+        public String EmployeeStatus
+        {
+            get { return _EmployeeStatus; }
+            set { _EmployeeStatus = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

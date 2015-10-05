@@ -35,8 +35,8 @@
                                     <tr>
                                         <td>Mulai Dinas : {HiredDate}</td>
                                         <td>Pensiun : {TerminatedDate}</td>
-                                        <td>Status Kerja :</td>
-                                        <td>Fungsi :</td>
+                                        <td>Status Kerja : {EmployeeStatus}</td>
+                                        <td>NIK : {NIK}</td>
                                     </tr>
                                 </table>
                             </div>
