@@ -790,7 +790,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected string GetFilterExpression()
         {
-            string filterExpression = String.Format("TransactionCode = '{0}'", hdnTransactionCode.Value);
+            string filterExpression = String.Format("TransactionCode = '{0}' AND GCTransactionStatus != '{1}'", hdnTransactionCode.Value,Constant.TransactionStatus.VOID);
             if (hdnRecordFilterExpression.Value != "")
                 filterExpression += string.Format(" AND {0}", hdnRecordFilterExpression.Value);
             return filterExpression;
@@ -1259,15 +1259,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         public void UploadFile(String data)
         {
-            try
+            data = data.Replace("\r", "");
+            List<String> lstData = data.Split('\n').ToList();
+            lstData.Remove("");
+            foreach (String temp in lstData.Skip(4))
             {
-                data = data.Replace("\r", "");
-                List<String> lstData = data.Split('\n').ToList();
-                lstData.Remove("");
-                foreach (String temp in lstData.Skip(4))
+                String[] obj = temp.Split(';');
+                TeacherProfile tp = new TeacherProfile();
+                if (obj[0] != "")
                 {
-                    String[] obj = temp.Split(',');
-                    TeacherProfile tp = new TeacherProfile();
                     tp.NIK = Convert.ToInt32(obj[0]);
                     tp.Name = obj[1];
 
@@ -1284,7 +1284,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.PedagogikScore = obj[8];
                         tp.PedagogikScoreInPercentage = obj[9];
                         tp.PedagogikResult = obj[10];
-                        tp.DataFromFile = String.Join(",", obj.Skip(2).Take(9).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile = String.Join(";", obj.Skip(2).Take(9).Select(x => x.Replace("%", "")));
                         #endregion
 
                         #region Profil Talent
@@ -1323,7 +1323,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.PedagogikScore = obj[16];
                         tp.PedagogikScoreInPercentage = obj[17];
                         tp.PedagogikResult = obj[18];
-                        tp.DataFromFile = String.Join(",", obj.Skip(2).Take(14).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile = String.Join(";", obj.Skip(2).Take(14).Select(x => x.Replace("%", "")));
                         #endregion
 
                         #region Kompetensi Profesional
@@ -1331,7 +1331,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.Score = obj[21];
                         tp.ScoreInPercentage = obj[22];
                         tp.Mutu = obj[23];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(21).Take(2).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(21).Take(2).Select(x => x.Replace("%", "")));
                         #endregion
                         #endregion
 
@@ -1361,7 +1361,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.SympathyScore = obj[46];
                         tp.PersonalityAverage = obj[47];
                         tp.PersonalityResult = obj[48];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(35).Take(12).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(35).Take(12).Select(x => x.Replace("%", "")));
                         #endregion
                         #region Aspek Pedagogik
                         tp.DeliveryOfMaterial = obj[50];
@@ -1376,7 +1376,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.AnswerQuestionScore = obj[58];
                         tp.PedagogikSiswaAverage = obj[60];
                         tp.PedagogikSiswaResult = obj[61];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(50).Take(10).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(50).Take(10).Select(x => x.Replace("%", "")));
                         #endregion
                         #region Kompetensi Profesional
                         tp.ProCol1 = obj[63];
@@ -1401,7 +1401,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.ProCol10Score = obj[82];
                         tp.ProAverage = obj[83];
                         tp.ProResult = obj[84];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(63).Take(20).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(63).Take(20).Select(x => x.Replace("%", "")));
                         #endregion
                         #region Kompetensi Sosial
                         tp.SosCol1 = obj[86];
@@ -1417,12 +1417,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                         tp.SosColAverage = obj[96];
                         tp.SosColResult = obj[97];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(86).Take(10).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(86).Take(10).Select(x => x.Replace("%", "")));
                         #endregion
                         #endregion
 
                         #region OpenQuestion
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(100).Take(2).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(100).Take(2).Select(x => x.Replace("%", "")));
                         #endregion
                         #endregion
                     }
@@ -1452,7 +1452,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.PedagogikScore = obj[20];
                         tp.PedagogikScoreInPercentage = obj[21];
                         tp.PedagogikResult = obj[22];
-                        tp.DataFromFile = String.Join(",", obj.Skip(2).Take(18).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile = String.Join(";", obj.Skip(2).Take(18).Select(x => x.Replace("%", "")));
                         #endregion
 
                         #region Kompetensi Profesional
@@ -1460,7 +1460,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.Score = obj[25];
                         tp.ScoreInPercentage = obj[26];
                         tp.Mutu = obj[27];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(25).Take(2).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(25).Take(2).Select(x => x.Replace("%", "")));
                         #endregion
                         #endregion
 
@@ -1490,7 +1490,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.SympathyScore = obj[50];
                         tp.PersonalityAverage = obj[51];
                         tp.PersonalityResult = obj[52];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(39).Take(12).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(39).Take(12).Select(x => x.Replace("%", "")));
                         #endregion
 
                         #region Aspek Pedagogik
@@ -1506,7 +1506,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.AnswerQuestionScore = obj[63];
                         tp.PedagogikSiswaAverage = obj[64];
                         tp.PedagogikSiswaResult = obj[65];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(54).Take(10).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(54).Take(10).Select(x => x.Replace("%", "")));
                         #endregion
 
                         #region Kompetensi Profesional
@@ -1532,7 +1532,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.ProCol10Score = obj[86];
                         tp.ProAverage = obj[87];
                         tp.ProResult = obj[88];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(67).Take(20).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(67).Take(20).Select(x => x.Replace("%", "")));
                         #endregion
 
                         #region Kompetensi Sosial
@@ -1549,15 +1549,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                         tp.SosColAverage = obj[100];
                         tp.SosColResult = obj[101];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(90).Take(10).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(90).Take(10).Select(x => x.Replace("%", "")));
                         #endregion
                         #endregion
 
                         #region OpenQuestion
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
                         #endregion
                     }
-
                     else if (cboGrade.Value.ToString() == Constant.SchoolTypeName.SMA)
                     {
                         #region Kompetensi Pedagogik & Profesional
@@ -1586,7 +1585,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.PedagogikScore = obj[20];
                         tp.PedagogikScoreInPercentage = obj[21];
                         tp.PedagogikResult = obj[22];
-                        tp.DataFromFile = String.Join(",", obj.Skip(2).Take(18).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile = String.Join(";", obj.Skip(2).Take(18).Select(x => x.Replace("%", "")));
                         #endregion
 
                         #region Kompetensi Profesional
@@ -1594,7 +1593,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.Score = obj[25];
                         tp.ScoreInPercentage = obj[26];
                         tp.Mutu = obj[27];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(25).Take(2).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(25).Take(2).Select(x => x.Replace("%", "")));
                         #endregion
                         #endregion
 
@@ -1624,7 +1623,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.SympathyScore = obj[50];
                         tp.PersonalityAverage = obj[51];
                         tp.PersonalityResult = obj[52];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(39).Take(12).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(39).Take(12).Select(x => x.Replace("%", "")));
                         #endregion
 
                         #region Aspek Pedagogik
@@ -1640,7 +1639,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.AnswerQuestionScore = obj[63];
                         tp.PedagogikSiswaAverage = obj[64];
                         tp.PedagogikSiswaResult = obj[65];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(54).Take(10).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(54).Take(10).Select(x => x.Replace("%", "")));
                         #endregion
 
                         #region Kompetensi Profesional
@@ -1666,7 +1665,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tp.ProCol10Score = obj[86];
                         tp.ProAverage = obj[87];
                         tp.ProResult = obj[88];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(67).Take(20).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(67).Take(20).Select(x => x.Replace("%", "")));
                         #endregion
 
                         #region Kompetensi Sosial
@@ -1683,24 +1682,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                         tp.SosColAverage = obj[100];
                         tp.SosColResult = obj[101];
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(90).Take(10).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(90).Take(10).Select(x => x.Replace("%", "")));
                         #endregion
                         #endregion
 
                         #region OpenQuestion
-                        tp.DataFromFile += "," + String.Join(",", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
                         #endregion
                     }
                     lstTp.Add(tp);
                 }
-            }
-            catch (Exception ex)
-            {
-                String errMessage = ex.Message;
-            }
-            finally
-            {
-
             }
         }
         public void OnUploadAddRecord(IDbContext ctx, ref int TransactionID)
@@ -1719,12 +1710,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ttpdt.TransactionID = TransactionID;
                 ttpdt.TeacherID = tch.FirstOrDefault(x => x.TeacherCode == tp.NIK.ToString()).TeacherID;
                 ttpdt.PersonalityTypeID = lstPersonType.FirstOrDefault(x => x.PersonalityTypeName.Contains(tp.Talent)).PersonalityTypeID;
-                ttpdt.IQScore = Convert.ToInt32(tp.IQ);
-                ttpdt.DScore = Convert.ToInt32(tp.Drive);
-                ttpdt.KScore = Convert.ToInt32(tp.Komunikasi);
-                ttpdt.LScore = Convert.ToInt32(tp.Loyalitas);
-                ttpdt.TScore = Convert.ToInt32(tp.Teliti);
-                ttpdt.KonsScoreInPercentage = Convert.ToInt32(Convert.ToDecimal(tp.Konsistensi.Replace("%", "")));
+                ttpdt.IQScore = Convert.ToInt32(tp.IQ != ""? tp.IQ : "0");
+                ttpdt.DScore = Convert.ToInt32(tp.Drive != "" ? tp.IQ : "0");
+                ttpdt.KScore = Convert.ToInt32(tp.Komunikasi != "" ? tp.Komunikasi : "0");
+                ttpdt.LScore = Convert.ToInt32(tp.Loyalitas != "" ? tp.Loyalitas : "0");
+                ttpdt.TScore = Convert.ToInt32(tp.Teliti != "" ? tp.Teliti : "0");
+                String konsistensi = tp.Konsistensi.Replace("%", "");
+                ttpdt.KonsScoreInPercentage = Convert.ToInt32(Convert.ToDecimal(konsistensi != "" ? konsistensi : "0"));
                 ttpdt.Remarks = "";
                 ttpdt.GCTeacherDetailStatus = Constant.TransactionStatus.OPEN;
                 ttpdt.CreatedBy = AppSession.UserLogin.UserID;
@@ -1732,7 +1724,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 Int32 DtID = BusinessLayer.GetTransTeacherProfileDtMaxID(ctx);
                 List<TeacherProfileItem> LstTeacherProfileItem = BusinessLayer.GetTeacherProfileItemList(String.Format("TeacherProfileGroupID IN (SELECT TeacherProfileGroupID FROM SchoolTypeTeacherProfileGroup WHERE GCSchoolType = '{0}') AND IsDeleted = 0 ORDER BY TeacherProfileGroupID ASC,DisplayOrder ASC", cboGrade.Value), ctx);
-                String[] temp = tp.DataFromFile.Split(',');
+                String[] temp = tp.DataFromFile.Split(';');
                 int i = 0;
                 List<Int32> lstGroupID = LstTeacherProfileItem.GroupBy(x => x.TeacherProfileGroupID).Select(x => x.Key).ToList();
 

@@ -21,7 +21,7 @@ namespace CodeX.Muses.Web.Finance.Report
         
         public override void Bind(string filterExpression, string[] param)
         {
-            List<vARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("ARInvoiceID = {0}",param[0]));
+            List<vARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("ARInvoiceID IN ({0})",param[0]));
             Int32 id = lstARInvoiceDt[0].StudentID;
 
             vStudent student = BusinessLayer.GetvStudentList(String.Format("StudentID = {0}",id))[0];

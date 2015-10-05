@@ -67,6 +67,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                         text = text.Replace("{TerminatedDate}", emp.TerminatedDate.ToString(Constant.FormatString.DATE_FORMAT));
                     else
                         text = text.Replace("{TerminatedDate}", "-");
+                    text = text.Replace("{EmployeeStatus}", emp.EmployeeStatus);
+                    text = text.Replace("{NIK}", emp.EmployeeCode);
                     divEmploymentStatus.InnerHtml = text;
                 }
                 else 

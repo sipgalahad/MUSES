@@ -144,6 +144,14 @@
             openUserControlPopup(url, arInvoiceID, 'Detail Information', 700, 550);
         });
 
+        $('.lblPrint.lblLink').live('click', function () {
+            $tr = $(this).closest('tr');
+            var arInvoiceID = $tr.find('#hdnLstARInvoiceID').val();
+            openReportViewer("FN-00001", arInvoiceID);
+            //var url = ResolveUrl("~/Program/Finance/StudentBillInformation/StudentBillInformationDtCtl.ascx");
+            //openUserControlPopup(url, arInvoiceID, 'Detail Information', 700, 550);
+        });
+
     </script>
     <input type="hidden" value="" id="hdnFilterExpressionQuickSearch" runat="server" />
     <div>
@@ -224,10 +232,15 @@
                                                 <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                                 <asp:BoundField DataField="StudentCode" HeaderText="No. Siswa" HeaderStyle-Width="120px" />
                                                 <asp:BoundField DataField="StudentName" HeaderText="Siswa" />
-                                                <asp:BoundField DataField="TotalClaimedAmount" HeaderText="Tagihan" ItemStyle-CssClass="lblDetail lblLink" DataFormatString="{0:N}" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
-                                                <asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Tagihan" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" >
                                                     <ItemTemplate>
+                                                        <label class='<%#Convert.ToDecimal(Eval("TotalClaimedAmount")) > 0 ? "lblDetail lblLink" : "" %>'><%#Eval("TotalClaimedAmount", "{0:N}")%></label>
                                                         <input type="hidden" id="hdnLstARInvoiceID" value="<%#Eval("lstARInvoiceID") %>" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderStyle-Width="70px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
+                                                    <ItemTemplate>
+                                                        <%#Convert.ToDecimal(Eval("TotalClaimedAmount")) > 0 ? "<label class='lblPrint lblLink'>Print</label>" : ""%>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>

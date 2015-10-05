@@ -81,7 +81,7 @@ namespace CodeX.Muses.Web.Information.Program
             //    pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             //}
 
-            List<vARInvoiceHd> lstEntity = BusinessLayer.GetvARInvoiceHdList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vARInvoiceHd> lstEntity = BusinessLayer.GetvARInvoiceHdList(filterExpression);
             var lstObject = (from grp in lstEntity
                              group grp by new { grp.StudentID, grp.StudentCode, grp.StudentName } into NewGrp
                              select new

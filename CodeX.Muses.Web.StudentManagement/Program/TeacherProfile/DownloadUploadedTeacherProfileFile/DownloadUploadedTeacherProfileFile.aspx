@@ -38,8 +38,13 @@
             }
 
             //#region Transaction No
+            function getFilterExpression() {
+                return "<%=GetFilterExpression() %>";
+            }
+
             $('#lblTransactionNo.lblLink').click(function () {
-                openSearchDialog('transteacherprofilehd', "", function (value) {
+                var filterExpression = getFilterExpression();
+                openSearchDialog('transteacherprofilehd', filterExpression, function (value) {
                     $('#<%=txtTransactionNo.ClientID %>').val(value);
                     onTxtTransactionNoChanged(value);
                 });
