@@ -26,16 +26,25 @@ namespace CodeX.Muses.Web.Information.Program
             hdnMonth.Value = lstParam[1];
             hdnYear.Value = lstParam[2];
             hdnType.Value = lstParam[3];
+            hdnStudentFeeCompTypeID.Value = lstParam[4];
 
-            if (hdnType.Value == "thismonth")
+            if (hdnType.Value == "ThisMonth")
                 txtHeaderText.Text = "Bulan Ini";
+            else if (hdnType.Value == "DownPayment")
+                txtHeaderText.Text = "Uang Muka";
+            else if (hdnType.Value == "ProspectiveStudent")
+                txtHeaderText.Text = "Siswa Baru";
+            else if (hdnType.Value == "ARStudent")
+                txtHeaderText.Text = "Piutang";
+
+            txtHeaderText2.Text = BusinessLayer.GetStudentFeeCompType(Convert.ToInt32(hdnStudentFeeCompTypeID.Value)).StudentFeeCompTypeName;
 
             BindGridView(1, true, ref PageCount);
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            List<GetStudentReceiveSummaryDt> lstEntity = BusinessLayer.GetStudentReceiveSummaryDt(hdnSiteID.Value, Convert.ToInt32(hdnYear.Value), Convert.ToInt32(hdnMonth.Value), hdnType.Value);
+            List<GetStudentReceiveSummaryDt> lstEntity = BusinessLayer.GetStudentReceiveSummaryDt(hdnSiteID.Value, Convert.ToInt32(hdnYear.Value), Convert.ToInt32(hdnMonth.Value), hdnType.Value, Convert.ToInt32(hdnStudentFeeCompTypeID.Value));
             grdPopupView.DataSource = lstEntity;
             grdPopupView.DataBind();
         }

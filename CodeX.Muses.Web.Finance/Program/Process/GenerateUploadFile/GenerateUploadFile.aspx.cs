@@ -273,7 +273,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     #region Download the Text file.
                     Response.Clear();
                     Response.Buffer = true;
-                    Response.AddHeader("content-disposition", string.Format("attachment;filename=TagihanSiswa_{0}_{1}.txt", hdnSiteName.Value.Replace(" ",""), DateTime.Now.ToString("yyyyMMdd")));
+                    Response.AddHeader("content-disposition", string.Format("attachment;filename=TagihanSiswa_{0}_{1}.txt", Request.Form[hdnSiteName.UniqueID].Replace(" ",""), DateTime.Now.ToString("yyyyMMdd")));
                     Response.Charset = "";
                     Response.ContentType = "application/text";
                     Response.Output.Write(txt);

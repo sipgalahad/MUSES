@@ -36,30 +36,34 @@
         $('.lblThisMonth').live('click', function () {
             $td = $(this).closest('td');
             var siteID = $td.find('.hdnSiteID').val();
-            openDetail(siteID, 'ThisMonth');
+            var studentFeeCompTypeID = $(this).closest('tr').find('.hdnStudentFeeCompTypeID').val();
+            openDetail(siteID, studentFeeCompTypeID, 'ThisMonth');
         });
 
         $('.lblDownPayment').live('click', function () {
             $td = $(this).closest('td');
             var siteID = $td.find('.hdnSiteID').val();
-            openDetail(siteID, 'DownPayment');
+            var studentFeeCompTypeID = $(this).closest('tr').find('.hdnStudentFeeCompTypeID').val();
+            openDetail(siteID, studentFeeCompTypeID, 'DownPayment');
         });
 
         $('.lblProspectiveStudent').live('click', function () {
             $td = $(this).closest('td');
             var siteID = $td.find('.hdnSiteID').val();
-            openDetail(siteID, 'ProspectiveStudent');
+            var studentFeeCompTypeID = $(this).closest('tr').find('.hdnStudentFeeCompTypeID').val();
+            openDetail(siteID, studentFeeCompTypeID, 'ProspectiveStudent');
         });
 
         $('.lblARStudent').live('click', function () {
             $td = $(this).closest('td');
             var siteID = $td.find('.hdnSiteID').val();
-            openDetail(siteID, 'ARStudent');
+            var studentFeeCompTypeID = $(this).closest('tr').find('.hdnStudentFeeCompTypeID').val();
+            openDetail(siteID, studentFeeCompTypeID, 'ARStudent');
         });
 
-        function openDetail(siteID, type) {
+        function openDetail(siteID, studentFeeCompTypeID, type) {
             var url = ResolveUrl("~/Program/Finance/StudentPaymentSummary/StudentPaymentSummaryInformationDtCtl.ascx");
-            var param = siteID + '|' + cboMonth.GetValue() + '|' + cboYear.GetValue() + '|' + type;
+            var param = siteID + '|' + cboMonth.GetValue() + '|' + cboYear.GetValue() + '|' + type + '|' + studentFeeCompTypeID;
             openUserControlPopup(url, param, 'Detail Information', 1200, 550);
         }
     </script>
@@ -108,7 +112,10 @@
                                     <ItemTemplate>
                                         <tr>
                                             <td align="center" rowspan="5" valign="top" style="width:60px"><b><%# Container.ItemIndex + 1 %></b></td>
-                                            <td valign="top"><b><%#Eval("StudentFeeCompTypeName")%></b></td>
+                                            <td valign="top">
+                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' />
+                                                <b><%#Eval("StudentFeeCompTypeName")%></b>
+                                            </td>
                                             <asp:Repeater ID="rptSiteDt1" runat="server">
                                                 <ItemTemplate>
                                                     <td align="right">&nbsp;</td>
@@ -117,7 +124,10 @@
                                             <td align="right">&nbsp;</td>
                                         </tr>
                                         <tr>
-                                            <td>Bulan Ini</td>
+                                            <td>
+                                                Bulan Ini                                                
+                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' />
+                                            </td>
                                             <asp:Repeater ID="rptSiteDt2" runat="server" OnItemDataBound="rptSiteDt2_ItemDataBound">
                                                 <ItemTemplate>
                                                     <td align="right">
@@ -129,7 +139,10 @@
                                             <td align="right" id="tdTotalThisMonth" runat="server"></td>
                                         </tr>
                                         <tr>
-                                            <td>Uang muka (bln yang akan datang)</td>
+                                            <td>
+                                                Uang muka (bln yang akan datang)                                             
+                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' />
+                                            </td>
                                             <asp:Repeater ID="rptSiteDt3" runat="server" OnItemDataBound="rptSiteDt3_ItemDataBound">
                                                 <ItemTemplate>
                                                     <td align="right">
@@ -141,7 +154,10 @@
                                             <td align="right" id="tdTotalDP" runat="server"></td>
                                         </tr>
                                         <tr>
-                                            <td>Siswa baru masuk</td>
+                                            <td>
+                                                Siswa baru masuk                                        
+                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' />
+                                            </td>
                                             <asp:Repeater ID="rptSiteDt4" runat="server" OnItemDataBound="rptSiteDt4_ItemDataBound">
                                                 <ItemTemplate>
                                                     <td align="right">
@@ -153,7 +169,10 @@
                                             <td align="right" id="tdTotalProspectiveStudent" runat="server"></td>
                                         </tr>
                                         <tr>
-                                            <td>Piutang</td>
+                                            <td>
+                                                Piutang                                     
+                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' />
+                                            </td>
                                             <asp:Repeater ID="rptSiteDt5" runat="server" OnItemDataBound="rptSiteDt5_ItemDataBound">
                                                 <ItemTemplate>
                                                     <td align="right">

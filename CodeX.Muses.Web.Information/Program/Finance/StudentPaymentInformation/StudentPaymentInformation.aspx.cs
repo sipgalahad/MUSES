@@ -151,9 +151,20 @@ namespace CodeX.Muses.Web.Information.Program
             rptView.DataSource = lstEntity;
             rptView.DataBind();
 
+
             HtmlGenericControl div = new HtmlGenericControl("DIV");
             HtmlGenericControl h4 = new HtmlGenericControl("h4");
             HtmlGenericControl h42 = new HtmlGenericControl("h4");
+
+            HtmlGenericControl h1Title = new HtmlGenericControl("h2");
+            h1Title.InnerHtml = "YAYASAN RICCI";
+            div.Controls.Add(h1Title);
+
+            HtmlGenericControl h2Title = new HtmlGenericControl("h2");
+            h2Title.InnerHtml = "BUKTI PENERIMAAN BANK MANDIRI a/c. 128-000-555-3-224";
+            div.Controls.Add(h2Title);
+
+
             h4.InnerHtml = String.Format("Tanggal : {0}", Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]).ToString(Constant.FormatString.DATE_FORMAT));
             h42.InnerHtml = String.Format("Unit : {0}", Request.Form[hdnSiteName.UniqueID]);
             div.Controls.Add(h4);

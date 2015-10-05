@@ -1217,7 +1217,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetStudentReceiveSummaryDt
-        public static List<GetStudentReceiveSummaryDt> GetStudentReceiveSummaryDt(String SiteID, Int32 year, Int32 month, String type)
+        public static List<GetStudentReceiveSummaryDt> GetStudentReceiveSummaryDt(String SiteID, Int32 year, Int32 month, String type, Int32 studentFeeCompTypeID)
         {
             List<GetStudentReceiveSummaryDt> result = new List<GetStudentReceiveSummaryDt>();
             IDbContext ctx = DbFactory.Configure();
@@ -1231,6 +1231,7 @@ namespace CodeX.Data.Model
                 ctx.Add("Month", month);
                 ctx.Add("Year", year);
                 ctx.Add("Type", type);
+                ctx.Add("StudentFeeCompTypeID", studentFeeCompTypeID);
                 //Get DataReader
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())

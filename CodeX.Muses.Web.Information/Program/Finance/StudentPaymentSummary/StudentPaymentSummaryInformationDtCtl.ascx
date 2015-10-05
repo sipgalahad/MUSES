@@ -35,6 +35,7 @@
 <input type="hidden" id="hdnMonth" runat="server" />
 <input type="hidden" id="hdnYear" runat="server" />
 <input type="hidden" id="hdnType" runat="server" />
+<input type="hidden" id="hdnStudentFeeCompTypeID" runat="server" />
 
 <table class="tblContentArea">
     <tr>
@@ -47,6 +48,10 @@
                 <tr>
                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe")%></label></td>
                     <td><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="100%" runat="server" /></td>
+                </tr>  
+                <tr>
+                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Pembayaran")%></label></td>
+                    <td><asp:TextBox ID="txtHeaderText2" ReadOnly="true" Width="100%" runat="server" /></td>
                 </tr>  
             </table>
 

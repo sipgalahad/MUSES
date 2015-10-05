@@ -58,6 +58,15 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnType;
         
         /// <summary>
+        /// hdnStudentFeeCompTypeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStudentFeeCompTypeID;
+        
+        /// <summary>
         /// txtHeaderText control.
         /// </summary>
         /// <remarks>
@@ -65,6 +74,15 @@ namespace CodeX.Muses.Web.Information.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtHeaderText;
+        
+        /// <summary>
+        /// txtHeaderText2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtHeaderText2;
         
         /// <summary>
         /// cbpPopupView control.
