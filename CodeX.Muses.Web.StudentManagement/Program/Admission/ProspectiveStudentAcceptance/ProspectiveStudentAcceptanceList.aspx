@@ -89,7 +89,7 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="RegistrationID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="RegistrationNo" HeaderText="No Pendaftaran" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="ProspectiveStudentCode" HeaderText="NBS" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="ProspectiveStudentName" HeaderText="Nama Calon Siswa"/>
                                 <asp:BoundField DataField="TotalClaimedAmount" HeaderText="Total Tagihan" HeaderStyle-Width="150px" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:BoundField DataField="TotalPaymentAmount" HeaderText="Total Bayar" DataFormatString="{0:N}" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />

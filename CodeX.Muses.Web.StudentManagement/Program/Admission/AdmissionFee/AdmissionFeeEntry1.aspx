@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPPeriodAdmissionPageTrx.master" AutoEventWireup="true" 
-    CodeBehind="AdmissionFeeEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.AdmissionFeeEntry" %>
+    CodeBehind="AdmissionFeeEntry1.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.AdmissionFeeEntry1" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -138,7 +138,7 @@
                 $tbl.find('tr.trDetail').each(function () {
                     totalPayment += parseFloat($(this).find('.txtTransactionAmount').attr('hiddenVal'));
                 });
-                $(this).val(totalPayment).trigger('changeValue');
+                $tbl.find('.txtTotalTransactionAmount').val(totalPayment).trigger('changeValue');
             });
         }
 
@@ -339,7 +339,6 @@
                 totalPayment += parseFloat($(this).find('.txtTransactionAmount').attr('hiddenVal'));
             });
             $tbl.find('.txtTotalTransactionAmount').val(totalPayment).trigger('changeValue');
-            calculateTotal();
         });
         $('.txtTransactionAmount').live('change', function () {
             $(this).blur();
@@ -357,7 +356,6 @@
                 totalPayment += parseFloat($(this).find('.txtTransactionAmount').attr('hiddenVal'));
             });
             $tbl.find('.txtTotalTransactionAmount').val(totalPayment).trigger('changeValue');
-            calculateTotal();
         });
         //#endregion
 
@@ -402,42 +400,6 @@
             }
         }
         //#endregion
-
-
-
-        $('#lblEntryPopupAddData').live('click', function () {
-            $tr = $(this).closest('tr').find('.tblView tr:eq(1)');
-            var className = $tr.attr('class').split(' ')[1];
-            addEntryDt(className);
-        });
-
-        $('.divDetailDelete').live('click', function () {
-            $row1 = $(this).closest('tr').parent().parent().parent();
-            $row = $(this).closest('tr');
-            $row.remove();
-        });
-
-        function addEntryDt(className) {
-            var rowCount = parseInt($tr.closest('.tblView').find('.' + className).last().find('td:eq(1)').html()) + 1;
-            $newTr = $($('#tmplEntityDt').html());
-            $newTr.addClass(className);
-            $newTr.insertAfter($('.tblView').find('.' + className).last());
-
-            var keyField = className.replace("trDetail", "");
-            var text = $newTr.html();
-            text = text.replace('{DisplayOrder}', rowCount);
-            text = text.replace('{KeyField}', keyField);
-            text = text.replace('{KeyField}', keyField);
-            $newTr.html(text);
-
-            var count = 1;
-            $('.txtDueDate').each(function () {
-                $(this).attr('placeholder', 'dd-MM-yyyy');
-                $(this).attr('id', 'txtDueDate' + count);
-                setDatePickerElement($(this));
-                count++;
-            });
-        }
     </script>
     <style type="text/css">
         .grdStudent th b        { color: Red; }
@@ -449,16 +411,6 @@
     <input type="hidden" id="hdnSaveValue" value="0" runat="server" />
     <input type="hidden" id="hdnLstScholarshipID" value="" runat="server" />
     <div>
-        <script id="tmplEntityDt" type="text/x-jquery-tmpl">
-            <tr class="trDetail">
-                <td class="keyField">0</td>
-                <td align="center">{DisplayOrder}</td>
-                <td align="center"><input type="text" validationgroup="mpEntry" id="txtDueDate" class="txtDueDate datepicker required txtDueDate{KeyField}" value='' style="width:120px" /></td>
-                <td align="center"><input type="text" validationgroup="mpEntry" class="txtTransactionAmountInPercentage number required txtTransactionAmountInPercentage{KeyField}" style="width:90%" value='0' /></td>
-                <td align="center"><input type="text" validationgroup="mpEntry" class="txtTransactionAmount txtCurrency required txtTransactionAmount{KeyField}" style="width:90%" value='0' /></td>
-                <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
-            </tr>
-        </script>
         <div style="float:right">            
             <table id="tblInfoOutstandingTransfer" runat="server" style="display:none;">
                 <tr>
@@ -607,24 +559,20 @@
                                                             <col style="width:200px"/>
                                                             <col style="width:150px" />
                                                             <col style="width:150px" />
-                                                            <col style="width:17px" />
                                                         </colgroup>
                                                         <tr>
                                                             <th class="thCenter"><%=GetLabel("Pembayaran Ke") %></th>
                                                             <th class="thCenter"><%=GetLabel("Jatuh Tempo") %></th>
                                                             <th class="thCenter"><%=GetLabel("Jumlah Bayar [%]") %></th>
                                                             <th class="thCenter"><%=GetLabel("Jumlah Bayar") %></th>
-                                                            <th>&nbsp;</th>
                                                         </tr>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <tr class="trDetail trDetail<%# DataBinder.Eval(Container.Parent.Parent.Parent, "DataItem.StudentFeeCompTypeID")%> ">
-                                                        <td class="keyField"><%#:Eval("StudentFeeDtID") %></td>
+                                                    <tr class="trDetail">
                                                         <td align="center"><%#Eval("DisplayOrder") %></td>
                                                         <td align="center"><input type="text" class="txtDueDate datepicker required" validationgroup="mpEntry" value='<%#Eval("DueDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
                                                         <td align="center"><input type="text" class="txtTransactionAmountInPercentage number required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("TransactionAmount") %>' /></td>
                                                         <td align="center"><input type="text" class="txtTransactionAmount txtCurrency required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("LineAmount") %>' /></td>
-                                                        <td><div <%#(Container.ItemIndex + 1).ToString() != "1" ? "style='float:right;'" : "style='display:none;'" %>  class="divDeleteEntryDt divDetailDelete"></div></td>
                                                     </tr>
                                                 </ItemTemplate>
                                                 <FooterTemplate>
@@ -633,12 +581,9 @@
                                                             <td>&nbsp;</td>
                                                             <td align="center"><input type="text" class="txtTotalTransactionAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
                                                         </tr>
+                                                    </table>
                                                 </FooterTemplate>
                                             </asp:Repeater>
-                                            </table>
-                                            <div style="width:100%;text-align:center" id="divContainerAddData" runat="server">
-                                                <span class="lblLink" id="lblEntryPopupAddData"><%= GetLabel("Tambah Data")%></span>
-                                            </div>
                                         </div>
                                         <br />
                                     </td>

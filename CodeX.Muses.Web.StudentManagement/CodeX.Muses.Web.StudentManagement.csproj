@@ -112,6 +112,7 @@
     <Content Include="MasterPage\SchoolPeriodBannerDtCtl.ascx" />
     <Content Include="MasterPage\SubjectBannerDtCtl.ascx" />
     <Content Include="Program\Admission\AdmissionFee\AdmissionFeeEntry.aspx" />
+    <Content Include="Program\Admission\AdmissionFee\AdmissionFeeEntry1.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentTrusteeDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
@@ -570,6 +571,13 @@
     </Compile>
     <Compile Include="Program\Admission\AdmissionFee\AdmissionFeeEntry.aspx.designer.cs">
       <DependentUpon>AdmissionFeeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Admission\AdmissionFee\AdmissionFeeEntry1.aspx.cs">
+      <DependentUpon>AdmissionFeeEntry1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Admission\AdmissionFee\AdmissionFeeEntry1.aspx.designer.cs">
+      <DependentUpon>AdmissionFeeEntry1.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentTrusteeDtEntry.aspx.cs">
       <DependentUpon>ProspectiveStudentTrusteeDtEntry.aspx</DependentUpon>

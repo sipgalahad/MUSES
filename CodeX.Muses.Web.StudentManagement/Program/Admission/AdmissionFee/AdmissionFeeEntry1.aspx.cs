@@ -15,7 +15,7 @@ using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class AdmissionFeeEntry : BasePageTrx
+    public partial class AdmissionFeeEntry1 : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
@@ -167,10 +167,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     }
                     totalPayment = totalPayment / paymentDt.NoOfPayment;
                     totalPaymentInPercentage = totalPaymentInPercentage / paymentDt.NoOfPayment;
-                    int count = paymentDt.NoOfPayment;
-                    if (lstStudentFeeDt1.Count > 0)
-                        count = lstStudentFeeDt1.Count;
-                    for (int i = 0; i < count; ++i)
+                    for (int i = 0; i < paymentDt.NoOfPayment; ++i)
                     {
                         decimal tempDiscountAmount = 0;
                         vStudentFeeDt entityDt = lstStudentFeeDt1.FirstOrDefault(p => p.DisplayOrder == ctr);
@@ -444,7 +441,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entityProspectiveStudent.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityProspectiveStudentDao.Update(entityProspectiveStudent);
                     }
-                    BusinessLayer.GenerateARProspectiveStudent(AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID, registrationID, ctx);
+                    //BusinessLayer.GenerateARProspectiveStudent(AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID, registrationID, ctx);
                 }
                 ctx.CommitTransaction();
             }
