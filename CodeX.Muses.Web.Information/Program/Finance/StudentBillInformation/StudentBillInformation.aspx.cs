@@ -57,45 +57,47 @@ namespace CodeX.Muses.Web.Information.Program
 
         private string GetFilterExpression()
         {
-            //String DueDate = String.Format("{0}{1}", cboYear.Value, Convert.ToInt32(cboMonth.Value).ToString("00"));
-            String filterExpression = String.Format("StudentID IN (SELECT StudentID FROM Student WHERE SiteID = '{0}')", cboSite.Value);
-            if (chkNotPaid.Checked)
-                filterExpression += String.Format(" AND GCTransactionStatus NOT IN ('{0}','{1}')", Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
-            else
-                filterExpression += String.Format(" AND GCTransactionStatus != '{0}'", Constant.TransactionStatus.VOID);
-            if(tacSchoolClass.Value != "")
-                filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {0})", tacSchoolClass.Value);
+            String filterExpression = String.Format("SiteID = '{0}' AND GCStudentStatus = '{1}' AND IsDeleted = 0", cboSite.Value, Constant.StudentStatus.ACTIVE);
+            if (tacSchoolClass.Value != "")
+                filterExpression += string.Format(" AND SchoolClassID = {0}", tacSchoolClass.Value);
             if (hdnFilterExpressionQuickSearch.Value != "")
                 filterExpression += string.Format(" AND {0}", hdnFilterExpressionQuickSearch.Value);
-            
+            if (chkNotPaid.Checked)
+                filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ARInvoiceHd WHERE StudentID IS NOT NULL AND GCTransactionStatus NOT IN ('{0}','{1}'))", Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
+
             return filterExpression;
         }
 
+        List<ARInvoiceHd> lstARInvoiceHd = null;
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = GetFilterExpression();
-            
-            //if (isCountPageCount)
-            //{
-            //    rowCount = BusinessLayer.GetvARInvoiceHdRowCount(filterExpression);
-            //    pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
-            //}
 
-            List<vARInvoiceHd> lstEntity = BusinessLayer.GetvARInvoiceHdList(filterExpression);
-            var lstObject = (from grp in lstEntity
-                             group grp by new { grp.StudentID, grp.StudentCode, grp.StudentName } into NewGrp
-                             select new
-                             {
-                                 StudentID = NewGrp.Key.StudentID,
-                                 StudentCode = NewGrp.Key.StudentCode,
-                                 StudentName = NewGrp.Key.StudentName,
-                                 TotalClaimedAmount = NewGrp.Sum(x => x.GCTransactionStatus == Constant.TransactionStatus.CLOSED ? 0 : x.TotalClaimedAmount),
-                                 lstARInvoiceID = String.Join(",", NewGrp.Select(x => x.ARInvoiceID))
-                             }).ToList();
+            if (isCountPageCount)
+            {
+                rowCount = BusinessLayer.GetvStudentRowCount(filterExpression);
+                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
+            }
 
-            grdView.DataSource = lstObject;
+            List<vStudent> lstEntity = BusinessLayer.GetvStudentList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "VirtualAccountNo");
+            if (lstEntity.Count > 0)
+            {
+                string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
+                lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID IN ({0}) AND GCTransactionStatus NOT IN ('{1}','{2}')", lstStudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID));
+            }
+            grdView.DataSource = lstEntity;
             grdView.DataBind();
+        }
 
+        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vStudent entity = (vStudent)e.Row.DataItem;
+                Decimal totalClaimedAmount = lstARInvoiceHd.Where(p => p.StudentID == entity.StudentID).Sum(p => p.TotalClaimedAmount);
+                HtmlGenericControl lblClaimedAmount = (HtmlGenericControl)e.Row.FindControl("lblClaimedAmount");
+                lblClaimedAmount.InnerHtml = totalClaimedAmount.ToString("N");
+            }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

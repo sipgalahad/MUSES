@@ -20,29 +20,19 @@ namespace CodeX.Muses.Web.Information.Program
         protected int PageCount = 1;
         protected int CurrPage = 1;
 
-        //private ARProspectiveStudentInformation DetailPage
-        //{
-        //    get { return (ARProspectiveStudentInformation)Page; }
-        //}
-
         public override void InitializeDataControl(string param)
         {
-            hdnARInvoiceID.Value = param;
-            //String[] lstParam = param.Split('|');
-            //hdnProspectiveStudentID.Value = lstParam[0];
+            hdnStudentID.Value = param;
 
-            //ProspectiveStudent im = BusinessLayer.GetProspectiveStudent(Convert.ToInt32(hdnProspectiveStudentID.Value));
-            //txtItemName.Text = string.Format("{0} - {1}", im.ProspectiveStudentCode, im.ProspectiveStudentName);
-
-            //hdnDateFrom.Value = lstParam[1];
-            //hdnDateTo.Value = lstParam[2];
+            Student entity = BusinessLayer.GetStudent(Convert.ToInt32(hdnStudentID.Value));
+            txtHeaderText.Text = string.Format("{0} - {1}", entity.VirtualAccountNo, entity.StudentName);
 
             BindGridView(1, true, ref PageCount);
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            string filterExpression = String.Format("ARInvoiceID IN ({0}) AND GCTransactionStatus NOT IN ('{1}','{2}')",hdnARInvoiceID.Value, Constant.TransactionStatus.VOID, Constant.TransactionStatus.CLOSED);
+            string filterExpression = String.Format("StudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}')", hdnStudentID.Value, Constant.TransactionStatus.VOID, Constant.TransactionStatus.CLOSED);
             if (isCountPageCount)
             {
                 int rowCount = BusinessLayer.GetvARInvoiceDtRowCount(filterExpression);
@@ -50,7 +40,6 @@ namespace CodeX.Muses.Web.Information.Program
             }
             
             List<vARInvoiceDt> lstEntity = BusinessLayer.GetvARInvoiceDtList(filterExpression);
-            txtItemName.Text = lstEntity[0].StudentName;
             grdPopupView.DataSource = lstEntity;
             grdPopupView.DataBind();
         }
@@ -81,19 +70,6 @@ namespace CodeX.Muses.Web.Information.Program
         public override void SetToolbarVisibility(ref bool IsAllowExport)
         {
             IsAllowExport = true;
-        }        
-
-        //public override Control OnGetExportControl()
-        //{
-        //    List<GetARProspectiveStudentInformationDt> lstEntity = BusinessLayer.GetARProspectiveStudentInformationDtList(DetailPage.GetMovementDate(), Convert.ToInt32(hdnProspectiveStudentID.Value), Convert.ToInt32(hdnDateFrom.Value), Convert.ToInt32(hdnDateTo.Value));
-        //    grdPopupView.DataSource = lstEntity;
-        //    grdPopupView.DataBind();
-        //    HtmlGenericControl div = new HtmlGenericControl("DIV");
-        //    HtmlGenericControl h4 = new HtmlGenericControl("h4");
-        //    h4.InnerHtml = String.Format("Siswa : {0}", Request.Form[txtItemName.UniqueID]);
-        //    div.Controls.Add(h4);
-        //    div.Controls.Add(grdPopupView);
-        //    return div;
-        //}
+        }    
     }
 }

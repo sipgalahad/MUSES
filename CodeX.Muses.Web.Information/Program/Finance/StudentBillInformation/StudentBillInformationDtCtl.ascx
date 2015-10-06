@@ -30,7 +30,7 @@
     //#endregion
 
 </script>
-<input type="hidden" id="hdnARInvoiceID" runat="server" />
+<input type="hidden" id="hdnStudentID" runat="server" />
 
 <table class="tblContentArea">
     <tr>
@@ -42,7 +42,7 @@
                 </colgroup>
                 <tr>
                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Siswa")%></label></td>
-                    <td><asp:TextBox ID="txtItemName" ReadOnly="true" Width="100%" runat="server" /></td>
+                    <td><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="100%" runat="server" /></td>
                 </tr>  
             </table>
 

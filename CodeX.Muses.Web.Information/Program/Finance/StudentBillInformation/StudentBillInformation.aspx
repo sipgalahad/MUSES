@@ -139,17 +139,15 @@
 
         $('.lblDetail.lblLink').live('click', function () {
             $tr = $(this).closest('tr');
-            var arInvoiceID = $tr.find('#hdnLstARInvoiceID').val();
+            var studentID = $tr.find('.keyField').html();
             var url = ResolveUrl("~/Program/Finance/StudentBillInformation/StudentBillInformationDtCtl.ascx");
-            openUserControlPopup(url, arInvoiceID, 'Detail Information', 700, 550);
+            openUserControlPopup(url, studentID, 'Detail Information', 700, 550);
         });
 
         $('.lblPrint.lblLink').live('click', function () {
             $tr = $(this).closest('tr');
-            var arInvoiceID = $tr.find('#hdnLstARInvoiceID').val();
-            openReportViewer("FN-00001", arInvoiceID);
-            //var url = ResolveUrl("~/Program/Finance/StudentBillInformation/StudentBillInformationDtCtl.ascx");
-            //openUserControlPopup(url, arInvoiceID, 'Detail Information', 700, 550);
+            var studentID = $tr.find('.keyField').html();
+            openReportViewer("FN-00001", studentID);
         });
 
     </script>
@@ -227,20 +225,19 @@
                                 <dx:PanelContent ID="PanelContent1" runat="server">
                                     <input type="hidden" value="" id="hdnMovementDate" runat="server" />
                                     <asp:Panel runat="server" ID="pnlGridView" CssClass="pnlContainerGrid" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;height:380px;overflow-y:auto;">
-                                        <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                        <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
                                             <Columns>
                                                 <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                                 <asp:BoundField DataField="StudentCode" HeaderText="No. Siswa" HeaderStyle-Width="120px" />
                                                 <asp:BoundField DataField="StudentName" HeaderText="Siswa" />
                                                 <asp:TemplateField HeaderText="Tagihan" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" >
                                                     <ItemTemplate>
-                                                        <label class='<%#Convert.ToDecimal(Eval("TotalClaimedAmount")) > 0 ? "lblDetail lblLink" : "" %>'><%#Eval("TotalClaimedAmount", "{0:N}")%></label>
-                                                        <input type="hidden" id="hdnLstARInvoiceID" value="<%#Eval("lstARInvoiceID") %>" />
+                                                        <label class='lblDetail lblLink' id="lblClaimedAmount" runat="server"></label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderStyle-Width="70px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
                                                     <ItemTemplate>
-                                                        <%#Convert.ToDecimal(Eval("TotalClaimedAmount")) > 0 ? "<label class='lblPrint lblLink'>Print</label>" : ""%>
+                                                        <label class='lblPrint lblLink'>Print</label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
