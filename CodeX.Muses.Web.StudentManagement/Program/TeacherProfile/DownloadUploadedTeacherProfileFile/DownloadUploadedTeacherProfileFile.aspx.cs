@@ -1742,7 +1742,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     else
                     {
                         if (temp[i] != "")
-                            ttpItem.Score = Convert.ToDecimal(temp[i]);
+                            ttpItem.Score = Convert.ToDecimal(temp[i].Replace(',','.'));
                         else
                             ttpItem.Score = 0;
 
@@ -1750,7 +1750,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         {
                             if (temp[i + 1] != "")
                             {
-                                ttpItem.ScoreInPercentage = Convert.ToDecimal(temp[i + 1]);
+                                ttpItem.ScoreInPercentage = Convert.ToDecimal(temp[i + 1].Replace(',', '.'));
                                 ttpItem.QualityPercentage = ttpItem.Score / ttpItem.ScoreInPercentage * 100;
                             }
                             else
