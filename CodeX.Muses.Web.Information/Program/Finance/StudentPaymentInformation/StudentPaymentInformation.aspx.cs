@@ -79,10 +79,18 @@ namespace CodeX.Muses.Web.Information.Program
             return filterExpression;
         }
 
+        List<ARReceivingDt> lstEntityDt = null;
         private void BindGridView()
         {
             string filterExpression = GetFilterExpression();
             List<vARReceivingHd> lstEntity = BusinessLayer.GetvARReceivingHdList(filterExpression);
+            
+            if (lstEntity.Count > 0)
+            {
+                string lstARReceivingID = string.Join(",", lstEntity.Select(p => p.ARReceivingID).ToList());
+                lstEntityDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingDt IN ({0}) AND GCARPaymentMethod = '{1}'", lstARReceivingID, Constant.PaymentMethod.DOWN_PAYMENT_RETURN));
+            }
+
             rptView.DataSource = lstEntity;
             rptView.DataBind();
 
@@ -100,6 +108,8 @@ namespace CodeX.Muses.Web.Information.Program
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 vARReceivingHd entity = e.Item.DataItem as vARReceivingHd;
+                List<ARReceivingDt> lstARReceivingDt = lstEntityDt.Where(p => p.ARReceivingID == entity.ARReceivingID).ToList();
+
                 HtmlGenericControl divPemb = e.Item.FindControl("divPemb") as HtmlGenericControl;
                 HtmlGenericControl divSek = e.Item.FindControl("divUsek") as HtmlGenericControl;
                 HtmlGenericControl divKeg = e.Item.FindControl("divKeg") as HtmlGenericControl;
@@ -124,6 +134,9 @@ namespace CodeX.Muses.Web.Information.Program
                         case "3": keg += Convert.ToDecimal(temp[1]); break;
                     }
                 }
+
+                usek -= lstARReceivingDt.Sum(p => p.PaymentAmount);
+
                 totalUangPemb += pemb;
                 totalUangSek += usek;
                 totalUangKeg += keg;

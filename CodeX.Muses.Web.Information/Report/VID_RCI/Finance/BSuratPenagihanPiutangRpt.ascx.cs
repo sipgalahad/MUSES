@@ -21,15 +21,8 @@ namespace CodeX.Muses.Web.Information.Report
         
         public override void Bind(string filterExpression, string[] param)
         {
-            List<vARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("ARInvoiceID IN ({0})",param[0]));
+            List<vARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("StudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}')", param[0], Constant.TransactionStatus.VOID, Constant.TransactionStatus.CLOSED));
             Int32 id = lstARInvoiceDt[0].StudentID;
-
-            //vStudent student = BusinessLayer.GetvStudentList(String.Format("StudentID = {0}",id))[0];
-            //String text = divStudent.InnerHtml;
-            //text = text.Replace("{StudentName}", student.Name);
-            //text = text.Replace("{Grade}", student.Grade);
-            //text = text.Replace("{Class}", student.SchoolClassName);
-            //divStudent.InnerHtml = text;
 
             var lstObject = lstARInvoiceDt.GroupBy(x => x.GCAdmissionPaymentPeriod).Select(
                     y => new { GroupName = y.Key,
@@ -37,27 +30,10 @@ namespace CodeX.Muses.Web.Information.Report
                     Remarks = String.Join("; ", y.ToList().Where(x => x.StudentFeeCompTypeName == y.Key).Select(g => g.cfStudentFeeCompTypeName))});
 
             String text = divPiutang.InnerHtml;
-            text = text.Replace("{Usek}", lstObject.FirstOrDefault(x => x.GroupName == Constant.AdmissionPaymentPeriod.BULANAN).TotalAmount.ToString("N2"));
-            text = text.Replace("{Kegiatan}", lstObject.FirstOrDefault(x => x.GroupName == Constant.AdmissionPaymentPeriod.TAHUNAN).TotalAmount.ToString("N2"));
-            text = text.Replace("{Pembangunan}", lstObject.FirstOrDefault(x => x.GroupName == Constant.AdmissionPaymentPeriod.SEKALI_BAYAR).TotalAmount.ToString("N2"));
+            text = text.Replace("{Usek}", lstObject.Where(x => x.GroupName == Constant.AdmissionPaymentPeriod.BULANAN).Sum(p => p.TotalAmount).ToString("N2"));
+            text = text.Replace("{Kegiatan}", lstObject.Where(x => x.GroupName == Constant.AdmissionPaymentPeriod.TAHUNAN).Sum(p => p.TotalAmount).ToString("N2"));
+            text = text.Replace("{Pembangunan}", lstObject.Where(x => x.GroupName == Constant.AdmissionPaymentPeriod.SEKALI_BAYAR).Sum(p => p.TotalAmount).ToString("N2"));
             divPiutang.InnerHtml = text;
-            
-            //rptPiutang.DataSource = lstObject;
-            //rptPiutang.DataBind();
-
-            //List<SiteParameter> lstParam = BusinessLayer.GetSiteParameterList(String.Format("ParameterCode IN ('{0}','{1}') AND SiteID = '{2}'",Constant.SiteParameter.HEADMASTER,Constant.SiteParameter.FINANCE_MANAGER, student.SiteID));
-            //Site site = BusinessLayer.GetSite(student.SiteID);
-            //Address address = BusinessLayer.GetAddress(site.AddressID);
-            
-            //text = divPageFooter.InnerHtml;
-            //text = text.Replace("{HeadMaster}",lstParam.FirstOrDefault(x => x.ParameterCode == Constant.SiteParameter.HEADMASTER).ParameterValue);
-            //text = text.Replace("{FinanceManager}", lstParam.FirstOrDefault(x => x.ParameterCode == Constant.SiteParameter.FINANCE_MANAGER).ParameterValue);
-            //text = text.Replace("{SiteName}", site.SiteName);
-            //String phoneNo = address.PhoneNo1;
-            //if(address.PhoneNo2 != "")
-            //    phoneNo += ", "+address.PhoneNo2;
-            //text = text.Replace("{PhoneNo}", phoneNo);
-            //divPageFooter.InnerHtml = text;
         }
     }
 }

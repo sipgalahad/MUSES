@@ -13,22 +13,22 @@ namespace CodeX.Muses.Web.Information.Program {
     public partial class StudentBillInformationDtCtl {
         
         /// <summary>
-        /// hdnARInvoiceID control.
+        /// hdnStudentID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnARInvoiceID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStudentID;
         
         /// <summary>
-        /// txtItemName control.
+        /// txtHeaderText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtItemName;
+        protected global::System.Web.UI.WebControls.TextBox txtHeaderText;
         
         /// <summary>
         /// cbpPopupView control.
