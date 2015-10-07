@@ -61,6 +61,7 @@
                 else
                     $('#<%=hdnIsFeeder.ClientID %>').val('0');
 
+                $('#<%=hdnSchoolDate.ClientID %>').val(result.SchoolDateInDatePickerFormat); 
                 $('#<%=hdnProspectiveStudentID.ClientID %>').val(result.ProspectiveStudentID); 
                 if (result.GCRegistrationStatus == "<%=OnGetRegistrationStatusAccepted() %>") {
                     $('#<%=tblInfoOutstandingTransfer.ClientID %>').hide();
@@ -444,6 +445,8 @@
     </style>
     <input type="hidden" id="hdnYear" value="0" runat="server" />
     <input type="hidden" id="hdnMonth" value="0" runat="server" />
+    <input type="hidden" id="hdnAdmissionType" value="0" runat="server" />
+    <input type="hidden" id="hdnSchoolDate" value="0" runat="server" />
     <input type="hidden" id="hdnAdmissionFeeRuleID" value="0" runat="server" />
     <input type="hidden" id="hdnSchoolPeriodID" value="0" runat="server" />
     <input type="hidden" id="hdnSaveValue" value="0" runat="server" />

@@ -52,6 +52,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             PeriodAdmission entity = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID);
             hdnSchoolPeriodID.Value = entity.SchoolPeriodID.ToString();
+            hdnAdmissionType.Value = entity.GCPeriodAdmissionType; 
 
             SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(entity.SchoolPeriodID);
             hdnYear.Value = entitySchoolPeriod.StartDate.Year.ToString();
@@ -338,13 +339,28 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     studentFee.SchoolPeriodID = Convert.ToInt32(hdnSchoolPeriodID.Value);
                     studentFee.DisplayOrder = 1;
 
-                    if (GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.BULANAN)
+                    if (hdnAdmissionType.Value == Constant.AdmissionType.STUDENT_TRANSFER)
                     {
-                        studentFee.TransactionMonth = Convert.ToInt32(hdnMonth.Value);
-                        studentFee.TransactionYear = Convert.ToInt32(hdnYear.Value);
+                        DateTime schoolDate = Helper.GetDatePickerValue(hdnSchoolDate.Value);
+
+                        if (GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.BULANAN)
+                        {
+                            studentFee.TransactionMonth = schoolDate.Month;
+                            studentFee.TransactionYear = schoolDate.Year;
+                        }
+                        else if (GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.TAHUNAN)
+                            studentFee.TransactionYear = schoolDate.Year;
                     }
-                    else if (GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.TAHUNAN)
-                        studentFee.TransactionYear = Convert.ToInt32(hdnYear.Value);
+                    else
+                    {
+                        if (GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.BULANAN)
+                        {
+                            studentFee.TransactionMonth = Convert.ToInt32(hdnMonth.Value);
+                            studentFee.TransactionYear = Convert.ToInt32(hdnYear.Value);
+                        }
+                        else if (GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.TAHUNAN)
+                            studentFee.TransactionYear = Convert.ToInt32(hdnYear.Value);
+                    }
                     studentFee.ProspectiveStudentID = entity.ProspectiveStudentID;
                     studentFee.StudentFeeCompID = studentFeeComp.StudentFeeCompID;
                     studentFee.DueDate = dueDate;
@@ -438,7 +454,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     ProspectiveStudent entityProspectiveStudent = entityProspectiveStudentDao.Get(prospectiveStudentID);
                     if (entityProspectiveStudent.ProspectiveStudentCode == "")
                     {
-                        //entityProspectiveStudent.ProspectiveStudentCode = BusinessLayer.GenerateProspectiveStudentCode(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnYear.Value), RegistrationNo, ctx);
+                        entityProspectiveStudent.ProspectiveStudentCode = BusinessLayer.GenerateProspectiveStudentCode(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnYear.Value), RegistrationNo, ctx);
                         ctx.CommandType = CommandType.Text;
                         ctx.Command.Parameters.Clear();
                         entityProspectiveStudent.LastUpdatedBy = AppSession.UserLogin.UserID;

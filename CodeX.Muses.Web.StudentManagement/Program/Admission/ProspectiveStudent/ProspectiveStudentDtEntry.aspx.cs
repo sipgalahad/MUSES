@@ -241,7 +241,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
 
             #region Student
-            entity.ProspectiveStudentCode = txtStudentCode.Text;
+            //entity.ProspectiveStudentCode = txtStudentCode.Text;
             entity.GCSalutation = cboSalutation.Value == null ? "" : cboSalutation.Value.ToString();
             entity.GCSuffix = cboSuffix.Value == null ? "" : cboSuffix.Value.ToString();
             entity.GCTitle = cboTitle.Value == null ? "" : cboTitle.Value.ToString();

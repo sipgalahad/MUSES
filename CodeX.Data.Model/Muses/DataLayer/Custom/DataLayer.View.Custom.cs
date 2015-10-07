@@ -1703,6 +1703,10 @@ namespace CodeX.Data.Model
         {
             get { return _DateOfBirth.ToString("dd-MMM-yyyy"); }
         }
+        public String SchoolDateInDatePickerFormat
+        {
+            get { return _SchoolDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
         public string StudentAge
         {
             get

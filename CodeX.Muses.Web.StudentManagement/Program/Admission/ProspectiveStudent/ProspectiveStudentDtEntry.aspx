@@ -396,7 +396,7 @@
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jurusan")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboMajor" Width="120px" runat="server" /></td>
                                 </tr>
-                                <tr id="trStudentCode" runat="server">
+                                <tr id="trStudentCode" runat="server" style="display:none">
                                     <td class="tdLabel"><label class="lblNormal" id="lblStudentCode"><%=GetLabel("Kode Siswa")%></label></td>
                                     <td><asp:TextBox ID="txtStudentCode" Width="150px" runat="server" /></td>
                                 </tr>
@@ -406,7 +406,7 @@
                                 </tr>
                                 <tr id="trSchoolDate" runat="server">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Mulai Sekolah")%></label></td>
-                                    <td><asp:TextBox ID="txtSchoolDate" Width="120px" runat="server" /></td>
+                                    <td><asp:TextBox ID="txtSchoolDate" CssClass="datepicker" Width="120px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel" valign="top" style="padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
