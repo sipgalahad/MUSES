@@ -37,7 +37,7 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl ctlGeneral;
+        protected global::CodeX.Web.CommonLibs.Controls.GeneralCtl ctlGeneral;
         
         /// <summary>
         /// plhMPBase control.

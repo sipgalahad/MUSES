@@ -99,7 +99,7 @@
                                 <asp:BoundField DataField="TeacherAbsenceID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="TeacherName" HeaderText="Guru" HeaderStyle-Width="250px" />
                                 <asp:BoundField DataField="cfDate" HeaderText="Tanggal" HeaderStyle-Width="250px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="cfTime" HeaderText="Tanggal" HeaderStyle-Width="250px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="cfTime" HeaderText="Jam" HeaderStyle-Width="250px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="cfAbsenceReason" HeaderText="Alasan" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                                 <asp:HyperLinkField HeaderText="Guru Pengganti" Text="Guru Pengganti" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkTeacherSubstitution" HeaderStyle-Width="120px" />
