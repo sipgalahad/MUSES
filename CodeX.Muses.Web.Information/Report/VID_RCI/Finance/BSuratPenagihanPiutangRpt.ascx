@@ -16,24 +16,36 @@
         .tdScore { width:50px; }
         table tr td {padding:3px;}
     </style>
+    <div style="height:405px;">
+    </div>
     <div id="divPiutang" runat="server">
-        <table border="1" cellpadding="0" cellspacing="0">
+        <table cellpadding="0" cellspacing="0" style="margin-left:90px;">
             <colgroup>
-                <col width="150px"/>
+                <col width="165px"/>
                 <col width="120px" />
                 <col width="" />
             </colgroup>
             <tr>
                 <td></td>
+            </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" style="margin-left:90px;">
+            <colgroup>
+                <col width="165px"/>
+                <col width="120px" />
+                <col width="" />
+            </colgroup>
+            <tr style="height:37px;">
+                <td></td>
                 <td align="right">{Usek}</td>
                 <td></td>
             </tr>
-            <tr>
+            <tr style="height:37px">
                 <td></td>
                 <td align="right">{Kegiatan}</td>
                 <td></td>
             </tr>
-            <tr>
+            <tr style="height:37px">
                 <td></td>
                 <td align="right">{Pembangunan}</td>
                 <td></td>
