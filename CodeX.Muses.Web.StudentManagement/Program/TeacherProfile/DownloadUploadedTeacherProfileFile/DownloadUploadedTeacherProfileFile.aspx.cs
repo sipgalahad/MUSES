@@ -1711,7 +1711,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ttpdt.TeacherID = tch.FirstOrDefault(x => x.TeacherCode == tp.NIK.ToString()).TeacherID;
                 ttpdt.PersonalityTypeID = lstPersonType.FirstOrDefault(x => x.PersonalityTypeName.Contains(tp.Talent)).PersonalityTypeID;
                 ttpdt.IQScore = Convert.ToInt32(tp.IQ != ""? tp.IQ : "0");
-                ttpdt.DScore = Convert.ToInt32(tp.Drive != "" ? tp.IQ : "0");
+                ttpdt.DScore = Convert.ToInt32(tp.Drive != "" ? tp.Drive : "0");
                 ttpdt.KScore = Convert.ToInt32(tp.Komunikasi != "" ? tp.Komunikasi : "0");
                 ttpdt.LScore = Convert.ToInt32(tp.Loyalitas != "" ? tp.Loyalitas : "0");
                 ttpdt.TScore = Convert.ToInt32(tp.Teliti != "" ? tp.Teliti : "0");
