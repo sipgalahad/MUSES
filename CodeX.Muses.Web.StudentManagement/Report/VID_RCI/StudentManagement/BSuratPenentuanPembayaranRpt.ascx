@@ -143,13 +143,13 @@
                     </tr>
                 </ItemTemplate>
             </asp:Repeater>
-            <tr>
+            <tr style="display:none">
                 <td colspan="3" class="lblDataHeader" style="font-size: 1.1em">Catatan: </td>
             </tr>
-            <tr>
+            <tr style="display:none">
                 <td colspan="3">- Uang Pembangunan sudah lunas tgl 10 Juni 2014</td>
             </tr>
-            <tr>
+            <tr style="display:none">
                 <td colspan="3">- Pembayaran melalui Bank Mandiri paling lambat tgl 10 setiap bulannya</td>
             </tr>
         </table>
