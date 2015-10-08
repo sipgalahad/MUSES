@@ -12697,9 +12697,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region StudentAttribute
-        public static StudentAttribute GetStudentAttribute(Int32 StudentID)
+        public static StudentAttribute GetStudentAttribute(Int32 StudentAttributeID)
         {
-            return new StudentAttributeDao().Get(StudentID);
+            return new StudentAttributeDao().Get(StudentAttributeID);
         }
         public static int InsertStudentAttribute(StudentAttribute record)
         {
@@ -12709,9 +12709,9 @@ namespace CodeX.Data.Model
         {
             return new StudentAttributeDao().Update(record);
         }
-        public static int DeleteStudentAttribute(Int32 StudentID)
+        public static int DeleteStudentAttribute(Int32 StudentAttributeID)
         {
-            return new StudentAttributeDao().Delete(StudentID);
+            return new StudentAttributeDao().Delete(StudentAttributeID);
         }
         public static List<StudentAttribute> GetStudentAttributeList(string filterExpression)
         {

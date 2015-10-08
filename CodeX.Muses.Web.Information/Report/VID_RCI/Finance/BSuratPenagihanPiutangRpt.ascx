@@ -16,22 +16,31 @@
         .tdScore { width:50px; }
         table tr td {padding:3px;}
     </style>
-    <div style="height:405px;">
-    </div>
+    <%--405--%>
+    <div style="height:173px;"></div>
     <div id="divPiutang" runat="server">
         <table cellpadding="0" cellspacing="0" style="margin-left:90px;">
             <colgroup>
-                <col width="165px"/>
-                <col width="120px" />
-                <col width="" />
+                <col width="67px"/>
+                <col />
             </colgroup>
-            <tr>
+            <tr style="height:25px;">
                 <td></td>
+                <td>{StudentName}</td>
+            </tr>
+            <tr style="height:25px;">
+                <td></td>
+                <td>{Grade}</td>
+            </tr>
+            <tr style="height:24px;">
+                <td></td>
+                <td>{Class}</td>
             </tr>
         </table>
+        <div style="height:155px;"></div>
         <table cellpadding="0" cellspacing="0" style="margin-left:90px;">
             <colgroup>
-                <col width="165px"/>
+                <col width="155px"/>
                 <col width="120px" />
                 <col width="" />
             </colgroup>
