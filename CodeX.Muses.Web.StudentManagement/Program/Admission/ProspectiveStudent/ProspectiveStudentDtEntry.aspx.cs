@@ -85,6 +85,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtAgeInDay, new ControlEntrySetting(false, false, true, 0), "mpEntry");
             Helper.SetControlEntrySetting(txtAgeInMonth, new ControlEntrySetting(false, false, true, 0), "mpEntry");
             Helper.SetControlEntrySetting(txtAgeInYear, new ControlEntrySetting(false, false, true, 0), "mpEntry");
+            Helper.SetControlEntrySetting(cboNationality, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(chkIsFeeder, new ControlEntrySetting(true, true, false), "mpEntry");
             #endregion
 
@@ -311,6 +312,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             RegistrationDao entityRegistrationDao = new RegistrationDao(ctx);
             ProspectiveStudentDao entityDao = new ProspectiveStudentDao(ctx);
             AddressDao addressDao = new AddressDao(ctx);
+            StudentAttributeDao attributeDao = new StudentAttributeDao(ctx);
             bool result = true;
             try
             {
@@ -334,6 +336,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 address.GCAddressType = Constant.AddressType.PROSPECTIVE_STUDENT;
                 entity.AddressID = address.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entity.ProspectiveStudentID);
                 addressDao.Insert(address);
+
+                StudentAttribute attr = new StudentAttribute();
+                attr.ProspectiveStudentID = entity.ProspectiveStudentID;
+                attr.BreastfedDuration = 0;
+                attr.HouseHolderAdult = 0;
+                attr.HouseHolderChild = 0;
+                attr.CreatedBy = AppSession.UserLogin.UserID;
+                attributeDao.Insert(attr);
+
                 entityDao.Update(entity);
                 entityRegistration.PeriodAdmissionID = AppSession.PeriodAdmissionID;
                 entityRegistration.GCRegistrationStatus = Constant.RegistrationStatus.OPEN;

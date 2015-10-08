@@ -26388,7 +26388,9 @@ namespace CodeX.Data.Model
     [Table(Name = "StudentAttribute")]
     public class StudentAttribute : DbDataModel
     {
-        private Int32 _StudentID;
+        private Int32 _StudentAttributeID;
+        private Int32? _StudentID;
+        private Int32? _ProspectiveStudentID;
         private String _ReasonRegister;
         private String _GCTransportToSchool;
         private String _GCStateInWomb;
@@ -26398,7 +26400,7 @@ namespace CodeX.Data.Model
         private String _GCLivingWith;
         private Int32? _HouseHolderAdult;
         private Int32? _HouseHolderChild;
-        private String _IsPlaygroundInHouse;
+        private Boolean _IsPlaygroundInHouse;
         private String _GCChanceToHangout;
         private Boolean _IsFailInSchool;
         private String _GCFailInSchoolGrade;
@@ -26427,11 +26429,23 @@ namespace CodeX.Data.Model
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
 
-        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
-        public Int32 StudentID
+        [Column(Name = "StudentAttributeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentAttributeID
+        {
+            get { return _StudentAttributeID; }
+            set { _StudentAttributeID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentID
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
         }
         [Column(Name = "ReasonRegister", DataType = "String", IsNullable = true)]
         public String ReasonRegister
@@ -26487,8 +26501,8 @@ namespace CodeX.Data.Model
             get { return _HouseHolderChild; }
             set { _HouseHolderChild = value; }
         }
-        [Column(Name = "IsPlaygroundInHouse", DataType = "String", IsNullable = true)]
-        public String IsPlaygroundInHouse
+        [Column(Name = "IsPlaygroundInHouse", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsPlaygroundInHouse
         {
             get { return _IsPlaygroundInHouse; }
             set { _IsPlaygroundInHouse = value; }
@@ -26662,16 +26676,16 @@ namespace CodeX.Data.Model
         private readonly IDbContext _ctx = DbFactory.Configure();
         private readonly DbHelper _helper = new DbHelper(typeof(StudentAttribute));
         private bool _isAuditLog = false;
-        private const string p_StudentID = "@p_StudentID";
+        private const string p_StudentAttributeID = "@p_StudentAttributeID";
         public StudentAttributeDao() { }
         public StudentAttributeDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public StudentAttribute Get(Int32 StudentID)
+        public StudentAttribute Get(Int32 StudentAttributeID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_StudentID, StudentID);
+            _ctx.Add(p_StudentAttributeID, StudentAttributeID);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (StudentAttribute)_helper.DataRowToObject(row, new StudentAttribute());
         }
@@ -26687,13 +26701,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 StudentID)
+        public int Delete(Int32 StudentAttributeID)
         {
             StudentAttribute record;
             if (_ctx.Transaction == null)
-                record = new StudentAttributeDao().Get(StudentID);
+                record = new StudentAttributeDao().Get(StudentAttributeID);
             else
-                record = Get(StudentID);
+                record = Get(StudentAttributeID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

@@ -38,7 +38,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 BindGridView();
 
                 #region  Data
-                Helper.SetControlEntrySetting(cboFamilyRelation, new ControlEntrySetting(true, true, false), "mpTrx");
+                Helper.SetControlEntrySetting(cboFamilyRelation, new ControlEntrySetting(true, true, true), "mpTrx");
                 Helper.SetControlEntrySetting(cboTitle, new ControlEntrySetting(true, true, false), "mpTrx");
                 Helper.SetControlEntrySetting(txtFirstName, new ControlEntrySetting(true, true, false), "mpTrx");
                 Helper.SetControlEntrySetting(txtMiddleName, new ControlEntrySetting(true, true, false), "mpTrx");
@@ -50,7 +50,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Helper.SetControlEntrySetting(cboNationality, new ControlEntrySetting(true, true, true), "mpTrx");
                 Helper.SetControlEntrySetting(cboEducationLevel, new ControlEntrySetting(true, true, false), "mpTrx");
                 Helper.SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true), "mpTrx");
-                Helper.SetControlEntrySetting(chkIsSameSchool, new ControlEntrySetting(true, true, true), "mpTrx");
+                //Helper.SetControlEntrySetting(chkIsSameSchool, new ControlEntrySetting(true, true, true), "mpTrx");
                 #endregion
             }
         }

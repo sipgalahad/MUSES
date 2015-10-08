@@ -125,7 +125,7 @@
                                         <col style="width: 160px" />
                                     </colgroup>
                                     <tr>
-                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Hubungan Keluarga")%></label></td>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Hubungan Keluarga")%></label></td>
                                         <td><dxe:ASPxComboBox ID="cboFamilyRelation" ClientInstanceName="cboFamilyRelation" Width="100%" runat="server" /></td>
                                     </tr>
                                     <tr>
