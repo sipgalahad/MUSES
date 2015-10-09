@@ -180,7 +180,7 @@
                                 </colgroup>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("No Pendaftaran")%></label></td>
-                                    <td><asp:TextBox ID="txtRegistrationNo" ReadOnly="true" Width="150px" runat="server" /></td>
+                                    <td><asp:TextBox ID="txtRegistrationNo" Width="150px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal")%> - <%=GetLabel("Waktu")%></label></td>

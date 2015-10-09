@@ -88,7 +88,7 @@ namespace CodeX.Muses.Web.Information.Program
             if (lstEntity.Count > 0)
             {
                 string lstARReceivingID = string.Join(",", lstEntity.Select(p => p.ARReceivingID).ToList());
-                lstEntityDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingDt IN ({0}) AND GCARPaymentMethod = '{1}'", lstARReceivingID, Constant.PaymentMethod.DOWN_PAYMENT_RETURN));
+                lstEntityDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingID IN ({0}) AND GCARPaymentMethod IN ('{1}','{2}')", lstARReceivingID, Constant.PaymentMethod.DOWN_PAYMENT_RETURN));
             }
 
             rptView.DataSource = lstEntity;
@@ -136,6 +136,7 @@ namespace CodeX.Muses.Web.Information.Program
                 }
 
                 usek -= lstARReceivingDt.Sum(p => p.PaymentAmount);
+                usek += entity.DepositAmount;
 
                 totalUangPemb += pemb;
                 totalUangSek += usek;

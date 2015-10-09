@@ -80,6 +80,10 @@
             tacPeriodAdmission.SetText('');
         }
 
+        function onCboSiteValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+
         //#region Period Admission
         function onGetPeriodAdmissionFilterExpression() {
             var filterExpression = "<%=OnGetPeriodAdmissionFilterExpression() %>";

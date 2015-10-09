@@ -62,6 +62,7 @@
     </script>
     <input type="hidden" id="hdnSelectedValue" value="" runat="server" />
     <input type="hidden" id="hdnDepositAmount" value="" runat="server" />
+    <input type="hidden" id="hdnSchoolPeriod" value="" runat="server" />
     <div>
         <div style="display:none;">
             <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />

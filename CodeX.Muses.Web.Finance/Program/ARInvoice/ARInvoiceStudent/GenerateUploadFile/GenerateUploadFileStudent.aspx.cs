@@ -102,10 +102,10 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 Bank bank = bankDao.Get(Convert.ToInt32(tacBank.Value));
                 Student student = studentDao.Get(AppSession.StudentID);
-                List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", hdnSelectedValue.Value), ctx);
+                List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeDtID IN ({0}) OR (StudentID = {1} AND PaymentAmount > 0)", hdnSelectedValue.Value, AppSession.StudentID), ctx);
                 List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
 
-                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}')", student.StudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID), ctx);
+                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}') AND TotalPaymentAmount = 0", student.StudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID), ctx);
                 foreach (ARInvoiceHd arInvoiceHD in lstARInvoiceHd)
                 {
                     arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
@@ -116,7 +116,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 String schoolType = siteParameterDao.Get(student.SiteID, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
 
                 #region Insert AR Invoice
-                string remarks = String.Join(", ",lstStudentFeeDt.Select(x => x.cfStudentFeeCompTypeName));
+                string remarks = String.Join(", ", lstStudentFeeDt.Where(p => p.PaymentAmount == 0).Select(x => x.cfStudentFeeCompTypeName));
                 
                 DateTime DueDate = new DateTime(Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value), 1).AddMonths(1).AddDays(-1);
                 Int32 BankID = bank.BankID;
@@ -137,15 +137,18 @@ namespace CodeX.Muses.Web.Finance.Program
 
                 foreach (vStudentFeeDt studentFeeDt in lstStudentFeeDt)
                 {
-                    ARInvoiceDt entityARInvoiceDt = new ARInvoiceDt();
-                    entityARInvoiceDt.ARInvoiceID = ARInvoiceHdID;
-                    entityARInvoiceDt.StudentFeeDtID = studentFeeDt.StudentFeeDtID;
-                    entityARInvoiceDt.StudentFeeCompTypeID = studentFeeDt.StudentFeeCompTypeID;
-                    entityARInvoiceDt.ClaimedAmount = entityARInvoiceDt.TransactionAmount = studentFeeDt.TotalStudentAmount;
-                    entityARInvoiceDt.DiscountAmount = 0;
-                    entityARInvoiceDt.VarianceAmount = null;
-                    entityARInvoiceDt.CreatedBy = AppSession.UserLogin.UserID;
-                    arInvoiceDtDao.Insert(entityARInvoiceDt);
+                    if (studentFeeDt.PaymentAmount == 0)
+                    {
+                        ARInvoiceDt entityARInvoiceDt = new ARInvoiceDt();
+                        entityARInvoiceDt.ARInvoiceID = ARInvoiceHdID;
+                        entityARInvoiceDt.StudentFeeDtID = studentFeeDt.StudentFeeDtID;
+                        entityARInvoiceDt.StudentFeeCompTypeID = studentFeeDt.StudentFeeCompTypeID;
+                        entityARInvoiceDt.ClaimedAmount = entityARInvoiceDt.TransactionAmount = studentFeeDt.TotalStudentAmount;
+                        entityARInvoiceDt.DiscountAmount = 0;
+                        entityARInvoiceDt.VarianceAmount = null;
+                        entityARInvoiceDt.CreatedBy = AppSession.UserLogin.UserID;
+                        arInvoiceDtDao.Insert(entityARInvoiceDt);
+                    }
                 }
 
                 entityARInvoiceHd = arInvoiceHdDao.Get(ARInvoiceHdID);
@@ -198,7 +201,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         string ShortName = obj.ShortName;
                         if (lstStudentFeeDt1.Count > 0)
                         {
-                            decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.TotalStudentAmount));
+                            decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.TotalStudentAmount - x.PaymentAmount));
 
                             if (depositAmount < amount)
                             {

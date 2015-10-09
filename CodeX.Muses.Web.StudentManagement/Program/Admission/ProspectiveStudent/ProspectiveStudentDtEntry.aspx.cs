@@ -62,7 +62,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void OnControlEntrySetting()
         {
             #region Registration Information
-            Helper.SetControlEntrySetting(txtRegistrationNo, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtRegistrationNo, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtRegistrationDate, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtRegistrationTime, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboRegistrationType, new ControlEntrySetting(true, true, true), "mpEntry");
@@ -242,7 +242,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
 
             #region Student
-            //entity.ProspectiveStudentCode = txtStudentCode.Text;
+            entityRegistration.RegistrationNo = entity.ProspectiveStudentCode = txtRegistrationNo.Text;
             entity.GCSalutation = cboSalutation.Value == null ? "" : cboSalutation.Value.ToString();
             entity.GCSuffix = cboSuffix.Value == null ? "" : cboSuffix.Value.ToString();
             entity.GCTitle = cboTitle.Value == null ? "" : cboTitle.Value.ToString();
@@ -326,7 +326,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.AddressID = null;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
 
-                entityRegistration.RegistrationNo = BusinessLayer.GenerateRegistrationNo(Convert.ToInt32(hdnSchoolPeriodID.Value), ctx);
+                //entityRegistration.RegistrationNo = BusinessLayer.GenerateRegistrationNo(Convert.ToInt32(hdnSchoolPeriodID.Value), ctx);
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
 

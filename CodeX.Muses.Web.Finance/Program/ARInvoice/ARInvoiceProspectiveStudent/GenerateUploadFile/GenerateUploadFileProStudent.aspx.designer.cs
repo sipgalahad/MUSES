@@ -40,6 +40,15 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDepositAmount;
         
         /// <summary>
+        /// hdnSchoolPeriod control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSchoolPeriod;
+        
+        /// <summary>
         /// btnTemp control.
         /// </summary>
         /// <remarks>

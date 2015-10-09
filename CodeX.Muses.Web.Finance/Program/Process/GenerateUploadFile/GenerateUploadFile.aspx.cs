@@ -178,7 +178,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                 string ShortName = obj.ShortName;
                                 if (lstvARInvoiceDt1.Count > 0)
                                 {
-                                    decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
+                                    decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount - x.PaymentAmount));
 
                                     if (depositAmount < amount)
                                     {
@@ -244,7 +244,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                 string ShortName = obj.ShortName;
                                 if (lstvARInvoiceDt1.Count > 0)
                                 {
-                                    decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
+                                    decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount - x.PaymentAmount));
 
                                     if (depositAmount < amount)
                                     {
@@ -370,7 +370,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                             {
                                                 TotalPenalty += x.VarianceAmount;
                                             }
-                                            decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
+                                            decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount - x.PaymentAmount));
 
                                             if (depositAmount < amount)
                                             {
@@ -438,7 +438,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                             {
                                                 TotalPenalty += x.VarianceAmount;
                                             }
-                                            decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
+                                            decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount - x.PaymentAmount));
 
                                             if (depositAmount < amount)
                                             {

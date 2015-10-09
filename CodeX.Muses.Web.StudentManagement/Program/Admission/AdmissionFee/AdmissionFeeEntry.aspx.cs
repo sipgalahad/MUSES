@@ -454,7 +454,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     ProspectiveStudent entityProspectiveStudent = entityProspectiveStudentDao.Get(prospectiveStudentID);
                     if (entityProspectiveStudent.ProspectiveStudentCode == "")
                     {
-                        entityProspectiveStudent.ProspectiveStudentCode = BusinessLayer.GenerateProspectiveStudentCode(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnYear.Value), RegistrationNo, ctx);
+                        //entityProspectiveStudent.ProspectiveStudentCode = BusinessLayer.GenerateProspectiveStudentCode(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnYear.Value), RegistrationNo, ctx);
                         ctx.CommandType = CommandType.Text;
                         ctx.Command.Parameters.Clear();
                         entityProspectiveStudent.LastUpdatedBy = AppSession.UserLogin.UserID;

@@ -46,7 +46,7 @@ namespace CodeX.Muses.Web.Finance.Program
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}','{2}','{3}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CARD_TYPE, Constant.StandardCode.PAYMENT_METHOD, Constant.StandardCode.PAYMENT_TYPE, Constant.StandardCode.CARD_PROVIDER));
             Methods.SetComboBoxField<StandardCode>(cboCardType, lstSc.Where(p => p.ParentID == Constant.StandardCode.CARD_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
 
-            StandardCode entityDPOut = lstSc.FirstOrDefault(p => p.StandardCodeID == Constant.PaymentMethod.DOWN_PAYMENT);
+            StandardCode entityDPOut = lstSc.FirstOrDefault(p => p.StandardCodeID == Constant.PaymentMethod.DOWN_PAYMENT_RETURN);
             hdnCboDPOut.Value = string.Format("{0}|{1}", entityDPOut.StandardCodeID, entityDPOut.StandardCodeName);
 
 
@@ -57,7 +57,7 @@ namespace CodeX.Muses.Web.Finance.Program
             List<Bank> lstBank = BusinessLayer.GetBankList("IsDeleted = 0");
             Methods.SetComboBoxField<Bank>(cboBank, lstBank, "BankName", "BankID");
             cboBank.SelectedIndex = 0;
-            Methods.SetComboBoxField<StandardCode>(cboPaymentMethod, lstSc.Where(p => p.ParentID == Constant.StandardCode.PAYMENT_METHOD && p.StandardCodeID != Constant.PaymentMethod.ACCOUNT_RECEIVABLES && p.StandardCodeID != Constant.PaymentMethod.DOWN_PAYMENT).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboPaymentMethod, lstSc.Where(p => p.ParentID == Constant.StandardCode.PAYMENT_METHOD && p.StandardCodeID != Constant.PaymentMethod.ACCOUNT_RECEIVABLES && p.StandardCodeID != Constant.PaymentMethod.DOWN_PAYMENT_RETURN).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboCardProvider, lstSc.Where(p => p.ParentID == Constant.StandardCode.CARD_PROVIDER).ToList(), "StandardCodeName", "StandardCodeID");
 
             tdARPaymentMethod.InnerHtml = lstSc.FirstOrDefault(p => p.StandardCodeID == Constant.PaymentMethod.ACCOUNT_RECEIVABLES).StandardCodeName;
@@ -211,6 +211,7 @@ namespace CodeX.Muses.Web.Finance.Program
             StudentFeeDtDao entityStudentFeeDtDao = new StudentFeeDtDao(ctx);
             try
             {
+                decimal DepositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
                 #region ARReceivingHD
                 ARReceivingHd entityReceivingHd = new ARReceivingHd();
                 List<ARInvoiceHd> lstARInvoiceHd = null;
@@ -227,6 +228,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 entityReceivingHd.TotalFeeAmount = Convert.ToDecimal(hdnTotalFeeAmount.Value);
                 //entityReceivingHd.TotalInvoiceAmount = Convert.ToDecimal(hdnTotalTransactionAmount.Value);
                 entityReceivingHd.Remarks = txtRemarks.Text;
+                entityReceivingHd.DepositAmount = DepositAmount;
                 entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
                 entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
                 entityReceivingHd.CreatedBy = entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
@@ -245,7 +247,6 @@ namespace CodeX.Muses.Web.Finance.Program
                 entityReceivingHd.ARReceivingID = BusinessLayer.GetARReceivingHdMaxID(ctx);
                 #endregion
 
-                decimal DepositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
                 if (DepositAmount > 0)
                 {
                     ARBalance entityARBalance = BusinessLayer.GetARBalanceList(string.Format("StudentID = {0}", AppSession.StudentID), ctx).FirstOrDefault();
@@ -303,7 +304,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         entityDt.CreatedBy = AppSession.UserLogin.UserID;
                         entityReceivingDtDao.Insert(entityDt);
 
-                        if (entityDt.GCARPaymentMethod == Constant.PaymentMethod.DOWN_PAYMENT)
+                        if (entityDt.GCARPaymentMethod == Constant.PaymentMethod.DOWN_PAYMENT_RETURN)
                         {
                             ARBalance entityARBalance = BusinessLayer.GetARBalanceList(string.Format("StudentID = {0}", AppSession.StudentID), ctx).FirstOrDefault();
                             if (entityARBalance != null)
@@ -416,7 +417,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 entityARRHdDao.Update(entityARR);
 
                 decimal depositAmount = 0;
-                List<ARReceivingDt> lstARReceivingDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingID = {0} AND GCARPaymentMethod = '{1}'", hdnARReceivingID.Value, Constant.PaymentMethod.DOWN_PAYMENT), ctx);
+                List<ARReceivingDt> lstARReceivingDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingID = {0} AND GCARPaymentMethod = '{1}'", hdnARReceivingID.Value, Constant.PaymentMethod.DOWN_PAYMENT_RETURN), ctx);
                 foreach (ARReceivingDt arReceivingDt in lstARReceivingDt)
                     depositAmount += arReceivingDt.PaymentAmount;
                 depositAmount -= entityARR.TotalReceivingAmount - entityARR.TotalInvoiceAmount;

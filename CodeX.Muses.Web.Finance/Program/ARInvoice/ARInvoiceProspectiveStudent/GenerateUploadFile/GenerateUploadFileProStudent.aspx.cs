@@ -28,6 +28,9 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected override void InitializeDataControl()
         {
+            vRegistration reg = BusinessLayer.GetvRegistrationList(string.Format("ProspectiveStudentID = {0}", AppSession.ProspectiveStudentID)).FirstOrDefault();
+            hdnSchoolPeriod.Value = BusinessLayer.GetPeriodAdmission(reg.PeriodAdmissionID).SchoolPeriodID.ToString();
+
             ARBalance entityARBalance = BusinessLayer.GetARBalanceList(String.Format("ProspectiveStudentID = {0} AND IsDeleted = 0", AppSession.ProspectiveStudentID)).FirstOrDefault();
             if (entityARBalance != null)
             {
@@ -87,6 +90,7 @@ namespace CodeX.Muses.Web.Finance.Program
             ARInvoiceDtDao arInvoiceDtDao = new ARInvoiceDtDao(ctx);
             ARInvoiceHdDao arInvoiceHdDao = new ARInvoiceHdDao(ctx);
             SiteParameterDao siteParameterDao = new SiteParameterDao(ctx);
+            SchoolPeriodDao schoolPeriodDao = new SchoolPeriodDao(ctx);
             BankDao bankDao = new BankDao(ctx);
             try
             {
@@ -115,7 +119,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 }
 
                 DateTime DueDate = new DateTime(Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value), 1).AddMonths(1).AddDays(-1);
-                Int32 BankID = Convert.ToInt32(siteParameterDao.Get(AppSession.UserLogin.SiteID, Constant.SiteParameter.DEFAULT_BANK).ParameterValue);
+                Int32 BankID = Convert.ToInt32(cboBank.Value);
 
                 ARInvoiceHd entityARInvoiceHd = new ARInvoiceHd();
                 entityARInvoiceHd.TransactionCode = Constant.TransactionCode.AR_INVOICE_PROSPECTIVE_STUDENT;
@@ -153,9 +157,9 @@ namespace CodeX.Muses.Web.Finance.Program
                 #region Build Text File
                 String txt = string.Empty;
                 String format = "";
-                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)))[0];
-                List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID));
-
+                SchoolPeriod Period = schoolPeriodDao.Get(Convert.ToInt32(hdnSchoolPeriod.Value));
+                List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", hdnSchoolPeriod.Value));
+                
                 if (bank.GCBankExportDataType.ToString() == Constant.BankExportDataType.MANDIRI)
                 {
                     format = @"{NBS}|||IDR|{StudentName}|{Class}|{Unit}|{NA1}{NA2}{NA3}{NA4}{NA5}{NA6}{NA7}{NA8}{NA9}{NA10}{NA11}{NA12}{NA13}{NA14}{NA15}{NA16}{NA17}{NA18}{NA19}{NA20}{NA21}{NA22}{NA23}{NA24}{NA25}|{SchoolPeriod}|{Month}||||||||||||||||||||{StartPeriod}|{EndPeriod}|{Notes1}|{Notes2}|{Notes3}|{Notes4}|{Notes5}|{Notes6}|{Notes7}|{Notes8}|{Notes9}|{Notes10}|{Notes11}|{Notes12}|{Notes13}|{Notes14}|{Notes15}|{Notes16}|{Notes17}|{Notes18}|{Notes19}|{Notes20}|{Notes21}|{Notes22}|{Notes23}|{Notes24}|{Notes25}|~";

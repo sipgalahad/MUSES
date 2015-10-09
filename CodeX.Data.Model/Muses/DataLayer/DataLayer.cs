@@ -1530,6 +1530,7 @@ namespace CodeX.Data.Model
         private Decimal _TotalInvoiceAmount;
         private Decimal _TotalFeeAmount;
         private Decimal _CashBackAmount;
+        private Decimal _DepositAmount;
         private String _Remarks;
         private String _GCTransactionStatus;
         private String _GCVoidReason;
@@ -1599,6 +1600,12 @@ namespace CodeX.Data.Model
         {
             get { return _CashBackAmount; }
             set { _CashBackAmount = value; }
+        }
+        [Column(Name = "DepositAmount", DataType = "Decimal")]
+        public Decimal DepositAmount
+        {
+            get { return _DepositAmount; }
+            set { _DepositAmount = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

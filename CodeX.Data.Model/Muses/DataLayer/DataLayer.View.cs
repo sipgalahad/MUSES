@@ -420,6 +420,7 @@ namespace CodeX.Data.Model
         private Decimal _ClaimedAmount;
         private Decimal _DiscountAmount;
         private Decimal _VarianceAmount;
+        private Decimal _PaymentAmount;
         private String _ReferenceNo;
         private Int32 _StudentID;
         private String _StudentCode;
@@ -555,6 +556,12 @@ namespace CodeX.Data.Model
         {
             get { return _VarianceAmount; }
             set { _VarianceAmount = value; }
+        }
+        [Column(Name = "PaymentAmount", DataType = "Decimal")]
+        public Decimal PaymentAmount
+        {
+            get { return _PaymentAmount; }
+            set { _PaymentAmount = value; }
         }
         [Column(Name = "ReferenceNo", DataType = "String")]
         public String ReferenceNo
@@ -1178,6 +1185,7 @@ namespace CodeX.Data.Model
         private String _ARReceivingNo;
         private DateTime _ReceivingDate;
         private Int32 _StudentID;
+        private String _SiteID;
         private String _StudentCode;
         private String _StudentName;
         private Int32 _SchoolClassID;
@@ -1193,6 +1201,7 @@ namespace CodeX.Data.Model
         private Decimal _TotalFeeAmount;
         private Decimal _TotalInvoiceAmount;
         private Decimal _CashBackAmount;
+        private Decimal _DepositAmount;
         private String _Remarks;
         private String _GCTransactionStatus;
         private Boolean _IsDeleted;
@@ -1223,6 +1232,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
         }
         [Column(Name = "StudentCode", DataType = "String")]
         public String StudentCode
@@ -1313,6 +1328,12 @@ namespace CodeX.Data.Model
         {
             get { return _CashBackAmount; }
             set { _CashBackAmount = value; }
+        }
+        [Column(Name = "DepositAmount", DataType = "Decimal")]
+        public Decimal DepositAmount
+        {
+            get { return _DepositAmount; }
+            set { _DepositAmount = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -24891,6 +24912,7 @@ namespace CodeX.Data.Model
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
         private Boolean _IsTransferred;
+        private Decimal _PaymentAmount;
         private Int32 _ARInvoiceDtID;
         private Boolean _IsPaid;
         private Boolean _IsDeleted;
@@ -25051,6 +25073,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsTransferred; }
             set { _IsTransferred = value; }
+        }
+        [Column(Name = "PaymentAmount", DataType = "Decimal")]
+        public Decimal PaymentAmount
+        {
+            get { return _PaymentAmount; }
+            set { _PaymentAmount = value; }
         }
         [Column(Name = "ARInvoiceDtID", DataType = "Int32")]
         public Int32 ARInvoiceDtID
