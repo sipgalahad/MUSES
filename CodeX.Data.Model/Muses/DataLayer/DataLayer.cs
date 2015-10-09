@@ -26411,8 +26411,7 @@ namespace CodeX.Data.Model
         private String _GCChanceToHangout;
         private Boolean _IsFailInSchool;
         private String _GCFailInSchoolGrade;
-        private Boolean _IsFatherless;
-        private Boolean _IsMotherless;
+        private String _GCOrphansStatus;
         private String _TalentOrInterest;
         private String _StateWhenEnterKindergarten;
         private String _GCAppetiteAtBreakfast;
@@ -26532,17 +26531,11 @@ namespace CodeX.Data.Model
             get { return _GCFailInSchoolGrade; }
             set { _GCFailInSchoolGrade = value; }
         }
-        [Column(Name = "IsFatherless", DataType = "Boolean", IsNullable = true)]
-        public Boolean IsFatherless
+        [Column(Name = "GCOrphansStatus", DataType = "String", IsNullable = true)]
+        public String GCOrphansStatus
         {
-            get { return _IsFatherless; }
-            set { _IsFatherless = value; }
-        }
-        [Column(Name = "IsMotherless", DataType = "Boolean", IsNullable = true)]
-        public Boolean IsMotherless
-        {
-            get { return _IsMotherless; }
-            set { _IsMotherless = value; }
+            get { return _GCOrphansStatus; }
+            set { _GCOrphansStatus = value; }
         }
         [Column(Name = "TalentOrInterest", DataType = "String", IsNullable = true)]
         public String TalentOrInterest

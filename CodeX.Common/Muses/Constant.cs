@@ -76,6 +76,14 @@ namespace CodeX.Common
             public const string ABSENCE_REASON = "MS032";
             public const string CURRICULUM_SYLLABUS_TYPE = "MS033";
             public const string CURRICULUM_MEETING_PLAN_TYPE = "MS034";
+            public const string TRANSPORTATION = "MS036";
+            public const string BODY_CONDITION = "MS037";
+            public const string LIVING_WITH = "MS038";
+            public const string HANGOUT = "MS039";
+            public const string APPETITE = "MS040";
+            public const string ORPHANS_STATUS = "MS041";
+            public const string RELATIONSHIP_WITH_FAMILY = "MS042";
+            public const string URINATE_STATUS = "MS043";
 
             public const string PROJECT_TASK_STATUS = "DT001";
             public const string PROJECT_TASK_PRIORITY = "DT002";
