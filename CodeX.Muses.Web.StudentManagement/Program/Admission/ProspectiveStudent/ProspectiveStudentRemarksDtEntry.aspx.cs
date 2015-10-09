@@ -34,12 +34,38 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void SetControlProperties()
         {
-            String filterExpression = String.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0",
-                Constant.StandardCode.BLOOD_TYPE, Constant.StandardCode.LANGUAGE);
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}') AND IsActive = 1 AND IsDeleted = 0",
+                Constant.StandardCode.BLOOD_TYPE, 
+                Constant.StandardCode.LANGUAGE,
+                Constant.StandardCode.SCHOOL_GRADE,
+                Constant.StandardCode.TRANSPORTATION,
+                Constant.StandardCode.BODY_CONDITION, 
+                Constant.StandardCode.LIVING_WITH,
+                Constant.StandardCode.HANGOUT,
+                Constant.StandardCode.APPETITE,
+                Constant.StandardCode.ORPHANS_STATUS,
+                Constant.StandardCode.RELATIONSHIP_WITH_FAMILY,
+                Constant.StandardCode.URINATE_STATUS);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
-
+            lstStandardCode.Insert(0,new StandardCode { StandardCodeID = "", StandardCodeName = "" });
             Methods.SetComboBoxField(cboBloodType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.BLOOD_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboLanguage, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.LANGUAGE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboGradeFail, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SCHOOL_GRADE || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+
+            Methods.SetComboBoxField(CboOrphans, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.ORPHANS_STATUS || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboAppetiteAtBreakfast, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.APPETITE || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboAppetiteAtLunch, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.APPETITE || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboAppetiteAtDinner, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.APPETITE || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboAppetiteAtOtherTime, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.APPETITE || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboHouseStatus, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.LIVING_WITH || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboRealtionshipWithFather, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELATIONSHIP_WITH_FAMILY || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboRealtionshipWithMother, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELATIONSHIP_WITH_FAMILY || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboRealtionshipWithBrother, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELATIONSHIP_WITH_FAMILY || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboChanceToHangout, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.HANGOUT || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboTransportToSchool, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TRANSPORTATION || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboUrinateStatus, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.URINATE_STATUS || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboStateInWomb, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.BODY_CONDITION || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboStateAtBirth, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.BODY_CONDITION || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
         }
 
         private void EntityToControl(ProspectiveStudent entity, StudentAttribute stdAtt)
@@ -62,9 +88,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 chkIsPlaygroundInHouse.Checked = stdAtt.IsPlaygroundInHouse;
                 cboChanceToHangout.Value = stdAtt.GCChanceToHangout;
                 chkIsFailInSchool.Checked = stdAtt.IsFailInSchool;
-                txtGradeFail.Text = stdAtt.GCFailInSchoolGrade;
-                chkIsFatherless.Checked = stdAtt.IsFatherless;
-                chkIsMotherless.Checked = stdAtt.IsMotherless;
+                cboGradeFail.Value = stdAtt.GCFailInSchoolGrade;
+                CboOrphans.Value = stdAtt.GCOrphansStatus;
                 txtTalentOrInterest.Text = stdAtt.TalentOrInterest;
                 txtStateEnterKinderGarten.Text = stdAtt.StateWhenEnterKindergarten;
                 cboAppetiteAtBreakfast.Value = stdAtt.GCAppetiteAtBreakfast;
@@ -81,6 +106,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 txtBreastfedDuration.Text = stdAtt.BreastfedDuration.ToString();
                 chkIsBreastfed.Checked = stdAtt.IsBreastfed;
                 txtAdditionalFood.Text = stdAtt.AnotherFood;
+                txtRemarks.Text = stdAtt.Remarks;
             }
         }
 
@@ -122,9 +148,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 else
                     stdAtt.GCChanceToHangout = null;
                 stdAtt.IsFailInSchool = chkIsFailInSchool.Checked;
-                stdAtt.GCFailInSchoolGrade = txtGradeFail.Text;
-                stdAtt.IsFatherless = chkIsFatherless.Checked;
-                stdAtt.IsMotherless = chkIsMotherless.Checked;
+                if (chkIsFailInSchool.Checked) 
+                {
+                    if (cboGradeFail.Value != null)
+                        stdAtt.GCFailInSchoolGrade = cboGradeFail.Value.ToString();
+                    else
+                        stdAtt.GCFailInSchoolGrade = null;
+                }else
+                    stdAtt.GCFailInSchoolGrade = null;
+                
+                stdAtt.GCOrphansStatus = CboOrphans.Value != null ? CboOrphans.Value.ToString() : null;
                 stdAtt.TalentOrInterest = txtTalentOrInterest.Text;
                 stdAtt.StateWhenEnterKindergarten = txtStateEnterKinderGarten.Text;
                 if (cboAppetiteAtBreakfast.Value != null)
@@ -165,6 +198,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 stdAtt.BreastfedDuration = Convert.ToInt32(txtBreastfedDuration.Text);
                 stdAtt.IsBreastfed = chkIsBreastfed.Checked;
                 stdAtt.AnotherFood = txtAdditionalFood.Text;
+                stdAtt.Remarks = txtRemarks.Text;
             }
         }
 

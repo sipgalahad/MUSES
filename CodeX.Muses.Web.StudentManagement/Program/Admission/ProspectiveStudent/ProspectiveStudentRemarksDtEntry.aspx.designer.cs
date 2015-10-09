@@ -31,22 +31,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtTalentOrInterest;
         
         /// <summary>
-        /// chkIsFatherless control.
+        /// CboOrphans control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsFatherless;
-        
-        /// <summary>
-        /// chkIsMotherless control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsMotherless;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox CboOrphans;
         
         /// <summary>
         /// cboLanguage control.
@@ -166,13 +157,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.CheckBox chkIsFailInSchool;
         
         /// <summary>
-        /// txtGradeFail control.
+        /// cboGradeFail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGradeFail;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGradeFail;
         
         /// <summary>
         /// txtReasonRegister control.
@@ -326,6 +317,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtHomeDistance;
+        
+        /// <summary>
+        /// txtRemarks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
         
         /// <summary>
         /// cbpMPEntryProcess control.

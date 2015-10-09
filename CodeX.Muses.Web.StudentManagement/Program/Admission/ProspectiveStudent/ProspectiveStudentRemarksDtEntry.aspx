@@ -13,6 +13,12 @@
         $(function () {
             registerCollapseExpandHandler();
 
+            if($('#<%=chkIsFailInSchool.ClientID %>').is(':checked')){
+                $('#<%=cboGradeFail.ClientID %>').show();
+            }else{
+                $('#<%=cboGradeFail.ClientID %>').hide();
+            }
+
             $('#btnNext').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry'))
                     cbpMPEntryProcess.PerformCallback('save');
@@ -20,6 +26,13 @@
 
             $('#btnPrev').click(function () {
                 parent.OnPrevButtonClick();
+            });
+
+            $('#<%=chkIsFailInSchool.ClientID %>').click(function () {
+                if ($(this).is(':checked')) {
+                    $('#<%=cboGradeFail.ClientID %>').show();
+                }else
+                    $('#<%=cboGradeFail.ClientID %>').hide();
             });
         });
 
@@ -47,11 +60,8 @@
                                     <td><asp:TextBox runat="server" ID="txtTalentOrInterest" TextMode="MultiLine" Rows="2" Width="300px" /></td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td>
-                                        <asp:CheckBox runat="server" ID="chkIsFatherless" Text="Yatim" />
-                                        <asp:CheckBox runat="server" ID="chkIsMotherless" Text="Piatu" />
-                                    </td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Status Anak")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="CboOrphans" Width="120px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Bahasa Sehari-hari")%></label></td>
@@ -107,8 +117,8 @@
                                                 <col width="220px" />
                                             </colgroup>
                                             <tr>
-                                                <td><label><%=GetLabel("Tidur Malam")%></label> <asp:TextBox ID="txtSleepingAtNight" Width="80px" runat="server" /></td>
-                                                <td><label><%=GetLabel("Bangun Pagi")%></label> <asp:TextBox ID="txtWakeUp" Width="80px" runat="server" /></td>
+                                                <td><label><%=GetLabel("Tidur Malam")%></label> <asp:TextBox ID="txtSleepingAtNight" Width="80px" CssClass="time" runat="server" /></td>
+                                                <td><label><%=GetLabel("Bangun Pagi")%></label> <asp:TextBox ID="txtWakeUp" Width="80px" CssClass="time" runat="server" /></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -140,7 +150,7 @@
                                     <td></td>
                                     <td>
                                         <asp:CheckBox runat="server" ID="chkIsFailInSchool" Text="Pernah Tidak Naik Kelas" />
-                                        <asp:TextBox ID="txtGradeFail" Width="80px" CssClass="number" runat="server" />
+                                        <dxe:ASPxComboBox ID="cboGradeFail" Width="120px" runat="server" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -230,6 +240,16 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jarak Rumah Ke Sekolah")%></label></td>
                                     <td><asp:TextBox ID="txtHomeDistance" Width="80px" CssClass="number" runat="server" /> [km]</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <h4 class="h4expanded"><%=GetLabel("Informasi Tambahan")%></h4>
+                        <div class="containerTblEntryContent">
+                            <table class="tblEntryContent" style="width:100%">
+                                <tr>
+                                    <td valign="top" class="tdLabel"><label class="lblNormal"><%=GetLabel("Hal-hal Lain yang perlu dicatat")%></label></td>
+                                    <td><asp:TextBox ID="txtRemarks" Width="300px" TextMode="MultiLine" Rows="2" runat="server" /></td>
                                 </tr>
                             </table>
                         </div>
