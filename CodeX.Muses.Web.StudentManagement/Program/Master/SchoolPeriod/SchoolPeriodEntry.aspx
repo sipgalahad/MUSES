@@ -71,7 +71,12 @@
             $('#<%=hdnSaveValue.ClientID %>').val(result);
             return true;
         }
+
+        function onBeforeGoToListPage(mapForm) {
+            mapForm.appendChild(createInputHiddenPost("siteID", $('#<%=hdnSiteID.ClientID %>').val()));
+        }
     </script>
+    <input type="hidden" id="hdnSiteID" runat="server" value="" />
     <input type="hidden" id="hdnID" runat="server" value="" />
     <input type="hidden" id="hdnSaveValue" runat="server" value="" />
     <table class="tblContentArea">

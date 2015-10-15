@@ -49,7 +49,6 @@ namespace CodeX.Muses.Web.Finance.Program
             StandardCode entityDPOut = lstSc.FirstOrDefault(p => p.StandardCodeID == Constant.PaymentMethod.DOWN_PAYMENT_RETURN);
             hdnCboDPOut.Value = string.Format("{0}|{1}", entityDPOut.StandardCodeID, entityDPOut.StandardCodeName);
 
-
             List<EDCMachine> lstEDCMachine = BusinessLayer.GetEDCMachineList("IsDeleted = 0");
             Methods.SetComboBoxField<EDCMachine>(cboEDCMachine, lstEDCMachine, "EDCMachineName", "EDCMachineID");
             cboEDCMachine.SelectedIndex = 0;

@@ -39,7 +39,6 @@
             }
         });
         $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
-        alert($('#<%=hdnSelectedMember.ClientID %>').val());
     }
 
     function onBeforeSaveRecord(errMessage) {
@@ -110,6 +109,7 @@
                                                 <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
+                                        <asp:BoundField DataField="StudentCode" HeaderText="NBS" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
                                         <asp:BoundField DataField="StudentName" HeaderText="Nama" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
                                         <asp:BoundField DataField="cfStudentFeeCompTypeName" HeaderText="Keterangan" HeaderStyle-Width="500px" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
                                         <asp:BoundField DataField="PayerAmount" HeaderText="Total Piutang" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="200px" />

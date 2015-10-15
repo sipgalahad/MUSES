@@ -164,6 +164,7 @@
                                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
                                             <asp:BoundField DataField="ARInvoiceDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                            <asp:BoundField DataField="PayedStudentCode" HeaderText="NBS" HeaderStyle-Width="220px"  />
                                             <asp:BoundField DataField="PayedStudentName" HeaderText="Siswa"  />
                                             <asp:BoundField DataField="cfStudentFeeCompTypeName" HeaderText="Keterangan" HeaderStyle-Width="220px" />
                                             <asp:BoundField DataField="TransactionAmount" HeaderText="Total Piutang" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="200px" />

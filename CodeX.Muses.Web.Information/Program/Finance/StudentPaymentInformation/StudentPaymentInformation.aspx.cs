@@ -58,24 +58,17 @@ namespace CodeX.Muses.Web.Information.Program
 
         private string GetFilterExpression()
         {
-            string filterExpression ="";
+            string filterExpression = "";
             if (Request.Form[txtTransactionDate.UniqueID] != null && Request.Form[txtTransactionDate.UniqueID] != "")
                 filterExpression = string.Format("ReceivingDate = '{0}'", Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]).ToString("yyyyMMdd"));
             else
                 filterExpression = string.Format("ReceivingDate = '{0}'", Helper.GetDatePickerValue(txtTransactionDate.Text).ToString("yyyyMMdd"));
-            if (tacSchoolClass.Value != "")
-                filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {0})", tacSchoolClass.Value);
+            if (Request.Form[hdnSiteID.UniqueID] != null && Request.Form[hdnSiteID.UniqueID] != "")
+                filterExpression += string.Format(" AND SiteID = '{0}'", Request.Form[hdnSiteID.UniqueID]);
             else
-            {
-                if (Request.Form[hdnSiteID.UniqueID] != null && Request.Form[hdnSiteID.UniqueID] != "")
-                    filterExpression += string.Format(" AND SiteID = '{0}'", Request.Form[hdnSiteID.UniqueID]);
-                else
-                    filterExpression += string.Format(" AND SiteID = '{0}'", hdnSiteID.Value);
-            }
-            if (hdnFilterExpressionQuickSearch.Value != "")
-                filterExpression += string.Format(" AND {0}", hdnFilterExpressionQuickSearch.Value);
-            filterExpression += string.Format(" AND GCTransactionStatus != '{0}' ORDER BY StudentCode", Constant.TransactionStatus.VOID);
-            
+                filterExpression += string.Format(" AND SiteID = '{0}'", hdnSiteID.Value);
+            filterExpression += string.Format(" AND GCTransactionStatus != '{0}' AND BusinessPartnerID IS NULL ORDER BY StudentCode", Constant.TransactionStatus.VOID);
+
             return filterExpression;
         }
 
@@ -88,7 +81,7 @@ namespace CodeX.Muses.Web.Information.Program
             if (lstEntity.Count > 0)
             {
                 string lstARReceivingID = string.Join(",", lstEntity.Select(p => p.ARReceivingID).ToList());
-                lstEntityDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingID IN ({0}) AND GCARPaymentMethod IN ('{1}','{2}')", lstARReceivingID, Constant.PaymentMethod.DOWN_PAYMENT_RETURN));
+                lstEntityDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingID IN ({0}) AND GCARPaymentMethod IN ('{1}')", lstARReceivingID, Constant.PaymentMethod.DOWN_PAYMENT_RETURN));
             }
 
             rptView.DataSource = lstEntity;

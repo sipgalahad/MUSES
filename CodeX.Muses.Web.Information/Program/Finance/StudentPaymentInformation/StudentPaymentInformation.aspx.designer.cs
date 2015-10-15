@@ -13,15 +13,6 @@ namespace CodeX.Muses.Web.Information.Program {
     public partial class StudentPaymentInformation {
         
         /// <summary>
-        /// hdnFilterExpressionQuickSearch control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpressionQuickSearch;
-        
-        /// <summary>
         /// hdnSiteID control.
         /// </summary>
         /// <remarks>
@@ -47,33 +38,6 @@ namespace CodeX.Muses.Web.Information.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSite;
-        
-        /// <summary>
-        /// tacSchoolPeriod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolPeriod;
-        
-        /// <summary>
-        /// tacSchoolClass control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolClass;
-        
-        /// <summary>
-        /// txtSearchView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.QISIntellisenseTextBox txtSearchView;
         
         /// <summary>
         /// txtTransactionDate control.

@@ -21,18 +21,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl()
         {
-            if (Request.QueryString.Count > 0)
+            String[] param = Request.QueryString["id"].Split('|');
+            if (param[0] == "edit")
             {
                 IsAdd = false;
-                String ID = Request.QueryString["id"];
+                String ID = param[1];
                 hdnID.Value = ID;
                 String filterExpression = String.Format("StudentID = {0}", Convert.ToInt32(ID));
                 vStudent entity = BusinessLayer.GetvStudentList(filterExpression)[0];
+                hdnSiteID.Value = entity.SiteID;
                 SetControlProperties();
                 EntityToControl(entity);
             }
             else
             {
+                hdnSiteID.Value = param[1];
                 SetControlProperties();
                 IsAdd = true;
             }
@@ -53,7 +56,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void SetControlProperties()
         {
-            String GCSchoolType = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
+            String GCSchoolType = BusinessLayer.GetSiteParameter(hdnSiteID.Value, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
 
             String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}') AND IsActive = 1 AND IsDeleted = 0",
                 Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER, Constant.StandardCode.RELIGION,
@@ -106,8 +109,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(cboNationality, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboReligion, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtDOB, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
-            SetControlEntrySetting(txtPlaceOfBaptism, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtDateOfBaptism, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtPlaceOfBaptism, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtDateOfBaptism, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtAgeInDay, new ControlEntrySetting(false, false, true, 0));
             SetControlEntrySetting(txtAgeInMonth, new ControlEntrySetting(false, false, true, 0));
             SetControlEntrySetting(txtAgeInYear, new ControlEntrySetting(false, false, true, 0));
@@ -303,7 +306,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Address address = new Address();
                 ControlToEntity(entity, address);
                 entity.PictureFileName = string.Format("{0}.jpg", entity.StudentCode);
-                entity.SiteID = AppSession.UserLogin.SiteID;
+                entity.SiteID = hdnSiteID.Value;
                 entity.AddressID = null;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);

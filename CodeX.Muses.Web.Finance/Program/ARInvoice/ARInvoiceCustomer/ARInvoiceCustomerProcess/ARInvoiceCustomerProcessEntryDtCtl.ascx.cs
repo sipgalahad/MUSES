@@ -44,7 +44,7 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 String lstStudentID = "";
                 lstStudentID = String.Join(",", lstStudentFee.GroupBy(s => s.StudentID).Select(x => x.Key));
-                filterExpression = string.Format("DueDate BETWEEN '{0}' AND '{1}' AND PayerAmount != 0 AND StudentID IN ({2}) AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}' AND StudentFeeDtID IS NOT NULL)", Helper.GetDatePickerValue(txtPeriodFrom.Text), Helper.GetDatePickerValue(txtPeriodTo.Text), lstStudentID, Constant.TransactionStatus.VOID);
+                filterExpression = string.Format("DueDate BETWEEN '{0}' AND '{1}' AND PayerAmount != 0 AND StudentID IN ({2}) AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}' AND StudentFeeDtID IS NOT NULL) ORDER BY StudentCode, DueDate", Helper.GetDatePickerValue(txtPeriodFrom.Text), Helper.GetDatePickerValue(txtPeriodTo.Text), lstStudentID, Constant.TransactionStatus.VOID);
                 List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(filterExpression);
                 grdView.DataSource = lstStudentFeeDt;
                 grdView.DataBind();

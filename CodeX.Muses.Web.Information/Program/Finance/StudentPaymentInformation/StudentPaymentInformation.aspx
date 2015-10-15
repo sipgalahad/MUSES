@@ -30,7 +30,6 @@
         //#endregion
 
         function onRefreshGridView() {
-            $('#<%=hdnFilterExpressionQuickSearch.ClientID %>').val(txtSearchView.GenerateFilterExpression());
             cbpView.PerformCallback('refresh');
         }
 
@@ -44,84 +43,12 @@
             }, 0);
         }
 
-        //#region School Period
-        function onGetSchoolPeriodFilterExpression() {
-            var filterExpression = "SiteID = '" + cboSite.GetValue() + "'";
-            return filterExpression;
-        }
-
-        function onTacSchoolPeriodButtonSearchClick() {
-            openSearchDialog('schoolperiod', onGetSchoolPeriodFilterExpression(), function (value) {
-                var filterExpression = onGetSchoolPeriodFilterExpression() + " AND SchoolPeriodCode = '" + value + "'";
-                Methods.getObject('GetvSchoolPeriodList', filterExpression, function (result) {
-                    if (result != null) {
-                        tacSchoolPeriod.setValue(result.SchoolPeriodID);
-                        tacSchoolPeriod.setText(result.SchoolPeriodName);
-                    }
-                    else {
-                        tacSchoolPeriod.setValue('');
-                        tacSchoolPeriod.setText('');
-                    }
-                    onTacSchoolPeriodValueChanged();
-                });
-            });
-
-        }
-
-        function onTacSchoolPeriodValueChanged() {
-            tacSchoolClass.setValue('');
-            tacSchoolClass.setText('');
-        }
-        //#endregion
-
-        //#region Class
-        function onGetClassFilterExpression() {
-            var filterExpression = "SchoolPeriodID = " + tacSchoolPeriod.getValue() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeRegular() %>' AND IsDeleted = 0";
-            return filterExpression;
-        }
-
-        function onTacClassButtonSearchClick() {
-            openSearchDialog('schoolclass', onGetClassFilterExpression(), function (value) {
-                var filterExpression = onGetClassFilterExpression() + " AND SchoolClassCode = '" + value + "'";
-                Methods.getObject('GetvSchoolClassList', filterExpression, function (result) {
-                    if (result != null) {
-                        tacSchoolClass.setValue(result.SchoolClassID);
-                        tacSchoolClass.setText(result.SchoolClassName);
-                    }
-                    else {
-                        tacSchoolClass.setValue('');
-                        tacSchoolClass.setText('');
-                    }
-                    onTacClassValueChanged();
-                });
-            });
-
-        }
-
-        function onTacClassValueChanged() {
-        }
-        //#endregion
-
         function onCboSiteValueChanged() {
-            var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND <%=OnGetSchoolPeriodNowFilterExpression() %>";
-            Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
-                if (result != null) {
-                    tacSchoolPeriod.setValue(result.SchoolPeriodID);
-                    tacSchoolPeriod.setText(result.SchoolPeriodName);
-                }
-                else {
-                    tacSchoolPeriod.setValue('');
-                    tacSchoolPeriod.setText('');
-                }
-                onTacSchoolPeriodValueChanged();
-            });
-
             $('#<%=hdnSiteID.ClientID %>').val(cboSite.GetValue());
             $('#<%=hdnSiteName.ClientID %>').val(cboSite.GetText());
         }
 
     </script>
-    <input type="hidden" value="" id="hdnFilterExpressionQuickSearch" runat="server" />
     <input type="hidden" value="" id="hdnSiteID" runat="server" />
     <input type="hidden" value="" id="hdnSiteName" runat="server" />
     <div>
@@ -138,39 +65,6 @@
                                 <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
                                     <ClientSideEvents Init="function(s,e){ onCboSiteValueChanged(); }"  ValueChanged="function(s,e){ onCboSiteValueChanged() }" />
                                 </dxe:ASPxComboBox>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran") %></td>
-                            <td>
-                                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSchoolPeriod" ClientInstanceName="tacSchoolPeriod" MethodName="GetvSchoolClassList" GetFilterExpressionFunction="onGetSchoolPeriodFilterExpression"
-                                    SearchFields="SchoolPeriodName,SchoolPeriodCode" TextField="SchoolPeriodName" ValueField="SchoolPeriodID" SearchText="${SchoolPeriodName} (<b>${SchoolPeriodCode}</b>)" OrderByExpression="SchoolPeriodName">
-                                    <ClientSideEvents ButtonSearchClick="function(){ onTacSchoolPeriodButtonSearchClick(); }"
-                                        ValueChanged="function(){ onTacSchoolPeriodValueChanged(); }" />
-                                </cdx:CodeXAutoCompleteTextBox>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kelas")%></label></td>
-                            <td>
-                                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSchoolClass" ClientInstanceName="tacSchoolClass" MethodName="GetvSchoolClassList" GetFilterExpressionFunction="onGetClassFilterExpression"
-                                    SearchFields="SchoolClassName,SchoolClassCode" TextField="SchoolClassName" ValueField="SchoolClassID" SearchText="${SchoolClassName} (<b>${SchoolClassCode}</b>)" OrderByExpression="SchoolClassName">
-                                    <ClientSideEvents ButtonSearchClick="function(){ onTacClassButtonSearchClick(); }"
-                                        ValueChanged="function(){ onTacClassValueChanged(); }" />
-                                </cdx:CodeXAutoCompleteTextBox>   
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Search Filter")%></label></td>
-                            <td>
-                                <cdx:QISIntellisenseTextBox runat="server" ClientInstanceName="txtSearchView" ID="txtSearchView"
-	                                Width="300px" Watermark="Search">
-	                                <ClientSideEvents SearchClick="function(s){ onTxtSearchViewSearchClick(s); }" />
-	                                <IntellisenseHints>
-		                                <cdx:QISIntellisenseHint Text="Nama" FieldName="StudentName" />
-		                                <cdx:QISIntellisenseHint Text="NIS" FieldName="StudentCode" />
-	                                </IntellisenseHints>
-                                </cdx:QISIntellisenseTextBox>
                             </td>
                         </tr>
                         <tr>
@@ -228,9 +122,9 @@
                                             </HeaderTemplate>
                                             <ItemTemplate>
                                                 <tr>
-                                                    <td><%#Eval("StudentCode") %></td>
-                                                    <td><%#Eval("StudentName") %></td>
-                                                    <td><%#Eval("SchoolClassCode") %></td>
+                                                    <td><%#Eval("cfStudentCode") %></td>
+                                                    <td><%#Eval("cfStudentName") %></td>
+                                                    <td><%#Eval("cfSchoolClassCode") %></td>
                                                     <td align="right"><div id="divUsek" runat="server"></div></td>
                                                     <td align="right"><div id="divKeg" runat="server"></div></td>
                                                     <td align="right"><div id="divPemb" runat="server"></div></td>

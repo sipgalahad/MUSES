@@ -25,6 +25,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
+            if (Request.Form["siteID"] != null)
+                cboSite.Value = Request.Form["siteID"].ToString();
+
             hdnFilterExpression.Value = filterExpression;
             hdnID.Value = keyValue;
             filterExpression = GetFilterExpression();
@@ -51,7 +57,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            filterExpression += string.Format("SiteID = '{0}' AND IsDeleted = 0", cboSite.Value);
             return filterExpression;
         }
 
@@ -95,7 +101,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/Student/StudentEntry.aspx");
+            url = ResolveUrl(string.Format("~/Program/Master/Student/StudentEntry.aspx?id=add|{0}", cboSite.Value));
             return true;
         }
 
@@ -103,7 +109,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/Student/StudentEntry.aspx?id={0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/Master/Student/StudentEntry.aspx?id=edit|{0}", hdnID.Value));
                 return true;
             }
             return false;

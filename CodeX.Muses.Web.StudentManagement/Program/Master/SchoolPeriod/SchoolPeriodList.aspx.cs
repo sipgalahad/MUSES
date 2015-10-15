@@ -28,6 +28,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.SelectedIndex = 0;
+            if (Request.Form["siteID"] != null)
+                cboSite.Value = Request.Form["siteID"].ToString();
 
             hdnFilterExpression.Value = filterExpression;
             hdnID.Value = keyValue;
@@ -100,7 +102,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/SchoolPeriod/SchoolPeriodEntry.aspx");
+            url = ResolveUrl(string.Format("~/Program/Master/SchoolPeriod/SchoolPeriodEntry.aspx?id=add|{0}", cboSite.Value));
             return true;
         }
 
@@ -108,7 +110,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/SchoolPeriod/SchoolPeriodEntry.aspx?id={0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/Master/SchoolPeriod/SchoolPeriodEntry.aspx?id=edit|{0}", hdnID.Value));
                 return true;
             }
             return false;

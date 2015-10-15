@@ -22,18 +22,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl()
         {
-            if (Request.QueryString.Count > 0)
+            String[] param = Request.QueryString["id"].Split('|');
+            if (param[0] == "edit")
             {
                 IsAdd = false;
-                String ID = Request.QueryString["id"];
+                String ID = param[1];
                 hdnID.Value = ID;
                 SetControlProperties();
                 SchoolPeriod entity = BusinessLayer.GetSchoolPeriod(Convert.ToInt32(ID));
+                hdnSiteID.Value = entity.SiteID;
                 EntityToControl(entity);
-                BindCboGradePromotionFormula(); 
+                BindCboGradePromotionFormula();
             }
             else
             {
+                hdnSiteID.Value = param[1];
                 SetControlProperties();
                 BindCboGradePromotionFormula(); 
                 IsAdd = true;
@@ -187,7 +190,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 SchoolPeriod entity = new SchoolPeriod();
                 ControlToEntity(entity);
-                entity.SiteID = AppSession.UserLogin.SiteID;
+                entity.SiteID = hdnSiteID.Value;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 entity.SchoolPeriodID = BusinessLayer.GetSchoolPeriodMaxID(ctx);

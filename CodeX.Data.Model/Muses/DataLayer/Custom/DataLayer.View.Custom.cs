@@ -111,6 +111,30 @@ namespace CodeX.Data.Model
         {
             get { return _ReceivingDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
+        public string cfStudentCode
+        {
+            get
+            {
+                if (_StudentID > 0) return _StudentCode;
+                return _ProspectiveStudentCode;
+            }
+        }
+        public string cfStudentName
+        {
+            get
+            {
+                if (_StudentID > 0) return _StudentName;
+                return _ProspectiveStudentName;
+            }
+        }
+        public string cfSchoolClassCode
+        {
+            get
+            {
+                if (_StudentID > 0) return _SchoolClassCode;
+                return "Baru;";
+            }
+        }
     }
     #endregion
     #region vChartOfAccount

@@ -126,7 +126,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vARInvoiceDt> lstInvoiceDt = BusinessLayer.GetvARInvoiceDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ARInvoiceID ASC");
+            List<vARInvoiceDt> lstInvoiceDt = BusinessLayer.GetvARInvoiceDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "PayedStudentCode ASC");
             grdView.DataSource = lstInvoiceDt;
             grdView.DataBind();
         }
