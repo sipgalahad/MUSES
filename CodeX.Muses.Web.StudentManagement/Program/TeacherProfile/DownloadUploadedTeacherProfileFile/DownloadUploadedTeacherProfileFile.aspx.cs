@@ -1553,8 +1553,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         #endregion
                         #endregion
 
-                        #region OpenQuestion
-                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
+                        //#region OpenQuestion
+                        //tp.DataFromFile += ";" + String.Join(";", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
+                        //#endregion
+
+                        #region Pendapat dan Kesan Siswa
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(103).Take(9).Select(x => x.Replace("%", "")));
+                        #endregion
+
+                        #region Pendapat dan Kesan Kolega
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(113).Take(7).Select(x => x.Replace("%", "")));
                         #endregion
                     }
                     else if (cboGrade.Value.ToString() == Constant.SchoolTypeName.SMA)
@@ -1686,8 +1694,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         #endregion
                         #endregion
 
-                        #region OpenQuestion
-                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
+                        //#region OpenQuestion
+                        //tp.DataFromFile += ";" + String.Join(";", obj.Skip(103).Take(2).Select(x => x.Replace("%", "")));
+                        //#endregion
+
+                        #region Pendapat dan Kesan Siswa
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(103).Take(9).Select(x => x.Replace("%", "")));
+                        #endregion
+
+                        #region Pendapat dan Kesan Kolega
+                        tp.DataFromFile += ";" + String.Join(";", obj.Skip(113).Take(7).Select(x => x.Replace("%", "")));
                         #endregion
                     }
                     lstTp.Add(tp);
@@ -1733,7 +1749,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     TransTeacherProfileDtItem ttpItem = new TransTeacherProfileDtItem();
                     ttpItem.TransTeacherProfileDtID = DtID;
                     ttpItem.TeacherProfileItemID = tpi.TeacherProfileItemID;
-                    if (tpi.TeacherProfileGroupID == 12)
+                    if (tpi.GCTeacherProfileMarkType == Constant.TeacherProfileMarkType.TEXT)
                     {
                         ttpItem.Remarks = temp[i];
                         ttpItemDao.Insert(ttpItem);
