@@ -123,7 +123,7 @@
                                             </colgroup>
                                             <tr class="trReportBody">
                                                 <td valign="top">No.</td>
-                                                <td style="font-weight:bold;"><%#Eval("Value")%></td>
+                                                <td style="font-weight:bold;"><%#Eval("Code").ToString() != "13" && Eval("Code").ToString() != "14" ? Eval("Value") : ""%></td>
                                                 <td align="center" id="tdHeaderPercentage" runat="server">%</td>
                                                 <td align="center" id="tdHeaderMutu" runat="server">Mutu</td>
                                             </tr>
@@ -131,7 +131,7 @@
                                                 <ItemTemplate>
                                                     <tr class="trReportBody">
                                                         <td valign="top" align="right" class="number"><%# Container.ItemIndex + 1 %></td>
-                                                        <td valign="top" style="white-space:normal;"><%#Eval("TeacherProfileItemName") %></td>
+                                                        <td valign="top" style="white-space:normal;"><%#Eval("TeacherProfileItemName")%></td>
                                                         <td valign="top" align="center" class="number" id="tdPercentage" runat="server"></td>
                                                         <td valign="top" id="tdMutu" runat="server"></td>
                                                     </tr>
@@ -150,44 +150,6 @@
                             </tr>
                         </ItemTemplate>
                     </asp:Repeater>
-                    <tr class="trReportBody">
-                        <td valign="top">
-                            <h3 style="font-weight:bold;">D. PRESENSI : </h3>
-                            <div style="padding-left:10px;" id="divEmployeeAttendanceSummary" runat="server">
-                                <table cellpadding='0' cellspacing='0' border="1" class="tblProfilGuruItem">
-                                    <colgroup>
-                                        <col width="120px" />
-                                        <col width="120px" />
-                                        <col width="120px" />
-                                        <col width="120px" />
-                                        <col width="120px" />
-                                    </colgroup>
-                                    <tr>
-                                        <td>He = .....</td>
-                                        <td align="center">Kehadiran</td>
-                                        <td align="center">Sakit</td>
-                                        <td align="center">Izin</td>
-                                        <td align="center">Alpha</td>
-                                    </tr>
-                                    <tr>
-                                        <td>JML HARI</td>
-                                        <td align="center">{EffectiveDays}</td>
-                                        <td align="center">{SickDays}</td>
-                                        <td align="center">{PermitDays}</td>
-                                        <td align="center">{AlphaDays}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>%</td>
-                                        <td align="center">{EffectiveDaysInPercentage}</td>
-                                        <td align="center">{SickDaysInPercentage}</td>
-                                        <td align="center">{PermitDaysInPercentage}</td>
-                                        <td align="center">{AlphaDaysInPercentage}</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <br />
-                        </td>
-                    </tr>
                     <tr class="trReportBody">
                         <td>
                             <h3 style="font-weight:bold;">E. CATATAN KEPALA SEKOLAH/PIMPINAN LANGSUNG TERKAIT SIKAP/PERILAKU/KINERJA YBS</h3>
@@ -229,8 +191,46 @@
                         </td>
                     </tr>
                     <tr class="trReportBody">
+                        <td valign="top">
+                            <h3 style="font-weight:bold;">F. PRESENSI : </h3>
+                            <div style="padding-left:10px;" id="divEmployeeAttendanceSummary" runat="server">
+                                <table cellpadding='0' cellspacing='0' border="1" class="tblProfilGuruItem">
+                                    <colgroup>
+                                        <col width="120px" />
+                                        <col width="120px" />
+                                        <col width="120px" />
+                                        <col width="120px" />
+                                        <col width="120px" />
+                                    </colgroup>
+                                    <tr>
+                                        <td>He = .....</td>
+                                        <td align="center">Kehadiran</td>
+                                        <td align="center">Sakit</td>
+                                        <td align="center">Izin</td>
+                                        <td align="center">Alpha</td>
+                                    </tr>
+                                    <tr>
+                                        <td>JML HARI</td>
+                                        <td align="center">{EffectiveDays}</td>
+                                        <td align="center">{SickDays}</td>
+                                        <td align="center">{PermitDays}</td>
+                                        <td align="center">{AlphaDays}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%</td>
+                                        <td align="center">{EffectiveDaysInPercentage}</td>
+                                        <td align="center">{SickDaysInPercentage}</td>
+                                        <td align="center">{PermitDaysInPercentage}</td>
+                                        <td align="center">{AlphaDaysInPercentage}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br />
+                        </td>
+                    </tr>
+                    <tr class="trReportBody">
                         <td>
-                            <h3 style="font-weight:bold;">F. PROGRAM PENGEMBANGAN DIRI YANG AKAN SAYA LAKUKAN</h3>
+                            <h3 style="font-weight:bold;">G. PROGRAM PENGEMBANGAN DIRI YANG AKAN SAYA LAKUKAN</h3>
                             <div style="padding-left:10px; max-height: 170px;" id="div4" runat="server">
                                 <table cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">
                                     <colgroup>
@@ -279,8 +279,56 @@
                     </tr>
                     <tr class="trReportBody">
                         <td>
-                            <h3 style="font-weight:bold;">G. PROGRAM PENGEMBANGAN DIRI YANG PERLU DILAKUKAN GURU YBS MENURUT KEPALA SEKOLAH/PIMPINAN LANGSUNG</h3>
+                            <h3 style="font-weight:bold;">H. PROGRAM PENGEMBANGAN DIRI YANG SAYA BUTUHKAN UNTUK DIFASILITASI YAYASAN:</h3>
                             <div style="padding-left:10px;" id="div5" runat="server">
+                                <table cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">
+                                    <colgroup>
+                                        <col width="3px" />
+                                        <col />
+                                        <col width="60px"/>
+                                        <col width="60px"/>
+                                    </colgroup>
+                                    <tr>
+                                        <td align="center" rowspan="2">No.</td>
+                                        <td align="center" rowspan="2">PROGRAM</td>
+                                        <td align="center" colspan="2">JADWAL</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">Mulai</td>
+                                        <td align="center">Selesai</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="trReportBody">
+                        <td>
+                            <h3 style="font-weight:bold;">I. PROGRAM PENGEMBANGAN DIRI YANG PERLU DILAKUKAN GURU YBS MENURUT KEPALA SEKOLAH/PIMPINAN LANGSUNG:</h3>
+                            <div style="padding-left:10px;" id="div2" runat="server">
                                 <table cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">
                                     <colgroup>
                                         <col width="3px" />

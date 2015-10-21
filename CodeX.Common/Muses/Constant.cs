@@ -94,6 +94,12 @@ namespace CodeX.Common
             public const string BUDGET_TYPE = "DT007";
         }
 
+        public static class TeacherProfileMarkType 
+        {
+            public const string NUMBER = "MS035^001";
+            public const string TEXT = "MS035^002";
+        }
+
         public static class StudentStatus
         {
             public const string ACTIVE = "MS006^001";

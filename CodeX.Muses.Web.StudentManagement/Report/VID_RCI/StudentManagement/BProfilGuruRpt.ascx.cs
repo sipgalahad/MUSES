@@ -162,12 +162,28 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                         tdHeaderPercentage.Width = "50%";
                         tdHeaderMutu.Visible = false;
                         break;
+                    case "13":
+                        divHeader.Style.Remove("display");
+                        divHeader.InnerHtml = "Pendapat dan Kesan Siswa Secara Terbuka terhadap Profil Kepribadian Guru";
+                        tdHeaderPercentage.InnerHtml = "Jawaban";
+                        tdHeaderPercentage.ColSpan = 2;
+                        tdHeaderPercentage.Width = "50%";
+                        tdHeaderMutu.Visible = false;
+                        break;
+                    case "14":
+                        divHeader.Style.Remove("display");
+                        divHeader.InnerHtml = "D. PENDAPAT DAN KESAN SECARA TERBUKA DARI KOLEGA :";
+                        tdHeaderPercentage.InnerHtml = "Jawaban";
+                        tdHeaderPercentage.ColSpan = 2;
+                        tdHeaderPercentage.Width = "50%";
+                        tdHeaderMutu.Visible = false;
+                        break;
                     default : 
                         divHeader.Style.Add("display","none"); 
                         break;
                 }
 
-                List<vTransTeacherProfileDtItem> lstTemp = lstProfileItem.Where(x => x.TeacherProfileGroupID == Convert.ToInt32(group.Code)).ToList();
+                List<vTransTeacherProfileDtItem> lstTemp = lstProfileItem.Where(x => x.TeacherProfileGroupID == Convert.ToInt32(group.Code)).OrderBy(s => s.DisplayOrder).ToList();
                 if (lstTemp.Count() == 1 && ts != null)
                 {
                     lstTemp[0].TeacherProfileItemName = lstTemp[0].TeacherProfileItemName.Replace("{SubjectName}", ts.SubjectName);
@@ -180,7 +196,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 rptGroupItem.DataSource = lstTemp;
                 rptGroupItem.DataBind();
                 HtmlTableRow trMutu = e.Item.FindControl("trMutu") as HtmlTableRow;
-                if (lstTemp.Count() > 1 && group.Code != "12")
+                if (lstTemp.Count() > 1 && group.Code != "12" && group.Code != "13" && group.Code != "14")
                 {
                     HtmlTableCell tdFinalScore = e.Item.FindControl("tdFinalScore") as HtmlTableCell;
                     HtmlTableCell tdQualityScore = e.Item.FindControl("tdQualityScore") as HtmlTableCell;
@@ -233,11 +249,11 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     tdPercentage.InnerHtml = entity.Remarks;
                 }
 
-                if (entity.TeacherProfileGroupID < 7 && entity.TeacherProfileGroupID != 12)
+                if (entity.TeacherProfileGroupID < 7 && entity.GCTeacherProfileMarkType != Constant.TeacherProfileMarkType.TEXT)
                 {
                     tdMutu.InnerHtml = GetMutu(percentage);
                 }
-                else if (entity.TeacherProfileGroupID != 12)
+                else if (entity.GCTeacherProfileMarkType == Constant.TeacherProfileMarkType.NUMBER)
                 {
                     tdMutu.InnerHtml = GetPetaUmpanBalik(percentage);
                 }

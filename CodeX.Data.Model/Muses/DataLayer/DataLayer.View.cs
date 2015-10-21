@@ -29313,7 +29313,9 @@ namespace CodeX.Data.Model
         private String _TeacherProfileGroupName;
         private String _TeacherProfileGroupDisplayText;
         private Int32 _TeacherProfileItemID;
+        private Int16 _DisplayOrder;
         private String _TeacherProfileItemName;
+        private String _GCTeacherProfileMarkType;
         private Decimal _Score;
         private Decimal _ScoreInPercentage;
         private Boolean _IsDynamicQualityPercentage;
@@ -29351,11 +29353,23 @@ namespace CodeX.Data.Model
             get { return _TeacherProfileItemID; }
             set { _TeacherProfileItemID = value; }
         }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
         [Column(Name = "TeacherProfileItemName", DataType = "String")]
         public String TeacherProfileItemName
         {
             get { return _TeacherProfileItemName; }
             set { _TeacherProfileItemName = value; }
+        }
+        [Column(Name = "GCTeacherProfileMarkType", DataType = "String")]
+        public String GCTeacherProfileMarkType
+        {
+            get { return _GCTeacherProfileMarkType; }
+            set { _GCTeacherProfileMarkType = value; }
         }
         [Column(Name = "Score", DataType = "Decimal")]
         public Decimal Score
