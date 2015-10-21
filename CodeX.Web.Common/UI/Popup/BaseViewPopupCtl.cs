@@ -37,7 +37,8 @@ namespace CodeX.Web.Common.UI
         {
             IsAllowExport = false;
         }
-        public virtual Control OnGetExportControl(ref bool isShowTitle)
+
+        public virtual Control OnGetExportControl(ref bool isShowTitle, ref string fileName)
         {
             return null;
         }

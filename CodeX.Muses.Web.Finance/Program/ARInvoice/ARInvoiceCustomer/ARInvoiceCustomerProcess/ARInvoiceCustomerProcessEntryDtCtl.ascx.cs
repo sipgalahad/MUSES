@@ -39,12 +39,21 @@ namespace CodeX.Muses.Web.Finance.Program
         private void BindGridView()
         {
             string filterExpression = "";
-            List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(String.Format("BusinessPartnerID = {0}",AppSession.BusinessPartnerID));
+            List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(String.Format("BusinessPartnerID = {0}", AppSession.BusinessPartnerID));
             if (lstStudentFee.Count() > 0) 
             {
-                String lstStudentID = "";
-                lstStudentID = String.Join(",", lstStudentFee.GroupBy(s => s.StudentID).Select(x => x.Key));
-                filterExpression = string.Format("DueDate BETWEEN '{0}' AND '{1}' AND PayerAmount != 0 AND StudentID IN ({2}) AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}' AND StudentFeeDtID IS NOT NULL) ORDER BY StudentCode, DueDate", Helper.GetDatePickerValue(txtPeriodFrom.Text), Helper.GetDatePickerValue(txtPeriodTo.Text), lstStudentID, Constant.TransactionStatus.VOID);
+                String lstStudentID = String.Join(",", lstStudentFee.Where(p => p.StudentID != null).GroupBy(s => s.StudentID).Select(x => x.Key));
+                String lstProspectiveStudentID = String.Join(",", lstStudentFee.Where(p => p.ProspectiveStudentID != null).GroupBy(s => s.ProspectiveStudentID).Select(x => x.Key));
+                filterExpression = string.Format("DueDate BETWEEN '{0}' AND '{1}' AND PayerAmount != 0 AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{2}' AND StudentFeeDtID IS NOT NULL)", Helper.GetDatePickerValue(txtPeriodFrom.Text), Helper.GetDatePickerValue(txtPeriodTo.Text), Constant.TransactionStatus.VOID);
+                if (lstStudentID != "" && lstProspectiveStudentID != "")
+                    filterExpression += string.Format(" AND (StudentID IN ({0}) OR ProspectiveStudentID IN ({1}))", lstStudentID, lstProspectiveStudentID);
+                else
+                {
+                    if (lstStudentID != "")
+                        filterExpression += string.Format(" AND StudentID IN ({0})", lstStudentID);
+                    if (lstProspectiveStudentID != "")
+                        filterExpression += string.Format(" AND ProspectiveStudentID IN ({0})", lstProspectiveStudentID);
+                }
                 List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(filterExpression);
                 grdView.DataSource = lstStudentFeeDt;
                 grdView.DataBind();

@@ -48,6 +48,28 @@ namespace CodeX.Muses.Web.Information.Program
             grdPopupView.DataSource = lstEntity;
             grdPopupView.DataBind();
         }
+        
+        public override Control OnGetExportControl(ref bool isShowTitle, ref string fileName)
+        {
+            DateTime dt = new DateTime(Convert.ToInt32(Request.Form[hdnYear.UniqueID]), Convert.ToInt32(Request.Form[hdnMonth.UniqueID]), 1);
+            isShowTitle = false;
+            fileName = string.Format("{0}_{1}_{2}", Request.Form[txtHeaderText.UniqueID], Request.Form[txtHeaderText2.UniqueID], dt.ToString("yyyyMM"));
+            List<GetStudentReceiveSummaryDt> lstEntity = BusinessLayer.GetStudentReceiveSummaryDt(Request.Form[hdnSiteID.UniqueID], Convert.ToInt32(Request.Form[hdnYear.UniqueID]), Convert.ToInt32(Request.Form[hdnMonth.UniqueID]), Request.Form[hdnType.UniqueID], Convert.ToInt32(Request.Form[hdnStudentFeeCompTypeID.UniqueID]));
+            grdPopupView.DataSource = lstEntity;
+            grdPopupView.DataBind();
+            HtmlGenericControl div = new HtmlGenericControl("DIV");
+            HtmlGenericControl h4 = new HtmlGenericControl("h4");
+            HtmlGenericControl h42 = new HtmlGenericControl("h4");
+            HtmlGenericControl h43 = new HtmlGenericControl("h4");
+            h4.InnerHtml = String.Format("Tipe : {0}", Request.Form[txtHeaderText.UniqueID]);
+            h42.InnerHtml = String.Format("Jenis Pembayaran : {0}", Request.Form[txtHeaderText2.UniqueID]);
+            h43.InnerHtml = String.Format("Periode : {0}", dt.ToString("MMM yyyy"));
+            div.Controls.Add(h4);
+            div.Controls.Add(h42);
+            div.Controls.Add(h43);
+            div.Controls.Add(grdPopupView);
+            return div;
+        }
 
         protected void cbpPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {

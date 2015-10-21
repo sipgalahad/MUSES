@@ -25,10 +25,12 @@
                     $('.txtRemainingAmount').each(function () {
                         if (isAllowSave) {
                             var total = parseFloat($(this).attr('hiddenVal'));
-                            $tr = $(this).closest('tr').next();
+                            $tr = $(this).closest('tr').next().next().next();
+
+                            var totalPayerAmount = parseFloat($tr.prev().find('.txtPayerAmount').attr('hiddenVal'));
                             var studentFeeCompType = $tr.find('.hdnStudentFeeCompTypeName').val();
                             var totalPayment = parseFloat($tr.find('.txtTotalPayment').attr('hiddenVal'));
-                            if (total != totalPayment) {
+                            if ((total - totalPayerAmount) != totalPayment) {
                                 isAllowSave = false;
                                 showToast('Warning', 'Total ' + studentFeeCompType + ' Tidak Sama');
                             }
@@ -39,7 +41,9 @@
                         var lstStudentFeeID = "";
                         $('.hdnStudentFeeID').each(function () {
                             var studentFeeID = $(this).val();
-                            var totalAmount = $(this).closest('tr').prev().prev().prev().find('.txtTotalAmount').attr('hiddenVal');
+                            var totalAmount = $(this).closest('tr').prev().prev().prev().prev().prev().find('.txtTotalAmount').attr('hiddenVal');
+                            var payerAmount = $(this).closest('tr').prev().find('.txtPayerAmount').attr('hiddenVal');
+                            var customerID = $(this).closest('tr').prev().prev().find('.ddlCustomer').val();
                             var tempResult = '';
                             var count = 0;
                             $('.txtDueDate' + studentFeeID).each(function () {
@@ -56,7 +60,7 @@
                                 param += '|';
                                 lstStudentFeeID += ',';
                             }
-                            param += studentFeeID + ';' + totalAmount + ';' + tempResult;
+                            param += studentFeeID + ';' + totalAmount + ';' + customerID + ';' + payerAmount + ';' + tempResult;
                             lstStudentFeeID += studentFeeID;
                         });
                         $('#<%=hdnLstStudentFeeID.ClientID %>').val(lstStudentFeeID);
@@ -258,6 +262,16 @@
                                         <td><%=GetLabel("Sisa") %></td>
                                         <td>:</td>
                                         <td><asp:TextBox ID="txtRemainingAmount" runat="server" ReadOnly="true" Width="120px" /></td>
+                                    </tr>                                
+                                    <tr id="trDataHeader3" runat="server">
+                                        <td><%=GetLabel("Pemberi Beasiswa") %></td>
+                                        <td>:</td>
+                                        <td><asp:DropDownList ID="ddlCustomer" CssClass="ddlCustomer" runat="server" Width="150px" /></td>
+                                    </tr>
+                                    <tr id="trDataHeader4" runat="server">
+                                        <td><%=GetLabel("Nominal") %></td>
+                                        <td>:</td>
+                                        <td><asp:TextBox ID="txtPayerAmount" runat="server" CssClass="txtPayerAmount txtCurrency" Width="120px" /></td>
                                     </tr>
                                     <tr id="trDataDetail" runat="server">
                                         <td colspan="3">

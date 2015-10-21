@@ -169,6 +169,24 @@ namespace CodeX.Data.Model
                 return _StudentFeeCompTypeName;
             }
         }
+        public String cfVirtualAccountNo
+        {
+            get
+            {
+                if (_StudentID == 0)
+                    return _ProspectiveStudentCode;
+                return _VirtualAccountNo;
+            }
+        }
+        public String cfStudentName
+        {
+            get
+            {
+                if (_StudentID == 0)
+                    return _ProspectiveStudentName;
+                return _StudentName;
+            }
+        }
     }
     #endregion
 }

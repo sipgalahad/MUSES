@@ -39,14 +39,19 @@ namespace CodeX.Web.CommonLibs.Program
 
         protected void btnExport_Click(object sender, EventArgs e)
         {
+            bool isShowTitle = true;
+            string fileName = "";
+            Control controlHtml = ctl.OnGetExportControl(ref isShowTitle, ref fileName);
+            if (controlHtml == null)
+                controlHtml = ctl.OnGetExportControl();
             string pageTitle = ctl.OnGetPageTitle();
             if (pageTitle == "")
                 pageTitle = hdnPageTitle.Value;
-            bool isShowTitle = true;
-            Control controlHtml = ctl.OnGetExportControl(ref isShowTitle);
-            if (controlHtml == null)
-                controlHtml = ctl.OnGetExportControl();
-            Helper.ExportExcel(pageTitle, pageTitle, controlHtml, this, isShowTitle);
+
+            if (fileName == "")
+                fileName = pageTitle;
+
+            Helper.ExportExcel(fileName, pageTitle, controlHtml, this, isShowTitle);
         }
     }
 }

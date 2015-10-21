@@ -65,8 +65,8 @@
                             <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid" Style="height:330px; overflow-y: scroll;">
                                 <asp:GridView ID="grdPopupView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
-                                        <asp:BoundField DataField="VirtualAccountNo" HeaderText="NBS" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="100px"  />
-                                        <asp:BoundField DataField="StudentName" HeaderText="Nama Siswa" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="180px"  />
+                                        <asp:BoundField DataField="cfVirtualAccountNo" HeaderText="NBS" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="100px"  />
+                                        <asp:BoundField DataField="cfStudentName" HeaderText="Nama Siswa" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="180px"  />
                                         <asp:BoundField DataField="cfStudentFeeCompTypeName" HeaderText="Keterangan" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="120px" />
                                         <asp:BoundField DataField="ReceivingAmount" HeaderText="Jml" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="100px" DataFormatString="{0:n}" />
                                     </Columns>

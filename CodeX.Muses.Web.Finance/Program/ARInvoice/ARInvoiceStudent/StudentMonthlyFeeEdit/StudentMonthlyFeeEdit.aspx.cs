@@ -173,7 +173,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         {
                             entityPayerDt.DueDate = dueDate;
                             entityPayerDt.IsTransactionAmountInPercentage = false;
-                            entityPayerDt.LineAmount = entityFee.TotalStudentAmount;
+                            entityPayerDt.LineAmount = entityFee.PayerAmount;
                             entityPayerDt.TotalStudentAmount = 0;
                             entityPayerDt.LineAmount = entityPayerDt.TransactionAmount = entityPayerDt.PayerAmount = entityFee.PayerAmount;
                             if (entityFee.PayerAmount == 0)
@@ -191,7 +191,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                 entityPayerDt.DisplayOrder = 1;
                                 entityPayerDt.DueDate = dueDate;
                                 entityPayerDt.IsTransactionAmountInPercentage = false;
-                                entityPayerDt.LineAmount = entityFee.TotalStudentAmount;
+                                entityPayerDt.LineAmount = entityFee.PayerAmount;
                                 entityPayerDt.TotalStudentAmount = 0;
                                 entityPayerDt.LineAmount = entityPayerDt.TransactionAmount = entityPayerDt.PayerAmount = entityFee.PayerAmount;
                                 entityPayerDt.CreatedBy = AppSession.UserLogin.UserID;

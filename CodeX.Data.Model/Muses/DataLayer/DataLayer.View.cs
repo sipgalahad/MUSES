@@ -21062,6 +21062,7 @@ namespace CodeX.Data.Model
         private DateTime _RegistrationDate;
         private String _RegistrationTime;
         private Int32 _PeriodAdmissionID;
+        private Int32 _SchoolPeriodID;
         private Int32 _ProspectiveStudentID;
         private String _GCRegistrationType;
         private String _GCInformationSource;
@@ -21144,6 +21145,12 @@ namespace CodeX.Data.Model
         {
             get { return _PeriodAdmissionID; }
             set { _PeriodAdmissionID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
         }
         [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
         public Int32 ProspectiveStudentID
