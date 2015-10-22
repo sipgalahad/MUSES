@@ -211,6 +211,8 @@ namespace CodeX.Muses.Web.Finance.Program
             try
             {
                 decimal DepositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
+                if (DepositAmount < 0)
+                    DepositAmount = 0;
                 #region ARReceivingHD
                 ARReceivingHd entityReceivingHd = new ARReceivingHd();
                 List<ARInvoiceHd> lstARInvoiceHd = null;
@@ -415,11 +417,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 entityARR.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityARRHdDao.Update(entityARR);
 
-                decimal depositAmount = 0;
-                List<ARReceivingDt> lstARReceivingDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingID = {0} AND GCARPaymentMethod = '{1}'", hdnARReceivingID.Value, Constant.PaymentMethod.DOWN_PAYMENT_RETURN), ctx);
-                foreach (ARReceivingDt arReceivingDt in lstARReceivingDt)
-                    depositAmount += arReceivingDt.PaymentAmount;
-                depositAmount -= entityARR.TotalReceivingAmount - entityARR.TotalInvoiceAmount;
+                decimal depositAmount = entityARR.DepositAmount;
 
                 if (depositAmount != 0)
                 {

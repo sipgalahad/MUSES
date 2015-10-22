@@ -286,6 +286,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                     ARReceivingDt entityDt = new ARReceivingDt();
                                     entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
                                     entityDt.GCARPaymentMethod = Constant.PaymentMethod.BANK_TRANSFER;
+                                    entityDt.BankID = bank.BankID;
                                     entityDt.PaymentAmount = entity.Amount - bank.AdministrationAmount;
                                     entityDt.CardFeeAmount = bank.AdministrationAmount;
                                     entityDt.CreatedBy = AppSession.UserLogin.UserID;
@@ -432,6 +433,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                     ARReceivingDt entityDt = new ARReceivingDt();
                                     entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
                                     entityDt.GCARPaymentMethod = Constant.PaymentMethod.BANK_TRANSFER;
+                                    entityDt.BankID = bank.BankID;
                                     entityDt.PaymentAmount = totalAmount;
                                     entityDt.CardFeeAmount = bank.AdministrationAmount;
                                     entityDt.CreatedBy = AppSession.UserLogin.UserID;
