@@ -269,13 +269,18 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.DirectPurchaseNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.DIRECT_PURCHASE, entityHd.PurchaseDate, ctx);
             ctx.CommandType = CommandType.Text;
             ctx.Command.Parameters.Clear();
-            retval += "2^" + entityHd.DirectPurchaseNo + "^" + entityBusinessPartnerDao.Get(BusinessPartnerID).BusinessPartnerName + ";";
             entityHd.GCDirectPurchaseType = hdnDefaultDirectPurchaseType.Value;
             entityHd.BusinessPartnerID = BusinessPartnerID;
             if (BusinessPartnerID == Convert.ToInt32(hdnCustomSupplierID.Value))
-                entityHd.SupplierName = CustomSupplierName;
+            {
+                entityHd.BusinessPartnerName = CustomSupplierName;
+                retval += "2^" + entityHd.DirectPurchaseNo + "^" + CustomSupplierName + ";";
+            }
             else
-                entityHd.SupplierName = null;
+            {
+                entityHd.BusinessPartnerName = null;
+                retval += "2^" + entityHd.DirectPurchaseNo + "^" + entityBusinessPartnerDao.Get(BusinessPartnerID).BusinessPartnerName + ";";
+            }
             entityHd.IsIncludeVAT = false;
             entityHd.FinalDiscountAmount = 0;
             entityHd.VATAmount = 0;

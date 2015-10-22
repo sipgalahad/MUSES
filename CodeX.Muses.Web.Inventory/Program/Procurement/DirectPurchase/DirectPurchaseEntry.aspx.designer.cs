@@ -31,15 +31,6 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRecordFilterExpression;
         
         /// <summary>
-        /// hdnCustomSupplierID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCustomSupplierID;
-        
-        /// <summary>
         /// hdnPrintStatus control.
         /// </summary>
         /// <remarks>
@@ -47,6 +38,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPrintStatus;
+        
+        /// <summary>
+        /// hdnNonMasterSupplierID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnNonMasterSupplierID;
         
         /// <summary>
         /// hdnDirectPurchaseID control.
@@ -139,6 +139,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSupplierID;
         
         /// <summary>
+        /// tblSupplierMaster control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTable tblSupplierMaster;
+        
+        /// <summary>
         /// txtSupplierCode control.
         /// </summary>
         /// <remarks>
@@ -157,13 +166,22 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtSupplierName;
         
         /// <summary>
-        /// txtCustomSupplierName control.
+        /// txtNonMasterSupplierName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCustomSupplierName;
+        protected global::System.Web.UI.WebControls.TextBox txtNonMasterSupplierName;
+        
+        /// <summary>
+        /// chkIsFromMasterSupplier control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsFromMasterSupplier;
         
         /// <summary>
         /// hdnLocation control.

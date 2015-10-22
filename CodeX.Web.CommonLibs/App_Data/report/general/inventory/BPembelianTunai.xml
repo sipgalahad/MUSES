@@ -40,6 +40,7 @@
               <col style="width:20px"/>
             </colgroup>      
             <tr><td>Tanggal Pembelian</td><td align="center">:</td><td>{PurchaseDateInString}</td></tr>
+            <tr><td>Supplier</td><td align="center">:</td><td>{BusinessPartnerName}</td></tr>
           </table>           	
         </td>
       </tr>

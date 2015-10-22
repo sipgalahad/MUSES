@@ -27,9 +27,9 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override void InitializeDataControl()
         {
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
-            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(String.Format("ParameterCode IN ('{0}','{1}')",Constant.SettingParameter.VAT_PERCENTAGE, Constant.SettingParameter.CUSTOM_SUPPLIER));
-            hdnVATPercentage.Value = lstSettingParameter.FirstOrDefault(x => x.ParameterCode == Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
-            hdnCustomSupplierID.Value = lstSettingParameter.FirstOrDefault(x => x.ParameterCode == Constant.SettingParameter.CUSTOM_SUPPLIER).ParameterValue;
+            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}','{1}')", Constant.SettingParameter.VAT_PERCENTAGE, Constant.SettingParameter.CUSTOM_SUPPLIER));
+            hdnVATPercentage.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
+            hdnNonMasterSupplierID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.CUSTOM_SUPPLIER).ParameterValue;
 
             int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
             if (count > 0)
@@ -69,7 +69,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
         protected string OnGetFilterExpressionItemProduct()
         {
-            return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
+            return string.Format("IsDeleted = 0");
         }
         protected string OnGetFilterExpressionSupplier()
         {
@@ -91,11 +91,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtDirectPurchaseDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
             SetControlEntrySetting(lblLocation, new ControlEntrySetting(true, false));
             SetControlEntrySetting(lblSupplier, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(chkIsFromMasterSupplier, new ControlEntrySetting(true, false, false, true, true));
             SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, false));
-            SetControlEntrySetting(txtCustomSupplierName, new ControlEntrySetting(true, false, false));
+            SetControlEntrySetting(txtNonMasterSupplierName, new ControlEntrySetting(true, false, true));
 
             SetControlEntrySetting(cboDirectPurchaseType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, false, false));
@@ -116,6 +117,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnIsEditable.Value = "1";
             hdnGCTransactionStatus.Value = "";
             chkPPN.Checked = false;
+            chkIsFromMasterSupplier.Checked = true;
+            chkIsFromMasterSupplier.Enabled = true;
         }
         protected string GetFilterExpression()
         {
@@ -172,7 +175,20 @@ namespace CodeX.Muses.Web.Inventory.Program
                 txtReferenceDate.Text = "";
             hdnSupplierID.Value = entity.BusinessPartnerID.ToString();
             txtSupplierCode.Text = entity.BusinessPartnerCode;
-            txtSupplierName.Text = entity.BusinessPartnerName;
+            txtNonMasterSupplierName.Text = txtSupplierName.Text = entity.BusinessPartnerName;
+
+            if (entity.BusinessPartnerID.ToString() != hdnNonMasterSupplierID.Value)
+            {
+                chkIsFromMasterSupplier.Checked = true;
+                tblSupplierMaster.Style.Remove("display");
+                txtNonMasterSupplierName.Style.Add("display", "none");
+            }
+            else
+            {
+                chkIsFromMasterSupplier.Checked = false;
+                txtNonMasterSupplierName.Style.Remove("display");
+                tblSupplierMaster.Style.Add("display", "none");
+            }
             hdnLocationID.Value = entity.LocationID.ToString();
             txtLocationCode.Text = entity.LocationCode;
             txtLocationName.Text = entity.LocationName;
@@ -180,10 +196,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtRemarks.Text = entity.Remarks;
             chkPPN.Checked = entity.IsIncludeVAT;
             txtTransactionAmount.Text = entity.TransactionAmount.ToString();
-            if (entity.TransactionAmount + entity.VATAmount != 0)
-                txtFinalDiscountPercentage.Text = (entity.FinalDiscountAmount * 100 / (entity.TransactionAmount + entity.VATAmount)).ToString();
-            else
-                txtFinalDiscountPercentage.Text = "0";
+            txtFinalDiscountPercentage.Text = (entity.FinalDiscountAmount * 100 / (entity.TransactionAmount + entity.VATAmount)).ToString();
             txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
 
             decimal tempTransactionAmount = -1;
@@ -197,7 +210,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = "1 = 0";
             if (hdnDirectPurchaseID.Value != "" && hdnDirectPurchaseID.Value != "0")
                 filterExpression = string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID);
-            
+
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvDirectPurchaseDtRowCount(filterExpression);
@@ -219,10 +232,10 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entityHd.ReferenceDate = Helper.GetDatePickerValue(txtReferenceDate.Text);
             entityHd.GCDirectPurchaseType = cboDirectPurchaseType.Value.ToString();
             entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
-            if (entityHd.BusinessPartnerID != Convert.ToInt32(hdnCustomSupplierID.Value))
-                entityHd.SupplierName = null;
+            if (chkIsFromMasterSupplier.Checked)
+                entityHd.BusinessPartnerName = null;
             else
-                entityHd.SupplierName = txtCustomSupplierName.Text;
+                entityHd.BusinessPartnerName = txtNonMasterSupplierName.Text;
             entityHd.Remarks = txtRemarks.Text;
             entityHd.IsIncludeVAT = chkPPN.Checked;
             if (entityHd.IsIncludeVAT)
@@ -388,7 +401,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
                 List<DirectPurchaseDt> lstEntity = BusinessLayer.GetDirectPurchaseDtList(string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID), ctx);
                 foreach (DirectPurchaseDt entityDt in lstEntity)
-                {                    
+                {
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
                     entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                     directPurchaseDtDao.Update(entityDt);
@@ -462,7 +475,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityDt.UnitPrice = Convert.ToDecimal(txtPrice.Text);
             entityDt.DiscountPercentage = Convert.ToDecimal(txtDiscountPercentage.Text);
             entityDt.DiscountAmount = Convert.ToDecimal(txtDiscountAmount.Text);
-            entityDt.IsControlExpired = false; 
+            entityDt.IsControlExpired = false;
             entityDt.LineAmount = Convert.ToDecimal(Request.Form[txtLineAmount.UniqueID]);
         }
 
@@ -494,7 +507,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ctx.Close();
             }
             return result;
-            
+
         }
 
         private bool OnSaveEditRecordEntityDt(ref string errMessage)
