@@ -8407,6 +8407,7 @@ namespace CodeX.Data.Model
         private DateTime _PurchaseDate;
         private Int32 _LocationID;
         private Int32 _BusinessPartnerID;
+        private String _SupplierName;
         private String _GCDirectPurchaseType;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
@@ -8454,6 +8455,12 @@ namespace CodeX.Data.Model
         {
             get { return _BusinessPartnerID; }
             set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "SupplierName", DataType = "String", IsNullable = true)]
+        public String SupplierName
+        {
+            get { return _SupplierName; }
+            set { _SupplierName = value; }
         }
         [Column(Name = "GCDirectPurchaseType", DataType = "String")]
         public String GCDirectPurchaseType

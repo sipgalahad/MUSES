@@ -27,6 +27,7 @@
             setDatePicker('<%=txtReferenceDate.ClientID %>');
             $('#<%=txtDirectPurchaseDate.ClientID %>').datepicker('option', 'maxDate', '0');
 
+            $('#trCustomSupplier').hide();
 
             //#region Direct Purchase No
             $('#lblDirectPurchaseNo.lblLink').click(function () {
@@ -99,6 +100,11 @@
                 var filterExpression = getSupplierFilterExpression() + " AND BusinessPartnerCode = '" + value + "'";
                 Methods.getObject('GetBusinessPartnersList', filterExpression, function (result) {
                     if (result != null) {
+                        if (result.BusinessPartnerID == $("#<%=hdnCustomSupplierID.ClientID %>").val()) {
+                            $('#trCustomSupplier').show();
+                        } else {
+                            $('#trCustomSupplier').hide();
+                        }
                         $('#<%=hdnSupplierID.ClientID %>').val(result.BusinessPartnerID);
                         $('#<%=txtSupplierName.ClientID %>').val(result.BusinessPartnerName);
                     }
@@ -106,6 +112,7 @@
                         $('#<%=hdnSupplierID.ClientID %>').val('');
                         $('#<%=txtSupplierCode.ClientID %>').val('');
                         $('#<%=txtSupplierName.ClientID %>').val('');
+                        $('#trCustomSupplier').hide();
                     }
                 });
             }
@@ -534,6 +541,7 @@
             openUserControlPopup(url, param, 'Purchase Request Detail', 650, 500);
         });
     </script>
+    <input type="hidden" value="" id="hdnCustomSupplierID" runat="server" />
     <input type="hidden" value="false" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnDirectPurchaseID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
@@ -578,6 +586,10 @@
                                     </tr>
                                 </table>
                             </td>
+                        </tr>
+                        <tr id="trCustomSupplier">
+                            <td class="tdLabel"><label class="lbNormal" id="lblSupplierName"><%=GetLabel("Nama Supplier")%></label></td>
+                            <td><asp:TextBox ID="txtCustomSupplierName" Width="100%" runat="server" /></td>
                         </tr>
                         <tr id="hdnLocation" runat="server">
                             <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblLocation"><%=GetLabel("Lokasi")%></label></td>

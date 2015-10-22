@@ -49,6 +49,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnPurchaseRequestHdDecline;
         
         /// <summary>
+        /// hdnCustomSupplierID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCustomSupplierID;
+        
+        /// <summary>
         /// hdnDefaultDirectPurchaseType control.
         /// </summary>
         /// <remarks>
@@ -200,6 +209,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListGCPurchaseMethod;
+        
+        /// <summary>
+        /// hdnListCustomSupplierName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListCustomSupplierName;
         
         /// <summary>
         /// hdnSelectedMember control.

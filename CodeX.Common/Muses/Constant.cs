@@ -891,6 +891,7 @@ namespace CodeX.Common
             public const string RANGE_EXPIRED_DATE = "MSSIM0004";
             public const string IS_DISCOUNT_APPLIED_TO_AVERAGE_PRICE = "MSSIM0005";
             public const string IS_DISCOUNT_APPLIED_TO_UNIT_PRICE = "MSSIM0006";
+            public const string CUSTOM_SUPPLIER = "MSSIM0007";
         }
         #endregion
 

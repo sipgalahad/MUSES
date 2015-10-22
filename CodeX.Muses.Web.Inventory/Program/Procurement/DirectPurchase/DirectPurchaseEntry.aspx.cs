@@ -27,7 +27,9 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override void InitializeDataControl()
         {
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
-            hdnVATPercentage.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
+            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(String.Format("ParameterCode IN ('{0}','{1}')",Constant.SettingParameter.VAT_PERCENTAGE, Constant.SettingParameter.CUSTOM_SUPPLIER));
+            hdnVATPercentage.Value = lstSettingParameter.FirstOrDefault(x => x.ParameterCode == Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
+            hdnCustomSupplierID.Value = lstSettingParameter.FirstOrDefault(x => x.ParameterCode == Constant.SettingParameter.CUSTOM_SUPPLIER).ParameterValue;
 
             int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
             if (count > 0)
@@ -93,6 +95,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtCustomSupplierName, new ControlEntrySetting(true, false, false));
 
             SetControlEntrySetting(cboDirectPurchaseType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, false, false));
@@ -216,6 +219,10 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entityHd.ReferenceDate = Helper.GetDatePickerValue(txtReferenceDate.Text);
             entityHd.GCDirectPurchaseType = cboDirectPurchaseType.Value.ToString();
             entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
+            if (entityHd.BusinessPartnerID != Convert.ToInt32(hdnCustomSupplierID.Value))
+                entityHd.SupplierName = null;
+            else
+                entityHd.SupplierName = txtCustomSupplierName.Text;
             entityHd.Remarks = txtRemarks.Text;
             entityHd.IsIncludeVAT = chkPPN.Checked;
             if (entityHd.IsIncludeVAT)

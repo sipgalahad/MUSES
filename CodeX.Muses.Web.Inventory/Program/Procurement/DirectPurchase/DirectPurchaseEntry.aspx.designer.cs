@@ -31,6 +31,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRecordFilterExpression;
         
         /// <summary>
+        /// hdnCustomSupplierID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCustomSupplierID;
+        
+        /// <summary>
         /// hdnPrintStatus control.
         /// </summary>
         /// <remarks>
@@ -146,6 +155,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSupplierName;
+        
+        /// <summary>
+        /// txtCustomSupplierName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCustomSupplierName;
         
         /// <summary>
         /// hdnLocation control.
