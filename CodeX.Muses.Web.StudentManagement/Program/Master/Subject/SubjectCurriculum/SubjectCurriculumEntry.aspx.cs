@@ -26,6 +26,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<Curriculum>(cboCurriculum, lstCurriculum, "CurriculumName", "CurriculumID");
             cboCurriculum.SelectedIndex = 0;
 
+            BindClassType();
+
             BindGridView();
 
             Helper.SetControlEntrySetting(txtSubjectCurriculumName, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -71,6 +73,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
 
         protected void cbpClassType_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+        }
+
+        private void BindClassType()
         {
             Repeater rptClassType = (Repeater)ddeClassType.FindControl("rptClassType");
             List<CurriculumClassType> lstClassType = BusinessLayer.GetCurriculumClassTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", cboCurriculum.Value, Constant.ClassStudyType.REGULAR));
