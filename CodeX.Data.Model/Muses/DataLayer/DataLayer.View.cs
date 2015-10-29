@@ -4469,6 +4469,7 @@ namespace CodeX.Data.Model
         private Boolean _IsCreditHold;
         private Boolean _IsHasContract;
         private Boolean _IsUsingDunningLetter;
+        private Boolean _IsGeneratePayerAmount;
         private Boolean _IsDeleted;
 
         [Column(Name = "BusinessPartnerID", DataType = "Int32")]
@@ -4554,6 +4555,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsUsingDunningLetter; }
             set { _IsUsingDunningLetter = value; }
+        }
+        [Column(Name = "IsGeneratePayerAmount", DataType = "Boolean")]
+        public Boolean IsGeneratePayerAmount
+        {
+            get { return _IsGeneratePayerAmount; }
+            set { _IsGeneratePayerAmount = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -24580,6 +24587,7 @@ namespace CodeX.Data.Model
         private Decimal _TotalStudentAmount;
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
+        private Boolean _IsGeneratePayerAmount;
         private Boolean _IsPaid;
         private Boolean _IsDeleted;
 
@@ -24738,6 +24746,12 @@ namespace CodeX.Data.Model
         {
             get { return _LineAmount; }
             set { _LineAmount = value; }
+        }
+        [Column(Name = "IsGeneratePayerAmount", DataType = "Boolean")]
+        public Boolean IsGeneratePayerAmount
+        {
+            get { return _IsGeneratePayerAmount; }
+            set { _IsGeneratePayerAmount = value; }
         }
         [Column(Name = "IsPaid", DataType = "Boolean")]
         public Boolean IsPaid

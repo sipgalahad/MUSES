@@ -105,6 +105,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(chkIsHasContract, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsTaxable, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsUsingDunningLetter, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(chkIsGeneratePayerAmount, new ControlEntrySetting(true, true, false));
             #endregion
 
             #region Address
@@ -161,6 +162,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             chkIsHasContract.Checked = entityCus.IsHasContract;
             chkIsTaxable.Checked = entity.IsTaxable;
             chkIsUsingDunningLetter.Checked = entityCus.IsUsingDunningLetter;
+            chkIsGeneratePayerAmount.Checked = entityCus.IsGeneratePayerAmount;
             #endregion
 
             #region Address
@@ -224,6 +226,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entityCus.IsHasContract = chkIsHasContract.Checked;
             entity.IsTaxable = chkIsTaxable.Checked;
             entityCus.IsUsingDunningLetter = chkIsUsingDunningLetter.Checked;
+            entityCus.IsGeneratePayerAmount = chkIsGeneratePayerAmount.Checked;
             #endregion
             
             #region Address

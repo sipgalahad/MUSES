@@ -225,6 +225,10 @@
                                         <td><%=GetLabel("PKP")%></td>
                                     </tr>
                                     <tr>
+                                        <td><asp:CheckBox ID="chkIsGeneratePayerAmount" Width="100%" runat="server" /></td>
+                                        <td><%=GetLabel("Generate Tagihan")%></td>
+                                    </tr>
+                                    <tr>
                                         <td><asp:CheckBox ID="chkIsBlacklist" Width="100%" runat="server" /></td>
                                         <td><%=GetLabel("Blacklist")%></td>
                                     </tr>
