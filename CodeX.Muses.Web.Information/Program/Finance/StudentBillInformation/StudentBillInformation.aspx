@@ -270,6 +270,14 @@
                                                 </tr>
                                             </ItemTemplate>
                                         </asp:Repeater>
+                                            <tr style="display:none" id="trFooter" runat="server">
+                                                <td colspan="3" style="font-weight:bold;" align="right"><%=GetLabel("Total") %></td>
+                                                <td align="right"><div id="divTotalUsek" runat="server"></div></td>
+                                                <td align="right"><div id="divTotalKeg" runat="server"></div></td>
+                                                <td align="right"><div id="divTotalPemb" runat="server"></div></td>
+                                                <td align="right"><div id="divTotalAll" runat="server"></div></td>
+                                                <td>&nbsp;</td>
+                                            </tr>
                                         </table>
                                     </asp:Panel>
                                 </dx:PanelContent>

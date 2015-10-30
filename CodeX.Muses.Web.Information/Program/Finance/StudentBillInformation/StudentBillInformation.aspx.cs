@@ -143,6 +143,7 @@ namespace CodeX.Muses.Web.Information.Program
         private bool IsExportExcel = false;
         public override Control OnGetExportControl(ref bool isShowTitle, ref string fileName)
         {
+            trFooter.Style.Remove("display");
             IsExportExcel = true;
             thPrint.InnerHtml = "Keterangan Uang Sekolah";
             thPrint.Style.Add("width", "200px");
@@ -171,6 +172,10 @@ namespace CodeX.Muses.Web.Information.Program
             rptView.DataSource = lstEntity;
             rptView.DataBind();
 
+            divTotalPemb.InnerHtml = lstARInvoiceDt.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
+            divTotalUsek.InnerHtml = lstARInvoiceDt.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
+            divTotalKeg.InnerHtml = lstARInvoiceDt.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
+            divTotalAll.InnerHtml = lstARInvoiceDt.Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
 
             HtmlGenericControl div = new HtmlGenericControl("DIV");
             HtmlGenericControl h4 = new HtmlGenericControl("h4");

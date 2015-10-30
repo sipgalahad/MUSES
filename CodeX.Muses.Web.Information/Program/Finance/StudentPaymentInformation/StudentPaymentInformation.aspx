@@ -106,18 +106,20 @@
                                                         <col style="width:120px"/>
                                                         <col style="width:120px"/>
                                                         <col style="width:120px"/>
+                                                        <col style="width:120px"/>
                                                     </colgroup>
                                                     <tr>
                                                         <th rowspan="2" class="thCenter"><%=GetLabel("NBS") %></th>
                                                         <th rowspan="2" class="thCenter"><%=GetLabel("Nama") %></th>
                                                         <th rowspan="2" class="thCenter"><%=GetLabel("Kelas") %></th>
-                                                        <th colspan="3" class="thCenter"><%=GetLabel("Jenis Pembayaran") %></th>
+                                                        <th colspan="4" class="thCenter"><%=GetLabel("Jenis Pembayaran") %></th>
                                                         <th rowspan="2" class="thCenter"><%=GetLabel("Total") %></th>
                                                     </tr>
                                                     <tr>
                                                         <th class="thCenter"><%=GetLabel("Uang Sekolah") %></th>
                                                         <th class="thCenter"><%=GetLabel("Uang Kegiatan") %></th>
                                                         <th class="thCenter"><%=GetLabel("Uang Pembangunan") %></th>
+                                                        <th class="thCenter"><%=GetLabel("Denda") %></th>
                                                     </tr>
                                             </HeaderTemplate>
                                             <ItemTemplate>
@@ -128,6 +130,7 @@
                                                     <td align="right"><div id="divUsek" runat="server"></div></td>
                                                     <td align="right"><div id="divKeg" runat="server"></div></td>
                                                     <td align="right"><div id="divPemb" runat="server"></div></td>
+                                                    <td align="right"><div id="divDenda" runat="server"></div></td>
                                                     <td align="right"><div id="divTotal" runat="server"></div></td>
                                                 </tr>
                                             </ItemTemplate>
@@ -137,6 +140,7 @@
                                                 <td align="right"><div id="divTotalUsek" runat="server"></div></td>
                                                 <td align="right"><div id="divTotalKeg" runat="server"></div></td>
                                                 <td align="right"><div id="divTotalPemb" runat="server"></div></td>
+                                                <td align="right"><div id="divTotalDenda" runat="server"></div></td>
                                                 <td align="right"><div id="divTotalAll" runat="server"></div></td>
                                             </tr>
                                         </table>

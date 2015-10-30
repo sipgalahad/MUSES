@@ -91,6 +91,21 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vARInvoiceReceiving
+    public partial class vARInvoiceReceiving
+    {
+        public Decimal cfPenaltyAmount
+        {
+            get
+            {
+                Decimal Temp = _ReceivingAmount - _TransactionAmount;
+                if (Temp < 0)
+                    return 0;
+                return Temp;
+            }
+        }
+    }
+    #endregion
     #region vARMovement
     public partial class vARMovement
     {

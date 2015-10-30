@@ -73,6 +73,7 @@ namespace CodeX.Muses.Web.Information.Program
         }
 
         List<ARReceivingDt> lstEntityDt = null;
+        List<vARInvoiceReceiving> lstARInvoiceReceiving = null;
         private void BindGridView()
         {
             string filterExpression = GetFilterExpression();
@@ -82,6 +83,7 @@ namespace CodeX.Muses.Web.Information.Program
             {
                 string lstARReceivingID = string.Join(",", lstEntity.Select(p => p.ARReceivingID).ToList());
                 lstEntityDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingID IN ({0}) AND GCARPaymentMethod IN ('{1}')", lstARReceivingID, Constant.PaymentMethod.DOWN_PAYMENT_RETURN));
+                lstARInvoiceReceiving = BusinessLayer.GetvARInvoiceReceivingList(string.Format("ARReceivingID IN ({0})", lstARReceivingID));
             }
 
             rptView.DataSource = lstEntity;
@@ -90,55 +92,45 @@ namespace CodeX.Muses.Web.Information.Program
             divTotalPemb.InnerHtml = totalUangPemb.ToString("N2");
             divTotalUsek.InnerHtml = totalUangSek.ToString("N2");
             divTotalKeg.InnerHtml = totalUangKeg.ToString("N2");
-            divTotalAll.InnerHtml = (totalUangPemb + totalUangSek + totalUangKeg).ToString("N2");
+            divTotalDenda.InnerHtml = totalDenda.ToString("N");
+            divTotalAll.InnerHtml = (totalUangPemb + totalUangSek + totalUangKeg + totalDenda).ToString("N2");
         }
 
         decimal totalUangPemb = 0;
         decimal totalUangSek = 0;
         decimal totalUangKeg = 0;
+        decimal totalDenda = 0;
         protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 vARReceivingHd entity = e.Item.DataItem as vARReceivingHd;
                 List<ARReceivingDt> lstARReceivingDt = lstEntityDt.Where(p => p.ARReceivingID == entity.ARReceivingID).ToList();
+                List<vARInvoiceReceiving> lstARInvoiceReceiving1 = lstARInvoiceReceiving.Where(p => p.ARReceivingID == entity.ARReceivingID).ToList();
 
                 HtmlGenericControl divPemb = e.Item.FindControl("divPemb") as HtmlGenericControl;
                 HtmlGenericControl divSek = e.Item.FindControl("divUsek") as HtmlGenericControl;
                 HtmlGenericControl divKeg = e.Item.FindControl("divKeg") as HtmlGenericControl;
+                HtmlGenericControl divDenda = e.Item.FindControl("divDenda") as HtmlGenericControl;
                 HtmlGenericControl divTotal = e.Item.FindControl("divTotal") as HtmlGenericControl;
-                divPemb.InnerHtml = "0.00";
-                divSek.InnerHtml = "0.00";
-                divKeg.InnerHtml = "0.00";
-                divTotal.InnerHtml = "0.00";
-
-                decimal pemb = 0;
-                decimal usek = 0;
-                decimal keg = 0;
-                List<String> Data = entity.lstInvoiceDt.Split('|').ToList();
-                decimal total = 0;
-                foreach (String tempData in Data)
-                {
-                    String[] temp = tempData.Split(';');
-                    switch (temp[0])
-                    {
-                        case "1": pemb += Convert.ToDecimal(temp[1]); break;
-                        case "2": usek += Convert.ToDecimal(temp[1]); break;
-                        case "3": keg += Convert.ToDecimal(temp[1]); break;
-                    }
-                }
-
+                decimal pemb = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.TransactionAmount);
+                decimal usek = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.TransactionAmount);
+                decimal keg = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.TransactionAmount);
+                decimal denda = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.cfPenaltyAmount);
+                
                 usek -= lstARReceivingDt.Sum(p => p.PaymentAmount);
                 usek += entity.DepositAmount;
 
                 totalUangPemb += pemb;
                 totalUangSek += usek;
                 totalUangKeg += keg;
+                totalDenda += denda;
 
-                total = pemb + usek + keg;
+                decimal total = pemb + usek + keg + denda;
                 divPemb.InnerHtml = pemb.ToString("N2");
                 divSek.InnerHtml = usek.ToString("N2");
                 divKeg.InnerHtml = keg.ToString("N2");
+                divDenda.InnerHtml = denda.ToString("N2");
                 divTotal.InnerHtml = total.ToString("N2");
             }
         }

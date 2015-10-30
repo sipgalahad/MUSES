@@ -838,6 +838,63 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vARInvoiceReceiving
+    [Serializable]
+    [Table(Name = "vARInvoiceReceiving")]
+    public partial class vARInvoiceReceiving
+    {
+        private Int32 _ARReceivingID;
+        private Int32 _ARInvoiceID;
+        private Int32 _ARInvoiceDtID;
+        private Int32 _StudentFeeCompTypeID;
+        private Decimal _TransactionAmount;
+        private Decimal _PenaltyAmount;
+        private Decimal _ReceivingAmount;
+
+        [Column(Name = "ARReceivingID", DataType = "Int32")]
+        public Int32 ARReceivingID
+        {
+            get { return _ARReceivingID; }
+            set { _ARReceivingID = value; }
+        }
+        [Column(Name = "ARInvoiceID", DataType = "Int32")]
+        public Int32 ARInvoiceID
+        {
+            get { return _ARInvoiceID; }
+            set { _ARInvoiceID = value; }
+        }
+        [Column(Name = "ARInvoiceDtID", DataType = "Int32")]
+        public Int32 ARInvoiceDtID
+        {
+            get { return _ARInvoiceDtID; }
+            set { _ARInvoiceDtID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "TransactionAmount", DataType = "Decimal")]
+        public Decimal TransactionAmount
+        {
+            get { return _TransactionAmount; }
+            set { _TransactionAmount = value; }
+        }
+        [Column(Name = "PenaltyAmount", DataType = "Decimal")]
+        public Decimal PenaltyAmount
+        {
+            get { return _PenaltyAmount; }
+            set { _PenaltyAmount = value; }
+        }
+        [Column(Name = "ReceivingAmount", DataType = "Decimal")]
+        public Decimal ReceivingAmount
+        {
+            get { return _ReceivingAmount; }
+            set { _ReceivingAmount = value; }
+        }
+    }
+    #endregion
     #region vARMovement
     [Serializable]
     [Table(Name = "vARMovement")]
