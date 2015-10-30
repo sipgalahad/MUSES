@@ -286,7 +286,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 else if (bank.GCBankExportDataType == Constant.BankExportDataType.BCA)
                 {
                     #region Download BCA File
-                    List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("SiteID = {0}", Request.Form[hdnSiteID.UniqueID]), ctx);
+                    List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("SiteID = '{0}'", Request.Form[hdnSiteID.UniqueID]), ctx);
 
                     foreach (Site site in lstSite) 
                     {
