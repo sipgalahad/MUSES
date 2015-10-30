@@ -49,7 +49,7 @@
                     if (temp != "") temp += ",";
                     temp += "'" + display[i] + "'";
                 }
-                filterExpression = "SiteID IN (" + temp + ")";
+                filterExpression = "SiteID IN (" + temp + ") OR SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/<%=GetSiteID() %>/%')";
             })
             return filterExpression;
         }
