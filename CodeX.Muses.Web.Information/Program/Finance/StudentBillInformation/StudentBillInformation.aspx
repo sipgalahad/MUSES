@@ -123,6 +123,8 @@
         //#endregion
 
         function onCboSiteValueChanged() {
+            $('#<%=hdnSiteID.ClientID %>').val(cboSite.GetValue());
+            $('#<%=hdnSiteName.ClientID %>').val(cboSite.GetText());
             var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND <%=OnGetSchoolPeriodNowFilterExpression() %>";
             Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
                 if (result != null) {
@@ -139,18 +141,20 @@
 
         $('.lblDetail.lblLink').live('click', function () {
             $tr = $(this).closest('tr');
-            var studentID = $tr.find('.keyField').html();
+            var studentID = $tr.find('.hdnStudentID').val();
             var url = ResolveUrl("~/Program/Finance/StudentBillInformation/StudentBillInformationDtCtl.ascx");
             openUserControlPopup(url, studentID, 'Detail Information', 700, 550);
         });
 
         $('.lblPrint.lblLink').live('click', function () {
             $tr = $(this).closest('tr');
-            var studentID = $tr.find('.keyField').html();
+            var studentID = $tr.find('.hdnStudentID').val();
             openReportViewer("FN-00001", studentID);
         });
 
     </script>
+    <input type="hidden" value="" id="hdnSiteID" runat="server" />
+    <input type="hidden" value="" id="hdnSiteName" runat="server" />
     <input type="hidden" value="" id="hdnFilterExpressionQuickSearch" runat="server" />
     <div>
         <table style="width: 100%">
@@ -225,23 +229,48 @@
                                 <dx:PanelContent ID="PanelContent1" runat="server">
                                     <input type="hidden" value="" id="hdnMovementDate" runat="server" />
                                     <asp:Panel runat="server" ID="pnlGridView" CssClass="pnlContainerGrid" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;height:380px;overflow-y:auto;">
-                                        <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
-                                            <Columns>
-                                                <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                                <asp:BoundField DataField="StudentCode" HeaderText="No. Siswa" HeaderStyle-Width="120px" />
-                                                <asp:BoundField DataField="StudentName" HeaderText="Siswa" />
-                                                <asp:TemplateField HeaderText="Tagihan" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" >
-                                                    <ItemTemplate>
-                                                        <label class='lblDetail lblLink' id="lblClaimedAmount" runat="server"></label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderStyle-Width="70px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
-                                                    <ItemTemplate>
-                                                        <label class='lblPrint lblLink'>Print</label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                            </Columns>
-                                        </asp:GridView>
+                                        <table cellpadding="0" cellspacing="0" border="1" rules="all" class="grdSelected grdBorder">
+                                            <colgroup>
+                                                <col style="width:120px"/>
+                                                <col/>
+                                                <col style="width:150px"/>
+                                                <col style="width:120px"/>
+                                                <col style="width:120px"/>
+                                                <col style="width:120px"/>
+                                                <col style="width:120px"/>
+                                                <col style="width:70px"/>
+                                            </colgroup>
+                                            <tr>
+                                                <th rowspan="2" class="thCenter"><%=GetLabel("NBS") %></th>
+                                                <th rowspan="2" class="thCenter"><%=GetLabel("Nama") %></th>
+                                                <th rowspan="2" class="thCenter"><%=GetLabel("Kelas") %></th>
+                                                <th colspan="3" class="thCenter"><%=GetLabel("Jenis Pembayaran") %></th>
+                                                <th rowspan="2" class="thCenter"><%=GetLabel("Total") %></th>
+                                                <th rowspan="2" class="thCenter" id="thPrint" runat="server">Print</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="thCenter"><%=GetLabel("Uang Sekolah") %></th>
+                                                <th class="thCenter"><%=GetLabel("Uang Kegiatan") %></th>
+                                                <th class="thCenter"><%=GetLabel("Uang Pembangunan") %></th>
+                                            </tr>
+                                        <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
+                                            <ItemTemplate>
+                                                <tr>
+                                                    <td>
+                                                        <%#Eval("StudentCode") %>
+                                                        <input type="hidden" class="hdnStudentID" value='<%#Eval("StudentID") %>' />
+                                                    </td>
+                                                    <td><%#Eval("StudentName") %></td>
+                                                    <td><%#Eval("SchoolClassCode") %></td>
+                                                    <td align="right"><div id="divUsek" runat="server"></div></td>
+                                                    <td align="right"><div id="divKeg" runat="server"></div></td>
+                                                    <td align="right"><div id="divPemb" runat="server"></div></td>
+                                                    <td align="right"><label class='lblDetail lblLink' id="lblClaimedAmount" runat="server"></label></td>
+                                                    <td align="center" id="tdPrint" runat="server"><label class='lblPrint lblLink'>Print</label></td>
+                                                </tr>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                        </table>
                                     </asp:Panel>
                                 </dx:PanelContent>
                             </PanelCollection>

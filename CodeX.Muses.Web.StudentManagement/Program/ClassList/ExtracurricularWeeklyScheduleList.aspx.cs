@@ -63,12 +63,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
                 cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
 
-            List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("'{0}' BETWEEN StartDate AND EndDate", DateTime.Now.ToString("yyyyMMdd")));
-            if (lstPeriodSection.Count > 0)
+            if (cboSchoolPeriod.Value != "")
             {
-                PeriodSection periodSection = lstPeriodSection.FirstOrDefault();
-                tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
-                tacPeriodSection.Text = periodSection.PeriodSectionName;
+                List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("SchoolPeriodID = {0} AND '{1}' BETWEEN StartDate AND EndDate", cboSchoolPeriod.Value, DateTime.Now.ToString("yyyyMMdd")));
+                if (lstPeriodSection.Count > 0)
+                {
+                    PeriodSection periodSection = lstPeriodSection.FirstOrDefault();
+                    tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
+                    tacPeriodSection.Text = periodSection.PeriodSectionName;
+                }
             }
 
             BindGridView();

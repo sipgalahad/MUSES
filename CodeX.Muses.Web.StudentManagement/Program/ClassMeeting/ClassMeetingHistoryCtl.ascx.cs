@@ -43,7 +43,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptMeetingView.DataBind();
         }
 
-        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        protected void cbpViewPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             int pageCount = 1;
             int rowCount = 1;

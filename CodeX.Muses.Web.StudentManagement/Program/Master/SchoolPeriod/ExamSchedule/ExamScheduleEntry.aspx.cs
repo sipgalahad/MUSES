@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnSchoolPeriodID.Value = AppSession.SchoolPeriodID.ToString();
             SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
 
-            List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("'{0}' BETWEEN StartDate AND EndDate", DateTime.Now.ToString("yyyyMMdd")));
+            List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("SchoolPeriodID = {0} AND '{1}' BETWEEN StartDate AND EndDate", entitySchoolPeriod.SchoolPeriodID, DateTime.Now.ToString("yyyyMMdd")));
             if (lstPeriodSection.Count > 0)
             {
                 PeriodSection periodSection = lstPeriodSection.FirstOrDefault();

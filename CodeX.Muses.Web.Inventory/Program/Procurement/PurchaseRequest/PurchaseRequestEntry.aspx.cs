@@ -41,16 +41,16 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override void InitializeDataControl()
         {
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
-            int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
+            int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND LocationID IN (SELECT LocationID FROM Location WHERE SiteID = '{1}' AND IsDeleted = 0) AND IsDeleted = 0", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID));
             if (count > 0)
-                hdnRecordFilterExpression.Value = string.Format("FromLocationID IN (SELECT LocationID FROM LocationUser WHERE UserID = {0} AND IsDeleted = 0)", AppSession.UserLogin.UserID);
+                hdnRecordFilterExpression.Value = string.Format("FromLocationID IN (SELECT LocationID FROM LocationUser WHERE UserID = {0} AND LocationID IN (SELECT LocationID FROM Location WHERE SiteID = '{1}' AND IsDeleted = 0) AND IsDeleted = 0)", AppSession.UserLogin.UserID);
             else
             {
-                count = BusinessLayer.GetLocationUserRoleRowCount(string.Format("RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND IsDeleted = 0", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID));
+                count = BusinessLayer.GetLocationUserRoleRowCount(string.Format("RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND LocationID IN (SELECT LocationID FROM Location WHERE SiteID = '{1}' AND IsDeleted = 0) AND IsDeleted = 0", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID));
                 if (count > 0)
-                    hdnRecordFilterExpression.Value = string.Format("FromLocationID IN (SELECT LocationID FROM LocationUserRole WHERE RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND IsDeleted = 0)", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID);
+                    hdnRecordFilterExpression.Value = string.Format("FromLocationID IN (SELECT LocationID FROM LocationUserRole WHERE RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND LocationID IN (SELECT LocationID FROM Location WHERE SiteID = '{1}' AND IsDeleted = 0) AND IsDeleted = 0)", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID);
                 else
-                    hdnRecordFilterExpression.Value = "";
+                    hdnRecordFilterExpression.Value = string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID);
             }
 
             BindGridView(1, true, ref PageCount, ref RowCount);

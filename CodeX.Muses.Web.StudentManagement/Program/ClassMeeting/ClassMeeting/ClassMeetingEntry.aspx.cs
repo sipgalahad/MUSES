@@ -71,8 +71,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             if (AppSession.UserLogin.EmployeeID != null && AppSession.UserLogin.EmployeeID != 0)
             {
-                tacTeacher.Value = AppSession.UserLogin.EmployeeID.ToString();
-                tacTeacher.Text = AppSession.UserLogin.UserFullName;
+                Employee emp = BusinessLayer.GetEmployee((int)AppSession.UserLogin.EmployeeID);
+                if (emp.GCEmployeeType == Constant.EmployeeType.TEACHER)
+                {
+                    tacTeacher.Value = AppSession.UserLogin.EmployeeID.ToString();
+                    tacTeacher.Text = AppSession.UserLogin.UserFullName;
+                }
             }
             hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
 

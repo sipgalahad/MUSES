@@ -41,12 +41,12 @@
     $(function () {
         setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
         setPaging($("#paging"), pageCount, function (page) {
-            cbpView.PerformCallback('changepage|' + page);
+            cbpViewPopup.PerformCallback('changepage|' + page);
             setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
         }, null, currPage);
     });
 
-    function onCbpViewEndCallback(s) {
+    function onCbpViewPopupEndCallback(s) {
         hideLoadingPanel();
 
         var param = s.cpResult.split('|');
@@ -56,7 +56,7 @@
 
             setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
             setPaging($("#paging"), pageCount, function (page) {
-                cbpView.PerformCallback('changepage|' + page);
+                cbpViewPopup.PerformCallback('changepage|' + page);
                 setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
             });
         }
@@ -93,10 +93,10 @@
         <tr>
             <td valign="top">
                 <label class="lblLink" id="lblAddData"><%=GetLabel("Tambah Data")%></label>
-                <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
-                    ShowLoadingPanel="false" OnCallback="cbpView_Callback">
+                <dxcp:ASPxCallbackPanel ID="cbpViewPopup" runat="server" Width="100%" ClientInstanceName="cbpViewPopup"
+                    ShowLoadingPanel="false" OnCallback="cbpViewPopup_Callback">
                     <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-                        EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
+                        EndCallback="function(s,e){ onCbpViewPopupEndCallback(s); }" />
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent2" runat="server">
                             <asp:Repeater ID="rptMeetingView" runat="server">

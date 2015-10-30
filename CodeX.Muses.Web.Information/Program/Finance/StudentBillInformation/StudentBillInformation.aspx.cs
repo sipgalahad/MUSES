@@ -68,7 +68,7 @@ namespace CodeX.Muses.Web.Information.Program
             return filterExpression;
         }
 
-        List<ARInvoiceHd> lstARInvoiceHd = null;
+        List<vARInvoiceDt> lstARInvoiceDt = null;
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = GetFilterExpression();
@@ -83,20 +83,36 @@ namespace CodeX.Muses.Web.Information.Program
             if (lstEntity.Count > 0)
             {
                 string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
-                lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID IN ({0}) AND GCTransactionStatus NOT IN ('{1}','{2}')", lstStudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID));
+                lstARInvoiceDt = BusinessLayer.GetvARInvoiceDtList(string.Format("StudentID IN ({0}) AND GCTransactionStatus NOT IN ('{1}','{2}') AND ClaimedAmount != PaymentAmount AND IsDeleted = 0", lstStudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID));
             }
-            grdView.DataSource = lstEntity;
-            grdView.DataBind();
+
+            rptView.DataSource = lstEntity;
+            rptView.DataBind();
         }
 
-        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                vStudent entity = (vStudent)e.Row.DataItem;
-                Decimal totalClaimedAmount = lstARInvoiceHd.Where(p => p.StudentID == entity.StudentID).Sum(p => p.TotalClaimedAmount);
-                HtmlGenericControl lblClaimedAmount = (HtmlGenericControl)e.Row.FindControl("lblClaimedAmount");
-                lblClaimedAmount.InnerHtml = totalClaimedAmount.ToString("N");
+                vStudent entity = (vStudent)e.Item.DataItem;
+
+                List<vARInvoiceDt> lstARInvoiceDt1 = lstARInvoiceDt.Where(p => p.StudentID == entity.StudentID).ToList();
+                List<vARInvoiceDt> lstARInvoiceDtUsek = lstARInvoiceDt1.Where(p => p.StudentFeeCompTypeID == 2).ToList();
+
+                HtmlGenericControl divPemb = e.Item.FindControl("divPemb") as HtmlGenericControl;
+                HtmlGenericControl divSek = e.Item.FindControl("divUsek") as HtmlGenericControl;
+                HtmlGenericControl divKeg = e.Item.FindControl("divKeg") as HtmlGenericControl;
+                HtmlGenericControl lblClaimedAmount = e.Item.FindControl("lblClaimedAmount") as HtmlGenericControl;
+                divPemb.InnerHtml = lstARInvoiceDt1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
+                divSek.InnerHtml = lstARInvoiceDtUsek.Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
+                divKeg.InnerHtml = lstARInvoiceDt1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
+                lblClaimedAmount.InnerHtml = lstARInvoiceDt1.Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
+
+                if (IsExportExcel)
+                {
+                    HtmlTableCell tdPrint = e.Item.FindControl("tdPrint") as HtmlTableCell;
+                    tdPrint.InnerHtml = string.Join(", ", lstARInvoiceDtUsek.Select(p => p.cfPeriod));
+                }
             }
         }
 
@@ -122,6 +138,59 @@ namespace CodeX.Muses.Web.Information.Program
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
+        }
+
+        private bool IsExportExcel = false;
+        public override Control OnGetExportControl(ref bool isShowTitle, ref string fileName)
+        {
+            IsExportExcel = true;
+            thPrint.InnerHtml = "Keterangan Uang Sekolah";
+            thPrint.Style.Add("width", "200px");
+
+            fileName = string.Format("InformasiTagihan{0}_{1}", DateTime.Now.ToString("yyyyMMdd"), Request.Form[hdnSiteName.UniqueID]);
+            isShowTitle = false;
+
+
+            String filterExpression = String.Format("SiteID = '{0}' AND GCStudentStatus = '{1}' AND IsDeleted = 0", Request.Form[hdnSiteID.UniqueID], Constant.StudentStatus.ACTIVE);
+            if (tacSchoolClass.Value != "")
+                filterExpression += string.Format(" AND SchoolClassID = {0}", tacSchoolClass.Value);
+            if (Request.Form[hdnFilterExpressionQuickSearch.UniqueID] != "")
+                filterExpression += string.Format(" AND {0}", Request.Form[hdnFilterExpressionQuickSearch.UniqueID]);
+            if (chkNotPaid.Checked)
+                filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ARInvoiceHd WHERE StudentID IS NOT NULL AND GCTransactionStatus NOT IN ('{0}','{1}'))", Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
+
+            filterExpression += " ORDER BY VirtualAccountNo";
+            List<vStudent> lstEntity = BusinessLayer.GetvStudentList(filterExpression);
+
+            if (lstEntity.Count > 0)
+            {
+                string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
+                lstARInvoiceDt = BusinessLayer.GetvARInvoiceDtList(string.Format("StudentID IN ({0}) AND GCTransactionStatus NOT IN ('{1}','{2}') AND ClaimedAmount != PaymentAmount AND IsDeleted = 0", lstStudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID));
+            }
+
+            rptView.DataSource = lstEntity;
+            rptView.DataBind();
+
+
+            HtmlGenericControl div = new HtmlGenericControl("DIV");
+            HtmlGenericControl h4 = new HtmlGenericControl("h4");
+            HtmlGenericControl h42 = new HtmlGenericControl("h4");
+
+            HtmlGenericControl h1Title = new HtmlGenericControl("h2");
+            h1Title.InnerHtml = "YAYASAN RICCI";
+            div.Controls.Add(h1Title);
+
+            HtmlGenericControl h2Title = new HtmlGenericControl("h2");
+            h2Title.InnerHtml = "INFORMASI TAGIHAN BELUM DIBAYAR";
+            div.Controls.Add(h2Title);
+
+
+            h4.InnerHtml = String.Format("Tanggal : {0}", DateTime.Now.ToString(Constant.FormatString.DATE_FORMAT));
+            h42.InnerHtml = String.Format("Unit : {0}", Request.Form[hdnSiteName.UniqueID]);
+            div.Controls.Add(h4);
+            div.Controls.Add(h42);
+            div.Controls.Add(pnlGridView);
+            return div;
         }
     }
 }

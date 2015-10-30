@@ -49,13 +49,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassMeetingID;
         
         /// <summary>
-        /// cbpView control.
+        /// cbpViewPopup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopup;
         
         /// <summary>
         /// PanelContent2 control.

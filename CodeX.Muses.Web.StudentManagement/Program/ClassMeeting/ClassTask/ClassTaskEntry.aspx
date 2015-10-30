@@ -140,6 +140,24 @@
         function onCboFilterTaskTypeValueChanged() {
             cbpView.PerformCallback('refresh');
         }
+
+        $('.txtMark').live('keydown', function (e) {
+            $tr = $(this).closest('tr');
+            var rowIndex = $('.trStudent').index($tr);
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 40) { //down
+                if (rowIndex < $('.trStudent').length - 1) {
+                    rowIndex++;
+                    $('.trStudent:eq(' + rowIndex + ')').find('.txtMark').focus();
+                }
+            }
+            else if (code == 38) { //up
+                if (rowIndex > 0) {
+                    rowIndex--;
+                    $('.trStudent:eq(' + rowIndex + ')').find('.txtMark').focus();
+                }
+            }
+        });
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnClassSubjectTaskID" runat="server" />

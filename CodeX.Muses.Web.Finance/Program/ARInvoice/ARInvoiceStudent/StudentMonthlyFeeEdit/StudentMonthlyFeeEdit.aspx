@@ -37,11 +37,12 @@
                                 var businessPartnerID = $tr.find('.ddlBusinessPartner').val();
                                 var studentAmount = $tr.find('.txtStudentAmount').attr('hiddenVal');
                                 var payerAmount = $tr.find('.txtPayerAmount').attr('hiddenVal');
+                                var isGeneratePayerAmount = $tr.find('.chkIsGeneratePayerAmount input').is(':checked') ? '1' : '0';
                                 if (tempResult != '') {
                                     tempResult += '^';
                                     lstStudentFeeID += ',';
                                 }
-                                tempResult += studentFeeID + ',' + $(this).val() + ',' + amount + ',' + discountPercentage + ',' + totalDiscount + ',' + businessPartnerID + ',' + studentAmount + ',' + payerAmount;
+                                tempResult += studentFeeID + ',' + $(this).val() + ',' + amount + ',' + discountPercentage + ',' + totalDiscount + ',' + businessPartnerID + ',' + studentAmount + ',' + payerAmount + ',' + isGeneratePayerAmount;
                                 lstStudentFeeID += studentFeeID;
                             }
                         });
@@ -114,6 +115,19 @@
             else {
                 $tr.find('.txtStudentAmount').removeAttr('readonly');
                 $tr.find('.txtPayerAmount').removeAttr('readonly');
+            }
+
+            if ($(this).val() == '0')
+                $(this).closest('tr').find('.chkIsGeneratePayerAmount input').prop('checked', false);
+            else {
+                var lstCustomer = $('#<%=hdnLstCustomer.ClientID %>').val().split('|');
+                for (var i = 0; i < lstCustomer.length; ++i) {
+                    var temp = lstCustomer[i].split(';');
+                    if (temp[0] == $(this).val()) {
+                        $(this).closest('tr').find('.chkIsGeneratePayerAmount input').prop('checked', temp[1] == '1');
+                        break;
+                    }
+                }
             }
         });
 
@@ -207,6 +221,7 @@
             hideLoadingPanel();
         }
     </script>
+    <input type="hidden" id="hdnLstCustomer" runat="server" />
     <input type="hidden" id="hdnSaveValue" runat="server" />
     <input type="hidden" id="hdnLstStudentFeeCompID" runat="server" />
     <input type="hidden" id="hdnLstStudentFeeID" runat="server" />
@@ -266,6 +281,7 @@
                                                             <th style="width:150px" class="thCenter" rowspan="2"><%=GetLabel("Siswa") %></th>
                                                             <th class="thCenter" colspan="2"><%=GetLabel("Pembayar") %></th>
                                                             <th style="width:40px" class="thCenter" rowspan="2"><%=GetLabel("Bayar") %></th>
+                                                            <th style="width:40px" class="thCenter" rowspan="2"><%=GetLabel("Generate Tagihan PSE") %></th>
                                                         </tr>
                                                         <tr>
                                                             <th style="width:80px" class="thCenter"><%=GetLabel("[%]") %></th>
@@ -286,6 +302,7 @@
                                                             <td align="center"><asp:DropDownList ID="ddlBusinessPartner" runat="server" CssClass="ddlBusinessPartner" Style="width:120px" /> </td>
                                                             <td align="center"><input type="text" id="txtPayerAmount" <%#Eval("IsPaid").ToString() == "True" || Eval("BusinessPartnerID").ToString() == "0" ? "readonly='readonly'" : "" %> class="txtPayerAmount txtCurrency required" value='<%#:Eval("PayerAmount") %>' style="width:120px" /></td>
                                                             <td align="center"><asp:CheckBox ID="chkIsPaid" runat="server" Enabled="false" Checked='<%#Eval("IsPaid") %>' /></td>
+                                                            <td align="center"><asp:CheckBox ID="chkIsGeneratePayerAmount" runat="server" CssClass="chkIsGeneratePayerAmount" Checked='<%#Eval("IsGeneratePayerAmount") %>' /></td>
                                                         </tr>
                                                     </ItemTemplate>
                                                 </asp:Repeater>

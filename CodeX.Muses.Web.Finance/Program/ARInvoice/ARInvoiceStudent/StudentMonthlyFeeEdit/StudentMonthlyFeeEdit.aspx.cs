@@ -28,6 +28,9 @@ namespace CodeX.Muses.Web.Finance.Program
         protected override void InitializeDataControl()
         {
             hdnSiteID.Value = BusinessLayer.GetStudent(AppSession.StudentID).SiteID;
+
+            lstCustomer = BusinessLayer.GetvCustomerList(string.Format("IsDeleted = 0"));
+            hdnLstCustomer.Value = string.Join("|", lstCustomer.Select(p => String.Format("{0};{1}", p.BusinessPartnerID, p.IsGeneratePayerAmount ? "1" : "0")));
         }
 
         #region HTML Getter
@@ -48,7 +51,9 @@ namespace CodeX.Muses.Web.Finance.Program
         public void BindGridView()
         {
             String filterExpression = GetFilterExpression();
-            lstCustomer = BusinessLayer.GetvCustomerList(string.Format("IsDeleted = 0"));
+
+            if (lstCustomer == null)
+                lstCustomer = BusinessLayer.GetvCustomerList(string.Format("IsDeleted = 0"));
             lstCustomer.Insert(0, new vCustomer { BusinessPartnerID = 0, BusinessPartnerName = "" });
             List<vStudentFeeComp> lstStudentFeeComp = BusinessLayer.GetvStudentFeeCompList(filterExpression);
             String lstStudentFeeCompID = String.Join(",", lstStudentFeeComp.Select(x => x.StudentFeeCompID));
@@ -141,6 +146,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         int businessPartnerID = Convert.ToInt32(temp1[5]);
                         decimal studentAmount = Convert.ToDecimal(temp1[6]);
                         decimal payerAmount = Convert.ToDecimal(temp1[7]);
+                        bool isGeneratePayerAmount = temp1[8] == "1";
 
                         StudentFee entityFee = lstStudentFee.FirstOrDefault(x => x.StudentFeeID == studentFeeID);
                         entityFee.DueDate = dueDate;
@@ -156,6 +162,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             entityFee.PayerAmount = entityFee.LineAmount;
                         entityFee.TotalStudentAmount = entityFee.StudentAmount = studentAmount;
                         entityFee.PayerAmount = payerAmount;
+                        entityFee.IsGeneratePayerAmount = isGeneratePayerAmount;
                         entityFee.LastUpdatedBy = AppSession.UserLogin.UserID;
                         studentFeeDao.Update(entityFee);
 
@@ -163,7 +170,10 @@ namespace CodeX.Muses.Web.Finance.Program
                         entityDt.DueDate = dueDate;
                         entityDt.IsTransactionAmountInPercentage = false;
                         entityDt.PayerAmount = 0;
-                        entityDt.LineAmount = entityDt.TransactionAmount = entityDt.TotalStudentAmount = entityDt.StudentAmount = entityFee.TotalStudentAmount;
+                        if (entityFee.IsGeneratePayerAmount)
+                            entityDt.LineAmount = entityDt.TransactionAmount = entityDt.TotalStudentAmount = entityDt.StudentAmount = entityFee.TotalStudentAmount;
+                        else
+                            entityDt.LineAmount = entityDt.TransactionAmount = entityDt.TotalStudentAmount = entityDt.StudentAmount = entityFee.LineAmount;
                         entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                         studentFeeDtDao.Update(entityDt);
                         lstStudentFeeDt.Remove(entityDt);
@@ -173,18 +183,20 @@ namespace CodeX.Muses.Web.Finance.Program
                         {
                             entityPayerDt.DueDate = dueDate;
                             entityPayerDt.IsTransactionAmountInPercentage = false;
-                            entityPayerDt.LineAmount = entityFee.PayerAmount;
                             entityPayerDt.TotalStudentAmount = 0;
-                            entityPayerDt.LineAmount = entityPayerDt.TransactionAmount = entityPayerDt.PayerAmount = entityFee.PayerAmount;
-                            if (entityFee.PayerAmount == 0)
-                                entityFee.IsDeleted = true;
+                            if (entityFee.IsGeneratePayerAmount)
+                                entityPayerDt.LineAmount = entityPayerDt.TransactionAmount = entityPayerDt.PayerAmount = entityFee.PayerAmount;
+                            else
+                                entityPayerDt.LineAmount = entityPayerDt.TransactionAmount = entityPayerDt.PayerAmount = 0;
+                            if (entityPayerDt.PayerAmount == 0)
+                                entityPayerDt.IsDeleted = true;
                             entityPayerDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                             studentFeeDtDao.Update(entityPayerDt);
                             lstStudentFeeDt.Remove(entityPayerDt);
                         }
                         else
                         {
-                            if (entityFee.BusinessPartnerID != null && entityFee.PayerAmount > 0)
+                            if (entityFee.BusinessPartnerID != null && entityFee.PayerAmount > 0 && entityFee.IsGeneratePayerAmount)
                             {
                                 entityPayerDt = new StudentFeeDt();
                                 entityPayerDt.StudentFeeID = entityFee.StudentFeeID;

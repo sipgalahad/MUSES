@@ -29,6 +29,10 @@ namespace CodeX.Data.Model
     #region vARInvoiceDt
     public partial class vARInvoiceDt
     {
+        public Decimal RemainingAmount
+        {
+            get { return _ClaimedAmount - _PaymentAmount; }
+        }
         public Boolean IsProcessed
         {
             get { return _GCTransactionStatus == Constant.TransactionStatus.PROCESSED; }
@@ -49,6 +53,20 @@ namespace CodeX.Data.Model
                     return string.Format("{0} {1}", _StudentFeeCompTypeName, dt.ToString("MMM yyyy"));
                 }
                 return _StudentFeeCompTypeName;
+            }
+        }
+        public String cfPeriod
+        {
+            get
+            {
+                if (_GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.TAHUNAN)
+                    return string.Format("{0}", _TransactionYear);
+                if (_GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.BULANAN)
+                {
+                    DateTime dt = new DateTime(_TransactionYear, _TransactionMonth, 1);
+                    return string.Format("{0}", dt.ToString("MMM yyyy"));
+                }
+                return "";
             }
         }
     }
