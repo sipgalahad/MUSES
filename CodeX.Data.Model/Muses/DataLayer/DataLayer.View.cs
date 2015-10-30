@@ -23457,6 +23457,7 @@ namespace CodeX.Data.Model
         private String _Grade;
         private String _GCMajor;
         private Int32 _SchoolClassID;
+        private String _SchoolClassCode;
         private String _SchoolClassName;
         private Boolean _IsFeeder;
         private String _AddressID;
@@ -23656,6 +23657,12 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolClassID; }
             set { _SchoolClassID = value; }
+        }
+        [Column(Name = "SchoolClassCode", DataType = "String")]
+        public String SchoolClassCode
+        {
+            get { return _SchoolClassCode; }
+            set { _SchoolClassCode = value; }
         }
         [Column(Name = "SchoolClassName", DataType = "String")]
         public String SchoolClassName
