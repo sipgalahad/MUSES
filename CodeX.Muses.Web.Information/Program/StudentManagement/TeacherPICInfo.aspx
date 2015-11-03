@@ -16,35 +16,46 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server">
     <script type="text/javascript">
-         function onCboSchoolPeriodValueChanged(s) {
-             cbpView.PerformCallback('refresh');
+         function onCboSiteValueChanged() {
+             var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND <%=OnGetSchoolPeriodNowFilterExpression() %>";
+             Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
+                 if (result != null) {
+                     tacSchoolPeriod.setValue(result.SchoolPeriodID);
+                     tacSchoolPeriod.setText(result.SchoolPeriodName);
+                 }
+                 else {
+                     tacSchoolPeriod.setValue('');
+                     tacSchoolPeriod.setText('');
+                 }
+                 onTacSchoolPeriodValueChanged();
+             });
          }
 
-         //#region Teacher
-         function onGetTeacherFilterExpression() {
-             var filterExpression = "IsDeleted = 0";
+         //#region School Period
+         function onGetSchoolPeriodFilterExpression() {
+             var filterExpression = "SiteID = '" + cboSite.GetValue() + "'";
              return filterExpression;
          }
 
-         function onTacTeacherButtonSearchClick() {
-             openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
-                 var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
-                 Methods.getObject('GetvTeacherList', filterExpression, function (result) {
+         function onTacSchoolPeriodButtonSearchClick() {
+             openSearchDialog('schoolperiod', onGetSchoolPeriodFilterExpression(), function (value) {
+                 var filterExpression = onGetSchoolPeriodFilterExpression() + " AND SchoolPeriodCode = '" + value + "'";
+                 Methods.getObject('GetvSchoolPeriodList', filterExpression, function (result) {
                      if (result != null) {
-                         tacTeacher.setValue(result.TeacherID);
-                         tacTeacher.setText(result.TeacherName);
+                         tacSchoolPeriod.setValue(result.SchoolPeriodID);
+                         tacSchoolPeriod.setText(result.SchoolPeriodName);
                      }
                      else {
-                         tacTeacher.setValue('');
-                         tacTeacher.setText('');
+                         tacSchoolPeriod.setValue('');
+                         tacSchoolPeriod.setText('');
                      }
-                     onTacTeacherValueChanged();
+                     onTacSchoolPeriodValueChanged();
                  });
              });
 
          }
 
-         function onTacTeacherValueChanged() {
+         function onTacSchoolPeriodValueChanged() {
              cbpView.PerformCallback('refresh');
          }
          //#endregion
@@ -54,11 +65,21 @@
             <col style="width: 120px" />
         </colgroup>
         <tr>
-            <td class="tdLabel"><%=GetLabel("Tahun Ajaran") %></td>
+            <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
             <td>
-                <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
-                    <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolPeriodValueChanged(s); }" />
+                <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
+                    <ClientSideEvents Init="function(s,e){ onCboSiteValueChanged(); }"  ValueChanged="function(s,e){ onCboSiteValueChanged() }" />
                 </dxe:ASPxComboBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran") %></td>
+            <td>
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSchoolPeriod" ClientInstanceName="tacSchoolPeriod" MethodName="GetSchoolPeriodList" GetFilterExpressionFunction="onGetSchoolPeriodFilterExpression"
+                    SearchFields="SchoolPeriodName,SchoolPeriodCode" TextField="SchoolPeriodName" ValueField="SchoolPeriodID" SearchText="${SchoolPeriodName} (<b>${SchoolPeriodCode}</b>)" OrderByExpression="SchoolPeriodName">
+                    <ClientSideEvents ButtonSearchClick="function(){ onTacSchoolPeriodButtonSearchClick(); }"
+                        ValueChanged="function(){ onTacSchoolPeriodValueChanged(); }" />
+                </cdx:CodeXAutoCompleteTextBox>
             </td>
         </tr>
     </table>
