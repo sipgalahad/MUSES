@@ -1935,7 +1935,7 @@ namespace CodeX.Data.Model
     #region vClassSchedule
     [Serializable]
     [Table(Name = "vClassSchedule")]
-    public class vClassSchedule
+    public partial class vClassSchedule
     {
         private Int32 _ClassScheduleID;
         private Int32 _SchoolPeriodID;
@@ -1953,6 +1953,8 @@ namespace CodeX.Data.Model
         private String _RoomName;
         private Int32 _TeacherID;
         private String _TeacherName;
+        private Int32 _AssistantTeacherID;
+        private String _AssistantTeacherName;
         private Boolean _IsDeleted;
 
         [Column(Name = "ClassScheduleID", DataType = "Int32")]
@@ -2050,6 +2052,18 @@ namespace CodeX.Data.Model
         {
             get { return _TeacherName; }
             set { _TeacherName = value; }
+        }
+        [Column(Name = "AssistantTeacherID", DataType = "Int32")]
+        public Int32 AssistantTeacherID
+        {
+            get { return _AssistantTeacherID; }
+            set { _AssistantTeacherID = value; }
+        }
+        [Column(Name = "AssistantTeacherName", DataType = "String")]
+        public String AssistantTeacherName
+        {
+            get { return _AssistantTeacherName; }
+            set { _AssistantTeacherName = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -2220,6 +2234,9 @@ namespace CodeX.Data.Model
         private Int32 _TeacherID;
         private String _TeacherCode;
         private String _TeacherName;
+        private Int32 _AssistantTeacherID;
+        private String _AssistantTeacherCode;
+        private String _AssistantTeacherName;
         private Int32 _RoomID;
         private String _RoomName;
         private Int16 _PassingGrade;
@@ -2318,6 +2335,24 @@ namespace CodeX.Data.Model
         {
             get { return _TeacherName; }
             set { _TeacherName = value; }
+        }
+        [Column(Name = "AssistantTeacherID", DataType = "Int32")]
+        public Int32 AssistantTeacherID
+        {
+            get { return _AssistantTeacherID; }
+            set { _AssistantTeacherID = value; }
+        }
+        [Column(Name = "AssistantTeacherCode", DataType = "String")]
+        public String AssistantTeacherCode
+        {
+            get { return _AssistantTeacherCode; }
+            set { _AssistantTeacherCode = value; }
+        }
+        [Column(Name = "AssistantTeacherName", DataType = "String")]
+        public String AssistantTeacherName
+        {
+            get { return _AssistantTeacherName; }
+            set { _AssistantTeacherName = value; }
         }
         [Column(Name = "RoomID", DataType = "Int32")]
         public Int32 RoomID
@@ -28518,6 +28553,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int32 _SchoolPeriodID;
         private Int32 _TeacherID;
+        private Int32 _AssistantTeacherID;
         private Int32 _SchoolClassID;
         private String _SchoolClassName;
         private Int32 _SubjectID;
@@ -28541,6 +28577,12 @@ namespace CodeX.Data.Model
         {
             get { return _TeacherID; }
             set { _TeacherID = value; }
+        }
+        [Column(Name = "AssistantTeacherID", DataType = "Int32")]
+        public Int32 AssistantTeacherID
+        {
+            get { return _AssistantTeacherID; }
+            set { _AssistantTeacherID = value; }
         }
         [Column(Name = "SchoolClassID", DataType = "Int32")]
         public Int32 SchoolClassID

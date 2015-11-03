@@ -34,7 +34,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtHeaderText.Text = string.Format("{0} - {1}", entity.ClassTaskCode, entity.Topic);
 
             ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
-            hdnSchoolClassID.Value = classSubject.ClassSubjectID.ToString();
+            hdnSchoolClassID.Value = classSubject.SchoolClassID.ToString();
 
             BindGridView();
 

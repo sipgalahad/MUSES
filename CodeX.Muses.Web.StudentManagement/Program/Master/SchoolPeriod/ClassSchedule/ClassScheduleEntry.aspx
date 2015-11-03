@@ -54,17 +54,20 @@
 
                 var entity = rowToObject($(this));
 
-                $('#hdnSelectedTrText').val(entity.SubjectName + '<br/><b>' + entity.TeacherName + '</b>');
+                $('#hdnSelectedTrText').val(entity.SubjectName + '<br/><b>' + entity.cfTeacherName + '</b>');
                 $('#hdnSelectedTrValue').val(entity.ClassSubjectID);
                 $('#hdnSelectedTrTeacherID').val(entity.TeacherID);
                 $('#hdnSelectedTrRoomID').val(entity.RoomID);
                 if (entity.RoomID == '0')
                     $('#hdnSelectedTrRoomName').val('Pilih Ruangan');
                 else
-                    $('#hdnSelectedTrRoomName').val(entity.RoomName);                
+                    $('#hdnSelectedTrRoomName').val(entity.RoomName);
 
                 $('#tdSelectedSubject').html(entity.SubjectName);
-                $('#tdSelectedTeacher').html("<label class='lblLink' id='lblTeacher'>" + entity.TeacherName + "</label>");
+                if (entity.AssistantTeacherID == '0')
+                    $('#tdSelectedTeacher').html("<label class='lblLink lblTeacher' teacherid='" + entity.TeacherID + "'>" + entity.TeacherName + "</label>");
+                else
+                    $('#tdSelectedTeacher').html("<label class='lblLink lblTeacher' teacherid='" + entity.TeacherID + "'>" + entity.TeacherName + "</label> / <label class='lblLink lblTeacher' teacherid='" + entity.AssistantTeacherID + "'>" + entity.AssistantTeacherName + "</label>");
                 pcClassSubject.Hide();
             }
         });
@@ -195,8 +198,8 @@
             });
         });
 
-        $('#lblTeacher.lblLink').live('click', function () {
-            var teacherID = $('#hdnSelectedTrTeacherID').val();
+        $('.lblTeacher.lblLink').live('click', function () {
+            var teacherID = $(this).attr('teacherid');
             if (teacherID != '') {
                 var url = ResolveUrl("~/Program/Master/SchoolPeriod/ClassSchedule/TeacherScheduleDtCtl.ascx");
                 openUserControlPopup(url, teacherID, 'Jadwal Guru', 1250, 550);
@@ -431,12 +434,15 @@
                                                     <input type="hidden" value="<%#Eval("ClassSubjectID") %>" bindingfield="ClassSubjectID" />
                                                     <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                                     <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
+                                                    <input type="hidden" value="<%#Eval("cfTeacherName") %>" bindingfield="cfTeacherName" />
+                                                    <input type="hidden" value="<%#Eval("AssistantTeacherID") %>" bindingfield="AssistantTeacherID" />
+                                                    <input type="hidden" value="<%#Eval("AssistantTeacherName") %>" bindingfield="AssistantTeacherName" />
                                                     <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
                                                     <input type="hidden" value="<%#Eval("RoomID") %>" bindingfield="RoomID" />
                                                     <input type="hidden" value="<%#Eval("RoomName") %>" bindingfield="RoomName" />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="TeacherName" HeaderText="Guru"/>
+                                            <asp:BoundField DataField="cfTeacherName" HeaderText="Guru"/>
                                             <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                             <asp:TemplateField HeaderText="Sisa Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
                                                 <ItemTemplate>

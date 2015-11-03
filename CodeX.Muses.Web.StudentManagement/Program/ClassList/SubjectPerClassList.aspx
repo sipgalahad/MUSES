@@ -150,8 +150,8 @@
                             <Columns>
                                 <asp:BoundField DataField="ClassSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SchoolClassName" HeaderText="Kelas"/>
-                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" HeaderStyle-Width="350px" />
-                                <asp:BoundField DataField="TeacherName" HeaderText="Guru Utama" HeaderStyle-Width="350px" />
+                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" HeaderStyle-Width="250px" />
+                                <asp:BoundField DataField="cfTeacherName" HeaderText="Guru Utama" HeaderStyle-Width="550px" />
                                 <asp:HyperLinkField HeaderText="Detil" Text="Detil" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" />
                             </Columns>
                             <EmptyDataTemplate>

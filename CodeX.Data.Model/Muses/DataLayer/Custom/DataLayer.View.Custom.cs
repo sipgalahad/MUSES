@@ -183,6 +183,20 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassSchedule
+    public partial class vClassSchedule
+    {
+        public String cfTeacherName
+        {
+            get
+            {
+                if (_AssistantTeacherID > 0)
+                    return string.Format("{0} / {1}", _TeacherName, _AssistantTeacherName);
+                return _TeacherName;
+            }
+        }
+    }
+    #endregion
     #region vClassStudent
     public partial class vClassStudent
     {
@@ -193,6 +207,15 @@ namespace CodeX.Data.Model
     public partial class vClassSubject
     {
         public Boolean IsMainTeacher { get { return _ParentID == 0; } }
+        public String cfTeacherName
+        {
+            get
+            {
+                if (_AssistantTeacherID > 0)
+                    return string.Format("{0} / {1}", _TeacherName, _AssistantTeacherName);
+                return _TeacherName;
+            }
+        }
     }
     #endregion
     #region vCurriculumClassType

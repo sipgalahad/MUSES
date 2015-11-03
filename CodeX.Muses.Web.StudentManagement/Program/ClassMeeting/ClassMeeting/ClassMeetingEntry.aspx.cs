@@ -50,6 +50,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacRoom.Text = entity.RoomName;
                 tacTeacher.Value = entity.TeacherID.ToString();
                 tacTeacher.Text = entity.TeacherName;
+                if (AppSession.UserLogin.EmployeeID != null && AppSession.UserLogin.EmployeeID != 0)
+                {
+                    Employee emp = BusinessLayer.GetEmployee((int)AppSession.UserLogin.EmployeeID);
+                    if (emp.GCEmployeeType == Constant.EmployeeType.TEACHER)
+                    {
+                        tacTeacher.Value = AppSession.UserLogin.EmployeeID.ToString();
+                        tacTeacher.Text = AppSession.UserLogin.UserFullName;
+                    }
+                }
             }
             else
             {
@@ -67,15 +76,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     tacSubjectCurriculumMeetingPlan.Value = entity.SubjectCurriculumMeetingPlanID.ToString();
                     tacSubjectCurriculumMeetingPlan.Text = entity.SubjectCurriculumMeetingPlanName.ToString();
-                }
-            }
-            if (AppSession.UserLogin.EmployeeID != null && AppSession.UserLogin.EmployeeID != 0)
-            {
-                Employee emp = BusinessLayer.GetEmployee((int)AppSession.UserLogin.EmployeeID);
-                if (emp.GCEmployeeType == Constant.EmployeeType.TEACHER)
-                {
-                    tacTeacher.Value = AppSession.UserLogin.EmployeeID.ToString();
-                    tacTeacher.Text = AppSession.UserLogin.UserFullName;
                 }
             }
             hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
