@@ -61,7 +61,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND (TeacherID = {1} OR AssistantTeacherID = {1}) AND GCClassStudyType = '{2}' AND IsDeleted = 0", AppSession.SchoolPeriodID, hdnID.Value, Constant.ClassStudyType.REGULAR));
 
-            spnNumSlot.InnerHtml = lstClassSchedule.Count.ToString(); // lstClassSchedule.Count.ToString();
+            spnNumSlot.InnerHtml = lstClassSchedule.Count.ToString();
             rptDay1.DataSource = lstEntityDt.Where(p => p.DailyScheduleTypeID == entity.DailyScheduleTypeID1).ToList();
             rptDay1.DataBind();
             rptDay2.DataSource = lstEntityDt.Where(p => p.DailyScheduleTypeID == entity.DailyScheduleTypeID2).ToList();

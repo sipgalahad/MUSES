@@ -114,7 +114,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vTeacherSubject entity = e.Row.DataItem as vTeacherSubject;
 
-                int slotNum = lstTeacherClassSubject.Where(p => p.TeacherID == entity.TeacherID).Sum(p => p.NoMeetingHoursInWeek);
+                int slotNum = lstTeacherClassSubject.Where(p => p.TeacherID == entity.TeacherID || p.AssistantTeacherID == entity.TeacherID).Sum(p => p.NoMeetingHoursInWeek);
 
                 CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
                 HtmlGenericControl divSlotNum = e.Row.FindControl("divSlotNum") as HtmlGenericControl;
