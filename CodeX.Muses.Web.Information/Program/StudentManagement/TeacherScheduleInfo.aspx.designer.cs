@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.Information.Program {
     public partial class TeacherScheduleInfo {
         
         /// <summary>
+        /// cboSite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSite;
+        
+        /// <summary>
         /// tacTeacher control.
         /// </summary>
         /// <remarks>
@@ -22,13 +31,13 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTeacher;
         
         /// <summary>
-        /// cboSchoolPeriod control.
+        /// tacSchoolPeriod control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSchoolPeriod;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolPeriod;
         
         /// <summary>
         /// cbpView control.

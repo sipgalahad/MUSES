@@ -31,6 +31,33 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteName;
         
         /// <summary>
+        /// hdnMonthValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMonthValue;
+        
+        /// <summary>
+        /// hdnMonthText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMonthText;
+        
+        /// <summary>
+        /// hdnYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnYear;
+        
+        /// <summary>
         /// btnTemp control.
         /// </summary>
         /// <remarks>

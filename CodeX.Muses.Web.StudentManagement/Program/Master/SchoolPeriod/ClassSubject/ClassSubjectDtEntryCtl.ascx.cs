@@ -29,6 +29,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtSubjectName.Text = entityHd.SubjectName;
             txtNumberMeetingInHours.Text = entityHd.NoMeetingHoursInWeek.ToString();
 
+            BindGridView(1, true, ref PageCount);
+
             if (param != "")
             {
                 List<vClassSubject> lstSelected = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectID = {1} AND IsDeleted = 0", hdnSchoolClassID.Value, hdnSubjectID.Value));
@@ -37,8 +39,17 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 hdnSelectedMember.Value = String.Join(",", lstSelected.Select(p => p.TeacherID).ToList());
             }
+        }
 
-            BindGridView(1, true, ref PageCount);
+        protected void rptSelected_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vClassSubject entity = (vClassSubject)e.Item.DataItem;
+                DropDownList ddlAssistantTeacher = e.Item.FindControl("ddlAssistantTeacher") as DropDownList;
+                Methods.SetComboBoxField<vTeacherSubject>(ddlAssistantTeacher, lstEntity, "TeacherName", "TeacherID");
+                ddlAssistantTeacher.SelectedValue = entity.AssistantTeacherID.ToString();
+            }
         }
 
         protected void cbpPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
@@ -70,6 +81,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return filterExpression;
         }
 
+        List<vTeacherSubject> lstEntity = null;
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
             string filterExpression = GetFilterExpression();
@@ -79,7 +91,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 pageCount = Helper.GetPageCount(rowCount, 14);
             }
             lstSelectedMember = hdnSelectedMember.Value.Split(',');
-            List<vTeacherSubject> lstEntity = BusinessLayer.GetvTeacherSubjectList(filterExpression, 14, pageIndex, "");
+            lstEntity = BusinessLayer.GetvTeacherSubjectList(filterExpression, 14, pageIndex, "");
             if (lstEntity.Count > 0)
             {
                 string lstTeacherID = string.Join(",", lstEntity.Select(p => p.TeacherID).ToList());
@@ -87,8 +99,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             else
                 lstTeacherClassSubject = new List<vClassSubject>();
+
             grdView.DataSource = lstEntity;
             grdView.DataBind();
+
+            lstEntity.Insert(0, new vTeacherSubject { TeacherID = 0, TeacherName = "" });
+            Methods.SetComboBoxField<vTeacherSubject>(ddlAssistantTeacher, lstEntity, "TeacherName", "TeacherID");
         }
 
         List<vClassSubject> lstTeacherClassSubject = null;
@@ -98,8 +114,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vTeacherSubject entity = e.Row.DataItem as vTeacherSubject;
 
-                int slotNum = lstTeacherClassSubject.Where(p => p.TeacherID == entity.TeacherID).Sum(p => p.NoMeetingHoursInWeek);
-                
+                int slotNum = lstTeacherClassSubject.Where(p => p.TeacherID == entity.TeacherID || p.AssistantTeacherID == entity.TeacherID).Sum(p => p.NoMeetingHoursInWeek);
+
                 CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
                 HtmlGenericControl divSlotNum = e.Row.FindControl("divSlotNum") as HtmlGenericControl;
                 divSlotNum.InnerHtml = slotNum.ToString();
@@ -118,6 +134,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 lstSelectedMember = hdnSelectedMember.Value.Split(',');
                 string[] lstSelectedMemberQty = hdnSelectedMemberQty.Value.Split(',');
                 string[] lstSelectedIsMainTeacher = hdnSelectedIsMainTeacher.Value.Split(',');
+                string[] lstAssistantTeacher = hdnSelectedAssistantTeacher.Value.Split(',');
                 int SchoolClassID = Convert.ToInt32(hdnSchoolClassID.Value);
                 int PeriodClassTypeSubjectID = Convert.ToInt32(hdnPeriodClassTypeSubjectID.Value);
 
@@ -136,6 +153,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entityDt.SchoolClassID = SchoolClassID;
                             entityDt.PeriodClassTypeSubjectID = PeriodClassTypeSubjectID;
                             entityDt.TeacherID = TeacherID;
+                            if (lstAssistantTeacher[ct] != "" && lstAssistantTeacher[ct] != "0")
+                                entityDt.AssistantTeacherID = Convert.ToInt32(lstAssistantTeacher[ct]);
+                            else
+                                entityDt.AssistantTeacherID = null;
                             entityDt.ParentID = null;
                             entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
                             entityDt.IsCreatedBySystem = false;
@@ -146,6 +167,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         }
                         else
                         {
+                            if (lstAssistantTeacher[ct] != "" && lstAssistantTeacher[ct] != "0")
+                                entityDt.AssistantTeacherID = Convert.ToInt32(lstAssistantTeacher[ct]);
+                            else
+                                entityDt.AssistantTeacherID = null;
                             entityDt.ParentID = null;
                             entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
                             entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
@@ -172,6 +197,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entityDt.SchoolClassID = SchoolClassID;
                             entityDt.PeriodClassTypeSubjectID = PeriodClassTypeSubjectID;
                             entityDt.TeacherID = TeacherID;
+                            if (lstAssistantTeacher[ct] != "" && lstAssistantTeacher[ct] != "0")
+                                entityDt.AssistantTeacherID = Convert.ToInt32(lstAssistantTeacher[ct]);
+                            else
+                                entityDt.AssistantTeacherID = null;
                             entityDt.ParentID = parentID;
                             entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
                             entityDt.IsCreatedBySystem = false;
@@ -180,6 +209,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         }
                         else
                         {
+                            if (lstAssistantTeacher[ct] != "" && lstAssistantTeacher[ct] != "0")
+                                entityDt.AssistantTeacherID = Convert.ToInt32(lstAssistantTeacher[ct]);
+                            else
+                                entityDt.AssistantTeacherID = null;
                             entityDt.ParentID = parentID;
                             entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
                             entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;

@@ -28,8 +28,17 @@ namespace CodeX.Muses.Web.Information.Program
             return Constant.MenuCode.Information.TEACHER_SCHEDULE_INFO;
         }
 
+        protected string OnGetSchoolPeriodNowFilterExpression()
+        {
+            return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
+        }
+
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
+
             List<StandardCode> lstSchoolDay = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAY));
             decimal width = 100 / lstSchoolDay.Count;
             if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^001", Constant.StandardCode.SCHOOL_DAY)) < 1)
@@ -69,14 +78,6 @@ namespace CodeX.Muses.Web.Information.Program
             tdSchoolDay5.Style.Add("width", string.Format("{0}%", width));
             tdSchoolDay6.Style.Add("width", string.Format("{0}%", width));
 
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
-            Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
-            if (selectedSchoolPeriod == null)
-                cboSchoolPeriod.SelectedIndex = 0;
-            else
-                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
-
             BindGridView();
         }
 
@@ -85,13 +86,13 @@ namespace CodeX.Muses.Web.Information.Program
         {
             if (tacTeacher.Value != "")
             {
-                if (cboSchoolPeriod.Value != null && cboSchoolPeriod.Value.ToString() != "0")
+                if (tacSchoolPeriod.Value != "" && tacSchoolPeriod.Value.ToString() != "0")
                 {
                     List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE));
                     rptRemarks.DataSource = lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE).ToList();
                     rptRemarks.DataBind();
 
-                    SchoolPeriod schoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SchoolPeriodID = {0}", cboSchoolPeriod.Value)).FirstOrDefault();
+                    SchoolPeriod schoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SchoolPeriodID = {0}", tacSchoolPeriod.Value)).FirstOrDefault();
                     DailySchedulePackage entity = BusinessLayer.GetDailySchedulePackage(schoolPeriod.DailySchedulePackageID);
                     List<DailyScheduleTypeDt> lstEntityDt = BusinessLayer.GetDailyScheduleTypeDtList(string.Format("DailyScheduleTypeID IN ({0},{1},{2},{3},{4},{5}) AND IsDeleted = 0",
                         entity.DailyScheduleTypeID1 == null ? "0" : entity.DailyScheduleTypeID1.ToString(),
@@ -102,9 +103,9 @@ namespace CodeX.Muses.Web.Information.Program
                         entity.DailyScheduleTypeID6 == null ? "0" : entity.DailyScheduleTypeID6.ToString()
                     ));
 
-                    List<vClassSchedule> lstTempClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, tacTeacher.Value));
+                    List<vClassSchedule> lstTempClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND (TeacherID = {1} OR AssistantTeacherID = {1}) AND IsDeleted = 0", tacSchoolPeriod.Value, tacTeacher.Value));
                     lstClassSchedule = lstTempClassSchedule.Where(p => p.GCClassStudyType == Constant.ClassStudyType.REGULAR).ToList();
-                    lstTeacherSchedule = BusinessLayer.GetTeacherScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, tacTeacher.Value));
+                    lstTeacherSchedule = BusinessLayer.GetTeacherScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", tacSchoolPeriod.Value, tacTeacher.Value));
                     spnNumSlot.InnerHtml = lstClassSchedule.Count.ToString();
                     rptDay1.DataSource = lstEntityDt.Where(p => p.DailyScheduleTypeID == entity.DailyScheduleTypeID1).ToList();
                     rptDay1.DataBind();

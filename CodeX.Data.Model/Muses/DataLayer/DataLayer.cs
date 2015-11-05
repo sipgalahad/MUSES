@@ -3637,6 +3637,7 @@ namespace CodeX.Data.Model
         private Int32 _SchoolClassID;
         private Int32 _PeriodClassTypeSubjectID;
         private Int32? _TeacherID;
+        private Int32? _AssistantTeacherID;
         private Int16 _NoMeetingHoursInWeek;
         private Int32? _ParentID;
         private Boolean _IsCreatedBySystem;
@@ -3669,6 +3670,12 @@ namespace CodeX.Data.Model
         {
             get { return _TeacherID; }
             set { _TeacherID = value; }
+        }
+        [Column(Name = "AssistantTeacherID", DataType = "Int32", IsNullable = true)]
+        public Int32? AssistantTeacherID
+        {
+            get { return _AssistantTeacherID; }
+            set { _AssistantTeacherID = value; }
         }
         [Column(Name = "NoMeetingHoursInWeek", DataType = "Int16")]
         public Int16 NoMeetingHoursInWeek

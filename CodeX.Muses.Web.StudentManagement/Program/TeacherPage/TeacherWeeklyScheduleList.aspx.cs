@@ -117,7 +117,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
                 else
                     lstOtherTeacherSubstitution = new List<vTeacherSubstitution>();
-                List<vClassSchedule> lstTempClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID));
+                List<vClassSchedule> lstTempClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND (TeacherID = {1} OR AssistantTeacherID = {1}) AND IsDeleted = 0", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID));
                 lstTeacherSchedule = BusinessLayer.GetTeacherScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID));
                 lstClassSchedule = lstTempClassSchedule.Where(p => p.GCClassStudyType == Constant.ClassStudyType.REGULAR).ToList();
                 rptDay1.DataSource = lstEntityDt.Where(p => p.DailyScheduleTypeID == entity.DailyScheduleTypeID1).ToList();

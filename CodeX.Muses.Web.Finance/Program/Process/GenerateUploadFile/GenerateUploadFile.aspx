@@ -28,6 +28,11 @@
 
         function setStartEndPeriod() {
             var pad = "00";
+
+            $('#<%=hdnMonthValue.ClientID %>').val(cboMonth.GetValue());
+            $('#<%=hdnMonthText.ClientID %>').val(cboMonth.GetText());
+            $('#<%=hdnYear.ClientID %>').val(cboYear.GetValue());
+
             var date = new Date();
             var firstDay = new Date(cboYear.GetValue(), cboMonth.GetValue() - 1, 1);
             var lastDay = new Date(cboYear.GetValue(), cboMonth.GetValue(), 0);
@@ -83,6 +88,9 @@
     </script>
     <input type="hidden" runat="server" id="hdnSiteID" />
     <input type="hidden" runat="server" id="hdnSiteName" />
+    <input type="hidden" runat="server" id="hdnMonthValue" />
+    <input type="hidden" runat="server" id="hdnMonthText" />
+    <input type="hidden" runat="server" id="hdnYear" />
     <div>
         <div style="display:none;">
             <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />

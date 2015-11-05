@@ -62,6 +62,7 @@
         var lstSelectedMember = [];
         var lstSelectedMemberQty = [];
         var lstSelectedIsMainTeacher = [];
+        var lstSelectedAssistantTeacher = [];
         var result = '';
 
         var totalQty = 0;
@@ -69,21 +70,25 @@
             var key = $(this).find('.keyField').val();
             var qty = parseFloat($(this).find('.txtQty').val());
             var isMainRole = $(this).find('.chkIsMainTeacher input').is(':checked') ? '1' : '0';
+            var assistantTeacherID = $(this).find('.ddlAssistantTeacher').val();
             lstSelectedMember.push(key);
             lstSelectedMemberQty.push(qty);
             lstSelectedIsMainTeacher.push(isMainRole);
+            lstSelectedAssistantTeacher.push(assistantTeacherID);
 
             totalQty += qty;
         });
 
         $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
         $('#<%=hdnSelectedMemberQty.ClientID %>').val(lstSelectedMemberQty.join(','));
-        $('#<%=hdnSelectedIsMainTeacher.ClientID %>').val(lstSelectedIsMainTeacher.join(',')); 
-
+        $('#<%=hdnSelectedIsMainTeacher.ClientID %>').val(lstSelectedIsMainTeacher.join(','));
+        $('#<%=hdnSelectedAssistantTeacher.ClientID %>').val(lstSelectedAssistantTeacher.join(','));
+        
         var NoMeetingHoursInWeek = parseFloat($('#<%=txtNumberMeetingInHours.ClientID %>').val());
         if (NoMeetingHoursInWeek != totalQty)
             return false;
         return true;
+        return false;
     }
 
     //#region Paging
@@ -201,6 +206,7 @@
             </td>
             <td class="tdTeacherCode">${TeacherCode}</td>
             <td>${TeacherName}</td>
+            <td><asp:DropDownList ID="ddlAssistantTeacher" Width="150px" CssClass="ddlAssistantTeacher" runat="server" /></td>
             <td><input type="text" validationgroup="mpTrxPopup" class="txtQty number min" min="1" value="1" style="width:60px" /></td>
             <td align="center"><asp:CheckBox ID="chkIsMainTeacher" CssClass="chkIsMainTeacher" runat="server"/></td>
         </tr>
@@ -214,6 +220,7 @@
     <input type="hidden" id="hdnFilterItemCode" runat="server" />
     <input type="hidden" id="hdnFilterItemName" runat="server" />
     <input type="hidden" id="hdnSelectedMemberQty" runat="server" value="" />
+    <input type="hidden" id="hdnSelectedAssistantTeacher" runat="server" value="" />
 
     <table class="tblEntryContent" style="width:70%">
         <colgroup>
@@ -232,8 +239,7 @@
     </table>
     <table style="width:100%">
         <colgroup>
-            <col style="width:50%"/>
-            <col style="width:50%"/>
+            <col style="width:40%"/>
         </colgroup>
         <tr>
             <td style="padding:5px;vertical-align:top">
@@ -284,10 +290,11 @@
                             <th style="width:40px">&nbsp;</th>
                             <th align="center" style="width:50px"><%=GetLabel("Kode")%></th> 
                             <th align="center"><%=GetLabel("Nama")%></th> 
+                            <th align="center"style="width:150px"><%=GetLabel("Guru 2")%></th> 
                             <th align="center"style="width:60px"><%=GetLabel("Jumlah")%></th> 
                             <th style="width:80px" class="thCenter"><%=GetLabel("Guru Utama")%></th> 
                         </tr>
-                        <asp:Repeater ID="rptSelected" runat="server">
+                        <asp:Repeater ID="rptSelected" runat="server" OnItemDataBound="rptSelected_ItemDataBound">
                             <ItemTemplate>
                                 <tr class="trSelectedItem">
                                     <td align="center">
@@ -296,6 +303,7 @@
                                     </td>
                                     <td class="tdTeacherCode"><%#Eval("TeacherCode") %></td>
                                     <td><%#Eval("TeacherName") %></td>
+                                    <td><asp:DropDownList ID="ddlAssistantTeacher" Width="150px" CssClass="ddlAssistantTeacher" runat="server" /></td>
                                     <td><input type="text" validationgroup="mpTrxPopup" class="txtQty number min" min="1" value='<%#Eval("NoMeetingHoursInWeek") %>' style="width:60px" /></td>
                                     <td align="center"><asp:CheckBox ID="chkIsMainTeacher" CssClass="chkIsMainTeacher" runat="server" Checked='<%#Eval("IsMainTeacher") %>' /></td>
                                 </tr>

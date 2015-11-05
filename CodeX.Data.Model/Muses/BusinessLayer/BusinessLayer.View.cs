@@ -378,6 +378,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vARInvoiceReceiving
+        public static List<vARInvoiceReceiving> GetvARInvoiceReceivingList(string filterExpression)
+        {
+            List<vARInvoiceReceiving> result = new List<vARInvoiceReceiving>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vARInvoiceReceiving));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vARInvoiceReceiving)helper.IDataReaderToObject(reader, new vARInvoiceReceiving()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vARMovement
         public static List<vARMovement> GetvARMovementList(string filterExpression)
         {
