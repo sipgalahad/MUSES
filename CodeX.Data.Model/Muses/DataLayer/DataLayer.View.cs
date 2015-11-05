@@ -1736,7 +1736,7 @@ namespace CodeX.Data.Model
     #region vClassMeeting
     [Serializable]
     [Table(Name = "vClassMeeting")]
-    public class vClassMeeting
+    public partial class vClassMeeting
     {
         private Int32 _ClassMeetingID;
         private Int32 _ClassSubjectID;
@@ -1748,6 +1748,8 @@ namespace CodeX.Data.Model
         private String _RoomName;
         private Int32 _TeacherID;
         private String _TeacherName;
+        private Int32 _AssistantTeacherID;
+        private String _AssistantTeacherName;
         private String _Remarks;
         private String _NextMeetingRemarks;
         private Int32 _SubjectCurriculumMeetingPlanID;
@@ -1814,6 +1816,18 @@ namespace CodeX.Data.Model
         {
             get { return _TeacherName; }
             set { _TeacherName = value; }
+        }
+        [Column(Name = "AssistantTeacherID", DataType = "Int32")]
+        public Int32 AssistantTeacherID
+        {
+            get { return _AssistantTeacherID; }
+            set { _AssistantTeacherID = value; }
+        }
+        [Column(Name = "AssistantTeacherName", DataType = "String")]
+        public String AssistantTeacherName
+        {
+            get { return _AssistantTeacherName; }
+            set { _AssistantTeacherName = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

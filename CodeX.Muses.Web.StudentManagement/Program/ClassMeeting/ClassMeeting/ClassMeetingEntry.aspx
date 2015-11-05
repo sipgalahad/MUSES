@@ -104,6 +104,33 @@
         }
         //#endregion
 
+        //#region Assistant Teacher
+        function onGetTeacherFilterExpression() {
+            var filterExpression = "<%=OnGetTeacherFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacAssistantTeacherButtonSearchClick() {
+            openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
+                var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
+                Methods.getObject('GetvTeacherList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacAssistantTeacher.setValue(result.TeacherID);
+                        tacAssistantTeacher.setText(result.TeacherName);
+                    }
+                    else {
+                        tacAssistantTeacher.setValue('');
+                        tacAssistantTeacher.setText('');
+                    }
+                });
+            });
+
+        }
+
+        function onTacAssistantTeacherValueChanged() {
+        }
+        //#endregion
+
         //#region SubjectCurriculumMeetingPlan
         function onGetSubjectCurriculumMeetingPlanFilterExpression() {
             var filterExpression = "<%=OnGetSubjectCurriculumMeetingPlanFilterExpression() %>";
@@ -362,6 +389,16 @@
                     SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
                     <ClientSideEvents ButtonSearchClick="function(){ onTacTeacherButtonSearchClick(); }"
                         ValueChanged="function(){ onTacTeacherValueChanged(); }" />
+                </cdx:CodeXAutoCompleteTextBox>   
+            </td>
+        </tr>
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Guru 2")%></label></td>
+            <td>
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacAssistantTeacher" ClientInstanceName="tacAssistantTeacher" MethodName="GetvTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
+                    SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
+                    <ClientSideEvents ButtonSearchClick="function(){ onTacAssistantTeacherButtonSearchClick(); }"
+                        ValueChanged="function(){ onTacAssistantTeacherValueChanged(); }" />
                 </cdx:CodeXAutoCompleteTextBox>   
             </td>
         </tr>

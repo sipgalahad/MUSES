@@ -183,6 +183,20 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassMeeting
+    public partial class vClassMeeting
+    {
+        public String cfTeacherName
+        {
+            get
+            {
+                if (_AssistantTeacherID > 0)
+                    return string.Format("{0} / {1}", _TeacherName, _AssistantTeacherName);
+                return _TeacherName;
+            }
+        }
+    }
+    #endregion
     #region vClassSchedule
     public partial class vClassSchedule
     {
