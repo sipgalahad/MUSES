@@ -50,15 +50,17 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacRoom.Text = entity.RoomName;
                 tacTeacher.Value = entity.TeacherID.ToString();
                 tacTeacher.Text = entity.TeacherName;
-                if (AppSession.UserLogin.EmployeeID != null && AppSession.UserLogin.EmployeeID != 0)
-                {
-                    Employee emp = BusinessLayer.GetEmployee((int)AppSession.UserLogin.EmployeeID);
-                    if (emp.GCEmployeeType == Constant.EmployeeType.TEACHER)
-                    {
-                        tacTeacher.Value = AppSession.UserLogin.EmployeeID.ToString();
-                        tacTeacher.Text = AppSession.UserLogin.UserFullName;
-                    }
-                }
+                tacAssistantTeacher.Value = entity.AssistantTeacherID.ToString();
+                tacAssistantTeacher.Text = entity.AssistantTeacherName;
+                //if (AppSession.UserLogin.EmployeeID != null && AppSession.UserLogin.EmployeeID != 0)
+                //{
+                //    Employee emp = BusinessLayer.GetEmployee((int)AppSession.UserLogin.EmployeeID);
+                //    if (emp.GCEmployeeType == Constant.EmployeeType.TEACHER)
+                //    {
+                //        tacTeacher.Value = AppSession.UserLogin.EmployeeID.ToString();
+                //        tacTeacher.Text = AppSession.UserLogin.UserFullName;
+                //    }
+                //}
             }
             else
             {
@@ -70,6 +72,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacRoom.Text = entity.RoomName;
                 tacTeacher.Value = entity.TeacherID.ToString();
                 tacTeacher.Text = entity.TeacherName;
+                tacAssistantTeacher.Value = entity.AssistantTeacherID.ToString();
+                tacAssistantTeacher.Text = entity.AssistantTeacherName;
                 txtRemarks.Text = entity.Remarks;
                 txtNextMeetingRemarks.Text = entity.NextMeetingRemarks;
                 if (entity.SubjectCurriculumMeetingPlanID != 0)
@@ -105,6 +109,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.EndTime = txtEndTime.Text;
             entity.RoomID = Convert.ToInt32(tacRoom.Value);
             entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
+            if (tacAssistantTeacher.Value != "" && tacAssistantTeacher.Value != "0")
+                entity.AssistantTeacherID = Convert.ToInt32(tacAssistantTeacher.Value);
+            else
+                entity.AssistantTeacherID = null;
             entity.Remarks = txtRemarks.Text;
             entity.NextMeetingRemarks = txtNextMeetingRemarks.Text;
             if (tacSubjectCurriculumMeetingPlan.Value != "")

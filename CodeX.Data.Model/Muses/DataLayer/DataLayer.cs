@@ -2421,6 +2421,7 @@ namespace CodeX.Data.Model
         private String _EndTime;
         private Int32 _RoomID;
         private Int32 _TeacherID;
+        private Int32? _AssistantTeacherID;
         private String _Remarks;
         private String _NextMeetingRemarks;
         private Int32? _SubjectCurriculumMeetingPlanID;
@@ -2477,6 +2478,12 @@ namespace CodeX.Data.Model
         {
             get { return _TeacherID; }
             set { _TeacherID = value; }
+        }
+        [Column(Name = "AssistantTeacherID", DataType = "Int32", IsNullable = true)]
+        public Int32? AssistantTeacherID
+        {
+            get { return _AssistantTeacherID; }
+            set { _AssistantTeacherID = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

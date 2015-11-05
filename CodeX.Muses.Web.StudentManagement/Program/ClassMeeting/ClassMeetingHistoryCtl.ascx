@@ -107,7 +107,7 @@
                                     <li>
                                         <input type="hidden" value='<%# Eval("ClassMeetingID") %>' class="hdnClassMeetingID" />
                                         <div class="divMeetingDate"><%# Eval("MeetingDate", "{0:dd MMM}")%><br /><%# Eval("MeetingDate", "{0:yyyy}")%></div>
-                                        <div style="font-size: 24px; font-weight: 100;"><%#Eval("TeacherName") %></div>
+                                        <div style="font-size: 16px; font-weight: 100;"><%#Eval("cfTeacherName") %></div>
                                         <div style="font-size: 12px;"><%#Eval("RoomName") %><br /><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
                                     </li>                        
                                 </ItemTemplate>
