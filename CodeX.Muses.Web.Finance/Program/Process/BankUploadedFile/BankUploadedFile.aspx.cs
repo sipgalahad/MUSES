@@ -368,21 +368,183 @@ namespace CodeX.Muses.Web.Finance.Program
                 else if (bank.GCBankExportDataType == Constant.BankExportDataType.BCA)
                 {
                     #region Upload BCA
-                    data = ChangeSpace(data);
-                    List<String> arrData = data.Split('|').ToList();
-                    arrData.RemoveAll(x => x == "");
-                    int count = 1;
-                    for (int i = 4; i < arrData.Count(); i++) 
-                    { 
-                        List<String> tempData = arrData[i].Split('_').ToList();
-                        tempData.RemoveAll(x => x == "");
-                        if (tempData.Count() > 0)
+                    //data = ChangeSpace(data);
+                    //List<String> arrData = data.Split('|').ToList();
+                    //arrData.RemoveAll(x => x == "");
+                    //int count = 1;
+                    //for (int i = 4; i < arrData.Count(); i++) 
+                    //{ 
+                    //    List<String> tempData = arrData[i].Split('_').ToList();
+                    //    tempData.RemoveAll(x => x == "");
+                    //    if (tempData.Count() > 0)
+                    //    {
+                    //        if (tempData[0] == count.ToString())
+                    //        {
+                    //            BankData entity = new BankData();
+                    //            entity.NBS = tempData[1];
+                    //            entity.Amount = Convert.ToDecimal(tempData[4]);
+
+                    //            Student entityStudent = lstStudent.FirstOrDefault(p => p.VirtualAccountNo == entity.NBS);
+                    //            ProspectiveStudent entityProspectiveStudent = lstProspectiveStudent.FirstOrDefault(p => p.ProspectiveStudentCode == entity.NBS);
+
+                    //            #region Proses ARReceiving, ARInvoice, ARBalance
+                    //            if (entityStudent != null || entityProspectiveStudent != null)
+                    //            {
+                    //                ARBalance entityARBalance = null;
+                    //                DateTime receivingDate = Convert.ToDateTime(tempData[5]);
+                    //                if (entityStudent != null)
+                    //                    entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == entityStudent.StudentID);
+
+                    //                if (entityProspectiveStudent != null)
+                    //                    entityARBalance = lstARBalance.FirstOrDefault(p => p.ProspectiveStudentID == entityProspectiveStudent.ProspectiveStudentID);
+
+                    //                decimal totalAmount = entity.Amount - bank.AdministrationAmount;
+                    //                if (entityARBalance != null)
+                    //                    totalAmount += entityARBalance.DepositAmount;
+
+                    //                List<vARInvoiceHd> lstARInvoiceHd1 = lstARInvoiceHd.Where(x => x.VirtualAccount == entity.NBS).ToList();
+                    //                if (lstARInvoiceHd1.Sum(p => p.TotalClaimedAmount - p.TotalPaymentAmount) == totalAmount)
+                    //                {
+                    //                    entity.IsProcessed = true;
+                    //                    #region ARReceiving
+                    //                    ARReceivingHd entityReceivingHd = new ARReceivingHd();
+                    //                    if (entityStudent != null)
+                    //                        entityReceivingHd.StudentID = entityStudent.StudentID;
+                    //                    else
+                    //                        entityReceivingHd.StudentID = null;
+
+                    //                    if (entityProspectiveStudent != null)
+                    //                        entityReceivingHd.ProspectiveStudentID = entityProspectiveStudent.ProspectiveStudentID;
+                    //                    else
+                    //                        entityReceivingHd.ProspectiveStudentID = null;
+                    //                    entityReceivingHd.ReceivingDate = receivingDate;
+                    //                    entityReceivingHd.TotalInvoiceAmount = entityReceivingHd.TotalReceivingAmount = totalAmount;
+                    //                    entityReceivingHd.TotalFeeAmount = bank.AdministrationAmount;
+                    //                    entityReceivingHd.CashBackAmount = 0;
+                    //                    entityReceivingHd.Remarks = "";
+                    //                    entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    //                    if (entityStudent != null)
+                    //                        entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
+                    //                    else
+                    //                        entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_PROSPECTIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
+                    //                    entityReceivingHd.CreatedBy = entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    //                    ctx.CommandType = CommandType.Text;
+                    //                    ctx.Command.Parameters.Clear();
+                    //                    entityReceivingHdDao.Insert(entityReceivingHd);
+                    //                    entityReceivingHd.ARReceivingID = BusinessLayer.GetARReceivingHdMaxID(ctx);
+
+                    //                    ARReceivingDt entityDt = new ARReceivingDt();
+                    //                    entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
+                    //                    entityDt.GCARPaymentMethod = Constant.PaymentMethod.BANK_TRANSFER;
+                    //                    entityDt.BankID = bank.BankID;
+                    //                    entityDt.PaymentAmount = totalAmount;
+                    //                    entityDt.CardFeeAmount = bank.AdministrationAmount;
+                    //                    entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                    //                    entityReceivingDtDao.Insert(entityDt);
+                    //                    #endregion
+
+                    //                    #region ARBalance
+                    //                    if (entityARBalance != null && entityARBalance.DepositAmount > 0)
+                    //                    {
+                    //                        ARReceivingDt entityDt2 = new ARReceivingDt();
+                    //                        entityDt2.ARReceivingID = entityReceivingHd.ARReceivingID;
+                    //                        entityDt2.GCARPaymentMethod = Constant.PaymentMethod.DOWN_PAYMENT_RETURN;
+                    //                        if (totalAmount < entityARBalance.DepositAmount)
+                    //                            entityDt2.PaymentAmount = totalAmount;
+                    //                        else
+                    //                            entityDt2.PaymentAmount = entityARBalance.DepositAmount;
+                    //                        entityDt2.CardFeeAmount = 0;
+                    //                        entityDt2.CreatedBy = AppSession.UserLogin.UserID;
+                    //                        entityReceivingDtDao.Insert(entityDt2);
+
+                    //                        entityARBalance.DepositAmount -= entityDt2.PaymentAmount;
+                    //                        entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    //                        arBalanceDao.Update(entityARBalance);
+                    //                    }
+                    //                    #endregion
+
+                    //                    #region ARInvoice
+                    //                    decimal totalInvoiceAmount = 0;
+                    //                    foreach (vARInvoiceHd obj in lstARInvoiceHd1)
+                    //                    {
+                    //                        ARInvoiceHd arInvoiceHD = arInvoiceHdDao.Get(obj.ARInvoiceID);
+                    //                        arInvoiceHD.TotalPaymentAmount = arInvoiceHD.TotalClaimedAmount;
+                    //                        totalInvoiceAmount += arInvoiceHD.TotalPaymentAmount;
+                    //                        arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
+                    //                        arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    //                        arInvoiceHdDao.Update(arInvoiceHD);
+
+                    //                        List<ARInvoiceDt> lstARInvoiceDt1 = lstARInvoiceDt.Where(p => p.ARInvoiceID == arInvoiceHD.ARInvoiceID).ToList();
+                    //                        foreach (ARInvoiceDt aRInvoiceDt in lstARInvoiceDt1)
+                    //                        {
+                    //                            StudentFeeDt studentFeeDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeDtID == aRInvoiceDt.StudentFeeDtID);
+                    //                            studentFeeDt.IsPaid = true;
+                    //                            studentFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    //                            entityStudentFeeDtDao.Update(studentFeeDt);
+
+                    //                            ARInvoiceReceiving ARInvoiceReceivingObj = new ARInvoiceReceiving();
+                    //                            ARInvoiceReceivingObj.ARInvoiceID = arInvoiceHD.ARInvoiceID;
+                    //                            ARInvoiceReceivingObj.ARReceivingID = entityReceivingHd.ARReceivingID;
+                    //                            ARInvoiceReceivingObj.ReceivingAmount = aRInvoiceDt.ClaimedAmount - aRInvoiceDt.PaymentAmount;
+                    //                            ARInvoiceReceivingObj.ARInvoiceDtID = aRInvoiceDt.ARInvoiceDtID;
+                    //                            entityIRDao.Insert(ARInvoiceReceivingObj);
+
+                    //                            aRInvoiceDt.PaymentAmount = aRInvoiceDt.ClaimedAmount;
+                    //                            aRInvoiceDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    //                            entityInvoiceDtDao.Update(aRInvoiceDt);
+                    //                        }
+
+                    //                        if (arInvoiceHD.StudentID != null && arInvoiceHD.StudentID != 0)
+                    //                        {
+                    //                            entity.StudentName = entityStudent.StudentName;
+                    //                            entity.Status = "Siswa";
+                    //                        }
+                    //                        else
+                    //                        {
+                    //                            entity.StudentName = entityProspectiveStudent.ProspectiveStudentName;
+                    //                            entity.Status = "Calon Siswa";
+                    //                        }
+                    //                    }
+                    //                    #endregion
+
+                    //                    entityReceivingHd = entityReceivingHdDao.Get(entityReceivingHd.ARReceivingID);
+                    //                    entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                    //                    entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    //                    entityReceivingHdDao.Update(entityReceivingHd);
+                    //                }
+                    //                else
+                    //                    entity.IsProcessed = false;
+                    //            }
+                    //            else
+                    //            {
+                    //                entity.StudentName = tempData[3];
+                    //                entity.Status = "-";
+                    //            }
+                    //            #endregion
+
+                    //            lstBankData.Add(entity);
+                    //            count++;
+                    //        }
+                    //    }
+                    //}
+                    
+                    #endregion
+                    #region Test
+                    data = data.Replace("\r\n", "|");
+                    String[] arrData = data.Split('|').ToArray();
+                    
+                    foreach (String tempData in arrData) 
+                    {
+                        if (tempData.Length > 5) 
                         {
-                            if (tempData[0] == count.ToString())
+                            int i = 0;
+                            Int32 transactionNo = Int32.TryParse(tempData.Substring(0, 6), out i) ? i : 0;
+                            if (transactionNo != 0) 
                             {
                                 BankData entity = new BankData();
-                                entity.NBS = tempData[1];
-                                entity.Amount = Convert.ToDecimal(tempData[4]);
+                                entity.NBS = tempData.Substring(8, 6);
+                                entity.StudentName = tempData.Substring(28, 16);
+                                entity.Amount = Convert.ToDecimal(tempData.Substring(51,20));
 
                                 Student entityStudent = lstStudent.FirstOrDefault(p => p.VirtualAccountNo == entity.NBS);
                                 ProspectiveStudent entityProspectiveStudent = lstProspectiveStudent.FirstOrDefault(p => p.ProspectiveStudentCode == entity.NBS);
@@ -391,7 +553,10 @@ namespace CodeX.Muses.Web.Finance.Program
                                 if (entityStudent != null || entityProspectiveStudent != null)
                                 {
                                     ARBalance entityARBalance = null;
-                                    DateTime receivingDate = Convert.ToDateTime(tempData[5]);
+                                    string dateTimeString = tempData.Substring(73, 18);
+                                    string[] arr = dateTimeString.Split('/').ToArray();
+                                    DateTime receivingDate = Convert.ToDateTime(String.Format("{0}/{1}/{2}",arr[1],arr[0],arr[2]));
+
                                     if (entityStudent != null)
                                         entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == entityStudent.StudentID);
 
@@ -517,17 +682,15 @@ namespace CodeX.Muses.Web.Finance.Program
                                 }
                                 else
                                 {
-                                    entity.StudentName = tempData[3];
+                                    entity.IsProcessed = false;
                                     entity.Status = "-";
                                 }
                                 #endregion
 
                                 lstBankData.Add(entity);
-                                count++;
                             }
                         }
                     }
-                    
                     #endregion
                 }
                 
