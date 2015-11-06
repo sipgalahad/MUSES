@@ -49,7 +49,12 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 HtmlGenericControl divPersonalDesc = e.Item.FindControl("divPersonalDesc") as HtmlGenericControl;
                 HtmlGenericControl divEmploymentStatus = e.Item.FindControl("divEmploymentStatus") as HtmlGenericControl;
                 HtmlGenericControl divEmployeeAttendanceSummary = e.Item.FindControl("divEmployeeAttendanceSummary") as HtmlGenericControl;
-
+                HtmlGenericControl headerPresensi = e.Item.FindControl("headerPresensi") as HtmlGenericControl;
+                HtmlGenericControl headerHeadmasterRemarks = e.Item.FindControl("headerHeadmasterRemarks") as HtmlGenericControl;
+                HtmlGenericControl headerSelfDevelop = e.Item.FindControl("headerSelfDevelop") as HtmlGenericControl;
+                HtmlGenericControl headerHeadmasterDevelop = e.Item.FindControl("headerHeadmasterDevelop") as HtmlGenericControl;
+                HtmlGenericControl divNewPage = e.Item.FindControl("divNewPage") as HtmlGenericControl;
+                
                 Repeater rptReportBody = e.Item.FindControl("rptReportBody") as Repeater;
 
                 String text = divPersonalityType.InnerHtml;
@@ -129,9 +134,55 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 List<Variable> lstGroup = (from grp in lstProfileItem group grp by new { grp.TeacherProfileGroupID, grp.TeacherProfileGroupDisplayText } into NewGrp select new Variable { Code = NewGrp.Key.TeacherProfileGroupID.ToString(), Value = NewGrp.Key.TeacherProfileGroupDisplayText }).ToList();
                 rptReportBody.DataSource = lstGroup;
                 rptReportBody.DataBind();
+                switch (LastGroup) 
+                {
+                    case "B":
+                        text = headerPresensi.InnerHtml;
+                        text = text.Replace("{Numbering1}","C");
+                        headerPresensi.InnerHtml = text;
+                        
+                        text = headerHeadmasterRemarks.InnerHtml;
+                        text = text.Replace("{Numbering2}", "D");
+                        headerHeadmasterRemarks.InnerHtml = text;
+                        
+                        text = headerSelfDevelop.InnerHtml;
+                        text = text.Replace("{Numbering3}","E");
+                        headerSelfDevelop.InnerHtml = text;
+
+                        text = headerHeadmasterDevelop.InnerHtml;
+                        text = text.Replace("{Numbering4}", "F");
+                        headerHeadmasterDevelop.InnerHtml = text;
+
+                        divNewPage.Style.Add(HtmlTextWriterStyle.Height, "430px");
+                        break;
+                    case "C":
+                        text = headerPresensi.InnerHtml;
+                        text = text.Replace("{Numbering1}","D");
+                        headerPresensi.InnerHtml = text;
+
+                        text = headerHeadmasterRemarks.InnerHtml;
+                        text = text.Replace("{Numbering2}", "E");
+                        headerHeadmasterRemarks.InnerHtml = text;
+                        
+                        text = headerSelfDevelop.InnerHtml;
+                        text = text.Replace("{Numbering3}","F");
+                        headerSelfDevelop.InnerHtml = text;
+
+                        text = headerHeadmasterDevelop.InnerHtml;
+                        text = text.Replace("{Numbering4}", "G");
+                        headerHeadmasterDevelop.InnerHtml = text;
+
+                        divNewPage.Style.Add(HtmlTextWriterStyle.Height, "170px");
+                        break;
+                    case "D":
+                        text = headerPresensi.InnerHtml;
+                        text = text.Replace("{Numbering1}","E");
+                        headerPresensi.InnerHtml = text;
+                        break;
+                }
             }
         }
-
+        String LastGroup = "";
         protected void rptReportBody_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
@@ -148,18 +199,22 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     case "2":
                         divHeader.Style.Remove("display");
                         divHeader.InnerHtml = "B. KOMPETENSI PEDAGOGIK & PROFESIONAL";
+                        LastGroup = "B";
                         break;
                     case "4": 
                         divHeader.Style.Remove("display");
                         divHeader.InnerHtml = "B. KOMPETENSI PEDAGOGIK & PROFESIONAL";
+                        LastGroup = "B";
                         break;
                     case "5":
                         divHeader.Style.Remove("display");
                         divHeader.InnerHtml = "B. KOMPETENSI PEDAGOGIK & PROFESIONAL";
+                        LastGroup = "B";
                         break;
                     case "8":
                         divHeader.Style.Remove("display");
                         divHeader.InnerHtml = "C. PROFIL MENURUT SISWA";
+                        LastGroup = "C";
                         break;
                     case "12":
                         tdHeaderPercentage.InnerHtml = "Jawaban";
@@ -182,6 +237,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                         tdHeaderPercentage.ColSpan = 2;
                         tdHeaderPercentage.Width = "50%";
                         tdHeaderMutu.Visible = false;
+                        LastGroup = "D";
                         break;
                     default:
                         divHeader.Style.Add("display", "none");
