@@ -17,6 +17,14 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
+        var isClickGenerate = false;
+        $('body').live('keydown', function (e) {
+            if (e.ctrlKey && e.keyCode == 71) { //G
+                $('#<%=btnGenerate.ClientID %>').click();
+                e.preventDefault();
+            }
+        });
+
         $(function () {
             var grd = new customGridView();
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
@@ -26,6 +34,7 @@
             });
 
             $('#<%=btnGenerate.ClientID %>').click(function () {
+                isClickGenerate = true;
                 getCheckedValue();
                 if ($('#<%=hdnSelectedValue.ClientID %>').val() == "")
                     showToast('Warning', 'Silakan Pilih Siswa Terlebih Dahulu');
@@ -68,6 +77,17 @@
                     cbpView.PerformCallback('changepage|' + page);
                     setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
+
+                if (isClickGenerate) {
+                    if (rowCount > 0) {
+                        $('.chkIsSelected').each(function () {
+                            $(this).find('input').prop('checked', true);
+                        });
+                        $('#<%=btnGenerate.ClientID %>').click();
+                    }
+                    else
+                        isClickGenerate = false;
+                }
             }
             else
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
@@ -105,6 +125,21 @@
 
         function onGetFilterExpression() {
             return $('#<%=hdnFilterExpression.ClientID %>').val();
+        }
+
+        function onCboSiteValueChanged() {
+            var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND <%=OnGetSchoolPeriodNowFilterExpression() %>";
+            Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
+                if (result != null) {
+                    tacSchoolPeriod.setValue(result.SchoolPeriodID);
+                    tacSchoolPeriod.setText(result.SchoolPeriodName);
+                }
+                else {
+                    tacSchoolPeriod.setValue('');
+                    tacSchoolPeriod.setText('');
+                }
+                onTacSchoolPeriodValueChanged();
+            });
         }
 
         function setStudentImage() {
@@ -261,6 +296,10 @@
                     </tr>
                 </table>
             </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><asp:CheckBox ID="chkIsShowOnlyInvoiceAvailable" runat="server" /><%=GetLabel("Tampilkan Hanya yang Mempunyai Tagihan") %></td>
         </tr>
         <tr>
             <td></td>

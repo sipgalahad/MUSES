@@ -51,6 +51,12 @@ namespace CodeX.Muses.Web.Information.Program
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.SelectedIndex = 0;
 
+            List<Variable> lstViewType = new List<Variable>();
+            lstViewType.Add(new Variable { Code = "0", Value = GetLabel("Jatuh Tempo") });
+            lstViewType.Add(new Variable { Code = "1", Value = GetLabel("Semua") });
+            Methods.SetComboBoxField<Variable>(cboViewType, lstViewType, "Value", "Code");
+            cboViewType.SelectedIndex = 0;
+
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);
         }
@@ -68,7 +74,7 @@ namespace CodeX.Muses.Web.Information.Program
             return filterExpression;
         }
 
-        List<vARInvoiceDt> lstARInvoiceDt = null;
+        List<vStudentFeeDt> lstStudentFeeDt = null;
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = GetFilterExpression();
@@ -83,7 +89,10 @@ namespace CodeX.Muses.Web.Information.Program
             if (lstEntity.Count > 0)
             {
                 string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
-                lstARInvoiceDt = BusinessLayer.GetvARInvoiceDtList(string.Format("StudentID IN ({0}) AND GCTransactionStatus NOT IN ('{1}','{2}') AND ClaimedAmount != PaymentAmount AND IsDeleted = 0", lstStudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID));
+                if (cboViewType.Value.ToString() == "0")
+                    lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("StudentID IN ({0}) AND TotalStudentAmount != ISNULL(PaymentAmount,0) AND TotalStudentAmount > 0 AND ARInvoiceDtID IS NOT NULL AND IsDeleted = 0", lstStudentID));
+                else
+                    lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("StudentID IN ({0}) AND TotalStudentAmount != ISNULL(PaymentAmount,0) AND TotalStudentAmount > 0 AND IsDeleted = 0", lstStudentID));
             }
 
             rptView.DataSource = lstEntity;
@@ -96,22 +105,22 @@ namespace CodeX.Muses.Web.Information.Program
             {
                 vStudent entity = (vStudent)e.Item.DataItem;
 
-                List<vARInvoiceDt> lstARInvoiceDt1 = lstARInvoiceDt.Where(p => p.StudentID == entity.StudentID).ToList();
-                List<vARInvoiceDt> lstARInvoiceDtUsek = lstARInvoiceDt1.Where(p => p.StudentFeeCompTypeID == 2).ToList();
+                List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(p => p.StudentID == entity.StudentID).ToList();
+                List<vStudentFeeDt> lstStudentFeeDtUsek = lstStudentFeeDt1.Where(p => p.StudentFeeCompTypeID == 2).ToList();
 
                 HtmlGenericControl divPemb = e.Item.FindControl("divPemb") as HtmlGenericControl;
                 HtmlGenericControl divSek = e.Item.FindControl("divUsek") as HtmlGenericControl;
                 HtmlGenericControl divKeg = e.Item.FindControl("divKeg") as HtmlGenericControl;
                 HtmlGenericControl lblClaimedAmount = e.Item.FindControl("lblClaimedAmount") as HtmlGenericControl;
-                divPemb.InnerHtml = lstARInvoiceDt1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
-                divSek.InnerHtml = lstARInvoiceDtUsek.Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
-                divKeg.InnerHtml = lstARInvoiceDt1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
-                lblClaimedAmount.InnerHtml = lstARInvoiceDt1.Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
+                divPemb.InnerHtml = lstStudentFeeDt1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+                divSek.InnerHtml = lstStudentFeeDtUsek.Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+                divKeg.InnerHtml = lstStudentFeeDt1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+                lblClaimedAmount.InnerHtml = lstStudentFeeDt1.Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
 
                 if (IsExportExcel)
                 {
                     HtmlTableCell tdPrint = e.Item.FindControl("tdPrint") as HtmlTableCell;
-                    tdPrint.InnerHtml = string.Join(", ", lstARInvoiceDtUsek.Select(p => p.cfPeriod));
+                    tdPrint.InnerHtml = string.Join(", ", lstStudentFeeDtUsek.Select(p => p.cfPeriod));
                 }
             }
         }
@@ -166,16 +175,19 @@ namespace CodeX.Muses.Web.Information.Program
             if (lstEntity.Count > 0)
             {
                 string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
-                lstARInvoiceDt = BusinessLayer.GetvARInvoiceDtList(string.Format("StudentID IN ({0}) AND GCTransactionStatus NOT IN ('{1}','{2}') AND ClaimedAmount != PaymentAmount AND IsDeleted = 0", lstStudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID));
+                if (Request.Form[hdnViewTypeID.UniqueID] == "0")
+                    lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("StudentID IN ({0}) AND TotalStudentAmount != ISNULL(PaymentAmount,0) AND TotalStudentAmount > 0 AND ARInvoiceDtID IS NOT NULL AND IsDeleted = 0", lstStudentID));
+                else
+                    lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("StudentID IN ({0}) AND TotalStudentAmount != ISNULL(PaymentAmount,0) AND TotalStudentAmount > 0 AND IsDeleted = 0", lstStudentID));
             }
 
             rptView.DataSource = lstEntity;
             rptView.DataBind();
 
-            divTotalPemb.InnerHtml = lstARInvoiceDt.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
-            divTotalUsek.InnerHtml = lstARInvoiceDt.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
-            divTotalKeg.InnerHtml = lstARInvoiceDt.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
-            divTotalAll.InnerHtml = lstARInvoiceDt.Sum(p => p.ClaimedAmount - p.PaymentAmount).ToString("N");
+            divTotalPemb.InnerHtml = lstStudentFeeDt.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+            divTotalUsek.InnerHtml = lstStudentFeeDt.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+            divTotalKeg.InnerHtml = lstStudentFeeDt.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+            divTotalAll.InnerHtml = lstStudentFeeDt.Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
 
             HtmlGenericControl div = new HtmlGenericControl("DIV");
             HtmlGenericControl h4 = new HtmlGenericControl("h4");

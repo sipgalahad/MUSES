@@ -428,6 +428,22 @@ namespace CodeX.Muses.Web.Finance.Program
                 }
 
                 List<ARInvoiceReceiving> lstARIR = BusinessLayer.GetARInvoiceReceivingList(string.Format("ARReceivingID = {0}", hdnARReceivingID.Value), ctx);
+                List<ARReceivingDt> lstARReceivingDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingID = {0}", hdnARReceivingID.Value), ctx);
+
+                foreach (ARReceivingDt entityDt in lstARReceivingDt)
+                {
+                    if (entityDt.GCARPaymentMethod == Constant.PaymentMethod.DOWN_PAYMENT_RETURN)
+                    {
+                        ARBalance entityARBalance = BusinessLayer.GetARBalanceList(string.Format("StudentID = {0}", AppSession.StudentID), ctx).FirstOrDefault();
+                        if (entityARBalance != null)
+                        {
+                            entityARBalance.DepositAmount += entityDt.PaymentAmount;
+                            entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityARBalanceDao.Update(entityARBalance);
+                        }
+                    }
+                }
+
                 string lstARInvoiceID = string.Join(",", lstARIR.Select(p => p.ARInvoiceID).ToList());
                 if (lstARInvoiceID != "")
                 {
