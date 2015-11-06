@@ -368,21 +368,21 @@ namespace CodeX.Muses.Web.Finance.Program
                 else if (bank.GCBankExportDataType == Constant.BankExportDataType.BCA)
                 {
                     #region Upload BCA
-                    data = ChangeSpace(data);
-                    List<String> arrData = data.Split('|').ToList();
-                    arrData.RemoveAll(x => x == "");
-                    int count = 1;
-                    for (int i = 4; i < arrData.Count(); i++) 
-                    { 
-                        List<String> tempData = arrData[i].Split('_').ToList();
-                        tempData.RemoveAll(x => x == "");
-                        if (tempData.Count() > 0)
+                    data = data.Replace("\r\n", "|");
+                    String[] arrData = data.Split('|').ToArray();
+                    
+                    foreach (String tempData in arrData) 
+                    {
+                        if (tempData.Length > 5) 
                         {
-                            if (tempData[0] == count.ToString())
+                            int i = 0;
+                            Int32 transactionNo = Int32.TryParse(tempData.Substring(0, 6), out i) ? i : 0;
+                            if (transactionNo != 0) 
                             {
                                 BankData entity = new BankData();
-                                entity.NBS = tempData[1];
-                                entity.Amount = Convert.ToDecimal(tempData[4]);
+                                entity.NBS = tempData.Substring(8, 6);
+                                entity.StudentName = tempData.Substring(28, 16);
+                                entity.Amount = Convert.ToDecimal(tempData.Substring(51,20));
 
                                 Student entityStudent = lstStudent.FirstOrDefault(p => p.VirtualAccountNo == entity.NBS);
                                 ProspectiveStudent entityProspectiveStudent = lstProspectiveStudent.FirstOrDefault(p => p.ProspectiveStudentCode == entity.NBS);
@@ -391,7 +391,10 @@ namespace CodeX.Muses.Web.Finance.Program
                                 if (entityStudent != null || entityProspectiveStudent != null)
                                 {
                                     ARBalance entityARBalance = null;
-                                    DateTime receivingDate = Convert.ToDateTime(tempData[5]);
+                                    string dateTimeString = tempData.Substring(73, 18);
+                                    string[] arr = dateTimeString.Split('/').ToArray();
+                                    DateTime receivingDate = Convert.ToDateTime(String.Format("{0}/{1}/{2}",arr[1],arr[0],arr[2]));
+
                                     if (entityStudent != null)
                                         entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == entityStudent.StudentID);
 
@@ -517,17 +520,15 @@ namespace CodeX.Muses.Web.Finance.Program
                                 }
                                 else
                                 {
-                                    entity.StudentName = tempData[3];
+                                    entity.IsProcessed = false;
                                     entity.Status = "-";
                                 }
                                 #endregion
 
                                 lstBankData.Add(entity);
-                                count++;
                             }
                         }
                     }
-                    
                     #endregion
                 }
                 
