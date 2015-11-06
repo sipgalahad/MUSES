@@ -31,6 +31,24 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteName;
         
         /// <summary>
+        /// hdnViewTypeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnViewTypeID;
+        
+        /// <summary>
+        /// hdnViewTypeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnViewTypeName;
+        
+        /// <summary>
         /// hdnFilterExpressionQuickSearch control.
         /// </summary>
         /// <remarks>
@@ -74,6 +92,15 @@ namespace CodeX.Muses.Web.Information.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::CodeX.Web.CustomControl.QISIntellisenseTextBox txtSearchView;
+        
+        /// <summary>
+        /// cboViewType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboViewType;
         
         /// <summary>
         /// chkNotPaid control.

@@ -2231,6 +2231,24 @@ namespace CodeX.Data.Model
                 return _StudentName;
             }
         }
+        public Decimal StudentRemainingAmount
+        {
+            get { return _TotalStudentAmount - _PaymentAmount; }
+        }
+        public String cfPeriod
+        {
+            get
+            {
+                if (_GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.TAHUNAN)
+                    return string.Format("{0}", _TransactionYear);
+                if (_GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.BULANAN)
+                {
+                    DateTime dt = new DateTime(_TransactionYear, _TransactionMonth, 1);
+                    return string.Format("{0}", dt.ToString("MMM yyyy"));
+                }
+                return "";
+            }
+        }
     }
     #endregion
     #region vStudentScholarshipTransactionHd

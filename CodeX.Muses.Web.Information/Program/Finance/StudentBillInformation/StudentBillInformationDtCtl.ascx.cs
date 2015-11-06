@@ -22,7 +22,9 @@ namespace CodeX.Muses.Web.Information.Program
 
         public override void InitializeDataControl(string param)
         {
-            hdnStudentID.Value = param;
+            string[] temp = param.Split('|');
+            hdnStudentID.Value = temp[0];
+            hdnViewType.Value = temp[1];
 
             Student entity = BusinessLayer.GetStudent(Convert.ToInt32(hdnStudentID.Value));
             txtHeaderText.Text = string.Format("{0} - {1}", entity.VirtualAccountNo, entity.StudentName);
@@ -32,14 +34,18 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            string filterExpression = String.Format("StudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}')", hdnStudentID.Value, Constant.TransactionStatus.VOID, Constant.TransactionStatus.CLOSED);
+            string filterExpression = "";
+            if (hdnViewType.Value == "0")
+                filterExpression = String.Format("StudentID = {0} AND TotalStudentAmount != ISNULL(PaymentAmount,0) AND TotalStudentAmount > 0 AND ARInvoiceDtID IS NOT NULL AND IsDeleted = 0", hdnStudentID.Value);
+            else
+                filterExpression = String.Format("StudentID = {0} AND TotalStudentAmount != ISNULL(PaymentAmount,0) AND TotalStudentAmount > 0 AND IsDeleted = 0", hdnStudentID.Value);
             if (isCountPageCount)
             {
-                int rowCount = BusinessLayer.GetvARInvoiceDtRowCount(filterExpression);
+                int rowCount = BusinessLayer.GetvStudentFeeDtRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, 10);
             }
-            
-            List<vARInvoiceDt> lstEntity = BusinessLayer.GetvARInvoiceDtList(filterExpression);
+
+            List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(filterExpression, 10, pageIndex, "StudentFeeCompTypeID");
             grdPopupView.DataSource = lstEntity;
             grdPopupView.DataBind();
         }

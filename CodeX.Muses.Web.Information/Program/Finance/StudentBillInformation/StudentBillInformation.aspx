@@ -139,9 +139,14 @@
             });
         }
 
+        function onCboViewTypeValueChanged() {
+            $('#<%=hdnViewTypeID.ClientID %>').val(cboViewType.GetValue());
+            $('#<%=hdnViewTypeName.ClientID %>').val(cboViewType.GetText());
+        }
+
         $('.lblDetail.lblLink').live('click', function () {
             $tr = $(this).closest('tr');
-            var studentID = $tr.find('.hdnStudentID').val();
+            var studentID = $tr.find('.hdnStudentID').val() + '|' + cboViewType.GetValue();
             var url = ResolveUrl("~/Program/Finance/StudentBillInformation/StudentBillInformationDtCtl.ascx");
             openUserControlPopup(url, studentID, 'Detail Information', 700, 550);
         });
@@ -155,6 +160,8 @@
     </script>
     <input type="hidden" value="" id="hdnSiteID" runat="server" />
     <input type="hidden" value="" id="hdnSiteName" runat="server" />
+    <input type="hidden" value="" id="hdnViewTypeID" runat="server" />
+    <input type="hidden" value="" id="hdnViewTypeName" runat="server" />
     <input type="hidden" value="" id="hdnFilterExpressionQuickSearch" runat="server" />
     <div>
         <table style="width: 100%">
@@ -204,6 +211,14 @@
 	                                </IntellisenseHints>
                                 </cdx:QISIntellisenseTextBox>
                             </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel" style="width:100px;"><%=GetLabel("Tipe Tagihan") %></td>
+                            <td>
+                                <dxe:ASPxComboBox runat="server" ID="cboViewType" ClientInstanceName="cboViewType" Width="200px">
+                                    <ClientSideEvents Init="function(s,e){ onCboViewTypeValueChanged(); }"  ValueChanged="function(s,e){ onCboViewTypeValueChanged() }" />
+                                </dxe:ASPxComboBox>
+                            </td>                        
                         </tr>
                         <tr>
                             <td></td>

@@ -26,6 +26,11 @@ namespace CodeX.Muses.Web.Finance.Program
             return Constant.MenuCode.Finance.GENERATE_AR_INVOICE_PROSPECTIVE_STUDENT;
         }
 
+        protected string OnGetSchoolPeriodNowFilterExpression()
+        {
+            return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
+        }
+
         protected string OnGetPeriodAdmissionFilterExpression()
         {
             return string.Format("GCPeriodAdmissionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
@@ -64,14 +69,16 @@ namespace CodeX.Muses.Web.Finance.Program
 
         private string GetFilterExpression()
         {
-            string filterExpression = "1 = 0";
+            string filterExpression = string.Format("GCRegistrationStatus IN ('{0}','{1}','{2}')", Constant.RegistrationStatus.AR_PROCESSED, Constant.RegistrationStatus.PAID, Constant.RegistrationStatus.SETTLED);
             if (tacPeriodAdmission.Value != "" && tacPeriodAdmission.Value != "0")
-            {
-                filterExpression = hdnFilterExpression.Value;
-                if (filterExpression != "")
-                    filterExpression += " AND ";
-                filterExpression += string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus IN ('{1}','{2}','{3}')", tacPeriodAdmission.Value, Constant.RegistrationStatus.AR_PROCESSED, Constant.RegistrationStatus.PAID, Constant.RegistrationStatus.SETTLED);
-            }
+                filterExpression += string.Format(" AND PeriodAdmissionID = {0}", tacPeriodAdmission.Value);
+            else if (tacSchoolPeriod.Value != "")
+                filterExpression += string.Format(" AND SchoolPeriodID = {0}", tacSchoolPeriod.Value);
+            else
+                filterExpression += string.Format(" AND SiteID = '{0}'", cboSite.Value);
+            if (chkIsShowOnlyInvoiceAvailable.Checked)
+                filterExpression += string.Format(" AND ProspectiveStudentID IN (SELECT ProspectiveStudentID FROM vStudentFeeDt WHERE DueDate LIKE '{0}-{1}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{2}' AND StudentFeeDtID IS NOT NULL) AND IsPaid = 0 AND TotalStudentAmount > 0)", cboYear.Value, cboMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID);
+            
             return filterExpression;
         }
 
@@ -90,7 +97,7 @@ namespace CodeX.Muses.Web.Finance.Program
             if (lstEntity.Count > 0)
             {
                 string lstProspectiveStudentID = string.Join(",", lstEntity.Select(p => p.ProspectiveStudentID).ToList());
-                lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("ProspectiveStudentID IN ({0}) AND DueDate LIKE '{1}-{2}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}')", lstProspectiveStudentID, cboYear.Value, cboMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID));
+                lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("ProspectiveStudentID IN ({0}) AND DueDate LIKE '{1}-{2}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}' AND StudentFeeDtID IS NOT NULL) AND IsPaid = 0", lstProspectiveStudentID, cboYear.Value, cboMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID));
             }
             else
                 lstStudentFeeDt = new List<vStudentFeeDt>();

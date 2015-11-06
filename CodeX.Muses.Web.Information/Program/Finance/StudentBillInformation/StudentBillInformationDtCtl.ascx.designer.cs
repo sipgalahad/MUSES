@@ -22,6 +22,15 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStudentID;
         
         /// <summary>
+        /// hdnViewType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnViewType;
+        
+        /// <summary>
         /// txtHeaderText control.
         /// </summary>
         /// <remarks>
