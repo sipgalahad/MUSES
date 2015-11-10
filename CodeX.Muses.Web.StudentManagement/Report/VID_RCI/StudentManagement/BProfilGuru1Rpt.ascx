@@ -152,7 +152,7 @@
                     </asp:Repeater>
                     <tr class="trReportBody">
                         <td valign="top">
-                            <h3 style="font-weight:bold;">C. PRESENSI : </h3>
+                            <h3 style="font-weight:bold;" id="headerPresensi" runat="server">{Numbering1}. PRESENSI : </h3>
                             <div style="padding-left:10px;" id="divEmployeeAttendanceSummary" runat="server">
                                 <table cellpadding='0' cellspacing='0' border="1" class="tblProfilGuruItem">
                                     <colgroup>
@@ -190,7 +190,7 @@
                     </tr>
                     <tr class="trReportBody">
                         <td>
-                            <h3 style="font-weight:bold;">D. CATATAN KEPALA SEKOLAH/PIMPINAN LANGSUNG TERKAIT SIKAP/PERILAKU/KINERJA YBS</h3>
+                            <h3 style="font-weight:bold;" id="headerHeadmasterRemarks" runat="server">{Numbering2}. CATATAN KEPALA SEKOLAH/PIMPINAN LANGSUNG TERKAIT SIKAP/PERILAKU/KINERJA YBS</h3>
                             <div style="padding-left:10px;" id="div3" runat="server">
                                 <table cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">
                                     <colgroup>
@@ -230,7 +230,7 @@
                     </tr>
                     <tr class="trReportBody">
                         <td>
-                            <h3 style="font-weight:bold;">E. PROGRAM PENGEMBANGAN DIRI YANG AKAN SAYA LAKUKAN</h3>
+                            <h3 style="font-weight:bold;" id="headerSelfDevelop" runat="server">{Numbering3}. PROGRAM PENGEMBANGAN DIRI YANG AKAN SAYA LAKUKAN</h3>
                             <div style="padding-left:10px; max-height: 170px;" id="div4" runat="server">
                                 <table cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">
                                     <colgroup>
@@ -279,7 +279,7 @@
                     </tr>
                     <tr class="trReportBody">
                         <td>
-                            <h3 style="font-weight:bold;">F. PROGRAM PENGEMBANGAN DIRI YANG PERLU DILAKUKAN GURU YBS MENURUT KEPALA SEKOLAH/PIMPINAN LANGSUNG:</h3>
+                            <h3 style="font-weight:bold;" id="headerHeadmasterDevelop" runat="server">{Numbering4}. PROGRAM PENGEMBANGAN DIRI YANG PERLU DILAKUKAN GURU YBS MENURUT KEPALA SEKOLAH/PIMPINAN LANGSUNG:</h3>
                             <div style="padding-left:10px;" id="div2" runat="server">
                                 <table cellpadding='0' cellspacing='0' border="1" width="100%" class="tblProfilGuruItem">
                                     <colgroup>
@@ -358,7 +358,7 @@
                     </tr>
                     <tr class="trReportBody">
                         <td>
-                            <div style="height:430px; background-color:White;"></div>
+                            <div id="divNewPage" runat="server" style="height:170px; background-color:White;"></div>
                         </td>
                     </tr>
                 </ItemTemplate>
