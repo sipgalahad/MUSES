@@ -73,7 +73,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             if (scDefaultDirectPurchaseType == null)
                 scDefaultDirectPurchaseType = listStandardCode.FirstOrDefault(p => p.ParentID == Constant.StandardCode.PURCHASE_ORDER_TYPE);
 
-            hdnCustomSupplierID.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.CUSTOM_SUPPLIER).ParameterValue;
+            hdnCustomSupplierID.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.NON_MASTER_SUPPLIER).ParameterValue;
             hdnDefaultPurchaseOrderType.Value = scDefaultPurchaseOrderType.StandardCodeID;
             hdnDefaultFrancoRegion.Value = scDefaultFrancoRegion.StandardCodeID;
             hdnDefaultCurrencyCode.Value = scDefaultCurrencyCode.StandardCodeID;
