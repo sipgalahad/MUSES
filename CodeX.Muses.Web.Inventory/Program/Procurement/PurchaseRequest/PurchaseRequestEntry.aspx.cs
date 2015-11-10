@@ -52,8 +52,14 @@ namespace CodeX.Muses.Web.Inventory.Program
                 else
                     hdnRecordFilterExpression.Value = string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID);
             }
+            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}')", Constant.SettingParameter.NON_MASTER_ITEM));
+            hdnNonMasterItemID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.NON_MASTER_ITEM).ParameterValue;
+
+            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_UNIT));
+            Methods.SetComboBoxField<StandardCode>(cboNonMasterItemUnit, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_UNIT).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
 
             BindGridView(1, true, ref PageCount, ref RowCount);
+            Helper.SetControlEntrySetting(txtNonMasterItemName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrxPopup");
@@ -208,6 +214,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
@@ -231,6 +238,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -262,6 +270,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -299,6 +308,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -335,6 +345,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -372,6 +383,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -462,10 +474,20 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void ControlToEntity(PurchaseRequestDt entityDt)
         {
             entityDt.ItemID = Convert.ToInt32(hdnItemID.Value);
+            if (chkIsFromMasterItem.Checked)
+            {
+                entityDt.ItemName1 = null;
+                entityDt.GCPurchaseUnit = cboItemUnit.Value.ToString();
+                entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
+                entityDt.ConversionFactor = Convert.ToDecimal(hdnItemUnitValue.Value);
+            }
+            else
+            {
+                entityDt.ItemName1 = txtNonMasterItemName.Text;
+                entityDt.GCPurchaseUnit = entityDt.GCBaseUnit = cboNonMasterItemUnit.Value.ToString();
+                entityDt.ConversionFactor = 1;
+            }
             entityDt.Quantity = Convert.ToDecimal(txtQuantity.Text);
-            entityDt.GCPurchaseUnit = cboItemUnit.Value.ToString();
-            entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
-            entityDt.ConversionFactor = Convert.ToDecimal(hdnItemUnitValue.Value);
             entityDt.Remarks = txtNotesDt.Text;
             if (hdnSupplierID.Value != "" && hdnSupplierID.Value != "0") { entityDt.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value); }
             else entityDt.BusinessPartnerID = null;
@@ -492,6 +514,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
@@ -518,6 +541,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
@@ -545,6 +569,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;

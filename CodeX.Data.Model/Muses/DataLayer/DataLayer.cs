@@ -22179,6 +22179,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _PurchaseRequestID;
         private Int32 _ItemID;
+        private String _ItemName1;
         private Decimal _Quantity;
         private String _GCPurchaseUnit;
         private String _GCBaseUnit;
@@ -22211,6 +22212,12 @@ namespace CodeX.Data.Model
         {
             get { return _ItemID; }
             set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String", IsNullable = true)]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
         }
         [Column(Name = "Quantity", DataType = "Decimal")]
         public Decimal Quantity
@@ -22318,8 +22325,7 @@ namespace CodeX.Data.Model
         }
         public int Insert(PurchaseRequestDt record)
         {
-            record.CreatedDate = record.LastUpdatedDate = DateTime.Now;
-            record.LastUpdatedBy = record.CreatedBy;
+            record.CreatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
