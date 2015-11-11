@@ -501,8 +501,7 @@
         }
 
         function onCboNonMasterItemUnitChanged() {
-            $('#<%=txtBaseUnit.ClientID %>').val("per " + cboNonMasterItemUnit.GetText());
-            
+            $('#<%=txtBaseUnit.ClientID %>').val("per " + cboNonMasterItemUnit.GetText());            
         }
 
         function getItemUnitName(baseValue) {

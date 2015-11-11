@@ -4423,6 +4423,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<DirectPurchaseHd> GetDirectPurchaseHdList(string filterExpression, IDbContext ctx)
+        {
+            List<DirectPurchaseHd> result = new List<DirectPurchaseHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(DirectPurchaseHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((DirectPurchaseHd)helper.IDataReaderToObject(reader, new DirectPurchaseHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetDirectPurchaseHdMaxID(IDbContext ctx)
         {
             Int32 result = 0;

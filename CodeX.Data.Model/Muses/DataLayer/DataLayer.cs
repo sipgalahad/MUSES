@@ -8651,6 +8651,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _DirectPurchaseReturnID;
         private Int32 _ItemID;
+        private String _ItemName1;
         private Decimal _Quantity;
         private String _GCItemUnit;
         private String _GCBaseUnit;
@@ -8685,6 +8686,12 @@ namespace CodeX.Data.Model
         {
             get { return _ItemID; }
             set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String", IsNullable = true)]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
         }
         [Column(Name = "Quantity", DataType = "Decimal")]
         public Decimal Quantity
@@ -8837,6 +8844,7 @@ namespace CodeX.Data.Model
         private Int32 _DirectPurchaseID;
         private Int32 _LocationID;
         private Int32 _BusinessPartnerID;
+        private String _BusinessPartnerName;
         private String _GCDirectPurchaseReturnType;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
@@ -8888,6 +8896,12 @@ namespace CodeX.Data.Model
         {
             get { return _BusinessPartnerID; }
             set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String", IsNullable = true)]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
         }
         [Column(Name = "GCDirectPurchaseReturnType", DataType = "String")]
         public String GCDirectPurchaseReturnType
@@ -22622,6 +22636,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _PurchaseReturnID;
         private Int32 _ItemID;
+        private String _ItemName1;
         private Decimal _Quantity;
         private String _GCItemUnit;
         private String _GCBaseUnit;
@@ -22658,6 +22673,12 @@ namespace CodeX.Data.Model
         {
             get { return _ItemID; }
             set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String", IsNullable = true)]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
         }
         [Column(Name = "Quantity", DataType = "Decimal")]
         public Decimal Quantity

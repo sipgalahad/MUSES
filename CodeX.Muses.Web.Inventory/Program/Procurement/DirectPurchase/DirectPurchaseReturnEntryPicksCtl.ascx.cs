@@ -78,6 +78,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     DirectPurchaseDt directPurchaseDt = lstDirectPurchaseDt.FirstOrDefault(p => p.ID == Convert.ToInt32(lstSelectedItem[i]));
                     DirectPurchaseReturnDt entityDt = new DirectPurchaseReturnDt();
                     entityDt.ItemID = directPurchaseDt.ItemID;
+                    entityDt.ItemName1 = directPurchaseDt.ItemName1;
                     entityDt.Quantity = Convert.ToDecimal(lstSelectedQty[i]);
                     entityDt.UnitPrice = directPurchaseDt.UnitPrice;
                     entityDt.ConversionFactor = directPurchaseDt.ConversionFactor;
