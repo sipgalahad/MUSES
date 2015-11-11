@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="DirectPurchaseReturnEntryPicksCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.Inventory.Program.DirectPurchaseReturnEntryPicksCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="PurchaseReturnEntryPicksCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.Inventory.Program.PurchaseReturnEntryPicksCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -91,8 +91,8 @@
     <input type="hidden" id="hdnSelectedQtyRetur" runat="server" value="" />
     <input type="hidden" id="hdnSelectedReturnReason" runat="server" value="" />
     <input type="hidden" id="hdnVisitID" value="" runat="server" />
-    <input type="hidden" id="hdnDirectPurchaseID" value="" runat="server" />
-    <input type="hidden" id="hdnDirectPurchaseReturnID" value="" runat="server" />
+    <input type="hidden" id="hdnPurchaseReceiveID" value="" runat="server" />
+    <input type="hidden" id="hdnPurchaseReturnID" value="" runat="server" />
     <input type="hidden" id="hdnTransactionID" value="" runat="server" />
     <table class="tblContentArea">
         <colgroup>

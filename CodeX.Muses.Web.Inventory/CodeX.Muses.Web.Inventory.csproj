@@ -169,6 +169,7 @@
     <Content Include="Program\Warehouse\PurchaseReplacement\PurchaseReplacementEntry.aspx" />
     <Content Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalDetail.aspx" />
     <Content Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalList.aspx" />
+    <Content Include="Program\Warehouse\PurchaseReturn\PurchaseReturnEntryPicksCtl.ascx" />
     <Content Include="Program\Warehouse\PurchaseReturn\PurchaseReturnEntry.aspx" />
     <Content Include="Program\Warehouse\StockAdjustment\Approval\StockAdjustmentApprovalDetail.aspx" />
     <Content Include="Program\Warehouse\StockAdjustment\Approval\StockAdjustmentApprovalList.aspx" />
@@ -839,6 +840,13 @@
     </Compile>
     <Compile Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalList.aspx.designer.cs">
       <DependentUpon>PurchaseReturnApprovalList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReturn\PurchaseReturnEntryPicksCtl.ascx.cs">
+      <DependentUpon>PurchaseReturnEntryPicksCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReturn\PurchaseReturnEntryPicksCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseReturnEntryPicksCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Warehouse\PurchaseReturn\PurchaseReturnEntry.aspx.cs">
       <DependentUpon>PurchaseReturnEntry.aspx</DependentUpon>

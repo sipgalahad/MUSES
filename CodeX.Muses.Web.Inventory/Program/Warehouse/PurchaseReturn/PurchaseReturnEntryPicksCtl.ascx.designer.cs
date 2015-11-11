@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.Inventory.Program {
     
     
-    public partial class DirectPurchaseReturnEntryPicksCtl {
+    public partial class PurchaseReturnEntryPicksCtl {
         
         /// <summary>
         /// hdnSelectedItem control.
@@ -49,22 +49,22 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnVisitID;
         
         /// <summary>
-        /// hdnDirectPurchaseID control.
+        /// hdnPurchaseReceiveID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDirectPurchaseID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPurchaseReceiveID;
         
         /// <summary>
-        /// hdnDirectPurchaseReturnID control.
+        /// hdnPurchaseReturnID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDirectPurchaseReturnID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPurchaseReturnID;
         
         /// <summary>
         /// hdnTransactionID control.
