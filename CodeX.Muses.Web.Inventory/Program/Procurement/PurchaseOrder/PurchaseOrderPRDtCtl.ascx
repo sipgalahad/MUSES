@@ -39,6 +39,7 @@
 
 <div style="height:440px; overflow-y:auto;overflow-x: hidden">
     <input type="hidden" id="hdnItemID" runat="server" />
+    <input type="hidden" id="hdnItemName1" runat="server" />
     <input type="hidden" id="hdnPurchaseOrderID" runat="server" />
     <table class="tblContentArea">
         <colgroup>

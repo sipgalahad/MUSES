@@ -245,6 +245,7 @@
                     $('#<%=hdnItemID.ClientID %>').val('');
                     $('#<%=txtItemCode.ClientID %>').val('');
                     $('#<%=txtItemName.ClientID %>').val('');
+                    $('#<%=txtNonMasterItemName.ClientID %>').val('');
                     $('#<%=txtSupplierCode.ClientID %>').val('');
                     $('#<%=txtSupplierName.ClientID %>').val('');
                     $('#<%=txtPrice.ClientID %>').val('0.00');
@@ -428,7 +429,6 @@
 
         function onCboNonMasterItemUnitChanged() {
             $('#<%=txtBaseUnit.ClientID %>').val("per " + cboNonMasterItemUnit.GetText());
-
         }
 
         function getItemUnitName(baseValue) {
@@ -664,7 +664,7 @@
                                                             Width="300px" OnCallback="cboItemUnit_Callback">
                                                             <ClientSideEvents EndCallback="function(s,e){ onCboItemUnitEndCallBack(); }" ValueChanged="function(s,e){ onCboItemUnitChanged(); }" />
                                                         </dxe:ASPxComboBox>
-                                                        <dxe:ASPxComboBox runat="server" ID="cboNonMasterItemUnit" ClientInstanceName="cboNonMasterItemUnit" >
+                                                        <dxe:ASPxComboBox runat="server" ID="cboNonMasterItemUnit" ClientInstanceName="cboNonMasterItemUnit" Width="300px">
                                                             <ClientSideEvents ValueChanged="function(s,e){ onCboNonMasterItemUnitChanged(); }" />
                                                         </dxe:ASPxComboBox>
                                                     </td>

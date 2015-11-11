@@ -218,6 +218,7 @@
                     $('#<%=txtItemGroupName.ClientID %>').val('');
                     $('#<%=txtItemCode.ClientID %>').val('');
                     $('#<%=txtItemName.ClientID %>').val('');
+                    $('#<%=txtNonMasterItemName.ClientID %>').val('');
                     $('#<%=hdnUnitPrice.ClientID %>').val('0');
                     $('#<%=txtPrice.ClientID %>').val('').trigger('changeValue'); ;
                     $('#<%=txtBaseUnit.ClientID %>').val('');
@@ -585,8 +586,15 @@
                 errMessage.text = "Data Doesn't Approved or Closed";
                 return false;
             }
-
         }
+
+        $('.lblItemName').live("click", function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var param = entity.ID;
+            var url = ResolveUrl("~/Program/Procurement/DirectPurchase/DirectPurchasePRDtCtl.ascx");
+            openUserControlPopup(url, param, 'Purchase Request Detail', 650, 500);
+        });
     </script>
     <input type="hidden" value="false" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnNonMasterSupplierID" runat="server" />
@@ -760,7 +768,7 @@
                                                             <ClientSideEvents EndCallback="function(s,e){ onCboItemUnitEndCallBack(); }" 
                                                                 ValueChanged="function(s,e){ onCboItemUnitChanged(); }" />
                                                         </dxe:ASPxComboBox>
-                                                        <dxe:ASPxComboBox runat="server" ID="cboNonMasterItemUnit" ClientInstanceName="cboNonMasterItemUnit" >
+                                                        <dxe:ASPxComboBox runat="server" ID="cboNonMasterItemUnit" ClientInstanceName="cboNonMasterItemUnit" Width="300px">
                                                             <ClientSideEvents ValueChanged="function(s,e){ onCboNonMasterItemUnitChanged(); }" />
                                                         </dxe:ASPxComboBox>
                                                     </td>
@@ -837,7 +845,11 @@
                                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                             <Columns>
                                                 <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                                <asp:BoundField DataField="ItemName1" HeaderText="Item Name" />
+                                                <asp:TemplateField HeaderText="Nama Barang">
+                                                    <ItemTemplate>
+                                                        <label class="lblLink lblItemName"><%#Eval("ItemName1")%></label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Jumlah Pembelian" HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
                                                     <ItemTemplate>
                                                         <table cellpadding="0" cellspacing="0">

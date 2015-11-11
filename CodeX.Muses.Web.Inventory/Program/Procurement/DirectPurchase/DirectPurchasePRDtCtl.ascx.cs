@@ -19,12 +19,12 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected int RowCountPerPage = 1;
         public override void InitializeDataControl(string param)
         {
-            string[] temp = param.Split('|');
-            hdnPurchaseOrderID.Value = temp[0];
-            hdnItemID.Value = temp[1];
+            vDirectPurchaseDt entity = BusinessLayer.GetvDirectPurchaseDtList(string.Format("ID = {0}", param)).FirstOrDefault();
+            txtItem.Text = string.Format("{0}", entity.ItemName1);
 
-            ItemMaster item = BusinessLayer.GetItemMaster(Convert.ToInt32(temp[1]));
-            txtItem.Text = string.Format("{0} ({1})", item.ItemName1, item.ItemCode);
+            hdnDirectPurchaseID.Value = entity.DirectPurchaseID.ToString();
+            hdnItemID.Value = entity.ItemID.ToString();
+            hdnItemName1.Value = entity.ItemName1;
 
             RowCountPerPage = Constant.GridViewPageSize.GRID_POPUP;
             BindGridView(1, true, ref PageCount, ref RowCount);
@@ -32,7 +32,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("DirectPurchaseID = {0} AND ItemID = {1}", hdnPurchaseOrderID.Value, hdnItemID.Value);
+            string filterExpression = string.Format("DirectPurchaseID = {0} AND ItemID = {1} AND ItemName1 = '{2}'", hdnDirectPurchaseID.Value, hdnItemID.Value, hdnItemName1.Value);
 
             if (isCountPageCount)
             {

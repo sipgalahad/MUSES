@@ -123,7 +123,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 {
                     PurchaseRequestDt entityPurchaseReqDt = lstEntityPurchaseReqDt.Where(p => p.ID.ToString() == entityCPurchaseReqDt.ID).ToList()[0];
                     entityPurchaseReqDt.GCItemDetailStatus = Constant.TransactionStatus.PROCESSED;
-                    PurchaseOrderDt entityPurchaseOrderDt = lstPurchaseOrderDt.FirstOrDefault(p => p.ItemID == entityPurchaseReqDt.ItemID);
+                    PurchaseOrderDt entityPurchaseOrderDt = lstPurchaseOrderDt.FirstOrDefault(p => p.ItemID == entityPurchaseReqDt.ItemID && p.ItemName1 == entityPurchaseReqDt.ItemName1);
 
                     decimal orderQty = Convert.ToDecimal(entityCPurchaseReqDt.QtyPO);
                     if (entityPurchaseOrderDt == null)
@@ -131,6 +131,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                         entityPurchaseOrderDt = new PurchaseOrderDt();
                         //entityPurchaseOrderDt.PurchaseRequestID = entityPurchaseReqDt.PurchaseRequestID;
                         entityPurchaseOrderDt.ItemID = entityPurchaseReqDt.ItemID;
+                        entityPurchaseOrderDt.ItemName1 = entityPurchaseReqDt.ItemName1;
                         entityPurchaseOrderDt.Quantity = Convert.ToDecimal(entityCPurchaseReqDt.QtyPO);
                         entityPurchaseOrderDt.GCPurchaseUnit = entityCPurchaseReqDt.GCPurchaseUnit;
                         entityPurchaseOrderDt.GCBaseUnit = entityPurchaseReqDt.GCBaseUnit;
@@ -168,6 +169,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     PurchaseRequestPO entityPRPO = new PurchaseRequestPO();
                     entityPRPO.PurchaseOrderID = entityPurchaseOrderDt.PurchaseOrderID;
                     entityPRPO.ItemID = entityPurchaseOrderDt.ItemID;
+                    entityPRPO.ItemName1 = entityPurchaseOrderDt.ItemName1;
                     entityPRPO.PurchaseRequestID = Convert.ToInt32(hdnPurchaseRequestID.Value);
                     entityPRPO.OrderQuantity = orderQty;
                     entityPRPODao.Insert(entityPRPO);
@@ -186,6 +188,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

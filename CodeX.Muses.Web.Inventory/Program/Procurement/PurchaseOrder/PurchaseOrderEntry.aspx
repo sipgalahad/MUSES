@@ -263,6 +263,7 @@
                     $('#<%=txtItemGroupName.ClientID %>').val('');
                     $('#<%=txtItemCode.ClientID %>').val('');
                     $('#<%=txtItemName.ClientID %>').val('');
+                    $('#<%=txtNonMasterItemName.ClientID %>').val('');
                     $('#<%=hdnUnitPrice.ClientID %>').val('0');
                     $('#<%=txtBaseUnit.ClientID %>').val('');
                     $('#<%=txtDiscountPercentage1.ClientID %>').val('0');
@@ -282,7 +283,33 @@
                     cboItemUnit.SetValue('');
                     $('#<%=txtConversion.ClientID %>').val('');
 
+                    $('#<%=chkIsFromMasterItem.ClientID %>').prop("checked", true);
+                    $('#<%=chkIsFromMasterItem.ClientID %>').change();
+
                     $('#entryDetailContainer').show();
+                }
+            });
+
+            $('#<%=chkIsFromMasterItem.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#<%=tblItemMaster.ClientID %>').show();
+                    $('#<%=txtNonMasterItemName.ClientID %>').hide();
+                    $('#lblItem').attr('class', 'lblLink lblMandatory');
+
+                    cboNonMasterItemUnit.SetVisible(false);
+                    cboItemUnit.SetVisible(true);
+                }
+                else {
+                    $('#<%=tblItemMaster.ClientID %>').hide();
+                    $('#<%=txtNonMasterItemName.ClientID %>').show();
+                    $('#lblItem').attr('class', 'lblMandatory');
+
+                    $('#<%=hdnItemID.ClientID %>').val($('#<%=hdnNonMasterItemID.ClientID %>').val());
+                    $('#<%=txtItemCode.ClientID %>').val('');
+                    $('#<%=txtItemName.ClientID %>').val('');
+
+                    cboNonMasterItemUnit.SetVisible(true);
+                    cboItemUnit.SetVisible(false);
                 }
             });
 
@@ -434,22 +461,35 @@
             $('#<%=txtDiscountPercentage2.ClientID %>').val(entity.DiscountPercentage2);
             $('#<%=txtDiscountAmount2.ClientID %>').val(entity.DiscountAmount2).trigger('changeValue');
             $('#<%=hdnItemID.ClientID %>').val(entity.ItemID);
-            $('#<%=txtItemCode.ClientID %>').val(entity.ItemCode);
-            $('#<%=txtItemName.ClientID %>').val(entity.ItemName1);
-            $('#<%=hdnItemGroupID.ClientID %>').val(entity.ItemGroupID);
-            $('#<%=txtItemGroupCode.ClientID %>').val(entity.ItemGroupCode);
-            $('#<%=txtItemGroupName.ClientID %>').val(entity.ItemGroupName1);
             $('#<%=txtQuantity.ClientID %>').val(entity.Quantity);
-            Methods.getItemQtyOnOrder(entity.ItemID, $('#<%=hdnLocationID.ClientID %>').val(), 3, function (result3) {
-                if (result3 != null)
-                    $('#<%=txtQtyOnOrder.ClientID %>').val((parseFloat(result3.QtyOnOrder) - parseFloat(entity.CustomTotal)) + " " + entity.BaseUnit);
-                else
-                    $('#<%=txtQtyOnOrder.ClientID %>').val("0 " + entity.BaseUnit);
-                GetItemQtyFromLocation();
-            });
-            lastTransactionAmount = $('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal');
-            editedLineAmount = entity.LineAmount;
-            cboItemUnit.PerformCallback();
+
+            var isNonMasterItem = entity.ItemID == $('#<%=hdnNonMasterItemID.ClientID %>').val();
+            $('#<%=chkIsFromMasterItem.ClientID %>').prop("checked", !isNonMasterItem);
+            $('#<%=chkIsFromMasterItem.ClientID %>').change();
+            if (isNonMasterItem) {
+                $('#<%=txtNonMasterItemName.ClientID %>').val(entity.ItemName1);
+                cboNonMasterItemUnit.SetValue(entity.GCPurchaseUnit);
+                onCboNonMasterItemUnitChanged();
+                $('#<%=txtPrice.ClientID %>').val(entity.UnitPrice).trigger('changeValue');
+                calculateSubTotal();
+            }
+            else {
+                $('#<%=txtItemCode.ClientID %>').val(entity.ItemCode);
+                $('#<%=txtItemName.ClientID %>').val(entity.ItemName1);
+                $('#<%=hdnItemGroupID.ClientID %>').val(entity.ItemGroupID);
+                $('#<%=txtItemGroupCode.ClientID %>').val(entity.ItemGroupCode);
+                $('#<%=txtItemGroupName.ClientID %>').val(entity.ItemGroupName1);
+                Methods.getItemQtyOnOrder(entity.ItemID, $('#<%=hdnLocationID.ClientID %>').val(), 3, function (result3) {
+                    if (result3 != null)
+                        $('#<%=txtQtyOnOrder.ClientID %>').val((parseFloat(result3.QtyOnOrder) - parseFloat(entity.CustomTotal)) + " " + entity.BaseUnit);
+                    else
+                        $('#<%=txtQtyOnOrder.ClientID %>').val("0 " + entity.BaseUnit);
+                    GetItemQtyFromLocation();
+                });
+                lastTransactionAmount = $('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal');
+                editedLineAmount = entity.LineAmount;
+                cboItemUnit.PerformCallback();
+            }
             $('#entryDetailContainer').show();
         });
         //#endregion
@@ -525,6 +565,10 @@
             var pricePerPurchaseUnit = conversion * priceperitemunit;
             $('#<%=txtPrice.ClientID %>').val(pricePerPurchaseUnit).trigger('changeValue');
             calculateSubTotal();
+        }
+
+        function onCboNonMasterItemUnitChanged() {
+            $('#<%=txtBaseUnit.ClientID %>').val("per " + cboNonMasterItemUnit.GetText());
         }
 
         function getItemUnitName(baseValue) {
@@ -612,14 +656,14 @@
         $('.lblItemName').live("click", function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
-            var orderID = $('#<%=hdnOrderID.ClientID %>').val();
-            var param = orderID + '|' + entity.ItemID;
+            var param = entity.ID;
             var url = ResolveUrl("~/Program/Procurement/PurchaseOrder/PurchaseOrderPRDtCtl.ascx");
             openUserControlPopup(url, param, 'Purchase Request Detail', 650, 500);
         });
     </script>
 
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
+    <input type="hidden" value="" id="hdnNonMasterItemID" runat="server" />
     <input type="hidden" value="" id="hdnVATPercentage" runat="server" />
     <input type="hidden" value="" id="hdnOrderID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
@@ -765,7 +809,7 @@
                                                         <input type="hidden" value="" id="hdnGCItemUnit" runat="server" />
                                                         <input type="hidden" value="" id="hdnConversionFactor" runat="server" />
                                                         <input type="hidden" value="" id="hdnUnitPrice" runat="server" />
-                                                        <table cellpadding="0" cellspacing="0">
+                                                        <table cellpadding="0" cellspacing="0" id="tblItemMaster" runat="server">
                                                             <colgroup>
                                                                 <col style="width: 120px" />
                                                                 <col style="width: 3px" />
@@ -777,6 +821,10 @@
                                                                 <td><asp:TextBox ID="txtItemName" ReadOnly="true" Width="100%" runat="server" /></td>
                                                             </tr>
                                                         </table>
+                                                        <asp:TextBox ID="txtNonMasterItemName" Width="100%" runat="server" />
+                                                    </td>
+                                                    <td>
+                                                        <asp:CheckBox ID="chkIsFromMasterItem" runat="server" Checked="true" /><%=GetLabel("Dari Master") %>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -810,6 +858,9 @@
                                                         <dxe:ASPxComboBox runat="server" ID="cboItemUnit" ClientInstanceName="cboItemUnit"
                                                             Width="300px" OnCallback="cboItemUnit_Callback">
                                                             <ClientSideEvents EndCallback="function(s,e){ onCboItemUnitEndCallBack(); }" ValueChanged="function(s,e){ onCboItemUnitChanged(); }" />
+                                                        </dxe:ASPxComboBox>
+                                                        <dxe:ASPxComboBox runat="server" ID="cboNonMasterItemUnit" ClientInstanceName="cboNonMasterItemUnit" Width="300px">
+                                                            <ClientSideEvents ValueChanged="function(s,e){ onCboNonMasterItemUnitChanged(); }" />
                                                         </dxe:ASPxComboBox>
                                                     </td>
                                                 </tr>

@@ -409,6 +409,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                         entityPRPO.PurchaseOrderID = (int)purchaseDt.PurchaseOrderID;
                         entityPRPO.PurchaseReceiveID = entity.PurchaseReceiveID;
                         entityPRPO.ItemID = purchaseDt.ItemID;
+                        entityPRPO.ItemName1 = purchaseDt.ItemName1;
                         entityPRPO.ReceivedQuantity = purchaseDt.Quantity;
                         purchaseReceivePODao.Insert(entityPRPO);
 

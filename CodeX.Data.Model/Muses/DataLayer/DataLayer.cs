@@ -20690,6 +20690,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _PurchaseOrderID;
         private Int32 _ItemID;
+        private String _ItemName1;
         private Int32? _PurchaseRequestID;
         private Decimal _Quantity;
         private String _GCPurchaseUnit;
@@ -20729,6 +20730,12 @@ namespace CodeX.Data.Model
         {
             get { return _ItemID; }
             set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String", IsNullable = true)]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
         }
         [Column(Name = "PurchaseRequestID", DataType = "Int32", IsNullable = true)]
         public Int32? PurchaseRequestID
@@ -21155,6 +21162,7 @@ namespace CodeX.Data.Model
         private Int32 _PurchaseReceiveID;
         private Int32? _PurchaseOrderID;
         private Int32 _ItemID;
+        private String _ItemName1;
         private Decimal _Quantity;
         private String _GCItemUnit;
         private String _GCBaseUnit;
@@ -21196,6 +21204,12 @@ namespace CodeX.Data.Model
         {
             get { return _ItemID; }
             set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String", IsNullable = true)]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
         }
         [Column(Name = "Quantity", DataType = "Decimal")]
         public Decimal Quantity
@@ -21717,6 +21731,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _PurchaseReceiveID;
         private Int32 _ItemID;
+        private String _ItemName1;
         private Int32 _PurchaseOrderID;
         private Decimal _ReceivedQuantity;
 
@@ -21737,6 +21752,12 @@ namespace CodeX.Data.Model
         {
             get { return _ItemID; }
             set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String", IsNullable = true)]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
         }
         [Column(Name = "PurchaseOrderID", DataType = "Int32")]
         public Int32 PurchaseOrderID
@@ -22096,6 +22117,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _PurchaseRequestID;
         private Int32 _ItemID;
+        private String _ItemName1;
         private Int32 _DirectPurchaseID;
         private Decimal _PurchaseQuantity;
 
@@ -22116,6 +22138,12 @@ namespace CodeX.Data.Model
         {
             get { return _ItemID; }
             set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String", IsNullable = true)]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
         }
         [Column(Name = "DirectPurchaseID", DataType = "Int32")]
         public Int32 DirectPurchaseID
@@ -22497,6 +22525,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _PurchaseRequestID;
         private Int32 _ItemID;
+        private String _ItemName1;
         private Int32 _PurchaseOrderID;
         private Decimal _OrderQuantity;
         private Decimal _ReceivedQuantity;
@@ -22518,6 +22547,12 @@ namespace CodeX.Data.Model
         {
             get { return _ItemID; }
             set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String", IsNullable = true)]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
         }
         [Column(Name = "PurchaseOrderID", DataType = "Int32")]
         public Int32 PurchaseOrderID

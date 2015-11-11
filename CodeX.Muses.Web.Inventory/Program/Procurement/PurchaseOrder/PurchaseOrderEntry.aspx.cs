@@ -75,19 +75,24 @@ namespace CodeX.Muses.Web.Inventory.Program
             Helper.SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtNonMasterItemName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(cboNonMasterItemUnit, new ControlEntrySetting(true, true, true), "mpTrxPopup");
         }
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}') AND IsDeleted = 0", Constant.StandardCode.PURCHASE_ORDER_TYPE, Constant.StandardCode.FRANCO_REGION, Constant.StandardCode.CURRENCY_CODE));
+            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}','{3}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_ORDER_TYPE, Constant.StandardCode.FRANCO_REGION, Constant.StandardCode.CURRENCY_CODE, Constant.StandardCode.ITEM_UNIT));
             List<Term> listTerm = BusinessLayer.GetTermList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<StandardCode>(cboPurchaseOrderType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.PURCHASE_ORDER_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboFrancoRegion, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.FRANCO_REGION).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboCurrency, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CURRENCY_CODE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboNonMasterItemUnit, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_UNIT).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<Term>(cboTerm, listTerm, "TermName", "TermID");
             cboPurchaseOrderType.SelectedIndex = 0;
             cboFrancoRegion.SelectedIndex = 0;
             cboCurrency.SelectedIndex = 0;
+            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}')", Constant.SettingParameter.NON_MASTER_ITEM));
+            hdnNonMasterItemID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.NON_MASTER_ITEM).ParameterValue;
         }
 
         protected override void OnControlEntrySetting()
@@ -559,9 +564,20 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             entityDt.ItemID = Convert.ToInt32(hdnItemID.Value);
             entityDt.Quantity = Convert.ToDecimal(txtQuantity.Text);
-            entityDt.GCPurchaseUnit = cboItemUnit.Value.ToString();
-            entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
-            entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
+
+            if (chkIsFromMasterItem.Checked)
+            {
+                entityDt.ItemName1 = null;
+                entityDt.GCPurchaseUnit = cboItemUnit.Value.ToString();
+                entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
+                entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
+            }
+            else
+            {
+                entityDt.ItemName1 = txtNonMasterItemName.Text;
+                entityDt.GCPurchaseUnit = entityDt.GCBaseUnit = cboNonMasterItemUnit.Value.ToString();
+                entityDt.ConversionFactor = 1;
+            }
             entityDt.UnitPrice = Convert.ToDecimal(txtPrice.Text);
             entityDt.DiscountPercentage1 = Convert.ToDecimal(txtDiscountPercentage1.Text);
             entityDt.DiscountAmount1 = Convert.ToDecimal(txtDiscountAmount1.Text);
