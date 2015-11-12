@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             vRegistration reg = BusinessLayer.GetvRegistrationList(string.Format("ProspectiveStudentID = {0}", AppSession.ProspectiveStudentID)).FirstOrDefault();
             hdnSchoolPeriod.Value = BusinessLayer.GetPeriodAdmission(reg.PeriodAdmissionID).SchoolPeriodID.ToString();
-
+            
             ARBalance entityARBalance = BusinessLayer.GetARBalanceList(String.Format("ProspectiveStudentID = {0} AND IsDeleted = 0", AppSession.ProspectiveStudentID)).FirstOrDefault();
             if (entityARBalance != null)
             {
@@ -40,8 +40,8 @@ namespace CodeX.Muses.Web.Finance.Program
             else
                 hdnDepositAmount.Value = "0";
 
-            List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
-            Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
+            //List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            //Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
 
             cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
             {
@@ -66,10 +66,18 @@ namespace CodeX.Muses.Web.Finance.Program
             txtStartDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtEndDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
 
-            BindGridView();
+            hdnSiteID.Value = BusinessLayer.GetStudent(AppSession.StudentID).SiteID;
 
-            Helper.SetControlEntrySetting(cboBank, new ControlEntrySetting(true, true, true), "mpEntry");
+            BindGridView();
         }
+
+        #region HTML Getter
+        public string GetSiteID()
+        {
+            return hdnSiteID.Value;
+        }
+        #endregion
+
         public void BindGridView() 
         {
             List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(String.Format("ProspectiveStudentID = {0} AND StudentAmount > 0 AND IsPaid = 0", AppSession.ProspectiveStudentID));
@@ -94,7 +102,7 @@ namespace CodeX.Muses.Web.Finance.Program
             BankDao bankDao = new BankDao(ctx);
             try
             {
-                Bank bank = bankDao.Get(Convert.ToInt32(cboBank.Value));
+                Bank bank = bankDao.Get(Convert.ToInt32(tacBank.Value));
                 ProspectiveStudent prospectiveStudent = prospectiveStudentDao.Get(AppSession.ProspectiveStudentID);
                 List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", hdnSelectedValue.Value), ctx);
                 List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
@@ -119,7 +127,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 }
 
                 DateTime DueDate = new DateTime(Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value), 1).AddMonths(1).AddDays(-1);
-                Int32 BankID = Convert.ToInt32(cboBank.Value);
+                Int32 BankID = Convert.ToInt32(tacBank.Value);
 
                 ARInvoiceHd entityARInvoiceHd = new ARInvoiceHd();
                 entityARInvoiceHd.TransactionCode = Constant.TransactionCode.AR_INVOICE_PROSPECTIVE_STUDENT;

@@ -7,6 +7,8 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
     <li id="btnGenerate" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/download.png")%>' alt="" /><div><%=GetLabel("Download")%></div></li>
@@ -59,10 +61,49 @@
             $('#<%=txtStartDate.ClientID %>').val(firstDate);
             $('#<%=txtEndDate.ClientID %>').val(endDate);
         }
+
+        //#region Bank
+        function onGetBankFilterExpression() {
+            var filterExpression = "SiteID = '<%=GetSiteID() %>'";
+            Methods.getObject('GetvSiteList', filterExpression, function (result) {
+                var display = result.DisplayPath.split('/');
+                var temp = "";
+                for (var i = 1; i < display.length - 1; i++) {
+                    if (temp != "") temp += ",";
+                    temp += "'" + display[i] + "'";
+                }
+                filterExpression = "SiteID IN (" + temp + ")";
+            })
+            return filterExpression;
+        }
+
+        function onTacBankButtonSearchClick() {
+            openSearchDialog('bank', onGetBankFilterExpression(), function (value) {
+                var filterExpression = onGetBankFilterExpression() + " AND BankCode = '" + value + "'";
+                Methods.getObject('GetvBankList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacBank.setValue(result.BankID);
+                        tacBank.setText(result.BankName);
+                    }
+                    else {
+                        tacBank.setValue('');
+                        tacBank.setText('');
+                    }
+                    onTacBankValueChanged();
+                });
+            });
+
+        }
+
+        function onTacBankValueChanged() {
+            //cbpView.PerformCallback('refresh');
+        }
+        //#endregion
     </script>
     <input type="hidden" id="hdnSelectedValue" value="" runat="server" />
     <input type="hidden" id="hdnDepositAmount" value="" runat="server" />
     <input type="hidden" id="hdnSchoolPeriod" value="" runat="server" />
+    <input type="hidden" id="hdnSiteID" value="" runat="server" />
     <div>
         <div style="display:none;">
             <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />
@@ -75,7 +116,13 @@
             </colgroup>
             <tr>
                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bank")%></label></td>
-                <td><dxe:ASPxComboBox ID="cboBank" ClientInstanceName="cboBank" Width="120px" runat="server" /></td>
+                <td>
+                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacBank" ClientInstanceName="tacBank" MethodName="GetvBankList" GetFilterExpressionFunction="onGetBankFilterExpression"
+                        SearchFields="BankName,BankCode" TextField="BankName" ValueField="BankID" SearchText="${BankName} (<b>${BankCode}</b>)" OrderByExpression="BankName">
+                        <ClientSideEvents ButtonSearchClick="function(){ onTacBankButtonSearchClick(); }"
+                            ValueChanged="function(){ onTacBankValueChanged(); }" />
+                    </cdx:CodeXAutoCompleteTextBox>
+                </td>
             </tr>
             <tr>
                 <td class="tdLabel"><%=GetLabel("Bulan") %></td>
