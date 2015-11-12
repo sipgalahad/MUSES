@@ -10,52 +10,79 @@
 namespace CodeX.Muses.Web.Inventory.Program {
     
     
-    public partial class DirectPurchasePRDtCtl {
+    public partial class PurchaseReturnEntryPicksCtl {
         
         /// <summary>
-        /// hdnItemID control.
+        /// hdnSelectedItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnItemID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedItem;
         
         /// <summary>
-        /// hdnItemName1 control.
+        /// hdnSelectedQtyRetur control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnItemName1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedQtyRetur;
         
         /// <summary>
-        /// hdnDirectPurchaseID control.
+        /// hdnSelectedReturnReason control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDirectPurchaseID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedReturnReason;
         
         /// <summary>
-        /// txtItem control.
+        /// hdnVisitID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtItem;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnVisitID;
         
         /// <summary>
-        /// cbpEntryPopupView control.
+        /// hdnPurchaseReceiveID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpEntryPopupView;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPurchaseReceiveID;
+        
+        /// <summary>
+        /// hdnPurchaseReturnID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPurchaseReturnID;
+        
+        /// <summary>
+        /// hdnTransactionID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTransactionID;
+        
+        /// <summary>
+        /// cbpProcessDetail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcessDetail;
         
         /// <summary>
         /// PanelContent1 control.
@@ -76,12 +103,12 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.Panel pnlEntryPopupGrdView;
         
         /// <summary>
-        /// grdView control.
+        /// lvwView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdView;
+        protected global::System.Web.UI.WebControls.ListView lvwView;
     }
 }

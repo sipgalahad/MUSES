@@ -27,9 +27,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override void InitializeDataControl()
         {
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
-            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}','{1}')", Constant.SettingParameter.VAT_PERCENTAGE, Constant.SettingParameter.CUSTOM_SUPPLIER));
+            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}','{1}','{2}')", Constant.SettingParameter.VAT_PERCENTAGE, Constant.SettingParameter.NON_MASTER_SUPPLIER, Constant.SettingParameter.NON_MASTER_ITEM));
             hdnVATPercentage.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
-            hdnNonMasterSupplierID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.CUSTOM_SUPPLIER).ParameterValue;
+            hdnNonMasterSupplierID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.NON_MASTER_SUPPLIER).ParameterValue;
+            hdnNonMasterItemID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.NON_MASTER_ITEM).ParameterValue;
 
             int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
             if (count > 0)
@@ -49,9 +50,11 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             decimal tempTransactionAmount = -1;
             BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
+            Helper.SetControlEntrySetting(txtNonMasterItemName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboNonMasterItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtPrice, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtDiscountPercentage, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtDiscountAmount, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -79,9 +82,11 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.DIRECT_PURCHASE_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboDirectPurchaseType, listStandardCode.ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.DIRECT_PURCHASE_TYPE, Constant.StandardCode.ITEM_UNIT));
+            Methods.SetComboBoxField<StandardCode>(cboDirectPurchaseType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.DIRECT_PURCHASE_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             cboDirectPurchaseType.SelectedIndex = 0;
+
+            Methods.SetComboBoxField<StandardCode>(cboNonMasterItemUnit, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_UNIT).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
         }
 
         protected override void OnControlEntrySetting()
@@ -468,10 +473,20 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void ControlToEntity(DirectPurchaseDt entityDt)
         {
             entityDt.ItemID = Convert.ToInt32(hdnItemID.Value);
+            if (chkIsFromMasterItem.Checked)
+            {
+                entityDt.ItemName1 = null;
+                entityDt.GCItemUnit = cboItemUnit.Value.ToString();
+                entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
+                entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
+            }
+            else
+            {
+                entityDt.ItemName1 = txtNonMasterItemName.Text;
+                entityDt.GCItemUnit = entityDt.GCBaseUnit = cboNonMasterItemUnit.Value.ToString();
+                entityDt.ConversionFactor = 1;
+            }
             entityDt.Quantity = Convert.ToDecimal(txtQuantity.Text);
-            entityDt.GCItemUnit = cboItemUnit.Value.ToString();
-            entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
-            entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
             entityDt.UnitPrice = Convert.ToDecimal(txtPrice.Text);
             entityDt.DiscountPercentage = Convert.ToDecimal(txtDiscountPercentage.Text);
             entityDt.DiscountAmount = Convert.ToDecimal(txtDiscountAmount.Text);

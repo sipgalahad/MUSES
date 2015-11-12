@@ -15,18 +15,18 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.Inventory.Program
 {
-    public partial class DirectPurchaseReturnEntryPicksCtl : BaseEntryPopupCtl
+    public partial class PurchaseReturnEntryPicksCtl : BaseEntryPopupCtl
     {
-        private DirectPurchaseReturnEntry DetailPage
+        private PurchaseReturnEntry DetailPage
         {
-            get { return (DirectPurchaseReturnEntry)Page; }
+            get { return (PurchaseReturnEntry)Page; }
         }
 
         public override void InitializeDataControl(string param)
         {
             string[] temp = param.Split('|');
-            hdnDirectPurchaseID.Value = temp[0];
-            hdnDirectPurchaseReturnID.Value = temp[1];
+            hdnPurchaseReceiveID.Value = temp[0];
+            hdnPurchaseReturnID.Value = temp[1];
 
             BindGridView();
         }
@@ -36,12 +36,12 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void BindGridView()
         {
             lstPurchaseReturnReason = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_RETURN_REASON));
-            string filterExpression = string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID);
-            //if (hdnDirectPurchaseReturnID.Value != "0" && hdnDirectPurchaseReturnID.Value != "")
-            //    filterExpression += string.Format(" AND ItemID NOT IN (SELECT ItemID FROM DirectPurchaseReturnDt WHERE DirectPurchaseReturnID = {0})", hdnDirectPurchaseID.Value);
-            List<vDirectPurchaseDt> lstEntityDt = BusinessLayer.GetvDirectPurchaseDtList(filterExpression);
+            string filterExpression = string.Format("PurchaseReceiveID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseReceiveID.Value, Constant.TransactionStatus.VOID);
+            //if (hdnPurchaseReturnID.Value != "0" && hdnPurchaseReturnID.Value != "")
+            //    filterExpression += string.Format(" AND ItemID NOT IN (SELECT ItemID FROM PurchaseReturnDt WHERE PurchaseReturnID = {0})", hdnPurchaseReceiveID.Value);
+            List<vPurchaseReceiveDt> lstEntityDt = BusinessLayer.GetvPurchaseReceiveDtList(filterExpression);
 
-            //List<vDirectPurchaseReturnDt> lstDirectPurchaseReturnDt = BusinessLayer.GetvDirectPurchaseReturnDtList(filterExpression);
+            //List<vPurchaseReturnDt> lstPurchaseReturnDt = BusinessLayer.GetvPurchaseReturnDtList(filterExpression);
 
             lvwView.DataSource = lstEntityDt;
             lvwView.DataBind();
@@ -53,12 +53,12 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             if (e.Item.ItemType == ListViewItemType.DataItem)
             {
-                vDirectPurchaseDt entity = (vDirectPurchaseDt)e.Item.DataItem;
+                vPurchaseReceiveDt entity = (vPurchaseReceiveDt)e.Item.DataItem;
                 TextBox txtQtyRetur = (TextBox)e.Item.FindControl("txtQtyRetur");
                 ASPxComboBox cboPurchaseReturnReason = (ASPxComboBox)e.Item.FindControl("cboPurchaseReturnReason");
                 cboPurchaseReturnReason.ClientInstanceName = string.Format("cboPurchaseReturnReason{0}", e.Item.DataItemIndex);
                 Methods.SetComboBoxField<StandardCode>(cboPurchaseReturnReason, lstPurchaseReturnReason, "StandardCodeName", "StandardCodeID");
-
+                
                 txtQtyRetur.Attributes.Add("max", entity.Quantity.ToString());
                 Helper.SetControlEntrySetting(txtQtyRetur, new ControlEntrySetting(true, true, true), "mpEntryPopup");
                 Helper.SetControlEntrySetting(cboPurchaseReturnReason, new ControlEntrySetting(true, true, true), "mpEntryPopup");
@@ -69,8 +69,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            DirectPurchaseHdDao entityHdDao = new DirectPurchaseHdDao(ctx);
-            DirectPurchaseReturnDtDao entityDtDao = new DirectPurchaseReturnDtDao(ctx);
+            PurchaseReceiveHdDao entityHdDao = new PurchaseReceiveHdDao(ctx);
+            PurchaseReturnDtDao entityDtDao = new PurchaseReturnDtDao(ctx);
             try
             {
                 int PRID = 0;
@@ -80,31 +80,33 @@ namespace CodeX.Muses.Web.Inventory.Program
                 string[] lstSelectedItem = hdnSelectedItem.Value.Split(',');
                 string[] lstSelectedQty = hdnSelectedQtyRetur.Value.Split(',');
                 string[] lstSelectedReturnReason = hdnSelectedReturnReason.Value.Split(',');
-                List<DirectPurchaseDt> lstDirectPurchaseDt = BusinessLayer.GetDirectPurchaseDtList(string.Format("ID IN ({0})", hdnSelectedItem.Value), ctx);
+                List<PurchaseReceiveDt> lstPurchaseReceiveDt = BusinessLayer.GetPurchaseReceiveDtList(string.Format("ID IN ({0})", hdnSelectedItem.Value), ctx);
                 for (int i = 0; i < lstSelectedItem.Length; ++i)
                 {
-                    DirectPurchaseDt directPurchaseDt = lstDirectPurchaseDt.FirstOrDefault(p => p.ID == Convert.ToInt32(lstSelectedItem[i]));
-                    DirectPurchaseReturnDt entityDt = new DirectPurchaseReturnDt();
+                    PurchaseReceiveDt directPurchaseDt = lstPurchaseReceiveDt.FirstOrDefault(p => p.ID == Convert.ToInt32(lstSelectedItem[i]));
+                    PurchaseReturnDt entityDt = new PurchaseReturnDt();
                     entityDt.ItemID = directPurchaseDt.ItemID;
                     entityDt.ItemName1 = directPurchaseDt.ItemName1;
                     entityDt.Quantity = Convert.ToDecimal(lstSelectedQty[i]);
                     entityDt.UnitPrice = directPurchaseDt.UnitPrice;
                     entityDt.ConversionFactor = directPurchaseDt.ConversionFactor;
-                    entityDt.DiscountPercentage = directPurchaseDt.DiscountPercentage;
-                    entityDt.DiscountAmount = entityDt.Quantity * entityDt.UnitPrice * entityDt.DiscountPercentage / 100;
-                    entityDt.LineAmount = entityDt.Quantity * entityDt.UnitPrice - entityDt.DiscountAmount;
+                    entityDt.DiscountPercentage1 = directPurchaseDt.DiscountPercentage1;
+                    entityDt.DiscountAmount1 = entityDt.Quantity * entityDt.UnitPrice * entityDt.DiscountPercentage1 / 100;
+                    entityDt.DiscountPercentage2 = directPurchaseDt.DiscountPercentage2;
+                    entityDt.DiscountAmount2 = ((entityDt.Quantity * entityDt.UnitPrice) - entityDt.DiscountAmount1) * entityDt.DiscountPercentage2 / 100;
+                    entityDt.LineAmount = entityDt.Quantity * entityDt.UnitPrice - (entityDt.DiscountAmount1 + entityDt.DiscountAmount2);
                     entityDt.GCPurchaseReturnReason = lstSelectedReturnReason[i];
                     entityDt.GCBaseUnit = directPurchaseDt.GCBaseUnit;
                     entityDt.GCItemUnit = directPurchaseDt.GCItemUnit;
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
-                    entityDt.DirectPurchaseReturnID = PRID;
+                    entityDt.PurchaseReturnID = PRID;
                     entityDt.CreatedBy = AppSession.UserLogin.UserID;
                     entityDtDao.Insert(entityDt);
                 }
 
-                DirectPurchaseHd entity = entityHdDao.Get(Convert.ToInt32(hdnDirectPurchaseID.Value));
+                PurchaseReceiveHd entity = entityHdDao.Get(Convert.ToInt32(hdnPurchaseReceiveID.Value));
                 entity.IsHasPurchaseReturn = true;
-                entity.DirectPurchaseReturnID = Convert.ToInt32(PRID);
+                entity.PurchaseReturnID = Convert.ToInt32(PRID);
                 entityHdDao.Update(entity);
                 retval = purchaseReturnNo;
                 ctx.CommitTransaction();

@@ -1465,6 +1465,15 @@ namespace CodeX.Data.Model
                 return String.Format("{0} Supplier : {1}", _PurchaseReceiveNo, _SupplierName);
             }
         }
+
+        public String CustomItemUnit
+        {
+            get
+            {
+                return _Quantity + " " + _ItemUnit;
+            }
+        }
+
     }
     #endregion
     #region vPurchaseReceiveHd

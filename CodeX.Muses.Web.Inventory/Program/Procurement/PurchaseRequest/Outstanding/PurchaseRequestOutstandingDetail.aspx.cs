@@ -28,6 +28,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         private string[] lstQty = null;
         private string[] lstSupplierID = null;
         private string[] lstSupplierName = null;
+        private string[] lstNonMasterSupplierName = null;
+        private string[] lstIsFromMasterSupplier = null;
         private string[] lstGCPurchaseUnit = null;
         private string[] lstPurchaseUnit = null;
         private string[] lstConversionFactor = null;
@@ -37,6 +39,10 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected string filterExpressionSupplier = "";
 
+        protected string OnGetPurchaseMethodDirectPurchase()
+        {
+            return Constant.PurchaseMethod.DIRECT_PURCHASE;
+        }
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.Inventory.APPROVED_PURCHASE_REQUEST;
@@ -73,7 +79,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             if (scDefaultDirectPurchaseType == null)
                 scDefaultDirectPurchaseType = listStandardCode.FirstOrDefault(p => p.ParentID == Constant.StandardCode.PURCHASE_ORDER_TYPE);
 
-            hdnCustomSupplierID.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.CUSTOM_SUPPLIER).ParameterValue;
+            hdnNonMasterSupplierID.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.NON_MASTER_SUPPLIER).ParameterValue;
             hdnDefaultPurchaseOrderType.Value = scDefaultPurchaseOrderType.StandardCodeID;
             hdnDefaultFrancoRegion.Value = scDefaultFrancoRegion.StandardCodeID;
             hdnDefaultCurrencyCode.Value = scDefaultCurrencyCode.StandardCodeID;
@@ -120,10 +126,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             lstTermID = hdnListTermID.Value.Split('|');
             lstSupplierItemName = hdnListSupplierItemName.Value.Split('|');
             lstGCPurchaseMethod = hdnListGCPurchaseMethod.Value.Split('|');
+            lstNonMasterSupplierName = hdnListNonMasterSupplierName.Value.Split('|');
+            lstIsFromMasterSupplier = hdnListIsFromMasterSupplier.Value.Split('|');
 
             lstPurchaseMethod = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_METHOD));
 
-            List<vPurchaseRequestDtOutstanding> lstEntity = BusinessLayer.GetvPurchaseRequestDtOutstandingList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex," ItemName1 ASC");
+            List<vPurchaseRequestDtOutstanding> lstEntity = BusinessLayer.GetvPurchaseRequestDtOutstandingList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, " ItemName1 ASC");
             lvwView.DataSource = lstEntity;
             lvwView.DataBind();
 
@@ -143,7 +151,9 @@ namespace CodeX.Muses.Web.Inventory.Program
                 TextBox txtDiscount2 = (TextBox)e.Item.FindControl("txtDiscount2");
                 TextBox txtPurchaseQty = (TextBox)e.Item.FindControl("txtPurchaseQty");
                 TextBox txtPrice = (TextBox)e.Item.FindControl("txtPrice");
+                TextBox txtNonMasterSupplierName = (TextBox)e.Item.FindControl("txtNonMasterSupplierName");
                 HtmlGenericControl lblSupplier = (HtmlGenericControl)e.Item.FindControl("lblSupplier");
+                CheckBox chkIsFromMasterSupplier = (CheckBox)e.Item.FindControl("chkIsFromMasterSupplier");
                 HtmlGenericControl lblPurchaseUnit = (HtmlGenericControl)e.Item.FindControl("lblPurchaseUnit");
                 HtmlGenericControl lblPurchaseUnitPrice = (HtmlGenericControl)e.Item.FindControl("lblPurchaseUnitPrice");
                 HtmlTableCell tdSupplierItemName = (HtmlTableCell)e.Item.FindControl("tdSupplierItemName");
@@ -183,16 +193,39 @@ namespace CodeX.Muses.Web.Inventory.Program
                     hdnTermID.Value = lstTermID[idx];
                     lblSupplier.InnerHtml = lstSupplierName[idx];
                     hdnGCPurchaseUnit.Value = lstGCPurchaseUnit[idx];
-                    lblPurchaseUnit.InnerHtml = lstPurchaseUnit[idx];
                     tdSupplierItemName.InnerHtml = lstSupplierItemName[idx];
                     lblSupplier.Attributes.Add("class", "lblSupplier lblLink");
                     lblPurchaseUnit.Attributes.Add("class", "lblPurchaseUnit lblLink");
                     cboPurchaseMethod.Value = lstGCPurchaseMethod[idx];
+
+                    chkIsFromMasterSupplier.Enabled = true;
+                    txtNonMasterSupplierName.ReadOnly = false;
+                    bool isFromMasterSupplier = lstIsFromMasterSupplier[idx] == "1";
+                    if (isFromMasterSupplier)
+                    {
+                        chkIsFromMasterSupplier.Checked = true;
+                        txtNonMasterSupplierName.Text = "";
+                        txtNonMasterSupplierName.Style.Add("display", "none");
+                        cboPurchaseMethod.ClientEnabled = true;
+                    }
+                    else
+                    {
+                        chkIsFromMasterSupplier.Checked = false;
+                        txtNonMasterSupplierName.Text = lstNonMasterSupplierName[idx];
+                        lblSupplier.InnerHtml = "Pilih Supplier";
+                        lblSupplier.Style.Add("display", "none");
+                        cboPurchaseMethod.ClientEnabled = false;
+                    }               
                 }
                 else
                 {
                     lblSupplier.Attributes.Add("class", "lblSupplier lblDisabled");
                     lblPurchaseUnit.Attributes.Add("class", "lblPurchaseUnit lblDisabled");
+                    chkIsFromMasterSupplier.Enabled = false;
+                    txtNonMasterSupplierName.ReadOnly = true;
+                    chkIsFromMasterSupplier.Checked = true;
+                    txtNonMasterSupplierName.Style.Add("display", "none");
+                    cboPurchaseMethod.ClientEnabled = true;
                 }
                 lblPurchaseUnitPrice.InnerHtml = lblPurchaseUnit.InnerHtml;
             }
@@ -260,7 +293,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             purchaseOrderID = BusinessLayer.GetPurchaseOrderHdMaxID(ctx);
         }
 
-        private void SaveDirectPurchaseHd(IDbContext ctx, ref int directPurchaseID, ref string retval, int BusinessPartnerID, String CustomSupplierName)
+        private void SaveDirectPurchaseHd(IDbContext ctx, ref int directPurchaseID, ref string retval, int BusinessPartnerID, String NonMasterSupplierName)
         {
             DirectPurchaseHdDao entityHdDao = new DirectPurchaseHdDao(ctx);
             DirectPurchaseHd entityHd = new DirectPurchaseHd();
@@ -271,10 +304,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             ctx.Command.Parameters.Clear();
             entityHd.GCDirectPurchaseType = hdnDefaultDirectPurchaseType.Value;
             entityHd.BusinessPartnerID = BusinessPartnerID;
-            if (BusinessPartnerID == Convert.ToInt32(hdnCustomSupplierID.Value))
+            if (BusinessPartnerID == Convert.ToInt32(hdnNonMasterSupplierID.Value))
             {
-                entityHd.BusinessPartnerName = CustomSupplierName;
-                retval += "2^" + entityHd.DirectPurchaseNo + "^" + CustomSupplierName + ";";
+                entityHd.BusinessPartnerName = NonMasterSupplierName;
+                retval += "2^" + entityHd.DirectPurchaseNo + "^" + NonMasterSupplierName + ";";
             }
             else
             {
@@ -335,7 +368,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             String[] paramConversionFactor = hdnListConversionFactor.Value.Substring(1).Split('|');
             String[] paramTermID = hdnListTermID.Value.Substring(1).Split('|');
             String[] paramGCPurchaseMethod = hdnListGCPurchaseMethod.Value.Substring(1).Split('|');
-            String[] paramCustomSupplierName = hdnListCustomSupplierName.Value.Substring(1).Split('|');
+            String[] paramNonMasterSupplierName = hdnListNonMasterSupplierName.Value.Substring(1).Split('|');
 
             List<CPurchaseRequest> listEntityTempPRAll = new List<CPurchaseRequest>();
 
@@ -361,7 +394,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                         entityTempPR.Discount1 = paramDiscount1[i];
                         entityTempPR.Discount2 = paramDiscount2[i];
                         entityTempPR.SupplierID = paramSupplierID[i];
-                        entityTempPR.SupplierName = paramCustomSupplierName[i];
+                        entityTempPR.SupplierName = paramNonMasterSupplierName[i];
                         entityTempPR.Price = paramPrice[i];
                         entityTempPR.GCPurchaseUnit = paramGCPurchaseUnit[i];
                         entityTempPR.ConversionFactor = paramConversionFactor[i];
@@ -371,7 +404,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     }
                     int countArr = 0;
                     var lstBusinessPartner = (from p in paramSupplierID
-                                              select new { BusinessPartnerID = Convert.ToInt32(p), BusinessPartnerName = paramCustomSupplierName[countArr++] }).GroupBy(p => new { p.BusinessPartnerID, p.BusinessPartnerName }).Select(p => p.First()).ToList();
+                                              select new { BusinessPartnerID = Convert.ToInt32(p), BusinessPartnerName = paramNonMasterSupplierName[countArr++] }).GroupBy(p => new { p.BusinessPartnerID, p.BusinessPartnerName }).Select(p => p.First()).ToList();
 
                     #region Purchase Order
                     List<CPurchaseRequest> listEntityTempPRPO = listEntityTempPRAll.Where(p => p.GCPurchaseMethod == Constant.PurchaseMethod.PURCHASE_ORDER).ToList();
@@ -388,6 +421,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                                 PurchaseOrderDt entityPurchaseOrderDt = new PurchaseOrderDt();
                                 //entityPurchaseOrderDt.PurchaseRequestID = entityPurchaseReqDt.PurchaseRequestID;
                                 entityPurchaseOrderDt.ItemID = entityPurchaseReqDt.ItemID;
+                                entityPurchaseOrderDt.ItemName1 = entityPurchaseReqDt.ItemName1;
                                 entityPurchaseOrderDt.Quantity = Convert.ToDecimal(entityCPurchaseReqDt.QtyPO);
                                 entityPurchaseOrderDt.GCPurchaseUnit = entityCPurchaseReqDt.GCPurchaseUnit;
                                 entityPurchaseOrderDt.GCBaseUnit = entityPurchaseReqDt.GCBaseUnit;
@@ -412,6 +446,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                                 PurchaseRequestPO entityPRPO = new PurchaseRequestPO();
                                 entityPRPO.PurchaseOrderID = purchaseOrderID;
                                 entityPRPO.ItemID = entityPurchaseOrderDt.ItemID;
+                                entityPRPO.ItemName1 = entityPurchaseOrderDt.ItemName1;
                                 entityPRPO.PurchaseRequestID = Convert.ToInt32(hdnPurchaseRequestID.Value);
                                 entityPRPO.OrderQuantity = entityPurchaseOrderDt.Quantity;
                                 entityPRPODao.Insert(entityPRPO);
@@ -437,6 +472,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                                 DirectPurchaseDt entityDirectPurchaseDt = new DirectPurchaseDt();
                                 //entityDirectPurchaseDt.PurchaseRequestID = entityPurchaseReqDt.PurchaseRequestID;
                                 entityDirectPurchaseDt.ItemID = entityPurchaseReqDt.ItemID;
+                                entityDirectPurchaseDt.ItemName1 = entityPurchaseReqDt.ItemName1;
                                 entityDirectPurchaseDt.Quantity = Convert.ToDecimal(entityCPurchaseReqDt.QtyPO);
                                 entityDirectPurchaseDt.GCItemUnit = entityCPurchaseReqDt.GCPurchaseUnit;
                                 entityDirectPurchaseDt.GCBaseUnit = entityPurchaseReqDt.GCBaseUnit;
@@ -457,6 +493,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                                 PurchaseRequestDP entityPRDP = new PurchaseRequestDP();
                                 entityPRDP.DirectPurchaseID = directPurchaseID;
                                 entityPRDP.ItemID = entityDirectPurchaseDt.ItemID;
+                                entityPRDP.ItemName1 = entityDirectPurchaseDt.ItemName1;
                                 entityPRDP.PurchaseRequestID = Convert.ToInt32(hdnPurchaseRequestID.Value);
                                 entityPRDP.PurchaseQuantity = entityDirectPurchaseDt.Quantity;
                                 entityPRDPDao.Insert(entityPRDP);

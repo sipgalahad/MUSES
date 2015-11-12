@@ -46,13 +46,14 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override void InitializeDataControl()
         {
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
-            hdnVATPercentage.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
+            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}','{1}')", Constant.SettingParameter.VAT_PERCENTAGE, Constant.SettingParameter.NON_MASTER_ITEM));
+            hdnVATPercentage.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
+            hdnNonMasterItemID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.NON_MASTER_ITEM).ParameterValue;
 
             SetControlProperties(); 
             decimal tempTransactionAmount = -1;
             BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
             Helper.SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboReason, new ControlEntrySetting(true, true, true), "mpTrx");
         }
@@ -69,17 +70,16 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsDeleted = 0", Constant.StandardCode.PURCHASE_RETURN_TYPE, Constant.StandardCode.PURCHASE_RETURN_REASON));
+            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_RETURN_TYPE, Constant.StandardCode.PURCHASE_RETURN_REASON, Constant.StandardCode.ITEM_UNIT));
             Methods.SetComboBoxField<StandardCode>(cboReturnType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.PURCHASE_RETURN_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboReason, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.PURCHASE_RETURN_REASON).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboNonMasterItemUnit, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_UNIT).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
         }
 
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(hdnPRID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(txtPurchaseReturnDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
-            SetControlEntrySetting(lblSupplier, new ControlEntrySetting(true, false));
-            SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true,""));
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, true,""));
             SetControlEntrySetting(hdnPurchaseReceiveID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(lblPurchaseReceiveNo, new ControlEntrySetting(true, false));
@@ -166,7 +166,6 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtPurchaseReturnDate.Text = entity.ReturnDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtReferenceDate.Text = entity.ReferenceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             hdnSupplierID.Value = entity.BusinessPartnerID.ToString();
-            txtSupplierCode.Text = entity.BusinessPartnerCode;
             txtSupplierName.Text = entity.SupplierName;
             txtReferenceNo.Text = entity.ReferenceNo;
             hdnLocationID.Value = entity.LocationID.ToString();
@@ -539,11 +538,21 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void ControlToEntity(PurchaseReturnDt entityDt)
         {
             entityDt.ItemID = Convert.ToInt32(hdnItemID.Value);
+            if (entityDt.ItemID == Convert.ToInt32(hdnNonMasterItemID.Value))
+            {
+                entityDt.ItemName1 = Request.Form[txtItemName.UniqueID];
+                entityDt.ConversionFactor = 1;
+                entityDt.GCBaseUnit = entityDt.GCItemUnit = cboNonMasterItemUnit.Value.ToString();
+            }
+            else
+            {
+                entityDt.ItemName1 = null;
+                entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
+                entityDt.GCItemUnit = cboItemUnit.Value.ToString();
+                entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
+            }
             entityDt.Quantity = Convert.ToDecimal(txtQuantity.Text);
-            entityDt.GCItemUnit = cboItemUnit.Value.ToString();
-            entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
             entityDt.UnitPrice = Convert.ToDecimal(Request.Form[txtPrice.UniqueID]);
-            entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
             entityDt.DiscountPercentage1 = Convert.ToDecimal(Request.Form[txtDiscountPercentage1.UniqueID]);
             entityDt.DiscountAmount1 = Convert.ToDecimal(Request.Form[txtDiscountAmount1.UniqueID]);
             entityDt.DiscountPercentage2 = Convert.ToDecimal(Request.Form[txtDiscountPercentage2.UniqueID]);

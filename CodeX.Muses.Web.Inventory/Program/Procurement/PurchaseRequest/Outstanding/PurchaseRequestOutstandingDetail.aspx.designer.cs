@@ -49,13 +49,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnPurchaseRequestHdDecline;
         
         /// <summary>
-        /// hdnCustomSupplierID control.
+        /// hdnNonMasterSupplierID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCustomSupplierID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnNonMasterSupplierID;
         
         /// <summary>
         /// hdnDefaultDirectPurchaseType control.
@@ -157,6 +157,24 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSupplierName;
         
         /// <summary>
+        /// hdnListIsFromMasterSupplier control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListIsFromMasterSupplier;
+        
+        /// <summary>
+        /// hdnListNonMasterSupplierName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListNonMasterSupplierName;
+        
+        /// <summary>
         /// hdnListGCPurchaseUnit control.
         /// </summary>
         /// <remarks>
@@ -209,15 +227,6 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListGCPurchaseMethod;
-        
-        /// <summary>
-        /// hdnListCustomSupplierName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListCustomSupplierName;
         
         /// <summary>
         /// hdnSelectedMember control.

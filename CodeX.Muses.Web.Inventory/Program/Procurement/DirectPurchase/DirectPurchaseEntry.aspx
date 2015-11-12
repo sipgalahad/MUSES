@@ -218,6 +218,7 @@
                     $('#<%=txtItemGroupName.ClientID %>').val('');
                     $('#<%=txtItemCode.ClientID %>').val('');
                     $('#<%=txtItemName.ClientID %>').val('');
+                    $('#<%=txtNonMasterItemName.ClientID %>').val('');
                     $('#<%=hdnUnitPrice.ClientID %>').val('0');
                     $('#<%=txtPrice.ClientID %>').val('').trigger('changeValue'); ;
                     $('#<%=txtBaseUnit.ClientID %>').val('');
@@ -235,6 +236,8 @@
                     $('#<%=txtConversion.ClientID %>').val('');
 
                     $('#<%=chkIsFromMasterSupplier.ClientID %>').attr("disabled", true);
+                    $('#<%=chkIsFromMasterItem.ClientID %>').prop("checked", true);
+                    $('#<%=chkIsFromMasterItem.ClientID %>').change();
                     $('#entryDetailContainer').show();
                 }
             });
@@ -310,6 +313,29 @@
                 }
             });
 
+            $('#<%=chkIsFromMasterItem.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#<%=tblItemMaster.ClientID %>').show();
+                    $('#<%=txtNonMasterItemName.ClientID %>').hide();
+                    $('#lblItem').attr('class', 'lblLink lblMandatory');
+
+                    cboNonMasterItemUnit.SetVisible(false);
+                    cboItemUnit.SetVisible(true);
+                }
+                else {
+                    $('#<%=tblItemMaster.ClientID %>').hide();
+                    $('#<%=txtNonMasterItemName.ClientID %>').show();
+                    $('#lblItem').attr('class', 'lblMandatory');
+
+                    $('#<%=hdnItemID.ClientID %>').val($('#<%=hdnNonMasterItemID.ClientID %>').val());
+                    $('#<%=txtItemCode.ClientID %>').val('');
+                    $('#<%=txtItemName.ClientID %>').val('');
+
+                    cboNonMasterItemUnit.SetVisible(true);
+                    cboItemUnit.SetVisible(false);
+                }
+            });
+
             $('#<%=chkPPN.ClientID %>').change(function () {
                 calculateTotal();
             });
@@ -370,17 +396,30 @@
             $('#<%=txtDiscountPercentage.ClientID %>').val(entity.DiscountPercentage).trigger('changeValue');
             $('#<%=txtDiscountAmount.ClientID %>').val(entity.DiscountAmount).trigger('changeValue');
             $('#<%=hdnItemID.ClientID %>').val(entity.ItemID);
-            $('#<%=txtItemCode.ClientID %>').val(entity.ItemCode);
-            $('#<%=txtItemName.ClientID %>').val(entity.ItemName1);
-            $('#<%=hdnItemGroupID.ClientID %>').val(entity.ItemGroupID);
-            $('#<%=txtItemGroupCode.ClientID %>').val(entity.ItemGroupCode);
-            $('#<%=txtItemGroupName.ClientID %>').val(entity.ItemGroupName1);
             $('#<%=txtQuantity.ClientID %>').val(entity.Quantity);
+
+            var isNonMasterItem = entity.ItemID == $('#<%=hdnNonMasterItemID.ClientID %>').val();
+            $('#<%=chkIsFromMasterItem.ClientID %>').prop("checked", !isNonMasterItem);
+            $('#<%=chkIsFromMasterItem.ClientID %>').change();
+            if (isNonMasterItem) {
+                $('#<%=txtNonMasterItemName.ClientID %>').val(entity.ItemName1);
+                cboNonMasterItemUnit.SetValue(entity.GCItemUnit);
+                onCboNonMasterItemUnitChanged();
+                $('#<%=txtPrice.ClientID %>').val(entity.UnitPrice).trigger('changeValue');
+                calculateSubTotal();
+            }
+            else {
+                $('#<%=txtItemCode.ClientID %>').val(entity.ItemCode);
+                $('#<%=txtItemName.ClientID %>').val(entity.ItemName1);
+                $('#<%=hdnItemGroupID.ClientID %>').val(entity.ItemGroupID);
+                $('#<%=txtItemGroupCode.ClientID %>').val(entity.ItemGroupCode);
+                $('#<%=txtItemGroupName.ClientID %>').val(entity.ItemGroupName1);
+                cboItemUnit.PerformCallback();
+            }
 
             lastTransactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
             editedLineAmount = entity.LineAmount;
 
-            cboItemUnit.PerformCallback();
             $('#entryDetailContainer').show();
         });
 
@@ -459,6 +498,10 @@
             var pricePerPurchaseUnit = conversion * priceperitemunit;
             $('#<%=txtPrice.ClientID %>').val(pricePerPurchaseUnit).trigger('changeValue');
             calculateSubTotal();
+        }
+
+        function onCboNonMasterItemUnitChanged() {
+            $('#<%=txtBaseUnit.ClientID %>').val("per " + cboNonMasterItemUnit.GetText());            
         }
 
         function getItemUnitName(baseValue) {
@@ -542,11 +585,19 @@
                 errMessage.text = "Data Doesn't Approved or Closed";
                 return false;
             }
-
         }
+
+        $('.lblItemName').live("click", function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var param = entity.ID;
+            var url = ResolveUrl("~/Program/Procurement/DirectPurchase/DirectPurchasePRDtCtl.ascx");
+            openUserControlPopup(url, param, 'Purchase Request Detail', 650, 500);
+        });
     </script>
     <input type="hidden" value="false" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnNonMasterSupplierID" runat="server" />
+    <input type="hidden" value="" id="hdnNonMasterItemID" runat="server" />
     <input type="hidden" value="" id="hdnDirectPurchaseID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
@@ -658,12 +709,13 @@
                                             <table>
                                                 <colgroup>
                                                     <col style="width: 120px" />
+                                                    <col  style="width: 300px"/>
                                                 </colgroup>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblLink" id="lblItemGroup"><%=GetLabel("Kelompok Item")%></label></td>
                                                     <td>
                                                         <input type="hidden" value="" id="hdnItemGroupID" runat="server" />
-                                                        <table style="width:70%" cellpadding="0" cellspacing="0">
+                                                        <table style="width:100%" cellpadding="0" cellspacing="0">
                                                             <colgroup>
                                                                 <col style="width: 120px" />
                                                                 <col style="width: 3px" />
@@ -685,7 +737,7 @@
                                                         <input type="hidden" value="" id="hdnGCItemUnit" runat="server" />
                                                         <input type="hidden" value="" id="hdnConversionFactor" runat="server" />
                                                         <input type="hidden" value="" id="hdnUnitPrice" runat="server" />
-                                                        <table style="width:70%" cellpadding="0" cellspacing="0">
+                                                        <table style="width:100%" cellpadding="0" cellspacing="0" id="tblItemMaster" runat="server">
                                                             <colgroup>
                                                                 <col style="width: 120px" />
                                                                 <col style="width: 3px" />
@@ -697,6 +749,10 @@
                                                                 <td><asp:TextBox ID="txtItemName" ReadOnly="true" Width="100%" runat="server" /></td>
                                                             </tr>
                                                         </table>
+                                                        <asp:TextBox ID="txtNonMasterItemName" Width="100%" runat="server" />
+                                                    </td>
+                                                    <td>
+                                                        <asp:CheckBox ID="chkIsFromMasterItem" runat="server" Checked="true" /><%=GetLabel("Dari Master") %>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -710,6 +766,9 @@
                                                             Width="300px" OnCallback="cboItemUnit_Callback">
                                                             <ClientSideEvents EndCallback="function(s,e){ onCboItemUnitEndCallBack(); }" 
                                                                 ValueChanged="function(s,e){ onCboItemUnitChanged(); }" />
+                                                        </dxe:ASPxComboBox>
+                                                        <dxe:ASPxComboBox runat="server" ID="cboNonMasterItemUnit" ClientInstanceName="cboNonMasterItemUnit" Width="300px">
+                                                            <ClientSideEvents ValueChanged="function(s,e){ onCboNonMasterItemUnitChanged(); }" />
                                                         </dxe:ASPxComboBox>
                                                     </td>
                                                 </tr>
@@ -785,7 +844,11 @@
                                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                             <Columns>
                                                 <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                                <asp:BoundField DataField="ItemName1" HeaderText="Item Name" />
+                                                <asp:TemplateField HeaderText="Nama Barang">
+                                                    <ItemTemplate>
+                                                        <label class="lblLink lblItemName"><%#Eval("ItemName1")%></label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Jumlah Pembelian" HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
                                                     <ItemTemplate>
                                                         <table cellpadding="0" cellspacing="0">

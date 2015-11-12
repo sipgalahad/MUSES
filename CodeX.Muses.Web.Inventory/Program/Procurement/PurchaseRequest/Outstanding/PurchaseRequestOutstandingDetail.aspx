@@ -17,7 +17,7 @@
     <script type="text/javascript">
         var flag = true;
         function onLoad() {
-            $('.txtCustomSupplierName').hide();
+            $('.txtNonMasterSupplierName').hide();
 
             $('#<%=btnProcessPurchaseRequest.ClientID %>').click(function () {
                 var errMessage = { text: '' };
@@ -70,7 +70,8 @@
             var lstTermID = $('#<%=hdnListTermID.ClientID %>').val().split('|');
             var lstSupplierItemName = $('#<%=hdnListSupplierItemName.ClientID %>').val().split('|');
             var lstGCPurchaseMethod = $('#<%=hdnListGCPurchaseMethod.ClientID %>').val().split('|');
-            var lstCustomSupplierName = $('#<%=hdnListCustomSupplierName.ClientID %>').val().split('|');
+            var lstNonMasterSupplierName = $('#<%=hdnListNonMasterSupplierName.ClientID %>').val().split('|');
+            var lstIsFromMasterSupplier = $('#<%=hdnListIsFromMasterSupplier.ClientID %>').val().split('|');
 
             var result = '';
             var itemEmptySupplier = '';
@@ -94,7 +95,8 @@
                     var idx = $tr.find('.hdnItemIndex').val();
                     var cboPurchaseMethod = eval('cboPurchaseMethod' + idx);
                     var purchaseMethod = cboPurchaseMethod.GetValue();
-                    var customSupplierName = $tr.find('.txtCustomSupplierName').val();
+                    var nonMasterSupplierName = $tr.find('.txtNonMasterSupplierName').val();
+                    var isFromMasterSupplier = $tr.find('.chkIsFromMasterSupplier input').is(':checked') ? '1' : '0';
 
                     var idx = lstSelectedMember.indexOf(key);
                     if (idx < 0) {
@@ -111,7 +113,8 @@
                         lstTermID.push(termID);
                         lstSupplierItemName.push(supplierItemName);
                         lstGCPurchaseMethod.push(purchaseMethod);
-                        lstCustomSupplierName.push(customSupplierName);
+                        lstNonMasterSupplierName.push(nonMasterSupplierName);
+                        lstIsFromMasterSupplier.push(isFromMasterSupplier);
                     }
                     else {
                         lstDiscount1[idx] = discount1;
@@ -126,7 +129,8 @@
                         lstTermID[idx] = termID;
                         lstSupplierItemName[idx] = supplierItemName;
                         lstGCPurchaseMethod[idx] = purchaseMethod;
-                        lstCustomSupplierName[idx] = customSupplierName;
+                        lstNonMasterSupplierName[idx] = nonMasterSupplierName;
+                        lstIsFromMasterSupplier[idx] = isFromMasterSupplier;
                     }
                     if (supplierID == '0') {
                         if (itemEmptySupplier != '')
@@ -156,7 +160,8 @@
                         lstTermID.splice(idx, 1);
                         lstSupplierItemName.splice(idx, 1);
                         lstGCPurchaseMethod.splice(idx, 1);
-                        lstCustomSupplierName.splice(idx,1);
+                        lstNonMasterSupplierName.splice(idx, 1);
+                        lstIsFromMasterSupplier.splice(idx, 1);
                     }
                 }
             });
@@ -182,7 +187,8 @@
             $('#<%=hdnListTermID.ClientID %>').val(lstTermID.join('|'));
             $('#<%=hdnListSupplierItemName.ClientID %>').val(lstSupplierItemName.join('|'));
             $('#<%=hdnListGCPurchaseMethod.ClientID %>').val(lstGCPurchaseMethod.join('|'));
-            $('#<%=hdnListCustomSupplierName.ClientID %>').val(lstCustomSupplierName.join('|'));
+            $('#<%=hdnListNonMasterSupplierName.ClientID %>').val(lstNonMasterSupplierName.join('|'));
+            $('#<%=hdnListIsFromMasterSupplier.ClientID %>').val(lstIsFromMasterSupplier.join('|'));
         }
 
         function onAfterCustomClickSuccess(type,retval) {
@@ -211,7 +217,9 @@
                 $('#<%=hdnPrice.ClientID %>').val('');
                 $('#<%=hdnListTermID.ClientID %>').val('');
                 $('#<%=hdnListSupplierItemName.ClientID %>').val('');
-                $('#<%=hdnListGCPurchaseMethod.ClientID %>').val(''); 
+                $('#<%=hdnListGCPurchaseMethod.ClientID %>').val('');
+                $('#<%=hdnListNonMasterSupplierName.ClientID %>').val('');
+                $('#<%=hdnListIsFromMasterSupplier.ClientID %>').val('');
                 if (param[1] == '0') $('#<%=btnOrderListBack.ClientID %>').click();
                 cbpView.PerformCallback('refresh');
             });
@@ -230,10 +238,30 @@
             $('#<%=hdnPrice.ClientID %>').val('');
             $('#<%=hdnListTermID.ClientID %>').val('');
             $('#<%=hdnListSupplierItemName.ClientID %>').val('');
-            $('#<%=hdnListGCPurchaseMethod.ClientID %>').val(''); 
+            $('#<%=hdnListGCPurchaseMethod.ClientID %>').val('');
+            $('#<%=hdnListNonMasterSupplierName.ClientID %>').val('');
+            $('#<%=hdnListIsFromMasterSupplier.ClientID %>').val('');
             if (param == '0') $('#<%=btnOrderListBack.ClientID %>').click();
             else cbpView.PerformCallback('refresh');
         }
+
+        $('.chkIsFromMasterSupplier').live('change', function () {
+            $tr = $(this).closest('tr');
+            var idx = $tr.find('.hdnItemIndex').val();
+            var cboPurchaseMethod = eval('cboPurchaseMethod' + idx);
+            if ($(this).find('input').is(':checked')) {
+                $tr.find('.lblSupplier').show();
+                $tr.find('.txtNonMasterSupplierName').hide();
+                cboPurchaseMethod.SetEnabled(true);
+            }
+            else {
+                $tr.find('.hdnSupplierID').val($("#<%=hdnNonMasterSupplierID.ClientID %>").val());
+                $tr.find('.lblSupplier').hide();
+                $tr.find('.txtNonMasterSupplierName').show();
+                cboPurchaseMethod.SetEnabled(false);
+                cboPurchaseMethod.SetValue('<%=OnGetPurchaseMethodDirectPurchase() %>');
+            }
+        });
 
         $('.chkIsSelected').live('change', function () {
             $tr = $(this).closest('tr');
@@ -244,6 +272,8 @@
                 $tr.find('.txtDiscount1').removeAttr('readonly');
                 $tr.find('.txtDiscount2').removeAttr('readonly');
                 $tr.find('.txtPurchaseQty').removeAttr('readonly');
+                $tr.find('.txtNonMasterSupplierName').removeAttr('readonly');
+                $tr.find('.chkIsFromMasterSupplier input').removeAttr("disabled");
                 $lblSupplier.removeClass('lblDisabled');
                 $lblSupplier.addClass('lblLink');
                 $lblPurchaseUnit.removeClass('lblDisabled');
@@ -254,6 +284,8 @@
                 $tr.find('.txtDiscount1').attr('readonly', 'readonly');
                 $tr.find('.txtDiscount2').attr('readonly', 'readonly');
                 $tr.find('.txtPurchaseQty').attr('readonly', 'readonly');
+                $tr.find('.txtNonMasterSupplierName').attr('readonly', 'readonly');
+                $tr.find('.chkIsFromMasterSupplier input').attr("disabled", true);
                 $lblSupplier.removeClass('lblLink');
                 $lblSupplier.addClass('lblDisabled');
                 $lblPurchaseUnit.removeClass('lblLink');
@@ -318,12 +350,6 @@
             var filterExpression = getSupplierFilterExpression() + " AND BusinessPartnerCode = '" + value + "'";
             Methods.getObject('GetBusinessPartnersList', filterExpression, function (result) {
                 if (result != null) {
-                    if (result.BusinessPartnerID == $("#<%=hdnCustomSupplierID.ClientID %>").val()) {
-                        $td.find('.txtCustomSupplierName').show();
-                    } else {
-                        $td.find('.txtCustomSupplierName').val('');
-                        $td.find('.txtCustomSupplierName').hide();
-                    }
                     $td.find('.hdnSupplierID').val(result.BusinessPartnerID);
                     $td.find('.hdnTermID').val(result.TermID);
                     $td.find('.lblSupplier').html(result.BusinessPartnerName);
@@ -342,8 +368,6 @@
                     $td.find('.hdnTermID').val('0');
                     $td.find('.lblSupplier').html('');
                     $td.parent().find('.tdSupplierItemName').html('');
-                    $('.txtCustomSupplierName').val('');
-                    $('.txtCustomSupplierName').hide();
                 }
             });
         }
@@ -384,7 +408,7 @@
         }
         //#endregion
     </script>
-    <input type="hidden" value="" id="hdnCustomSupplierID" runat="server" />
+    <input type="hidden" value="" id="hdnNonMasterSupplierID" runat="server" />
     <input type="hidden" value="" id="hdnDefaultDirectPurchaseType" runat="server" />
     <input type="hidden" value="" id="hdnDefaultPurchaseOrderType" runat="server" />
     <input type="hidden" value="" id="hdnDefaultFrancoRegion" runat="server" />
@@ -397,13 +421,14 @@
     <input type="hidden" value="" id="hdnPrice" runat="server" />
     <input type="hidden" value="" id="hdnListSupplierID" runat="server" />
     <input type="hidden" value="" id="hdnListSupplierName" runat="server" />
+    <input type="hidden" value="" id="hdnListIsFromMasterSupplier" runat="server" />
+    <input type="hidden" value="" id="hdnListNonMasterSupplierName" runat="server" />
     <input type="hidden" value="" id="hdnListGCPurchaseUnit" runat="server" />
     <input type="hidden" value="" id="hdnListPurchaseUnit" runat="server" />
     <input type="hidden" value="" id="hdnPurchaseRequestID" runat="server" />
     <input type="hidden" value="" id="hdnListTermID" runat="server" />
     <input type="hidden" value="" id="hdnListSupplierItemName" runat="server" />
     <input type="hidden" value="" id="hdnListGCPurchaseMethod" runat="server" />
-    <input type="hidden" value="" id="hdnListCustomSupplierName" runat="server" />
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
     <div style="height: 550px; overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
@@ -578,10 +603,11 @@
                                                     </table> 
                                                 </td>
                                                 <td align="center">
+                                                    <asp:CheckBox ID="chkIsFromMasterSupplier" CssClass="chkIsFromMasterSupplier" runat="server" Text="Dari Master" /><br />
                                                     <input type="hidden" value="0" class="hdnSupplierID" id="hdnSupplierID" runat="server"/>
                                                     <input type="hidden" value="0" class="hdnTermID" id="hdnTermID" runat="server"/>
                                                     <label runat="server" id="lblSupplier" class="lblSupplier"></label>
-                                                    <asp:TextBox runat="server" CssClass="txtCustomSupplierName" ID="txtCustomSupplierName" />
+                                                    <asp:TextBox runat="server" CssClass="txtNonMasterSupplierName" ID="txtNonMasterSupplierName" Width="100%" />
                                                 </td>
                                                 <td id="tdSupplierItemName" runat="server" class="tdSupplierItemName"><%# Eval("cfSupplierItem")%></td>
                                                 <td>

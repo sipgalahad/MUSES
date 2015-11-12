@@ -104,6 +104,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     entityPRDt.PurchaseReceiveID = purchaseReceiveID;
                     entityPRDt.PurchaseOrderID = Convert.ToInt32(temp[1]);
                     entityPRDt.ItemID = entityPODt.ItemID;
+                    entityPRDt.ItemName1 = entityPODt.ItemName1;
                     entityPRDt.Quantity = Convert.ToDecimal(temp[2]);
                     entityPRDt.GCItemUnit = temp[11];
                     entityPRDt.GCBaseUnit = entityPODt.GCBaseUnit;
