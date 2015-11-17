@@ -35,8 +35,8 @@ namespace CodeX.Muses.Web.Finance.Program
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
-            fieldListText = new string[] { "NIS", "Nama" };
-            fieldListValue = new string[] { "StudentCode", "StudentName" };
+            fieldListText = new string[] { "Virtual Account","NIS", "Nama" };
+            fieldListValue = new string[] { "VirtualAccountNo","StudentCode", "StudentName" };
         }
 
         protected string OnGetPeriodAdmissionFilterExpression()

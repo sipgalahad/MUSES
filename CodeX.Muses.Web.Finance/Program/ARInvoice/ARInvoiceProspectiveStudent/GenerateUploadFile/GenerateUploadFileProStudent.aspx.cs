@@ -66,7 +66,7 @@ namespace CodeX.Muses.Web.Finance.Program
             txtStartDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtEndDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
 
-            hdnSiteID.Value = BusinessLayer.GetStudent(AppSession.StudentID).SiteID;
+            hdnSiteID.Value = reg.SiteID;
 
             BindGridView();
         }
