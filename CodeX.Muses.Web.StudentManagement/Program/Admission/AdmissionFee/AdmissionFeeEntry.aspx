@@ -431,12 +431,9 @@
             text = text.replace('{KeyField}', keyField);
             $newTr.html(text);
 
-            var count = 1;
             $('.txtDueDate').each(function () {
                 $(this).attr('placeholder', 'dd-MM-yyyy');
-                $(this).attr('id', 'txtDueDate' + count);
                 setDatePickerElement($(this));
-                count++;
             });
         }
     </script>
@@ -456,7 +453,7 @@
             <tr class="trDetail">
                 <td class="keyField">0</td>
                 <td align="center">{DisplayOrder}</td>
-                <td align="center"><input type="text" validationgroup="mpEntry" id="txtDueDate" class="txtDueDate datepicker required txtDueDate{KeyField}" value='' style="width:120px" /></td>
+                <td align="center"><input type="text" validationgroup="mpEntry" class="txtDueDate datepicker required txtDueDate{KeyField}" value='' style="width:120px" /></td>
                 <td align="center"><input type="text" validationgroup="mpEntry" class="txtTransactionAmountInPercentage number required txtTransactionAmountInPercentage{KeyField}" style="width:90%" value='0' /></td>
                 <td align="center"><input type="text" validationgroup="mpEntry" class="txtTransactionAmount txtCurrency required txtTransactionAmount{KeyField}" style="width:90%" value='0' /></td>
                 <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>

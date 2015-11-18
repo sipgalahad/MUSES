@@ -127,13 +127,10 @@
             text = text.replace('{KeyField}', keyField);
             text = text.replace('{KeyField}', keyField);
             $newTr.html(text);
-            
-            var count = 1;
+
             $('.txtDueDate').each(function () {
                 $(this).attr('placeholder', 'dd-MM-yyyy');
-                $(this).attr('id', 'txtDueDate' + count);
                 setDatePickerElement($(this));
-                count++;
             });
 
             calculatePaymentAmount(keyField);
@@ -177,12 +174,9 @@
         });
 
         function onCbpViewEndCallback() {
-            var count = 1;
             $('.txtDueDate').each(function () {
                 $(this).attr('placeholder', 'dd-MM-yyyy');
-                $(this).attr('id', 'txtDueDate' + count);
                 setDatePickerElement($(this));
-                count++;
             });
             $('.txtPaymentAmount').each(function () {
                 $(this).trigger('changeValue');
@@ -224,7 +218,7 @@
             <tr>
                 <td class="keyField">0</td>
                 <td align="center">{DisplayOrder}</td>
-                <td align="center"><input type="text" validationgroup="mpEntry" id="txtDueDate" class="txtDueDate datepicker required txtDueDate{KeyField}" value='' style="width:120px" /></td>
+                <td align="center"><input type="text" validationgroup="mpEntry" class="txtDueDate datepicker required txtDueDate{KeyField}" value='' style="width:120px" /></td>
                 <td align="center"><input type="text" validationgroup="mpEntry" class="txtPaymentAmount txtCurrency required txtPaymentAmount{KeyField}" style="width:90%" value='0' /></td>
                 <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
             </tr>

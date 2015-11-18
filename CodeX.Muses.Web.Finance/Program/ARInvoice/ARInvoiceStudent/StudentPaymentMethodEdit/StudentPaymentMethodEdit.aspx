@@ -128,12 +128,9 @@
             text = text.replace('{KeyField}', keyField);
             $newTr.html(text);
             
-            var count = 1;
             $('.txtDueDate').each(function () {
                 $(this).attr('placeholder', 'dd-MM-yyyy');
-                $(this).attr('id', 'txtDueDate' + count);
                 setDatePickerElement($(this));
-                count++;
             });
 
             calculatePaymentAmount(keyField);
@@ -178,12 +175,9 @@
         });
 
         function onCbpViewEndCallback(s) {
-            var count = 1;
             $('.txtDueDate').each(function () {
                 $(this).attr('placeholder', 'dd-MM-yyyy');
-                $(this).attr('id', 'txtDueDate' + count);
                 setDatePickerElement($(this));
-                count++;
             });
             $('.txtCurrency').each(function () {
                 $(this).trigger('changeValue');
@@ -213,7 +207,7 @@
             <tr>
                 <td class="keyField">0</td>
                 <td align="center">{DisplayOrder}</td>
-                <td align="center"><input type="text" validationgroup="mpEntry" id="txtDueDate" class="txtDueDate datepicker required txtDueDate{KeyField}" value='' style="width:120px" /></td>
+                <td align="center"><input type="text" validationgroup="mpEntry" class="txtDueDate datepicker required txtDueDate{KeyField}" value='' style="width:120px" /></td>
                 <td align="center"><input type="text" validationgroup="mpEntry" class="txtPaymentAmount txtCurrency required txtPaymentAmount{KeyField}" style="width:90%" value='0' /></td>
                 <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
             </tr>
@@ -291,7 +285,7 @@
                                                         <tr class="trDetail<%#:Eval("StudentFeeID") %>">
                                                             <td class="keyField"><%#:Eval("StudentFeeDtID") %></td>
                                                             <td align="center"><%#:Eval("DisplayOrder") %></td>
-                                                            <td align="center"><input type="text" id="txtDueDate" <%#Eval("IsClosed").ToString() == "True" ? "readonly='readonly'" : "" %> class="txtDueDate datepicker required txtDueDate<%#:Eval("IsClosed").ToString() == "True" ?  "" : Eval("StudentFeeID") %>" value='<%#:Eval("DueDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
+                                                            <td align="center"><input type="text" <%#Eval("IsClosed").ToString() == "True" ? "readonly='readonly'" : "" %> class="txtDueDate datepicker required txtDueDate<%#:Eval("IsClosed").ToString() == "True" ?  "" : Eval("StudentFeeID") %>" value='<%#:Eval("DueDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
                                                             <td align="center"><input type="text" <%#Eval("IsClosed").ToString() == "True" ? "readonly='readonly'" : "" %>  class='txtPaymentAmount txtCurrency required txtPaymentAmount<%#:Eval("IsClosed").ToString() == "True" ?  "" : Eval("StudentFeeID").ToString() %>' style="width:90%" value='<%#:Eval("StudentAmount") %>' /></td>
                                                             <td><div <%#(Container.ItemIndex + 1).ToString() != "1" ? "style='float:right;'" : "style='display:none;'" %>  class="divDeleteEntryDt divDetailDelete"></div></td>
                                                         </tr>
