@@ -102,7 +102,8 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 Bank bank = bankDao.Get(Convert.ToInt32(tacBank.Value));
                 Student student = studentDao.Get(AppSession.StudentID);
-                List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeDtID IN ({0}) OR (StudentID = {1} AND PaymentAmount > 0 AND PayerAmount = 0)", hdnSelectedValue.Value, AppSession.StudentID), ctx);
+                //List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeDtID IN ({0}) OR (StudentID = {1} AND PaymentAmount > 0 AND PayerAmount = 0)", hdnSelectedValue.Value, AppSession.StudentID), ctx);
+                List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", hdnSelectedValue.Value), ctx);
                 List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
 
                 List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}') AND TotalPaymentAmount = 0", student.StudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID), ctx);
