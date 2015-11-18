@@ -308,7 +308,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             string ShortName = obj.ShortName;
                             if (lstStudentFeeDt1.Count > 0)
                             {
-                                decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.TotalStudentAmount));
+                                decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.TotalStudentAmount - x.PaymentAmount));
 
                                 if (depositAmount < amount)
                                 {
