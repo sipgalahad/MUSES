@@ -85,7 +85,7 @@ namespace CodeX.Muses.Web.Information.Program
 
             lstStudentFeeCompTypeTotal = new List<CStudentFeeCompTypeTotal>();
 
-            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("DisplayPath LIKE '%{0}%' AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
             foreach (vSite site in lstSite)
             {
                 foreach (StudentFeeCompType studentFeeCompType in lstStudentFeeCompType)
