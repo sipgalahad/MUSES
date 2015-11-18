@@ -52,7 +52,7 @@ namespace CodeX.Muses.Web.Information.Program
         }
 
         List<StudentFeeCompType> lstStudentFeeCompType = null;
-        List<Site> lstSite = null;
+        List<vSite> lstSite = null;
         List<GetStudentReceiveSummary> lstStudentReceive = null;
 
         class CStudentFeeCompTypeTotal
@@ -68,11 +68,11 @@ namespace CodeX.Muses.Web.Information.Program
         {
             hdnTempPeriodText.Value = string.Format("BULAN {0} {1}", cboMonth.Text, cboYear.Value);
 
-            lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}' AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
             lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
 
             lstStudentReceive = new List<GetStudentReceiveSummary>();
-            foreach (Site site in lstSite)
+            foreach (vSite site in lstSite)
             {
                 List<GetStudentReceiveSummary> lstStudentReceive1 = BusinessLayer.GetStudentReceiveSummary(site.SiteID, Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value));
                 foreach (GetStudentReceiveSummary studentReceive in lstStudentReceive1)
@@ -86,7 +86,7 @@ namespace CodeX.Muses.Web.Information.Program
 
             lstStudentFeeCompTypeTotal = new List<CStudentFeeCompTypeTotal>();
 
-            foreach (Site site in lstSite)
+            foreach (vSite site in lstSite)
             {
                 foreach (StudentFeeCompType studentFeeCompType in lstStudentFeeCompType)
                 {
@@ -146,7 +146,7 @@ namespace CodeX.Muses.Web.Information.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                Site entity = (Site)e.Item.DataItem;
+                vSite entity = (vSite)e.Item.DataItem;
                 List<GetStudentReceiveSummary> lstStudentReceive1 = lstStudentReceive.Where(p => p.SiteID == entity.SiteID).ToList();
                 StudentFeeCompType studentFeeCompType = ((RepeaterItem)e.Item.Parent.Parent).DataItem as StudentFeeCompType;
 
@@ -188,7 +188,7 @@ namespace CodeX.Muses.Web.Information.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                Site entity = (Site)e.Item.DataItem;
+                vSite entity = (vSite)e.Item.DataItem;
                 StudentFeeCompType studentFeeCompType = ((RepeaterItem)e.Item.Parent.Parent).DataItem as StudentFeeCompType;
 
                 HtmlTableCell tdStudentFeeCompTypeTotal = (HtmlTableCell)e.Item.FindControl("tdStudentFeeCompTypeTotal");
@@ -201,7 +201,7 @@ namespace CodeX.Muses.Web.Information.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                Site entity = (Site)e.Item.DataItem;
+                vSite entity = (vSite)e.Item.DataItem;
 
                 HtmlTableCell tdStudentFeeCompTypeTotal = (HtmlTableCell)e.Item.FindControl("tdStudentFeeCompTypeTotal");
                 tdStudentFeeCompTypeTotal.InnerHtml = lstStudentFeeCompTypeTotal.Where(p => p.SiteID == entity.SiteID).Sum(p => p.TotalAmount).ToString("N");
