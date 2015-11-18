@@ -85,8 +85,8 @@ namespace CodeX.Muses.Web.Information.Program
 
             lstStudentFeeCompTypeTotal = new List<CStudentFeeCompTypeTotal>();
 
-            List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}' AND IsHeader = 0", AppSession.UserLogin.SiteID));
-            foreach (Site site in lstSite)
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("DisplayPath LIKE '%{0}%' AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            foreach (vSite site in lstSite)
             {
                 foreach (StudentFeeCompType studentFeeCompType in lstStudentFeeCompType)
                 {
@@ -107,7 +107,7 @@ namespace CodeX.Muses.Web.Information.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                Site entity = (Site)e.Item.DataItem;
+                vSite entity = (vSite)e.Item.DataItem;
                 int studentCount = BusinessLayer.GetStudentRowCount(string.Format("SiteID = '{0}' AND GCStudentStatus = '{1}' AND IsDeleted = 0", entity.SiteID, Constant.StudentStatus.ACTIVE));
                 totalStudentCount += studentCount;
                 HtmlTableCell tdStudentCount = (HtmlTableCell)e.Item.FindControl("tdStudentCount");
@@ -130,7 +130,7 @@ namespace CodeX.Muses.Web.Information.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 StudentFeeCompType entity = (StudentFeeCompType)e.Item.DataItem;
-                Site site = ((RepeaterItem)e.Item.Parent.Parent).DataItem as Site;
+                vSite site = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vSite;
 
                 CStudentFeeCompTypeTotal studentFeeCompTypeTotal = lstStudentFeeCompTypeTotal.FirstOrDefault(p => p.SiteID == site.SiteID && p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID);
                 List<GetStudentRevenue> lstStudentRevenue1 = lstStudentRevenue.Where(p => p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID).ToList();
@@ -180,7 +180,7 @@ namespace CodeX.Muses.Web.Information.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 StudentFeeCompType entity = (StudentFeeCompType)e.Item.DataItem;
-                Site site = ((RepeaterItem)e.Item.Parent.Parent).DataItem as Site;
+                vSite site = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vSite;
 
                 HtmlTableCell tdStudentFeeCompTypeTotal = (HtmlTableCell)e.Item.FindControl("tdStudentFeeCompTypeTotal");
                 CStudentFeeCompTypeTotal studentFeeCompTypeTotal = lstStudentFeeCompTypeTotal.FirstOrDefault(p => p.SiteID == site.SiteID && p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID);
