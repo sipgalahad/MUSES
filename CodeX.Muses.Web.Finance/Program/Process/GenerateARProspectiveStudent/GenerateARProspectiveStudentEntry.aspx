@@ -95,11 +95,16 @@
         //#endregion
 
         function getCheckedValue() {
-            var lstID = $('#<%=hdnSelectedValue.ClientID %>').val().split(',');
+            var lstID = null;
+            if ($('#<%=hdnSelectedValue.ClientID %>').val() != '')
+                lstID = $('#<%=hdnSelectedValue.ClientID %>').val().split(',');
+            else
+                lstID = [];
             $('.chkIsSelected input').each(function () {
                 if ($(this).is(':checked')) {
                     var id = $(this).closest('tr').find('.keyField').html();
-                    lstID.push(id);
+                    if (lstID.indexOf(id) < 0)
+                        lstID.push(id);
                 }
                 else {
                     var id = $(this).closest('tr').find('.keyField').html();
@@ -108,10 +113,10 @@
                         lstID.splice(idx, 1);
                 }
             });
-            if (lstID.length == 1)
+            if (lstID.length == 0)
                 $('#<%=hdnSelectedValue.ClientID %>').val('');
             else
-                $('#<%=hdnSelectedValue.ClientID %>').val(lstID.join(',').substring(1));
+                $('#<%=hdnSelectedValue.ClientID %>').val(lstID.join(','));
         }
 
         function onRefreshControl(filterExpression) {
@@ -162,6 +167,7 @@
         }
 
         function onAfterCustomClickSuccess() {
+            $('#<%=hdnSelectedValue.ClientID %>').val('');
             cbpView.PerformCallback('refresh');
         }
 
