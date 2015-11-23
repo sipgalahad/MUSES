@@ -113,9 +113,9 @@ namespace CodeX.Muses.Web.Information.Program
                 HtmlGenericControl divKeg = e.Item.FindControl("divKeg") as HtmlGenericControl;
                 HtmlGenericControl divDenda = e.Item.FindControl("divDenda") as HtmlGenericControl;
                 HtmlGenericControl divTotal = e.Item.FindControl("divTotal") as HtmlGenericControl;
-                decimal pemb = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.TransactionAmount);
-                decimal usek = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.TransactionAmount);
-                decimal keg = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.TransactionAmount);
+                decimal pemb = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.ReceivingAmount);
+                decimal usek = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.ReceivingAmount - p.cfPenaltyAmount);
+                decimal keg = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.ReceivingAmount);
                 decimal denda = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.cfPenaltyAmount);
                 
                 usek -= lstARReceivingDt.Sum(p => p.PaymentAmount);

@@ -431,6 +431,9 @@ namespace CodeX.Data.Model
         private Int32 _PayedStudentID;
         private String _PayedStudentCode;
         private String _PayedStudentName;
+        private Int32 _PayedSchoolClassID;
+        private String _PayedSchoolClassCode;
+        private String _PayedSchoolClassName;
         private Int32 _BankID;
         private String _SiteID;
         private Boolean _IsTransferred;
@@ -622,6 +625,24 @@ namespace CodeX.Data.Model
         {
             get { return _PayedStudentName; }
             set { _PayedStudentName = value; }
+        }
+        [Column(Name = "PayedSchoolClassID", DataType = "Int32")]
+        public Int32 PayedSchoolClassID
+        {
+            get { return _PayedSchoolClassID; }
+            set { _PayedSchoolClassID = value; }
+        }
+        [Column(Name = "PayedSchoolClassCode", DataType = "String")]
+        public String PayedSchoolClassCode
+        {
+            get { return _PayedSchoolClassCode; }
+            set { _PayedSchoolClassCode = value; }
+        }
+        [Column(Name = "PayedSchoolClassName", DataType = "String")]
+        public String PayedSchoolClassName
+        {
+            get { return _PayedSchoolClassName; }
+            set { _PayedSchoolClassName = value; }
         }
         [Column(Name = "BankID", DataType = "Int32")]
         public Int32 BankID
