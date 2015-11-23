@@ -99,6 +99,7 @@
     <Content Include="Program\Finance\ARCustomer\ARCustomerInformation.aspx" />
     <Content Include="Program\Finance\ARCustomer\ARCustomerInformationDtCtl.ascx" />
     <Content Include="Program\Finance\ARCustomer\ARCustomerMovementInformationDtCtl.ascx" />
+    <Content Include="Program\Finance\CustomerPaymentInformation\CustomerPaymentInformation.aspx" />
     <Content Include="Program\Finance\ProspectiveStudentPaymentInformation\ProspectiveStudentPaymentInformation.aspx" />
     <Content Include="Program\Finance\StudentBillInformation\StudentBillInformationDtCtl.ascx" />
     <Content Include="Program\Finance\StudentBillInformation\StudentBillInformation.aspx" />
@@ -337,6 +338,13 @@
     </Compile>
     <Compile Include="Program\Finance\ARCustomer\ARCustomerMovementInformationDtCtl.ascx.designer.cs">
       <DependentUpon>ARCustomerMovementInformationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Finance\CustomerPaymentInformation\CustomerPaymentInformation.aspx.cs">
+      <DependentUpon>CustomerPaymentInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Finance\CustomerPaymentInformation\CustomerPaymentInformation.aspx.designer.cs">
+      <DependentUpon>CustomerPaymentInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Finance\ProspectiveStudentPaymentInformation\ProspectiveStudentPaymentInformation.aspx.cs">
       <DependentUpon>ProspectiveStudentPaymentInformation.aspx</DependentUpon>

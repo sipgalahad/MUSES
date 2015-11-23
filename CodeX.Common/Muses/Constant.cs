@@ -594,6 +594,7 @@ namespace CodeX.Common
                 public const string STUDENT_BILL_INFORMATION = "IF030404";
                 public const string STUDENT_PAYMENT_INFORMATION = "IF030405";
                 public const string PROSPECTIVE_STUDENT_PAYMENT_INFORMATION = "IF030406";
+                public const string CUSTOMER_PAYMENT_INFORMATION = "IF030407";
                 public const string STUDENT_COVERAGE_INFO = "IF030501";
                 public const string STUDENT_SCHOLARSHIP_INFO = "IF030502";
 

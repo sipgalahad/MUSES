@@ -422,7 +422,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 if (depositAmount != 0)
                 {
                     ARBalance entityARBalance = BusinessLayer.GetARBalanceList(string.Format("StudentID = {0}", AppSession.StudentID), ctx).FirstOrDefault();
-                    entityARBalance.DepositAmount += depositAmount;
+                    entityARBalance.DepositAmount -= depositAmount;
                     entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
                     entityARBalanceDao.Update(entityARBalance);
                 }

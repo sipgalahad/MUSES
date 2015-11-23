@@ -55,6 +55,18 @@ namespace CodeX.Data.Model
                 return _StudentFeeCompTypeName;
             }
         }
+        public DateTime cfTransactionMonthYear
+        {
+            get
+            {
+                if (_GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.BULANAN)
+                {
+                    DateTime dt = new DateTime(_TransactionYear, _TransactionMonth, 1);
+                    return dt;
+                }
+                return new DateTime(1900, 1, 1);
+            }
+        }
         public String cfPeriod
         {
             get
@@ -140,6 +152,10 @@ namespace CodeX.Data.Model
     #region vARReceivingHd
     public partial class vARReceivingHd
     {
+        public string ReceivingDateInDatePickerFormat
+        {
+            get { return _ReceivingDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
         public string ReceivingDateInString
         {
             get { return _ReceivingDate.ToString(Constant.FormatString.DATE_FORMAT); }
