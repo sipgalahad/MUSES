@@ -94,13 +94,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtExpiredDate;
         
         /// <summary>
-        /// txtSupplierName control.
+        /// txtServiceUnitName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSupplierName;
+        protected global::System.Web.UI.WebControls.TextBox txtServiceUnitName;
         
         /// <summary>
         /// txtPurchaseOrderType control.
@@ -110,6 +110,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPurchaseOrderType;
+        
+        /// <summary>
+        /// txtSupplierName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSupplierName;
         
         /// <summary>
         /// txtTermCondition control.

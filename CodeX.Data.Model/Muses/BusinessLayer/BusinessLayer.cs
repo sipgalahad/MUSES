@@ -6572,6 +6572,87 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ItemBalance
+        public static ItemBalance GetItemBalance(Int32 ID)
+        {
+            return new ItemBalanceDao().Get(ID);
+        }
+        public static int InsertItemBalance(ItemBalance record)
+        {
+            return new ItemBalanceDao().Insert(record);
+        }
+        public static int UpdateItemBalance(ItemBalance record)
+        {
+            return new ItemBalanceDao().Update(record);
+        }
+        public static int DeleteItemBalance(Int32 ID)
+        {
+            return new ItemBalanceDao().Delete(ID);
+        }
+        public static List<ItemBalance> GetItemBalanceList(string filterExpression)
+        {
+            List<ItemBalance> result = new List<ItemBalance>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemBalance));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemBalance)helper.IDataReaderToObject(reader, new ItemBalance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ItemBalance> GetItemBalanceList(string filterExpression, IDbContext ctx)
+        {
+            List<ItemBalance> result = new List<ItemBalance>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemBalance));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemBalance)helper.IDataReaderToObject(reader, new ItemBalance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Decimal GetItemBalanceSumQuantityEND(string filterExpression)
+        {
+            Decimal result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemBalance));
+                ctx.CommandText = helper.SelectSumColumn("QuantityEND", filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                if (row == null || row.ItemArray.GetValue(0) is DBNull)
+                    result = 0;
+                else
+                    result = Convert.ToDecimal(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ItemDistributionDt
         public static ItemDistributionDt GetItemDistributionDt(Int32 ID)
         {
@@ -6677,63 +6758,6 @@ namespace CodeX.Data.Model
                 ctx.CommandText = helper.SelectMaxColumn("DistributionID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
-        #endregion
-        #region ItemBalance
-        public static ItemBalance GetItemBalance(Int32 ID)
-        {
-            return new ItemBalanceDao().Get(ID);
-        }
-        public static int InsertItemBalance(ItemBalance record)
-        {
-            return new ItemBalanceDao().Insert(record);
-        }
-        public static int UpdateItemBalance(ItemBalance record)
-        {
-            return new ItemBalanceDao().Update(record);
-        }
-        public static int DeleteItemBalance(Int32 ID)
-        {
-            return new ItemBalanceDao().Delete(ID);
-        }
-        public static List<ItemBalance> GetItemBalanceList(string filterExpression)
-        {
-            List<ItemBalance> result = new List<ItemBalance>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(ItemBalance));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((ItemBalance)helper.IDataReaderToObject(reader, new ItemBalance()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static List<ItemBalance> GetItemBalanceList(string filterExpression, IDbContext ctx)
-        {
-            List<ItemBalance> result = new List<ItemBalance>();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(ItemBalance));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((ItemBalance)helper.IDataReaderToObject(reader, new ItemBalance()));
             }
             catch (Exception ex)
             {
@@ -7803,6 +7827,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region LocationItemGroup
+        public static LocationItemGroup GetLocationItemGroup(Int32 LocationID, Int32 ItemGroupID)
+        {
+            return new LocationItemGroupDao().Get(LocationID, ItemGroupID);
+        }
+        public static int InsertLocationItemGroup(LocationItemGroup record)
+        {
+            return new LocationItemGroupDao().Insert(record);
+        }
+        public static int UpdateLocationItemGroup(LocationItemGroup record)
+        {
+            return new LocationItemGroupDao().Update(record);
+        }
+        public static int DeleteLocationItemGroup(Int32 LocationID, Int32 ItemGroupID)
+        {
+            return new LocationItemGroupDao().Delete(LocationID, ItemGroupID);
+        }
+        public static List<LocationItemGroup> GetLocationItemGroupList(string filterExpression)
+        {
+            List<LocationItemGroup> result = new List<LocationItemGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(LocationItemGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((LocationItemGroup)helper.IDataReaderToObject(reader, new LocationItemGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

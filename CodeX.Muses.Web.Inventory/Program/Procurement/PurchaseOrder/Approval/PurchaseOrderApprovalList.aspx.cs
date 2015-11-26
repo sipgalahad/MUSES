@@ -30,6 +30,12 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_ORDER, "");
+            if (lstUserLocation.Count > 0)
+            {
+                List<ServiceUnitLocation> lstServiceUnitLocation = BusinessLayer.GetServiceUnitLocationList(string.Format("LocationID IN ({0})", string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList())));
+                hdnListSiteServiceUnitID.Value = string.Join(",", lstServiceUnitLocation.Select(p => p.SiteServiceUnitID).ToList());
+            }
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);
         }
@@ -39,18 +45,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += String.Format("TransactionCode = '{0}' AND GCTransactionStatus = '{1}'", Constant.TransactionCode.PURCHASE_ORDER, Constant.TransactionStatus.WAIT_FOR_APPROVAL);
-
-            int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
-
-            if (count > 0)
-                filterExpression += string.Format(" AND LocationID IN (SELECT LocationID FROM LocationUser WHERE UserID = {0} AND IsDeleted = 0)", AppSession.UserLogin.UserID);
+            if (hdnListSiteServiceUnitID.Value != "")
+                filterExpression += String.Format("TransactionCode = '{0}' AND SiteServiceUnitID IN ({1}) AND GCTransactionStatus = '{2}'", Constant.TransactionCode.PURCHASE_ORDER, hdnListSiteServiceUnitID.Value, Constant.TransactionStatus.APPROVED);
             else
-            {
-                count = BusinessLayer.GetLocationUserRoleRowCount(string.Format("RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND IsDeleted = 0", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID));
-                if (count > 0)
-                    filterExpression += string.Format(" AND LocationID IN (SELECT LocationID FROM LocationUserRole WHERE RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND IsDeleted = 0)", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID);
-            }
+                filterExpression += "1 = 0";
 
             if (isCountPageCount)
             {

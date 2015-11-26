@@ -67,40 +67,121 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPurchaseRequest;
         
         /// <summary>
-        /// lblLocation control.
+        /// hdnListSiteServiceUnitID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblLocation;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSiteServiceUnitID;
         
         /// <summary>
-        /// hdnLocationID control.
+        /// hdnLstLocationID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLocationID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstLocationID;
         
         /// <summary>
-        /// txtLocationCode control.
+        /// hdnLstFilterLocationItemGroup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLocationCode;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstFilterLocationItemGroup;
         
         /// <summary>
-        /// txtLocationName control.
+        /// hdnDefaultSiteServiceUnitID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLocationName;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDefaultSiteServiceUnitID;
+        
+        /// <summary>
+        /// hdnDefaultServiceUnitCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDefaultServiceUnitCode;
+        
+        /// <summary>
+        /// hdnDefaultServiceUnitName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDefaultServiceUnitName;
+        
+        /// <summary>
+        /// lblSiteServiceUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSiteServiceUnit;
+        
+        /// <summary>
+        /// hdnSiteServiceUnitID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteServiceUnitID;
+        
+        /// <summary>
+        /// txtServiceUnitCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtServiceUnitCode;
+        
+        /// <summary>
+        /// txtServiceUnitName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtServiceUnitName;
+        
+        /// <summary>
+        /// cbpLocation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpLocation;
+        
+        /// <summary>
+        /// PanelContent2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent2;
+        
+        /// <summary>
+        /// ddeLocation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeLocation;
         
         /// <summary>
         /// txtPurchaseRequestDate control.

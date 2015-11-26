@@ -40,6 +40,15 @@ namespace CodeX.Muses.Web.Information.Report {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPiutang;
         
         /// <summary>
+        /// divCityDateNow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divCityDateNow;
+        
+        /// <summary>
         /// divPageFooter control.
         /// </summary>
         /// <remarks>

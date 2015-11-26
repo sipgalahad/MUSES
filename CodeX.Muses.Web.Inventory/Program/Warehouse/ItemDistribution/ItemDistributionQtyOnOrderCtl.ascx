@@ -51,7 +51,7 @@
                         <col style="width:160px"/>
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Location")%></label></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Lokasi")%></label></td>
                         <td colspan="2"><asp:TextBox ID="txtLocation" ReadOnly="true" Width="400px" runat="server" /></td>
                     </tr>  
                     <tr>
@@ -72,6 +72,7 @@
                                     <Columns>
                                         <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:BoundField DataField="DistributionNo" HeaderText="Item Request No" HeaderStyle-Width="150px" />
+                                        <asp:BoundField DataField="FromServiceUnitName" HeaderText="Dari Bagian" HeaderStyle-Width="150px" />
                                         <asp:BoundField DataField="FromLocationName" HeaderText="Dari Lokasi" HeaderStyle-Width="150px" />
                                         <asp:BoundField DataField="DistributionStatus" HeaderText="Status" HeaderStyle-Width="90px" />
                                         <asp:BoundField DataField="CustomItemUnit" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderText="Didistribusi" HeaderStyle-Width="100px" />

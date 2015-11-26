@@ -146,6 +146,7 @@ namespace CodeX.Data.Model
         private Int32 _LocationID;
         private String _LocationCode;
         private String _LocationName;
+        private Int32 _RestrictionID;
 
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -165,6 +166,12 @@ namespace CodeX.Data.Model
         {
             get { return _LocationName; }
             set { _LocationName = value; }
+        }
+        [Column(Name = "RestrictionID", DataType = "String")]
+        public Int32 RestrictionID
+        {
+            get { return _RestrictionID; }
+            set { _RestrictionID = value; }
         }
     }
     #endregion

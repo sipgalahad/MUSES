@@ -11,6 +11,7 @@ using CodeX.Web.Common;
 using CodeX.Data.Core.Dal;
 using System.Data;
 using CodeX.Common;
+using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.Inventory.Program
 {
@@ -23,14 +24,18 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             get { return (PurchaseRequestEntry)Page; }
         }
+        protected string OnGetFilterExpressionItemProduct()
+        {
+            return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
+        }
 
         public override void InitializeDataControl(string param)
         {
             hdnParam.Value = param;
             string[] temp = param.Split('|');
             hdnTransactionID.Value = temp[0];
-            hdnLocationID.Value = temp[1];
-            hdnLocationItemGroupID.Value = temp[2];
+            hdnLstLocationID.Value = temp[1];
+            hdnLstFilterLocationItemGroup.Value = temp[2];
             BindGridView(1, true, ref PageCount);
         }
 
@@ -61,10 +66,12 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             string filterExpression = "";
 
-            if (hdnItemGroupDrugLogisticID.Value == "")
-                filterExpression += string.Format("LocationID = '{0}' AND ItemName1 LIKE '%{1}%' AND IsDeleted = 0", hdnLocationID.Value, hdnFilterItem.Value);
+            if (hdnItemGroupID.Value != "")
+                filterExpression += string.Format("GCItemType = '{0}' AND ItemName1 LIKE '%{1}%' AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/{2}/%') AND IsDeleted = 0", Constant.ItemType.PRODUCT, hdnFilterItem.Value, hdnItemGroupID.Value);
+            else if (hdnLstFilterLocationItemGroup.Value == "")
+                filterExpression += string.Format("GCItemType = '{0}' AND ItemName1 LIKE '%{1}%' AND IsDeleted = 0", Constant.ItemType.PRODUCT, hdnFilterItem.Value);
             else
-                filterExpression += string.Format("LocationID = '{0}' AND ItemName1 LIKE '%{1}%' AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/{2}/%') AND IsDeleted = 0", hdnLocationID.Value, hdnFilterItem.Value, hdnItemGroupDrugLogisticID.Value);
+                filterExpression += string.Format("GCItemType = '{0}' AND ItemName1 LIKE '%{1}%' AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE {2}) AND IsDeleted = 0", Constant.ItemType.PRODUCT, hdnFilterItem.Value, hdnLstFilterLocationItemGroup.Value);
 
             return filterExpression;
         }
@@ -73,10 +80,18 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                vItemBalance entity = e.Row.DataItem as vItemBalance;
+                vItemProduct entity = e.Row.DataItem as vItemProduct;
+                vItemPlanningCustom itemPlanning = lstItemPlanning.FirstOrDefault(p => p.ItemID == entity.ItemID);
                 CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
+                HtmlGenericControl divStock = e.Row.FindControl("divStock") as HtmlGenericControl;
+                HtmlInputHidden hdnPurchaseUnit = e.Row.FindControl("hdnPurchaseUnit") as HtmlInputHidden;
+                HtmlInputHidden hdnConversionFactor = e.Row.FindControl("hdnConversionFactor") as HtmlInputHidden;
                 if (lstSelectedMember.Contains(entity.ItemID.ToString()))
                     chkIsSelected.Checked = true;
+
+                divStock.InnerHtml = lstItemBalance.Where(p => p.ItemID == entity.ItemID).Sum(p => p.QuantityEND).ToString();
+                hdnPurchaseUnit.Value = itemPlanning.PurchaseUnit;
+                hdnConversionFactor.Value = itemPlanning.cfConversion;
             }
         }
 
@@ -85,26 +100,35 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = GetFilterExpression();
             if (hdnTransactionID.Value != "0" && hdnTransactionID.Value != "")
             {
-                List<vItemTransactionDt> lstItemID = BusinessLayer.GetvItemTransactionDtList(string.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnTransactionID.Value, Constant.TransactionStatus.VOID));
-                string lstSelectedID = "";
-                if (lstItemID.Count > 0)
-                {
-                    foreach (vItemTransactionDt itm in lstItemID)
-                        lstSelectedID += "," + itm.ItemID;
-                    filterExpression += string.Format(" AND ItemID NOT IN ({0})", lstSelectedID.Substring(1));
-                }
+                List<PurchaseRequestDt> lstPurchaseRequestDt = BusinessLayer.GetPurchaseRequestDtList(string.Format("PurchaseRequestID = {0} AND GCItemDetailStatus != '{1}' AND IsDeleted = 0", hdnTransactionID.Value, Constant.TransactionStatus.VOID));
+                string lstSelectedID = string.Join(",", lstPurchaseRequestDt.Select(p => p.ItemID).ToList());
+                if (lstSelectedID != "")
+                    filterExpression += string.Format(" AND ItemID NOT IN ({0})", lstSelectedID);
             }
             if (isCountPageCount)
             {
-                int rowCount = BusinessLayer.GetvItemBalanceRowCount(filterExpression);
+                int rowCount = BusinessLayer.GetvItemProductRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, 10);
             }
             lstSelectedMember = hdnSelectedMember.Value.Split(',');
-            List<vItemBalance> lstEntity = BusinessLayer.GetvItemBalanceList(filterExpression, 10, pageIndex, "ItemName1 ASC");
+            List<vItemProduct> lstEntity = BusinessLayer.GetvItemProductList(filterExpression, 10, pageIndex, "ItemName1 ASC");
+
+            string lstItemID = string.Join(",", lstEntity.Select(p => p.ItemID).ToList());
+            if (hdnLstLocationID.Value != "" && lstItemID != "")
+                lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID IN ({0}) AND ItemID IN ({1}) AND IsDeleted = 0", hdnLstLocationID.Value, lstItemID));
+            else
+                lstItemBalance = new List<ItemBalance>();
+            if (lstItemID != "")
+                lstItemPlanning = BusinessLayer.GetvItemPlanningCustomList(string.Format("SiteID = '{0}' AND ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID));
+            else
+                lstItemPlanning = new List<vItemPlanningCustom>();
+            
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
 
+        List<ItemBalance> lstItemBalance = null;
+        List<vItemPlanningCustom> lstItemPlanning = null;
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
             bool result = true;

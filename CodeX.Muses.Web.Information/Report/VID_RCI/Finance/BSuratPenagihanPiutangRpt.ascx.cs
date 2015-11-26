@@ -19,6 +19,7 @@ namespace CodeX.Muses.Web.Information.Report
 
         }
 
+        protected string printMargin = "";
         public override void Bind(string filterExpression, string[] param)
         {
             List<vARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("StudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}')", param[0], Constant.TransactionStatus.VOID, Constant.TransactionStatus.CLOSED));
@@ -28,20 +29,26 @@ namespace CodeX.Muses.Web.Information.Report
                     y => new
                     {
                         GroupName = y.Key,
-                        TotalAmount = y.Sum(z => z.ClaimedAmount),
-                        Remarks = String.Join("; ", y.ToList().Where(x => x.StudentFeeCompTypeName == y.Key).Select(g => g.cfStudentFeeCompTypeName))
+                        TotalAmount = y.Sum(z => z.RemainingAmount - z.PenaltyAmount)
                     });
+
+            string remarks = string.Join(", ", lstARInvoiceDt.Where(p => p.GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.BULANAN).Select(p => p.cfTransactionMonthYear.ToString("MMM yyyy")).ToList());
+
+            printMargin = BusinessLayer.GetSiteParameter(std.SiteID, Constant.SiteParameter.STUDENT_BILL_PRINT_MARGIN).ParameterValue;
 
             String text = divPiutang.InnerHtml;
             if (std != null)
             {
+                SiteParameter sp = BusinessLayer.GetSiteParameter(std.SiteID, Constant.SiteParameter.SCHOOL_TYPE);
+                string schoolType = BusinessLayer.GetStandardCode(sp.ParameterValue).StandardCodeName;
                 text = text.Replace("{StudentName}", std.Name);
-                text = text.Replace("{Grade}", std.Grade);
+                text = text.Replace("{SchoolType}", schoolType);
                 text = text.Replace("{Class}", String.Format("{0} / {1}", std.SchoolClassName.Replace("Kelas ", ""), std.StudentCode));
             }
             text = text.Replace("{Usek}", lstObject.Where(x => x.GroupName == Constant.AdmissionPaymentPeriod.BULANAN).Sum(p => p.TotalAmount).ToString("N2"));
             text = text.Replace("{Kegiatan}", lstObject.Where(x => x.GroupName == Constant.AdmissionPaymentPeriod.TAHUNAN).Sum(p => p.TotalAmount).ToString("N2"));
             text = text.Replace("{Pembangunan}", lstObject.Where(x => x.GroupName == Constant.AdmissionPaymentPeriod.SEKALI_BAYAR).Sum(p => p.TotalAmount).ToString("N2"));
+            text = text.Replace("{UsekRemarks}", remarks);
             
 
             int month = DateTime.Now.Month;
@@ -74,6 +81,10 @@ namespace CodeX.Muses.Web.Information.Report
             string no = string.Format("{0}/SKP/{1}/{2}/{3}", cfMonth, monthInRome, site, DateTime.Now.Year % 2000);
             text = text.Replace("{No}", no);
             divPiutang.InnerHtml = text;
+
+            vSite objSite = BusinessLayer.GetvSiteList(string.Format("SiteID = '{0}'", std.SiteID)).FirstOrDefault();
+
+            divCityDateNow.InnerHtml = string.Format("{0}, {1}", objSite.City, DateTime.Now.ToString(Constant.FormatString.DATE_FORMAT));
         }
     }
 }

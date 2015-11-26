@@ -113,9 +113,9 @@ namespace CodeX.Muses.Web.Information.Program
                 HtmlGenericControl divKeg = e.Item.FindControl("divKeg") as HtmlGenericControl;
                 HtmlGenericControl lblClaimedAmount = e.Item.FindControl("lblClaimedAmount") as HtmlGenericControl;
                 divPemb.InnerHtml = lstStudentFeeDt1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
-                divSek.InnerHtml = lstStudentFeeDtUsek.Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+                divSek.InnerHtml = lstStudentFeeDtUsek.Sum(p => p.TotalStudentAmount - p.PaymentAmount - p.TotalStudentPenaltyAmount).ToString("N");
                 divKeg.InnerHtml = lstStudentFeeDt1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
-                lblClaimedAmount.InnerHtml = lstStudentFeeDt1.Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+                lblClaimedAmount.InnerHtml = lstStudentFeeDt1.Sum(p => p.TotalStudentAmount - p.PaymentAmount - p.TotalStudentPenaltyAmount).ToString("N");
 
                 if (IsExportExcel)
                 {

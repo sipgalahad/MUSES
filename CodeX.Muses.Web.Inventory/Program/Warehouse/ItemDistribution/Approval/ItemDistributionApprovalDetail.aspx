@@ -101,9 +101,9 @@
                             <td><asp:TextBox ID="txtDistributionNo" Width="150px" ReadOnly="true" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal" runat="server" id="lblLocation"><%=GetLabel("Dari Lokasi")%></label></td>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Dari Bagian")%></label></td>
                             <td>
-                                <input type="hidden" id="hdnLocationIDFrom" value="" runat="server" />
+                                <input type="hidden" id="hdnFromSiteServiceUnitID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -111,9 +111,27 @@
                                         <col />
                                     </colgroup>
                                     <tr>
-                                        <td><asp:TextBox ID="txtLocationCode" Width="100%" runat="server" ReadOnly="true"/></td>
+                                        <td><asp:TextBox ID="txtFromServiceUnitCode" Width="100%" runat="server" ReadOnly="true"/></td>
                                         <td>&nbsp;</td>
-                                        <td><asp:TextBox ID="txtLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td><asp:TextBox ID="txtFromServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal" runat="server" id="lblLocation"><%=GetLabel("Dari Lokasi")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnFromLocationID" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtFromLocationCode" Width="100%" runat="server" ReadOnly="true"/></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtFromLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
                             </td>
@@ -143,9 +161,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal" runat="server" id="Label1"><%=GetLabel("Kepada Lokasi")%></label></td>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Ke Bagian")%></label></td>
                             <td>
-                                <input type="hidden" id="hdnLocationIDTo" value="" runat="server" />
+                                <input type="hidden" id="hdnToSiteServiceUnitID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -153,9 +171,27 @@
                                         <col />
                                     </colgroup>
                                     <tr>
-                                        <td><asp:TextBox ID="txtLocationCodeTo" ReadOnly="true" Width="100%" runat="server" /></td>
+                                        <td><asp:TextBox ID="txtToServiceUnitCode" Width="100%" runat="server" ReadOnly="true"/></td>
                                         <td>&nbsp;</td>
-                                        <td><asp:TextBox ID="txtLocationNameTo" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td><asp:TextBox ID="txtToServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal" runat="server" id="Label1"><%=GetLabel("Ke Lokasi")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnToLocationID" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtToLocationCode" ReadOnly="true" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtToLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
                             </td>

@@ -35,7 +35,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("ToLocationID = {0} AND ItemID = {1} AND GCDistributionStatus NOT IN ('{2}','{3}') AND IsDeleted = 0", hdnLocationID.Value, hdnItemID.Value, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
+            string filterExpression = string.Format("ToLocationID = {0} AND ItemID = {1} AND GCDistributionStatus NOT IN ('{2}','{3}') AND IsDeleted = 0", hdnLocationID.Value, hdnItemID.Value, Constant.DistributionStatus.RECEIVED, Constant.DistributionStatus.VOID);
 
             if (isCountPageCount)
             {

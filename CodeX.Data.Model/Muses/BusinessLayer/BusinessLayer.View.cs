@@ -1984,6 +1984,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit
+        public static List<vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit> GetvDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnitList(string filterExpression)
+        {
+            List<vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit> result = new List<vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit)helper.IDataReaderToObject(reader, new vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vDirectPurchaseHd
         public static List<vDirectPurchaseHd> GetvDirectPurchaseHdList(string filterExpression)
         {
@@ -4139,6 +4163,30 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Decimal GetvItemDistributionDtSumQtyOnOrder(string filterExpression)
+        {
+            Decimal result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vItemDistributionDt));
+                ctx.CommandText = helper.SelectSumColumn("Quantity * ConversionFactor", filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                if (row == null || row.ItemArray.GetValue(0) is DBNull)
+                    result = 0;
+                else
+                    result = Convert.ToDecimal(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region vItemDistributionHd
         public static List<vItemDistributionHd> GetvItemDistributionHdList(string filterExpression)
@@ -4367,6 +4415,49 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetvItemMasterRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vItemMaster));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vItemMaster> GetvItemMasterList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vItemMaster> result = new List<vItemMaster>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vItemMaster));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vItemMaster)helper.IDataReaderToObject(reader, new vItemMaster()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region vItemMovement
         public static List<vItemMovement> GetvItemMovementList(string filterExpression)
@@ -4447,6 +4538,30 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vItemPlanning)helper.IDataReaderToObject(reader, new vItemPlanning()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vItemPlanningCustom
+        public static List<vItemPlanningCustom> GetvItemPlanningCustomList(string filterExpression)
+        {
+            List<vItemPlanningCustom> result = new List<vItemPlanningCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vItemPlanningCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vItemPlanningCustom)helper.IDataReaderToObject(reader, new vItemPlanningCustom()));
             }
             catch (Exception ex)
             {
@@ -4602,6 +4717,54 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vItemRequestDt)helper.IDataReaderToObject(reader, new vItemRequestDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Decimal GetvItemRequestDtSumQtyOnOrder(string filterExpression)
+        {
+            Decimal result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vItemRequestDt));
+                ctx.CommandText = helper.SelectSumColumn("Quantity * ConversionFactor", filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                if (row == null || row.ItemArray.GetValue(0) is DBNull)
+                    result = 0;
+                else
+                    result = Convert.ToDecimal(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vItemRequestDtQtyOnOrderPerItemPerFromSiteServiceUnit
+        public static List<vItemRequestDtQtyOnOrderPerItemPerFromSiteServiceUnit> GetvItemRequestDtQtyOnOrderPerItemPerFromSiteServiceUnitList(string filterExpression)
+        {
+            List<vItemRequestDtQtyOnOrderPerItemPerFromSiteServiceUnit> result = new List<vItemRequestDtQtyOnOrderPerItemPerFromSiteServiceUnit>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vItemRequestDtQtyOnOrderPerItemPerFromSiteServiceUnit));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vItemRequestDtQtyOnOrderPerItemPerFromSiteServiceUnit)helper.IDataReaderToObject(reader, new vItemRequestDtQtyOnOrderPerItemPerFromSiteServiceUnit()));
             }
             catch (Exception ex)
             {
@@ -5293,6 +5456,30 @@ namespace CodeX.Data.Model
                 ctx.CommandText = helper.GetRowIndex(filterExpression, "LocationID", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vLocationItemGroupPath
+        public static List<vLocationItemGroupPath> GetvLocationItemGroupPathList(string filterExpression)
+        {
+            List<vLocationItemGroupPath> result = new List<vLocationItemGroupPath>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vLocationItemGroupPath));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vLocationItemGroupPath)helper.IDataReaderToObject(reader, new vLocationItemGroupPath()));
             }
             catch (Exception ex)
             {
@@ -6618,6 +6805,30 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Decimal GetvPurchaseOrderDtSumQtyOnOrder(string filterExpression)
+        {
+            Decimal result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseOrderDt));
+                ctx.CommandText = helper.SelectSumColumn("Quantity * ConversionFactor", filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                if (row == null || row.ItemArray.GetValue(0) is DBNull)
+                    result = 0;
+                else
+                    result = Convert.ToDecimal(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region vPurchaseOrderDtOutStanding
         public static List<vPurchaseOrderDtOutStanding> GetvPurchaseOrderDtOutStandingList(string filterExpression)
@@ -6691,6 +6902,30 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vPurchaseOrderDtOutStanding)helper.IDataReaderToObject(reader, new vPurchaseOrderDtOutStanding()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit
+        public static List<vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit> GetvPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnitList(string filterExpression)
+        {
+            List<vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit> result = new List<vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit)helper.IDataReaderToObject(reader, new vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit()));
             }
             catch (Exception ex)
             {
@@ -7536,6 +7771,30 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Decimal GetvPurchaseRequestDtSumQtyOnOrder(string filterExpression)
+        {
+            Decimal result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseRequestDt));
+                ctx.CommandText = helper.SelectSumColumn("Quantity * ConversionFactor", filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                if (row == null || row.ItemArray.GetValue(0) is DBNull)
+                    result = 0;
+                else
+                    result = Convert.ToDecimal(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region vPurchaseRequestDtOutstanding
         public static List<vPurchaseRequestDtOutstanding> GetvPurchaseRequestDtOutstandingList(string filterExpression)
@@ -7592,6 +7851,30 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vPurchaseRequestDtOutstanding)helper.IDataReaderToObject(reader, new vPurchaseRequestDtOutstanding()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit
+        public static List<vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit> GetvPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnitList(string filterExpression)
+        {
+            List<vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit> result = new List<vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit)helper.IDataReaderToObject(reader, new vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit()));
             }
             catch (Exception ex)
             {
@@ -8727,6 +9010,30 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vServiceUnitLocation)helper.IDataReaderToObject(reader, new vServiceUnitLocation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vServiceUnitLocationCustom
+        public static List<vServiceUnitLocationCustom> GetvServiceUnitLocationCustomList(string filterExpression)
+        {
+            List<vServiceUnitLocationCustom> result = new List<vServiceUnitLocationCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vServiceUnitLocationCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vServiceUnitLocationCustom)helper.IDataReaderToObject(reader, new vServiceUnitLocationCustom()));
             }
             catch (Exception ex)
             {

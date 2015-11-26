@@ -54,6 +54,42 @@
                 showLoadingPanel();
                 document.location = ResolveUrl('~/Program/Procurement/PurchaseRequest/Outstanding/PurchaseRequestOutstandingList.aspx');
             });
+
+            //#region Location
+            function getLocationFilterExpression() {
+                if ($('#<%=hdnSiteServiceUnitID.ClientID %>').val() != "") {
+                    var filterExpression = "<%=OnGetFilterExpressionLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
+                    return filterExpression;
+                }
+                return "1 = 0";
+            }
+
+            $('#<%=lblLocation.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('locationroleuser', getLocationFilterExpression(), function (value) {
+                    $('#<%=txtLocationCode.ClientID %>').val(value);
+                    onTxtLocationCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtLocationCode.ClientID %>').live('change', function () {
+                onTxtLocationCodeChanged($(this).val());
+            });
+
+            function onTxtLocationCodeChanged(value) {
+                var filterExpression = getLocationFilterExpression() + " AND LocationCode = '" + value + "'";
+                Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnLocationID.ClientID %>').val(result.LocationID);
+                        $('#<%=txtLocationName.ClientID %>').val(result.LocationName);
+                    }
+                    else {
+                        $('#<%=hdnLocationID.ClientID %>').val('');
+                        $('#<%=txtLocationCode.ClientID %>').val('');
+                        $('#<%=txtLocationName.ClientID %>').val('');
+                    }
+                });
+            }
+            //#endregion
         }
 
         function getCheckedMember(errMessage) {
@@ -76,6 +112,7 @@
             var result = '';
             var itemEmptySupplier = '';
             var itemEmptyQty = '';
+
             $('.grdPurchaseRequest .chkIsSelected input').each(function () {
                 if ($(this).is(':checked')) {
                     $tr = $(this).closest('tr');
@@ -97,7 +134,7 @@
                     var purchaseMethod = cboPurchaseMethod.GetValue();
                     var nonMasterSupplierName = $tr.find('.txtNonMasterSupplierName').val();
                     var isFromMasterSupplier = $tr.find('.chkIsFromMasterSupplier input').is(':checked') ? '1' : '0';
-
+                    
                     var idx = lstSelectedMember.indexOf(key);
                     if (idx < 0) {
                         lstSelectedMember.push(key);
@@ -173,6 +210,16 @@
                         errMessage.text += '<br>';
                     errMessage.text += 'Silakan Isi Qty Untuk Item ' + itemEmptySupplier + ' Terlebih Dahulu';
                 }
+
+                var isDirectPurchaseExists = false;
+                for (var i = 1; i < lstGCPurchaseMethod.length; ++i) {
+                    if (lstGCPurchaseMethod[i] == "<%=OnGetPurchaseMethodDirectPurchase() %>") {
+                        isDirectPurchaseExists = true;
+                        break;
+                    }
+                }
+                if (isDirectPurchaseExists && $('#<%=hdnLocationID.ClientID %>').val() == '')
+                    errMessage.text += 'Lokasi Pembelian Tunai Wajib Diisi';
             }
             $('#<%=hdnListGCPurchaseUnit.ClientID %>').val(lstGCPurchaseUnit.join('|'));
             $('#<%=hdnListPurchaseUnit.ClientID %>').val(lstPurchaseUnit.join('|'));
@@ -332,6 +379,26 @@
         }
         //#endregion
 
+        $('.lblStock.lblLink').live('click', function () {
+            var itemID = $(this).closest('tr').parent().closest('tr').find('.hdnItemID').val();
+            var locationID = $('#<%=hdnLstLocationID.ClientID %>').val();
+            if (itemID != '' && locationID != '') {
+                var param = itemID + '|' + locationID;
+                var url = ResolveUrl("~/Program/Information/ItemBalanceDtCtl.ascx");
+                openUserControlPopup(url, param, 'Item Per Lokasi', 700, 500);
+            }
+        });
+
+        $('.lblQtyOnOrder.lblLink').live('click', function () {
+            var itemID = $(this).closest('tr').parent().closest('tr').find('.hdnItemID').val();
+            var siteServiceUnitID = $('#<%=hdnSiteServiceUnitID.ClientID %>').val();
+            if (itemID != '' && siteServiceUnitID != '') {
+                var param = siteServiceUnitID + '|' + itemID;
+                var url = ResolveUrl("~/Program/Procurement/PurchaseRequest/Outstanding/PODPQtyOnOrderCtl.ascx");
+                openUserControlPopup(url, param, 'Qty On Order', 1200, 500);
+            }
+        }); 
+
         //#region Supplier
         function getSupplierFilterExpression() {
             var filterExpression = "<%=filterExpressionSupplier %>";
@@ -407,6 +474,39 @@
             });
         }
         //#endregion
+
+        $(function () {
+            $('#btnItemBalanceDt').click(function () {
+                var locationID = $('#<%=hdnLstLocationID.ClientID %>').val();
+                if (itemID != '' && locationID != '') {
+                    var param = itemID + '|' + locationID;
+                    var url = ResolveUrl("~/Program/Information/ItemBalanceDtCtl.ascx");
+                    openUserControlPopup(url, param, 'Item Per Lokasi', 700, 500);
+                }
+            });
+
+            setDdeLocationText();
+        });
+
+        function setDdeLocationText() {
+            var lstLocationID = '';
+            var lstLocationName = '';
+            $('.chkLocation input:checked').each(function () {
+                if (lstLocationName != '') {
+                    lstLocationName += ', ';
+                    lstLocationID += ',';
+                }
+                lstLocationID += $(this).parent().attr('locationid');
+                lstLocationName += $(this).parent().attr('locationname');
+            });
+            $('#<%=hdnLstLocationID.ClientID %>').val(lstLocationID);
+            ddeLocation.SetText(lstLocationName);
+        }
+
+        function onCbpLocationEndCallback(s) {
+            hideLoadingPanel();
+            setDdeLocationText();
+        }
     </script>
     <input type="hidden" value="" id="hdnNonMasterSupplierID" runat="server" />
     <input type="hidden" value="" id="hdnDefaultDirectPurchaseType" runat="server" />
@@ -429,6 +529,8 @@
     <input type="hidden" value="" id="hdnListTermID" runat="server" />
     <input type="hidden" value="" id="hdnListSupplierItemName" runat="server" />
     <input type="hidden" value="" id="hdnListGCPurchaseMethod" runat="server" />
+    <input type="hidden" value="" id="hdnLstLocationID" runat="server" />
+    <input type="hidden" value="" id="hdnLstFilterLocationItemGroup" runat="server" />
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
     <div style="height: 550px; overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
@@ -448,9 +550,9 @@
                             <td><asp:TextBox ID="txtOrderNo" Width="150px" ReadOnly="true" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal" runat="server" id="lblLocation"><%=GetLabel("Dari Lokasi")%></label></td>
+                            <td class="tdLabel"><label class="lblNormal" runat="server"><%=GetLabel("Bagian")%></label></td>
                             <td>
-                                <input type="hidden" id="hdnLocationIDFrom" value="" runat="server" ReadOnly="true"/>
+                                <input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -458,12 +560,55 @@
                                         <col />
                                     </colgroup>
                                     <tr>
-                                        <td><asp:TextBox ID="txtLocationCode" Width="100%" runat="server" ReadOnly="true"/></td>
+                                        <td><asp:TextBox ID="txtServiceUnitCode" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Lokasi")%></label></td>
+                            <td>
+                                <dxcp:ASPxCallbackPanel ID="cbpLocation" runat="server" Width="100%" ClientInstanceName="cbpLocation"
+                                    ShowLoadingPanel="false" OnCallback="cbpLocation_Callback">
+                                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpLocationEndCallback(s); }" />
+                                    <PanelCollection>
+                                        <dx:PanelContent ID="PanelContent2" runat="server">
+                                            <dxe:ASPxDropDownEdit ClientInstanceName="ddeLocation" ID="ddeLocation"
+                                                Width="300px" runat="server" EnableAnimation="False">
+                                                <DropDownWindowStyle BackColor="#EDEDED" />
+                                                <DropDownWindowTemplate>
+                                                    <asp:Repeater ID="rptLocation" runat="server" OnItemDataBound="rptLocation_ItemDataBound">
+                                                        <ItemTemplate>
+                                                            <asp:CheckBox ID="chkLocation" CssClass="chkLocation" runat="server"  /> <%#Eval("LocationName") %><br />
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>
+                                                </DropDownWindowTemplate>
+                                            </dxe:ASPxDropDownEdit>
+                                        </dx:PanelContent>
+                                    </PanelCollection>
+                                </dxcp:ASPxCallbackPanel>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblLink" runat="server" id="lblLocation"><%=GetLabel("Lokasi Beli Tunai")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnLocationID" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtLocationCode" Width="100%" runat="server" /></td>
                                         <td>&nbsp;</td>
                                         <td><asp:TextBox ID="txtLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
                             </td>
+                            <td>&nbsp;</td>
                         </tr>
                     </table>
                 </td>
@@ -584,12 +729,12 @@
                                                             <col style="width:40px" />
                                                         </colgroup>
                                                         <tr>
-                                                            <td class="lblReadOnlyText" align="right"><%# Eval("QuantityEND")%></td>
+                                                            <td align="right"><label id="lblStock" runat="server" class="lblStock lblLink"></label></td>
                                                             <td>&nbsp<%# Eval("BaseUnit")%></td>
                                                         </tr>
                                                     </table>  
                                                 </td>
-                                                <td align="right">  
+                                                <td align="center" style="padding-top:10px">  
                                                     <input type="hidden" class="hdnItemID" value='<%#Eval("ItemID") %>' />
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>
@@ -597,7 +742,7 @@
                                                             <col style="width:40px" />
                                                         </colgroup>
                                                         <tr>
-                                                            <td class="lblReadOnlyText" align="right"><%# Eval("QtyOnOrder", "{0:N2}")%></td>
+                                                            <td align="right"><label id="lblQtyOnOrder" runat="server" class="lblQtyOnOrder lblLink"></label></td>
                                                             <td>&nbsp<%# Eval("BaseUnit")%></td>
                                                         </tr>
                                                     </table> 

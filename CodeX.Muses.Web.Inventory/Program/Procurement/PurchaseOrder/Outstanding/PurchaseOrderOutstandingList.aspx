@@ -77,6 +77,7 @@ CodeBehind="PurchaseOrderOutstandingList.aspx.cs" Inherits="CodeX.Muses.Web.Inve
     </script>
     <input type="hidden" value="" id="hdnParam" runat="server" />
     <input type="hidden" value="" id="hdnID" runat="server" />
+    <input type="hidden" value="" id="hdnListSiteServiceUnitID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <div style="position: relative;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
@@ -90,6 +91,7 @@ CodeBehind="PurchaseOrderOutstandingList.aspx.cs" Inherits="CodeX.Muses.Web.Inve
                             <Columns>
                                 <asp:BoundField DataField="PurchaseOrderID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="PurchaseOrderNo" HeaderText="No Permintaan" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="ServiceUnitName" HeaderText="Bagian" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="BusinessPartnerName" HeaderText="Supplier" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="OrderDateInString" HeaderText="Tanggal Pemesanan" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="DeliveryDateInString" HeaderText="Tanggal Pengiriman" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />

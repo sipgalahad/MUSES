@@ -51,6 +51,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtOrderNo.Text = entity.PurchaseOrderNo;
             txtItemOrderDate.Text = entity.OrderDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtSupplierName.Text = entity.BusinessPartnerName;
+            txtServiceUnitName.Text = entity.ServiceUnitName;
             txtNotes.Text = entity.Remarks;
             txtExpiredDate.Text = entity.POExpiredDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtPurchaseOrderType.Text = entity.PurchaseOrderType;
@@ -59,13 +60,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtCurrencyCode.Text = entity.CurrencyCode;
             txtCurrencyRate.Text = entity.CurrencyRate.ToString();
             txtDeliveryDate.Text = entity.DeliveryDateInString;
-            txtTransactionAmount.Text = entity.TransactionAmount.ToString("N");
-            txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString("N");
-            txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString("N");
-            txtPPN.Text = entity.VATAmount.ToString("N");
+            txtTransactionAmount.Text = entity.TransactionAmount.ToString();
+            txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString();
+            txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
+            txtPPN.Text = entity.VATAmount.ToString();
             chkPPN.Checked = entity.IsIncludeVAT;
-            txtDP.Text = entity.DownPaymentAmount.ToString("N");
-            txtTotalNetTransactionAmount.Text = entity.TotalNetTransactionAmount.ToString("N");
+            txtDP.Text = entity.DownPaymentAmount.ToString();
+            txtTotalNetTransactionAmount.Text = entity.TotalNetTransactionAmount.ToString();
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);
         }

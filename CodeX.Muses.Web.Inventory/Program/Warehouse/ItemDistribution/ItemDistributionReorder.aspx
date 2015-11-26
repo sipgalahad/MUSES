@@ -33,14 +33,55 @@
                 }
             });
 
-            //#region Location From
-            function getLocationFilterExpressionFrom() {
-                var filterExpression = "<%=OnGetFilterExpressionFromLocation() %>";
+            //#region From Service Unit
+            function onGetFromServiceUnitFilterExpression() {
+                var filterExpression = "<%=OnGetFilterExpressionFromServiceUnit() %>";
                 return filterExpression;
             }
 
+            $('#<%=lblFromSiteServiceUnit.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('serviceunitpersite', onGetFromServiceUnitFilterExpression(), function (value) {
+                    $('#<%=txtFromServiceUnitCode.ClientID %>').val(value);
+                    onTxtFromServiceUnitCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtFromServiceUnitCode.ClientID %>').live('change', function () {
+                onTxtFromServiceUnitCodeChanged($(this).val());
+            });
+
+            function onTxtFromServiceUnitCodeChanged(value) {
+                var filterExpression = onGetFromServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
+                Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
+                        $('#<%=txtFromServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+                    }
+                    else {
+                        $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val('');
+                        $('#<%=txtFromServiceUnitCode.ClientID %>').val('');
+                        $('#<%=txtFromServiceUnitName.ClientID %>').val('');
+                    }
+                    $('#<%=hdnFromLocationID.ClientID %>').val('');
+                    $('#<%=txtFromLocationCode.ClientID %>').val('');
+                    $('#<%=txtFromLocationName.ClientID %>').val('');
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
+                    cbpView.PerformCallback('refresh');
+                });
+            }
+            //#endregion
+
+            //#region Location From
+            function getLocationFilterExpression() {
+                if ($('#<%=hdnFromSiteServiceUnitID.ClientID %>').val() != "") {
+                    var filterExpression = "<%=OnGetFilterExpressionFromLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
+                    return filterExpression;
+                }
+                return "<%=OnGetFilterExpressionFromLocation()%>1 = 0";
+            }
+
             $('#<%=lblFromLocation.ClientID %>.lblLink').live('click', function () {
-                openSearchDialog('locationroleuser', getLocationFilterExpressionFrom(), function (value) {
+                openSearchDialog('locationroleuser', getLocationFilterExpression(), function (value) {
                     $('#<%=txtFromLocationCode.ClientID %>').val(value);
                     onTxtLocationCodeChanged(value);
                 });
@@ -51,27 +92,85 @@
             });
 
             function onTxtLocationCodeChanged(value) {
-                var filterExpression = getLocationFilterExpressionFrom() + "LocationCode = '" + value + "'";
+                var filterExpression = getLocationFilterExpression() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnFromLocationID.ClientID %>').val(result.LocationID);
                         $('#<%=txtFromLocationName.ClientID %>').val(result.LocationName);
-                        cbpView.PerformCallback('refresh');
+                        filterExpression = "LocationID = " + result.LocationID;
+                        Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
+                            var filterLocationItemGroup = '';
+                            for (var i = 0; i < result.length; ++i) {
+                                if (filterLocationItemGroup != '')
+                                    filterLocationItemGroup += ' OR ';
+                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
+                            }
+                            if (filterLocationItemGroup != '')
+                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                            else
+                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
+                            cbpView.PerformCallback('refresh');
+                        });
                     }
                     else {
                         $('#<%=hdnFromLocationID.ClientID %>').val('');
                         $('#<%=txtFromLocationCode.ClientID %>').val('');
                         $('#<%=txtFromLocationName.ClientID %>').val('');
+                        $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val('');
+                        cbpView.PerformCallback('refresh');
                     }
                 });
             }
             //#endregion
 
-            //#region Location To
-
-            function getLocationFilterExpressionTo() {
-                var filterExpression = "<%=OnGetFilterExpressionToLocation() %>";
+            //#region To Service Unit
+            function onGetToServiceUnitFilterExpression() {
+                var filterExpression = "<%=OnGetFilterExpressionToServiceUnit() %>";
+                if ($('#<%=hdnFromSiteServiceUnitID.ClientID %>').val() != '')
+                    filterExpression += " AND SiteServiceUnitID != " + $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val();
                 return filterExpression;
+            }
+
+            $('#<%=lblToSiteServiceUnit.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('serviceunitpersite', onGetToServiceUnitFilterExpression(), function (value) {
+                    $('#<%=txtToServiceUnitCode.ClientID %>').val(value);
+                    onTxtToServiceUnitCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtToServiceUnitCode.ClientID %>').live('change', function () {
+                onTxtToServiceUnitCodeChanged($(this).val());
+            });
+
+            function onTxtToServiceUnitCodeChanged(value) {
+                var filterExpression = onGetToServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
+                Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnToSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
+                        $('#<%=txtToServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+                    }
+                    else {
+                        $('#<%=hdnToSiteServiceUnitID.ClientID %>').val('');
+                        $('#<%=txtToServiceUnitCode.ClientID %>').val('');
+                        $('#<%=txtToServiceUnitName.ClientID %>').val('');
+                        $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val('');
+                    }
+                    $('#<%=hdnToLocationID.ClientID %>').val('');
+                    $('#<%=txtToLocationCode.ClientID %>').val('');
+                    $('#<%=txtToLocationName.ClientID %>').val('');
+                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
+                    cbpView.PerformCallback('refresh');
+                });
+            }
+            //#endregion
+
+            //#region Location To
+            function getLocationFilterExpressionTo() {
+                if ($('#<%=hdnToSiteServiceUnitID.ClientID %>').val() != "") {
+                    var filterExpression = "<%=OnGetFilterExpressionToLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnToSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
+                    return filterExpression;
+                }
+                return "<%=OnGetFilterExpressionToLocation()%>1 = 0";
             }
 
             $('#<%=lblToLocation.ClientID %>.lblLink').live('click', function () {
@@ -86,17 +185,32 @@
             });
 
             function onTxtLocationToCodeChanged(value) {
-                var filterExpression = getLocationFilterExpressionTo() + "LocationCode = '" + value + "'";
+                var filterExpression = getLocationFilterExpressionTo() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnToLocationID.ClientID %>').val(result.LocationID);
                         $('#<%=txtToLocationName.ClientID %>').val(result.LocationName);
-                        cbpView.PerformCallback('refresh');
+                        filterExpression = "LocationID = " + result.LocationID;
+                        Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
+                            var filterLocationItemGroup = '';
+                            for (var i = 0; i < result.length; ++i) {
+                                if (filterLocationItemGroup != '')
+                                    filterLocationItemGroup += ' OR ';
+                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
+                            }
+                            if (filterLocationItemGroup != '')
+                                $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                            else
+                                $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
+                            cbpView.PerformCallback('refresh');
+                        });
                     }
                     else {
                         $('#<%=hdnToLocationID.ClientID %>').val('');
                         $('#<%=txtToLocationCode.ClientID %>').val('');
                         $('#<%=txtToLocationName.ClientID %>').val('');
+                        $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
+                        cbpView.PerformCallback('refresh');
                     }
                 });
             }
@@ -194,6 +308,14 @@
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
     <input type="hidden" id="hdnItemDistribution" runat="server" value="" />
+    <input type="hidden" value="" id="hdnListFromSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnListToSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultServiceUnitCode" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultServiceUnitName" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultLocationID" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultLocationCode" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultLocationName" runat="server" />
     <div style="height: 495px; overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
             <colgroup>
@@ -208,9 +330,28 @@
                             <col />
                         </colgroup>
                         <tr>
+                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblFromSiteServiceUnit"><%=GetLabel("Dari Bagian")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnFromSiteServiceUnitID" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtFromServiceUnitCode" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtFromServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblFromLocation"><%=GetLabel("Dari Lokasi")%></label></td>
                             <td>
                                 <input type="hidden" id="hdnFromLocationID" value="" runat="server" />
+                                <input type="hidden" value="" id="hdnLstFilterFromLocationItemGroup" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -238,10 +379,26 @@
                             <col />
                         </colgroup>
                         <tr>
-                            <td class="tdLabel">
-                                <label class="lblMandatory lblLink" runat="server" id="lblToLocation">
-                                    <%=GetLabel("Kepada Lokasi")%></label>
+                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblToSiteServiceUnit"><%=GetLabel("Ke Bagian")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnToSiteServiceUnitID" value="" runat="server" />
+                                <input type="hidden" value="" id="hdnLstFilterToLocationItemGroup" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtToServiceUnitCode" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtToServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
                             </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblToLocation"><%=GetLabel("Ke Lokasi")%></label></td>
                             <td>
                                 <input type="hidden" id="hdnToLocationID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">

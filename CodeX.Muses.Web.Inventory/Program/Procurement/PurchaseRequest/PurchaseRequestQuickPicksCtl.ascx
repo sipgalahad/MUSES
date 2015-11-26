@@ -70,28 +70,35 @@
         });
 
         //#region Item Group
-        $('#lblItemGroupDrugLogistic.lblLink').click(function () {
-            openSearchDialog('itemgroup', onGetItemGroupFilterExpression(), function (value) {
-                $('#<%=txtItemGroupDrugLogisticCode.ClientID %>').val(value);
-                onTxtItemGroupDrugLogisticCodeChanged(value);
+        function onGetItemGroupPopupFilterExpression() {
+            var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+            if ($('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() != '')
+                filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() + ")";
+            return filterExpression;
+        }
+
+        $('#lblItemGroupQuickPicks.lblLink').click(function () {
+            openSearchDialog('itemgroup', onGetItemGroupPopupFilterExpression(), function (value) {
+                $('#<%=txtItemGroupCode.ClientID %>').val(value);
+                onTxtItemGroupCodePopupChanged(value);
             });
         });
 
-        $('#<%=txtItemGroupDrugLogisticCode.ClientID %>').change(function () {
-            onTxtItemGroupDrugLogisticCodeChanged($(this).val());
+        $('#<%=txtItemGroupCode.ClientID %>').change(function () {
+            onTxtItemGroupCodePopupChanged($(this).val());
         });
 
-        function onTxtItemGroupDrugLogisticCodeChanged(value) {
-            var filterExpression = onGetItemGroupFilterExpression() + " AND ItemGroupCode = '" + value + "'";
+        function onTxtItemGroupCodePopupChanged(value) {
+            var filterExpression = onGetItemGroupPopupFilterExpression() + " AND ItemGroupCode = '" + value + "'";
             Methods.getObject('GetvItemGroupMasterList', filterExpression, function (result) {
                 if (result != null) {
-                    $('#<%=hdnItemGroupDrugLogisticID.ClientID %>').val(result.ItemGroupID);
-                    $('#<%=txtItemGroupDrugLogisticName.ClientID %>').val(result.ItemGroupName1);
+                    $('#<%=hdnItemGroupID.ClientID %>').val(result.ItemGroupID);
+                    $('#<%=txtItemGroupName.ClientID %>').val(result.ItemGroupName1);
                 }
                 else {
-                    $('#<%=hdnItemGroupDrugLogisticID.ClientID %>').val('');
-                    $('#<%=txtItemGroupDrugLogisticCode.ClientID %>').val('');
-                    $('#<%=txtItemGroupDrugLogisticName.ClientID %>').val('');
+                    $('#<%=hdnItemGroupID.ClientID %>').val('');
+                    $('#<%=txtItemGroupCode.ClientID %>').val('');
+                    $('#<%=txtItemGroupName.ClientID %>').val('');
                 }
                 getCheckedMember();
                 cbpPopup.PerformCallback('refresh');
@@ -151,6 +158,8 @@
             $newTr = $('#tmplSelectedTestItem').html();
             $newTr = $newTr.replace(/\$\{ItemName1}/g, $selectedTr.find('.tdItemName1').html());
             $newTr = $newTr.replace(/\$\{ItemID}/g, $selectedTr.find('.keyField').html());
+            $newTr = $newTr.replace(/\$\{PurchaseUnit}/g, $selectedTr.find('.hdnPurchaseUnit').val());
+            $newTr = $newTr.replace(/\$\{ConversionFactor}/g, $selectedTr.find('.hdnConversionFactor').val());
             $newTr = $($newTr);
             $newTr.insertBefore($('#trFooter'));
         }
@@ -195,6 +204,8 @@
             </td>
             <td>${ItemName1}</td>
             <td><input type="text" validationgroup="mpDrugsQuickPicks" class="txtQty number min" min="1" value="1" style="width:60px" /></td>
+            <td>${PurchaseUnit}</td>
+            <td align="center">${ConversionFactor}</td>
         </tr>
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
@@ -202,8 +213,8 @@
     <input type="hidden" id="hdnParam" runat="server" value="" />
     <input type="hidden" id="hdnFilterItem" runat="server" />
     <input type="hidden" id="hdnSelectedMemberQty" runat="server" value="" />
-    <input type="hidden" id="hdnLocationID" runat="server" value="" />
-    <input type="hidden" id="hdnLocationItemGroupID" runat="server" value="" />
+    <input type="hidden" id="hdnLstLocationID" runat="server" value="" />
+    <input type="hidden" id="hdnLstFilterLocationItemGroup" runat="server" value="" />
     
     <table>
         <colgroup>
@@ -229,9 +240,9 @@
             </td>
         </tr>
         <tr>
-            <td class="tdLabel"><label class="lblLink" id="lblItemGroupDrugLogistic"><%=GetLabel("Kelompok Barang")%></label></td>
+            <td class="tdLabel"><label class="lblLink" id="lblItemGroupQuickPicks"><%=GetLabel("Kelompok Barang")%></label></td>
             <td>
-                <input type="hidden" id="hdnItemGroupDrugLogisticID" value="" runat="server" />
+                <input type="hidden" id="hdnItemGroupID" value="" runat="server" />
                 <table style="width:100%" cellpadding="0" cellspacing="0">
                     <colgroup>
                         <col style="width:30%"/>
@@ -239,9 +250,9 @@
                         <col/>
                     </colgroup>
                     <tr>
-                        <td><asp:TextBox ID="txtItemGroupDrugLogisticCode" Width="100%" runat="server" /></td>
+                        <td><asp:TextBox ID="txtItemGroupCode" Width="100%" runat="server" /></td>
                         <td>&nbsp;</td>
-                        <td><asp:TextBox ID="txtItemGroupDrugLogisticName" Width="100%" runat="server" ReadOnly="true"/></td>
+                        <td><asp:TextBox ID="txtItemGroupName" Width="100%" runat="server" ReadOnly="true"/></td>
                     </tr>
                 </table>
             </td>
@@ -249,8 +260,7 @@
     </table>
     <table style="width:100%">
         <colgroup>
-            <col style="width:50%"/>
-            <col style="width:50%"/>
+            <col style="width:35%"/>
         </colgroup>
         <tr>
             <td style="padding:5px;vertical-align:top">
@@ -269,10 +279,16 @@
                                         <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
+                                                <input type="hidden" class="hdnPurchaseUnit" id="hdnPurchaseUnit" runat="server" />
+                                                <input type="hidden" class="hdnConversionFactor" id="hdnConversionFactor" runat="server" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="ItemName1" HeaderText="Barang" ItemStyle-CssClass="tdItemName1" />
-                                        <asp:BoundField HeaderStyle-Width="50px" DataField="QuantityEND" HeaderText="Stok" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
+                                        <asp:TemplateField HeaderText="Stok" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
+                                            <ItemTemplate>
+                                                <div id="divStock" runat="server"></div>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>
@@ -296,6 +312,8 @@
                             <th style="width:40px">&nbsp;</th>
                             <th align="center"><%=GetLabel("Barang")%></th> 
                             <th align="center"style="width:60px"><%=GetLabel("Jumlah")%></th> 
+                            <th align="center"style="width:80px"><%=GetLabel("Satuan")%></th> 
+                            <th class="thCenter"style="width:150px"><%=GetLabel("Konversi")%></th> 
                         </tr>
                         <tr id="trFooter"></tr>
                     </table>

@@ -30,8 +30,13 @@
                     getCheckedMember();
                     if ($('#<%=hdnSelectedMember.ClientID %>').val() == '')
                         showToast('Warning', 'Please Select Item First');
-                    else
+                    else {
+                        if ($('#<%=hdnIsItemDistributionExist.ClientID %>').val() == '1' && $('#<%=hdnToLocationID.ClientID %>').val() == '')
+                            showToast('Warning', 'Lokasi Distribusi Wajib Diisi');
+                        else if ($('#<%=hdnIsItemConsumptionExist.ClientID %>').val() == '1' && $('#<%=hdnToLocationID.ClientID %>').val() == '')
+                            showToast('Warning', 'Lokasi Pemakaian Wajib Diisi');
                         onCustomButtonClick('approve');
+                    }
                 }
             });
 
@@ -40,18 +45,102 @@
                 document.location = ResolveUrl('~/Program/Warehouse/ItemRequest/Outstanding/ItemRequestOutstandingList.aspx');
             });
 
-            $('.txtDistribution').change(function () {
-                if ($(this).val() != '' && $(this).val() != '0') {
-                    $(this).closest('tr').find('.txtConsumption').val('0');
+            //#region Location To
+            function getLocationFilterExpressionTo() {
+                if ($('#<%=hdnToSiteServiceUnitID.ClientID %>').val() != "") {
+                    var filterExpression = "<%=OnGetFilterExpressionToLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnToSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
+                    return filterExpression;
                 }
+                return "<%=OnGetFilterExpressionToLocation()%>1 = 0";
+            }
+
+            $('#<%=lblToLocation.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('locationroleuser', getLocationFilterExpressionTo(), function (value) {
+                    $('#<%=txtToLocationCode.ClientID %>').val(value);
+                    onTxtLocationToCodeChanged(value);
+                });
             });
 
-            $('.txtConsumption').change(function () {
-                if ($(this).val() != '' && $(this).val() != '0') {
-                    $(this).closest('tr').find('.txtDistribution').val('0');
-                }
+            $('#<%=txtToLocationCode.ClientID %>').live('change', function () {
+                onTxtLocationToCodeChanged($(this).val());
             });
+
+            function onTxtLocationToCodeChanged(value) {
+                var filterExpression = getLocationFilterExpressionTo() + " AND LocationCode = '" + value + "'";
+                Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnToLocationID.ClientID %>').val(result.LocationID);
+                        $('#<%=txtToLocationName.ClientID %>').val(result.LocationName);
+                        $('#<%=hdnRestrictionID.ClientID %>').val(result.RestrictionID);
+                        filterExpression = "LocationID = " + result.LocationID;
+                        Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
+                            var filterLocationItemGroup = '';
+                            for (var i = 0; i < result.length; ++i) {
+                                if (filterLocationItemGroup != '')
+                                    filterLocationItemGroup += ' OR ';
+                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
+                            }
+                            if (filterLocationItemGroup != '')
+                                $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                            else
+                                $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
+
+                            var filterExpression = "<%=OnGetRestrictionTransactionCodeFilterExpression() %>";
+                            filterExpression = filterExpression.replace('[RestrictionID]', $('#<%=hdnRestrictionID.ClientID %>').val());
+                            var isAllowPurchaseRequest = false;
+                            var isAllowItemDistribution = false;
+                            var isAllowItemConsumption = false;
+                            Methods.getListObject('GetRestrictionDtList', filterExpression, function (result) {
+                                for (var i = 0; i < result.length; ++i) {
+                                    if (result[i].TransactionCode == "<%=OnGetTransactionCodeItemDistribution() %>")
+                                        isAllowItemDistribution = true;
+                                    else if (result[i].TransactionCode == "<%=OnGetTransactionCodeItemConsumption() %>")
+                                        isAllowItemConsumption = true;
+                                }
+
+                                $('#<%=hdnIsAllowItemDistribution.ClientID %>').val(isAllowItemDistribution ? "1" : "0");
+                                $('#<%=hdnIsAllowItemConsumption.ClientID %>').val(isAllowItemConsumption ? "1" : "0");
+                                
+                                getCheckedMember();
+                                cbpView.PerformCallback('refresh');
+                            });
+                        });
+                    }
+                    else {
+                        $('#<%=hdnToLocationID.ClientID %>').val('');
+                        $('#<%=txtToLocationCode.ClientID %>').val('');
+                        $('#<%=txtToLocationName.ClientID %>').val('');
+                        $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
+
+                        getCheckedMember();
+                        cbpView.PerformCallback('refresh');
+                    }
+                });
+            }
+            //#endregion
         }
+
+        $('.txtDistribution').live('change', function () {
+            if ($(this).val() != '' && $(this).val() != '0') {
+                $(this).closest('tr').parent().closest('tr').find('.txtConsumption').val('0');
+            }
+        });
+
+        $('.txtConsumption').live('change', function () {
+            if ($(this).val() != '' && $(this).val() != '0') {
+                $(this).closest('tr').parent().closest('tr').find('.txtDistribution').val('0');
+            }
+        });
+
+        $('.lblEndingBalance').live('click', function () {
+            var itemID = $(this).closest('tr').parent().closest('tr').find('.keyField').html();
+            var locationID = $('#<%=hdnLstLocationID.ClientID %>').val();
+            if (itemID != '' && locationID != '') {
+                var param = itemID + '|' + locationID;
+                var url = ResolveUrl("~/Program/Information/ItemBalanceDtCtl.ascx");
+                openUserControlPopup(url, param, 'Item Per Lokasi', 700, 500);
+            }
+        });
 
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
             var itemRequestID = $('#<%=hdnOrderID.ClientID %>').val();
@@ -157,6 +246,33 @@
                     }
                 }
             });
+
+            var isItemDistributionExists = false;
+            for (var i = 1; i < lstDistribution.length; ++i) {
+                if (lstDistribution[i] != '0') {
+                    isItemDistributionExists = true;
+                    break;
+                }
+            }
+            var isItemConsumptionExists = false;
+            for (var i = 1; i < lstConsumption.length; ++i) {
+                if (lstConsumption[i] != '0') {
+                    isItemConsumptionExists = true;
+                    break;
+                }
+            }
+            var isPurchaseRequestExists = false;
+            for (var i = 1; i < lstPR.length; ++i) {
+                if (lstPR[i] != '0') {
+                    isPurchaseRequestExists = true;
+                    break;
+                }
+            }
+
+            $('#<%=hdnIsItemDistributionExist.ClientID %>').val(isItemDistributionExists ? "1" : "0");
+            $('#<%=hdnIsItemConsumptionExist.ClientID %>').val(isItemConsumptionExists ? "1" : "0");
+            $('#<%=hdnIsPurchaseRequestExist.ClientID %>').val(isPurchaseRequestExists ? "1" : "0"); 
+
             $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
             $('#<%=hdnParamDistribution.ClientID %>').val(lstDistribution.join(','));
             $('#<%=hdnParamConsumption.ClientID %>').val(lstConsumption.join(','));
@@ -214,6 +330,10 @@
     <input type="hidden" value="" id="hdnIsAllowPurchaseRequest" runat="server" />
     <input type="hidden" value="" id="hdnIsAllowItemConsumption" runat="server" />
     <input type="hidden" value="" id="hdnIsAllowItemDistribution" runat="server" />
+    <input type="hidden" value="" id="hdnIsPurchaseRequestExist" runat="server" />
+    <input type="hidden" value="" id="hdnIsItemDistributionExist" runat="server" />
+    <input type="hidden" value="" id="hdnIsItemConsumptionExist" runat="server" />
+    <input type="hidden" value="" id="hdnLstLocationID" runat="server" />
     <div style="overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
             <colgroup>
@@ -232,9 +352,9 @@
                             <td><asp:TextBox ID="txtOrderNo" Width="150px" ReadOnly="true" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal" runat="server" id="lblLocation"><%=GetLabel("Dari Lokasi")%></label></td>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Dari Bagian")%></label></td>
                             <td>
-                                <input type="hidden" id="hdnLocationIDFrom" value="" runat="server" />
+                                <input type="hidden" id="hdnFromSiteServiceUnitID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -242,9 +362,28 @@
                                         <col />
                                     </colgroup>
                                     <tr>
-                                        <td><asp:TextBox ID="txtLocationCode" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td><asp:TextBox ID="txtFromServiceUnitCode" Width="100%" runat="server" ReadOnly="true"/></td>
                                         <td>&nbsp;</td>
-                                        <td><asp:TextBox ID="txtLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td><asp:TextBox ID="txtFromServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal" runat="server" id="lblLocation"><%=GetLabel("Dari Lokasi")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnFromLocationID" value="" runat="server" />
+                                <input type="hidden" id="hdnLstFilterFromLocationItemGroup" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtFromLocationCode" Width="100%" runat="server" ReadOnly="true"/></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtFromLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
                             </td>
@@ -274,9 +413,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal" runat="server" id="lblLocationTo"><%=GetLabel("Kepada Lokasi")%></label></td>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Ke Bagian")%></label></td>
                             <td>
-                                <input type="hidden" id="hdnLocationIDTo" value="" runat="server" />
+                                <input type="hidden" id="hdnToSiteServiceUnitID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -284,9 +423,29 @@
                                         <col />
                                     </colgroup>
                                     <tr>
-                                        <td><asp:TextBox ID="txtLocationCodeTo" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td><asp:TextBox ID="txtToServiceUnitCode" Width="100%" runat="server" ReadOnly="true"/></td>
                                         <td>&nbsp;</td>
-                                        <td><asp:TextBox ID="txtLocationNameTo" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td><asp:TextBox ID="txtToServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblLink" runat="server" id="lblToLocation"><%=GetLabel("Lokasi")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnRestrictionID" value="" runat="server" />
+                                <input type="hidden" id="hdnToLocationID" value="" runat="server" />
+                                <input type="hidden" id="hdnLstFilterToLocationItemGroup" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtToLocationCode" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtToLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
                             </td>
@@ -306,11 +465,13 @@
                                     position: relative; font-size: 0.95em;">
                                     <asp:ListView runat="server" ID="lvwView" OnItemDataBound="lvwView_ItemDataBound">
                                         <EmptyDataTemplate>
-                                            <table id="tblView" runat="server" class="grdItemRequest grdSelected" cellspacing="0" rules="all">
+                                            <table id="tblView" runat="server" class="grdItemRequest grdSelected grdBorder" cellspacing="0" rules="all">
                                                 <tr>
-                                                    <th class="keyField" rowspan="2">&nbsp;</th>
-                                                    <th rowspan="2" style="width: 20px">
-                                                        &nbsp;
+                                                    <th class="keyField" rowspan="2">
+                                                        
+                                                    </th>
+                                                    <th rowspan="2" style="width: 20px; text-align: center">
+                                                        <input id="chkSelectAll" type="checkbox" />
                                                     </th>
                                                     <th rowspan="2"><%=GetLabel("NAMA BARANG")%></th>
                                                     <th colspan="3" class="thCenter"><%=GetLabel("JUMLAH BARANG")%></th>
@@ -318,16 +479,16 @@
                                                     <th colspan="3" class="thCenter"><%=GetLabel("JUMLAH PROSES")%></th>
                                                 </tr>
                                                 <tr>
-                                                    <th style="width: 110px" class="thCenter"><%=GetLabel("Diminta")%></th>
-                                                    <th style="width: 110px" class="thCenter"><%=GetLabel("Tersedia")%></th>
-                                                    <th style="width: 110px" class="thCenter"><%=GetLabel("Bisa Digunakan")%></th>
+                                                    <th style="width: 100px" class="thCenter"><%=GetLabel("Diminta")%></th>
+                                                    <th style="width: 100px" class="thCenter"><%=GetLabel("Tersedia")%></th>
+                                                    <th style="width: 100px" class="thCenter"><%=GetLabel("Bisa Digunakan")%></th>
 
-                                                    <th style="width: 110px" class="thCenter"><%=GetLabel("Minta Beli")%></th>
-                                                    <th style="width: 110px" class="thCenter"><%=GetLabel("Diterima")%></th>
+                                                    <th style="width: 100px" class="thCenter"><%=GetLabel("Minta Beli")%></th>
+                                                    <th style="width: 100px" class="thCenter"><%=GetLabel("Diterima")%></th>
 
-                                                    <th style="width: 150px" class="thCenter"><%=GetLabel("Distribusi")%></th>
-                                                    <th style="width: 150px" class="thCenter"><%=GetLabel("Pemakaian")%></th>
-                                                    <th style="width: 150px" class="thCenter"><%=GetLabel("Minta Beli")%></th>
+                                                    <th style="width: 140px" class="thCenter"><%=GetLabel("Distribusi")%></th>
+                                                    <th style="width: 140px" class="thCenter"><%=GetLabel("Pemakaian")%></th>
+                                                    <th style="width: 140px" class="thCenter"><%=GetLabel("Minta Beli")%></th>
                                                 </tr>
                                                 <tr class="trEmpty">
                                                     <td colspan="10">
@@ -397,7 +558,9 @@
                                                             <col style="width:35px" />
                                                         </colgroup>
                                                         <tr>
-                                                            <td class="lblReadOnlyText" align="right"><%# Eval("EndingBalance")%></td>
+                                                            <td class="lblReadOnlyText" align="right">
+                                                                <label id="lblEndingBalance" runat="server" class="lblEndingBalance lblLink"></label>
+                                                            </td>    
                                                             <td>&nbsp;<%# Eval("BaseUnit")%></td>
                                                         </tr>
                                                     </table>

@@ -70,28 +70,37 @@
         });
 
         //#region Item Group
-        $('#lblItemGroupDrugLogistic.lblLink').click(function () {
-            openSearchDialog('itemgroup', onGetItemGroupFilterExpression(), function (value) {
-                $('#<%=txtItemGroupDrugLogisticCode.ClientID %>').val(value);
-                onTxtItemGroupDrugLogisticCodeChanged(value);
+        function onGetItemGroupPopupFilterExpression() {
+            var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+            if ($('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() != '')
+                filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() + ")";
+            if ($('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() != '')
+                filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() + ")";
+            return filterExpression;
+        }
+
+        $('#lblItemGroupQuickPicks.lblLink').click(function () {
+            openSearchDialog('itemgroup', onGetItemGroupPopupFilterExpression(), function (value) {
+                $('#<%=txtItemGroupCode.ClientID %>').val(value);
+                onTxtItemGroupCodePopupChanged(value);
             });
         });
 
-        $('#<%=txtItemGroupDrugLogisticCode.ClientID %>').change(function () {
-            onTxtItemGroupDrugLogisticCodeChanged($(this).val());
+        $('#<%=txtItemGroupCode.ClientID %>').change(function () {
+            onTxtItemGroupCodePopupChanged($(this).val());
         });
 
-        function onTxtItemGroupDrugLogisticCodeChanged(value) {
-            var filterExpression = onGetItemGroupFilterExpression() + " AND ItemGroupCode = '" + value + "'";
+        function onTxtItemGroupCodePopupChanged(value) {
+            var filterExpression = onGetItemGroupPopupFilterExpression() + " AND ItemGroupCode = '" + value + "'";
             Methods.getObject('GetvItemGroupMasterList', filterExpression, function (result) {
                 if (result != null) {
-                    $('#<%=hdnItemGroupDrugLogisticID.ClientID %>').val(result.ItemGroupID);
-                    $('#<%=txtItemGroupDrugLogisticName.ClientID %>').val(result.ItemGroupName1);
+                    $('#<%=hdnItemGroupID.ClientID %>').val(result.ItemGroupID);
+                    $('#<%=txtItemGroupName.ClientID %>').val(result.ItemGroupName1);
                 }
                 else {
-                    $('#<%=hdnItemGroupDrugLogisticID.ClientID %>').val('');
-                    $('#<%=txtItemGroupDrugLogisticCode.ClientID %>').val('');
-                    $('#<%=txtItemGroupDrugLogisticName.ClientID %>').val('');
+                    $('#<%=hdnItemGroupID.ClientID %>').val('');
+                    $('#<%=txtItemGroupCode.ClientID %>').val('');
+                    $('#<%=txtItemGroupName.ClientID %>').val('');
                 }
                 getCheckedMember();
                 cbpPopup.PerformCallback('refresh');
@@ -175,7 +184,8 @@
     <input type="hidden" id="hdnFilterItem" runat="server" />
     <input type="hidden" id="hdnSelectedMemberQty" runat="server" value="" />
     <input type="hidden" id="hdnLocationID" runat="server" value="" />
-    <input type="hidden" id="hdnLocationItemGroupID" runat="server" value="" />
+    <input type="hidden" id="hdnLstFilterFromLocationItemGroup" runat="server" value="" />
+    <input type="hidden" id="hdnLstFilterToLocationItemGroup" runat="server" value="" />
     
     <table>
         <colgroup>
@@ -183,9 +193,9 @@
             <col style="width:400px"/>
         </colgroup>
         <tr>
-            <td class="tdLabel"><label class="lblLink" id="lblItemGroupDrugLogistic"><%=GetLabel("Kelompok Barang")%></label></td>
+            <td class="tdLabel"><label class="lblLink" id="lblItemGroupQuickPicks"><%=GetLabel("Kelompok Barang")%></label></td>
             <td>
-                <input type="hidden" id="hdnItemGroupDrugLogisticID" value="" runat="server" />
+                <input type="hidden" id="hdnItemGroupID" value="" runat="server" />
                 <table style="width:100%" cellpadding="0" cellspacing="0">
                     <colgroup>
                         <col style="width:30%"/>
@@ -193,9 +203,9 @@
                         <col/>
                     </colgroup>
                     <tr>
-                        <td><asp:TextBox ID="txtItemGroupDrugLogisticCode" Width="100%" runat="server" /></td>
+                        <td><asp:TextBox ID="txtItemGroupCode" Width="100%" runat="server" /></td>
                         <td>&nbsp;</td>
-                        <td><asp:TextBox ID="txtItemGroupDrugLogisticName" Width="100%" runat="server" ReadOnly="true"/></td>
+                        <td><asp:TextBox ID="txtItemGroupName" Width="100%" runat="server" ReadOnly="true"/></td>
                     </tr>
                 </table>
             </td>
@@ -226,7 +236,11 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="ItemName1" HeaderText="Barang" ItemStyle-CssClass="tdItemName1" />
-                                        <asp:BoundField HeaderStyle-Width="50px" DataField="QuantityEND" HeaderText="Stok" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
+                                        <asp:TemplateField HeaderText="Stok" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
+                                            <ItemTemplate>
+                                                <div id="divStock" runat="server"></div>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>

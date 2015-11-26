@@ -100,6 +100,7 @@ CodeBehind="ItemRequestApprovalList.aspx.cs" Inherits="CodeX.Muses.Web.Inventory
         }
         //#endregion
     </script>
+    <input type="hidden" id="hdnListSiteServiceUnitID" runat="server" />
     <input type="hidden" id="hdnTransactionCode" runat="server" />
     <input type="hidden" value="" id="hdnParam" runat="server" />
     <input type="hidden" value="" id="hdnID" runat="server" />

@@ -32,16 +32,20 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnNonMasterSupplierID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.NON_MASTER_SUPPLIER).ParameterValue;
             hdnNonMasterItemID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.NON_MASTER_ITEM).ParameterValue;
 
-            int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
-            if (count > 0)
-                hdnRecordFilterExpression.Value = string.Format("LocationID IN (SELECT LocationID FROM LocationUser WHERE UserID = {0} AND IsDeleted = 0)", AppSession.UserLogin.UserID);
-            else
+            List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.DIRECT_PURCHASE, "");
+            if (lstUserLocation.Count > 0)
             {
-                count = BusinessLayer.GetLocationUserRoleRowCount(string.Format("RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND IsDeleted = 0", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID));
-                if (count > 0)
-                    hdnRecordFilterExpression.Value = string.Format("LocationID IN (SELECT LocationID FROM LocationUserRole WHERE RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND IsDeleted = 0)", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID);
-                else
-                    hdnRecordFilterExpression.Value = "";
+                List<ServiceUnitLocation> lstServiceUnitLocation = BusinessLayer.GetServiceUnitLocationList(string.Format("LocationID IN ({0})", string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList())));
+                hdnListSiteServiceUnitID.Value = string.Join(",", lstServiceUnitLocation.Select(p => p.SiteServiceUnitID).ToList());
+
+                List<vSiteServiceUnit> lstSiteServiceUnit = BusinessLayer.GetvSiteServiceUnitList(OnGetFilterExpressionServiceUnit());
+                if (lstSiteServiceUnit.Count == 1)
+                {
+                    vSiteServiceUnit serviceUnit = lstSiteServiceUnit.FirstOrDefault();
+                    hdnDefaultSiteServiceUnitID.Value = serviceUnit.SiteServiceUnitID.ToString();
+                    hdnDefaultServiceUnitCode.Value = serviceUnit.ServiceUnitCode;
+                    hdnDefaultServiceUnitName.Value = serviceUnit.ServiceUnitName;
+                }
             }
 
             hdnGCTransactionStatus.Value = "";
@@ -66,6 +70,12 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
 
         #region Filter Expression Search Dialog
+        protected string OnGetFilterExpressionServiceUnit()
+        {
+            if (hdnListSiteServiceUnitID.Value != "")
+                return string.Format("SiteServiceUnitID IN ({0}) AND IsDeleted = 0", hdnListSiteServiceUnitID.Value);
+            return "1 = 0";
+        }
         protected string OnGetFilterExpressionLocation()
         {
             return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.DIRECT_PURCHASE);
@@ -102,6 +112,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtNonMasterSupplierName, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, false, true, hdnDefaultServiceUnitCode.Value));
+            SetControlEntrySetting(lblSiteServiceUnit, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, true, hdnDefaultServiceUnitName.Value));
+
+            SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(true, true, false, hdnDefaultSiteServiceUnitID.Value));
 
             SetControlEntrySetting(cboDirectPurchaseType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, false, false));
@@ -194,6 +210,9 @@ namespace CodeX.Muses.Web.Inventory.Program
                 txtNonMasterSupplierName.Style.Remove("display");
                 tblSupplierMaster.Style.Add("display", "none");
             }
+            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
+            txtServiceUnitCode.Text = entity.ServiceUnitCode;
+            txtServiceUnitName.Text = entity.ServiceUnitName;
             hdnLocationID.Value = entity.LocationID.ToString();
             txtLocationCode.Text = entity.LocationCode;
             txtLocationName.Text = entity.LocationName;
@@ -201,13 +220,25 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtRemarks.Text = entity.Remarks;
             chkPPN.Checked = entity.IsIncludeVAT;
             txtTransactionAmount.Text = entity.TransactionAmount.ToString();
-            txtFinalDiscountPercentage.Text = (entity.FinalDiscountAmount * 100 / (entity.TransactionAmount + entity.VATAmount)).ToString();
+            if ((entity.TransactionAmount + entity.VATAmount) != 0)
+                txtFinalDiscountPercentage.Text = (entity.FinalDiscountAmount * 100 / (entity.TransactionAmount + entity.VATAmount)).ToString();
+            else
+                txtFinalDiscountPercentage.Text = "0";
             txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
 
             decimal tempTransactionAmount = -1;
             BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
             hdnPageCount.Value = PageCount.ToString();
             hdnRowCount.Value = RowCount.ToString();
+
+            {
+                List<LocationItemGroup> lstLocationItemGroup = BusinessLayer.GetLocationItemGroupList(string.Format("LocationID = {0}", entity.LocationID));
+                string filterLocationItemGroup = String.Join(" OR ", lstLocationItemGroup.Select(p => string.Format("DisplayPath LIKE '%/{0}/%'", p.ItemGroupID)).ToList());
+                if (filterLocationItemGroup != "")
+                    hdnLstFilterLocationItemGroup.Value = string.Format("({0})", filterLocationItemGroup);
+                else
+                    hdnLstFilterLocationItemGroup.Value = "";
+            }
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount, ref decimal transactionAmount)
@@ -249,6 +280,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entityHd.VATPercentage = 0;
             entityHd.VATAmount = Convert.ToDecimal(Request.Form[txtPPN.UniqueID]);
             entityHd.FinalDiscountAmount = Convert.ToDecimal(txtFinalDiscountAmount.Text);
+            entityHd.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
             entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
             entityHd.TotalNetTransactionAmount = entityHd.TransactionAmount + entityHd.VATAmount - entityHd.FinalDiscountAmount;
         }

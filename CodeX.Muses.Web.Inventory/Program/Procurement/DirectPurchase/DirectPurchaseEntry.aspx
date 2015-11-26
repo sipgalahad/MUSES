@@ -45,10 +45,46 @@
             }
             //#endregion
 
+            //#region Service Unit
+            function getServiceUnitFilterExpression() {
+                var filterExpression = "<%=OnGetFilterExpressionServiceUnit() %>";
+                return filterExpression;
+            }
+
+            $('#<%=lblSiteServiceUnit.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('serviceunitpersite', getServiceUnitFilterExpression(), function (value) {
+                    $('#<%=txtServiceUnitCode.ClientID %>').val(value);
+                    onTxtServiceUnitCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtServiceUnitCode.ClientID %>').live('change', function () {
+                onTxtServiceUnitCodeChanged($(this).val());
+            });
+
+            function onTxtServiceUnitCodeChanged(value) {
+                var filterExpression = getServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
+                Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
+                        $('#<%=txtServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+                    }
+                    else {
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val('');
+                        $('#<%=txtServiceUnitCode.ClientID %>').val('');
+                        $('#<%=txtServiceUnitName.ClientID %>').val('');
+                    }
+                });
+            }
+            //#endregion
+
             //#region Location
             function getLocationFilterExpression() {
-                var filterExpression = "<%=OnGetFilterExpressionLocation() %>";
-                return filterExpression;
+                if ($('#<%=hdnSiteServiceUnitID.ClientID %>').val() != "") {
+                    var filterExpression = "<%=OnGetFilterExpressionLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
+                    return filterExpression;
+                }
+                return "<%=OnGetFilterExpressionLocation()%>1 = 0";
             }
 
             $('#<%=lblLocation.ClientID %>.lblLink').live('click', function () {
@@ -63,16 +99,30 @@
             });
 
             function onTxtLocationCodeChanged(value) {
-                var filterExpression = getLocationFilterExpression() + "LocationCode = '" + value + "'";
+                var filterExpression = getLocationFilterExpression() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnLocationID.ClientID %>').val(result.LocationID);
                         $('#<%=txtLocationName.ClientID %>').val(result.LocationName);
+                        filterExpression = "LocationID = " + result.LocationID;
+                        Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
+                            var filterLocationItemGroup = '';
+                            for (var i = 0; i < result.length; ++i) {
+                                if (filterLocationItemGroup != '')
+                                    filterLocationItemGroup += ' OR ';
+                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
+                            }
+                            if (filterLocationItemGroup != '')
+                                $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                            else
+                                $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val("");
+                        });
                     }
                     else {
                         $('#<%=hdnLocationID.ClientID %>').val('');
                         $('#<%=txtLocationCode.ClientID %>').val('');
                         $('#<%=txtLocationName.ClientID %>').val('');
+                        $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val("");
                     }
                 });
             }
@@ -114,6 +164,8 @@
             //#region Item Group
             function onGetItemGroupFilterExpression() {
                 var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+                if ($('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() != '')
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() + ")";                
                 return filterExpression;
             }
 
@@ -152,6 +204,8 @@
                 var purchaseID = $('#<%=hdnDirectPurchaseID.ClientID %>').val();
                 if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
                     filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
+                else if ($('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() != '')
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() + ")";
                 if (purchaseID != '')
                     filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM DirectPurchaseDt WHERE DirectPurchaseID = " + purchaseID + "AND GCItemDetailStatus != 'X121^999')";
                 return filterExpression;
@@ -228,6 +282,8 @@
                     $('#<%=lblSupplier.ClientID %>').attr('class', 'lblDisabled');
                     $('#<%=txtSupplierCode.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=txtLocationCode.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtServiceUnitCode.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=lblSiteServiceUnit.ClientID %>').attr('class', 'lblDisabled');
                     $('#<%=lblLocation.ClientID %>').attr('class', 'lblDisabled');
                     lastTransactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
                     editedLineAmount = 0;
@@ -604,6 +660,11 @@
     <input type="hidden" value="" id="hdnVATPercentage" runat="server" />
     <input type="hidden" value="" id="hdnGCTransactionStatus" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultServiceUnitCode" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultServiceUnitName" runat="server" />
+    <input type="hidden" value="" id="hdnListSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnLstFilterLocationItemGroup" runat="server" />
     <div style="overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
             <colgroup>
@@ -630,16 +691,11 @@
                             <td class="tdLabel"><label class="lblMandatory lblLink" id="lblSupplier" runat="server"><%=GetLabel("Supplier/Penyedia")%></label></td>
                             <td>
                                 <input type="hidden" value="" id="hdnSupplierID" runat="server" />
-                                <table cellpadding="0" cellspacing="0" id="tblSupplierMaster" runat="server">
-                                    <colgroup>
-                                        <col style="width: 100px" />
-                                        <col style="width: 5px" />
-                                        <col style="width: 195px" />
-                                    </colgroup>
+                                <table style="width: 100%" cellpadding="0" cellspacing="0" id="tblSupplierMaster" runat="server">
                                     <tr>
-                                        <td><asp:TextBox ID="txtSupplierCode" Width="100px" runat="server" /></td>
-                                        <td>&nbsp;</td>
-                                        <td><asp:TextBox ID="txtSupplierName" ReadOnly="true" Width="195px" runat="server" /></td>
+                                        <td style="width: 30%"><asp:TextBox ID="txtSupplierCode" Width="100%" runat="server" /></td>
+                                        <td style="width: 3px">&nbsp;</td>
+                                        <td><asp:TextBox ID="txtSupplierName" ReadOnly="true" Width="100%" runat="server" /></td>
                                     </tr>
                                 </table>
                                 <asp:TextBox ID="txtNonMasterSupplierName" Width="100%" runat="server" />
@@ -648,20 +704,38 @@
                                 <asp:CheckBox ID="chkIsFromMasterSupplier" runat="server" Checked="true" /><%=GetLabel("Dari Master") %>
                             </td>
                         </tr>
-                        <tr id="hdnLocation" runat="server">
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblSiteServiceUnit"><%=GetLabel("Bagian")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtServiceUnitCode" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblLocation"><%=GetLabel("Lokasi")%></label></td>
                             <td>
                                 <input type="hidden" id="hdnLocationID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
-                                        <col style="width: 100px" />
-                                        <col style="width: 5px" />
-                                        <col style="width: 195px" />
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
                                     </colgroup>
                                     <tr>
-                                        <td><asp:TextBox ID="txtLocationCode" Width="100px" runat="server" /></td>
+                                        <td><asp:TextBox ID="txtLocationCode" Width="100%" runat="server" /></td>
                                         <td>&nbsp;</td>
-                                        <td><asp:TextBox ID="txtLocationName" Width="195px" runat="server" ReadOnly="true" /></td>
+                                        <td><asp:TextBox ID="txtLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
                             </td>
@@ -738,15 +812,10 @@
                                                         <input type="hidden" value="" id="hdnConversionFactor" runat="server" />
                                                         <input type="hidden" value="" id="hdnUnitPrice" runat="server" />
                                                         <table style="width:100%" cellpadding="0" cellspacing="0" id="tblItemMaster" runat="server">
-                                                            <colgroup>
-                                                                <col style="width: 120px" />
-                                                                <col style="width: 3px" />
-                                                                <col style="width: 250px" />
-                                                            </colgroup>
                                                             <tr>
-                                                                <td><asp:TextBox ID="txtItemCode" Width="100%" runat="server" /></td>
-                                                                <td>&nbsp;</td>
-                                                                <td><asp:TextBox ID="txtItemName" ReadOnly="true" Width="100%" runat="server" /></td>
+                                                                <td style="width: 120px"><asp:TextBox ID="txtItemCode" Width="100%" runat="server" /></td>
+                                                                <td style="width: 3px">&nbsp;</td>
+                                                                <td style="width: 250px"><asp:TextBox ID="txtItemName" ReadOnly="true" Width="100%" runat="server" /></td>
                                                             </tr>
                                                         </table>
                                                         <asp:TextBox ID="txtNonMasterItemName" Width="100%" runat="server" />

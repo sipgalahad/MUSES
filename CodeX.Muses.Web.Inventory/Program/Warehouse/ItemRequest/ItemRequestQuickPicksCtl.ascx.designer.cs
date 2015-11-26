@@ -58,49 +58,58 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedMemberQty;
         
         /// <summary>
-        /// hdnLocationID control.
+        /// hdnLstLocationID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLocationID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstLocationID;
         
         /// <summary>
-        /// hdnLocationItemGroupID control.
+        /// hdnLstFilterFromLocationItemGroup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLocationItemGroupID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstFilterFromLocationItemGroup;
         
         /// <summary>
-        /// hdnItemGroupDrugLogisticID control.
+        /// hdnLstFilterToLocationItemGroup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnItemGroupDrugLogisticID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstFilterToLocationItemGroup;
         
         /// <summary>
-        /// txtItemGroupDrugLogisticCode control.
+        /// hdnItemGroupID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtItemGroupDrugLogisticCode;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnItemGroupID;
         
         /// <summary>
-        /// txtItemGroupDrugLogisticName control.
+        /// txtItemGroupCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtItemGroupDrugLogisticName;
+        protected global::System.Web.UI.WebControls.TextBox txtItemGroupCode;
+        
+        /// <summary>
+        /// txtItemGroupName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtItemGroupName;
         
         /// <summary>
         /// cbpPopup control.

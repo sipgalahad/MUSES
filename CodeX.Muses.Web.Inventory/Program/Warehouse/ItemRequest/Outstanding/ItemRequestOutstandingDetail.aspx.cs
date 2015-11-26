@@ -31,6 +31,26 @@ namespace CodeX.Muses.Web.Inventory.Program
                 return Constant.MenuCode.Inventory.APPROVED_ITEM_REQUEST_CROSS_SITE;
             return Constant.MenuCode.Inventory.APPROVED_ITEM_REQUEST;
         }
+        protected string OnGetFilterExpressionToLocation()
+        {
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, "");
+        }
+        protected string OnGetRestrictionTransactionCodeFilterExpression()
+        {
+            return string.Format("RestrictionID = [RestrictionID] AND TransactionCode IN ('{0}','{1}')", Constant.TransactionCode.ITEM_DISTRIBUTION, Constant.TransactionCode.ITEM_CONSUMPTION);
+        }
+        protected string OnGetTransactionCodePurchaseRequest()
+        {
+            return Constant.TransactionCode.PURCHASE_REQUEST;
+        }
+        protected string OnGetTransactionCodeItemDistribution()
+        {
+            return Constant.TransactionCode.ITEM_DISTRIBUTION;
+        }
+        protected string OnGetTransactionCodeItemConsumption()
+        {
+            return Constant.TransactionCode.ITEM_CONSUMPTION;
+        }
 
         public override void SetCRUDMode(ref bool IsAllowAdd, ref bool IsAllowEdit, ref bool IsAllowDelete)
         {
@@ -47,23 +67,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnOrderID.Value = Page.Request.QueryString["id"];
             vItemRequestHd entityItemRequest = BusinessLayer.GetvItemRequestHdList(string.Format("ItemRequestID = {0}", hdnOrderID.Value))[0];
 
-            bool IsAllowPurchaseRequest = true;
-            bool IsAllowItemConsumption = true;
-            bool IsAllowItemDistribution = true;
+            string filterExpression = string.Format("LocationID IN (SELECT LocationID FROM ServiceUnitLocation WHERE SiteServiceUnitID = {0})", entityItemRequest.ToSiteServiceUnitID);
+            List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_DISTRIBUTION, filterExpression);
+            hdnLstLocationID.Value = string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList());
 
-            int? restrictionID = BusinessLayer.GetLocation(entityItemRequest.ToLocationID).RestrictionID;
-            if (restrictionID != null)
-            {
-                List<RestrictionDt> lstRestrictionDt = BusinessLayer.GetRestrictionDtList(string.Format("RestrictionID = {0}", restrictionID));
-                IsAllowPurchaseRequest = lstRestrictionDt.FirstOrDefault(p => p.TransactionCode == Constant.TransactionCode.PURCHASE_REQUEST) != null;
-                IsAllowItemConsumption = lstRestrictionDt.FirstOrDefault(p => p.TransactionCode == Constant.TransactionCode.ITEM_CONSUMPTION) != null;
-                IsAllowItemDistribution = lstRestrictionDt.FirstOrDefault(p => p.TransactionCode == Constant.TransactionCode.ITEM_DISTRIBUTION) != null;
-            }
-
-            hdnIsAllowPurchaseRequest.Value = IsAllowPurchaseRequest ? "1" : "0";
-            hdnIsAllowItemConsumption.Value = IsAllowItemConsumption ? "1" : "0";
-            hdnIsAllowItemDistribution.Value = IsAllowItemDistribution ? "1" : "0";
-
+            lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_REQUEST, filterExpression);
+            hdnIsAllowPurchaseRequest.Value = lstUserLocation.Count > 0 ? "1" : "0";
+            
             EntityToControl(entityItemRequest);
 
             List<StandardCode> lstGCConsumptionType = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CONSUMPTION_TYPE));
@@ -79,12 +89,17 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtOrderNo.Text = entity.ItemRequestNo;
             txtItemOrderDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtItemOrderTime.Text = entity.TransactionTime;
-            hdnLocationIDFrom.Value = entity.FromLocationID.ToString();
-            txtLocationCode.Text = entity.FromLocationCode;
-            txtLocationName.Text = entity.FromLocationName;
-            hdnLocationIDTo.Value = entity.ToLocationID.ToString();
-            txtLocationCodeTo.Text = entity.ToLocationCode;
-            txtLocationNameTo.Text = entity.ToLocationName;
+
+            hdnFromSiteServiceUnitID.Value = entity.FromSiteServiceUnitID.ToString();
+            txtFromServiceUnitCode.Text = entity.FromServiceUnitCode;
+            txtFromServiceUnitName.Text = entity.FromServiceUnitName;
+
+            hdnFromLocationID.Value = entity.FromLocationID.ToString();
+            txtFromLocationCode.Text = entity.FromLocationCode;
+            txtFromLocationName.Text = entity.FromLocationName;
+            hdnToSiteServiceUnitID.Value = entity.ToSiteServiceUnitID.ToString();
+            txtToServiceUnitCode.Text = entity.ToServiceUnitCode;
+            txtToServiceUnitName.Text = entity.ToServiceUnitName;
             txtNotes.Text = entity.Remarks;
             BindGridView(1, true, ref PageCount, ref RowCount);
         }
@@ -93,7 +108,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             string filterExpression = "1 = 0";
             if (hdnOrderID.Value != "")
+            {
                 filterExpression = string.Format("ItemRequestID = {0} AND GCItemDetailStatus = '{1}' AND IsDeleted = 0", hdnOrderID.Value, Constant.TransactionStatus.APPROVED);
+                if (hdnLstFilterToLocationItemGroup.Value != "")
+                    filterExpression += string.Format(" AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE {0})", hdnLstFilterToLocationItemGroup.Value);
+            }
 
             if (isCountPageCount)
             {
@@ -108,14 +127,22 @@ namespace CodeX.Muses.Web.Inventory.Program
             List<vItemRequestDt> lstEntity = BusinessLayer.GetvItemRequestDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ItemName1 ASC");
 
             string lsItemID = string.Join(",", lstEntity.Select(p => p.ItemID).ToList());
-            lstItemRequestDtRealizationPerItem = BusinessLayer.GetvItemRequestDtRealizationPerItemList(string.Format("ItemID IN ({0})", lsItemID));
+            if (lsItemID != "")
+                lstItemRequestDtRealizationPerItem = BusinessLayer.GetvItemRequestDtRealizationPerItemList(string.Format("ItemID IN ({0})", lsItemID));
+            else
+                lstItemRequestDtRealizationPerItem = new List<vItemRequestDtRealizationPerItem>();
+
+            if (lsItemID != "" && hdnToLocationID.Value != "")
+                lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID = {0} AND ItemID IN ({1})", hdnToLocationID.Value, lsItemID));
+            else
+                lstItemBalance = new List<ItemBalance>();
 
             lvwView.DataSource = lstEntity;
             lvwView.DataBind();
-
         }
 
         List<vItemRequestDtRealizationPerItem> lstItemRequestDtRealizationPerItem = null;
+        List<ItemBalance> lstItemBalance = null;
         protected void lvwView_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             if (e.Item.ItemType == ListViewItemType.DataItem)
@@ -126,17 +153,21 @@ namespace CodeX.Muses.Web.Inventory.Program
                 TextBox txtPurchaseRequest = (TextBox)e.Item.FindControl("txtPurchaseRequest");
                 TextBox txtConsumption = (TextBox)e.Item.FindControl("txtConsumption");
                 HtmlGenericControl lblAvailableStock = (HtmlGenericControl)e.Item.FindControl("lblAvailableStock");
+                HtmlGenericControl lblEndingBalance = (HtmlGenericControl)e.Item.FindControl("lblEndingBalance");
+
+                decimal endingBalance = lstItemBalance.Where(p => p.ItemID == entity.ItemID).Sum(p => p.QuantityEND);
+                lblEndingBalance.InnerHtml = endingBalance.ToString("0.00");
 
                 decimal availableQty = 0;
                 vItemRequestDtRealizationPerItem itemRequestDtRealizationPerItem = lstItemRequestDtRealizationPerItem.FirstOrDefault(p => p.ItemID == entity.ItemID);
                 if (itemRequestDtRealizationPerItem != null)
                 {
-                    availableQty = entity.EndingBalance - itemRequestDtRealizationPerItem.ItemRequestQuantity;
+                    availableQty = endingBalance - itemRequestDtRealizationPerItem.ItemRequestQuantity;
                     if (entity.PurchaseRequestQty > 0)
                         availableQty += entity.Quantity;
                 }
                 else
-                    availableQty = entity.EndingBalance;
+                    availableQty = endingBalance;
                 if (availableQty < 0)
                     availableQty = 0;
                 lblAvailableStock.InnerHtml = availableQty.ToString();
@@ -145,16 +176,16 @@ namespace CodeX.Muses.Web.Inventory.Program
                 Helper.SetControlEntrySetting(txtPurchaseRequest, new ControlEntrySetting(true, true, true), "mpEntry");
                 Helper.SetControlEntrySetting(txtConsumption, new ControlEntrySetting(true, true, true), "mpEntry");
 
-                if (entity.Quantity > entity.EndingBalance)
+                if (entity.Quantity > endingBalance)
                 {
-                    txtDistribution.Text = entity.EndingBalance.ToString();
+                    txtDistribution.Text = endingBalance.ToString();
                     if (hdnIsAllowPurchaseRequest.Value == "1" && entity.PurchaseRequestQty == 0)
-                        txtPurchaseRequest.Text = (entity.Quantity - entity.EndingBalance).ToString();
+                        txtPurchaseRequest.Text = (entity.Quantity - endingBalance).ToString();
                 }
                 else txtDistribution.Text = entity.Quantity.ToString();
 
-                txtConsumption.Attributes.Add("max", entity.EndingBalance.ToString());
-                txtDistribution.Attributes.Add("max", entity.EndingBalance.ToString());
+                txtConsumption.Attributes.Add("max", endingBalance.ToString());
+                txtDistribution.Attributes.Add("max", endingBalance.ToString());
 
                 if (lstSelectedMember.Contains(entity.ID.ToString()))
                 {
@@ -202,10 +233,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             PurchaseRequestHdDao entityHdDao = new PurchaseRequestHdDao(ctx);
             PurchaseRequestHd entityHd = new PurchaseRequestHd();
             entityHd.ItemRequestID = Convert.ToInt32(hdnOrderID.Value);
-            entityHd.FromLocationID = Convert.ToInt32(hdnLocationIDTo.Value);
+            entityHd.SiteServiceUnitID = Convert.ToInt32(hdnToSiteServiceUnitID.Value);
             entityHd.TransactionDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
             entityHd.TransactionTime = txtItemOrderTime.Text;
-            entityHd.Remarks = string.Format("Permintaan Pembelian untuk permintaan Nomor {0} dari {1}", Request.Form[txtOrderNo.UniqueID], Request.Form[txtLocationName.UniqueID]);
+            entityHd.Remarks = string.Format("Permintaan Pembelian untuk permintaan Nomor {0} dari {1}", Request.Form[txtOrderNo.UniqueID], Request.Form[txtFromLocationName.UniqueID]);
             entityHd.PurchaseRequestNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.PURCHASE_REQUEST, entityHd.TransactionDate, ctx);
             entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
             ctx.CommandType = CommandType.Text;
@@ -221,11 +252,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             ItemDistributionHdDao entityHdDao = new ItemDistributionHdDao(ctx);
             ItemDistributionHd entityHd = new ItemDistributionHd();
             entityHd.ItemRequestID = Convert.ToInt32(hdnOrderID.Value);
-            entityHd.FromLocationID = Convert.ToInt32(hdnLocationIDTo.Value);
-            entityHd.ToLocationID = Convert.ToInt32(hdnLocationIDFrom.Value);
+            entityHd.FromSiteServiceUnitID = Convert.ToInt32(hdnToSiteServiceUnitID.Value);
+            entityHd.ToSiteServiceUnitID = Convert.ToInt32(hdnFromSiteServiceUnitID.Value);
+            entityHd.FromLocationID = Convert.ToInt32(hdnToLocationID.Value);
+            entityHd.ToLocationID = Convert.ToInt32(hdnFromLocationID.Value);
             entityHd.DeliveryDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
             entityHd.DeliveryTime = txtItemOrderTime.Text;
-            entityHd.DeliveryRemarks = string.Format("Distribusi untuk permintaan Nomor {0} dari {1}", Request.Form[txtOrderNo.UniqueID], Request.Form[txtLocationName.UniqueID]);
+            entityHd.DeliveryRemarks = string.Format("Distribusi untuk permintaan Nomor {0} dari {1}", Request.Form[txtOrderNo.UniqueID], Request.Form[txtFromLocationName.UniqueID]);
             entityHd.TransactionCode = Constant.TransactionCode.ITEM_DISTRIBUTION;
             entityHd.DistributionNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.DeliveryDate, ctx);
             entityHd.GCDistributionStatus = Constant.DistributionStatus.OPEN;
@@ -241,13 +274,12 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             ItemTransactionHdDao entityHdDao = new ItemTransactionHdDao(ctx);
             ItemTransactionHd entityHd = new ItemTransactionHd();
-            //entityHd.ItemRequestID = Convert.ToInt32(hdnOrderID.Value);
-            entityHd.FromLocationID = Convert.ToInt32(hdnLocationIDTo.Value);
+            entityHd.FromLocationID = Convert.ToInt32(hdnToLocationID.Value);
             entityHd.ToLocationID = null;
+            entityHd.SiteServiceUnitID = Convert.ToInt32(hdnFromSiteServiceUnitID.Value);
             entityHd.TransactionDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
             entityHd.GCConsumptionType = hdnDefaultGCConsumptionType.Value;
-            //entityHd.DeliveryTime = txtItemOrderTime.Text;
-            entityHd.Remarks = string.Format("Pemakaian untuk permintaan Nomor {0} dari {1}", Request.Form[txtOrderNo.UniqueID], Request.Form[txtLocationName.UniqueID]);
+            entityHd.Remarks = string.Format("Pemakaian untuk permintaan Nomor {0} dari {1}", Request.Form[txtOrderNo.UniqueID], Request.Form[txtFromLocationName.UniqueID]);
             entityHd.TransactionCode = Constant.TransactionCode.ITEM_CONSUMPTION;
             entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.TransactionDate, ctx);
             entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
@@ -262,9 +294,6 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override bool OnCustomButtonClick(string type, ref string errMessage, ref string retval)
         {
             bool result = true;
-            bool flagPR = false;
-            bool flagID = false;
-            bool flagIC = false;
             String[] paramID = hdnSelectedMember.Value.Substring(1).Split(',');
             String[] paramPurchaseRequest = hdnParamPurchaseReq.Value.Substring(1).Split(',');
             String[] paramItemDistribution = hdnParamDistribution.Value.Substring(1).Split(',');
@@ -273,21 +302,6 @@ namespace CodeX.Muses.Web.Inventory.Program
             string purchaseRequestNo = "";
             string distributionNo = "";
             string itemConsumptionNo = "";
-
-            foreach (String temp in paramPurchaseRequest)
-            {
-                if (Convert.ToDecimal(temp) != 0) flagPR = true;
-            }
-
-            foreach (String temp in paramItemDistribution)
-            {
-                if (Convert.ToDecimal(temp) != 0) flagID = true;
-            }
-
-            foreach (String temp in paramItemConsumption)
-            {
-                if (Convert.ToDecimal(temp) != 0) flagIC = true;
-            }
 
             IDbContext ctx = DbFactory.Configure(true);
             int purchaseRequestID = 0;
@@ -303,7 +317,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 if (type == "approve")
                 {
-                    if (flagPR)
+                    if (hdnIsPurchaseRequestExist.Value == "1")
                     {
                         SavePurchaseRequestHd(ctx, ref purchaseRequestID, ref purchaseRequestNo);
                         for (int ct = 0; ct < paramID.Length; ct++)
@@ -313,7 +327,6 @@ namespace CodeX.Muses.Web.Inventory.Program
                             List<vSupplierItemPlaning> vPlan = BusinessLayer.GetvSupplierItemPlaningList(string.Format("ItemID = {0}", entityItemReqDt.ItemID), ctx);
                             PurchaseRequestDt itemDt = new PurchaseRequestDt();
 
-                            //entityItemReqDt.GCItemDetailStatus = Constant.TransactionStatus.PROCESSED;
                             itemDt.PurchaseRequestID = purchaseRequestID;
                             itemDt.ItemID = Convert.ToInt32(entityItemReqDt.ItemID);
                             itemDt.Quantity = Convert.ToDecimal(paramPurchaseRequest[ct]);
@@ -342,7 +355,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                         }
                     }
 
-                    if (flagID)
+                    if (hdnIsItemDistributionExist.Value == "1")
                     {
                         SaveItemDistributionHd(ctx, ref distributionID, ref distributionNo);
                         for (int ct = 0; ct < paramID.Length; ct++)
@@ -367,7 +380,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                         }
                     }
 
-                    if (flagIC)
+                    if (hdnIsItemConsumptionExist.Value == "1")
                     {
                         SaveItemConsumptionHd(ctx, ref itemConsumptionID, ref itemConsumptionNo);
                         for (int ct = 0; ct < paramID.Length; ct++)
@@ -417,6 +430,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

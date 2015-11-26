@@ -24,14 +24,26 @@ namespace CodeX.Muses.Web.Inventory.Program
             return Constant.MenuCode.Inventory.REORDER_ITEM_DISTRIBUTION; 
         }
 
-        #region Html Getter
+        #region Html Getter}
+        protected string OnGetFilterExpressionFromServiceUnit()
+        {
+            if (hdnListFromSiteServiceUnitID.Value != "")
+                return string.Format("SiteServiceUnitID IN ({0}) AND IsDeleted = 0", hdnListFromSiteServiceUnitID.Value);
+            return "1 = 0";
+        }
+        protected string OnGetFilterExpressionToServiceUnit()
+        {
+            if (hdnListToSiteServiceUnitID.Value != "")
+                return string.Format("SiteServiceUnitID IN ({0}) AND IsDeleted = 0", hdnListToSiteServiceUnitID.Value);
+            return "1 = 0";
+        }
         protected string OnGetFilterExpressionFromLocation()
         {
             return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, hdnTransactionCode.Value);
         }
         protected string OnGetFilterExpressionToLocation()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, hdnTransactionCodeItemRequest.Value);
+            return string.Format("{0};0;{1};", AppSession.UserLogin.SiteID, hdnTransactionCodeItemRequest.Value);
         }
         #endregion
 
@@ -57,6 +69,36 @@ namespace CodeX.Muses.Web.Inventory.Program
                 hdnTransactionCode.Value = Constant.TransactionCode.ITEM_DISTRIBUTION;
                 hdnTransactionCodeItemRequest.Value = Constant.TransactionCode.ITEM_REQUEST;
             }
+            List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, hdnTransactionCode.Value, "");
+            if (lstUserLocation.Count > 0)
+            {
+                List<ServiceUnitLocation> lstServiceUnitLocation = BusinessLayer.GetServiceUnitLocationList(string.Format("LocationID IN ({0})", string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList())));
+                hdnListFromSiteServiceUnitID.Value = string.Join(",", lstServiceUnitLocation.Select(p => p.SiteServiceUnitID).ToList());
+
+                List<vSiteServiceUnit> lstSiteServiceUnit = BusinessLayer.GetvSiteServiceUnitList(OnGetFilterExpressionFromServiceUnit());
+                if (lstSiteServiceUnit.Count == 1)
+                {
+                    vSiteServiceUnit serviceUnit = lstSiteServiceUnit.FirstOrDefault();
+                    hdnFromSiteServiceUnitID.Value = hdnDefaultSiteServiceUnitID.Value = serviceUnit.SiteServiceUnitID.ToString();
+                    hdnDefaultServiceUnitCode.Value = serviceUnit.ServiceUnitCode;
+                    hdnDefaultServiceUnitName.Value = serviceUnit.ServiceUnitName;
+
+                    if (lstUserLocation.Count == 1)
+                    {
+                        GetLocationUserList location = lstUserLocation.FirstOrDefault();
+                        hdnDefaultLocationID.Value = location.LocationID.ToString();
+                        hdnDefaultLocationCode.Value = location.LocationCode;
+                        hdnDefaultLocationName.Value = location.LocationName;
+                    }
+                }
+            }
+
+            lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, 0, hdnTransactionCodeItemRequest.Value, "");
+            if (lstUserLocation.Count > 0)
+            {
+                List<ServiceUnitLocation> lstServiceUnitLocation = BusinessLayer.GetServiceUnitLocationList(string.Format("LocationID IN ({0})", string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList())));
+                hdnListToSiteServiceUnitID.Value = string.Join(",", lstServiceUnitLocation.Select(p => p.SiteServiceUnitID).ToList());
+            }
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
             int PageCount = 1;
             int RowCount = 1;
@@ -68,13 +110,26 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(hdnFromLocationID, new ControlEntrySetting(false, false, false, "0"));
-            SetControlEntrySetting(txtFromLocationCode, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(txtFromLocationName, new ControlEntrySetting(false, false, true));
-            SetControlEntrySetting(txtNotes, new ControlEntrySetting(true, true, false));
-            
+            SetControlEntrySetting(lblFromSiteServiceUnit, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(hdnFromSiteServiceUnitID, new ControlEntrySetting(true, false, true, hdnDefaultSiteServiceUnitID.Value));
+            SetControlEntrySetting(txtFromServiceUnitCode, new ControlEntrySetting(true, false, true, hdnDefaultServiceUnitCode.Value));
+            SetControlEntrySetting(txtFromServiceUnitName, new ControlEntrySetting(false, false, true, hdnDefaultServiceUnitName.Value));
+            SetControlEntrySetting(lblFromLocation, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(hdnFromLocationID, new ControlEntrySetting(true, false, true, hdnDefaultLocationID.Value));
+            SetControlEntrySetting(txtFromLocationCode, new ControlEntrySetting(true, false, true, hdnDefaultLocationCode.Value));
+            SetControlEntrySetting(txtFromLocationName, new ControlEntrySetting(false, false, true, hdnDefaultLocationName.Value));
+            SetControlEntrySetting(hdnLstFilterFromLocationItemGroup, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(hdnLstFilterToLocationItemGroup, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(lblToSiteServiceUnit, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(hdnToSiteServiceUnitID, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtToServiceUnitCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtToServiceUnitName, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(lblToLocation, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(hdnToLocationID, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtToLocationCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtToLocationName, new ControlEntrySetting(false, false, true));
+
+            SetControlEntrySetting(txtNotes, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtItemOrderDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
             SetControlEntrySetting(txtItemOrderTime, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.TIME_FORMAT)));
         }
@@ -120,10 +175,10 @@ namespace CodeX.Muses.Web.Inventory.Program
                         qty = itemBalanceFromLocation.QuantityEND;
 
                     txtItemRequest.Attributes.Add("max", itemBalanceFromLocation.QuantityEND.ToString());
-                    txtItemRequest.Value = (qty - entity.ItemDistributionQtyOnOrder).ToString();
+                    txtItemRequest.Value = (qty - entity.ItemDistributionQtyOnOrder).ToString("0.00");
 
                     HtmlGenericControl divFromLocationQty = (HtmlGenericControl)e.Row.FindControl("divFromLocationQty");
-                    divFromLocationQty.InnerHtml = itemBalanceFromLocation.QuantityEND.ToString();
+                    divFromLocationQty.InnerHtml = itemBalanceFromLocation.QuantityEND.ToString("0.00");
                 }
             }
         }
@@ -158,6 +213,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             ItemDistributionHdDao entityHdDao = new ItemDistributionHdDao(ctx);
             ItemDistributionHd entityHd = new ItemDistributionHd();
+            entityHd.FromSiteServiceUnitID = Convert.ToInt32(hdnFromSiteServiceUnitID.Value);
+            entityHd.ToSiteServiceUnitID = Convert.ToInt32(hdnToSiteServiceUnitID.Value);
             entityHd.FromLocationID = Convert.ToInt32(hdnFromLocationID.Value);
             entityHd.ToLocationID = Convert.ToInt32(hdnToLocationID.Value);
             entityHd.DeliveryDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
@@ -203,6 +260,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

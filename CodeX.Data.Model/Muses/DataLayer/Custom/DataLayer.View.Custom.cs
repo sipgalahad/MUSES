@@ -334,6 +334,22 @@ namespace CodeX.Data.Model
                 return UnitPrice.ToString("N") + " / " + _ItemUnit;
             }
         }
+
+        public String CustomTotalPurchaseUnit
+        {
+            get
+            {
+                return (_Quantity * _ConversionFactor).ToString("#,##0.00") + " " + _BaseUnit;
+            }
+        }
+
+        public Decimal CustomTotal
+        {
+            get
+            {
+                return _Quantity * _ConversionFactor;
+            }
+        }
         public String PurchaseDateInString
         {
             get { return _PurchaseDate.ToString(Constant.FormatString.DATE_FORMAT); }
@@ -719,6 +735,15 @@ namespace CodeX.Data.Model
             {
                 return DetailDesc.Split(new String[] { " PO:", " :" }, StringSplitOptions.None)[0];
             }
+        }
+    }
+    #endregion
+    #region vItemPlanningCustom
+    public partial class vItemPlanningCustom
+    {
+        public String cfConversion
+        {
+            get { return string.Format("1 {0} = {1} {2}", _PurchaseUnit, _ConversionFactor, _ItemUnit); }
         }
     }
     #endregion
@@ -2259,6 +2284,10 @@ namespace CodeX.Data.Model
         public Decimal StudentRemainingAmount
         {
             get { return _TotalStudentAmount - _PaymentAmount; }
+        }
+        public Decimal StudentRemainingAmountWithoutPenalty
+        {
+            get { return _TotalStudentAmount - _PaymentAmount - _TotalStudentPenaltyAmount; }
         }
         public String cfPeriod
         {

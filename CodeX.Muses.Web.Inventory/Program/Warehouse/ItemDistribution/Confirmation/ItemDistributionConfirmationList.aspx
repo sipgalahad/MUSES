@@ -171,10 +171,9 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:HyperLinkField HeaderText="No. Penerimaan" DataTextField="DistributionNo" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" ItemStyle-CssClass="lnkDistribution" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="DeliveryDateTimeInString" HeaderText="Tanggal Pengiriman"
-                                    ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="160px" />
-                                <asp:BoundField DataField="FromLocationName" HeaderText="Dari Lokasi"  HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
-                                    HeaderStyle-Width="300px" />
+                                <asp:BoundField DataField="DeliveryDateTimeInString" HeaderText="Tanggal Pengiriman" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="160px" />
+                                <asp:BoundField DataField="FromServiceUnitName" HeaderText="Dari Bagian"  HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" HeaderStyle-Width="300px" />
+                                <asp:BoundField DataField="FromLocationName" HeaderText="Dari Lokasi"  HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="DeliveryRemarks" HeaderText="Keterangan" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
                             </Columns>
                             <EmptyDataTemplate>

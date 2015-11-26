@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
     public partial class PurchaseReceiveDetailCtl {
         
         /// <summary>
+        /// hdnSiteServiceUnitID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteServiceUnitID;
+        
+        /// <summary>
         /// hdnSupplierID control.
         /// </summary>
         /// <remarks>

@@ -8440,6 +8440,7 @@ namespace CodeX.Data.Model
         private Int32 _DirectPurchaseID;
         private String _DirectPurchaseNo;
         private DateTime _PurchaseDate;
+        private Int32? _SiteServiceUnitID;
         private Int32 _LocationID;
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerName;
@@ -8478,6 +8479,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseDate; }
             set { _PurchaseDate = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -13855,7 +13862,9 @@ namespace CodeX.Data.Model
         private String _TransactionCode;
         private String _DistributionNo;
         private Int32? _ItemRequestID;
+        private Int32? _FromSiteServiceUnitID;
         private Int32 _FromLocationID;
+        private Int32? _ToSiteServiceUnitID;
         private Int32 _ToLocationID;
         private DateTime _DeliveryDate;
         private String _DeliveryTime;
@@ -13896,11 +13905,23 @@ namespace CodeX.Data.Model
             get { return _ItemRequestID; }
             set { _ItemRequestID = value; }
         }
+        [Column(Name = "FromSiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? FromSiteServiceUnitID
+        {
+            get { return _FromSiteServiceUnitID; }
+            set { _FromSiteServiceUnitID = value; }
+        }
         [Column(Name = "FromLocationID", DataType = "Int32")]
         public Int32 FromLocationID
         {
             get { return _FromLocationID; }
             set { _FromLocationID = value; }
+        }
+        [Column(Name = "ToSiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? ToSiteServiceUnitID
+        {
+            get { return _ToSiteServiceUnitID; }
+            set { _ToSiteServiceUnitID = value; }
         }
         [Column(Name = "ToLocationID", DataType = "Int32")]
         public Int32 ToLocationID
@@ -14911,8 +14932,10 @@ namespace CodeX.Data.Model
         private String _TransactionTime;
         private String _TransactionCode;
         private String _ItemRequestNo;
+        private Int32? _FromSiteServiceUnitID;
         private Int32 _FromLocationID;
-        private Int32 _ToLocationID;
+        private Int32? _ToSiteServiceUnitID;
+        private Int32? _ToLocationID;
         private String _Remarks;
         private String _GCTransactionStatus;
         private Int32 _CreatedBy;
@@ -14950,14 +14973,26 @@ namespace CodeX.Data.Model
             get { return _ItemRequestNo; }
             set { _ItemRequestNo = value; }
         }
+        [Column(Name = "FromSiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? FromSiteServiceUnitID
+        {
+            get { return _FromSiteServiceUnitID; }
+            set { _FromSiteServiceUnitID = value; }
+        }
         [Column(Name = "FromLocationID", DataType = "Int32")]
         public Int32 FromLocationID
         {
             get { return _FromLocationID; }
             set { _FromLocationID = value; }
         }
-        [Column(Name = "ToLocationID", DataType = "Int32")]
-        public Int32 ToLocationID
+        [Column(Name = "ToSiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? ToSiteServiceUnitID
+        {
+            get { return _ToSiteServiceUnitID; }
+            set { _ToSiteServiceUnitID = value; }
+        }
+        [Column(Name = "ToLocationID", DataType = "Int32", IsNullable = true)]
+        public Int32? ToLocationID
         {
             get { return _ToLocationID; }
             set { _ToLocationID = value; }
@@ -16134,6 +16169,70 @@ namespace CodeX.Data.Model
                 record = new LocationDao().Get(LocationID);
             else
                 record = Get(LocationID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region LocationItemGroup
+    [Serializable]
+    [Table(Name = "LocationItemGroup")]
+    public class LocationItemGroup : DbDataModel
+    {
+        private Int32 _LocationID;
+        private Int32 _ItemGroupID;
+
+        [Column(Name = "LocationID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+    }
+
+    public class LocationItemGroupDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(LocationItemGroup));
+        private bool _isAuditLog = false;
+        private const string p_ItemGroupID = "@p_ItemGroupID";
+        private const string p_LocationID = "@p_LocationID";
+        public LocationItemGroupDao() { }
+        public LocationItemGroupDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public LocationItemGroup Get(Int32 LocationID, Int32 ItemGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ItemGroupID, ItemGroupID);
+            _ctx.Add(p_LocationID, LocationID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (LocationItemGroup)_helper.DataRowToObject(row, new LocationItemGroup());
+        }
+        public int Insert(LocationItemGroup record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(LocationItemGroup record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 LocationID, Int32 ItemGroupID)
+        {
+            LocationItemGroup record;
+            if (_ctx.Transaction == null)
+                record = new LocationItemGroupDao().Get(LocationID, ItemGroupID);
+            else
+                record = Get(LocationID, ItemGroupID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -20930,6 +21029,7 @@ namespace CodeX.Data.Model
         private String _TransactionCode;
         private DateTime _OrderDate;
         private String _PurchaseOrderNo;
+        private Int32? _SiteServiceUnitID;
         private Int32? _LocationID;
         private DateTime _DeliveryDate;
         private DateTime _POExpiredDate;
@@ -20978,6 +21078,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseOrderNo; }
             set { _PurchaseOrderNo = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32", IsNullable = true)]
         public Int32? LocationID
@@ -21459,6 +21565,7 @@ namespace CodeX.Data.Model
         private DateTime _ReceivedDate;
         private String _ReceivedTime;
         private String _PurchaseReceiveNo;
+        private Int32? _SiteServiceUnitID;
         private Int32 _LocationID;
         private Int32 _BusinessPartnerID;
         private Int32 _TermID;
@@ -21518,6 +21625,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReceiveNo; }
             set { _PurchaseReceiveNo = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -22399,7 +22512,8 @@ namespace CodeX.Data.Model
         private String _TransactionTime;
         private String _PurchaseRequestNo;
         private Int32? _ItemRequestID;
-        private Int32 _FromLocationID;
+        private Int32? _SiteServiceUnitID;
+        private Int32? _FromLocationID;
         private Int32? _ToLocationID;
         private String _Remarks;
         private String _GCTransactionStatus;
@@ -22438,8 +22552,14 @@ namespace CodeX.Data.Model
             get { return _ItemRequestID; }
             set { _ItemRequestID = value; }
         }
-        [Column(Name = "FromLocationID", DataType = "Int32")]
-        public Int32 FromLocationID
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "FromLocationID", DataType = "Int32", IsNullable = true)]
+        public Int32? FromLocationID
         {
             get { return _FromLocationID; }
             set { _FromLocationID = value; }
@@ -22508,8 +22628,7 @@ namespace CodeX.Data.Model
         }
         public int Insert(PurchaseRequestHd record)
         {
-            record.CreatedDate = record.LastUpdatedDate = DateTime.Now;
-            record.LastUpdatedBy = record.CreatedBy;
+            record.CreatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

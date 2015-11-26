@@ -33,6 +33,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtItemDistributionNo.Text = entity.DistributionNo;
             txtFromLocationName.Text = string.Format("{0} ({1})", entity.FromLocationName, entity.FromLocationCode);
             txtToLocationName.Text = string.Format("{0} ({1})", entity.ToLocationName, entity.ToLocationCode);
+            txtFromServiceUnitName.Text = string.Format("{0} ({1})", entity.FromServiceUnitName, entity.FromServiceUnitCode);
+            txtToServiceUnitName.Text = string.Format("{0} ({1})", entity.ToServiceUnitName, entity.ToServiceUnitCode);
             txtNotes.Text = entity.DeliveryRemarks;
         }
 

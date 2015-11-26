@@ -26,7 +26,7 @@
                 $('#divTransactionAdd').hide();
                 $('#divQuickPicks').hide();
             }
-            
+
             setDatePicker('<%=txtItemOrderDate.ClientID %>');
             $('#<%=txtItemOrderDate.ClientID %>').datepicker('option', 'maxDate', '0');
 
@@ -47,79 +47,152 @@
             }
             //#endregion
 
-            //#region Location From
-            function getLocationFilterExpression() {
-                var filterExpression = "<%=OnGetFilterExpressionFromLocation() %>";
+            //#region From Service Unit
+            function onGetFromServiceUnitFilterExpression() {
+                var filterExpression = "<%=OnGetFilterExpressionFromServiceUnit() %>";
                 return filterExpression;
             }
 
-            $('#<%=lblLocation.ClientID %>.lblLink').live('click', function () {
-                openSearchDialog('locationroleuser', getLocationFilterExpression(), function (value) {
-                    $('#<%=txtLocationCode.ClientID %>').val(value);
+            $('#<%=lblFromSiteServiceUnit.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('serviceunitpersite', onGetFromServiceUnitFilterExpression(), function (value) {
+                    $('#<%=txtFromServiceUnitCode.ClientID %>').val(value);
+                    onTxtFromServiceUnitCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtFromServiceUnitCode.ClientID %>').live('change', function () {
+                onTxtFromServiceUnitCodeChanged($(this).val());
+            });
+
+            function onTxtFromServiceUnitCodeChanged(value) {
+                var filterExpression = onGetFromServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
+                Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
+                        $('#<%=txtFromServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+                    }
+                    else {
+                        $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val('');
+                        $('#<%=txtFromServiceUnitCode.ClientID %>').val('');
+                        $('#<%=txtFromServiceUnitName.ClientID %>').val('');
+                    }
+                    $('#<%=hdnFromLocationID.ClientID %>').val('');
+                    $('#<%=txtFromLocationCode.ClientID %>').val('');
+                    $('#<%=txtFromLocationName.ClientID %>').val('');
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
+                });
+            }
+            //#endregion
+
+            //#region Location From
+            function onGetLocationFilterExpression() {
+                if ($('#<%=hdnFromSiteServiceUnitID.ClientID %>').val() != "") {
+                    var filterExpression = "<%=OnGetFilterExpressionFromLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
+                    return filterExpression;
+                }
+                return "<%=OnGetFilterExpressionFromLocation()%>1 = 0";
+            }
+
+            $('#<%=lblFromLocation.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('locationroleuser', onGetLocationFilterExpression(), function (value) {
+                    $('#<%=txtFromLocationCode.ClientID %>').val(value);
                     onTxtLocationCodeChanged(value);
                 });
             });
 
-            $('#<%=txtLocationCode.ClientID %>').live('change', function () {
+            $('#<%=txtFromLocationCode.ClientID %>').live('change', function () {
                 onTxtLocationCodeChanged($(this).val());
             });
 
             function onTxtLocationCodeChanged(value) {
-                var filterExpression = getLocationFilterExpression() + "LocationCode = '" + value + "'";
+                var filterExpression = onGetLocationFilterExpression() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnLocationIDFrom.ClientID %>').val(result.LocationID);
-                        $('#<%=txtLocationName.ClientID %>').val(result.LocationName);
+                        $('#<%=hdnFromLocationID.ClientID %>').val(result.LocationID);
+                        $('#<%=txtFromLocationName.ClientID %>').val(result.LocationName);
 
                         filterExpression = "LocationID = " + result.LocationID;
-                        Methods.getObject('GetLocationList', filterExpression, function (result) {
-                            $('#<%=hdnFromLocationItemGroupID.ClientID %>').val(result.ItemGroupID);
+                        Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
+                            var filterLocationItemGroup = '';
+                            for (var i = 0; i < result.length; ++i) {
+                                if (filterLocationItemGroup != '')
+                                    filterLocationItemGroup += ' OR ';
+                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
+                            }
+                            if (filterLocationItemGroup != '')
+                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                            else
+                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
                         });
                     }
                     else {
-                        $('#<%=hdnLocationIDFrom.ClientID %>').val('');
-                        $('#<%=txtLocationCode.ClientID %>').val('');
-                        $('#<%=txtLocationName.ClientID %>').val('');
-                        $('#<%=hdnFromLocationItemGroupID.ClientID %>').val('');
+                        $('#<%=hdnFromLocationID.ClientID %>').val('');
+                        $('#<%=txtFromLocationCode.ClientID %>').val('');
+                        $('#<%=txtFromLocationName.ClientID %>').val('');
+                        $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
                     }
                 });
             }
             //#endregion
 
-            //#region Location To
-            function getLocationFilterExpressionTo() {
+            //#region To Service Unit
+            function onGetToLocationFilterExpression() {
                 var filterExpression = "<%=OnGetFilterExpressionToLocation() %>";
                 return filterExpression;
             }
 
-            $('#<%=lblLocationTo.ClientID %>.lblLink').live('click', function () {
-                openSearchDialog('locationroleuser', getLocationFilterExpressionTo(), function (value) {
-                    $('#<%=txtLocationCodeTo.ClientID %>').val(value);
-                    onTxtLocationToCodeChanged(value);
+            function onGetToServiceUnitFilterExpression() {
+                var filterExpression = "<%=OnGetFilterExpressionToServiceUnit() %>";
+                if ($('#<%=hdnFromSiteServiceUnitID.ClientID %>').val() != '')
+                    filterExpression += " AND SiteServiceUnitID != " + $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val();
+                return filterExpression;
+            }
+
+            $('#<%=lblToSiteServiceUnit.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('serviceunitpersite', onGetToServiceUnitFilterExpression(), function (value) {
+                    $('#<%=txtToServiceUnitCode.ClientID %>').val(value);
+                    onTxtToServiceUnitCodeChanged(value);
                 });
             });
 
-            $('#<%=txtLocationCodeTo.ClientID %>').live('change', function () {
-                onTxtLocationToCodeChanged($(this).val());
+            $('#<%=txtToServiceUnitCode.ClientID %>').live('change', function () {
+                onTxtToServiceUnitCodeChanged($(this).val());
             });
 
-            function onTxtLocationToCodeChanged(value) {
-                var filterExpression = getLocationFilterExpressionTo() + "LocationCode = '" + value + "'";
-                Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
+            function onTxtToServiceUnitCodeChanged(value) {
+                var filterExpression = onGetToServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
+                Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnLocationIDTo.ClientID %>').val(result.LocationID);
-                        $('#<%=txtLocationNameTo.ClientID %>').val(result.LocationName);
+                        $('#<%=hdnToSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
+                        $('#<%=txtToServiceUnitName.ClientID %>').val(result.ServiceUnitName);
 
-                        filterExpression = "LocationID = " + result.LocationID;
-                        Methods.getObject('GetLocationList', filterExpression, function (result) {
-                            $('#<%=hdnToLocationItemGroupID.ClientID %>').val(result.ItemGroupID);
+                        var filterExpression = onGetToLocationFilterExpression() + "LocationID IN (SELECT LocationID FROM ServiceUnitLocation WHERE SiteServiceUnitID = '" + result.SiteServiceUnitID + "')";
+                        Methods.getListObject('GetLocationUserAccessList', filterExpression, function (result) {
+                            var lstLocationID = '';
+                            for (var i = 0; i < result.length; ++i) {
+                                if (lstLocationID != '')
+                                    lstLocationID += ',';
+                                lstLocationID += result[i].LocationID;
+                            }
+                            var filterExpression = "LocationID IN (" + lstLocationID + ")";
+                            Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
+                                var filterLocationItemGroup = '';
+                                for (var i = 0; i < result.length; ++i) {
+                                    if (filterLocationItemGroup != '')
+                                        filterLocationItemGroup += ' OR ';
+                                    filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
+                                }
+                                if (filterLocationItemGroup != '')
+                                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                                else
+                                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
+                            });
                         });
                     }
                     else {
-                        $('#<%=hdnLocationIDTo.ClientID %>').val('');
-                        $('#<%=txtLocationCodeTo.ClientID %>').val('');
-                        $('#<%=txtLocationNameTo.ClientID %>').val('');
-                        $('#<%=hdnToLocationItemGroupID.ClientID %>').val('');
+                        $('#<%=hdnToSiteServiceUnitID.ClientID %>').val('');
+                        $('#<%=txtToServiceUnitCode.ClientID %>').val('');
+                        $('#<%=txtToServiceUnitName.ClientID %>').val('');
                     }
                 });
             }
@@ -128,10 +201,10 @@
             //#region Item Group
             function onGetItemGroupFilterExpression() {
                 var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
-                if ($('#<%=hdnFromLocationItemGroupID.ClientID %>').val() != '')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnFromLocationItemGroupID.ClientID %>').val() + "/%')";
-                if ($('#<%=hdnToLocationItemGroupID.ClientID %>').val() != '')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnToLocationItemGroupID.ClientID %>').val() + "/%')";
+                if ($('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() != '')
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() + ")";
+                if ($('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() != '')
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() + ")";
                 return filterExpression;
             }
 
@@ -169,10 +242,10 @@
                 if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
                     filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
                 else {
-                    if ($('#<%=hdnFromLocationItemGroupID.ClientID %>').val() != '')
-                        filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnFromLocationItemGroupID.ClientID %>').val() + "/%')";
-                    if ($('#<%=hdnToLocationItemGroupID.ClientID %>').val() != '')
-                        filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnToLocationItemGroupID.ClientID %>').val() + "/%')";
+                    if ($('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() != '')
+                        filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() + ")";
+                    if ($('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() != '')
+                        filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() + ")";
                 }
                 if (orderID != '')
                     filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM ItemRequestDt WHERE ItemRequestID = " + orderID + " AND IsDeleted = 0)";
@@ -203,12 +276,17 @@
                         $('#<%=txtItemName.ClientID %>').val(result.ItemName1);
                         $('#<%=hdnGCBaseUnit.ClientID %>').val(result.GCItemUnit);
                         $('#<%=hdnGCItemUnit.ClientID %>').val('');
-                        Methods.getItemQtyOnOrder(result.ItemID, $('#<%=hdnLocationIDFrom.ClientID %>').val(), 1, function (result3) {
-                            if (result3 != null) 
-                                $('#<%=txtQtyOnOrder.ClientID %>').val(result3.QtyOnOrder + " " + result.ItemUnit);
+                        $('#<%=txtStockServiceUnitItemUnit.ClientID %>').val(result.ItemUnit);
+                        $('#<%=txtQtyOnOrderItemUnit.ClientID %>').val(result.ItemUnit);
+                        var filterExpression = "<%=OnGetItemQtyOnOrderFilterExpression() %>";
+                        filterExpression = filterExpression.replace('[SiteServiceUnitID]', $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val());
+                        filterExpression = filterExpression.replace('[ItemID]', $('#<%=hdnItemID.ClientID %>').val());
+                        Methods.getValue('GetvItemRequestDtSumQtyOnOrder', filterExpression, function (result3) {
+                            if (result3 != null)
+                                $('#<%=txtQtyOnOrder.ClientID %>').val(result3);
                             else
-                                $('#<%=txtQtyOnOrder.ClientID %>').val("0 " + result.ItemUnit);
-                            GetItemQtyFromLocation();
+                                $('#<%=txtQtyOnOrder.ClientID %>').val("0");
+                            GetItemQtyFromServiceUnit();
                         });
                         cboItemUnit.PerformCallback();
                     }
@@ -217,25 +295,44 @@
                         $('#<%=hdnItemID.ClientID %>').val('');
                         $('#<%=txtItemName.ClientID %>').val('');
                         $('#<%=txtQtyOnOrder.ClientID %>').val('');
-                        $('#<%=txtStockFromLocation.ClientID %>').val('');
+                        $('#<%=txtStockServiceUnit.ClientID %>').val('');
+                        $('#<%=txtStockServiceUnitItemUnit.ClientID %>').val('');
+                        $('#<%=txtQtyOnOrderItemUnit.ClientID %>').val('');
                     }
                 });
             }
             //#endregion
 
+            $('#btnQtyOnOrderDetail').click(function () {
+                var qtyOnOrder = $('#<%=txtQtyOnOrder.ClientID %>').val();
+                if (qtyOnOrder != '' && qtyOnOrder != '0') {
+                    var itemID = $('#<%=hdnItemID.ClientID %>').val();
+                    var siteServiceUnitID = $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val();
+                    if (itemID != '' && siteServiceUnitID != '') {
+                        var param = siteServiceUnitID + '|' + itemID;
+                        var url = ResolveUrl("~/Program/Warehouse/ItemRequest/ItemRequestQtyOnOrderCtl.ascx");
+                        openUserControlPopup(url, param, 'Qty On Order', 1000, 500);
+                    }
+                }
+            });
+
             $('#divTransactionAdd').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
-                    $('#<%=lblLocation.ClientID %>').attr('class', 'lblDisabled');
-                    $('#<%=lblLocationTo.ClientID %>').attr('class', 'lblDisabled');
-                    $('#<%=txtLocationCode.ClientID %>').attr('readonly', 'readonly');
-                    $('#<%=txtLocationCodeTo.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=lblFromLocation.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=lblFromSiteServiceUnit.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=lblToSiteServiceUnit.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=txtFromLocationCode.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtFromServiceUnitCode.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtToServiceUnitCode.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=txtQuantity.ClientID %>').val('1');
                     $('#<%=hdnEntryID.ClientID %>').val('');
                     $('#<%=hdnItemID.ClientID %>').val('');
                     $('#<%=txtItemCode.ClientID %>').val('');
                     $('#<%=txtItemName.ClientID %>').val('');
                     $('#<%=txtQtyOnOrder.ClientID %>').val('');
-                    $('#<%=txtStockFromLocation.ClientID %>').val('');
+                    $('#<%=txtStockServiceUnit.ClientID %>').val('');
+                    $('#<%=txtStockServiceUnitItemUnit.ClientID %>').val('');
+                    $('#<%=txtQtyOnOrderItemUnit.ClientID %>').val('');
                     cboItemUnit.SetValue('');
                     $('#<%=txtConversion.ClientID %>').val('');
 
@@ -251,9 +348,10 @@
                     showLoadingPanel();
                     var url = ResolveUrl('~/Program/Warehouse/ItemRequest/ItemRequestQuickPicksCtl.ascx');
                     var transactionID = $('#<%=hdnOrderID.ClientID %>').val();
-                    var locationID = $('#<%=hdnLocationIDFrom.ClientID %>').val();
-                    var locationItemGroupID = $('#<%=hdnFromLocationItemGroupID.ClientID %>').val();
-                    var id = transactionID + '|' + locationID + '|' + locationItemGroupID;
+                    var lstLocationID = $('#<%=hdnLstLocationID.ClientID %>').val();
+                    var fromLocationItemGroupID = $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val();
+                    var toLocationItemGroupID = $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val();
+                    var id = transactionID + '|' + lstLocationID + '|' + fromLocationItemGroupID + '|' + toLocationItemGroupID;
                     openUserControlPopup(url, id, 'Quick Picks', 1000, 600);
                 }
             });
@@ -277,14 +375,18 @@
             });
         }
 
-        function GetItemQtyFromLocation() {
-            var filterExpression = "LocationID = " + $('#<%=hdnLocationIDFrom.ClientID %>').val() + " AND ItemID = " + $('#<%=hdnItemID.ClientID %>').val() + " AND IsDeleted = 0";
-            Methods.getObject('GetvItemBalanceList', filterExpression, function (result) {
-                if (result == null) 
-                    $('#<%=txtStockFromLocation.ClientID %>').val('');
-                else
-                    $('#<%=txtStockFromLocation.ClientID %>').val(result.QuantityEND + ' ' + result.ItemUnit);
-            });
+        function GetItemQtyFromServiceUnit() {
+            if ($('#<%=hdnLstLocationID.ClientID %>').val() != "") {
+                var filterExpression = "LocationID IN (" + $('#<%=hdnLstLocationID.ClientID %>').val() + ") AND ItemID = " + $('#<%=hdnItemID.ClientID %>').val() + " AND IsDeleted = 0";
+                Methods.getValue('GetItemBalanceSumQuantityEND', filterExpression, function (result) {
+                    if (result != null)
+                        $('#<%=txtStockServiceUnit.ClientID %>').val(result);
+                    else
+                        $('#<%=txtStockServiceUnit.ClientID %>').val('');
+                });
+            }
+            else
+                $('#<%=txtStockServiceUnit.ClientID %>').val('');
         }
 
         //#region edit dan delete
@@ -313,12 +415,17 @@
             $('#<%=txtItemName.ClientID %>').val(entity.ItemName1);
             $('#<%=txtQuantity.ClientID %>').val(entity.Quantity);
             cboItemUnit.PerformCallback();
-            Methods.getItemQtyOnOrder(entity.ItemID, $('#<%=hdnLocationIDFrom.ClientID %>').val(), 1, function (result3) {
+            $('#<%=txtStockServiceUnitItemUnit.ClientID %>').val(entity.ItemUnit);
+            $('#<%=txtQtyOnOrderItemUnit.ClientID %>').val(entity.ItemUnit);
+            var filterExpression = "<%=OnGetItemQtyOnOrderFilterExpression() %>";
+            filterExpression = filterExpression.replace('[SiteServiceUnitID]', $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val());
+            filterExpression = filterExpression.replace('[ItemID]', $('#<%=hdnItemID.ClientID %>').val());
+            Methods.getValue('GetvItemRequestDtSumQtyOnOrder', filterExpression, function (result3) {
                 if (result3 != null)
-                    $('#<%=txtQtyOnOrder.ClientID %>').val((result3.QtyOnOrder - entity.CustomTotal) + " " + entity.BaseUnit);
+                    $('#<%=txtQtyOnOrder.ClientID %>').val(result3);
                 else
-                    $('#<%=txtQtyOnOrder.ClientID %>').val('');
-                GetItemQtyFromLocation();
+                    $('#<%=txtQtyOnOrder.ClientID %>').val("0");
+                GetItemQtyFromServiceUnit();
             });
             $('#entryDetailContainer').show();
         });
@@ -438,7 +545,44 @@
                 errMessage.text = "Data Doesn't Approved or Closed";
                 return false;
             }
-            
+        }
+
+        $('.chkLocation input').live('change', function () {
+            setDdeLocationText();
+        });
+
+        $(function () {
+            $('#btnItemBalanceDt').click(function () {
+                var itemID = $('#<%=hdnItemID.ClientID %>').val();
+                var locationID = $('#<%=hdnLstLocationID.ClientID %>').val();
+                if (itemID != '' && locationID != '') {
+                    var param = itemID + '|' + locationID;
+                    var url = ResolveUrl("~/Program/Information/ItemBalanceDtCtl.ascx");
+                    openUserControlPopup(url, param, 'Item Per Lokasi', 700, 500);
+                }
+            });
+
+            setDdeLocationText();
+        });
+
+        function setDdeLocationText() {
+            var lstLocationID = '';
+            var lstLocationName = '';
+            $('.chkLocation input:checked').each(function () {
+                if (lstLocationName != '') {
+                    lstLocationName += ', ';
+                    lstLocationID += ',';
+                }
+                lstLocationID += $(this).parent().attr('locationid');
+                lstLocationName += $(this).parent().attr('locationname');
+            });
+            $('#<%=hdnLstLocationID.ClientID %>').val(lstLocationID);
+            ddeLocation.SetText(lstLocationName);
+        }
+
+        function onCbpLocationEndCallback(s) {
+            hideLoadingPanel();
+            setDdeLocationText();
         }
     </script>
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
@@ -446,6 +590,15 @@
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
+    <input type="hidden" value="" id="hdnListFromSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnListToSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultServiceUnitCode" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultServiceUnitName" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultLocationID" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultLocationCode" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultLocationName" runat="server" />
+    <input type="hidden" value="" id="hdnLstLocationID" runat="server" />
     <div style="height: 495px; overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
             <colgroup>
@@ -464,10 +617,9 @@
                             <td><asp:TextBox ID="txtOrderNo" Width="150px" ReadOnly="true" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblLocation"><%=GetLabel("Dari Lokasi")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblFromSiteServiceUnit"><%=GetLabel("Dari Bagian")%></label></td>
                             <td>
-                                <input type="hidden" id="hdnLocationIDFrom" value="" runat="server" />
-                                <input type="hidden" id="hdnFromLocationItemGroupID" value="" runat="server" />
+                                <input type="hidden" id="hdnFromSiteServiceUnitID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -475,11 +627,54 @@
                                         <col />
                                     </colgroup>
                                     <tr>
-                                        <td><asp:TextBox ID="txtLocationCode" Width="100%" runat="server" /></td>
+                                        <td><asp:TextBox ID="txtFromServiceUnitCode" Width="100%" runat="server" /></td>
                                         <td>&nbsp;</td>
-                                        <td><asp:TextBox ID="txtLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td><asp:TextBox ID="txtFromServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblFromLocation"><%=GetLabel("Dari Lokasi")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnFromLocationID" value="" runat="server" />
+                                <input type="hidden" value="" id="hdnLstFilterFromLocationItemGroup" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtFromLocationCode" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtFromLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Lokasi")%></label></td>
+                            <td>
+                                <dxcp:ASPxCallbackPanel ID="cbpLocation" runat="server" Width="100%" ClientInstanceName="cbpLocation"
+                                    ShowLoadingPanel="false" OnCallback="cbpLocation_Callback">
+                                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpLocationEndCallback(s); }" />
+                                    <PanelCollection>
+                                        <dx:PanelContent ID="PanelContent2" runat="server">
+                                            <dxe:ASPxDropDownEdit ClientInstanceName="ddeLocation" ID="ddeLocation"
+                                                Width="300px" runat="server" EnableAnimation="False">
+                                                <DropDownWindowStyle BackColor="#EDEDED" />
+                                                <DropDownWindowTemplate>
+                                                    <asp:Repeater ID="rptLocation" runat="server" OnItemDataBound="rptLocation_ItemDataBound">
+                                                        <ItemTemplate>
+                                                            <asp:CheckBox ID="chkLocation" CssClass="chkLocation" runat="server"  /> <%#Eval("LocationName") %><br />
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>
+                                                </DropDownWindowTemplate>
+                                            </dxe:ASPxDropDownEdit>
+                                        </dx:PanelContent>
+                                    </PanelCollection>
+                                </dxcp:ASPxCallbackPanel>
                             </td>
                         </tr>
                         <tr>
@@ -507,10 +702,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblLocationTo"><%=GetLabel("Kepada Lokasi")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblToSiteServiceUnit"><%=GetLabel("Ke Bagian")%></label></td>
                             <td>
-                                <input type="hidden" id="hdnLocationIDTo" value="" runat="server" />
-                                <input type="hidden" id="hdnToLocationItemGroupID" value="" runat="server" />
+                                <input type="hidden" id="hdnToSiteServiceUnitID" value="" runat="server" />
+                                <input type="hidden" value="" id="hdnLstFilterToLocationItemGroup" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -518,14 +713,13 @@
                                         <col />
                                     </colgroup>
                                     <tr>
-                                        <td><asp:TextBox ID="txtLocationCodeTo" Width="100%" runat="server" /></td>
+                                        <td><asp:TextBox ID="txtToServiceUnitCode" Width="100%" runat="server" /></td>
                                         <td>&nbsp;</td>
-                                        <td><asp:TextBox ID="txtLocationNameTo" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td><asp:TextBox ID="txtToServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
                             </td>
                         </tr>
-                        
                     </table>
                 </td>
             </tr>
@@ -547,6 +741,7 @@
                                             <table style="width: 50%">
                                                 <colgroup>
                                                     <col style="width: 150px" />
+                                                    <col style="width: 380px"/>
                                                 </colgroup>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblLink" id="lblItemGroup"><%=GetLabel("Kelompok Item")%></label></td>
@@ -585,11 +780,20 @@
                                                             </tr>
                                                         </table>
                                                     </td>
-                                                </tr>     
+                                                </tr>  
                                                 <tr>
-                                                    <td class="tdLabel"><label><%=GetLabel("Stok (Dari Lokasi)")%></label></td>
-                                                    <td><asp:TextBox ID="txtStockFromLocation" ReadOnly="true" CssClass="number" Width="120px" runat="server"/></td>
-                                                </tr>                           
+                                                    <td class="tdLabel"><label><%=GetLabel("Stok")%></label></td>
+                                                    <td>
+                                                        <table cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="width: 120px"><asp:TextBox ID="txtStockServiceUnit" ReadOnly="true" CssClass="number" Width="100%" runat="server"/></td>
+                                                                <td style="width: 3px">&nbsp;</td>
+                                                                <td style="width: 250px"><asp:TextBox ID="txtStockServiceUnitItemUnit" ReadOnly="true" Width="100%" runat="server" /></td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td><input type="button" id="btnItemBalanceDt" class="btnMore" value="..."/></td>
+                                                </tr>                    
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jumlah")%></label></td>
                                                     <td><asp:TextBox ID="txtQuantity" CssClass="number" Width="120px" runat="server"/></td>
@@ -613,8 +817,13 @@
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Qty On Order")%></label></td>
                                                     <td>
-                                                        <input type="hidden" id="hdnQtyOnOrder" value="" />
-                                                        <asp:TextBox ID="txtQtyOnOrder" ReadOnly="true" Width="100%" runat="server" Style="text-align: right;" />                                                         
+                                                        <table cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="width: 120px"><asp:TextBox ID="txtQtyOnOrder" ReadOnly="true" CssClass="number" Width="100%" runat="server"/></td>
+                                                                <td style="width: 3px">&nbsp;</td>
+                                                                <td style="width: 250px"><asp:TextBox ID="txtQtyOnOrderItemUnit" ReadOnly="true" Width="100%" runat="server" /></td>
+                                                            </tr>
+                                                        </table>
                                                     </td>
                                                     <td><input type="button" id="btnQtyOnOrderDetail" class="btnMore" value="..."/></td>
                                                 </tr>

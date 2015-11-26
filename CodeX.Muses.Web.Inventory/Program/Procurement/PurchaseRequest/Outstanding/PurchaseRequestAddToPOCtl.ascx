@@ -46,6 +46,7 @@
 <div style="height:440px; overflow-y:auto;overflow-x: hidden">
     <input type="hidden" id="hdnID" runat="server" />
     <input type="hidden" id="hdnPurchaseRequestID" runat="server" />
+    <input type="hidden" value="" id="hdnListSiteServiceUnitID" runat="server" />
     <table class="tblContentArea">
         <colgroup>
             <col style="width:100%"/>

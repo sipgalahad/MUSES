@@ -226,6 +226,16 @@ namespace CodeX.Data.Core.Dal
             return temp;
         }
 
+        public string SelectSumColumn(string columnName, string filterExpression = "")
+        {
+            string result = string.Format("SELECT SUM({1}) FROM {0} ", _tableName, columnName);
+            if (filterExpression != null && filterExpression.Trim().Length > 0)
+            {
+                result += string.Format("WHERE {0}", string.Format(filterExpression));
+            }
+            return result;
+        }
+
         public string GetRowCount(string filterExpression, params object[] args)
         {
             string result = string.Format("SELECT COUNT(*) FROM {0} ", _tableName);

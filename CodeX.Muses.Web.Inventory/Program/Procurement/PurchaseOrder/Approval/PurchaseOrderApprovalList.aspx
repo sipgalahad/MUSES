@@ -102,6 +102,7 @@ CodeBehind="PurchaseOrderApprovalList.aspx.cs" Inherits="CodeX.Muses.Web.Invento
     </script>
     <input type="hidden" value="" id="hdnParam" runat="server" />
     <input type="hidden" value="" id="hdnID" runat="server" />
+    <input type="hidden" value="" id="hdnListSiteServiceUnitID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <div style="position: relative;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
@@ -120,6 +121,7 @@ CodeBehind="PurchaseOrderApprovalList.aspx.cs" Inherits="CodeX.Muses.Web.Invento
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="PurchaseOrderNo" HeaderText="No Pemesanan" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="ServiceUnitName" HeaderText="Bagian" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="BusinessPartnerName" HeaderText="Nama Supplier" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="TransactionAmount" HeaderText="Jumlah Transaksi" />
                                 <asp:BoundField DataField="OrderDateInString" HeaderText="Tanggal Pemesanan" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="150px" />

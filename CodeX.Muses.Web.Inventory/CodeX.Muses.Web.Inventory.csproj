@@ -134,6 +134,8 @@
     <Content Include="Program\Procurement\PurchaseOrder\PurchaseOrderReorder.aspx" />
     <Content Include="Program\Procurement\PurchaseRequest\Approval\PurchaseRequestApprovalDetail.aspx" />
     <Content Include="Program\Procurement\PurchaseRequest\Approval\PurchaseRequestApprovalList.aspx" />
+    <Content Include="Program\Information\ItemBalanceDtCtl.ascx" />
+    <Content Include="Program\Procurement\PurchaseRequest\Outstanding\PODPQtyOnOrderCtl.ascx" />
     <Content Include="Program\Procurement\PurchaseRequest\Outstanding\PurchaseRequestAddToPOCtl.ascx" />
     <Content Include="Program\Procurement\PurchaseRequest\Outstanding\PurchaseRequestOutstandingDetail.aspx" />
     <Content Include="Program\Procurement\PurchaseRequest\Outstanding\PurchaseRequestOutstandingDetail2.aspx" />
@@ -159,6 +161,7 @@
     <Content Include="Program\Warehouse\ItemRequest\Outstanding\ItemRequestOutstandingDetail.aspx" />
     <Content Include="Program\Warehouse\ItemRequest\Outstanding\ItemRequestOutstandingList.aspx" />
     <Content Include="Program\Warehouse\ItemRequest\Outstanding\ItemRequestProcessedDtCtl.ascx" />
+    <Content Include="Program\Warehouse\ItemRequest\ItemRequestQtyOnOrderCtl.ascx" />
     <Content Include="Program\Warehouse\PurchaseReceive\Approval\PurchaseReceiveApprovalDetail.aspx" />
     <Content Include="Program\Warehouse\PurchaseReceive\Approval\PurchaseReceiveApprovalList.aspx" />
     <Content Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationDetail.aspx" />
@@ -596,6 +599,20 @@
     <Compile Include="Program\Procurement\PurchaseRequest\Approval\PurchaseRequestApprovalList.aspx.designer.cs">
       <DependentUpon>PurchaseRequestApprovalList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Information\ItemBalanceDtCtl.ascx.cs">
+      <DependentUpon>ItemBalanceDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Information\ItemBalanceDtCtl.ascx.designer.cs">
+      <DependentUpon>ItemBalanceDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Procurement\PurchaseRequest\Outstanding\PODPQtyOnOrderCtl.ascx.cs">
+      <DependentUpon>PODPQtyOnOrderCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\PurchaseRequest\Outstanding\PODPQtyOnOrderCtl.ascx.designer.cs">
+      <DependentUpon>PODPQtyOnOrderCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Procurement\PurchaseRequest\Outstanding\PurchaseRequestAddToPOCtl.ascx.cs">
       <DependentUpon>PurchaseRequestAddToPOCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -770,6 +787,13 @@
     </Compile>
     <Compile Include="Program\Warehouse\ItemRequest\Outstanding\ItemRequestProcessedDtCtl.ascx.designer.cs">
       <DependentUpon>ItemRequestProcessedDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\ItemRequest\ItemRequestQtyOnOrderCtl.ascx.cs">
+      <DependentUpon>ItemRequestQtyOnOrderCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\ItemRequest\ItemRequestQtyOnOrderCtl.ascx.designer.cs">
+      <DependentUpon>ItemRequestQtyOnOrderCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Warehouse\PurchaseReceive\Approval\PurchaseReceiveApprovalDetail.aspx.cs">
       <DependentUpon>PurchaseReceiveApprovalDetail.aspx</DependentUpon>

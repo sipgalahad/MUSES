@@ -219,6 +219,7 @@
     }
     //#endregion
 </script>
+<input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />
 <input type="hidden" id="hdnSupplierID" value="" runat="server" />
 <input type="hidden" id="hdnLstPurchaseOrderDtID" runat="server" value="" />
 <input type="hidden" id="hdnSaveValue" runat="server" value="" />

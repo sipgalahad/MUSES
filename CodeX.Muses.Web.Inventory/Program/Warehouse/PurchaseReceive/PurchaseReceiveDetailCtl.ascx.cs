@@ -18,11 +18,13 @@ namespace CodeX.Muses.Web.Inventory.Program
     {
         protected string OnGetFilterExpressionPurchaseOrder()
         {
-            return string.Format("BusinessPartnerID = '{0}' AND GCTransactionStatus = '{1}'", hdnSupplierID.Value, Constant.TransactionStatus.APPROVED);
+            return string.Format("SiteServiceUnitID = {0} AND BusinessPartnerID = {1} AND GCTransactionStatus = '{2}'", hdnSiteServiceUnitID.Value, hdnSupplierID.Value, Constant.TransactionStatus.APPROVED);
         }
         public override void InitializeDataControl(string param)
         {
-            hdnSupplierID.Value = param;
+            string[] temp = param.Split('|');
+            hdnSiteServiceUnitID.Value = temp[0];
+            hdnSupplierID.Value = temp[1];
             BindGridView();
         }
 

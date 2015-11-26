@@ -39,7 +39,7 @@
 
 <div style="height:440px; overflow-y:auto;overflow-x: hidden">
     <input type="hidden" id="hdnItemID" runat="server" />
-    <input type="hidden" id="hdnLocationID" runat="server" />
+    <input type="hidden" id="hdnSiteServiceUnitID" runat="server" />
     <table class="tblContentArea">
         <colgroup>
             <col style="width:100%"/>
@@ -51,8 +51,8 @@
                         <col style="width:160px"/>
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Location")%></label></td>
-                        <td colspan="2"><asp:TextBox ID="txtLocation" ReadOnly="true" Width="400px" runat="server" /></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Bagian")%></label></td>
+                        <td colspan="2"><asp:TextBox ID="txtServiceUnit" ReadOnly="true" Width="400px" runat="server" /></td>
                     </tr>  
                     <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Item")%></label></td>

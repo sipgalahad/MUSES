@@ -30,6 +30,12 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_REQUEST, "");
+            if (lstUserLocation.Count > 0)
+            {
+                List<ServiceUnitLocation> lstServiceUnitLocation = BusinessLayer.GetServiceUnitLocationList(string.Format("LocationID IN ({0})", string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList())));
+                hdnListSiteServiceUnitID.Value = string.Join(",", lstServiceUnitLocation.Select(p => p.SiteServiceUnitID).ToList());
+            }
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);
         }
@@ -39,7 +45,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += String.Format("GCTransactionStatus = '{0}'", Constant.TransactionStatus.APPROVED);
+            if (hdnListSiteServiceUnitID.Value != "")
+                filterExpression += String.Format("SiteServiceUnitID IN ({0}) AND GCTransactionStatus = '{1}'", hdnListSiteServiceUnitID.Value, Constant.TransactionStatus.APPROVED);
+            else
+                filterExpression += "1 = 0";
 
             if (isCountPageCount)
             {

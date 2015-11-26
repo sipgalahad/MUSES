@@ -70,13 +70,58 @@
             }
             //#endregion
 
-            //#region Location
+            //#region Service Unit
             function getLocationFilterExpression() {
                 var filterExpression = "<%=OnGetFilterExpressionLocation() %>";
                 return filterExpression;
             }
 
+            function getServiceUnitFilterExpression() {
+                var filterExpression = "<%=OnGetFilterExpressionServiceUnit() %>";
+                return filterExpression;
+            }
+
+            $('#<%=lblSiteServiceUnit.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('serviceunitpersite', getServiceUnitFilterExpression(), function (value) {
+                    $('#<%=txtServiceUnitCode.ClientID %>').val(value);
+                    onTxtServiceUnitCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtServiceUnitCode.ClientID %>').live('change', function () {
+                onTxtServiceUnitCodeChanged($(this).val());
+            });
+
+            function onTxtServiceUnitCodeChanged(value) {
+                var filterExpression = getServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
+                Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
+                        $('#<%=txtServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+                    }
+                    else {
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val('');
+                        $('#<%=txtServiceUnitCode.ClientID %>').val('');
+                        $('#<%=txtServiceUnitName.ClientID %>').val('');
+                    }
+                    $('#<%=hdnLocationID.ClientID %>').val('');
+                    $('#<%=txtLocationCode.ClientID %>').val('');
+                    $('#<%=txtLocationName.ClientID %>').val('');
+                });
+            }
+            //#endregion
+
+            //#region Location
+            function getLocationFilterExpression() {
+                if ($('#<%=hdnSiteServiceUnitID.ClientID %>').val() != "") {
+                    var filterExpression = "<%=OnGetFilterExpressionLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
+                    return filterExpression;
+                }
+                return "<%=OnGetFilterExpressionLocation() %>1 = 0";
+            }
+
             $('#<%=lblLocation.ClientID %>.lblLink').live('click', function () {
+                alert(getLocationFilterExpression());
                 openSearchDialog('locationroleuser', getLocationFilterExpression(), function (value) {
                     $('#<%=txtLocationCode.ClientID %>').val(value);
                     onTxtLocationCodeChanged(value);
@@ -88,7 +133,7 @@
             });
 
             function onTxtLocationCodeChanged(value) {
-                var filterExpression = getLocationFilterExpression() + "LocationCode = '" + value + "'";
+                var filterExpression = getLocationFilterExpression() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnLocationID.ClientID %>').val(result.LocationID);
@@ -403,7 +448,7 @@
             else {
                 $('#btnPurchaseReceive').click(function () {
                     if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
-                        var param = $('#<%=hdnSupplierID.ClientID %>').val();
+                        var param = $('#<%=hdnSiteServiceUnitID.ClientID %>').val() + '|' + $('#<%=hdnSupplierID.ClientID %>').val();
                         var url = ResolveUrl("~/Program/Warehouse/PurchaseReceive/PurchaseReceiveDetailCtl.ascx");
                         openUserControlPopup(url, param, 'Penerimaan Pembelian Detail', 1200, 550);
                     }
@@ -634,6 +679,10 @@
     <input type="hidden" value="0" id="hdnNeedConfirmation" runat="server" />
     <input type="hidden" value="0" id="hdnIsDiscountAppliedToAveragePrice" runat="server" />
     <input type="hidden" value="0" id="hdnIsDiscountAppliedToUnitPrice" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultServiceUnitCode" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultServiceUnitName" runat="server" />
+    <input type="hidden" value="" id="hdnListSiteServiceUnitID" runat="server" />
     <div style="overflow-x: hidden;">
         <table class="tblContentArea">
             <colgroup>
@@ -713,6 +762,24 @@
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Waktu Pembayaran")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboTerm" ClientInstanceName="cboTerm" Width="300px" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblSiteServiceUnit"><%=GetLabel("Bagian")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtServiceUnitCode" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblLocation"><%=GetLabel("Ke Lokasi")%></label></td>

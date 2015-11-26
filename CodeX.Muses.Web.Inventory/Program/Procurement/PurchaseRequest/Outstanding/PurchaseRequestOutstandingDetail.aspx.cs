@@ -39,6 +39,10 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected string filterExpressionSupplier = "";
 
+        protected string OnGetFilterExpressionLocation()
+        {
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.DIRECT_PURCHASE);
+        }
         protected string OnGetPurchaseMethodDirectPurchase()
         {
             return Constant.PurchaseMethod.DIRECT_PURCHASE;
@@ -92,15 +96,39 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtOrderNo.Text = entity.PurchaseRequestNo;
             txtItemOrderDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtItemOrderTime.Text = entity.TransactionTime;
-            hdnLocationIDFrom.Value = entity.FromLocationID.ToString();
-            txtLocationCode.Text = entity.LocationCode;
-            txtLocationName.Text = entity.LocationName;
+            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
+            txtServiceUnitCode.Text = entity.ServiceUnitCode;
+            txtServiceUnitName.Text = entity.ServiceUnitName;
             txtNotes.Text = entity.Remarks;
 
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
+            GetLocationItemGroupAndBindLocation(entity.SiteServiceUnitID);
             BindGridView(1, true, ref PageCount, ref RowCount);
         }
 
+        private void GetLocationItemGroupAndBindLocation(int SiteServiceUnitID)
+        {
+            string filterExpression = string.Format("{0}LocationID IN (SELECT LocationID FROM ServiceUnitLocation WHERE SiteServiceUnitID = {1})", OnGetFilterExpressionLocation(), SiteServiceUnitID);
+            List<GetLocationUserList> lstLocation = BusinessLayer.GetLocationUserAccessList(filterExpression);
+            string lstLocationID = String.Join(",", lstLocation.Select(p => p.LocationID).ToList());
+            if (lstLocationID != "")
+            {
+                hdnLstLocationID.Value = lstLocationID;
+                filterExpression = string.Format("LocationID IN ({0})", lstLocationID);
+                List<LocationItemGroup> lstLocationItemGroup = BusinessLayer.GetLocationItemGroupList(filterExpression);
+                string filterLocationItemGroup = String.Join(" OR ", lstLocationItemGroup.Select(p => string.Format("DisplayPath LIKE '%/{0}/%'", p.ItemGroupID)).ToList());
+                if (filterLocationItemGroup != "")
+                    hdnLstFilterLocationItemGroup.Value = string.Format("({0})", filterLocationItemGroup);
+                else
+                    hdnLstFilterLocationItemGroup.Value = "";
+            }
+            else
+                hdnLstFilterLocationItemGroup.Value = "";
+            BindLocation();
+        }
+
+        List<vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit> lstDirectPurchaseQtyOnOrder = null;
+        List<vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit> lstPurchaseOrderQtyOnOrder = null;
         List<StandardCode> lstPurchaseMethod = null;
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
@@ -132,11 +160,28 @@ namespace CodeX.Muses.Web.Inventory.Program
             lstPurchaseMethod = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_METHOD));
 
             List<vPurchaseRequestDtOutstanding> lstEntity = BusinessLayer.GetvPurchaseRequestDtOutstandingList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, " ItemName1 ASC");
+
+            string lstItemID = string.Join(",", lstEntity.Select(p => p.ItemID).ToList());
+            if (hdnLstLocationID.Value != "" && lstItemID != "")
+                lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID IN ({0}) AND ItemID IN ({1}) AND IsDeleted = 0", hdnLstLocationID.Value, lstItemID));
+            else
+                lstItemBalance = new List<ItemBalance>();
+            if (lstItemID != "" && hdnSiteServiceUnitID.Value != "" && hdnSiteServiceUnitID.Value != "0")
+            {
+                lstPurchaseOrderQtyOnOrder = BusinessLayer.GetvPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnitList(string.Format("SiteServiceUnitID = {0} AND ItemID IN ({1})", hdnSiteServiceUnitID.Value, lstItemID));
+                lstDirectPurchaseQtyOnOrder = BusinessLayer.GetvDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnitList(string.Format("SiteServiceUnitID = {0} AND ItemID IN ({1})", hdnSiteServiceUnitID.Value, lstItemID));
+            }
+            else
+            {
+                lstPurchaseOrderQtyOnOrder = new List<vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit>();
+                lstDirectPurchaseQtyOnOrder = new List<vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit>();
+            }
+
             lvwView.DataSource = lstEntity;
             lvwView.DataBind();
 
         }
-
+        List<ItemBalance> lstItemBalance = null;
         protected void lvwView_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             if (e.Item.ItemType == ListViewItemType.DataItem)
@@ -157,10 +202,23 @@ namespace CodeX.Muses.Web.Inventory.Program
                 HtmlGenericControl lblPurchaseUnit = (HtmlGenericControl)e.Item.FindControl("lblPurchaseUnit");
                 HtmlGenericControl lblPurchaseUnitPrice = (HtmlGenericControl)e.Item.FindControl("lblPurchaseUnitPrice");
                 HtmlTableCell tdSupplierItemName = (HtmlTableCell)e.Item.FindControl("tdSupplierItemName");
+                HtmlGenericControl lblStock = e.Item.FindControl("lblStock") as HtmlGenericControl;
+                HtmlGenericControl lblQtyOnOrder = e.Item.FindControl("lblQtyOnOrder") as HtmlGenericControl;
                 ASPxComboBox cboPurchaseMethod = (ASPxComboBox)e.Item.FindControl("cboPurchaseMethod");
                 cboPurchaseMethod.ClientInstanceName = string.Format("cboPurchaseMethod{0}", e.Item.DataItemIndex);
                 Methods.SetComboBoxField<StandardCode>(cboPurchaseMethod, lstPurchaseMethod, "StandardCodeName", "StandardCodeID");
                 cboPurchaseMethod.Value = entity.GCPurchaseMethod;
+                vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit entityPurchaseOrderQtyOnOrder = lstPurchaseOrderQtyOnOrder.FirstOrDefault(p => p.ItemID == entity.ItemID);
+                vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit entityDirectPurchaseQtyOnOrder = lstDirectPurchaseQtyOnOrder.FirstOrDefault(p => p.ItemID == entity.ItemID);
+
+                decimal qtyOnOrder = 0;
+                if (entityPurchaseOrderQtyOnOrder != null)
+                    qtyOnOrder += entityPurchaseOrderQtyOnOrder.QtyOnOrder;
+                if (entityDirectPurchaseQtyOnOrder != null)
+                    qtyOnOrder += entityDirectPurchaseQtyOnOrder.QtyOnOrder;
+                lblStock.InnerHtml = lstItemBalance.Where(p => p.ItemID == entity.ItemID).Sum(p => p.QuantityEND).ToString();
+
+                lblQtyOnOrder.InnerHtml = qtyOnOrder.ToString("0.00");
 
                 if (entity.BusinessPartnerID == 0)
                     lblSupplier.InnerHtml = "Pilih Supplier";
@@ -283,7 +341,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.FinalDiscountAmount = 0;
             entityHd.VATAmount = 0;
             entityHd.VATPercentage = 0;
-            entityHd.LocationID = Convert.ToInt32(hdnLocationIDFrom.Value);
+            entityHd.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
             entityHd.DownPaymentAmount = Convert.ToDecimal(0.00);
             entityHd.TotalNetTransactionAmount = entityHd.TransactionAmount + entityHd.VATAmount - entityHd.FinalDiscountAmount - entityHd.DownPaymentAmount;
             
@@ -318,7 +376,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.FinalDiscountAmount = 0;
             entityHd.VATAmount = 0;
             entityHd.VATPercentage = 0;
-            entityHd.LocationID = Convert.ToInt32(hdnLocationIDFrom.Value);
+            entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
+            entityHd.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
             entityHd.TotalNetTransactionAmount = entityHd.TransactionAmount + entityHd.VATAmount - entityHd.FinalDiscountAmount;
 
             entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
@@ -534,6 +593,34 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ctx.Close();
             }
             return result;
+        }
+
+        private void BindLocation()
+        {
+            Repeater rptLocation = (Repeater)ddeLocation.FindControl("rptLocation");
+            string filterExpression = "1 = 0";
+            if (hdnLstFilterLocationItemGroup.Value != "")
+                filterExpression = string.Format("LocationID IN (SELECT LocationID FROM vLocationItemGroupPath WHERE {0}) AND IsDeleted = 0", hdnLstFilterLocationItemGroup.Value);
+            List<Location> lstLocation = BusinessLayer.GetLocationList(filterExpression);
+            rptLocation.DataSource = lstLocation;
+            rptLocation.DataBind();
+        }
+
+        protected void cbpLocation_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindLocation();
+        }
+
+        protected void rptLocation_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Location obj = (Location)e.Item.DataItem;
+                CheckBox chkLocation = (CheckBox)e.Item.FindControl("chkLocation");
+                chkLocation.Checked = true;
+                chkLocation.Attributes.Add("locationname", obj.LocationName);
+                chkLocation.Attributes.Add("locationid", obj.LocationID.ToString());
+            }
         }
     }
 }

@@ -39,7 +39,7 @@
 
 <div style="height:440px; overflow-y:auto;overflow-x: hidden">
     <input type="hidden" id="hdnItemID" runat="server" />
-    <input type="hidden" id="hdnLocationID" runat="server" />
+    <input type="hidden" id="hdnSiteServiceUnitID" runat="server" />
     <table class="tblContentArea">
         <colgroup>
             <col style="width:100%"/>
@@ -51,8 +51,8 @@
                         <col style="width:160px"/>
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Location")%></label></td>
-                        <td colspan="2"><asp:TextBox ID="txtLocation" ReadOnly="true" Width="400px" runat="server" /></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Bagian")%></label></td>
+                        <td colspan="2"><asp:TextBox ID="txtServiceUnit" ReadOnly="true" Width="400px" runat="server" /></td>
                     </tr>  
                     <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Item")%></label></td>
@@ -71,10 +71,10 @@
                                     AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
                                         <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:BoundField DataField="PurchaseRequestNo" HeaderText="Purchase Request No" HeaderStyle-Width="180px" />
+                                        <asp:BoundField DataField="PurchaseRequestNo" HeaderText="No Permintaan" HeaderStyle-Width="180px" />
                                         <asp:BoundField DataField="CustomPurchaseUnit" HeaderText="Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                         <asp:BoundField DataField="CustomUnitPrice" HeaderText="Harga / Satuan" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" />
-                                        <asp:BoundField DataField="CustomConversion" HeaderText="Conversion" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" />
+                                        <asp:BoundField DataField="CustomConversion" HeaderText="Konversi" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" />
                                         <asp:BoundField DataField="CustomPurchaseRequest" HeaderText="Total Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                     </Columns>
                                     <EmptyDataTemplate>

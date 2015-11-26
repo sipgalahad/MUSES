@@ -50,12 +50,17 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtOrderNo.Text = entity.ItemRequestNo;
             txtItemOrderDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtItemOrderTime.Text = entity.TransactionTime;
-            hdnLocationIDFrom.Value = entity.FromLocationCode;
-            txtLocationCode.Text = entity.FromLocationCode;
-            txtLocationName.Text = entity.FromLocationName;
-            hdnLocationIDTo.Value = entity.ToLocationCode;
-            txtLocationCodeTo.Text = entity.ToLocationCode;
-            txtLocationNameTo.Text = entity.ToLocationName;
+
+            hdnFromSiteServiceUnitID.Value = entity.FromSiteServiceUnitID.ToString();
+            txtFromServiceUnitCode.Text = entity.FromServiceUnitCode;
+            txtFromServiceUnitName.Text = entity.FromServiceUnitName;
+
+            hdnFromLocationID.Value = entity.FromLocationID.ToString();
+            txtFromLocationCode.Text = entity.FromLocationCode;
+            txtFromLocationName.Text = entity.FromLocationName;
+            hdnToSiteServiceUnitID.Value = entity.ToSiteServiceUnitID.ToString();
+            txtToServiceUnitCode.Text = entity.ToServiceUnitCode;
+            txtToServiceUnitName.Text = entity.ToServiceUnitName;
             txtNotes.Text = entity.Remarks;
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);
@@ -148,6 +153,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

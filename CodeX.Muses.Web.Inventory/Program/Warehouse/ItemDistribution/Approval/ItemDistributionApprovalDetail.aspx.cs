@@ -50,12 +50,20 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtDistributionNo.Text = entity.DistributionNo;
             txtItemDistributionDate.Text = entity.DeliveryDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtItemDistributionTime.Text = entity.DeliveryTime;
-            hdnLocationIDFrom.Value = entity.FromLocationID.ToString();
-            txtLocationCode.Text = entity.FromLocationCode;
-            txtLocationName.Text = entity.FromLocationName;
-            hdnLocationIDTo.Value = entity.ToLocationID.ToString();
-            txtLocationCodeTo.Text = entity.ToLocationCode;
-            txtLocationNameTo.Text = entity.ToLocationName;
+
+            hdnFromSiteServiceUnitID.Value = entity.FromSiteServiceUnitID.ToString();
+            txtFromServiceUnitCode.Text = entity.FromServiceUnitCode;
+            txtFromServiceUnitName.Text = entity.FromServiceUnitName;
+
+            hdnFromLocationID.Value = entity.FromLocationID.ToString();
+            txtFromLocationCode.Text = entity.FromLocationCode;
+            txtFromLocationName.Text = entity.FromLocationName;
+            hdnToSiteServiceUnitID.Value = entity.ToSiteServiceUnitID.ToString();
+            txtToServiceUnitCode.Text = entity.ToServiceUnitCode;
+            txtToServiceUnitName.Text = entity.ToServiceUnitName;
+            hdnToLocationID.Value = entity.ToLocationID.ToString();
+            txtToLocationCode.Text = entity.ToLocationCode;
+            txtToLocationName.Text = entity.ToLocationName;
             txtNotes.Text = entity.DeliveryRemarks;
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);

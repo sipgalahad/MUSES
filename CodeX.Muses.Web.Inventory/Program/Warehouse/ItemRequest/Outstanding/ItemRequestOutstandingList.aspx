@@ -64,6 +64,8 @@ CodeBehind="ItemRequestOutstandingList.aspx.cs" Inherits="CodeX.Muses.Web.Invent
         }
         //#endregion
     </script>
+    <input type="hidden" id="hdnListSiteServiceUnitID" runat="server" />
+    <input type="hidden" id="hdnTransactionCodeItemDistribution" runat="server" />
     <input type="hidden" id="hdnTransactionCode" runat="server" />
     <input type="hidden" value="" id="hdnParam" runat="server" />
     <input type="hidden" value="" id="hdnID" runat="server" />
@@ -80,9 +82,10 @@ CodeBehind="ItemRequestOutstandingList.aspx.cs" Inherits="CodeX.Muses.Web.Invent
                             <Columns>
                                 <asp:BoundField DataField="ItemRequestID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="ItemRequestNo" HeaderText="No Permintaan" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="FromServiceUnitName" HeaderText="Dari Bagian" HeaderStyle-Width="200px"/>
                                 <asp:BoundField DataField="FromLocationName" HeaderText="Dari Lokasi" HeaderStyle-Width="200px"/>
-                                <asp:BoundField DataField="ToLocationName" HeaderText="Kepada Lokasi" HeaderStyle-Width="200px" />
-                                <asp:BoundField DataField="TransactionDateInString" HeaderText="Tanggal Permintaan" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="ToServiceUnitName" HeaderText="Ke Bagian" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="TransactionDateInString" HeaderText="Tanggal Permintaan" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan"/>
                             </Columns>
                             <EmptyDataTemplate>

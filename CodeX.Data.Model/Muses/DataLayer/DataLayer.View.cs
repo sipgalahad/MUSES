@@ -5095,6 +5095,9 @@ namespace CodeX.Data.Model
         private Int32 _DirectPurchaseID;
         private String _DirectPurchaseNo;
         private DateTime _PurchaseDate;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private Int32 _LocationID;
         private String _LocationCode;
         private String _LocationName;
@@ -5120,6 +5123,8 @@ namespace CodeX.Data.Model
         private Decimal _DiscountPercentage;
         private Decimal _DiscountAmount;
         private Decimal _LineAmount;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
         private String _GCItemDetailStatus;
 
         [Column(Name = "ID", DataType = "Int32")]
@@ -5145,6 +5150,24 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseDate; }
             set { _PurchaseDate = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -5296,11 +5319,52 @@ namespace CodeX.Data.Model
             get { return _LineAmount; }
             set { _LineAmount = value; }
         }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
         [Column(Name = "GCItemDetailStatus", DataType = "String")]
         public String GCItemDetailStatus
         {
             get { return _GCItemDetailStatus; }
             set { _GCItemDetailStatus = value; }
+        }
+    }
+    #endregion
+    #region vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit
+    [Serializable]
+    [Table(Name = "vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit")]
+    public class vDirectPurchaseDtQtyOnOrderPerItemPerSiteServiceUnit
+    {
+        private Int32 _SiteServiceUnitID;
+        private Int32 _ItemID;
+        private Decimal _QtyOnOrder;
+
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "QtyOnOrder", DataType = "Decimal")]
+        public Decimal QtyOnOrder
+        {
+            get { return _QtyOnOrder; }
+            set { _QtyOnOrder = value; }
         }
     }
     #endregion
@@ -5312,6 +5376,9 @@ namespace CodeX.Data.Model
         private Int32 _DirectPurchaseID;
         private String _DirectPurchaseNo;
         private DateTime _PurchaseDate;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private Int32 _LocationID;
         private String _LocationCode;
         private String _LocationName;
@@ -5353,6 +5420,24 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseDate; }
             set { _PurchaseDate = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -10923,6 +11008,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _ID;
         private Int32 _LocationID;
+        private String _LocationCode;
+        private String _LocationName;
         private String _SiteID;
         private Int32 _ItemID;
         private String _ItemCode;
@@ -10942,6 +11029,7 @@ namespace CodeX.Data.Model
         private Decimal _QuantityOUT;
         private Decimal _QuantityEND;
         private Boolean _IsDeleted;
+        private Boolean _LocationIsDeleted;
 
         [Column(Name = "ID", DataType = "Int32")]
         public Int32 ID
@@ -10954,6 +11042,18 @@ namespace CodeX.Data.Model
         {
             get { return _LocationID; }
             set { _LocationID = value; }
+        }
+        [Column(Name = "LocationCode", DataType = "String")]
+        public String LocationCode
+        {
+            get { return _LocationCode; }
+            set { _LocationCode = value; }
+        }
+        [Column(Name = "LocationName", DataType = "String")]
+        public String LocationName
+        {
+            get { return _LocationName; }
+            set { _LocationName = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -11068,6 +11168,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+        [Column(Name = "LocationIsDeleted", DataType = "Boolean")]
+        public Boolean LocationIsDeleted
+        {
+            get { return _LocationIsDeleted; }
+            set { _LocationIsDeleted = value; }
         }
     }
     #endregion
@@ -11422,8 +11528,20 @@ namespace CodeX.Data.Model
     public partial class vItemDistributionDt
     {
         private Int32 _ID;
-        private String _DistributionNo;
         private Int32 _DistributionID;
+        private String _DistributionNo;
+        private Int32 _FromSiteServiceUnitID;
+        private String _FromServiceUnitCode;
+        private String _FromServiceUnitName;
+        private Int32 _FromLocationID;
+        private String _FromLocationCode;
+        private String _FromLocationName;
+        private Int32 _ToSiteServiceUnitID;
+        private String _ToServiceUnitCode;
+        private String _ToServiceUnitName;
+        private Int32 _ToLocationID;
+        private String _ToLocationCode;
+        private String _ToLocationName;
         private String _GCDistributionStatus;
         private String _DistributionStatus;
         private Int32 _ItemID;
@@ -11434,10 +11552,6 @@ namespace CodeX.Data.Model
         private String _ItemGroupCode;
         private String _ItemGroupName1;
         private DateTime _DeliveryDate;
-        private Int32 _FromLocationID;
-        private String _FromLocationName;
-        private Int32 _ToLocationID;
-        private String _ToLocationName;
         private Decimal _Quantity;
         private String _GCItemUnit;
         private String _ItemUnit;
@@ -11454,17 +11568,89 @@ namespace CodeX.Data.Model
             get { return _ID; }
             set { _ID = value; }
         }
+        [Column(Name = "DistributionID", DataType = "Int32")]
+        public Int32 DistributionID
+        {
+            get { return _DistributionID; }
+            set { _DistributionID = value; }
+        }
         [Column(Name = "DistributionNo", DataType = "String")]
         public String DistributionNo
         {
             get { return _DistributionNo; }
             set { _DistributionNo = value; }
         }
-        [Column(Name = "DistributionID", DataType = "Int32")]
-        public Int32 DistributionID
+        [Column(Name = "FromSiteServiceUnitID", DataType = "Int32")]
+        public Int32 FromSiteServiceUnitID
         {
-            get { return _DistributionID; }
-            set { _DistributionID = value; }
+            get { return _FromSiteServiceUnitID; }
+            set { _FromSiteServiceUnitID = value; }
+        }
+        [Column(Name = "FromServiceUnitCode", DataType = "String")]
+        public String FromServiceUnitCode
+        {
+            get { return _FromServiceUnitCode; }
+            set { _FromServiceUnitCode = value; }
+        }
+        [Column(Name = "FromServiceUnitName", DataType = "String")]
+        public String FromServiceUnitName
+        {
+            get { return _FromServiceUnitName; }
+            set { _FromServiceUnitName = value; }
+        }
+        [Column(Name = "FromLocationID", DataType = "Int32")]
+        public Int32 FromLocationID
+        {
+            get { return _FromLocationID; }
+            set { _FromLocationID = value; }
+        }
+        [Column(Name = "FromLocationCode", DataType = "String")]
+        public String FromLocationCode
+        {
+            get { return _FromLocationCode; }
+            set { _FromLocationCode = value; }
+        }
+        [Column(Name = "FromLocationName", DataType = "String")]
+        public String FromLocationName
+        {
+            get { return _FromLocationName; }
+            set { _FromLocationName = value; }
+        }
+        [Column(Name = "ToSiteServiceUnitID", DataType = "Int32")]
+        public Int32 ToSiteServiceUnitID
+        {
+            get { return _ToSiteServiceUnitID; }
+            set { _ToSiteServiceUnitID = value; }
+        }
+        [Column(Name = "ToServiceUnitCode", DataType = "String")]
+        public String ToServiceUnitCode
+        {
+            get { return _ToServiceUnitCode; }
+            set { _ToServiceUnitCode = value; }
+        }
+        [Column(Name = "ToServiceUnitName", DataType = "String")]
+        public String ToServiceUnitName
+        {
+            get { return _ToServiceUnitName; }
+            set { _ToServiceUnitName = value; }
+        }
+        [Column(Name = "ToLocationID", DataType = "Int32")]
+        public Int32 ToLocationID
+        {
+            get { return _ToLocationID; }
+            set { _ToLocationID = value; }
+        }
+        [Column(Name = "ToLocationCode", DataType = "String")]
+        public String ToLocationCode
+        {
+            get { return _ToLocationCode; }
+            set { _ToLocationCode = value; }
+        }
+        [Column(Name = "ToLocationName", DataType = "String")]
+        public String ToLocationName
+        {
+            get { return _ToLocationName; }
+            set { _ToLocationName = value; }
         }
         [Column(Name = "GCDistributionStatus", DataType = "String")]
         public String GCDistributionStatus
@@ -11526,30 +11712,6 @@ namespace CodeX.Data.Model
             get { return _DeliveryDate; }
             set { _DeliveryDate = value; }
         }
-        [Column(Name = "FromLocationID", DataType = "Int32")]
-        public Int32 FromLocationID
-        {
-            get { return _FromLocationID; }
-            set { _FromLocationID = value; }
-        }
-        [Column(Name = "FromLocationName", DataType = "String")]
-        public String FromLocationName
-        {
-            get { return _FromLocationName; }
-            set { _FromLocationName = value; }
-        }
-        [Column(Name = "ToLocationID", DataType = "Int32")]
-        public Int32 ToLocationID
-        {
-            get { return _ToLocationID; }
-            set { _ToLocationID = value; }
-        }
-        [Column(Name = "ToLocationName", DataType = "String")]
-        public String ToLocationName
-        {
-            get { return _ToLocationName; }
-            set { _ToLocationName = value; }
-        }
         [Column(Name = "Quantity", DataType = "Decimal")]
         public Decimal Quantity
         {
@@ -11604,7 +11766,6 @@ namespace CodeX.Data.Model
             get { return _LastUpdateByName; }
             set { _LastUpdateByName = value; }
         }
-
     }
     #endregion
     #region vItemDistributionHd
@@ -11618,10 +11779,16 @@ namespace CodeX.Data.Model
         private Int32 _ItemRequestID;
         private DateTime _DeliveryDate;
         private String _DeliveryTime;
+        private Int32 _FromSiteServiceUnitID;
+        private String _FromServiceUnitCode;
+        private String _FromServiceUnitName;
         private Int32 _FromLocationID;
         private String _FromLocationCode;
         private String _FromLocationName;
         private Int32 _FromLocationItemGroupID;
+        private Int32 _ToSiteServiceUnitID;
+        private String _ToServiceUnitCode;
+        private String _ToServiceUnitName;
         private Int32 _ToLocationID;
         private String _ToLocationCode;
         private String _ToLocationName;
@@ -11670,6 +11837,24 @@ namespace CodeX.Data.Model
             get { return _DeliveryTime; }
             set { _DeliveryTime = value; }
         }
+        [Column(Name = "FromSiteServiceUnitID", DataType = "Int32")]
+        public Int32 FromSiteServiceUnitID
+        {
+            get { return _FromSiteServiceUnitID; }
+            set { _FromSiteServiceUnitID = value; }
+        }
+        [Column(Name = "FromServiceUnitCode", DataType = "String")]
+        public String FromServiceUnitCode
+        {
+            get { return _FromServiceUnitCode; }
+            set { _FromServiceUnitCode = value; }
+        }
+        [Column(Name = "FromServiceUnitName", DataType = "String")]
+        public String FromServiceUnitName
+        {
+            get { return _FromServiceUnitName; }
+            set { _FromServiceUnitName = value; }
+        }
         [Column(Name = "FromLocationID", DataType = "Int32")]
         public Int32 FromLocationID
         {
@@ -11693,6 +11878,24 @@ namespace CodeX.Data.Model
         {
             get { return _FromLocationItemGroupID; }
             set { _FromLocationItemGroupID = value; }
+        }
+        [Column(Name = "ToSiteServiceUnitID", DataType = "Int32")]
+        public Int32 ToSiteServiceUnitID
+        {
+            get { return _ToSiteServiceUnitID; }
+            set { _ToSiteServiceUnitID = value; }
+        }
+        [Column(Name = "ToServiceUnitCode", DataType = "String")]
+        public String ToServiceUnitCode
+        {
+            get { return _ToServiceUnitCode; }
+            set { _ToServiceUnitCode = value; }
+        }
+        [Column(Name = "ToServiceUnitName", DataType = "String")]
+        public String ToServiceUnitName
+        {
+            get { return _ToServiceUnitName; }
+            set { _ToServiceUnitName = value; }
         }
         [Column(Name = "ToLocationID", DataType = "Int32")]
         public Int32 ToLocationID
@@ -12375,6 +12578,210 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vItemPlanningCustom
+    [Serializable]
+    [Table(Name = "vItemPlanningCustom")]
+    public partial class vItemPlanningCustom
+    {
+        private Int32 _ID;
+        private String _SiteID;
+        private String _SiteName;
+        private Int32 _ItemID;
+        private String _ItemName1;
+        private String _GCItemUnit;
+        private String _ItemUnit;
+        private Int32 _BusinessPartnerID;
+        private String _BusinessPartnerCode;
+        private String _BusinessPartnerName;
+        private String _GCPurchaseMethod;
+        private Decimal _AveragePrice;
+        private Int16 _LeadTime;
+        private Int16 _SafetyTime;
+        private Decimal _SafetyStock;
+        private String _GCPurchaseUnit;
+        private String _PurchaseUnit;
+        private Decimal _ConversionFactor;
+        private Decimal _MinOrderQty;
+        private Decimal _MaxOrderQty;
+        private Decimal _ToleranceQty;
+        private Int16 _TimeFence;
+        private Decimal _PurchaseUnitPrice;
+        private Decimal _UnitPrice;
+        private Int32 _LastBusinessPartnerID;
+        private Decimal _LastPurchasePrice;
+        private Decimal _LastPurchaseDiscount;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String")]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
+        }
+        [Column(Name = "GCItemUnit", DataType = "String")]
+        public String GCItemUnit
+        {
+            get { return _GCItemUnit; }
+            set { _GCItemUnit = value; }
+        }
+        [Column(Name = "ItemUnit", DataType = "String")]
+        public String ItemUnit
+        {
+            get { return _ItemUnit; }
+            set { _ItemUnit = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerCode", DataType = "String")]
+        public String BusinessPartnerCode
+        {
+            get { return _BusinessPartnerCode; }
+            set { _BusinessPartnerCode = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String")]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
+        }
+        [Column(Name = "GCPurchaseMethod", DataType = "String")]
+        public String GCPurchaseMethod
+        {
+            get { return _GCPurchaseMethod; }
+            set { _GCPurchaseMethod = value; }
+        }
+        [Column(Name = "AveragePrice", DataType = "Decimal")]
+        public Decimal AveragePrice
+        {
+            get { return _AveragePrice; }
+            set { _AveragePrice = value; }
+        }
+        [Column(Name = "LeadTime", DataType = "Int16")]
+        public Int16 LeadTime
+        {
+            get { return _LeadTime; }
+            set { _LeadTime = value; }
+        }
+        [Column(Name = "SafetyTime", DataType = "Int16")]
+        public Int16 SafetyTime
+        {
+            get { return _SafetyTime; }
+            set { _SafetyTime = value; }
+        }
+        [Column(Name = "SafetyStock", DataType = "Decimal")]
+        public Decimal SafetyStock
+        {
+            get { return _SafetyStock; }
+            set { _SafetyStock = value; }
+        }
+        [Column(Name = "GCPurchaseUnit", DataType = "String")]
+        public String GCPurchaseUnit
+        {
+            get { return _GCPurchaseUnit; }
+            set { _GCPurchaseUnit = value; }
+        }
+        [Column(Name = "PurchaseUnit", DataType = "String")]
+        public String PurchaseUnit
+        {
+            get { return _PurchaseUnit; }
+            set { _PurchaseUnit = value; }
+        }
+        [Column(Name = "ConversionFactor", DataType = "Decimal")]
+        public Decimal ConversionFactor
+        {
+            get { return _ConversionFactor; }
+            set { _ConversionFactor = value; }
+        }
+        [Column(Name = "MinOrderQty", DataType = "Decimal")]
+        public Decimal MinOrderQty
+        {
+            get { return _MinOrderQty; }
+            set { _MinOrderQty = value; }
+        }
+        [Column(Name = "MaxOrderQty", DataType = "Decimal")]
+        public Decimal MaxOrderQty
+        {
+            get { return _MaxOrderQty; }
+            set { _MaxOrderQty = value; }
+        }
+        [Column(Name = "ToleranceQty", DataType = "Decimal")]
+        public Decimal ToleranceQty
+        {
+            get { return _ToleranceQty; }
+            set { _ToleranceQty = value; }
+        }
+        [Column(Name = "TimeFence", DataType = "Int16")]
+        public Int16 TimeFence
+        {
+            get { return _TimeFence; }
+            set { _TimeFence = value; }
+        }
+        [Column(Name = "PurchaseUnitPrice", DataType = "Decimal")]
+        public Decimal PurchaseUnitPrice
+        {
+            get { return _PurchaseUnitPrice; }
+            set { _PurchaseUnitPrice = value; }
+        }
+        [Column(Name = "UnitPrice", DataType = "Decimal")]
+        public Decimal UnitPrice
+        {
+            get { return _UnitPrice; }
+            set { _UnitPrice = value; }
+        }
+        [Column(Name = "LastBusinessPartnerID", DataType = "Int32")]
+        public Int32 LastBusinessPartnerID
+        {
+            get { return _LastBusinessPartnerID; }
+            set { _LastBusinessPartnerID = value; }
+        }
+        [Column(Name = "LastPurchasePrice", DataType = "Decimal")]
+        public Decimal LastPurchasePrice
+        {
+            get { return _LastPurchasePrice; }
+            set { _LastPurchasePrice = value; }
+        }
+        [Column(Name = "LastPurchaseDiscount", DataType = "Decimal")]
+        public Decimal LastPurchaseDiscount
+        {
+            get { return _LastPurchaseDiscount; }
+            set { _LastPurchaseDiscount = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vItemProduct
     [Serializable]
     [Table(Name = "vItemProduct")]
@@ -12621,6 +13028,19 @@ namespace CodeX.Data.Model
     {
         private Int32 _ID;
         private Int32 _ItemRequestID;
+        private String _ItemRequestNo;
+        private Int32 _FromSiteServiceUnitID;
+        private String _FromServiceUnitCode;
+        private String _FromServiceUnitName;
+        private Int32 _FromLocationID;
+        private String _FromLocationCode;
+        private String _FromLocationName;
+        private Int32 _ToSiteServiceUnitID;
+        private String _ToServiceUnitCode;
+        private String _ToServiceUnitName;
+        private Int32 _ToLocationID;
+        private String _ToLocationCode;
+        private String _ToLocationName;
         private Int32 _ItemID;
         private String _ItemCode;
         private String _ItemName1;
@@ -12639,7 +13059,7 @@ namespace CodeX.Data.Model
         private Decimal _PurchaseRequestQty;
         private Decimal _PurchaseRequestReceivedQty;
         private String _GCItemDetailStatus;
-        private Int32 _ToLocationID;
+        private String _GCTransactionStatus;
         private Decimal _EndingBalance;
         private Boolean _IsDeleted;
 
@@ -12654,6 +13074,84 @@ namespace CodeX.Data.Model
         {
             get { return _ItemRequestID; }
             set { _ItemRequestID = value; }
+        }
+        [Column(Name = "ItemRequestNo", DataType = "String")]
+        public String ItemRequestNo
+        {
+            get { return _ItemRequestNo; }
+            set { _ItemRequestNo = value; }
+        }
+        [Column(Name = "FromSiteServiceUnitID", DataType = "Int32")]
+        public Int32 FromSiteServiceUnitID
+        {
+            get { return _FromSiteServiceUnitID; }
+            set { _FromSiteServiceUnitID = value; }
+        }
+        [Column(Name = "FromServiceUnitCode", DataType = "String")]
+        public String FromServiceUnitCode
+        {
+            get { return _FromServiceUnitCode; }
+            set { _FromServiceUnitCode = value; }
+        }
+        [Column(Name = "FromServiceUnitName", DataType = "String")]
+        public String FromServiceUnitName
+        {
+            get { return _FromServiceUnitName; }
+            set { _FromServiceUnitName = value; }
+        }
+        [Column(Name = "FromLocationID", DataType = "Int32")]
+        public Int32 FromLocationID
+        {
+            get { return _FromLocationID; }
+            set { _FromLocationID = value; }
+        }
+        [Column(Name = "FromLocationCode", DataType = "String")]
+        public String FromLocationCode
+        {
+            get { return _FromLocationCode; }
+            set { _FromLocationCode = value; }
+        }
+        [Column(Name = "FromLocationName", DataType = "String")]
+        public String FromLocationName
+        {
+            get { return _FromLocationName; }
+            set { _FromLocationName = value; }
+        }
+        [Column(Name = "ToSiteServiceUnitID", DataType = "Int32")]
+        public Int32 ToSiteServiceUnitID
+        {
+            get { return _ToSiteServiceUnitID; }
+            set { _ToSiteServiceUnitID = value; }
+        }
+        [Column(Name = "ToServiceUnitCode", DataType = "String")]
+        public String ToServiceUnitCode
+        {
+            get { return _ToServiceUnitCode; }
+            set { _ToServiceUnitCode = value; }
+        }
+        [Column(Name = "ToServiceUnitName", DataType = "String")]
+        public String ToServiceUnitName
+        {
+            get { return _ToServiceUnitName; }
+            set { _ToServiceUnitName = value; }
+        }
+        [Column(Name = "ToLocationID", DataType = "Int32")]
+        public Int32 ToLocationID
+        {
+            get { return _ToLocationID; }
+            set { _ToLocationID = value; }
+        }
+        [Column(Name = "ToLocationCode", DataType = "String")]
+        public String ToLocationCode
+        {
+            get { return _ToLocationCode; }
+            set { _ToLocationCode = value; }
+        }
+        [Column(Name = "ToLocationName", DataType = "String")]
+        public String ToLocationName
+        {
+            get { return _ToLocationName; }
+            set { _ToLocationName = value; }
         }
         [Column(Name = "ItemID", DataType = "Int32")]
         public Int32 ItemID
@@ -12763,11 +13261,11 @@ namespace CodeX.Data.Model
             get { return _GCItemDetailStatus; }
             set { _GCItemDetailStatus = value; }
         }
-        [Column(Name = "ToLocationID", DataType = "Int32")]
-        public Int32 ToLocationID
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
         {
-            get { return _ToLocationID; }
-            set { _ToLocationID = value; }
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
         }
         [Column(Name = "EndingBalance", DataType = "Decimal")]
         public Decimal EndingBalance
@@ -12780,6 +13278,35 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vItemRequestDtQtyOnOrderPerItemPerFromSiteServiceUnit
+    [Serializable]
+    [Table(Name = "vItemRequestDtQtyOnOrderPerItemPerFromSiteServiceUnit")]
+    public class vItemRequestDtQtyOnOrderPerItemPerFromSiteServiceUnit
+    {
+        private Int32 _FromSiteServiceUnitID;
+        private Int32 _ItemID;
+        private Decimal _QtyOnOrder;
+
+        [Column(Name = "FromSiteServiceUnitID", DataType = "Int32")]
+        public Int32 FromSiteServiceUnitID
+        {
+            get { return _FromSiteServiceUnitID; }
+            set { _FromSiteServiceUnitID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "QtyOnOrder", DataType = "Decimal")]
+        public Decimal QtyOnOrder
+        {
+            get { return _QtyOnOrder; }
+            set { _QtyOnOrder = value; }
         }
     }
     #endregion
@@ -12884,11 +13411,18 @@ namespace CodeX.Data.Model
         private Int32 _ItemRequestID;
         private DateTime _TransactionDate;
         private String _TransactionTime;
+        private String _TransactionCode;
         private String _ItemRequestNo;
+        private Int32 _FromSiteServiceUnitID;
+        private String _FromServiceUnitCode;
+        private String _FromServiceUnitName;
         private Int32 _FromLocationID;
         private String _FromLocationCode;
         private String _FromLocationName;
         private Int32 _FromLocationItemGroupID;
+        private Int32 _ToSiteServiceUnitID;
+        private String _ToServiceUnitCode;
+        private String _ToServiceUnitName;
         private Int32 _ToLocationID;
         private String _ToLocationCode;
         private String _ToLocationName;
@@ -12918,11 +13452,35 @@ namespace CodeX.Data.Model
             get { return _TransactionTime; }
             set { _TransactionTime = value; }
         }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
+        }
         [Column(Name = "ItemRequestNo", DataType = "String")]
         public String ItemRequestNo
         {
             get { return _ItemRequestNo; }
             set { _ItemRequestNo = value; }
+        }
+        [Column(Name = "FromSiteServiceUnitID", DataType = "Int32")]
+        public Int32 FromSiteServiceUnitID
+        {
+            get { return _FromSiteServiceUnitID; }
+            set { _FromSiteServiceUnitID = value; }
+        }
+        [Column(Name = "FromServiceUnitCode", DataType = "String")]
+        public String FromServiceUnitCode
+        {
+            get { return _FromServiceUnitCode; }
+            set { _FromServiceUnitCode = value; }
+        }
+        [Column(Name = "FromServiceUnitName", DataType = "String")]
+        public String FromServiceUnitName
+        {
+            get { return _FromServiceUnitName; }
+            set { _FromServiceUnitName = value; }
         }
         [Column(Name = "FromLocationID", DataType = "Int32")]
         public Int32 FromLocationID
@@ -12947,6 +13505,24 @@ namespace CodeX.Data.Model
         {
             get { return _FromLocationItemGroupID; }
             set { _FromLocationItemGroupID = value; }
+        }
+        [Column(Name = "ToSiteServiceUnitID", DataType = "Int32")]
+        public Int32 ToSiteServiceUnitID
+        {
+            get { return _ToSiteServiceUnitID; }
+            set { _ToSiteServiceUnitID = value; }
+        }
+        [Column(Name = "ToServiceUnitCode", DataType = "String")]
+        public String ToServiceUnitCode
+        {
+            get { return _ToServiceUnitCode; }
+            set { _ToServiceUnitCode = value; }
+        }
+        [Column(Name = "ToServiceUnitName", DataType = "String")]
+        public String ToServiceUnitName
+        {
+            get { return _ToServiceUnitName; }
+            set { _ToServiceUnitName = value; }
         }
         [Column(Name = "ToLocationID", DataType = "Int32")]
         public Int32 ToLocationID
@@ -13910,6 +14486,35 @@ namespace CodeX.Data.Model
         {
             get { return _Level; }
             set { _Level = value; }
+        }
+    }
+    #endregion
+    #region vLocationItemGroupPath
+    [Serializable]
+    [Table(Name = "vLocationItemGroupPath")]
+    public class vLocationItemGroupPath
+    {
+        private Int32 _LocationID;
+        private Int32 _ItemGroupID;
+        private String _DisplayPath;
+
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32")]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "DisplayPath", DataType = "String")]
+        public String DisplayPath
+        {
+            get { return _DisplayPath; }
+            set { _DisplayPath = value; }
         }
     }
     #endregion
@@ -17518,9 +18123,10 @@ namespace CodeX.Data.Model
         private Int32 _SupplierID;
         private String _SupplierCode;
         private String _SupplierName;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private Int32 _LocationID;
-        private String _GCTransactionStatus;
-        private String _TransactionStatus;
         private Int32 _ItemID;
         private String _ItemCode;
         private String _ItemName1;
@@ -17544,6 +18150,8 @@ namespace CodeX.Data.Model
         private String _ReceivedInformation;
         private Decimal _ReceivedQuantity;
         private Decimal _LineAmount;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
         private Boolean _IsDeleted;
 
         [Column(Name = "ID", DataType = "Int32")]
@@ -17588,23 +18196,29 @@ namespace CodeX.Data.Model
             get { return _SupplierName; }
             set { _SupplierName = value; }
         }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
+        }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
         {
             get { return _LocationID; }
             set { _LocationID = value; }
-        }
-        [Column(Name = "GCTransactionStatus", DataType = "String")]
-        public String GCTransactionStatus
-        {
-            get { return _GCTransactionStatus; }
-            set { _GCTransactionStatus = value; }
-        }
-        [Column(Name = "TransactionStatus", DataType = "String")]
-        public String TransactionStatus
-        {
-            get { return _TransactionStatus; }
-            set { _TransactionStatus = value; }
         }
         [Column(Name = "ItemID", DataType = "Int32")]
         public Int32 ItemID
@@ -17743,6 +18357,18 @@ namespace CodeX.Data.Model
         {
             get { return _LineAmount; }
             set { _LineAmount = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -17956,6 +18582,35 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit
+    [Serializable]
+    [Table(Name = "vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit")]
+    public class vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit
+    {
+        private Int32 _SiteServiceUnitID;
+        private Int32 _ItemID;
+        private Decimal _QtyOnOrder;
+
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "QtyOnOrder", DataType = "Decimal")]
+        public Decimal QtyOnOrder
+        {
+            get { return _QtyOnOrder; }
+            set { _QtyOnOrder = value; }
+        }
+    }
+    #endregion
     #region vPurchaseOrderHd
     [Serializable]
     [Table(Name = "vPurchaseOrderHd")]
@@ -17963,6 +18618,9 @@ namespace CodeX.Data.Model
     {
         private Int32 _PurchaseOrderID;
         private String _TransactionCode;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private Int32 _LocationID;
         private String _LocationCode;
         private String _LocationName;
@@ -18012,6 +18670,24 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionCode; }
             set { _TransactionCode = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -19386,6 +20062,9 @@ namespace CodeX.Data.Model
         private String _PurchaseReceiveNo;
         private DateTime _ReceivedDate;
         private String _ReceivedTime;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private Int32 _LocationID;
         private String _LocationCode;
         private String _LocationName;
@@ -19451,6 +20130,24 @@ namespace CodeX.Data.Model
         {
             get { return _ReceivedTime; }
             set { _ReceivedTime = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -20104,10 +20801,16 @@ namespace CodeX.Data.Model
         private Int32 _PurchaseRequestID;
         private String _PurchaseRequestNo;
         private DateTime _TransactionDate;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private Int32 _FromLocationID;
         private String _FromLocationCode;
         private String _FromLocationName;
-        private Int32 _ItemId;
+        private Int32 _ItemGroupID;
+        private String _ItemGroupCode;
+        private String _ItemGroupName1;
+        private Int32 _ItemID;
         private String _ItemCode;
         private String _ItemName1;
         private String _ItemName2;
@@ -20127,10 +20830,8 @@ namespace CodeX.Data.Model
         private Decimal _DiscountPercentage;
         private String _GCItemDetailStatus;
         private String _Remarks;
+        private String _GCTransactionStatus;
         private Boolean _IsDeleted;
-        private Int32 _ItemGroupId;
-        private String _ItemGroupCode;
-        private String _ItemGroupName1;
         private Decimal _EndingBalance;
 
         [Column(Name = "ID", DataType = "Int32")]
@@ -20157,6 +20858,24 @@ namespace CodeX.Data.Model
             get { return _TransactionDate; }
             set { _TransactionDate = value; }
         }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
+        }
         [Column(Name = "FromLocationID", DataType = "Int32")]
         public Int32 FromLocationID
         {
@@ -20175,11 +20894,29 @@ namespace CodeX.Data.Model
             get { return _FromLocationName; }
             set { _FromLocationName = value; }
         }
-        [Column(Name = "ItemId", DataType = "Int32")]
-        public Int32 ItemId
+        [Column(Name = "ItemGroupID", DataType = "Int32")]
+        public Int32 ItemGroupID
         {
-            get { return _ItemId; }
-            set { _ItemId = value; }
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "ItemGroupCode", DataType = "String")]
+        public String ItemGroupCode
+        {
+            get { return _ItemGroupCode; }
+            set { _ItemGroupCode = value; }
+        }
+        [Column(Name = "ItemGroupName1", DataType = "String")]
+        public String ItemGroupName1
+        {
+            get { return _ItemGroupName1; }
+            set { _ItemGroupName1 = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
         }
         [Column(Name = "ItemCode", DataType = "String")]
         public String ItemCode
@@ -20295,29 +21032,17 @@ namespace CodeX.Data.Model
             get { return _Remarks; }
             set { _Remarks = value; }
         }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
-        }
-        [Column(Name = "ItemGroupId", DataType = "Int32")]
-        public Int32 ItemGroupId
-        {
-            get { return _ItemGroupId; }
-            set { _ItemGroupId = value; }
-        }
-        [Column(Name = "ItemGroupCode", DataType = "String")]
-        public String ItemGroupCode
-        {
-            get { return _ItemGroupCode; }
-            set { _ItemGroupCode = value; }
-        }
-        [Column(Name = "ItemGroupName1", DataType = "String")]
-        public String ItemGroupName1
-        {
-            get { return _ItemGroupName1; }
-            set { _ItemGroupName1 = value; }
         }
         [Column(Name = "EndingBalance", DataType = "Decimal")]
         public Decimal EndingBalance
@@ -20545,6 +21270,35 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit
+    [Serializable]
+    [Table(Name = "vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit")]
+    public class vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit
+    {
+        private Int32 _SiteServiceUnitID;
+        private Int32 _ItemID;
+        private Decimal _QtyOnOrder;
+
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "QtyOnOrder", DataType = "Decimal")]
+        public Decimal QtyOnOrder
+        {
+            get { return _QtyOnOrder; }
+            set { _QtyOnOrder = value; }
+        }
+    }
+    #endregion
     #region vPurchaseRequestHd
     [Serializable]
     [Table(Name = "vPurchaseRequestHd")]
@@ -20556,6 +21310,9 @@ namespace CodeX.Data.Model
         private String _PurchaseRequestNo;
         private Int32 _ItemRequestID;
         private String _SiteID;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private Int32 _FromLocationID;
         private String _LocationCode;
         private String _LocationName;
@@ -20604,6 +21361,24 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
         }
         [Column(Name = "FromLocationID", DataType = "Int32")]
         public Int32 FromLocationID
@@ -23116,6 +23891,56 @@ namespace CodeX.Data.Model
         {
             get { return _LocationName; }
             set { _LocationName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vServiceUnitLocationCustom
+    [Serializable]
+    [Table(Name = "vServiceUnitLocationCustom")]
+    public class vServiceUnitLocationCustom
+    {
+        private Int32 _SiteServiceUnitID;
+        private Int32 _LocationID;
+        private String _LocationCode;
+        private String _LocationName;
+        private Boolean _IsHeader;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "LocationCode", DataType = "String")]
+        public String LocationCode
+        {
+            get { return _LocationCode; }
+            set { _LocationCode = value; }
+        }
+        [Column(Name = "LocationName", DataType = "String")]
+        public String LocationName
+        {
+            get { return _LocationName; }
+            set { _LocationName = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

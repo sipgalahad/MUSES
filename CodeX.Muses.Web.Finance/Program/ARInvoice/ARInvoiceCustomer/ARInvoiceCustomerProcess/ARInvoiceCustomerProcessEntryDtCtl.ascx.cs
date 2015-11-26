@@ -54,6 +54,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     if (lstProspectiveStudentID != "")
                         filterExpression += string.Format(" AND ProspectiveStudentID IN ({0})", lstProspectiveStudentID);
                 }
+                filterExpression += " ORDER BY StudentCode";
                 List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(filterExpression);
                 grdView.DataSource = lstStudentFeeDt;
                 grdView.DataBind();

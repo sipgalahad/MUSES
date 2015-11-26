@@ -11,6 +11,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Data.Core.Dal;
 using System.Data;
 using CodeX.Common;
+using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.Inventory.Program
 {
@@ -27,6 +28,12 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected string OnGetFilterExpressionLocation()
         {
             return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_ORDER);
+        }
+        protected string OnGetFilterExpressionServiceUnit()
+        {
+            if (hdnListSiteServiceUnitID.Value != "")
+                return string.Format("SiteServiceUnitID IN ({0}) AND IsDeleted = 0", hdnListSiteServiceUnitID.Value);
+            return "1 = 0";
         }
         protected string OnGetFilterExpressionSupplier()
         {
@@ -46,14 +53,24 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void InitializeDataControl()
         {
-            List<GetLocationUserList> lstLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_ORDER, "");
-            if (lstLocation.Count == 1)
+            List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_REQUEST, "");
+            if (lstUserLocation.Count > 0)
             {
-                trLocation.Style.Add("display", "none");
-                hdnLocationID.Value = lstLocation[0].LocationID.ToString();
-                txtLocationCode.Text = lstLocation[0].LocationCode;
-                txtLocationName.Text = lstLocation[0].LocationName;
+                List<ServiceUnitLocation> lstServiceUnitLocation = BusinessLayer.GetServiceUnitLocationList(string.Format("LocationID IN ({0})", string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList())));
+                hdnListSiteServiceUnitID.Value = string.Join(",", lstServiceUnitLocation.Select(p => p.SiteServiceUnitID).ToList());
+
+                List<vSiteServiceUnit> lstSiteServiceUnit = BusinessLayer.GetvSiteServiceUnitList(OnGetFilterExpressionServiceUnit());
+                if (lstSiteServiceUnit.Count == 1)
+                {
+                    vSiteServiceUnit serviceUnit = lstSiteServiceUnit.FirstOrDefault();
+                    hdnDefaultSiteServiceUnitID.Value = serviceUnit.SiteServiceUnitID.ToString();
+                    hdnDefaultServiceUnitCode.Value = serviceUnit.ServiceUnitCode;
+                    hdnDefaultServiceUnitName.Value = serviceUnit.ServiceUnitName;
+
+                    GetLocationItemGroupAndBindLocation(serviceUnit.SiteServiceUnitID);
+                }
             }
+
             SetControlProperties();
 
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
@@ -63,6 +80,54 @@ namespace CodeX.Muses.Web.Inventory.Program
             BindGridView(1, true, ref PageCount, ref RowCount);
             hdnPageCount.Value = PageCount.ToString();
             hdnRowCount.Value = RowCount.ToString();
+        }
+
+        private void GetLocationItemGroupAndBindLocation(int SiteServiceUnitID)
+        {
+            string filterExpression = string.Format("{0}LocationID IN (SELECT LocationID FROM ServiceUnitLocation WHERE SiteServiceUnitID = {1})", OnGetFilterExpressionLocation(), SiteServiceUnitID);
+            List<GetLocationUserList> lstLocation = BusinessLayer.GetLocationUserAccessList(filterExpression);
+            string lstLocationID = String.Join(",", lstLocation.Select(p => p.LocationID).ToList());
+            if (lstLocationID != "")
+            {
+                filterExpression = string.Format("LocationID IN ({0})", lstLocationID);
+                List<LocationItemGroup> lstLocationItemGroup = BusinessLayer.GetLocationItemGroupList(filterExpression);
+                string filterLocationItemGroup = String.Join(" OR ", lstLocationItemGroup.Select(p => string.Format("DisplayPath LIKE '%/{0}/%'", p.ItemGroupID)).ToList());
+                if (filterLocationItemGroup != "")
+                    hdnLstFilterLocationItemGroup.Value = string.Format("({0})", filterLocationItemGroup);
+                else
+                    hdnLstFilterLocationItemGroup.Value = "";
+            }
+            else
+                hdnLstFilterLocationItemGroup.Value = "";
+            BindLocation();
+        }
+
+        private void BindLocation()
+        {
+            Repeater rptLocation = (Repeater)ddeLocation.FindControl("rptLocation");
+            string filterExpression = "1 = 0";
+            if (hdnLstFilterLocationItemGroup.Value != "")
+                filterExpression = string.Format("LocationID IN (SELECT LocationID FROM vLocationItemGroupPath WHERE {0}) AND IsDeleted = 0", hdnLstFilterLocationItemGroup.Value);
+            List<Location> lstLocation = BusinessLayer.GetLocationList(filterExpression);
+            rptLocation.DataSource = lstLocation;
+            rptLocation.DataBind();
+        }
+
+        protected void cbpLocation_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindLocation();
+        }
+
+        protected void rptLocation_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Location obj = (Location)e.Item.DataItem;
+                CheckBox chkLocation = (CheckBox)e.Item.FindControl("chkLocation");
+                chkLocation.Checked = true;
+                chkLocation.Attributes.Add("locationname", obj.LocationName);
+                chkLocation.Attributes.Add("locationid", obj.LocationID.ToString());
+            }
         }
 
         protected override void SetControlProperties()
@@ -85,6 +150,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtItemOrderExpiredDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
             SetControlEntrySetting(hdnSupplierID, new ControlEntrySetting(true, true, true,"0"));
             SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, true, true));
+
+            SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(false, false, false, hdnDefaultSiteServiceUnitID.Value));
+            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, false, true, hdnDefaultServiceUnitCode.Value));
+            SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, true, hdnDefaultServiceUnitName.Value));
             
             SetControlEntrySetting(cboPurchaseOrderType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(cboTerm, new ControlEntrySetting(true, false, true));
@@ -94,19 +163,44 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
 
         #region Load
+
         protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                vItemBalanceInventory entity = e.Row.DataItem as vItemBalanceInventory;
+                vItemMaster entity = e.Row.DataItem as vItemMaster;
+
+                vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit entityQtyOnOrder = lstQtyOnOrder.FirstOrDefault(p => p.ItemID == entity.ItemID);
+
+                decimal qtyOnOrder = 0;
+                if (entityQtyOnOrder != null)
+                    qtyOnOrder = entityQtyOnOrder.QtyOnOrder;
+
+                List<ItemBalance> lstItemBalance1 = lstItemBalance.Where(p => p.ItemID == entity.ItemID).ToList();
+
                 TextBox txtPurchaseOrder = e.Row.FindControl("txtPurchaseOrder") as TextBox;
                 CheckBox chkIsSelected = (CheckBox)e.Row.FindControl("chkIsSelected");
-                Decimal autoQty = (entity.QuantityMAX - entity.QuantityEND -entity.PurchaseOrderQtyOnOrder);
-                if(autoQty < 0)autoQty = 0;
-                txtPurchaseOrder.Text = autoQty.ToString("N");
-                if (lstSelectedMember.Contains(entity.ID.ToString()))
+
+                HtmlGenericControl divMinimum = e.Row.FindControl("divMinimum") as HtmlGenericControl;
+                HtmlGenericControl divMaximum = e.Row.FindControl("divMaximum") as HtmlGenericControl;
+                HtmlGenericControl divEndingBalance = e.Row.FindControl("divEndingBalance") as HtmlGenericControl;
+                HtmlGenericControl lblQtyOnOrder = e.Row.FindControl("lblQtyOnOrder") as HtmlGenericControl;
+
+                decimal quantityMIN = lstItemBalance1.Sum(p => p.QuantityMIN);
+                decimal quantityMAX = lstItemBalance1.Sum(p => p.QuantityMAX);
+                decimal quantityEND = lstItemBalance1.Sum(p => p.QuantityEND);
+
+                divMinimum.InnerHtml = quantityMIN.ToString("0.00");
+                divMaximum.InnerHtml = quantityMAX.ToString("0.00");
+                divEndingBalance.InnerHtml = quantityEND.ToString("0.00");
+                lblQtyOnOrder.InnerHtml = qtyOnOrder.ToString("0.00");
+
+                Decimal autoQty = (quantityMAX - quantityEND - qtyOnOrder);
+                if (autoQty < 0) autoQty = 0;
+                txtPurchaseOrder.Text = autoQty.ToString("0.00");
+                if (lstSelectedMember.Contains(entity.ItemID.ToString()))
                 {
-                    int idx = Array.IndexOf(lstSelectedMember, entity.ID.ToString());
+                    int idx = Array.IndexOf(lstSelectedMember, entity.ItemID.ToString());
                     chkIsSelected.Checked = true;
                     txtPurchaseOrder.ReadOnly = false;
                     txtPurchaseOrder.Text = lstQtyPurchaseOrder[idx];
@@ -116,22 +210,35 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("LocationID = {0} AND QuantityEND <= QuantityMIN AND IsDeleted = 0", hdnLocationID.Value);
+            string filterExpression = "1 = 0";
+            if (hdnLstLocationID.Value != "")
+                filterExpression = string.Format("ItemID IN (SELECT ItemID FROM ItemBalance WHERE LocationID IN ({0}) AND IsDeleted = 0 GROUP BY ItemID HAVING SUM(QuantityEND) <= SUM(QuantityMIN)) AND IsDeleted = 0", hdnLstLocationID.Value);
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvItemBalanceRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvItemMasterRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
+            lstSelectedMember = hdnSelectedMember.Value.Split('|');
+            lstQtyPurchaseOrder = hdnPurchaseOrder.Value.Split('|');
+            List<vItemMaster> lstEntity = BusinessLayer.GetvItemMasterList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ItemName1 ASC");
+            string lstItemID = string.Join(",", lstEntity.Select(p => p.ItemID).ToList());
+            if (lstItemID != "" && hdnLstLocationID.Value != "")
+                lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID IN ({0}) AND ItemID IN ({1}) AND IsDeleted = 0", hdnLstLocationID.Value, lstItemID));
+            else
+                lstItemBalance = new List<ItemBalance>();
 
-            lstSelectedMember = hdnSelectedMember.Value.Split(',');
-            lstQtyPurchaseOrder = hdnPurchaseOrder.Value.Split(',');
+            if (lstItemID != "" && hdnSiteServiceUnitID.Value != "" && hdnSiteServiceUnitID.Value != "0")
+                lstQtyOnOrder = BusinessLayer.GetvPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnitList(string.Format("SiteServiceUnitID = {0} AND ItemID IN ({1})", hdnSiteServiceUnitID.Value, lstItemID));
+            else
+                lstQtyOnOrder = new List<vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit>();
 
-            List<vItemBalanceInventory> lstEntity = BusinessLayer.GetvItemBalanceInventoryList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ItemName1 ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
 
+        List<ItemBalance> lstItemBalance = null;
+        List<vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit> lstQtyOnOrder = null;
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             int pageCount = 1;
@@ -168,7 +275,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.GCPurchaseOrderType = cboPurchaseOrderType.Value.ToString();
             entityHd.TermID = Convert.ToInt32(cboTerm.Value.ToString());
             entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
-            entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
+            entityHd.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
             entityHd.GCFrancoRegion = cboFrancoRegion.Value.ToString();
             entityHd.GCCurrencyCode = cboCurrency.Value.ToString();
             entityHd.CurrencyRate = Convert.ToDecimal(txtKurs.Text);
@@ -194,26 +301,35 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override bool OnCustomButtonClick(string type, ref string errMessage, ref string retval)
         {
             bool result = true;
-            String[] paramID = hdnSelectedMember.Value.Substring(1).Split(',');
-            String[] paramPurchaseOrder = hdnPurchaseOrder.Value.Substring(1).Split(',');
+            String[] paramID = hdnSelectedMember.Value.Substring(1).Split('|');
+            String[] paramPurchaseOrder = hdnPurchaseOrder.Value.Substring(1).Split('|');
             IDbContext ctx = DbFactory.Configure(true);
             int purchaseOrderID = 0;
             PurchaseOrderDtDao entityPurchaseOrderDtDao = new PurchaseOrderDtDao(ctx);
             try
             {
+                string lstItemID = "";
+                foreach (String id in paramID)
+                {
+                    if (lstItemID != "")
+                        lstItemID += ",";
+                    lstItemID += id;
+                }
+                List<ItemMaster> lstEntityItemMaster = BusinessLayer.GetItemMasterList(string.Format("ItemID IN ({0})", lstItemID), ctx);
+
                 List<PurchaseOrderDt> lstPurchaseOrderDt = new List<PurchaseOrderDt>();
                 for (int ct = 0; ct < paramID.Length; ct++)
                 {
-                    vItemBalance entityItemBalance = BusinessLayer.GetvItemBalanceList(string.Format("ID = {0}", paramID[ct]), ctx)[0];
+                    ItemMaster entityItemMaster = lstEntityItemMaster.FirstOrDefault(p => p.ItemID == Convert.ToInt32(paramID[ct]));
                     PurchaseOrderDt entityPurchaseOrderDt = new PurchaseOrderDt();
-                    entityPurchaseOrderDt.ItemID = entityItemBalance.ItemID;
+                    entityPurchaseOrderDt.ItemID = entityItemMaster.ItemID;
                     entityPurchaseOrderDt.Quantity = Convert.ToDecimal(paramPurchaseOrder[ct]);
-                    entityPurchaseOrderDt.GCPurchaseUnit = entityItemBalance.GCItemUnit;
-                    entityPurchaseOrderDt.GCBaseUnit = entityItemBalance.GCItemUnit;
+                    entityPurchaseOrderDt.GCPurchaseUnit = entityItemMaster.GCItemUnit;
+                    entityPurchaseOrderDt.GCBaseUnit = entityItemMaster.GCItemUnit;
                     entityPurchaseOrderDt.ConversionFactor = Convert.ToDecimal("1.00");
                     entityPurchaseOrderDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
 
-                    GetItemMasterPurchase itemPurchase = BusinessLayer.GetItemMasterPurchaseList(AppSession.UserLogin.SiteID, entityItemBalance.ItemID, Convert.ToInt32(hdnSupplierID.Value), ctx).FirstOrDefault();
+                    GetItemMasterPurchase itemPurchase = BusinessLayer.GetItemMasterPurchaseList(AppSession.UserLogin.SiteID, entityItemMaster.ItemID, Convert.ToInt32(hdnSupplierID.Value), ctx).FirstOrDefault();
                     if (itemPurchase != null)
                     {
                         entityPurchaseOrderDt.UnitPrice = itemPurchase.Price;
@@ -238,6 +354,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

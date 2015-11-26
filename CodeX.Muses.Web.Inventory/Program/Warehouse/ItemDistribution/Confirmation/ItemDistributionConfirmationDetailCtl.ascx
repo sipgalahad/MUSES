@@ -37,7 +37,10 @@
     //#endregion
 </script>
 <input type="hidden" id="hdnDistributionID" value="" runat="server" />
-<table class="tblContentArea">
+<table class="tblContentArea" style="width:100%">
+    <colgroup>
+        <col style="width:50%"/>
+    </colgroup>
     <tr>
         <td style="padding: 5px; vertical-align: top">
             <table class="tblEntryContent" style="width: 100%">
@@ -50,12 +53,28 @@
                     <td><asp:TextBox ID="txtItemDistributionNo" Width="150px" ReadOnly="true" runat="server" /></td>
                 </tr>
                 <tr>
+                    <td class="tdLabel"><label class="lblNormal" runat="server" id="Label5"><%=GetLabel("Dari Bagian")%></label></td>
+                    <td><asp:TextBox ID="txtFromServiceUnitName" Width="100%" ReadOnly="true" runat="server" /></td>
+                </tr>
+                <tr>
                     <td class="tdLabel"><label class="lblNormal" runat="server" id="Label1"><%=GetLabel("Dari Lokasi")%></label></td>
-                    <td><asp:TextBox ID="txtFromLocationName" Width="300px" ReadOnly="true" runat="server" /></td>
+                    <td><asp:TextBox ID="txtFromLocationName" Width="100%" ReadOnly="true" runat="server" /></td>
+                </tr>
+            </table>
+        </td>
+        <td style="padding: 5px; vertical-align: top">
+            <table class="tblEntryContent" style="width: 100%">
+                <colgroup>
+                    <col style="width: 30%" />
+                    <col />
+                </colgroup>
+                <tr>
+                    <td class="tdLabel"><label class="lblNormal" runat="server" id="Label2"><%=GetLabel("Ke Bagian")%></label></td>
+                    <td><asp:TextBox ID="txtToServiceUnitName" Width="100%" ReadOnly="true" runat="server" /></td>
                 </tr>
                 <tr>
                     <td class="tdLabel"><label class="lblNormal" runat="server" id="lblLocation"><%=GetLabel("Ke Lokasi")%></label></td>
-                    <td><asp:TextBox ID="txtToLocationName" Width="300px" ReadOnly="true" runat="server" /></td>
+                    <td><asp:TextBox ID="txtToLocationName" Width="100%" ReadOnly="true" runat="server" /></td>
                 </tr>
                 <tr>
                     <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><%=GetLabel("Keterangan") %></td>
@@ -65,7 +84,7 @@
         </td>
     </tr>
     <tr>
-        <td>
+        <td colspan="2">
             <dxcp:ASPxCallbackPanel ID="cbpViewPopup" runat="server" Width="100%" ClientInstanceName="cbpViewPopup"
                 ShowLoadingPanel="false" OnCallback="cbpViewPopup_Callback">
                 <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ hideLoadingPanel(); }" />

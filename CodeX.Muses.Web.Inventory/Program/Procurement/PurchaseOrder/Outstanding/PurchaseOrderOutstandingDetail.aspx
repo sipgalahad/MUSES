@@ -81,8 +81,8 @@
                             <td><asp:TextBox ID="txtExpiredDate" Width="120px" CssClass="datepicker" runat="server" ReadOnly="true" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><%=GetLabel("Nama Supplier") %></td>
-                            <td><asp:TextBox ID="txtSupplierName" Width="100%" runat="server" ReadOnly="true"/></td>
+                            <td class="tdLabel"><%=GetLabel("Bagian") %></td>
+                            <td><asp:TextBox ID="txtServiceUnitName" Width="100%" runat="server" ReadOnly="true"/></td>
                         </tr>
                     </table>
                 </td>
@@ -95,6 +95,10 @@
                         <tr>
                             <td class="tdLabel"><%=GetLabel("Jenis Persediaan") %></td>
                             <td><asp:TextBox ID="txtPurchaseOrderType" Width="100%" runat="server" ReadOnly="true"/></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><%=GetLabel("Supplier") %></td>
+                            <td><asp:TextBox ID="txtSupplierName" Width="100%" runat="server" ReadOnly="true"/></td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><%=GetLabel("Waktu Pembayaran") %></td>

@@ -24,6 +24,12 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
 
         #region Html Getter
+        protected string OnGetFilterExpressionServiceUnit()
+        {
+            if (hdnListSiteServiceUnitID.Value != "")
+                return string.Format("SiteServiceUnitID IN ({0}) AND IsDeleted = 0", hdnListSiteServiceUnitID.Value);
+            return "1 = 0";
+        }
         protected string OnGetFilterExpressionLocation()
         {
             return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_ORDER);
@@ -45,16 +51,20 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override void InitializeDataControl()
         {
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
-            int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
-            if (count > 0)
-                hdnRecordFilterExpression.Value = string.Format("LocationID IN (SELECT LocationID FROM LocationUser WHERE UserID = {0} AND IsDeleted = 0)", AppSession.UserLogin.UserID);
-            else
+            List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_RECEIVE, "");
+            if (lstUserLocation.Count > 0)
             {
-                count = BusinessLayer.GetLocationUserRoleRowCount(string.Format("RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND IsDeleted = 0", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID));
-                if (count > 0)
-                    hdnRecordFilterExpression.Value = string.Format("LocationID IN (SELECT LocationID FROM LocationUserRole WHERE RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND IsDeleted = 0)", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID);
-                else
-                    hdnRecordFilterExpression.Value = "";
+                List<ServiceUnitLocation> lstServiceUnitLocation = BusinessLayer.GetServiceUnitLocationList(string.Format("LocationID IN ({0})", string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList())));
+                hdnListSiteServiceUnitID.Value = string.Join(",", lstServiceUnitLocation.Select(p => p.SiteServiceUnitID).ToList());
+
+                List<vSiteServiceUnit> lstSiteServiceUnit = BusinessLayer.GetvSiteServiceUnitList(OnGetFilterExpressionServiceUnit());
+                if (lstSiteServiceUnit.Count == 1)
+                {
+                    vSiteServiceUnit serviceUnit = lstSiteServiceUnit.FirstOrDefault();
+                    hdnDefaultSiteServiceUnitID.Value = serviceUnit.SiteServiceUnitID.ToString();
+                    hdnDefaultServiceUnitCode.Value = serviceUnit.ServiceUnitCode;
+                    hdnDefaultServiceUnitName.Value = serviceUnit.ServiceUnitName;
+                }
             }
 
             List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}','{1}','{2}','{3}')",
@@ -106,11 +116,17 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtDateReferrence, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
 
             SetControlEntrySetting(cboTerm, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, false, true, hdnDefaultServiceUnitCode.Value));
+            SetControlEntrySetting(lblSiteServiceUnit, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, true, hdnDefaultServiceUnitName.Value));
             SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(lblLocation, new ControlEntrySetting(true, false));
             SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, true));
             SetControlEntrySetting(cboCurrency, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtKurs, new ControlEntrySetting(true, true, true, "1.00"));
+
+            SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(true, true, false, hdnDefaultSiteServiceUnitID.Value));
 
             SetControlEntrySetting(txtFinalDiscountAmount, new ControlEntrySetting(true, true, true, "0"));
             SetControlEntrySetting(txtPPN, new ControlEntrySetting(false, false, true, "0"));
@@ -187,6 +203,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtSupplierCode.Text = entity.SupplierCode;
             txtSupplierName.Text = entity.SupplierName;
             txtFacturNo.Text = entity.ReferenceNo;
+            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
+            txtServiceUnitCode.Text = entity.ServiceUnitCode;
+            txtServiceUnitName.Text = entity.ServiceUnitName;
             hdnLocationID.Value = entity.LocationID.ToString();
             txtLocationCode.Text = entity.LocationCode;
             txtLocationName.Text = entity.LocationName;
@@ -246,6 +265,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             TermDao termDao = new TermDao(ctx);
             entityHd.ReceivedDate = Helper.GetDatePickerValue(txtPurchaseReceiveDate.Text);
             entityHd.ReceivedTime = txtPurchaseReceiveTime.Text;
+            entityHd.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
             entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
             entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
             entityHd.TermID = Convert.ToInt32(cboTerm.Value.ToString());

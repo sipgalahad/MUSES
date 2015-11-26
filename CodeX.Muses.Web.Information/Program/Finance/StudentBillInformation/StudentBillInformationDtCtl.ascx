@@ -58,7 +58,7 @@
                                 <asp:GridView ID="grdPopupView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
                                         <asp:BoundField DataField="cfStudentFeeCompTypeName" HeaderText="Pembayaran" />
-                                        <asp:BoundField DataField="StudentRemainingAmount" HeaderText="Tagihan" DataFormatString="{0:N}" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
+                                        <asp:BoundField DataField="StudentRemainingAmountWithoutPenalty" HeaderText="Tagihan" DataFormatString="{0:N}" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>

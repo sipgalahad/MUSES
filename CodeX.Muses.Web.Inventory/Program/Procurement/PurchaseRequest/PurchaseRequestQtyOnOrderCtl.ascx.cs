@@ -20,11 +20,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         public override void InitializeDataControl(string param)
         {
             string[] temp = param.Split('|');
-            hdnLocationID.Value = temp[0];
+            hdnSiteServiceUnitID.Value = temp[0];
             hdnItemID.Value = temp[1];
 
-            Location location = BusinessLayer.GetLocation(Convert.ToInt32(temp[0]));
-            txtLocation.Text = string.Format("{0} ({1})", location.LocationName, location.LocationCode);
+            vSiteServiceUnit siteServiceUnit = BusinessLayer.GetvSiteServiceUnitList(string.Format("SiteServiceUnitID = {0}", temp[0])).FirstOrDefault();
+            txtServiceUnit.Text = string.Format("{0} ({1})", siteServiceUnit.ServiceUnitName, siteServiceUnit.ServiceUnitCode);
 
             ItemMaster item = BusinessLayer.GetItemMaster(Convert.ToInt32(temp[1]));
             txtItem.Text = string.Format("{0} ({1})", item.ItemName1, item.ItemCode);
@@ -35,7 +35,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("FromLocationID = {0} AND ItemID = {1} AND GCItemDetailStatus NOT IN ('{2}','{3}') AND IsDeleted = 0", hdnLocationID.Value, hdnItemID.Value, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
+            string filterExpression = string.Format("SiteServiceUnitID = {0} AND ItemID = {1} AND GCItemDetailStatus NOT IN ('{2}','{3}','{4}') AND IsDeleted = 0", hdnSiteServiceUnitID.Value, hdnItemID.Value, Constant.TransactionStatus.PROCESSED, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
 
             if (isCountPageCount)
             {
