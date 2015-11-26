@@ -79,6 +79,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(chkIsHeader, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsHoldForTransaction, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsNettable, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(chkIsControlQtyOnOrder, new ControlEntrySetting(true, true, false));            
         }
 
         private void EntityToControl(vLocation entity)
@@ -98,6 +99,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             chkIsHeader.Checked = entity.IsHeader;
             chkIsHoldForTransaction.Checked = entity.IsHoldForTransaction;
             chkIsNettable.Checked = entity.IsNettable;
+            chkIsControlQtyOnOrder.Checked = entity.IsControlQtyOnOrder;
 
             hdnItemGroupID.Value = entity.ItemGroupID.ToString();
             hdnRestrictionID.Value = entity.RestrictionID.ToString();
@@ -128,6 +130,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.IsHeader = chkIsHeader.Checked;
             entity.IsHoldForTransaction = chkIsHoldForTransaction.Checked;
             entity.IsNettable = chkIsNettable.Checked;
+            entity.IsControlQtyOnOrder = chkIsControlQtyOnOrder.Checked;
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)
@@ -174,6 +177,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 result = false;
                 errMessage = ex.Message;
@@ -197,6 +201,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }

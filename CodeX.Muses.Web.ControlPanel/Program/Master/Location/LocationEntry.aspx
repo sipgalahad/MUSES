@@ -190,6 +190,7 @@
                     <tr><td><asp:CheckBox ID="chkIsAllowOverIssued" runat="server" /> <%=GetLabel("Allow Over Issued")%></td></tr>
                     <tr><td><asp:CheckBox ID="chkIsNettable" runat="server" /> <%=GetLabel("Nettable")%></td></tr>
                     <tr><td><asp:CheckBox ID="chkIsHoldForTransaction" runat="server" /> <%=GetLabel("Lock Down")%></td></tr>
+                    <tr><td><asp:CheckBox ID="chkIsControlQtyOnOrder" runat="server" /> <%=GetLabel("Cek Stok Saat Pembelian")%></td></tr>
                 </table>
             </td>
         </tr>

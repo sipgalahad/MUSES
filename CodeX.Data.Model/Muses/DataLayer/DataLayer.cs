@@ -16010,6 +16010,7 @@ namespace CodeX.Data.Model
         private Boolean _IsNettable;
         private Boolean _IsAllowOverIssued;
         private Boolean _IsHoldForTransaction;
+        private Boolean _IsControlQtyOnOrder;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -16099,6 +16100,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsHoldForTransaction; }
             set { _IsHoldForTransaction = value; }
+        }
+        [Column(Name = "IsControlQtyOnOrder", DataType = "Boolean")]
+        public Boolean IsControlQtyOnOrder
+        {
+            get { return _IsControlQtyOnOrder; }
+            set { _IsControlQtyOnOrder = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

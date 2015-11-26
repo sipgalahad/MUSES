@@ -124,7 +124,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 Location obj = (Location)e.Item.DataItem;
                 CheckBox chkLocation = (CheckBox)e.Item.FindControl("chkLocation");
-                chkLocation.Checked = true;
+                chkLocation.Checked = obj.IsControlQtyOnOrder;
                 chkLocation.Attributes.Add("locationname", obj.LocationName);
                 chkLocation.Attributes.Add("locationid", obj.LocationID.ToString());
             }
