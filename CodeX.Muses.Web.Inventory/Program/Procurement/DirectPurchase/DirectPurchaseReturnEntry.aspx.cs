@@ -78,8 +78,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtDirectPurchaseReturnNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtPurchaseReturnDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, true));
-            SetControlEntrySetting(lblLocation, new ControlEntrySetting(true, false));
-            SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(false, false, true));
             SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, true));
             SetControlEntrySetting(lblDirectPurchaseNo, new ControlEntrySetting(true, false));
             SetControlEntrySetting(txtDirectPurchaseNo, new ControlEntrySetting(true, false, true));
@@ -149,6 +152,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnSupplierID.Value = entity.BusinessPartnerID.ToString();
             txtSupplierName.Text = entity.SupplierName;
             txtReferenceNo.Text = entity.ReferenceNo;
+            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
+            txtServiceUnitCode.Text = entity.ServiceUnitCode;
+            txtServiceUnitName.Text = entity.ServiceUnitName;
             hdnLocationID.Value = entity.LocationID.ToString();
             txtLocationCode.Text = entity.LocationCode;
             txtLocationName.Text = entity.LocationName;
@@ -186,6 +192,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             entityHd.ReturnDate = Helper.GetDatePickerValue(txtPurchaseReturnDate.Text);
             entityHd.DirectPurchaseID = Convert.ToInt32(hdnDirectPurchaseID.Value);
+            entityHd.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
             entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
             entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
             if (entityHd.BusinessPartnerID != Convert.ToInt32(hdnNonMasterSupplierID.Value))

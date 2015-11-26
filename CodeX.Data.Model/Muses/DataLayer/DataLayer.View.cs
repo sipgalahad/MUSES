@@ -5807,6 +5807,9 @@ namespace CodeX.Data.Model
         private String _DirectPurchaseReturnNo;
         private Int32 _DirectPurchaseID;
         private String _DirectPurchaseNo;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private Int32 _LocationID;
         private String _LocationCode;
         private String _LocationName;
@@ -5858,6 +5861,24 @@ namespace CodeX.Data.Model
         {
             get { return _DirectPurchaseNo; }
             set { _DirectPurchaseNo = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -21782,6 +21803,9 @@ namespace CodeX.Data.Model
         private String _PurchaseReturnNo;
         private Int32 _PurchaseReceiveID;
         private String _PurchaseReceiveNo;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private Int32 _LocationID;
         private String _LocationCode;
         private String _LocationName;
@@ -21839,6 +21863,24 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReceiveNo; }
             set { _PurchaseReceiveNo = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID

@@ -84,8 +84,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(hdnPurchaseReceiveID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(lblPurchaseReceiveNo, new ControlEntrySetting(true, false));
             SetControlEntrySetting(txtPurchaseReceiveNo, new ControlEntrySetting(true, false, true,""));
-
-            SetControlEntrySetting(lblLocation, new ControlEntrySetting(false, false));
+            SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(false, false));
             SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(false, false, true));
             SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, true));
             SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(false, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
@@ -168,6 +170,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnSupplierID.Value = entity.BusinessPartnerID.ToString();
             txtSupplierName.Text = entity.SupplierName;
             txtReferenceNo.Text = entity.ReferenceNo;
+            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
+            txtServiceUnitCode.Text = entity.ServiceUnitCode;
+            txtServiceUnitName.Text = entity.ServiceUnitName;
             hdnLocationID.Value = entity.LocationID.ToString();
             txtLocationCode.Text = entity.LocationCode;
             txtLocationName.Text = entity.LocationName;
@@ -214,6 +219,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             entityHd.ReturnDate = Helper.GetDatePickerValue(txtPurchaseReturnDate.Text);
             entityHd.PurchaseReceiveID = Convert.ToInt32(hdnPurchaseReceiveID.Value);
+            entityHd.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
             entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
             entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
             entityHd.GCPurchaseReturnType = cboReturnType.Value.ToString();

@@ -8849,6 +8849,7 @@ namespace CodeX.Data.Model
         private DateTime _ReturnDate;
         private String _DirectPurchaseReturnNo;
         private Int32 _DirectPurchaseID;
+        private Int32? _SiteServiceUnitID;
         private Int32 _LocationID;
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerName;
@@ -8891,6 +8892,12 @@ namespace CodeX.Data.Model
         {
             get { return _DirectPurchaseID; }
             set { _DirectPurchaseID = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -22968,6 +22975,7 @@ namespace CodeX.Data.Model
         private DateTime _ReturnDate;
         private String _PurchaseReturnNo;
         private Int32 _PurchaseReceiveID;
+        private Int32? _SiteServiceUnitID;
         private Int32 _LocationID;
         private Int32 _BusinessPartnerID;
         private String _GCPurchaseReturnType;
@@ -23015,6 +23023,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReceiveID; }
             set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID

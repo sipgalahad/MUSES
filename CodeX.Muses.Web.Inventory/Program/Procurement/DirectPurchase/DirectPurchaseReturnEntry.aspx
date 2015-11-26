@@ -80,6 +80,9 @@
                     if (result != null) {
                         $('#<%=hdnDirectPurchaseID.ClientID %>').val(result.DirectPurchaseID);
                         $('#<%=txtDirectPurchaseNo.ClientID %>').val(result.DirectPurchaseNo);
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
+                        $('#<%=txtServiceUnitCode.ClientID %>').val(result.ServiceUnitCode);
+                        $('#<%=txtServiceUnitName.ClientID %>').val(result.ServiceUnitName);
                         $('#<%=hdnLocationID.ClientID %>').val(result.LocationID);
                         $('#<%=txtLocationCode.ClientID %>').val(result.LocationCode);
                         $('#<%=txtLocationName.ClientID %>').val(result.LocationName);
@@ -95,6 +98,9 @@
                     else {
                         $('#<%=hdnDirectPurchaseID.ClientID %>').val('0');
                         $('#<%=txtDirectPurchaseNo.ClientID %>').val('');
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val('');
+                        $('#<%=txtServiceUnitCode.ClientID %>').val('');
+                        $('#<%=txtServiceUnitName.ClientID %>').val('');
                         $('#<%=hdnLocationID.ClientID %>').val('');
                         $('#<%=txtLocationCode.ClientID %>').val('');
                         $('#<%=txtLocationName.ClientID %>').val('');
@@ -471,7 +477,26 @@
                             <col style="width: 30%" />
                         </colgroup>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory" runat="server" id="lblLocation"><%=GetLabel("Dari Lokasi")%></label>
+                            <td class="tdLabel"><label class="lblMandatory" runat="server"><%=GetLabel("Bagian")%></label>
+                            </td>
+                            <td>
+                                <input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtServiceUnitCode" Width="100%" ReadOnly="true" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory" runat="server" id="lblLocation"><%=GetLabel("Lokasi")%></label>
                             </td>
                             <td>
                                 <input type="hidden" id="hdnLocationID" value="" runat="server" />
