@@ -7870,6 +7870,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<LocationItemGroup> GetLocationItemGroupList(string filterExpression, IDbContext ctx)
+        {
+            List<LocationItemGroup> result = new List<LocationItemGroup>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(LocationItemGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((LocationItemGroup)helper.IDataReaderToObject(reader, new LocationItemGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region Manufacturer
         public static Manufacturer GetManufacturer(Int32 ManufacturerID)

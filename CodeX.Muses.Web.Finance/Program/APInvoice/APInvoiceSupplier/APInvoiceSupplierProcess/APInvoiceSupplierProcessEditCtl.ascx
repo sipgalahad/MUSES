@@ -268,6 +268,24 @@
                         <td class="tdLabel"><%=GetLabel("Tanggal di Faktur") %></td>
                         <td><asp:TextBox ID="txtDateReferrence" Width="120px" CssClass="datepicker" runat="server" /></td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Bagian")%></label></td>
+                        <td>
+                            <input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />
+                            <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                <colgroup>
+                                    <col style="width: 30%" />
+                                    <col style="width: 3px" />
+                                    <col />
+                                </colgroup>
+                                <tr>
+                                    <td><asp:TextBox ID="txtServiceUnitCode" Width="100%" ReadOnly="true" runat="server" /></td>
+                                    <td>&nbsp;</td>
+                                    <td><asp:TextBox ID="txtServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
                 </table>
             </td>
             <td style="padding: 5px; vertical-align: top">

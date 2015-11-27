@@ -70,6 +70,12 @@
             var url = ResolveUrl("~/Program/Master/Location/LocationItemEntryCtl.ascx");
             openUserControlPopup(url, id, 'Item Balance', 900, 500);
         });
+
+        $('.lnkItemGroup a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/Location/LocationItemGroupEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Location Item Group', 900, 500);
+        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -96,11 +102,11 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="LocationName" HeaderText="Location Name" />
                                 <asp:BoundField DataField="ShortName" HeaderText="Short Name" HeaderStyle-Width="200px" />
-                                <asp:BoundField DataField="SiteName" HeaderText="Base Site" HeaderStyle-Width="150px" />
-                                <asp:CheckBoxField DataField="IsAvailable" HeaderStyle-CssClass="thCenter" HeaderText="Available Balance" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" />
-                                <asp:CheckBoxField DataField="IsAllowOverIssued" HeaderStyle-CssClass="thCenter" HeaderText="Over Issued" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" />
-                                <asp:CheckBoxField DataField="IsNettable" HeaderStyle-CssClass="thCenter" HeaderText="Nettable" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" />
-                                <asp:CheckBoxField DataField="IsHoldForTransaction" HeaderStyle-CssClass="thCenter" HeaderText="Lock Down" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="SiteName" HeaderText="Base Site" HeaderStyle-Width="150px" /><asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkItemGroup" HeaderText="Item" HeaderStyle-Width="80px">
+                                    <ItemTemplate>
+                                        <a <%# Eval("IsHeader").ToString() == "True" ? "style='display:none'" : ""%>>Item Group</a>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkItem" HeaderText="Item" HeaderStyle-Width="80px">
                                     <ItemTemplate>
                                         <a <%# Eval("IsHeader").ToString() == "True" ? "style='display:none'" : ""%>>Item</a>
