@@ -632,7 +632,7 @@
   <!-- #Region Purchase Order HD-->
   <searchdialog type="purchaseorderhd" methodname="GetvPurchaseOrderHdList" keyfieldname="PurchaseOrderNo" orderbyexpression="PurchaseOrderID DESC">
     <gridcolumns>
-      <gridcolumn datafield="PurchaseOrderNo" headertext="Pemesanan No" width="100px" />
+      <gridcolumn datafield="PurchaseOrderNo" headertext="No Pemesanan" width="100px" />
       <gridcolumn datafield="OrderDate" displaycustomfield="OrderDateInString" horizontalalign="center" headertext="Order Date" width="100px" />
       <gridcolumn datafield="ServiceUnitName" horizontalalign="center" headertext="Bagian" width="100px" />
       <gridcolumn datafield="BusinessPartnerName" headertext="Supplier" width="100px" />

@@ -203,7 +203,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnSupplierID.Value = entity.BusinessPartnerID.ToString();
             txtSupplierCode.Text = entity.BusinessPartnerCode;
             txtSupplierName.Text = entity.BusinessPartnerName;
-            hdnSiteServiceUnitID.Value = entity.LocationID.ToString();
+            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
             txtServiceUnitCode.Text = entity.ServiceUnitCode;
             txtServiceUnitName.Text = entity.ServiceUnitName;
             cboPurchaseOrderType.Value = entity.GCPurchaseOrderType;

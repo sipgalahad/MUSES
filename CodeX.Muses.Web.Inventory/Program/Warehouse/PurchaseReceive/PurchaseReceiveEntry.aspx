@@ -121,7 +121,6 @@
             }
 
             $('#<%=lblLocation.ClientID %>.lblLink').live('click', function () {
-                alert(getLocationFilterExpression());
                 openSearchDialog('locationroleuser', getLocationFilterExpression(), function (value) {
                     $('#<%=txtLocationCode.ClientID %>').val(value);
                     onTxtLocationCodeChanged(value);

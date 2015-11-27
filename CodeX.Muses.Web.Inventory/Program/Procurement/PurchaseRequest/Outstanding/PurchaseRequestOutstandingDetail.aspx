@@ -780,13 +780,13 @@
                                                             <col style="width:40px" />
                                                         </colgroup>
                                                         <tr>
-                                                            <td><asp:TextBox ID="txtPrice" Width="75px" runat="server" value="0" CssClass="number txtPrice" ReadOnly="true"/> / </td>
+                                                            <td><asp:TextBox ID="txtPrice" Width="75px" runat="server" value="0" CssClass="txtCurrency txtPrice" ReadOnly="true"/> / </td>
                                                             <td><label runat="server" id="lblPurchaseUnitPrice" class="lblPurchaseUnitPrice"></label></td>
                                                         </tr>
                                                     </table>                                                                                                        
                                                 </td>
-                                                <td align="right"><asp:TextBox ID="txtDiscount1" Width="65%" runat="server" value="0" CssClass="number txtDiscount1" ReadOnly="true"/>&nbsp; %</td>
-                                                <td align="right"><asp:TextBox ID="txtDiscount2" Width="65%" runat="server" value="0.00" CssClass="number txtDiscount2" ReadOnly="true"/>&nbsp; %</td>
+                                                <td align="right"><asp:TextBox ID="txtDiscount1" Width="65%" runat="server" value="0" CssClass="txtCurrency txtDiscount1" ReadOnly="true"/>&nbsp; %</td>
+                                                <td align="right"><asp:TextBox ID="txtDiscount2" Width="65%" runat="server" value="0.00" CssClass="txtCurrency txtDiscount2" ReadOnly="true"/>&nbsp; %</td>
                                             </tr>
                                         </ItemTemplate>
                                     </asp:ListView>

@@ -30,6 +30,7 @@
               <col style="width:20px"/>
             </colgroup>      
             <tr><td>No Permintaan</td><td align="center">:</td><td>{DirectPurchaseNo}</td></tr>
+            <tr><td>Bagian</td><td align="center">:</td><td>{ServiceUnitName}</td></tr>
             <tr><td>Lokasi</td><td align="center">:</td><td>{LocationName}</td></tr>
           </table>
         </td>
