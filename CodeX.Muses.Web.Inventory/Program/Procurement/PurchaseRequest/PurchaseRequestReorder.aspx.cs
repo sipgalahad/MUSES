@@ -71,6 +71,12 @@ namespace CodeX.Muses.Web.Inventory.Program
                 }
             }
 
+            List<Variable> lstVariable = new List<Variable>();
+            lstVariable.Add(new Variable { Code = "1", Value = GetLabel("Static") });
+            lstVariable.Add(new Variable { Code = "2", Value = GetLabel("Dynamic") });
+            Methods.SetComboBoxField<Variable>(cboReorderType, lstVariable, "Value", "Code");
+            cboReorderType.SelectedIndex = 0;
+
             BindGridView(1, true, ref PageCount, ref RowCount);
             hdnPageCount.Value = PageCount.ToString();
             hdnRowCount.Value = RowCount.ToString();
@@ -184,7 +190,12 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             string filterExpression = "1 = 0";
             if (hdnLstLocationID.Value != "")
-                filterExpression = string.Format("ItemID IN (SELECT ItemID FROM ItemBalance WHERE LocationID IN ({0}) AND IsDeleted = 0 GROUP BY ItemID HAVING SUM(QuantityEND) <= SUM(QuantityMIN)) AND IsDeleted = 0", hdnLstLocationID.Value);
+            {
+                if (cboReorderType.Value.ToString() == "1")
+                    filterExpression = string.Format("ItemID IN (SELECT ItemID FROM ItemBalance WHERE LocationID IN ({0}) AND IsDeleted = 0 GROUP BY ItemID HAVING SUM(QuantityEND) <= SUM(QuantityMIN)) AND IsDeleted = 0", hdnLstLocationID.Value);
+                else
+                    filterExpression = string.Format("ItemID IN (SELECT ItemID FROM ItemBalance WHERE LocationID IN ({0}) AND IsDeleted = 0 GROUP BY ItemID", hdnLstLocationID.Value);
+            }
 
             if (isCountPageCount)
             {
@@ -194,19 +205,76 @@ namespace CodeX.Muses.Web.Inventory.Program
             lstSelectedMember = hdnSelectedMember.Value.Split('|');
             lstQtyPurchaseRequest = hdnPurchaseRequest.Value.Split('|');
             List<vItemMaster> lstEntity = BusinessLayer.GetvItemMasterList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ItemName1 ASC");
+
             string lstItemID = string.Join(",", lstEntity.Select(p => p.ItemID).ToList());
-            if (lstItemID != "" && hdnLstLocationID.Value != "")
-                lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID IN ({0}) AND ItemID IN ({1}) AND IsDeleted = 0", hdnLstLocationID.Value, lstItemID));
-            else
-                lstItemBalance = new List<ItemBalance>();
 
             if (lstItemID != "" && hdnSiteServiceUnitID.Value != "" && hdnSiteServiceUnitID.Value != "0")
                 lstQtyOnOrder = BusinessLayer.GetvPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnitList(string.Format("SiteServiceUnitID = {0} AND ItemID IN ({1})", hdnSiteServiceUnitID.Value, lstItemID));
             else
                 lstQtyOnOrder = new List<vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit>();
-            
-            grdView.DataSource = lstEntity;
-            grdView.DataBind();
+
+            if (lstItemID != "" && hdnLstLocationID.Value != "")
+                lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID IN ({0}) AND ItemID IN ({1}) AND IsDeleted = 0", hdnLstLocationID.Value, lstItemID));
+            else
+                lstItemBalance = new List<ItemBalance>();
+
+            if (cboReorderType.Value.ToString() == "1")
+            {
+                grdView.DataSource = lstEntity;
+                grdView.DataBind();
+
+                pnlView.Visible = true;
+                pnlView2.Visible = false;
+            }
+            else
+            {
+                List<GetItemUsagePurchaseRequestROP> lstEntity2 = null;
+                if (lstItemID != "" && hdnLstLocationID.Value != "")
+                    lstEntity2 = BusinessLayer.GetItemUsagePurchaseRequestROP(hdnLstLocationID.Value, lstItemID);
+                else
+                    lstEntity2 = new List<GetItemUsagePurchaseRequestROP>();
+                grdView2.DataSource = lstEntity2;
+                grdView2.DataBind();
+
+                pnlView.Visible = false;
+                pnlView2.Visible = true;
+            }
+        }
+
+        protected void grdView2_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                GetItemUsagePurchaseRequestROP entity = e.Row.DataItem as GetItemUsagePurchaseRequestROP;
+                vPurchaseRequestDtQtyOnOrderPerItemPerSiteServiceUnit entityQtyOnOrder = lstQtyOnOrder.FirstOrDefault(p => p.ItemID == entity.ItemID);
+
+                decimal qtyOnOrder = 0;
+                if (entityQtyOnOrder != null)
+                    qtyOnOrder = entityQtyOnOrder.QtyOnOrder;
+
+                List<ItemBalance> lstItemBalance1 = lstItemBalance.Where(p => p.ItemID == entity.ItemID).ToList();
+                decimal quantityEND = lstItemBalance1.Sum(p => p.QuantityEND);
+
+                TextBox txtPurchaseRequest = e.Row.FindControl("txtPurchaseRequest") as TextBox;
+                HtmlGenericControl lblQtyOnOrder = e.Row.FindControl("lblQtyOnOrder") as HtmlGenericControl;
+                HtmlGenericControl lblEndingBalance = e.Row.FindControl("lblEndingBalance") as HtmlGenericControl;
+                CheckBox chkIsSelected = (CheckBox)e.Row.FindControl("chkIsSelected");
+
+                Decimal autoQty = (entity.QtyOrder - qtyOnOrder);
+                if (autoQty < 0) autoQty = 0;
+
+                txtPurchaseRequest.Text = autoQty.ToString("N");
+                lblQtyOnOrder.InnerHtml = qtyOnOrder.ToString("0.00");
+                lblEndingBalance.InnerHtml = quantityEND.ToString("0.00");
+
+                if (lstSelectedMember.Contains(entity.ItemID.ToString()))
+                {
+                    int idx = Array.IndexOf(lstSelectedMember, entity.ItemID.ToString());
+                    chkIsSelected.Checked = true;
+                    txtPurchaseRequest.ReadOnly = false;
+                    txtPurchaseRequest.Text = lstQtyPurchaseRequest[idx];
+                }
+            }
         }
 
         List<ItemBalance> lstItemBalance = null;

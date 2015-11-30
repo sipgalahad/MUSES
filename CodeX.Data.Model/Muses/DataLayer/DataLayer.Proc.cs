@@ -1584,6 +1584,82 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetItemUsagePurchaseRequestROP
+    public partial class GetItemUsagePurchaseRequestROP
+    {
+        private Int32 _ItemID;
+        private String _ItemCode;
+        private String _ItemName1;
+        private String _GCItemUnit;
+        private String _ItemUnit;
+        private Int32 _NDaysBackward;
+        private Int32 _NDaysForward;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Decimal _QuantityOut;
+
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "ItemCode", DataType = "String")]
+        public String ItemCode
+        {
+            get { return _ItemCode; }
+            set { _ItemCode = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String")]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
+        }
+        [Column(Name = "GCItemUnit", DataType = "String")]
+        public String GCItemUnit
+        {
+            get { return _GCItemUnit; }
+            set { _GCItemUnit = value; }
+        }
+        [Column(Name = "ItemUnit", DataType = "String")]
+        public String ItemUnit
+        {
+            get { return _ItemUnit; }
+            set { _ItemUnit = value; }
+        }
+        [Column(Name = "NDaysBackward", DataType = "Int32")]
+        public Int32 NDaysBackward
+        {
+            get { return _NDaysBackward; }
+            set { _NDaysBackward = value; }
+        }
+        [Column(Name = "NDaysForward", DataType = "Int32")]
+        public Int32 NDaysForward
+        {
+            get { return _NDaysForward; }
+            set { _NDaysForward = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "QuantityOut", DataType = "Decimal")]
+        public Decimal QuantityOut
+        {
+            get { return _QuantityOut; }
+            set { _QuantityOut = value; }
+        }
+    }
+    #endregion
     #region GetStudentReceiveSummary
     public class GetStudentReceiveSummary
     {

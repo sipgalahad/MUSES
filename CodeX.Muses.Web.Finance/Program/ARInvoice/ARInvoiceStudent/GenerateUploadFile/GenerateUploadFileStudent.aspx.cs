@@ -108,9 +108,12 @@ namespace CodeX.Muses.Web.Finance.Program
                 List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}') AND TotalPaymentAmount = 0", student.StudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID), ctx);
                 foreach (ARInvoiceHd arInvoiceHD in lstARInvoiceHd)
                 {
-                    arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                    arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    arInvoiceHdDao.Update(arInvoiceHD);
+                    if (BusinessLayer.GetARInvoiceDtRowCount(string.Format("ARInvoiceID = {0} AND StudentDeeDtID IS NOT NULL AND IsDeleted = 0", arInvoiceHD.ARInvoiceID), ctx) > 0)
+                    {
+                        arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                        arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        arInvoiceHdDao.Update(arInvoiceHD);
+                    }
                 }
 
                 String schoolType = siteParameterDao.Get(student.SiteID, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
@@ -118,7 +121,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 #region Insert AR Invoice
                 string remarks = String.Join(", ", lstStudentFeeDt.Where(p => p.PaymentAmount == 0).Select(x => x.cfStudentFeeCompTypeName));
                 
-                DateTime DueDate = new DateTime(Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value), 1).AddMonths(1).AddDays(-1);
+                DateTime DueDate = new DateTime(Convert.ToInt32(cboYear.Value), Convert.ToInt32(Request.Form[hdnMonthValue.UniqueID]), 1).AddMonths(1).AddDays(-1);
                 Int32 BankID = bank.BankID;
 
                 ARInvoiceHd entityARInvoiceHd = new ARInvoiceHd();
@@ -162,7 +165,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 String txt = string.Empty;
                 String format = "";
                 //SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)), ctx)[0];
-                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}') AND SiteID = '{2}'", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text), student.SiteID), ctx)[0];
+                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}') AND SiteID = '{2}'", Helper.GetDatePickerValue(Request.Form[txtStartDate.UniqueID]), Helper.GetDatePickerValue(Request.Form[txtEndDate.UniqueID]), student.SiteID), ctx)[0];
                 List<vStudentFeeComp> sfctList = BusinessLayer.GetvStudentFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0 AND StudentID = {1}", Period.SchoolPeriodID, student.StudentID), ctx);
                 
                 if (bank.GCBankExportDataType == Constant.BankExportDataType.MANDIRI)
@@ -189,9 +192,9 @@ namespace CodeX.Muses.Web.Finance.Program
                         tempFormat = tempFormat.Replace("{Unit}", sc.StandardCodeName);
                     }
                     tempFormat = tempFormat.Replace("{StudentName}", student.StudentName);
-                    tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
-                    tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
-                    tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
+                    tempFormat = tempFormat.Replace("{Month}", Request.Form[hdnMonthText.UniqueID]);
+                    tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(Request.Form[txtStartDate.UniqueID]).ToString("yyyyMMdd"));
+                    tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(Request.Form[txtEndDate.UniqueID]).ToString("yyyyMMdd"));
                     tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
                     
                     int count = 1;

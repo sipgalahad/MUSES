@@ -14077,6 +14077,8 @@ namespace CodeX.Data.Model
         private Boolean _IsHeader;
         private Int32? _ParentID;
         private Int16 _PrintOrder;
+        private Int32 _NDaysBackward;
+        private Int32 _NDaysForward;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -14130,6 +14132,18 @@ namespace CodeX.Data.Model
         {
             get { return _PrintOrder; }
             set { _PrintOrder = value; }
+        }
+        [Column(Name = "NDaysBackward", DataType = "Int32")]
+        public Int32 NDaysBackward
+        {
+            get { return _NDaysBackward; }
+            set { _NDaysBackward = value; }
+        }
+        [Column(Name = "NDaysForward", DataType = "Int32")]
+        public Int32 NDaysForward
+        {
+            get { return _NDaysForward; }
+            set { _NDaysForward = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -14619,6 +14633,9 @@ namespace CodeX.Data.Model
         private String _GCABCClass;
         private Decimal _CycleCountInterval;
         private Decimal _HETAmount;
+        private Boolean _IsROPSettingDefault;
+        private Int32 _NDaysBackward;
+        private Int32 _NDaysForward;
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
 
@@ -14711,6 +14728,24 @@ namespace CodeX.Data.Model
         {
             get { return _HETAmount; }
             set { _HETAmount = value; }
+        }
+        [Column(Name = "IsROPSettingDefault", DataType = "Boolean")]
+        public Boolean IsROPSettingDefault
+        {
+            get { return _IsROPSettingDefault; }
+            set { _IsROPSettingDefault = value; }
+        }
+        [Column(Name = "NDaysBackward", DataType = "Int32")]
+        public Int32 NDaysBackward
+        {
+            get { return _NDaysBackward; }
+            set { _NDaysBackward = value; }
+        }
+        [Column(Name = "NDaysForward", DataType = "Int32")]
+        public Int32 NDaysForward
+        {
+            get { return _NDaysForward; }
+            set { _NDaysForward = value; }
         }
         [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
         public Int32? LastUpdatedBy

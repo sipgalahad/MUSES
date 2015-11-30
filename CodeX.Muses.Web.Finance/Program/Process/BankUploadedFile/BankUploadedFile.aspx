@@ -21,6 +21,8 @@
             $('#<%=FileUpload1.ClientID %>').change(function () {
                 readURL(this);
             });
+
+            setDatePicker('<%=txtReceivedDate.ClientID %>');
         })
 
         function readURL(input) {
@@ -149,6 +151,10 @@
                             ValueChanged="function(){ onTacBankValueChanged(); }" />
                     </cdx:CodeXAutoCompleteTextBox>
                 </td>
+            </tr>
+            <tr>
+                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Penbayaran")%></label></td>
+                <td><asp:TextBox ID="txtReceivedDate" runat="server" Width="120px" CssClass="datepicker" /></td>
             </tr>
             <tr>
                 <td></td>

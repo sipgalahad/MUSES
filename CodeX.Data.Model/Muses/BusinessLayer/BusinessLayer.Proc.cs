@@ -1186,6 +1186,36 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GetItemUsagePurchaseRequestROP
+        public static List<GetItemUsagePurchaseRequestROP> GetItemUsagePurchaseRequestROP(String LstLocationID, String LstItemID)
+        {
+            List<GetItemUsagePurchaseRequestROP> result = new List<GetItemUsagePurchaseRequestROP>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetItemUsagePurchaseRequestROP));
+                ctx.CommandText = "GetItemUsagePurchaseRequestROP";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("LstLocationID", LstLocationID);
+                ctx.Add("LstItemID", LstItemID);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetItemUsagePurchaseRequestROP)helper.IDataReaderToObject(reader, new GetItemUsagePurchaseRequestROP()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetStudentReceiveSummary
         public static List<GetStudentReceiveSummary> GetStudentReceiveSummary(String SiteID, Int32 year, Int32 month)
         {

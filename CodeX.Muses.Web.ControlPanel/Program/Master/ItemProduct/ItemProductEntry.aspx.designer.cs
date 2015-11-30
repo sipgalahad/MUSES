@@ -238,6 +238,33 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.CheckBox chkIsUsingStandardPrice;
         
         /// <summary>
+        /// chkIsROPSettingDefault control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsROPSettingDefault;
+        
+        /// <summary>
+        /// txtNDaysBackward control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNDaysBackward;
+        
+        /// <summary>
+        /// txtNDaysForward control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNDaysForward;
+        
+        /// <summary>
         /// txtMargin control.
         /// </summary>
         /// <remarks>

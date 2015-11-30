@@ -156,7 +156,12 @@
             var lstSelectedMember = $('#<%=hdnSelectedMember.ClientID %>').val().split('|');
             var lstPurchaseRequest = $('#<%=hdnPurchaseRequest.ClientID %>').val().split('|');
             var result = '';
-            $('#<%=grdView.ClientID %> .chkIsSelected input').each(function () {
+            $grdView = null;
+            if (cboReorderType.GetValue() == '1')
+                $grdView = $('#<%=grdView.ClientID %>');
+            else
+                $grdView = $('#<%=grdView2.ClientID %>');
+            $grdView.find('.chkIsSelected input').each(function () {
                 if ($(this).is(':checked')) {
                     var key = $(this).closest('tr').find('.keyField').html();
                     var purchaseRequest = $(this).closest('tr').find('.txtPurchaseRequest').val();
@@ -293,6 +298,10 @@
                             </td>
                         </tr>
                         <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Reorder")%></label></td>
+                            <td><dxe:ASPxComboBox runat="server" ID="cboReorderType" ClientInstanceName="cboReorderType" Width="300px" /></td>
+                        </tr>
+                        <tr>
                             <td>&nbsp;</td>
                             <td><input type="button" id="btnRefresh" value='<%=GetLabel("Refresh") %>' /></td>
                         </tr>
@@ -403,6 +412,74 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Quantity On Order" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                                                        <colgroup>
+                                                            <col />
+                                                            <col style="width:60px" />
+                                                        </colgroup>
+                                                        <tr>
+                                                            <td align="right" class="lblReadOnlyText"><label id="lblQtyOnOrder" runat="server" class="lblLink lblQtyOnOrder"></label></td>
+                                                            <td>&nbsp<%# Eval("ItemUnit")%></td>
+                                                        </tr>
+                                                    </table>  
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <EmptyDataTemplate>
+                                            <%=GetLabel("No Data To Display")%>
+                                        </EmptyDataTemplate>
+                                    </asp:GridView>
+                                </asp:Panel>
+                                <asp:Panel runat="server" ID="pnlView2" Style="width: 100%; margin-left: auto; margin-right: auto;
+                                    position: relative; font-size: 0.95em;">
+                                    <asp:GridView ID="grdView2" runat="server" CssClass="tblTransactionEntryResult"
+                                        AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty"
+                                        OnRowDataBound="grdView2_RowDataBound">
+                                        <Columns>
+                                            <asp:BoundField DataField="ItemID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                            <asp:TemplateField HeaderStyle-Width="40px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
+                                                <HeaderTemplate>
+                                                    <input id="chkSelectAll" type="checkbox" />
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="ItemName1" HeaderText="Nama Item" HeaderStyle-Width="350px" />
+                                            <asp:BoundField DataField="NDaysBackward" HeaderStyle-CssClass="thRight" HeaderText="Backward (Hari)" HeaderStyle-Width="90px" ItemStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="NDaysForward" HeaderStyle-CssClass="thRight" HeaderText="Forward (Hari)" HeaderStyle-Width="90px" ItemStyle-HorizontalAlign="Right" />
+                                            <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Stok Saat Ini" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                                                        <colgroup>
+                                                            <col />
+                                                            <col style="width:60px" />
+                                                        </colgroup>
+                                                        <tr>
+                                                            <td align="right" class="lblReadOnlyText"><label id="lblEndingBalance" runat="server" class="lblLink lblEndingBalance"></label></td>
+                                                            <td>&nbsp<%# Eval("ItemUnit")%></td>
+                                                        </tr>
+                                                    </table>  
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="AvgQuantityOut" HeaderStyle-CssClass="thRight" HeaderText="Qty Rata-Rata / Hari" DataFormatString="{0:N}" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" />
+                                            <asp:TemplateField HeaderStyle-Width="10px" />
+                                            <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                                                        <colgroup>
+                                                            <col />
+                                                            <col style="width:60px" />
+                                                        </colgroup>
+                                                        <tr>
+                                                            <td align="right" class="lblReadOnlyText"><asp:TextBox ID="txtPurchaseRequest" Width="100%" runat="server" CssClass="number txtPurchaseRequest" ReadOnly="true"/></td>
+                                                            <td>&nbsp<%# Eval("ItemUnit")%></td>
+                                                        </tr>
+                                                    </table>  
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Quantity On Order" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" >
                                                 <ItemTemplate>
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>

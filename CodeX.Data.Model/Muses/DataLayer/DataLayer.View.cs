@@ -12002,6 +12002,8 @@ namespace CodeX.Data.Model
         private String _ParentCode;
         private String _ParentName;
         private Int16 _PrintOrder;
+        private Int32 _NDaysBackward;
+        private Int32 _NDaysForward;
         private Boolean _IsDeleted;
         private Int32 _Level;
         private String _DisplayPath;
@@ -12071,6 +12073,18 @@ namespace CodeX.Data.Model
         {
             get { return _PrintOrder; }
             set { _PrintOrder = value; }
+        }
+        [Column(Name = "NDaysBackward", DataType = "Int32")]
+        public Int32 NDaysBackward
+        {
+            get { return _NDaysBackward; }
+            set { _NDaysBackward = value; }
+        }
+        [Column(Name = "NDaysForward", DataType = "Int32")]
+        public Int32 NDaysForward
+        {
+            get { return _NDaysForward; }
+            set { _NDaysForward = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -12835,10 +12849,14 @@ namespace CodeX.Data.Model
         private Boolean _IsControlExpired;
         private Boolean _IsProductionItem;
         private Boolean _IsUsingStandardPrice;
+        private Boolean _IsFixedAsset;
         private String _GCABCClass;
         private String _ABCClass;
         private Decimal _CycleCountInterval;
         private Decimal _HETAmount;
+        private Boolean _IsROPSettingDefault;
+        private Int32 _NDaysBackward;
+        private Int32 _NDaysForward;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -13004,6 +13022,12 @@ namespace CodeX.Data.Model
             get { return _IsUsingStandardPrice; }
             set { _IsUsingStandardPrice = value; }
         }
+        [Column(Name = "IsFixedAsset", DataType = "Boolean")]
+        public Boolean IsFixedAsset
+        {
+            get { return _IsFixedAsset; }
+            set { _IsFixedAsset = value; }
+        }
         [Column(Name = "GCABCClass", DataType = "String")]
         public String GCABCClass
         {
@@ -13027,6 +13051,24 @@ namespace CodeX.Data.Model
         {
             get { return _HETAmount; }
             set { _HETAmount = value; }
+        }
+        [Column(Name = "IsROPSettingDefault", DataType = "Boolean")]
+        public Boolean IsROPSettingDefault
+        {
+            get { return _IsROPSettingDefault; }
+            set { _IsROPSettingDefault = value; }
+        }
+        [Column(Name = "NDaysBackward", DataType = "Int32")]
+        public Int32 NDaysBackward
+        {
+            get { return _NDaysBackward; }
+            set { _NDaysBackward = value; }
+        }
+        [Column(Name = "NDaysForward", DataType = "Int32")]
+        public Int32 NDaysForward
+        {
+            get { return _NDaysForward; }
+            set { _NDaysForward = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

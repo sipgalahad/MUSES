@@ -32,7 +32,7 @@
                     cboYear.SetValue('');
                     cboMonth.SetValue('');
                     $('#<%=txtTransactionAmount.ClientID %>').val('0').trigger('changeValue');
-
+                    onCboStudentFeeCompTypeValueChanged();
                     $('#entryDetailContainer').show();
                 }
             });
@@ -139,7 +139,7 @@
             cboYear.SetValue(entity.TransactionYear);
             cboMonth.SetValue(entity.TransactionMonth);
             $('#<%=txtTransactionAmount.ClientID %>').val(entity.TransactionAmount).trigger('changeValue');
-
+            onCboStudentFeeCompTypeValueChanged();
             $('#entryDetailContainer').show();
         });
         //#endregion
@@ -181,6 +181,18 @@
 
         function onGetCurrID() {
             return $('#<%=hdnARInvoiceID.ClientID %>').val();
+        }
+
+        function onCboStudentFeeCompTypeValueChanged() {
+            cboYear.SetEnabled(false);
+            cboMonth.SetEnabled(false);
+            if (cboStudentFeeCompType.GetValue() == '2') {
+                cboYear.SetEnabled(true);
+                cboMonth.SetEnabled(true);
+            }
+            else if (cboStudentFeeCompType.GetValue() == '3') {
+                cboYear.SetEnabled(true);
+            }
         }
 
         function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
@@ -258,7 +270,11 @@
                                             </colgroup>
                                             <tr>
                                                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe") %></label></td>
-                                                <td><dxe:ASPxComboBox id="cboStudentFeeCompType" ClientInstanceName="cboStudentFeeCompType" runat="server" Width="150px" /></td>
+                                                <td>
+                                                    <dxe:ASPxComboBox id="cboStudentFeeCompType" ClientInstanceName="cboStudentFeeCompType" runat="server" Width="150px">
+                                                        <ClientSideEvents ValueChanged="function(s,e){ onCboStudentFeeCompTypeValueChanged() }" />
+                                                    </dxe:ASPxComboBox>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tahun") %></label></td>

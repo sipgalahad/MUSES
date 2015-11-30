@@ -65,6 +65,8 @@ namespace CodeX.Muses.Web.Finance.Program
             IsLoadFirstRecord = (OnGetRowCount() > 0);
 
             Helper.SetControlEntrySetting(cboStudentFeeCompType, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboYear, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboMonth, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtTransactionAmount, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 

@@ -126,7 +126,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     remarks += studentFeeDt.cfStudentFeeCompTypeName;
                 }
 
-                DateTime DueDate = new DateTime(Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value), 1).AddMonths(1).AddDays(-1);
+                DateTime DueDate = new DateTime(Convert.ToInt32(cboYear.Value), Convert.ToInt32(Request.Form[hdnMonthValue.UniqueID]), 1).AddMonths(1).AddDays(-1);
                 Int32 BankID = Convert.ToInt32(tacBank.Value);
 
                 ARInvoiceHd entityARInvoiceHd = new ARInvoiceHd();
@@ -184,9 +184,9 @@ namespace CodeX.Muses.Web.Finance.Program
                         tempFormat = tempFormat.Replace("{Unit}", sc.StandardCodeName);
                     }
                     tempFormat = tempFormat.Replace("{StudentName}", prospectiveStudent.ProspectiveStudentName);
-                    tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
-                    tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
-                    tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
+                    tempFormat = tempFormat.Replace("{Month}", Request.Form[hdnMonthText.UniqueID]);
+                    tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(Request.Form[txtStartDate.UniqueID]).ToString("yyyyMMdd"));
+                    tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(Request.Form[txtEndDate.UniqueID]).ToString("yyyyMMdd"));
                     tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
 
                     int count = 1;

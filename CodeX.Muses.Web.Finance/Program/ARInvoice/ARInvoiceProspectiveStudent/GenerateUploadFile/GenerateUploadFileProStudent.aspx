@@ -62,6 +62,11 @@
             $('#<%=txtEndDate.ClientID %>').val(endDate);
         }
 
+        function onCboMonthValueChanged() {
+            $('#<%=hdnMonthValue.ClientID %>').val(cboMonth.GetValue());
+            $('#<%=hdnMonthText.ClientID %>').val(cboMonth.GetText());
+        }
+
         //#region Bank
         function onGetBankFilterExpression() {
             var filterExpression = "SiteID = '<%=GetSiteID() %>'";
@@ -104,6 +109,8 @@
     <input type="hidden" id="hdnDepositAmount" value="" runat="server" />
     <input type="hidden" id="hdnSchoolPeriod" value="" runat="server" />
     <input type="hidden" id="hdnSiteID" value="" runat="server" />
+    <input type="hidden" id="hdnMonthValue" value="" runat="server" />
+    <input type="hidden" id="hdnMonthText" value="" runat="server" />
     <div>
         <div style="display:none;">
             <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />
@@ -136,7 +143,8 @@
                         <tr>
                             <td class="tdMonth">
                                 <dxe:ASPxComboBox ID="cboMonth" runat="server" ClientInstanceName="cboMonth" Width="120px">
-                                    <ClientSideEvents ValueChanged="function(s,e){setStartEndPeriod()}" />
+                                    <ClientSideEvents Init="function(s,e){ onCboMonthValueChanged(); }"
+                                        ValueChanged="function(s,e){onCboMonthValueChanged();setStartEndPeriod()}" />
                                 </dxe:ASPxComboBox>
                             </td>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tahun")%></label></td>

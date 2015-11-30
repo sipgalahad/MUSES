@@ -104,6 +104,8 @@ namespace CodeX.Muses.Web.Finance.Program
             //List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
             //Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             //cboSite.SelectedIndex = 0;
+
+            txtReceivedDate.Text = DateTime.Now.AddDays(-1).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
         }
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
@@ -225,10 +227,12 @@ namespace CodeX.Muses.Web.Finance.Program
                             {
                                 #region Generate Data
                                 string stringDate = arrData[i - 1].Substring(4, 6);
-                                DateTime receivingDate = DateTime.ParseExact(stringDate,
-                                                "yyMMdd",
-                                                CultureInfo.InvariantCulture,
-                                                DateTimeStyles.None);
+                                //DateTime receivingDate = DateTime.ParseExact(stringDate,
+                                //                "yyMMdd",
+                                //                CultureInfo.InvariantCulture,
+                                //                DateTimeStyles.None);
+                                DateTime receivingDate = Helper.GetDatePickerValue(Request.Form[txtReceivedDate.UniqueID]);
+
                                 ARBalance entityARBalance = null;
                                 if (entityStudent != null)
                                 {
