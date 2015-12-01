@@ -490,13 +490,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboItemUnit;
         
         /// <summary>
-        /// hdnItemUnitValue control.
+        /// hdnConversionFactor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnItemUnitValue;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnConversionFactor;
         
         /// <summary>
         /// txtConversion control.

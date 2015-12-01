@@ -16,90 +16,82 @@ namespace CodeX.Muses.Web.ControlPanel.Program
     {
         public override void InitializeDataControl(string param)
         {
-            hdnItemID.Value = param;
+            hdnID.Value = param;
 
-            vItemProduct item = BusinessLayer.GetvItemProductList(String.Format("ItemID = {0}", param)).FirstOrDefault();
-            txtItemCode.Text = item.ItemCode;
-            txtItemName.Text = item.ItemName1;
-            txtItemUnit.Text = item.ItemUnit;
+            vItemProduct entity = BusinessLayer.GetvItemProductList(String.Format("ItemID = {0}", param)).FirstOrDefault();
+            txtHeaderText.Text = entity.ItemName1;
+            txtHeaderText2.Text = entity.ItemUnit;
 
-            BindGridView();
-            InitializeComboBoxFields();
-            cboGCAlternateUnit.Attributes.Add("validationgroup", "mpEntryPopup");
-            txtConversionFactor.Attributes.Add("validationgroup", "mpEntryPopup");
-        }
-
-        private void InitializeComboBoxFields()
-        {
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_UNIT));
             lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
-
             Methods.SetComboBoxField<StandardCode>(cboGCAlternateUnit, lstStandardCode, "StandardCodeName", "StandardCodeID");
 
-            cboGCAlternateUnit.SelectedIndex = 0;
+            BindGridView();
+
+            Helper.SetControlEntrySetting(cboGCAlternateUnit, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtConversionFactor, new ControlEntrySetting(true, true, true), "mpTrxPopup");
         }
 
         private void BindGridView()
         {
-            grdView.DataSource = BusinessLayer.GetvItemAlternateUnitList(string.Format("ItemID = {0} AND IsDeleted = 0", hdnItemID.Value));
+            grdView.DataSource = BusinessLayer.GetvItemAlternateUnitList(string.Format("ItemID = {0} AND IsDeleted = 0", hdnID.Value));
             grdView.DataBind();
         }
 
-        private void ControlToEntity(ItemAlternateUnit entity)
+        protected void cbpViewPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            entity.ItemID = Convert.ToInt32(hdnItemID.Value);            
-            entity.GCAlternateUnit= cboGCAlternateUnit.Value.ToString();
-            entity.ConversionFactor = Convert.ToDecimal(txtConversionFactor.Text);
+            BindGridView();
         }
 
-        protected void cbpEntryPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        #region Process Detail
+        protected void cbpProcessPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            LoadWords();
-            //BindGridView();
-
-            string param = e.Parameter;
-
-            string result = param + "|";
+            string result = "";
             string errMessage = "";
-
-            if (param == "save")
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
+            if (param[0] == "save")
             {
-                if (hdnID.Value.ToString() != "")
+                if (hdnEntryID.Value.ToString() != "")
                 {
-                    if (OnSaveEditRecord(ref errMessage))
+                    if (OnSaveEditRecordEntityDt(ref errMessage))
                         result += "success";
                     else
                         result += string.Format("fail|{0}", errMessage);
                 }
                 else
                 {
-                    if (OnSaveAddRecord(ref errMessage))
+                    if (OnSaveAddRecordEntityDt(ref errMessage))
                         result += "success";
                     else
                         result += string.Format("fail|{0}", errMessage);
                 }
             }
-            else if (param == "delete")
+            else if (param[0] == "delete")
             {
-                if (OnDeleteRecord(ref errMessage))
+                if (OnDeleteEntityDt(ref errMessage))
                     result += "success";
                 else
                     result += string.Format("fail|{0}", errMessage);
             }
 
-            BindGridView();
-
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
-
         }
 
-        private bool OnSaveAddRecord(ref string errMessage)
+        private void ControlToEntity(ItemAlternateUnit entity)
+        {
+            entity.GCAlternateUnit = cboGCAlternateUnit.Value.ToString();
+            entity.ConversionFactor = Convert.ToDecimal(txtConversionFactor.Text);
+        }
+
+        private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             try
             {
                 ItemAlternateUnit entity = new ItemAlternateUnit();
                 ControlToEntity(entity);
+                entity.ItemID = Convert.ToInt32(hdnID.Value);       
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entity.CreatedDate = DateTime.Now;
                 BusinessLayer.InsertItemAlternateUnit(entity);
@@ -113,7 +105,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
         }
 
-        private bool OnSaveEditRecord(ref string errMessage)
+        private bool OnSaveEditRecordEntityDt(ref string errMessage)
         {
             try
             {
@@ -132,7 +124,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
         }
 
-        private bool OnDeleteRecord(ref string errMessage)
+        private bool OnDeleteEntityDt(ref string errMessage)
         {
             try
             {
@@ -150,5 +142,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 return false;
             }
         }
+        #endregion
     }
 }

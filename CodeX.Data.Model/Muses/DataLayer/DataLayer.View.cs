@@ -12450,6 +12450,7 @@ namespace CodeX.Data.Model
         private Int16 _SafetyTime;
         private Decimal _SafetyStock;
         private String _GCPurchaseUnit;
+        private Decimal _ConversionFactor;
         private Decimal _MinOrderQty;
         private Decimal _MaxOrderQty;
         private Decimal _ToleranceQty;
@@ -12550,6 +12551,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCPurchaseUnit; }
             set { _GCPurchaseUnit = value; }
+        }
+        [Column(Name = "ConversionFactor", DataType = "Decimal")]
+        public Decimal ConversionFactor
+        {
+            get { return _ConversionFactor; }
+            set { _ConversionFactor = value; }
         }
         [Column(Name = "MinOrderQty", DataType = "Decimal")]
         public Decimal MinOrderQty

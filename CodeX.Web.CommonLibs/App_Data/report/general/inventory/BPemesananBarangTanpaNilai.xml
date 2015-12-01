@@ -8,6 +8,7 @@
     <field fieldtype="autonumber" headertext="No" width="3"/>
     <field fieldname="ItemName1" headertext="Item"/>
     <field fieldname="Quantity" headertext="Quantity" width="10" fieldtype="number"/>
+    <field fieldname="PurchaseUnit" headertext="Satuan" width="10" />
   </fields>
   <headertemplate>
     <![CDATA[

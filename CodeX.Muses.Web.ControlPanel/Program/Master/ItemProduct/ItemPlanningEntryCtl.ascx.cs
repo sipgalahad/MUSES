@@ -32,10 +32,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void SetControlProperties()
         {
-            List<StandardCode> lstPurchaseUnit = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND (StandardCodeID IN (SELECT GCAlternateUnit FROM ItemAlternateUnit WHERE ItemID = {1}) OR StandardCodeID = (SELECT GCItemUnit FROM ItemMaster WHERE ItemID = {1}))", Constant.StandardCode.ITEM_UNIT, hdnItemID.Value));
-            lstPurchaseUnit.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
-            Methods.SetComboBoxField<StandardCode>(cboPurchaseUnit, lstPurchaseUnit, "StandardCodeName", "StandardCodeID");
-            cboPurchaseUnit.SelectedIndex = 0;
+            List<vItemAlternateUnitCustom> lst = BusinessLayer.GetvItemAlternateUnitCustomList(string.Format("ItemID = {0}", hdnItemID.Value));
+            Methods.SetComboBoxField<vItemAlternateUnitCustom>(cboPurchaseUnit, lst, "cfAlternateUnit", "cfID");
+            cboPurchaseUnit.SelectedIndex = -1;
 
             List<StandardCode> lstPurchaseMethod = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_METHOD));
             Methods.SetComboBoxField<StandardCode>(cboPurchaseMethod, lstPurchaseMethod, "StandardCodeName", "StandardCodeID");
@@ -73,6 +72,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtMinOrderQty.Text = entity.MinOrderQty.ToString();
             txtMaxOrderQty.Text = entity.MaxOrderQty.ToString();
             cboPurchaseUnit.Value = entity.GCPurchaseUnit;
+            cboPurchaseUnit.Value = string.Format("{0}|{1}", entity.GCPurchaseUnit, entity.ConversionFactor.ToString("G29"));
             cboPurchaseMethod.Value = entity.GCPurchaseMethod;
         }
 
@@ -90,10 +90,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.AveragePrice = Convert.ToDecimal(txtBasePrice.Text);
             entity.MinOrderQty = Convert.ToDecimal(txtMinOrderQty.Text);
             entity.MaxOrderQty = Convert.ToDecimal(txtMaxOrderQty.Text);
-            if (cboPurchaseUnit.Value != null)
-                entity.GCPurchaseUnit = cboPurchaseUnit.Value.ToString();
-            else
-                entity.GCPurchaseUnit = null;
+            string[] tempPurchaseUnit = cboPurchaseUnit.Value.ToString().Split('|');
+            entity.GCPurchaseUnit = tempPurchaseUnit[0].ToString();
+            entity.ConversionFactor = Convert.ToDecimal(tempPurchaseUnit[1]);
             entity.GCPurchaseMethod = cboPurchaseMethod.Value.ToString();
         }
 

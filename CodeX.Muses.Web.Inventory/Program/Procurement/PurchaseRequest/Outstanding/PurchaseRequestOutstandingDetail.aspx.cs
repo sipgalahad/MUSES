@@ -225,7 +225,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 else
                     lblSupplier.InnerHtml = entity.BusinessPartnerName;
                 txtPurchaseQty.Text = entity.Quantity.ToString("#,##0.00");
-                lblPurchaseUnit.InnerText = entity.PurchaseUnit;
+                lblPurchaseUnit.InnerText = string.Format("{0} ({1})", entity.PurchaseUnit, entity.ConversionFactor.ToString("G29"));
                 txtPrice.Text = entity.UnitPrice.ToString("N");
                 txtDiscount1.Text = entity.DiscountPercentage.ToString("N");
                 hdnSupplierID.Value = entity.BusinessPartnerID.ToString();

@@ -446,7 +446,7 @@
             var baseText = getItemUnitName(baseValue);
 
             if (baseValue == toUnitItem) {
-                $('#<%=hdnItemUnitValue.ClientID %>').val('1');
+                $('#<%=hdnConversionFactor.ClientID %>').val('1');
                 var conversion = "1 " + baseText + " = 1 " + baseText;
                 $('#<%=txtConversion.ClientID %>').val(conversion);
             }
@@ -455,7 +455,7 @@
                 var filterExpression = "ItemID = " + itemID + " AND GCAlternateUnit = '" + toUnitItem + "'";
                 Methods.getObjectValue('GetvItemAlternateUnitList', filterExpression, 'ConversionFactor', function (result) {
                     var toConversion = getItemUnitName(toUnitItem);
-                    $('#<%=hdnItemUnitValue.ClientID %>').val(result);
+                    $('#<%=hdnConversionFactor.ClientID %>').val(result);
                     var conversion = "1 " + toConversion + " = " + result + " " + baseText;
                     $('#<%=txtConversion.ClientID %>').val(conversion);
                 });
@@ -810,7 +810,7 @@
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Konversi")%></label></td>
                                                     <td>
-                                                        <input type="hidden" value="" id="hdnItemUnitValue" runat="server" />
+                                                        <input type="hidden" value="" id="hdnConversionFactor" runat="server" />
                                                         <asp:TextBox ID="txtConversion" Width="180px" runat="server" ReadOnly="true" />
                                                     </td>
                                                 </tr>

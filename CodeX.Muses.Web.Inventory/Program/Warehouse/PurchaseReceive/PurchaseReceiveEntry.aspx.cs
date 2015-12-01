@@ -32,7 +32,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
         protected string OnGetFilterExpressionLocation()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_ORDER);
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_RECEIVE);
         }
         protected string OnGetFilterExpressionItemProduct()
         {
@@ -590,8 +590,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         #region Trigger Callback
         protected void cboItemUnit_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            List<StandardCode> lst = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND (StandardCodeID IN (SELECT GCAlternateUnit FROM ItemAlternateUnit WHERE ItemID = {1}) OR StandardCodeID = (SELECT GCItemUnit FROM ItemMaster WHERE ItemID = {1}))", Constant.StandardCode.ITEM_UNIT, hdnItemID.Value));
-            Methods.SetComboBoxField<StandardCode>(cboItemUnit, lst, "StandardCodeName", "StandardCodeID");
+            List<vItemAlternateUnitCustom> lst = BusinessLayer.GetvItemAlternateUnitCustomList(string.Format("ItemID = {0}", hdnItemID.Value));
+            Methods.SetComboBoxField<vItemAlternateUnitCustom>(cboItemUnit, lst, "cfAlternateUnit", "cfID");
             cboItemUnit.SelectedIndex = -1;
         }
 
@@ -667,7 +667,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             entityDt.ItemID = Convert.ToInt32(hdnItemID.Value);
             entityDt.Quantity = Convert.ToDecimal(txtQuantity.Text);
-            entityDt.GCItemUnit = cboItemUnit.Value.ToString();
+            entityDt.GCItemUnit = cboItemUnit.Value.ToString().Split('|')[0];
             entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
             entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
             entityDt.UnitPrice = Convert.ToDecimal(txtPrice.Text);

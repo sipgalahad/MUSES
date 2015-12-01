@@ -8,6 +8,7 @@
     <field fieldtype="autonumber" headertext="No" width="3"/>
     <field fieldname="ItemName1" headertext="Item"/>
     <field fieldname="Quantity" headertext="Quantity" width="10" fieldtype="number"/>
+    <field fieldname="PurchaseUnit" headertext="Satuan" width="10" />
     <field fieldname="UnitPrice" headertext="Harga" width="15" fieldtype="currency"/>
     <field fieldname="DiscountPercentage1" headertext="Disc 1" width="10" fieldtype="currency"/>
     <field fieldname="DiscountPercentage2" headertext="Disc 2" width="10" fieldtype="currency"/>

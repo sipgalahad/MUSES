@@ -489,7 +489,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityDt.Quantity = Convert.ToDecimal(txtQuantity.Text);
             entityDt.GCItemUnit = cboItemUnit.Value.ToString();
             entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
-            entityDt.ConversionFactor = Convert.ToDecimal(hdnItemUnitValue.Value);
+            entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
             entityDt.GCItemDetailStatus = Constant.DistributionStatus.OPEN;
         }
 

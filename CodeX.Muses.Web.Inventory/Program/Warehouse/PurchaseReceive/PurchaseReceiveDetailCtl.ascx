@@ -200,12 +200,13 @@
     });
 
     function onTxtPurchaseUnitChanged(value) {
-        var filterExpression = getPurchaseUnitFilterExpression() + " AND GCAlternateUnit = '" + value + "'";
-        Methods.getObject('GetvItemAlternateUnitList', filterExpression, function (result) {
+        var temp = value.split('|');
+        var filterExpression = getPurchaseUnitFilterExpression() + " AND GCAlternateUnit = '" + temp[0] + "' AND ConversionFactor = " + temp[1];
+        Methods.getObject('GetvItemAlternateUnitCustomList', filterExpression, function (result) {
             if (result != null) {
                 var baseUnit = $tr.find('.hdnBaseUnit').val();
                 $tr.find('.hdnGCPurchaseUnit').val(result.GCAlternateUnit);
-                $tr.find('.lblPurchaseUnit').html(result.AlternateUnit);
+                $tr.find('.lblPurchaseUnit').html(result.cfAlternateUnit);
                 $tr.find('.hdnConversionFactor').val(result.ConversionFactor);
                 $tr.find('.lblConversion').html("1 " + result.AlternateUnit + " = " + result.ConversionFactor + " " + baseUnit);
             }

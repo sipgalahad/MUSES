@@ -13109,7 +13109,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int16 _HolidayDate;
         private Int16 _HolidayMonth;
-        private Int16? _HolidayYear;
+        private Int16 _HolidayYear;
         private String _HolidayName;
         private Boolean _IsAnnualHoliday;
         private Boolean _IsDeleted;
@@ -13137,7 +13137,7 @@ namespace CodeX.Data.Model
             set { _HolidayMonth = value; }
         }
         [Column(Name = "HolidayYear", DataType = "Int16", IsNullable = true)]
-        public Int16? HolidayYear
+        public Int16 HolidayYear
         {
             get { return _HolidayYear; }
             set { _HolidayYear = value; }
@@ -14392,15 +14392,16 @@ namespace CodeX.Data.Model
         private Int32? _BusinessPartnerID;
         private String _GCPurchaseMethod;
         private Decimal _AveragePrice;
-        private Int16? _LeadTime;
-        private Int16? _SafetyTime;
+        private Int16 _LeadTime;
+        private Int16 _SafetyTime;
         private Decimal _SafetyStock;
         private String _GCPurchaseUnit;
+        private Decimal _ConversionFactor;
         private Decimal _MinOrderQty;
         private Decimal _MaxOrderQty;
         private Boolean _IsUsingDynamicROP;
         private Decimal _ToleranceQty;
-        private Int16? _TimeFence;
+        private Int16 _TimeFence;
         private Decimal _PurchaseUnitPrice;
         private Decimal _UnitPrice;
         private Decimal _DiscountPercentage;
@@ -14450,13 +14451,13 @@ namespace CodeX.Data.Model
             set { _AveragePrice = value; }
         }
         [Column(Name = "LeadTime", DataType = "Int16", IsNullable = true)]
-        public Int16? LeadTime
+        public Int16 LeadTime
         {
             get { return _LeadTime; }
             set { _LeadTime = value; }
         }
         [Column(Name = "SafetyTime", DataType = "Int16", IsNullable = true)]
-        public Int16? SafetyTime
+        public Int16 SafetyTime
         {
             get { return _SafetyTime; }
             set { _SafetyTime = value; }
@@ -14472,6 +14473,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCPurchaseUnit; }
             set { _GCPurchaseUnit = value; }
+        }
+        [Column(Name = "ConversionFactor", DataType = "Decimal", IsNullable = true)]
+        public Decimal ConversionFactor
+        {
+            get { return _ConversionFactor; }
+            set { _ConversionFactor = value; }
         }
         [Column(Name = "MinOrderQty", DataType = "Decimal", IsNullable = true)]
         public Decimal MinOrderQty
@@ -14498,7 +14505,7 @@ namespace CodeX.Data.Model
             set { _ToleranceQty = value; }
         }
         [Column(Name = "TimeFence", DataType = "Int16", IsNullable = true)]
-        public Int16? TimeFence
+        public Int16 TimeFence
         {
             get { return _TimeFence; }
             set { _TimeFence = value; }
@@ -25715,7 +25722,7 @@ namespace CodeX.Data.Model
         private Int32 _SiteServiceUnitID;
         private String _SiteID;
         private Int32 _ServiceUnitID;
-        private Int16? _ServiceInterval;
+        private Int16 _ServiceInterval;
         private String _ServiceUnitOfficer;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -25742,7 +25749,7 @@ namespace CodeX.Data.Model
             set { _ServiceUnitID = value; }
         }
         [Column(Name = "ServiceInterval", DataType = "Int16", IsNullable = true)]
-        public Int16? ServiceInterval
+        public Int16 ServiceInterval
         {
             get { return _ServiceInterval; }
             set { _ServiceInterval = value; }

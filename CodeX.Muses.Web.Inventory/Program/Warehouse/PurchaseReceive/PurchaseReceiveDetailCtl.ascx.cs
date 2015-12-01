@@ -57,7 +57,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 txtDiscountAmount1.Text = entity.DiscountAmount1.ToString();
                 txtDiscountPercentage2.Text = entity.DiscountPercentage2.ToString();
                 txtDiscountAmount2.Text = entity.DiscountAmount2.ToString();
-                lblPurchaseUnit.InnerHtml = entity.PurchaseUnit;
+                lblPurchaseUnit.InnerText = string.Format("{0} ({1})", entity.PurchaseUnit, entity.ConversionFactor.ToString("G29"));
             }
         }
 

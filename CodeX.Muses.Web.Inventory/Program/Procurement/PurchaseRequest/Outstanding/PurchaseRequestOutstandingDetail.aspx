@@ -449,19 +449,20 @@
         var itemID = 0;
         $('.lblPurchaseUnit.lblLink').live('click', function () {
             $td = $(this).parent();
-            itemID = $td.parent().find('.hdnItemID').val();
+            itemID = $td.closest('tr').parent().closest('tr').find('.hdnItemID').val();
             openSearchDialog('itemalternateunit', getPurchaseUnitFilterExpression(), function (value) {
                 onTxtPurchaseUnitChanged(value);
             });
         });
 
         function onTxtPurchaseUnitChanged(value) {
-            var filterExpression = getPurchaseUnitFilterExpression() + " AND GCAlternateUnit = '" + value + "'";
-            Methods.getObject('GetvItemAlternateUnitList', filterExpression, function (result) {
+            var temp = value.split('|');
+            var filterExpression = getPurchaseUnitFilterExpression() + " AND GCAlternateUnit = '" + temp[0] + "' AND ConversionFactor = " + temp[1];
+            Methods.getObject('GetvItemAlternateUnitCustomList', filterExpression, function (result) {
                 $lblPurchaseUnitPrice = $td.parent().find('.lblPurchaseUnitPrice');
                 if (result != null) {
                     $td.find('.hdnGCPurchaseUnit').val(result.GCAlternateUnit);
-                    $td.find('.lblPurchaseUnit').html(result.AlternateUnit);
+                    $td.find('.lblPurchaseUnit').html(result.cfAlternateUnit);
                     $td.find('.hdnConversionFactor').val(result.ConversionFactor);
                     $lblPurchaseUnitPrice.html(result.AlternateUnit);
                 }

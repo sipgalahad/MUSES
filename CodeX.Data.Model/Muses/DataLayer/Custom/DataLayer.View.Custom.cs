@@ -560,6 +560,20 @@ namespace CodeX.Data.Model
     #region vItemAlternateUnitCustom
     public partial class vItemAlternateUnitCustom
     {
+        public String cfAlternateUnit
+        {
+            get
+            {
+                return string.Format("{0} ({1})", _AlternateUnit, _ConversionFactor.ToString("G29"));
+            }
+        }
+        public String cfID
+        {
+            get
+            {
+                return string.Format("{0}|{1}", _GCAlternateUnit, _ConversionFactor.ToString("G29"));
+            }
+        }
         public String CustomConversion
         {
             get

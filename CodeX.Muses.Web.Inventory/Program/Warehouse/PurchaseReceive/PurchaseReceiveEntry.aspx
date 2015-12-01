@@ -226,6 +226,7 @@
                                 $('#<%=hdnUnitPrice.ClientID %>').val(result2.Price).trigger('changeValue');
                                 $('#<%=hdnGCBaseUnit.ClientID %>').val(result2.ItemUnit);
                                 $('#<%=hdnGCItemUnit.ClientID %>').val(result2.PurchaseUnit);
+                                $('#<%=hdnConversionFactor.ClientID %>').val(result2.ConversionFactor);
 
                                 var qty = parseFloat($('#<%=txtQuantity.ClientID %>').val());
                                 var discountAmount = qty * result2.Price * result2.Discount / 100;
@@ -483,6 +484,7 @@
             $('#<%=txtQuantity.ClientID %>').val(entity.Quantity);
             $('#<%=hdnGCItemUnit.ClientID %>').val(entity.GCItemUnit);
             $('#<%=hdnGCBaseUnit.ClientID %>').val(entity.GCBaseUnit);
+            $('#<%=hdnConversionFactor.ClientID %>').val(entity.ConversionFactor);
             $('#<%=txtOrderQty.ClientID %>').val(entity.OrderQuantity);
             $('#<%=txtOrderUnit.ClientID %>').val(entity.OrderPurchaseUnit);
             $('#<%=txtSupplierItemCode.ClientID %>').val(entity.SupplierItemCode);
@@ -608,18 +610,21 @@
 
         //#region cbo Item Unit
         function onCboItemUnitEndCallBack() {
-            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '') 
-                cboItemUnit.SetValue($('#<%=hdnGCBaseUnit.ClientID %>').val());
-            else 
-                cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val());
+            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '')
+                cboItemUnit.SetValue($('#<%=hdnGCBaseUnit.ClientID %>').val() + '|1');
+            else
+                cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val() + '|' + $('#<%=hdnConversionFactor.ClientID %>').val());
             onCboItemUnitChanged();
         }
 
         function onCboItemUnitChanged() {
             var baseValue = $('#<%=hdnGCBaseUnit.ClientID %>').val();
-            var toUnitItem = cboItemUnit.GetValue();
+            var temp = cboItemUnit.GetValue().split('|');
+            var toUnitItem = temp[0];
+            var conversion = temp[1];
             var baseText = getItemUnitName(baseValue);
-            $('#<%=txtBaseUnit.ClientID %>').val("per " + cboItemUnit.GetText());
+            var toConversion = cboItemUnit.GetText().split(' (')[0];
+            $('#<%=txtBaseUnit.ClientID %>').val("Per " + toConversion);
             if (baseValue == toUnitItem) {
                 $('#<%=hdnConversionFactor.ClientID %>').val('1');
                 var conversion = "1 " + baseText + " = 1 " + baseText;
@@ -627,13 +632,9 @@
             }
             else {
                 var itemID = $('#<%=hdnItemID.ClientID %>').val();
-                var filterExpression = "ItemID = " + itemID + " AND GCAlternateUnit = '" + toUnitItem + "'";
-                Methods.getObjectValue('GetvItemAlternateUnitList', filterExpression, 'ConversionFactor', function (result) {
-                    var toConversion = getItemUnitName(toUnitItem);
-                    $('#<%=hdnConversionFactor.ClientID %>').val(result);
-                    var conversion = "1 " + toConversion + " = " + result + " " + baseText;
-                    $('#<%=txtConversion.ClientID %>').val(conversion);
-                });
+                $('#<%=hdnConversionFactor.ClientID %>').val(conversion);
+                var conversion = "1 " + toConversion + " = " + conversion + " " + baseText;
+                $('#<%=txtConversion.ClientID %>').val(conversion);
             }
             var conversion = parseFloat($('#<%=hdnConversionFactor.ClientID %>').val());
             var priceperitemunit = parseFloat(($('#<%=hdnUnitPrice.ClientID %>').val()));
@@ -644,8 +645,8 @@
 
         function getItemUnitName(baseValue) {
             var value = cboItemUnit.GetValue();
-            cboItemUnit.SetValue(baseValue);
-            var text = cboItemUnit.GetText();
+            cboItemUnit.SetValue(baseValue + '|1');
+            var text = cboItemUnit.GetText().split(' (')[0];
             cboItemUnit.SetValue(value);
             return text;
         }
@@ -1111,7 +1112,7 @@
                                                     <input type="hidden" value="<%#Eval("OrderQuantity") %>" bindingfield="OrderQuantity" />
                                                     <input type="hidden" value="<%#Eval("OrderPurchaseUnit") %>" bindingfield="OrderPurchaseUnit" />
                                                     <input type="hidden" value="<%#Eval("UnitPrice") %>" bindingfield="UnitPrice" />
-                                                    <input type="hidden" value="<%#Eval("ConversionFactor") %>" bindingfield="ConversionFactor" />
+                                                    <input type="hidden" value="<%#Eval("ConversionFactor", "{0:G29}") %>" bindingfield="ConversionFactor" />
                                                     <input type="hidden" value="<%#Eval("SupplierItemCode") %>" bindingfield="SupplierItemCode" />
                                                     <input type="hidden" value="<%#Eval("SupplierItemName") %>" bindingfield="SupplierItemName" />
                                                     <input type="hidden" value="<%#Eval("DiscountPercentage1") %>" bindingfield="DiscountPercentage1" />

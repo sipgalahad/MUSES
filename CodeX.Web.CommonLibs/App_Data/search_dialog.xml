@@ -310,7 +310,7 @@
   </searchdialog>
   <!-- #EndRegion -->
   <!-- #Region Item Alternate Unit -->
-  <searchdialog type="itemalternateunit" methodname="GetvItemAlternateUnitCustomList" keyfieldname="GCAlternateUnit">
+  <searchdialog type="itemalternateunit" methodname="GetvItemAlternateUnitCustomList" keyfieldname="cfID">
     <gridcolumns>
       <gridcolumn datafield="AlternateUnit" headertext="Alternate Unit" width="100px" />
       <gridcolumn datafield="CustomConversion" headertext="Conversion" width="300px" />

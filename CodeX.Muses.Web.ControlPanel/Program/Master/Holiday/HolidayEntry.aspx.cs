@@ -95,7 +95,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             if (!entity.IsAnnualHoliday)
                 entity.HolidayYear = Convert.ToInt16(cboHolidayYear.Value);
             else
-                entity.HolidayYear = null;
+                entity.HolidayYear = 0;
             entity.HolidayName = txtHolidayName.Text;
         }
 
