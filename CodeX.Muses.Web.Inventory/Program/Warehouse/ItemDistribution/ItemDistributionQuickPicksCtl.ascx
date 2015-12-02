@@ -132,6 +132,8 @@
             $newTr = $('#tmplSelectedTestItem').html();
             $newTr = $newTr.replace(/\$\{ItemName1}/g, $selectedTr.find('.tdItemName1').html());
             $newTr = $newTr.replace(/\$\{ItemID}/g, $selectedTr.find('.keyField').html());
+            $newTr = $newTr.replace(/\$\{DistributionUnit}/g, $selectedTr.find('.hdnDistributionUnit').val());
+            $newTr = $newTr.replace(/\$\{ConversionFactor}/g, $selectedTr.find('.hdnConversionFactor').val());
             $newTr = $($newTr);
             $newTr.insertBefore($('#trFooter'));
         }
@@ -176,6 +178,8 @@
             </td>
             <td>${ItemName1}</td>
             <td><input type="text" validationgroup="mpDrugsQuickPicks" class="txtQty number min" min="1" value="1" style="width:60px" /></td>
+            <td>${DistributionUnit}</td>
+            <td align="center">${ConversionFactor}</td>
         </tr>
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
@@ -213,8 +217,7 @@
     </table>
     <table style="width:100%">
         <colgroup>
-            <col style="width:50%"/>
-            <col style="width:50%"/>
+            <col style="width:35%"/>
         </colgroup>
         <tr>
             <td style="padding:5px;vertical-align:top">
@@ -233,6 +236,8 @@
                                         <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
+                                                <input type="hidden" class="hdnDistributionUnit" id="hdnDistributionUnit" runat="server" />
+                                                <input type="hidden" class="hdnConversionFactor" id="hdnConversionFactor" runat="server" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="ItemName1" HeaderText="Barang" ItemStyle-CssClass="tdItemName1" />
@@ -264,6 +269,8 @@
                             <th style="width:40px">&nbsp;</th>
                             <th align="center"><%=GetLabel("Barang")%></th> 
                             <th align="center"style="width:60px"><%=GetLabel("Jumlah")%></th> 
+                            <th align="center"style="width:80px"><%=GetLabel("Satuan")%></th> 
+                            <th class="thCenter"style="width:150px"><%=GetLabel("Konversi")%></th> 
                         </tr>
                         <tr id="trFooter"></tr>
                     </table>

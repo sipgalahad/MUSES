@@ -12450,7 +12450,9 @@ namespace CodeX.Data.Model
         private Int16 _SafetyTime;
         private Decimal _SafetyStock;
         private String _GCPurchaseUnit;
-        private Decimal _ConversionFactor;
+        private Decimal _PurchaseUnitConversionFactor;
+        private String _GCDistributionUnit;
+        private Decimal _DistributionUnitConversionFactor;
         private Decimal _MinOrderQty;
         private Decimal _MaxOrderQty;
         private Decimal _ToleranceQty;
@@ -12552,11 +12554,23 @@ namespace CodeX.Data.Model
             get { return _GCPurchaseUnit; }
             set { _GCPurchaseUnit = value; }
         }
-        [Column(Name = "ConversionFactor", DataType = "Decimal")]
-        public Decimal ConversionFactor
+        [Column(Name = "PurchaseUnitConversionFactor", DataType = "Decimal")]
+        public Decimal PurchaseUnitConversionFactor
         {
-            get { return _ConversionFactor; }
-            set { _ConversionFactor = value; }
+            get { return _PurchaseUnitConversionFactor; }
+            set { _PurchaseUnitConversionFactor = value; }
+        }
+        [Column(Name = "GCDistributionUnit", DataType = "String")]
+        public String GCDistributionUnit
+        {
+            get { return _GCDistributionUnit; }
+            set { _GCDistributionUnit = value; }
+        }
+        [Column(Name = "DistributionUnitConversionFactor", DataType = "Decimal")]
+        public Decimal DistributionUnitConversionFactor
+        {
+            get { return _DistributionUnitConversionFactor; }
+            set { _DistributionUnitConversionFactor = value; }
         }
         [Column(Name = "MinOrderQty", DataType = "Decimal")]
         public Decimal MinOrderQty
@@ -12642,7 +12656,10 @@ namespace CodeX.Data.Model
         private Decimal _SafetyStock;
         private String _GCPurchaseUnit;
         private String _PurchaseUnit;
-        private Decimal _ConversionFactor;
+        private Decimal _PurchaseUnitConversionFactor;
+        private String _GCDistributionUnit;
+        private String _DistributionUnit;
+        private Decimal _DistributionUnitConversionFactor;
         private Decimal _MinOrderQty;
         private Decimal _MaxOrderQty;
         private Decimal _ToleranceQty;
@@ -12756,11 +12773,29 @@ namespace CodeX.Data.Model
             get { return _PurchaseUnit; }
             set { _PurchaseUnit = value; }
         }
-        [Column(Name = "ConversionFactor", DataType = "Decimal")]
-        public Decimal ConversionFactor
+        [Column(Name = "PurchaseUnitConversionFactor", DataType = "Decimal")]
+        public Decimal PurchaseUnitConversionFactor
         {
-            get { return _ConversionFactor; }
-            set { _ConversionFactor = value; }
+            get { return _PurchaseUnitConversionFactor; }
+            set { _PurchaseUnitConversionFactor = value; }
+        }
+        [Column(Name = "GCDistributionUnit", DataType = "String")]
+        public String GCDistributionUnit
+        {
+            get { return _GCDistributionUnit; }
+            set { _GCDistributionUnit = value; }
+        }
+        [Column(Name = "DistributionUnit", DataType = "String")]
+        public String DistributionUnit
+        {
+            get { return _DistributionUnit; }
+            set { _DistributionUnit = value; }
+        }
+        [Column(Name = "DistributionUnitConversionFactor", DataType = "Decimal")]
+        public Decimal DistributionUnitConversionFactor
+        {
+            get { return _DistributionUnitConversionFactor; }
+            set { _DistributionUnitConversionFactor = value; }
         }
         [Column(Name = "MinOrderQty", DataType = "Decimal")]
         public Decimal MinOrderQty

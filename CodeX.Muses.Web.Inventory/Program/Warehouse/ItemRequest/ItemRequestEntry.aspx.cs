@@ -50,6 +50,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             return string.Format("{0};0;{1};", AppSession.UserLogin.SiteID, hdnTransactionCodeItemDistribution.Value);
         }
+        protected string OnGetFilterExpressionItemPlanning()
+        {
+            return string.Format("SiteID = '{0}' AND ItemID = [ItemID] AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+        }
         protected string OnGetFilterExpressionItemProduct()
         {
             return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
@@ -501,7 +505,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             entityDt.ItemID = Convert.ToInt32(hdnItemID.Value);
             entityDt.Quantity = Convert.ToDecimal(txtQuantity.Text);
-            entityDt.GCItemUnit = cboItemUnit.Value.ToString();
+            entityDt.GCItemUnit = cboItemUnit.Value.ToString().Split('|')[0];
             entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
             entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
             entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
@@ -595,8 +599,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         #region CallBack Trigger
         protected void cboItemUnit_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            List<StandardCode> lst = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND (StandardCodeID IN (SELECT GCAlternateUnit FROM ItemAlternateUnit WHERE ItemID = {1}) OR StandardCodeID = (SELECT GCItemUnit FROM ItemMaster WHERE ItemID = {1}))", Constant.StandardCode.ITEM_UNIT, hdnItemID.Value));
-            Methods.SetComboBoxField<StandardCode>(cboItemUnit, lst, "StandardCodeName", "StandardCodeID");
+            List<vItemAlternateUnitCustom> lst = BusinessLayer.GetvItemAlternateUnitCustomList(string.Format("ItemID = {0}", hdnItemID.Value));
+            Methods.SetComboBoxField<vItemAlternateUnitCustom>(cboItemUnit, lst, "cfAlternateUnit", "cfID");
             cboItemUnit.SelectedIndex = -1;
         }
 

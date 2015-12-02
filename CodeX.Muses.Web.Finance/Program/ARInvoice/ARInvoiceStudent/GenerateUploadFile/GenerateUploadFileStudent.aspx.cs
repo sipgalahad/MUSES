@@ -108,7 +108,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}') AND TotalPaymentAmount = 0", student.StudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID), ctx);
                 foreach (ARInvoiceHd arInvoiceHD in lstARInvoiceHd)
                 {
-                    if (BusinessLayer.GetARInvoiceDtRowCount(string.Format("ARInvoiceID = {0} AND StudentDeeDtID IS NOT NULL AND IsDeleted = 0", arInvoiceHD.ARInvoiceID), ctx) > 0)
+                    if (BusinessLayer.GetARInvoiceDtRowCount(string.Format("ARInvoiceID = {0} AND StudentFeeDtID IS NOT NULL AND IsDeleted = 0", arInvoiceHD.ARInvoiceID), ctx) > 0)
                     {
                         arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
                         arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;

@@ -93,6 +93,10 @@
                         <td colspan="3"><dxe:ASPxComboBox ID="cboPurchaseUnit" Width="100%" runat="server" /></td>
                     </tr> 
                     <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Distribution Unit")%></label></td>
+                        <td colspan="3"><dxe:ASPxComboBox ID="cboDistributionUnit" Width="100%" runat="server" /></td>
+                    </tr> 
+                    <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Lead Time")%></label></td>
                         <td class="tdLabel"><asp:TextBox ID="txtLeadTime" Width="50px" CssClass="number" runat="server" /></td>
                         <td>&nbsp;</td>

@@ -33,8 +33,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void SetControlProperties()
         {
             List<vItemAlternateUnitCustom> lst = BusinessLayer.GetvItemAlternateUnitCustomList(string.Format("ItemID = {0}", hdnItemID.Value));
+            lst.Insert(0, new vItemAlternateUnitCustom { AlternateUnit = "", GCAlternateUnit = "", ConversionFactor = 0 });
             Methods.SetComboBoxField<vItemAlternateUnitCustom>(cboPurchaseUnit, lst, "cfAlternateUnit", "cfID");
             cboPurchaseUnit.SelectedIndex = -1;
+
+            Methods.SetComboBoxField<vItemAlternateUnitCustom>(cboDistributionUnit, lst, "cfAlternateUnit", "cfID");
+            cboDistributionUnit.SelectedIndex = -1;
 
             List<StandardCode> lstPurchaseMethod = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_METHOD));
             Methods.SetComboBoxField<StandardCode>(cboPurchaseMethod, lstPurchaseMethod, "StandardCodeName", "StandardCodeID");
@@ -55,6 +59,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtMinOrderQty, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtMaxOrderQty, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboPurchaseUnit, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(cboDistributionUnit, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboPurchaseMethod, new ControlEntrySetting(true, true, true));
         }
 
@@ -71,8 +76,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtBasePrice.Text = entity.AveragePrice.ToString();
             txtMinOrderQty.Text = entity.MinOrderQty.ToString();
             txtMaxOrderQty.Text = entity.MaxOrderQty.ToString();
-            cboPurchaseUnit.Value = entity.GCPurchaseUnit;
-            cboPurchaseUnit.Value = string.Format("{0}|{1}", entity.GCPurchaseUnit, entity.ConversionFactor.ToString("G29"));
+            if (entity.GCPurchaseUnit != "" && entity.GCPurchaseUnit != null)
+                cboPurchaseUnit.Value = string.Format("{0}|{1}", entity.GCPurchaseUnit, entity.PurchaseUnitConversionFactor.ToString("G29"));
+            else
+                cboPurchaseUnit.Value = "";
+            if (entity.GCDistributionUnit != "" && entity.GCDistributionUnit != null)
+                cboDistributionUnit.Value = string.Format("{0}|{1}", entity.GCDistributionUnit, entity.DistributionUnitConversionFactor.ToString("G29"));
+            else
+                cboDistributionUnit.Value = "";
             cboPurchaseMethod.Value = entity.GCPurchaseMethod;
         }
 
@@ -90,9 +101,28 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.AveragePrice = Convert.ToDecimal(txtBasePrice.Text);
             entity.MinOrderQty = Convert.ToDecimal(txtMinOrderQty.Text);
             entity.MaxOrderQty = Convert.ToDecimal(txtMaxOrderQty.Text);
-            string[] tempPurchaseUnit = cboPurchaseUnit.Value.ToString().Split('|');
-            entity.GCPurchaseUnit = tempPurchaseUnit[0].ToString();
-            entity.ConversionFactor = Convert.ToDecimal(tempPurchaseUnit[1]);
+            if (cboPurchaseUnit.Value != null && cboPurchaseUnit.Value.ToString() != "|0")
+            {
+                string[] tempPurchaseUnit = cboPurchaseUnit.Value.ToString().Split('|');
+                entity.GCPurchaseUnit = tempPurchaseUnit[0].ToString();
+                entity.PurchaseUnitConversionFactor = Convert.ToDecimal(tempPurchaseUnit[1]);
+            }
+            else
+            {
+                entity.GCPurchaseUnit = null;
+                entity.PurchaseUnitConversionFactor = 0;
+            }
+            if (cboDistributionUnit.Value != null && cboDistributionUnit.Value.ToString() != "|0")
+            {
+                string[] tempDistributionUnit = cboDistributionUnit.Value.ToString().Split('|');
+                entity.GCDistributionUnit = tempDistributionUnit[0].ToString();
+                entity.DistributionUnitConversionFactor = Convert.ToDecimal(tempDistributionUnit[1]);
+            }
+            else
+            {
+                entity.GCDistributionUnit = null;
+                entity.DistributionUnitConversionFactor = 0;
+            }
             entity.GCPurchaseMethod = cboPurchaseMethod.Value.ToString();
         }
 

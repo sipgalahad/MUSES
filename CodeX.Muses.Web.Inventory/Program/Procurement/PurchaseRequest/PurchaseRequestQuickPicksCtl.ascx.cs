@@ -91,7 +91,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
                 divStock.InnerHtml = lstItemBalance.Where(p => p.ItemID == entity.ItemID).Sum(p => p.QuantityEND).ToString();
                 hdnPurchaseUnit.Value = itemPlanning.PurchaseUnit;
-                hdnConversionFactor.Value = itemPlanning.cfConversion;
+                hdnConversionFactor.Value = itemPlanning.cfPurchaseUnitConversion;
             }
         }
 

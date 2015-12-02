@@ -302,7 +302,6 @@
                         $('#<%=hdnItemID.ClientID %>').val(result.ItemID);
                         $('#<%=txtItemName.ClientID %>').val(result.ItemName1);
                         $('#<%=hdnGCBaseUnit.ClientID %>').val(result.GCItemUnit);
-                        $('#<%=hdnGCItemUnit.ClientID %>').val('');
                         $('#<%=txtStockLocationItemUnit.ClientID %>').val(result.ItemUnit);
                         $('#<%=txtQtyOnOrderItemUnit.ClientID %>').val(result.ItemUnit);
                         var filterExpression = "<%=OnGetItemQtyOnOrderFilterExpression() %>";
@@ -315,7 +314,19 @@
                                 $('#<%=txtQtyOnOrder.ClientID %>').val("0");
                             GetItemQtyFromLocation();
                         });
-                        cboItemUnit.PerformCallback();
+                        var filterExpression = "<%=OnGetFilterExpressionItemPlanning() %>";
+                        filterExpression = filterExpression.replace('[ItemID]', $('#<%=hdnItemID.ClientID %>').val());
+                        Methods.getObject('GetvItemPlanningCustomList', filterExpression, function (result4) {
+                            if (result4 != null) {
+                                $('#<%=hdnGCItemUnit.ClientID %>').val(result4.GCDistributionUnit);
+                                $('#<%=hdnConversionFactor.ClientID %>').val(result4.DistributionUnitConversionFactor);
+                            }
+                            else {
+                                $('#<%=hdnGCItemUnit.ClientID %>').val('');
+                                $('#<%=hdnConversionFactor.ClientID %>').val("0");
+                            }
+                            cboItemUnit.PerformCallback();
+                        });
                     }
                     else {
                         $('#<%=hdnGCBaseUnit.ClientID %>').val('');
@@ -381,7 +392,7 @@
                     var fromLocationItemGroupID = $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val();
                     var toLocationItemGroupID = $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val();
                     var id = transactionID + '|' + locationID + '|' + fromLocationItemGroupID + '|' + toLocationItemGroupID;
-                    openUserControlPopup(url, id, 'Quick Picks', 1000, 600);
+                    openUserControlPopup(url, id, 'Quick Picks', 1200, 600);
                 }
             });
 
@@ -423,6 +434,7 @@
             $('#<%=hdnItemGroupID.ClientID %>').val(entity.ItemGroupID);
             $('#<%=hdnGCBaseUnit.ClientID %>').val(entity.GCBaseUnit);
             $('#<%=hdnGCItemUnit.ClientID %>').val(entity.GCItemUnit);
+            $('#<%=hdnConversionFactor.ClientID %>').val(entity.ConversionFactor);
             $('#<%=txtItemGroupCode.ClientID %>').val(entity.ItemGroupCode);
             $('#<%=txtItemGroupName.ClientID %>').val(entity.ItemGroupName1);
             $('#<%=hdnItemID.ClientID %>').val(entity.ItemID);
@@ -456,18 +468,20 @@
 
         //#region cboItemUnit
         function onCboItemUnitEndCallBack() {
-            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '') {
-                cboItemUnit.SetValue($('#<%=hdnGCBaseUnit.ClientID %>').val());
-            }
-            else cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val());
+            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '')
+                cboItemUnit.SetValue($('#<%=hdnGCBaseUnit.ClientID %>').val() + '|1');
+            else
+                cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val() + '|' + $('#<%=hdnConversionFactor.ClientID %>').val());
             onCboItemUnitChanged();
         }
 
         function onCboItemUnitChanged() {
             var baseValue = $('#<%=hdnGCBaseUnit.ClientID %>').val();
-            var toUnitItem = cboItemUnit.GetValue();
+            var temp = cboItemUnit.GetValue().split('|');
+            var toUnitItem = temp[0];
+            var conversion = temp[1];
             var baseText = getItemUnitName(baseValue);
-
+            var toConversion = cboItemUnit.GetText().split(' (')[0];
             if (baseValue == toUnitItem) {
                 $('#<%=hdnConversionFactor.ClientID %>').val('1');
                 var conversion = "1 " + baseText + " = 1 " + baseText;
@@ -475,20 +489,16 @@
             }
             else {
                 var itemID = $('#<%=hdnItemID.ClientID %>').val();
-                var filterExpression = "ItemID = " + itemID + " AND GCAlternateUnit = '" + toUnitItem + "'";
-                Methods.getObjectValue('GetvItemAlternateUnitList', filterExpression, 'ConversionFactor', function (result) {
-                    var toConversion = getItemUnitName(toUnitItem);
-                    $('#<%=hdnConversionFactor.ClientID %>').val(result);
-                    var conversion = "1 " + toConversion + " = " + result + " " + baseText;
-                    $('#<%=txtConversion.ClientID %>').val(conversion);
-                });
+                $('#<%=hdnConversionFactor.ClientID %>').val(conversion);
+                var conversion = "1 " + toConversion + " = " + conversion + " " + baseText;
+                $('#<%=txtConversion.ClientID %>').val(conversion);
             }
         }
 
         function getItemUnitName(baseValue) {
             var value = cboItemUnit.GetValue();
-            cboItemUnit.SetValue(baseValue);
-            var text = cboItemUnit.GetText();
+            cboItemUnit.SetValue(baseValue + '|1');
+            var text = cboItemUnit.GetText().split(' (')[0];
             cboItemUnit.SetValue(value);
             return text;
         }
@@ -849,7 +859,7 @@
                                                     <input type="hidden" value="<%#Eval("GCBaseUnit") %>" bindingfield="GCBaseUnit" />
                                                     <input type="hidden" value="<%#Eval("ItemUnit") %>" bindingfield="ItemUnit" />
                                                     <input type="hidden" value="<%#Eval("BaseUnit") %>" bindingfield="BaseUnit" />
-                                                    <input type="hidden" value="<%#Eval("ConversionFactor") %>" bindingfield="ConversionFactor" />
+                                                    <input type="hidden" value="<%#Eval("ConversionFactor",  "{0:G29}") %>" bindingfield="ConversionFactor" />
                                                     <input type="hidden" value="<%#Eval("GCItemDetailStatus") %>" bindingfield="GCItemDetailStatus" />
                                                     <input type="hidden" value="<%#Eval("CustomTotal") %>" bindingfield="CustomTotal" />
                                                 </ItemTemplate>

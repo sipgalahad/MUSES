@@ -564,7 +564,9 @@ namespace CodeX.Data.Model
         {
             get
             {
-                return string.Format("{0} ({1})", _AlternateUnit, _ConversionFactor.ToString("G29"));
+                if (_AlternateUnit != "")
+                    return string.Format("{0} ({1})", _AlternateUnit, _ConversionFactor.ToString("G29"));
+                return "";
             }
         }
         public String cfID
@@ -755,9 +757,13 @@ namespace CodeX.Data.Model
     #region vItemPlanningCustom
     public partial class vItemPlanningCustom
     {
-        public String cfConversion
+        public String cfPurchaseUnitConversion
         {
-            get { return string.Format("1 {0} = {1} {2}", _PurchaseUnit, _ConversionFactor, _ItemUnit); }
+            get { return string.Format("1 {0} = {1} {2}", _PurchaseUnit, _PurchaseUnitConversionFactor, _ItemUnit); }
+        }
+        public String cfDistributionUnitConversion
+        {
+            get { return string.Format("1 {0} = {1} {2}", _DistributionUnit, _DistributionUnitConversionFactor, _ItemUnit); }
         }
     }
     #endregion

@@ -14396,7 +14396,9 @@ namespace CodeX.Data.Model
         private Int16 _SafetyTime;
         private Decimal _SafetyStock;
         private String _GCPurchaseUnit;
-        private Decimal _ConversionFactor;
+        private Decimal _PurchaseUnitConversionFactor;
+        private String _GCDistributionUnit;
+        private Decimal _DistributionUnitConversionFactor;
         private Decimal _MinOrderQty;
         private Decimal _MaxOrderQty;
         private Boolean _IsUsingDynamicROP;
@@ -14474,11 +14476,23 @@ namespace CodeX.Data.Model
             get { return _GCPurchaseUnit; }
             set { _GCPurchaseUnit = value; }
         }
-        [Column(Name = "ConversionFactor", DataType = "Decimal", IsNullable = true)]
-        public Decimal ConversionFactor
+        [Column(Name = "PurchaseUnitConversionFactor", DataType = "Decimal", IsNullable = true)]
+        public Decimal PurchaseUnitConversionFactor
         {
-            get { return _ConversionFactor; }
-            set { _ConversionFactor = value; }
+            get { return _PurchaseUnitConversionFactor; }
+            set { _PurchaseUnitConversionFactor = value; }
+        }
+        [Column(Name = "GCDistributionUnit", DataType = "String", IsNullable = true)]
+        public String GCDistributionUnit
+        {
+            get { return _GCDistributionUnit; }
+            set { _GCDistributionUnit = value; }
+        }
+        [Column(Name = "DistributionUnitConversionFactor", DataType = "Decimal", IsNullable = true)]
+        public Decimal DistributionUnitConversionFactor
+        {
+            get { return _DistributionUnitConversionFactor; }
+            set { _DistributionUnitConversionFactor = value; }
         }
         [Column(Name = "MinOrderQty", DataType = "Decimal", IsNullable = true)]
         public Decimal MinOrderQty

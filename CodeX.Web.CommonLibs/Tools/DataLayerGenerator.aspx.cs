@@ -57,7 +57,7 @@ namespace CodeX.Web.CommonLibs
                     if (col.IsNullable)
                     {
                         nullable = ", IsNullable = true";
-                        if (colType.Contains("Int"))
+                        if (colType.Contains("Int32"))
                             colType += "?";
                     }
                     listMember += string.Format("private {0} _{1};\n", colType, col.Name);

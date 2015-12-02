@@ -87,10 +87,15 @@ namespace CodeX.Muses.Web.Inventory.Program
                 vItemProduct entity = e.Row.DataItem as vItemProduct;
                 CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
                 HtmlGenericControl divStock = e.Row.FindControl("divStock") as HtmlGenericControl;
+                HtmlInputHidden hdnDistributionUnit = e.Row.FindControl("hdnDistributionUnit") as HtmlInputHidden;
+                HtmlInputHidden hdnConversionFactor = e.Row.FindControl("hdnConversionFactor") as HtmlInputHidden;
                 if (lstSelectedMember.Contains(entity.ItemID.ToString()))
                     chkIsSelected.Checked = true;
 
+                vItemPlanningCustom itemPlanning = lstItemPlanning.FirstOrDefault(p => p.ItemID == entity.ItemID);
                 divStock.InnerHtml = lstItemBalance.Where(p => p.ItemID == entity.ItemID).Sum(p => p.QuantityEND).ToString();
+                hdnDistributionUnit.Value = itemPlanning.DistributionUnit;
+                hdnConversionFactor.Value = itemPlanning.cfDistributionUnitConversion;
             }
         }
 
@@ -117,11 +122,16 @@ namespace CodeX.Muses.Web.Inventory.Program
                 lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID = {0} AND ItemID IN ({1}) AND IsDeleted = 0", hdnLocationID.Value, lstItemID));
             else
                 lstItemBalance = new List<ItemBalance>();
+            if (lstItemID != "")
+                lstItemPlanning = BusinessLayer.GetvItemPlanningCustomList(string.Format("SiteID = '{0}' AND ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID));
+            else
+                lstItemPlanning = new List<vItemPlanningCustom>();
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
 
         List<ItemBalance> lstItemBalance = null;
+        List<vItemPlanningCustom> lstItemPlanning = null;
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
             bool result = true;
