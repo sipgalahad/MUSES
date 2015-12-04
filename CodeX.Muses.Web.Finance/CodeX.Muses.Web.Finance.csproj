@@ -135,6 +135,7 @@
     <Content Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentList.aspx" />
     <Content Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentProcess\ARInvoiceStudentProcessEntry.aspx" />
     <Content Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceStudent\ChangeStudentFeeCustomer\ChangeStudentFeeCustomerEntry.aspx" />
     <Content Include="Program\ARInvoice\ARInvoiceStudent\StudentMonthlyFeeEdit\StudentMonthlyFeeEdit.aspx" />
     <Content Include="Program\ARInvoice\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx" />
     <Content Include="Program\ARInvoice\ARInvoiceStudent\StudentPageLauncher.aspx" />
@@ -610,6 +611,13 @@
     </Compile>
     <Compile Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceStudentReceiveEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\ChangeStudentFeeCustomer\ChangeStudentFeeCustomerEntry.aspx.cs">
+      <DependentUpon>ChangeStudentFeeCustomerEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\ChangeStudentFeeCustomer\ChangeStudentFeeCustomerEntry.aspx.designer.cs">
+      <DependentUpon>ChangeStudentFeeCustomerEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ARInvoice\ARInvoiceStudent\StudentMonthlyFeeEdit\StudentMonthlyFeeEdit.aspx.cs">
       <DependentUpon>StudentMonthlyFeeEdit.aspx</DependentUpon>

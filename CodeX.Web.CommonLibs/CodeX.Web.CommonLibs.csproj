@@ -225,6 +225,10 @@
     </Content>
     <Content Include="App_Data\report\VID_RCI\CustomHeader.xml" />
     <Content Include="App_Data\report\VID_RCI\finance\BSuratPenagihanPiutang.xml" />
+    <Content Include="App_Data\report\VID_RCI\inventory\LPembelianTunai.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BBukuInduk.xml" />
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BSuratPenentuanPembayaran.xml">
       <SubType>Designer</SubType>

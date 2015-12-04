@@ -110,10 +110,7 @@ namespace CodeX.Data.Model
         {
             get
             {
-                Decimal Temp = _ReceivingAmount - _TransactionAmount;
-                if (Temp < 0)
-                    return 0;
-                return Temp;
+                return _PenaltyAmount;
             }
         }
     }
@@ -303,6 +300,33 @@ namespace CodeX.Data.Model
     #region vDirectPurchaseDt
     public partial class vDirectPurchaseDt
     {
+        public String cfPurchaseDate
+        {
+            get
+            {
+                if (_RowIndex > 1)
+                    return "";
+                return _PurchaseDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public String cfLocationName
+        {
+            get
+            {
+                if (_RowIndex > 1)
+                    return "";
+                return _LocationName;
+            }
+        }
+        public String cfDirectPurchaseNo
+        {
+            get
+            {
+                if (_RowIndex > 1)
+                    return "";
+                return _DirectPurchaseNo;
+            }
+        }
         public Boolean IsAllowEditItem
         {
             get
@@ -310,7 +334,6 @@ namespace CodeX.Data.Model
                 return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
             }
         }
-
         public String CustomConversion
         {
             get
@@ -318,7 +341,6 @@ namespace CodeX.Data.Model
                 return "1.00 " + _ItemUnit + " = " + ConversionFactor + " " + _BaseUnit;
             }
         }
-
         public String CustomItemUnit
         {
             get
@@ -326,7 +348,6 @@ namespace CodeX.Data.Model
                 return _Quantity + " " + _ItemUnit;
             }
         }
-
         public String CustomUnitPrice
         {
             get
@@ -334,7 +355,6 @@ namespace CodeX.Data.Model
                 return UnitPrice.ToString("N") + " / " + _ItemUnit;
             }
         }
-
         public String CustomTotalPurchaseUnit
         {
             get
@@ -342,7 +362,6 @@ namespace CodeX.Data.Model
                 return (_Quantity * _ConversionFactor).ToString("#,##0.00") + " " + _BaseUnit;
             }
         }
-
         public Decimal CustomTotal
         {
             get

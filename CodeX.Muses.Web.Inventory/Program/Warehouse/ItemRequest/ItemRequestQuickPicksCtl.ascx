@@ -178,6 +178,8 @@
             </td>
             <td>${ItemName1}</td>
             <td><input type="text" validationgroup="mpDrugsQuickPicks" class="txtQty number min" min="1" value="1" style="width:60px" /></td>
+            <td>${DistributionUnit}</td>
+            <td align="center">${ConversionFactor}</td>
         </tr>
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />

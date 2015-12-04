@@ -120,9 +120,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(true, true, false, hdnDefaultSiteServiceUnitID.Value));
 
             SetControlEntrySetting(cboDirectPurchaseType, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, false, false));
-            SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, false, false));
-            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, false, false));
+            SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
 
             SetControlEntrySetting(txtTransactionAmount, new ControlEntrySetting(false, false, true, "0"));
             SetControlEntrySetting(txtPPN, new ControlEntrySetting(false, false, true, "0"));

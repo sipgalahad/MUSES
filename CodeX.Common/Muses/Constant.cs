@@ -565,6 +565,7 @@ namespace CodeX.Common
                 public const string GENERATE_STUDENT_UPLOAD_FILE = "FN99020201";
                 public const string STUDENT_PAYMENT_METHOD_EDIT = "FN99020202";
                 public const string STUDENT_MONTHLY_FEE_EDIT = "FN99020203";
+                public const string CHANGE_STUDENT_FEE_CUSTOMER = "FN99020204";
 
                 public const string CUSTOMER_PAGE = "FN99030000";
                 public const string AR_INVOICE_CUSTOMER_PROCESS = "FN99030101";

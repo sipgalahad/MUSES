@@ -5126,6 +5126,7 @@ namespace CodeX.Data.Model
         private String _GCTransactionStatus;
         private String _TransactionStatus;
         private String _GCItemDetailStatus;
+        private Int64 _RowIndex;
 
         [Column(Name = "ID", DataType = "Int32")]
         public Int32 ID
@@ -5336,6 +5337,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCItemDetailStatus; }
             set { _GCItemDetailStatus = value; }
+        }
+        [Column(Name = "RowIndex", DataType = "Int64")]
+        public Int64 RowIndex
+        {
+            get { return _RowIndex; }
+            set { _RowIndex = value; }
         }
     }
     #endregion

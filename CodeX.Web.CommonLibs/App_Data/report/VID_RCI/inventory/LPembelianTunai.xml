@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvDirectPurchaseDtList" headertext="Laporan Pembelian Tunai" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="A4_portrait" fontsize="7.5pt" isshowtotal="1" totaltext="Total : "/>
+  <parameters>
+    <parameter code="DT005" isshowassubtitle="1"/>
+  </parameters>
+  <fields>
+    <field fieldname="cfLocationName" headertext="Lokasi" width="5"/>
+    <field fieldname="cfPurchaseDate" headertext="Tanggal" width="10"/>
+    <field fieldname="cfDirectPurchaseNo" headertext="No Pembelian" width="10"/>
+    <field fieldname="ItemName1" headertext="Item" />
+    <field fieldname="Quantity" headertext="Jumlah" width="4" fieldtype="number"/>
+    <field fieldname="ItemUnit" headertext="Satuan" width="6"/>
+    <field fieldname="UnitPrice" headertext="Harga" width="10" fieldtype="currency"/>
+    <field fieldname="DiscountPercentage" headertext="Disc %" width="10" fieldtype="currency"/>
+    <field fieldname="LineAmount" headertext="Total" width="10" fieldtype="currency" isshowsubtotal="1"/>
+  </fields>
+</root>
