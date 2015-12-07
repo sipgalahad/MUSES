@@ -405,9 +405,8 @@
             return filterExpression;
         }
 
-        $td = null;
         $('.lblSupplier.lblLink').live('click', function () {
-            $td = $(this).parent();
+            $tr = $(this).closest('tr').parent().closest('tr');
             openSearchDialog('businesspartners', getSupplierFilterExpression(), function (value) {
                 onTxtSupplierChanged(value);
             });
@@ -417,24 +416,24 @@
             var filterExpression = getSupplierFilterExpression() + " AND BusinessPartnerCode = '" + value + "'";
             Methods.getObject('GetBusinessPartnersList', filterExpression, function (result) {
                 if (result != null) {
-                    $td.find('.hdnSupplierID').val(result.BusinessPartnerID);
-                    $td.find('.hdnTermID').val(result.TermID);
-                    $td.find('.lblSupplier').html(result.BusinessPartnerName);
+                    $tr.find('.hdnSupplierID').val(result.BusinessPartnerID);
+                    $tr.find('.hdnTermID').val(result.TermID);
+                    $tr.find('.lblSupplier').html(result.BusinessPartnerName);
 
-                    var itemID = $td.parent().find('.hdnItemID').val();
+                    var itemID = $tr.find('.hdnItemID').val();
                     filterExpression = 'BusinessPartnerID = ' + result.BusinessPartnerID + ' AND ItemID = ' + itemID + ' AND IsDeleted = 0';
                     Methods.getObject('GetSupplierItemList', filterExpression, function (result) {
                         if (result != null)
-                            $td.parent().find('.tdSupplierItemName').html(result.cfSupplierItem);
+                            $tr.find('.tdSupplierItemName').html(result.cfSupplierItem);
                         else
-                            $td.parent().find('.tdSupplierItemName').html('');
+                            $tr.find('.tdSupplierItemName').html('');
                     });
                 }
                 else {
-                    $td.find('.hdnSupplierID').val('0');
-                    $td.find('.hdnTermID').val('0');
-                    $td.find('.lblSupplier').html('');
-                    $td.parent().find('.tdSupplierItemName').html('');
+                    $tr.find('.hdnSupplierID').val('0');
+                    $tr.find('.hdnTermID').val('0');
+                    $tr.find('.lblSupplier').html('');
+                    $tr.find('.tdSupplierItemName').html('');
                 }
             });
         }
@@ -448,8 +447,8 @@
 
         var itemID = 0;
         $('.lblPurchaseUnit.lblLink').live('click', function () {
-            $td = $(this).parent();
-            itemID = $td.closest('tr').parent().closest('tr').find('.hdnItemID').val();
+            $tr = $(this).closest('tr').parent().closest('tr');
+            itemID = $tr.closest('tr').parent().closest('tr').find('.hdnItemID').val();
             openSearchDialog('itemalternateunit', getPurchaseUnitFilterExpression(), function (value) {
                 onTxtPurchaseUnitChanged(value);
             });
@@ -459,17 +458,17 @@
             var temp = value.split('|');
             var filterExpression = getPurchaseUnitFilterExpression() + " AND GCAlternateUnit = '" + temp[0] + "' AND ConversionFactor = " + temp[1];
             Methods.getObject('GetvItemAlternateUnitCustomList', filterExpression, function (result) {
-                $lblPurchaseUnitPrice = $td.parent().find('.lblPurchaseUnitPrice');
+                $lblPurchaseUnitPrice = $tr.find('.lblPurchaseUnitPrice');
                 if (result != null) {
-                    $td.find('.hdnGCPurchaseUnit').val(result.GCAlternateUnit);
-                    $td.find('.lblPurchaseUnit').html(result.cfAlternateUnit);
-                    $td.find('.hdnConversionFactor').val(result.ConversionFactor);
+                    $tr.find('.hdnGCPurchaseUnit').val(result.GCAlternateUnit);
+                    $tr.find('.lblPurchaseUnit').html(result.cfAlternateUnit);
+                    $tr.find('.hdnConversionFactor').val(result.ConversionFactor);
                     $lblPurchaseUnitPrice.html(result.AlternateUnit);
                 }
                 else {
-                    $td.find('.hdnGCPurchaseUnit').val('');
-                    $td.find('.lblPurchaseUnit').html('');
-                    $td.find('.hdnConversionFactor').val('');
+                    $tr.find('.hdnGCPurchaseUnit').val('');
+                    $tr.find('.lblPurchaseUnit').html('');
+                    $tr.find('.hdnConversionFactor').val('');
                     $lblPurchaseUnitPrice.html('');
                 }
             });

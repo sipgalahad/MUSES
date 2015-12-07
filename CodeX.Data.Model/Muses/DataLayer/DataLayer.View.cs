@@ -11796,6 +11796,35 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vItemDistributionDtQtyOnOrderPerItemPerToLocation
+    [Serializable]
+    [Table(Name = "vItemDistributionDtQtyOnOrderPerItemPerToLocation")]
+    public class vItemDistributionDtQtyOnOrderPerItemPerToLocation
+    {
+        private Int32 _ToLocationID;
+        private Int32 _ItemID;
+        private Decimal _QtyOnOrder;
+
+        [Column(Name = "ToLocationID", DataType = "Int32")]
+        public Int32 ToLocationID
+        {
+            get { return _ToLocationID; }
+            set { _ToLocationID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "QtyOnOrder", DataType = "Decimal")]
+        public Decimal QtyOnOrder
+        {
+            get { return _QtyOnOrder; }
+            set { _QtyOnOrder = value; }
+        }
+    }
+    #endregion
     #region vItemDistributionHd
     [Serializable]
     [Table(Name = "vItemDistributionHd")]

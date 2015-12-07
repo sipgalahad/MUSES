@@ -70,6 +70,7 @@
                     if (result != null) {
                         $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
                         $('#<%=txtFromServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+                        cbpLocation.PerformCallback();
                     }
                     else {
                         $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val('');

@@ -238,6 +238,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.ID);
             $('#<%=hdnGCBaseUnit.ClientID %>').val(entity.GCBaseUnit);
             $('#<%=hdnGCItemUnit.ClientID %>').val(entity.GCItemUnit);
+            $('#<%=hdnConversionFactor.ClientID %>').val(entity.ConversionFactor);
             $('#<%=hdnItemID.ClientID %>').val(entity.ItemID);
             $('#<%=txtItemCode.ClientID %>').val(entity.ItemCode);
             $('#<%=txtItemName.ClientID %>').val(entity.ItemName1);
@@ -255,38 +256,36 @@
         //#region Cbo Item Unit
         function onCboItemUnitEndCallBack() {
             if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '')
-                cboItemUnit.SetValue($('#<%=hdnGCBaseUnit.ClientID %>').val());
+                cboItemUnit.SetValue($('#<%=hdnGCBaseUnit.ClientID %>').val() + '|1');
             else
-                cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val());
+                cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val() + '|' + $('#<%=hdnConversionFactor.ClientID %>').val());
             onCboItemUnitChanged();
         }
 
         function onCboItemUnitChanged() {
             var baseValue = $('#<%=hdnGCBaseUnit.ClientID %>').val();
-            var toUnitItem = cboItemUnit.GetValue();
+            var temp = cboItemUnit.GetValue().split('|');
+            var toUnitItem = temp[0];
+            var conversion = temp[1];
             var baseText = getItemUnitName(baseValue);
-
+            var toConversion = cboItemUnit.GetText().split(' (')[0];
             if (baseValue == toUnitItem) {
-                $('#<%=hdnItemConversionFactor.ClientID %>').val('1');
+                $('#<%=hdnConversionFactor.ClientID %>').val('1');
                 var conversion = "1 " + baseText + " = 1 " + baseText;
                 $('#<%=txtConversion.ClientID %>').val(conversion);
             }
             else {
                 var itemID = $('#<%=hdnItemID.ClientID %>').val();
-                var filterExpression = "ItemID = " + itemID + " AND GCAlternateUnit = '" + toUnitItem + "'";
-                Methods.getObjectValue('GetvItemAlternateUnitList', filterExpression, 'ConversionFactor', function (result) {
-                    var toConversion = getItemUnitName(toUnitItem);
-                    $('#<%=hdnItemConversionFactor.ClientID %>').val(result);
-                    var conversion = "1 " + toConversion + " = " + result + " " + baseText;
-                    $('#<%=txtConversion.ClientID %>').val(conversion);
-                });
+                $('#<%=hdnConversionFactor.ClientID %>').val(conversion);
+                var conversion = "1 " + toConversion + " = " + conversion + " " + baseText;
+                $('#<%=txtConversion.ClientID %>').val(conversion);
             }
         }
 
         function getItemUnitName(baseValue) {
             var value = cboItemUnit.GetValue();
-            cboItemUnit.SetValue(baseValue);
-            var text = cboItemUnit.GetText();
+            cboItemUnit.SetValue(baseValue + '|1');
+            var text = cboItemUnit.GetText().split(' (')[0];
             cboItemUnit.SetValue(value);
             return text;
         }
@@ -533,7 +532,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel">
-                                                        <input type="hidden" value="" id="hdnItemConversionFactor" runat="server" />
+                                                        <input type="hidden" value="" id="hdnConversionFactor" runat="server" />
                                                         <label class="lblMandatory"><%=GetLabel("Konversi")%></label>
                                                     </td>
                                                     <td>
@@ -613,7 +612,7 @@
                                                     <input type="hidden" value="<%#Eval("Quantity") %>" bindingfield="Quantity" />
                                                     <input type="hidden" value="<%#Eval("GCItemUnit") %>" bindingfield="GCItemUnit" />
                                                     <input type="hidden" value="<%#Eval("GCBaseUnit") %>" bindingfield="GCBaseUnit" />
-                                                    <input type="hidden" value="<%#Eval("ConversionFactor") %>" bindingfield="ConversionFactor" />
+                                                    <input type="hidden" value="<%#Eval("ConversionFactor",  "{0:G29}") %>" bindingfield="ConversionFactor" />
                                                     <input type="hidden" value="<%#Eval("GCAdjustmentReason") %>" bindingfield="GCAdjustmentReason" />
                                                     <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                                     <input type="hidden" value="<%#Eval("GCItemDetailStatus") %>" bindingfield="GCItemDetailStatus" />

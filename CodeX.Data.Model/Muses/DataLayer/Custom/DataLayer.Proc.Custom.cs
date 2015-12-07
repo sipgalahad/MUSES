@@ -152,8 +152,29 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region GetItemUsagePurchaseRequestROP
-    public partial class GetItemUsagePurchaseRequestROP
+    #region GetItemUsageItemRequestROPList
+    public partial class GetItemUsageItemRequestROPList
+    {
+        public Decimal AvgQuantityOut
+        {
+            get
+            {
+                if (_NDaysBackward != 0)
+                    return _QuantityOut / _NDaysBackward;
+                return 0;
+            }
+        }
+        public Decimal QtyOrder
+        {
+            get
+            {
+                return Math.Ceiling(AvgQuantityOut * _NDaysForward);
+            }
+        }
+    }
+    #endregion
+    #region GetItemUsagePurchaseRequestROPList
+    public partial class GetItemUsagePurchaseRequestROPList
     {
         public Decimal AvgQuantityOut
         {

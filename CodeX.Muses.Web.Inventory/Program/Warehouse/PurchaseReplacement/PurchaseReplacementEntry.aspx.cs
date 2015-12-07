@@ -368,7 +368,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityDt.Quantity = Convert.ToDecimal(txtQuantity.Text);
             entityDt.GCItemUnit = cboItemUnit.Value.ToString();
             entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
-            entityDt.ConversionFactor = Convert.ToDecimal(hdnItemConversionFactor.Value);
+            entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int purchaseReplacementID)

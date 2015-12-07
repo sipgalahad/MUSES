@@ -1186,24 +1186,26 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region GetItemUsagePurchaseRequestROP
-        public static List<GetItemUsagePurchaseRequestROP> GetItemUsagePurchaseRequestROP(String LstLocationID, String LstItemID)
+        #region GetItemUsageItemRequestROPList
+        public static List<GetItemUsageItemRequestROPList> GetItemUsageItemRequestROPList(String LstLocationID, string itemName, Int32 PageIndex, Int32 NumRows)
         {
-            List<GetItemUsagePurchaseRequestROP> result = new List<GetItemUsagePurchaseRequestROP>();
+            List<GetItemUsageItemRequestROPList> result = new List<GetItemUsageItemRequestROPList>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(GetItemUsagePurchaseRequestROP));
-                ctx.CommandText = "GetItemUsagePurchaseRequestROP";
+                DbHelper helper = new DbHelper(typeof(GetItemUsageItemRequestROPList));
+                ctx.CommandText = "GetItemUsageItemRequestROPList";
                 ctx.CommandType = CommandType.StoredProcedure;
                 //Add Parameter
                 ctx.Add("LstLocationID", LstLocationID);
-                ctx.Add("LstItemID", LstItemID);
+                ctx.Add("ItemName", itemName);
+                ctx.Add("PageIndex", PageIndex);
+                ctx.Add("NumRows", NumRows);
 
                 //Get DataReader
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((GetItemUsagePurchaseRequestROP)helper.IDataReaderToObject(reader, new GetItemUsagePurchaseRequestROP()));
+                        result.Add((GetItemUsageItemRequestROPList)helper.IDataReaderToObject(reader, new GetItemUsageItemRequestROPList()));
             }
             catch (Exception ex)
             {
@@ -1214,6 +1216,102 @@ namespace CodeX.Data.Model
                 ctx.Close();
             }
             return result;
+        }
+        #endregion
+        #region GetItemUsageItemRequestROPRowCount
+        public static Int32 GetItemUsageItemRequestROPRowCount(String LstLocationID, string itemName)
+        {
+            SqlParameter param = new SqlParameter();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                ctx.CommandText = "GetItemUsageItemRequestROPRowCount";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("LstLocationID", LstLocationID);
+                ctx.Add("ItemName", itemName);
+
+                param.ParameterName = "@Result";
+                param.SqlDbType = SqlDbType.Int;
+                param.Size = 20;
+                param.Direction = ParameterDirection.Output;
+
+                ctx.Command.Parameters.Add(param);
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return (Int32)param.Value;
+        }
+        #endregion
+        #region GetItemUsagePurchaseRequestROPList
+        public static List<GetItemUsagePurchaseRequestROPList> GetItemUsagePurchaseRequestROPList(String LstLocationID, string itemName, Int32 PageIndex, Int32 NumRows)
+        {
+            List<GetItemUsagePurchaseRequestROPList> result = new List<GetItemUsagePurchaseRequestROPList>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetItemUsagePurchaseRequestROPList));
+                ctx.CommandText = "GetItemUsagePurchaseRequestROPList";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("LstLocationID", LstLocationID);
+                ctx.Add("ItemName", itemName);
+                ctx.Add("PageIndex", PageIndex);
+                ctx.Add("NumRows", NumRows);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetItemUsagePurchaseRequestROPList)helper.IDataReaderToObject(reader, new GetItemUsagePurchaseRequestROPList()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GetItemUsagePurchaseRequestROPRowCount
+        public static Int32 GetItemUsagePurchaseRequestROPRowCount(String LstLocationID, string itemName)
+        {
+            SqlParameter param = new SqlParameter();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                ctx.CommandText = "GetItemUsagePurchaseRequestROPRowCount";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("LstLocationID", LstLocationID);
+                ctx.Add("ItemName", itemName);
+
+                param.ParameterName = "@Result";
+                param.SqlDbType = SqlDbType.Int;
+                param.Size = 20;
+                param.Direction = ParameterDirection.Output;
+
+                ctx.Command.Parameters.Add(param);
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return (Int32)param.Value;
         }
         #endregion
         #region GetStudentReceiveSummary

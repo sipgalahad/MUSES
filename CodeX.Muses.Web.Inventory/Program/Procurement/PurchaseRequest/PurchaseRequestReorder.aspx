@@ -138,15 +138,25 @@
 
         $('.chkIsSelected input').live('change', function () {
             $tr = $(this).closest('tr');
-            if ($(this).is(':checked'))
-                $tr.find('.txtPurchaseRequest').removeAttr('readonly');
-            else 
-                $tr.find('.txtPurchaseRequest').attr('readonly', 'readonly');
+            $lblItemUnit = $tr.find('.lblItemUnit');
+            if ($(this).is(':checked')) {
+                $tr.find('.txtQty').removeAttr('readonly');
+                $lblItemUnit.removeClass('lblDisabled');
+                $lblItemUnit.addClass('lblLink');
+            }
+            else {
+                $tr.find('.txtQty').attr('readonly', 'readonly');
+                $lblItemUnit.removeClass('lblLink');
+                $lblItemUnit.addClass('lblDisabled');
+            }
         });
 
         function onAfterCustomClickSuccess(type, retval) {
             showToast('Save Success', 'Permintaan Pembelian Berhasil Dibuat Dengan No Permintaan <b>' + retval + '</b>', function () {
-                $('#<%=hdnPurchaseRequest.ClientID %>').val('');
+                $('#<%=hdnListGCItemUnit.ClientID %>').val('');
+                $('#<%=hdnListItemUnit.ClientID %>').val('');
+                $('#<%=hdnListConversionFactor.ClientID %>').val('');
+                $('#<%=hdnListQty.ClientID %>').val('');
                 $('#<%=hdnSelectedMember.ClientID %>').val('');
                 cbpView.PerformCallback('refresh');
             });
@@ -154,7 +164,10 @@
 
         function getCheckedMember() {
             var lstSelectedMember = $('#<%=hdnSelectedMember.ClientID %>').val().split('|');
-            var lstPurchaseRequest = $('#<%=hdnPurchaseRequest.ClientID %>').val().split('|');
+            var lstQty = $('#<%=hdnListQty.ClientID %>').val().split('|');
+            var lstGCItemUnit = $('#<%=hdnListGCItemUnit.ClientID %>').val().split('|');
+            var lstItemUnit = $('#<%=hdnListItemUnit.ClientID %>').val().split('|'); 
+            var lstConversionFactor = $('#<%=hdnListConversionFactor.ClientID %>').val().split('|');
             var result = '';
             $grdView = null;
             if (cboReorderType.GetValue() == '1')
@@ -163,30 +176,88 @@
                 $grdView = $('#<%=grdView2.ClientID %>');
             $grdView.find('.chkIsSelected input').each(function () {
                 if ($(this).is(':checked')) {
-                    var key = $(this).closest('tr').find('.keyField').html();
-                    var purchaseRequest = $(this).closest('tr').find('.txtPurchaseRequest').val();
+                    $tr = $(this).closest('tr');
+                    var key = $tr.find('.keyField').html();
+                    var qty = $tr.find('.txtQty').val();
+                    var conversionFactor = $tr.find('.hdnConversionFactor').val();
+                    var GCItemUnit = $tr.find('.hdnGCItemUnit').val();
+                    var itemUnit = $tr.find('.lblItemUnit').html();
                     var idx = lstSelectedMember.indexOf(key);
-                    if ( idx < 0) {
+                    if (idx < 0) {
                         lstSelectedMember.push(key);
-                        lstPurchaseRequest.push(purchaseRequest);
+                        lstQty.push(qty);
+                        lstConversionFactor.push(conversionFactor);
+                        lstItemUnit.push(itemUnit);
+                        lstGCItemUnit.push(GCItemUnit);
                     }
                     else {
-                        lstPurchaseRequest[idx] = purchaseRequest;
+                        lstQty[idx] = qty;
+                        lstConversionFactor[idx] = conversionFactor;
+                        lstGCItemUnit[idx] = GCItemUnit;
+                        lstItemUnit[idx] = itemUnit;
                     }
                 }
                 else {
                     var key = $(this).closest('tr').find('.keyField').html();
-                    var purchaseRequest = $(this).closest('tr').find('.txtPurchaseRequest').val();
-                    var idx = lstSelectedMember.indexOf(key) ;
+                    var idx = lstSelectedMember.indexOf(key);
                     if (idx > -1) {
                         lstSelectedMember.splice(idx, 1);
-                        lstPurchaseRequest.splice(idx, 1);
+                        lstQty.splice(idx, 1);
+                        lstGCItemUnit.splice(idx, 1);
+                        lstItemUnit.splice(idx, 1);
+                        lstConversionFactor.splice(idx, 1);
                     }
                 }
             });
-            $('#<%=hdnPurchaseRequest.ClientID %>').val(lstPurchaseRequest.join('|'));
+            $('#<%=hdnListGCItemUnit.ClientID %>').val(lstGCItemUnit.join('|'));
+            $('#<%=hdnListItemUnit.ClientID %>').val(lstItemUnit.join('|'));
+            $('#<%=hdnListConversionFactor.ClientID %>').val(lstConversionFactor.join('|'));
+            $('#<%=hdnListQty.ClientID %>').val(lstQty.join('|'));
             $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join('|'));
         }
+
+        $('.txtQty').live('change', function () {
+            $tr = $(this).closest('tr').parent().closest('tr');
+            var conversionFactor = parseFloat($tr.find('.hdnConversionFactor').val());
+            var qty = parseFloat($tr.find('.txtQty').val());
+            $tr.find('.txtTotalQty').val(qty * conversionFactor);
+        });
+
+        //#region Item Unit
+        function getItemUnitFilterExpression() {
+            var filterExpression = "ItemID = " + itemID;
+            return filterExpression;
+        }
+
+        var itemID = 0;
+        $('.lblItemUnit.lblLink').live('click', function () {
+            $tr = $(this).closest('tr').parent().closest('tr');
+            itemID = $tr.find('.keyField').html();
+            openSearchDialog('itemalternateunit', getItemUnitFilterExpression(), function (value) {
+                onTxtItemUnitChanged(value);
+            });
+        });
+
+        function onTxtItemUnitChanged(value) {
+            var temp = value.split('|');
+            var filterExpression = getItemUnitFilterExpression() + " AND GCAlternateUnit = '" + temp[0] + "' AND ConversionFactor = " + temp[1];
+            Methods.getObject('GetvItemAlternateUnitCustomList', filterExpression, function (result) {
+                if (result != null) {
+                    $tr.find('.hdnGCItemUnit').val(result.GCAlternateUnit);
+                    $tr.find('.lblItemUnit').html(result.cfAlternateUnit);
+                    $tr.find('.hdnConversionFactor').val(result.ConversionFactor);
+                }
+                else {
+                    $tr.find('.hdnGCPurchaseUnit').val('');
+                    $tr.find('.lblPurchaseUnit').html('');
+                    $tr.find('.hdnConversionFactor').val('');
+                }
+                var conversionFactor = parseFloat($tr.find('.hdnConversionFactor').val());
+                var qty = parseFloat($tr.find('.txtQty').val());
+                $tr.find('.txtTotalQty').val(qty * conversionFactor);
+            });
+        }
+        //#endregion
 
         $(function () {
             $('.chkLocation input').change(function () {
@@ -236,7 +307,10 @@
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
-    <input type="hidden" id="hdnPurchaseRequest" runat="server" value="" />
+    <input type="hidden" id="hdnListQty" runat="server" value="" />
+    <input type="hidden" id="hdnListGCItemUnit" runat="server" value="" />
+    <input type="hidden" id="hdnListItemUnit" runat="server" value="" />
+    <input type="hidden" id="hdnListConversionFactor" runat="server" value="" />
     <input type="hidden" value="" id="hdnListSiteServiceUnitID" runat="server" />
     <input type="hidden" value="" id="hdnLstLocationID" runat="server" />
     <input type="hidden" value="" id="hdnLstFilterLocationItemGroup" runat="server" />
@@ -399,13 +473,29 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
+                                                    <input type="hidden" value="0" class="hdnGCItemUnit" id="hdnGCItemUnit" runat="server"/>
+                                                    <input type="hidden" value="0" class="hdnConversionFactor" id="hdnConversionFactor" runat="server"/>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                                                        <colgroup>
+                                                            <col />
+                                                            <col style="width:80px" />
+                                                        </colgroup>
+                                                        <tr>
+                                                            <td align="right" class="lblReadOnlyText"><asp:TextBox ID="txtQty" Width="100%" runat="server" CssClass="number txtQty" ReadOnly="true"/></td>
+                                                            <td>&nbsp<label runat="server" id="lblItemUnit" class="lblItemUnit"></label></td>
+                                                        </tr>
+                                                    </table>  
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Total Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>
                                                             <col />
                                                             <col style="width:60px" />
                                                         </colgroup>
                                                         <tr>
-                                                            <td align="right" class="lblReadOnlyText"><asp:TextBox ID="txtPurchaseRequest" Width="100%" runat="server" CssClass="number txtPurchaseRequest" ReadOnly="true"/></td>
+                                                            <td align="right" class="lblReadOnlyText"><asp:TextBox ID="txtTotalQty" Width="100%" runat="server" CssClass="number txtTotalQty" ReadOnly="true"/></td>
                                                             <td>&nbsp<%# Eval("ItemUnit")%></td>
                                                         </tr>
                                                     </table>  
@@ -447,8 +537,8 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="ItemName1" HeaderText="Nama Item" HeaderStyle-Width="350px" />
-                                            <asp:BoundField DataField="NDaysBackward" HeaderStyle-CssClass="thRight" HeaderText="Backward (Hari)" HeaderStyle-Width="90px" ItemStyle-HorizontalAlign="Right" />
-                                            <asp:BoundField DataField="NDaysForward" HeaderStyle-CssClass="thRight" HeaderText="Forward (Hari)" HeaderStyle-Width="90px" ItemStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="NDaysBackward" HeaderStyle-CssClass="thRight" HeaderText="Backward (Hari)" HeaderStyle-Width="110px" ItemStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="NDaysForward" HeaderStyle-CssClass="thRight" HeaderText="Forward (Hari)" HeaderStyle-Width="110px" ItemStyle-HorizontalAlign="Right" />
                                             <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Stok Saat Ini" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
@@ -467,13 +557,29 @@
                                             <asp:TemplateField HeaderStyle-Width="10px" />
                                             <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
+                                                    <input type="hidden" value="0" class="hdnGCItemUnit" id="hdnGCItemUnit" runat="server"/>
+                                                    <input type="hidden" value="0" class="hdnConversionFactor" id="hdnConversionFactor" runat="server"/>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                                                        <colgroup>
+                                                            <col />
+                                                            <col style="width:80px" />
+                                                        </colgroup>
+                                                        <tr>
+                                                            <td align="right" class="lblReadOnlyText"><asp:TextBox ID="txtQty" Width="100%" runat="server" CssClass="number txtQty" ReadOnly="true"/></td>
+                                                            <td>&nbsp<label runat="server" id="lblItemUnit" class="lblItemUnit"></label></td>
+                                                        </tr>
+                                                    </table>  
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Total Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>
                                                             <col />
                                                             <col style="width:60px" />
                                                         </colgroup>
                                                         <tr>
-                                                            <td align="right" class="lblReadOnlyText"><asp:TextBox ID="txtPurchaseRequest" Width="100%" runat="server" CssClass="number txtPurchaseRequest" ReadOnly="true"/></td>
+                                                            <td align="right" class="lblReadOnlyText"><asp:TextBox ID="txtTotalQty" Width="100%" runat="server" CssClass="number txtTotalQty" ReadOnly="true"/></td>
                                                             <td>&nbsp<%# Eval("ItemUnit")%></td>
                                                         </tr>
                                                     </table>  

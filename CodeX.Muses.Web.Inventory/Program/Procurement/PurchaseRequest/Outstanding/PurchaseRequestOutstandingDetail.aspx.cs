@@ -251,6 +251,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     hdnTermID.Value = lstTermID[idx];
                     lblSupplier.InnerHtml = lstSupplierName[idx];
                     hdnGCPurchaseUnit.Value = lstGCPurchaseUnit[idx];
+                    lblPurchaseUnit.InnerHtml = string.Format("{0} ({1})", lstPurchaseUnit[idx], Convert.ToDecimal(lstConversionFactor[idx]).ToString("G29")); 
                     tdSupplierItemName.InnerHtml = lstSupplierItemName[idx];
                     lblSupplier.Attributes.Add("class", "lblSupplier lblLink");
                     lblPurchaseUnit.Attributes.Add("class", "lblPurchaseUnit lblLink");
