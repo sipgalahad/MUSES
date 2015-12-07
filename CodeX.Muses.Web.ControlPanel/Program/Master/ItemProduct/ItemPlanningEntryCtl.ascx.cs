@@ -61,6 +61,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(cboPurchaseUnit, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboDistributionUnit, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboPurchaseMethod, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(chkIsROPSettingDefault, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtNDaysBackward, new ControlEntrySetting(true, true, true, "0"));
+            SetControlEntrySetting(txtNDaysForward, new ControlEntrySetting(true, true, true, "0"));
         }
 
         private void EntityToControl(vItemPlanning entity)
@@ -85,6 +88,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             else
                 cboDistributionUnit.Value = "";
             cboPurchaseMethod.Value = entity.GCPurchaseMethod;
+            chkIsROPSettingDefault.Checked = entity.IsROPSettingDefault;
+            txtNDaysBackward.Text = entity.NDaysBackward.ToString();
+            txtNDaysForward.Text = entity.NDaysForward.ToString();
         }
 
         private void ControlToEntity(ItemPlanning entity)
@@ -124,6 +130,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.DistributionUnitConversionFactor = 0;
             }
             entity.GCPurchaseMethod = cboPurchaseMethod.Value.ToString();
+            entity.IsROPSettingDefault = chkIsROPSettingDefault.Checked;
+            entity.NDaysBackward = Convert.ToInt32(txtNDaysBackward.Text);
+            entity.NDaysForward = Convert.ToInt32(txtNDaysForward.Text);
         }
 
         protected override bool OnSaveEditRecord(ref string errMessage, ref string retval)

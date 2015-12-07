@@ -4416,6 +4416,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vItemGroupPlanning
+        public static List<vItemGroupPlanning> GetvItemGroupPlanningList(string filterExpression)
+        {
+            List<vItemGroupPlanning> result = new List<vItemGroupPlanning>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vItemGroupPlanning));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vItemGroupPlanning)helper.IDataReaderToObject(reader, new vItemGroupPlanning()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vItemMaster
         public static List<vItemMaster> GetvItemMasterList(string filterExpression)
         {

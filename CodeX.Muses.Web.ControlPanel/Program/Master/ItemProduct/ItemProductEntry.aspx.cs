@@ -102,9 +102,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(chkIsBatchControl, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsInventoryItem, new ControlEntrySetting(true, true, false, true));
             SetControlEntrySetting(chkIsProductionItem, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(chkIsROPSettingDefault, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(txtNDaysBackward, new ControlEntrySetting(true, true, true, "0"));
-            SetControlEntrySetting(txtNDaysForward, new ControlEntrySetting(true, true, true, "0"));
             #endregion
 
             #region Other Information
@@ -156,9 +153,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             chkIsInventoryItem.Checked = entity.IsInventoryItem;
             chkIsProductionItem.Checked = entity.IsProductionItem;
             chkIsControlExpired.Checked = entity.IsControlExpired;
-            chkIsROPSettingDefault.Checked = entity.IsROPSettingDefault;
-            txtNDaysBackward.Text = entity.NDaysBackward.ToString();
-            txtNDaysForward.Text = entity.NDaysForward.ToString();
             #endregion
 
             #region Other Information
@@ -214,9 +208,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entityProduct.IsInventoryItem = chkIsInventoryItem.Checked;
             entityProduct.IsProductionItem = chkIsProductionItem.Checked;
             entityProduct.IsControlExpired = chkIsControlExpired.Checked;
-            entityProduct.IsROPSettingDefault = chkIsROPSettingDefault.Checked;
-            entityProduct.NDaysBackward = Convert.ToInt32(txtNDaysBackward.Text);
-            entityProduct.NDaysForward = Convert.ToInt32(txtNDaysForward.Text);
             #endregion
 
             #region Other Information

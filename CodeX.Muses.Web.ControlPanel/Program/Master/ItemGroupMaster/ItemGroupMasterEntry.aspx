@@ -95,14 +95,6 @@
                         <td>&nbsp;</td>
                         <td><asp:CheckBox ID="chkIsHeader" runat="server" /><%=GetLabel("Header for Other")%></td>
                     </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Backward (Hari)")%></label></td>
-                        <td><asp:TextBox ID="txtNDaysBackward" CssClass="number" runat="server" Width="80px" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Forward (Hari)")%></label></td>
-                        <td><asp:TextBox ID="txtNDaysForward" CssClass="number" runat="server" Width="80px" /></td>
-                    </tr>
                 </table>
             </td>
         </tr>

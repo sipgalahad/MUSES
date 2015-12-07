@@ -38,6 +38,19 @@
             });
         }
         //#endregion
+
+        $('#<%=chkIsROPSettingDefault.ClientID %>').change(function () {
+            if ($(this).is(':checked')) {
+                $('#<%=txtNDaysBackward.ClientID %>').attr('readonly', 'readonly');
+                $('#<%=txtNDaysForward.ClientID %>').attr('readonly', 'readonly');
+            }
+            else {
+                $('#<%=txtNDaysBackward.ClientID %>').removeAttr('readonly');
+                $('#<%=txtNDaysForward.ClientID %>').removeAttr('readonly');
+            }
+        });
+
+        $('#<%=chkIsROPSettingDefault.ClientID %>').change();
     });
 </script>
 
@@ -96,34 +109,46 @@
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Distribution Unit")%></label></td>
                         <td colspan="3"><dxe:ASPxComboBox ID="cboDistributionUnit" Width="100%" runat="server" /></td>
                     </tr> 
-                    <tr>
+                    <tr style="display:none">
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Lead Time")%></label></td>
                         <td class="tdLabel"><asp:TextBox ID="txtLeadTime" Width="50px" CssClass="number" runat="server" /></td>
                         <td>&nbsp;</td>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tolerance Qty")%></label></td>
                         <td class="tdLabel"><asp:TextBox ID="txtTolerance" Width="100%" CssClass="number" runat="server" /></td>
                     </tr>
-                    <tr>
+                    <tr style="display:none">
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Safety Time")%></label></td>
                         <td class="tdLabel"><asp:TextBox ID="txtSafetyTime" Width="50px" CssClass="number" runat="server" /></td>
                         <td>&nbsp;</td>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Time Fence")%></label></td>
                         <td class="tdLabel"><asp:TextBox ID="txtTimeFence" Width="50px" CssClass="number" runat="server" /></td>
                     </tr>
-                    <tr>
+                    <tr style="display:none">
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Safety Stock")%></label></td>
                         <td class="tdLabel"><asp:TextBox ID="txtSafetyStock" Width="100%" CssClass="number" runat="server" /></td>
                         <td>&nbsp;</td>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Standard Price")%></label></td>
                         <td class="tdLabel"><asp:TextBox ID="txtBasePrice" Width="100%" CssClass="number" runat="server" /></td>
                     </tr>
-                    <tr>
+                    <tr style="display:none">
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Min Order Qty")%></label></td>
                         <td class="tdLabel"><asp:TextBox ID="txtMinOrderQty" Width="100%" CssClass="number" runat="server" /></td>
                     </tr>
-                    <tr>
+                    <tr style="display:none">
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Max Order Qty")%></label></td>
                         <td class="tdLabel"><asp:TextBox ID="txtMaxOrderQty" Width="100%" CssClass="number" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Reorder Default")%></label></td>
+                        <td><asp:CheckBox ID="chkIsROPSettingDefault" Width="100%" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Backward (Hari)")%></label></td>
+                        <td><asp:TextBox ID="txtNDaysBackward" CssClass="number" runat="server" Width="80px" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Forward (Hari)")%></label></td>
+                        <td><asp:TextBox ID="txtNDaysForward" CssClass="number" runat="server" Width="80px" /></td>
                     </tr>
                 </table>
             </fieldset>

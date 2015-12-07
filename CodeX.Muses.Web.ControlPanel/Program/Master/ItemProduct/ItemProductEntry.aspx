@@ -91,19 +91,6 @@
             }
             //#endregion
 
-            $('#<%=chkIsROPSettingDefault.ClientID %>').change(function () {
-                if ($(this).is(':checked')) {
-                    $('#<%=txtNDaysBackward.ClientID %>').attr('readonly', 'readonly');
-                    $('#<%=txtNDaysForward.ClientID %>').attr('readonly', 'readonly');
-                }
-                else {
-                    $('#<%=txtNDaysBackward.ClientID %>').removeAttr('readonly');
-                    $('#<%=txtNDaysForward.ClientID %>').removeAttr('readonly');
-                }
-            });
-
-            $('#<%=chkIsROPSettingDefault.ClientID %>').change();
-
             registerCollapseExpandHandler();
         }
     </script>
@@ -258,18 +245,6 @@
                         <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Prioritas Harga Dari HNA")%></label></td>
                             <td><asp:CheckBox ID="chkIsUsingStandardPrice" Width="100%" runat="server" /></td>
-                        </tr>
-                        <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Reorder Default")%></label></td>
-                            <td><asp:CheckBox ID="chkIsROPSettingDefault" Width="100%" runat="server" /></td>
-                        </tr>
-                        <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Backward (Hari)")%></label></td>
-                            <td><asp:TextBox ID="txtNDaysBackward" CssClass="number" runat="server" Width="80px" /></td>
-                        </tr>
-                        <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Forward (Hari)")%></label></td>
-                            <td><asp:TextBox ID="txtNDaysForward" CssClass="number" runat="server" Width="80px" /></td>
                         </tr>
                         <tr style="display:none">
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Margin")%> (%)</label></td>

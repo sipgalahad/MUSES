@@ -140,6 +140,7 @@
     <Content Include="Program\Master\Curriculum\GradePromotionFormula\GradePromotionFormulaEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularDtEntryCtl.ascx" />
+    <Content Include="Program\Master\ItemGroupMaster\ItemGroupPlanningEntryCtl.ascx" />
     <Content Include="Program\Master\Location\LocationItemGroupEntryCtl.ascx" />
     <Content Include="Program\Master\MarkType\MarkTypeFormulaEntryCtl.ascx" />
     <Content Include="Program\Master\MarkType\MarkTypeEntry.aspx" />
@@ -720,6 +721,13 @@
     </Compile>
     <Compile Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
       <DependentUpon>CurriculumClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupPlanningEntryCtl.ascx.cs">
+      <DependentUpon>ItemGroupPlanningEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupPlanningEntryCtl.ascx.designer.cs">
+      <DependentUpon>ItemGroupPlanningEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Location\LocationItemGroupEntryCtl.ascx.cs">
       <DependentUpon>LocationItemGroupEntryCtl.ascx</DependentUpon>

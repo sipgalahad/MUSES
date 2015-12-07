@@ -6895,6 +6895,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ItemGroupPlanning
+        public static ItemGroupPlanning GetItemGroupPlanning(String SiteID, Int32 ItemGroupID)
+        {
+            return new ItemGroupPlanningDao().Get(SiteID, ItemGroupID);
+        }
+        public static int InsertItemGroupPlanning(ItemGroupPlanning record)
+        {
+            return new ItemGroupPlanningDao().Insert(record);
+        }
+        public static int UpdateItemGroupPlanning(ItemGroupPlanning record)
+        {
+            return new ItemGroupPlanningDao().Update(record);
+        }
+        public static int DeleteItemGroupPlanning(String SiteID, Int32 ItemGroupID)
+        {
+            return new ItemGroupPlanningDao().Delete(SiteID, ItemGroupID);
+        }
+        public static List<ItemGroupPlanning> GetItemGroupPlanningList(string filterExpression)
+        {
+            List<ItemGroupPlanning> result = new List<ItemGroupPlanning>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemGroupPlanning));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemGroupPlanning)helper.IDataReaderToObject(reader, new ItemGroupPlanning()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ItemMaster
         public static ItemMaster GetItemMaster(Int32 ItemID)
         {

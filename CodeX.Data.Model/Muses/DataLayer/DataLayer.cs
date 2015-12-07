@@ -14219,6 +14219,142 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ItemGroupPlanning
+    [Serializable]
+    [Table(Name = "ItemGroupPlanning")]
+    public class ItemGroupPlanning : DbDataModel
+    {
+        private String _SiteID;
+        private Int32 _ItemGroupID;
+        private Int32? _BusinessPartnerID;
+        private String _GCPurchaseMethod;
+        private Boolean _IsUsingDynamicROP;
+        private Int32 _NDaysBackward;
+        private Int32 _NDaysForward;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32", IsNullable = true)]
+        public Int32? BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "GCPurchaseMethod", DataType = "String", IsNullable = true)]
+        public String GCPurchaseMethod
+        {
+            get { return _GCPurchaseMethod; }
+            set { _GCPurchaseMethod = value; }
+        }
+        [Column(Name = "IsUsingDynamicROP", DataType = "Boolean")]
+        public Boolean IsUsingDynamicROP
+        {
+            get { return _IsUsingDynamicROP; }
+            set { _IsUsingDynamicROP = value; }
+        }
+        [Column(Name = "NDaysBackward", DataType = "Int32")]
+        public Int32 NDaysBackward
+        {
+            get { return _NDaysBackward; }
+            set { _NDaysBackward = value; }
+        }
+        [Column(Name = "NDaysForward", DataType = "Int32")]
+        public Int32 NDaysForward
+        {
+            get { return _NDaysForward; }
+            set { _NDaysForward = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ItemGroupPlanningDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ItemGroupPlanning));
+        private bool _isAuditLog = false;
+        private const string p_ItemGroupID = "@p_ItemGroupID";
+        private const string p_SiteID = "@p_SiteID";
+        public ItemGroupPlanningDao() { }
+        public ItemGroupPlanningDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ItemGroupPlanning Get(String SiteID, Int32 ItemGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ItemGroupID, ItemGroupID);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ItemGroupPlanning)_helper.DataRowToObject(row, new ItemGroupPlanning());
+        }
+        public int Insert(ItemGroupPlanning record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ItemGroupPlanning record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(String SiteID, Int32 ItemGroupID)
+        {
+            ItemGroupPlanning record;
+            if (_ctx.Transaction == null)
+                record = new ItemGroupPlanningDao().Get(SiteID, ItemGroupID);
+            else
+                record = Get(SiteID, ItemGroupID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ItemMaster
     [Serializable]
     [Table(Name = "ItemMaster")]
@@ -14410,6 +14546,9 @@ namespace CodeX.Data.Model
         private Int32? _LastBusinessPartnerID;
         private Decimal _LastPurchasePrice;
         private Decimal _LastPurchaseDiscount;
+        private Boolean _IsROPSettingDefault;
+        private Int32? _NDaysBackward;
+        private Int32? _NDaysForward;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -14559,6 +14698,24 @@ namespace CodeX.Data.Model
         {
             get { return _LastPurchaseDiscount; }
             set { _LastPurchaseDiscount = value; }
+        }
+        [Column(Name = "IsROPSettingDefault", DataType = "Boolean")]
+        public Boolean IsROPSettingDefault
+        {
+            get { return _IsROPSettingDefault; }
+            set { _IsROPSettingDefault = value; }
+        }
+        [Column(Name = "NDaysBackward", DataType = "Int32", IsNullable = true)]
+        public Int32? NDaysBackward
+        {
+            get { return _NDaysBackward; }
+            set { _NDaysBackward = value; }
+        }
+        [Column(Name = "NDaysForward", DataType = "Int32", IsNullable = true)]
+        public Int32? NDaysForward
+        {
+            get { return _NDaysForward; }
+            set { _NDaysForward = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

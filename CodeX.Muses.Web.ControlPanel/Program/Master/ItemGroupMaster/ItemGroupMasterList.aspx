@@ -64,9 +64,54 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
+
+        $('#<%=grdView.ClientID %> td.tdExpand').live('click', function () {
+            $tr = $(this).parent();
+            $trDetail = $(this).parent().next();
+            if ($trDetail.attr('class') != 'trDetail') {
+                $trCollapse = $('.trDetail');
+
+                $(this).find('.imgExpand').attr('src', '<%= ResolveUrl("~/Libs/Images/down-arrow.png")%>');
+                $newTr = $("<tr><td></td><td colspan='5'></td></tr>").attr('class', 'trDetail');
+                $newTr.insertAfter($tr);
+                $newTr.find('td').last().append($('#containerGrdDetail'));
+
+                if ($trCollapse != null) {
+                    $trCollapse.prev().find('.imgExpand').attr('src', '<%= ResolveUrl("~/Libs/Images/right-arrow.png")%>');
+                    $trCollapse.remove();
+                }
+
+                $('.grdDetail1 tr:gt(0)').remove();
+                $('#<%=hdnExpandID.ClientID %>').val($tr.find('.keyField').html());
+                cbpViewDetail1.PerformCallback('refresh');
+            }
+            else {
+                $(this).find('.imgExpand').attr('src', '<%= ResolveUrl("~/Libs/Images/right-arrow.png")%>');
+                $('#tempContainerGrdDetail').append($('#containerGrdDetail'));
+
+                $('.grdDetail1 tr:gt(0)').remove();
+
+                $trDetail.remove();
+            }
+        });
+
+        $('.lnkEditItemGroupPlanning').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + $('#<%=hdnExpandID.ClientID %>').val();
+            var url = ResolveUrl("~/Program/Master/ItemGroupMaster/ItemGroupPlanningEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Perencanaan Persediaan', 600, 500);
+        });
+
+        function onGetEntryPopupReturnValue() {
+            return '';
+        }
+
+        function onAfterSaveRightPanelContent(code, value) {
+            cbpViewDetail1.PerformCallback();
+        }
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
+    <input type="hidden" value="" id="hdnExpandID" runat="server" />
     <div style="position: relative;">
         <div style="padding-bottom:10px">
             <table border="0" cellpadding="0" cellspacing="0">
@@ -89,6 +134,11 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="ItemGroupID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="tdExpand" HeaderStyle-Width="20px">
+                                    <ItemTemplate>
+                                        <img class="imgExpand imgLink" src='<%= ResolveUrl("~/Libs/Images/right-arrow.png")%>' alt='' />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderStyle-Width="200px" >
                                     <HeaderTemplate>
                                         <div style="padding-left:3px">
@@ -122,5 +172,62 @@
                 <div id="paging"></div>
             </div>
         </div> 
+    </div>
+    <div id="tempContainerGrdDetail" style="display:none">
+        <div id="containerGrdDetail" class="borderBox" style="width: 100%;padding: 10px 5px;">
+            <dxcp:ASPxCallbackPanel ID="cbpViewDetail1" runat="server" Width="100%" ClientInstanceName="cbpViewDetail1"
+                ShowLoadingPanel="false" OnCallback="cbpViewDetail1_Callback">
+                <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                    EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                <PanelCollection>
+                    <dx:PanelContent ID="PanelContent2" runat="server">
+                        <asp:Panel runat="server" ID="Panel1" Style="width: 100%; margin-left: auto; margin-right: auto">
+                            <asp:ListView runat="server" ID="lvwDetail1">
+                                <EmptyDataTemplate>
+                                    <table id="tblView" runat="server" class="grdView notAllowSelect grdDetail1" cellspacing="0" rules="all" >
+                                        <tr>  
+                                            <th class="keyField"></th>
+                                            <th style="width:50px">&nbsp;</th>
+                                            <th><%=GetLabel("Site")%></th>
+                                            <th style="width:100px;" class="thRight"><%=GetLabel("Backward (Hari)")%></th>
+                                            <th style="width:100px;" class="thRight"><%=GetLabel("Forward (Hari)")%></th>
+                                        </tr>
+                                        <tr class="trEmpty">
+                                            <td colspan="20">
+                                                <%=GetLabel("No Data To Display")%>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </EmptyDataTemplate>
+                                <LayoutTemplate>
+                                    <table id="tblView" runat="server" class="grdView notAllowSelect" cellspacing="0" rules="all" >
+                                        <tr>  
+                                            <th class="keyField"></th>
+                                            <th style="width:50px">&nbsp;</th>
+                                            <th><%=GetLabel("Site")%></th>
+                                            <th style="width:100px;" class="thRight"><%=GetLabel("Backward (Hari)")%></th>
+                                            <th style="width:100px;" class="thRight"><%=GetLabel("Forward (Hari)")%></th>
+                                        </tr>
+                                        <tr runat="server" id="itemPlaceholder" ></tr>
+                                    </table>
+                                </LayoutTemplate>
+                                <ItemTemplate>
+                                    <tr>
+                                        <td class="keyField"><%# Eval("SiteID")%></td>
+                                        <td align="center"><img class="lnkEditItemGroupPlanning imgLink" title="<%=GetLabel("Edit") %>" src='<%# ResolveUrl("~/Libs/Images/Button/edit.png")%>' alt=""  /></td>
+                                        <td><%# Eval("SiteName")%></td>
+                                        <td align="right"><%# Eval("NDaysBackward")%></td>
+                                        <td align="right"><%# Eval("NDaysForward")%></td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:ListView>
+                        </asp:Panel>
+                    </dx:PanelContent>
+                </PanelCollection>
+            </dxcp:ASPxCallbackPanel>    
+            <div class="imgLoadingGrdView" id="containerImgLoadingViewDetail1">
+                <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
+            </div>
+        </div>
     </div>
 </asp:Content>

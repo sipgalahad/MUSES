@@ -127,5 +127,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             return false;
         }
+
+        protected void cbpViewDetail1_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            List<vItemGroupPlanning> lstHSU = BusinessLayer.GetvItemGroupPlanningList(string.Format("ItemGroupID = {0} AND IsDeleted = 0", hdnExpandID.Value));
+            lvwDetail1.DataSource = lstHSU;
+            lvwDetail1.DataBind();
+        }
     }
 }

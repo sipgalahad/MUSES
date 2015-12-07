@@ -12038,8 +12038,6 @@ namespace CodeX.Data.Model
         private String _ParentCode;
         private String _ParentName;
         private Int16 _PrintOrder;
-        private Int32 _NDaysBackward;
-        private Int32 _NDaysForward;
         private Boolean _IsDeleted;
         private Int32 _Level;
         private String _DisplayPath;
@@ -12110,18 +12108,6 @@ namespace CodeX.Data.Model
             get { return _PrintOrder; }
             set { _PrintOrder = value; }
         }
-        [Column(Name = "NDaysBackward", DataType = "Int32")]
-        public Int32 NDaysBackward
-        {
-            get { return _NDaysBackward; }
-            set { _NDaysBackward = value; }
-        }
-        [Column(Name = "NDaysForward", DataType = "Int32")]
-        public Int32 NDaysForward
-        {
-            get { return _NDaysForward; }
-            set { _NDaysForward = value; }
-        }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
         {
@@ -12139,6 +12125,70 @@ namespace CodeX.Data.Model
         {
             get { return _DisplayPath; }
             set { _DisplayPath = value; }
+        }
+    }
+    #endregion
+    #region vItemGroupPlanning
+    [Serializable]
+    [Table(Name = "vItemGroupPlanning")]
+    public class vItemGroupPlanning
+    {
+        private String _SiteID;
+        private String _SiteName;
+        private Int32 _ItemGroupID;
+        private String _ItemGroupName1;
+        private String _GCPurchaseMethod;
+        private Int32 _NDaysBackward;
+        private Int32 _NDaysForward;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32")]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "ItemGroupName1", DataType = "String")]
+        public String ItemGroupName1
+        {
+            get { return _ItemGroupName1; }
+            set { _ItemGroupName1 = value; }
+        }
+        [Column(Name = "GCPurchaseMethod", DataType = "String")]
+        public String GCPurchaseMethod
+        {
+            get { return _GCPurchaseMethod; }
+            set { _GCPurchaseMethod = value; }
+        }
+        [Column(Name = "NDaysBackward", DataType = "Int32")]
+        public Int32 NDaysBackward
+        {
+            get { return _NDaysBackward; }
+            set { _NDaysBackward = value; }
+        }
+        [Column(Name = "NDaysForward", DataType = "Int32")]
+        public Int32 NDaysForward
+        {
+            get { return _NDaysForward; }
+            set { _NDaysForward = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion
@@ -12498,6 +12548,9 @@ namespace CodeX.Data.Model
         private Int32 _LastBusinessPartnerID;
         private Decimal _LastPurchasePrice;
         private Decimal _LastPurchaseDiscount;
+        private Boolean _IsROPSettingDefault;
+        private Int32 _NDaysBackward;
+        private Int32 _NDaysForward;
         private Boolean _IsDeleted;
 
         [Column(Name = "ID", DataType = "Int32")]
@@ -12661,6 +12714,24 @@ namespace CodeX.Data.Model
         {
             get { return _LastPurchaseDiscount; }
             set { _LastPurchaseDiscount = value; }
+        }
+        [Column(Name = "IsROPSettingDefault", DataType = "Boolean")]
+        public Boolean IsROPSettingDefault
+        {
+            get { return _IsROPSettingDefault; }
+            set { _IsROPSettingDefault = value; }
+        }
+        [Column(Name = "NDaysBackward", DataType = "Int32")]
+        public Int32 NDaysBackward
+        {
+            get { return _NDaysBackward; }
+            set { _NDaysBackward = value; }
+        }
+        [Column(Name = "NDaysForward", DataType = "Int32")]
+        public Int32 NDaysForward
+        {
+            get { return _NDaysForward; }
+            set { _NDaysForward = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -12932,9 +13003,6 @@ namespace CodeX.Data.Model
         private String _ABCClass;
         private Decimal _CycleCountInterval;
         private Decimal _HETAmount;
-        private Boolean _IsROPSettingDefault;
-        private Int32 _NDaysBackward;
-        private Int32 _NDaysForward;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -13129,24 +13197,6 @@ namespace CodeX.Data.Model
         {
             get { return _HETAmount; }
             set { _HETAmount = value; }
-        }
-        [Column(Name = "IsROPSettingDefault", DataType = "Boolean")]
-        public Boolean IsROPSettingDefault
-        {
-            get { return _IsROPSettingDefault; }
-            set { _IsROPSettingDefault = value; }
-        }
-        [Column(Name = "NDaysBackward", DataType = "Int32")]
-        public Int32 NDaysBackward
-        {
-            get { return _NDaysBackward; }
-            set { _NDaysBackward = value; }
-        }
-        [Column(Name = "NDaysForward", DataType = "Int32")]
-        public Int32 NDaysForward
-        {
-            get { return _NDaysForward; }
-            set { _NDaysForward = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

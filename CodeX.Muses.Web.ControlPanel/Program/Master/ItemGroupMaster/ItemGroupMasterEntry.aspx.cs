@@ -58,8 +58,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtParentCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtParentName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(chkIsHeader, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(txtNDaysBackward, new ControlEntrySetting(true, true, true, "0"));
-            SetControlEntrySetting(txtNDaysForward, new ControlEntrySetting(true, true, true, "0"));
         }
 
         private void EntityToControl(vItemGroupMaster entity)
@@ -73,8 +71,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtParentCode.Text = entity.ParentCode;
             txtParentName.Text = entity.ParentName;
             chkIsHeader.Checked = entity.IsHeader;
-            txtNDaysBackward.Text = entity.NDaysBackward.ToString();
-            txtNDaysForward.Text = entity.NDaysForward.ToString();
         }
 
         private void ControlToEntity(ItemGroupMaster entity)
@@ -89,8 +85,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             else
                 entity.ParentID = Convert.ToInt32(hdnParentID.Value);
             entity.IsHeader = chkIsHeader.Checked;
-            entity.NDaysBackward = Convert.ToInt32(txtNDaysBackward.Text);
-            entity.NDaysForward = Convert.ToInt32(txtNDaysForward.Text);
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)
@@ -123,6 +117,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             IDbContext ctx = DbFactory.Configure(true);
             ItemGroupMasterDao entityDao = new ItemGroupMasterDao(ctx);
             SiteItemGroupDao entitySiteItemGroupDao = new SiteItemGroupDao(ctx);
+            ItemGroupPlanningDao entityGroupPlanningDao = new ItemGroupPlanningDao(ctx);
             bool result = false;
             try
             {
@@ -137,6 +132,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 siteItemGroup.SiteID = AppSession.UserLogin.SiteID;
                 siteItemGroup.CreatedBy = AppSession.UserLogin.UserID;
                 entitySiteItemGroupDao.Insert(siteItemGroup);
+
+                ItemGroupPlanning ip = new ItemGroupPlanning();
+                ip.BusinessPartnerID = null;
+                ip.ItemGroupID = entity.ItemGroupID;
+                ip.SiteID = AppSession.UserLogin.SiteID;
+                ip.CreatedBy = AppSession.UserLogin.UserID;
+                entityGroupPlanningDao.Insert(ip);
 
                 retval = entity.ItemGroupID.ToString();
                 ctx.CommitTransaction();
