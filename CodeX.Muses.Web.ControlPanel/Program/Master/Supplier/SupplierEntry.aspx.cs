@@ -72,7 +72,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             #region General Information
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtShortName, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(txtContactPerson, new ControlEntrySetting(true, true, false));
             #endregion
 
             #region Supplier Information
@@ -91,6 +90,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(chkIsBlacklist, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsPaymentHold, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsTaxable, new ControlEntrySetting(true, true, false));
+            #endregion
+
+            #region Address
+            SetControlEntrySetting(txtContactPerson, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtContactPersonMobilePhoneNo, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtEmailAddress1, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtEmailAddress2, new ControlEntrySetting(true, true, false));
             #endregion
 
             #region Address
@@ -127,7 +133,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             ctlEntityCode.SetText(entity.BusinessPartnerCode);
             txtSupplierName.Text = entity.BusinessPartnerName;
             txtShortName.Text = entity.ShortName;
-            txtContactPerson.Text = entity.ContactPerson;
             #endregion
 
             #region Supplier Information
@@ -146,6 +151,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             chkIsBlacklist.Checked = entity.IsBlackList;
             chkIsPaymentHold.Checked = entitySup.IsPaymentHold;
             chkIsTaxable.Checked = entity.IsTaxable;
+            #endregion
+
+            #region Address
+            txtContactPerson.Text = entity.ContactPerson;
+            txtContactPersonMobilePhoneNo.Text = entity.ContactPersonMobilePhoneNo;
+            txtEmailAddress1.Text = entity.EmailAddress1;
+            txtEmailAddress2.Text = entity.EmailAddress2;
             #endregion
 
             #region Address
@@ -182,7 +194,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             #region General Information
             entity.BusinessPartnerName = txtSupplierName.Text;
             entity.ShortName = txtShortName.Text;
-            entity.ContactPerson = txtContactPerson.Text;
             #endregion
 
             #region Supplier Information
@@ -210,6 +221,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.IsBlackList = chkIsBlacklist.Checked;
             entitySup.IsPaymentHold = chkIsPaymentHold.Checked;
             entity.IsTaxable = chkIsTaxable.Checked;
+            #endregion
+
+            #region Address
+            entity.ContactPerson = txtContactPerson.Text;
+            entity.ContactPersonMobilePhoneNo = txtContactPersonMobilePhoneNo.Text;
+            entity.EmailAddress1 = txtEmailAddress1.Text;
+            entity.EmailAddress2 = txtEmailAddress2.Text;
             #endregion
 
             #region Address

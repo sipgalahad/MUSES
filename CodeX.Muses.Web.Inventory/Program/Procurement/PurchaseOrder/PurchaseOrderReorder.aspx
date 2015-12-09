@@ -219,7 +219,7 @@
                     var qty = $tr.find('.txtQty').val();
                     var conversionFactor = $tr.find('.hdnConversionFactor').val();
                     var GCItemUnit = $tr.find('.hdnGCItemUnit').val();
-                    var itemUnit = $tr.find('.lblItemUnit').html();
+                    var itemUnit = $tr.find('.hdnItemUnit').val();
                     var idx = lstSelectedMember.indexOf(key);
                     if (idx < 0) {
                         lstSelectedMember.push(key);
@@ -301,12 +301,14 @@
             Methods.getObject('GetvItemAlternateUnitCustomList', filterExpression, function (result) {
                 if (result != null) {
                     $tr.find('.hdnGCItemUnit').val(result.GCAlternateUnit);
+                    $tr.find('.hdnItemUnit').val(result.AlternateUnit);
                     $tr.find('.lblItemUnit').html(result.cfAlternateUnit);
                     $tr.find('.hdnConversionFactor').val(result.ConversionFactor);
                 }
                 else {
-                    $tr.find('.hdnGCPurchaseUnit').val('');
-                    $tr.find('.lblPurchaseUnit').html('');
+                    $tr.find('.hdnGCItemUnit').val('');
+                    $tr.find('.hdnItemUnit').val('');
+                    $tr.find('.lblItemUnit').html('');
                     $tr.find('.hdnConversionFactor').val('');
                 }
                 var conversionFactor = parseFloat($tr.find('.hdnConversionFactor').val());
@@ -547,6 +549,7 @@
                                             <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <input type="hidden" value="0" class="hdnGCItemUnit" id="hdnGCItemUnit" runat="server"/>
+                                                    <input type="hidden" value="0" class="hdnItemUnit" id="hdnItemUnit" runat="server"/>
                                                     <input type="hidden" value="0" class="hdnConversionFactor" id="hdnConversionFactor" runat="server"/>
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>
@@ -631,6 +634,7 @@
                                             <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <input type="hidden" value="0" class="hdnGCItemUnit" id="hdnGCItemUnit" runat="server"/>
+                                                    <input type="hidden" value="0" class="hdnItemUnit" id="hdnItemUnit" runat="server"/>
                                                     <input type="hidden" value="0" class="hdnConversionFactor" id="hdnConversionFactor" runat="server"/>
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>

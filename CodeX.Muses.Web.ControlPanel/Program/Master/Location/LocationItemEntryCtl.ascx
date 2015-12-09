@@ -5,12 +5,15 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <script type="text/javascript" id="dxss_serviceunitsiteentryctl">
     $(function () {
         addItemFilterRow();
     })
 
+    $('#lblEntryPopupAddData').die('click');
     $('#lblEntryPopupAddData').live('click', function () {
         $('#<%=hdnID.ClientID %>').val('');
         $('#<%=hdnItemID.ClientID %>').val('');
@@ -18,6 +21,7 @@
         $('#<%=txtItemName.ClientID %>').val('');
         $('#<%=txtMinimum.ClientID %>').val('');
         $('#<%=txtMaximum.ClientID %>').val('');
+        cboReorderType.SetValue('');
 
         $('#containerPopupEntryData').show();
     });
@@ -60,6 +64,7 @@
         var ID = $row.find('.hdnID').val();
         var itemID = $row.find('.hdnItemID').val();
         var itemCode = $row.find('.hdnItemCode').val();
+        var GCReorderType = $row.find('.hdnGCReorderType').val();
 
         var itemName = $row.find('.tdItemName1').html();
         var minimum = $row.find('.tdMinimum').html();
@@ -73,6 +78,7 @@
         $('#<%=hdnItemID.ClientID %>').val(itemID);
         $('#<%=txtItemCode.ClientID %>').val(itemCode);
         $('#<%=txtItemName.ClientID %>').val(itemName);
+        cboReorderType.SetValue(GCReorderType);
         $('#<%=txtMinimum.ClientID %>').val(minimum);
         $('#<%=txtMaximum.ClientID %>').val(maximum);
 
@@ -223,6 +229,11 @@
                                 <td>&nbsp;</td>
                             </tr>
                             <tr>
+                                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Reorder Type")%></label></td>
+                                <td><dxe:ASPxComboBox ID="cboReorderType" ClientInstanceName="cboReorderType" runat="server" Width="150px" /></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
                                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Reorder Minimum")%></label></td>
                                 <td><asp:TextBox ID="txtMinimum" CssClass="number required" runat="server" Width="100px" /></td>
                                 <td>&nbsp;</td>
@@ -309,6 +320,7 @@
                                                 <input type="hidden" class="hdnID" value="<%# Eval("ID")%>" />
                                                 <input type="hidden" class="hdnItemID" value="<%# Eval("ItemID")%>" />
                                                 <input type="hidden" class="hdnItemCode" value="<%# Eval("ItemCode")%>" />
+                                                <input type="hidden" class="hdnGCReorderType" value="<%# Eval("GCReorderType")%>" />
                                             </td>
                                             <td class="tdItemName1"><%# Eval("ItemName1")%></td>
                                             <td class="tdMinimum" align="right"><%# Eval("QuantityMIN")%></td>

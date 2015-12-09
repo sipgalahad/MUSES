@@ -22,8 +22,17 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected int RowCountPerPage = 1;
         private string[] lstSelectedMember = null;
         private string[] lstDistribution = null;
+        private string[] lstDistributionGCItemUnit = null;
+        private string[] lstDistributionItemUnit = null;
+        private string[] lstDistributionConversionFactor = null;
         private string[] lstConsumption = null;
+        private string[] lstConsumptionGCItemUnit = null;
+        private string[] lstConsumptionItemUnit = null;
+        private string[] lstConsumptionConversionFactor = null;
         private string[] lstPurchaseRequest = null;
+        private string[] lstPurchaseRequestGCItemUnit = null;
+        private string[] lstPurchaseRequestItemUnit = null;
+        private string[] lstPurchaseRequestConversionFactor = null;
 
         public override string OnGetMenuCode()
         {
@@ -122,8 +131,17 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             lstSelectedMember = hdnSelectedMember.Value.Split(',');
             lstDistribution = hdnParamDistribution.Value.Split(',');
+            lstDistributionGCItemUnit = hdnParamDistributionGCItemUnit.Value.Split(',');
+            lstDistributionItemUnit = hdnParamDistributionItemUnit.Value.Split(',');
+            lstDistributionConversionFactor = hdnParamDistributionConversionFactor.Value.Split(',');
             lstConsumption = hdnParamConsumption.Value.Split(',');
-            lstPurchaseRequest = hdnParamPurchaseReq.Value.Split(',');
+            lstConsumptionGCItemUnit = hdnParamConsumptionGCItemUnit.Value.Split(',');
+            lstConsumptionItemUnit = hdnParamConsumptionItemUnit.Value.Split(',');
+            lstConsumptionConversionFactor = hdnParamConsumptionConversionFactor.Value.Split(',');
+            lstPurchaseRequest = hdnParamPurchaseRequest.Value.Split(',');
+            lstPurchaseRequestGCItemUnit = hdnParamPurchaseRequestGCItemUnit.Value.Split(',');
+            lstPurchaseRequestItemUnit = hdnParamPurchaseRequestItemUnit.Value.Split(',');
+            lstPurchaseRequestConversionFactor = hdnParamPurchaseRequestConversionFactor.Value.Split(',');
             List<vItemRequestDt> lstEntity = BusinessLayer.GetvItemRequestDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ItemName1 ASC");
 
             string lsItemID = string.Join(",", lstEntity.Select(p => p.ItemID).ToList());
@@ -154,6 +172,20 @@ namespace CodeX.Muses.Web.Inventory.Program
                 TextBox txtConsumption = (TextBox)e.Item.FindControl("txtConsumption");
                 HtmlGenericControl lblAvailableStock = (HtmlGenericControl)e.Item.FindControl("lblAvailableStock");
                 HtmlGenericControl lblEndingBalance = (HtmlGenericControl)e.Item.FindControl("lblEndingBalance");
+
+                HtmlGenericControl lblDistributionItemUnit = (HtmlGenericControl)e.Item.FindControl("lblDistributionItemUnit");
+                HtmlGenericControl lblConsumptionItemUnit = (HtmlGenericControl)e.Item.FindControl("lblConsumptionItemUnit");
+                HtmlGenericControl lblPurchaseRequestItemUnit = (HtmlGenericControl)e.Item.FindControl("lblPurchaseRequestItemUnit");
+
+                HtmlInputHidden hdnGCDistributionItemUnit = (HtmlInputHidden)e.Item.FindControl("hdnGCDistributionItemUnit");
+                HtmlInputHidden hdnDistributionItemUnit = (HtmlInputHidden)e.Item.FindControl("hdnDistributionItemUnit");
+                HtmlInputHidden hdnDistributionConversionFactor = (HtmlInputHidden)e.Item.FindControl("hdnDistributionConversionFactor");
+                HtmlInputHidden hdnGCConsumptionItemUnit = (HtmlInputHidden)e.Item.FindControl("hdnGCConsumptionItemUnit");
+                HtmlInputHidden hdnConsumptionItemUnit = (HtmlInputHidden)e.Item.FindControl("hdnConsumptionItemUnit");
+                HtmlInputHidden hdnConsumptionConversionFactor = (HtmlInputHidden)e.Item.FindControl("hdnConsumptionConversionFactor");
+                HtmlInputHidden hdnGCPurchaseRequestItemUnit = (HtmlInputHidden)e.Item.FindControl("hdnGCPurchaseRequestItemUnit");
+                HtmlInputHidden hdnPurchaseRequestItemUnit = (HtmlInputHidden)e.Item.FindControl("hdnPurchaseRequestItemUnit");
+                HtmlInputHidden hdnPurchaseRequestConversionFactor = (HtmlInputHidden)e.Item.FindControl("hdnPurchaseRequestConversionFactor");
 
                 decimal endingBalance = lstItemBalance.Where(p => p.ItemID == entity.ItemID).Sum(p => p.QuantityEND);
                 lblEndingBalance.InnerHtml = endingBalance.ToString("0.00");
@@ -187,6 +219,19 @@ namespace CodeX.Muses.Web.Inventory.Program
                 txtConsumption.Attributes.Add("max", endingBalance.ToString());
                 txtDistribution.Attributes.Add("max", endingBalance.ToString());
 
+                lblDistributionItemUnit.InnerHtml = entity.cfDistributionItemUnit;
+                lblConsumptionItemUnit.InnerHtml = entity.cfConsumptionItemUnit;
+                lblPurchaseRequestItemUnit.InnerHtml = entity.cfPurchaseRequestItemUnit;
+                hdnGCDistributionItemUnit.Value = entity.GCDistributionItemUnit;
+                hdnDistributionItemUnit.Value = entity.DistributionItemUnit;
+                hdnDistributionConversionFactor.Value = entity.DistributionConversionFactor.ToString("G29");
+                hdnGCConsumptionItemUnit.Value = entity.GCConsumptionItemUnit;
+                hdnConsumptionItemUnit.Value = entity.ConsumptionItemUnit;
+                hdnConsumptionConversionFactor.Value = entity.ConsumptionConversionFactor.ToString("G29");
+                hdnGCPurchaseRequestItemUnit.Value = entity.GCPurchaseRequestItemUnit;
+                hdnPurchaseRequestItemUnit.Value = entity.PurchaseRequestItemUnit;
+                hdnPurchaseRequestConversionFactor.Value = entity.PurchaseRequestConversionFactor.ToString("G29");
+
                 if (lstSelectedMember.Contains(entity.ID.ToString()))
                 {
                     int idx = Array.IndexOf(lstSelectedMember, entity.ID.ToString());
@@ -199,7 +244,32 @@ namespace CodeX.Muses.Web.Inventory.Program
                     txtDistribution.Text = lstDistribution[idx];
                     txtPurchaseRequest.Text = lstPurchaseRequest[idx];
                     txtConsumption.Text = lstConsumption[idx];
+
+                    lblDistributionItemUnit.Attributes.Add("class", "lblDistributionItemUnit lblLink");
+                    lblConsumptionItemUnit.Attributes.Add("class", "lblConsumptionItemUnit lblLink");
+                    lblPurchaseRequestItemUnit.Attributes.Add("class", "lblPurchaseRequestItemUnit lblLink");
+
+                    lblDistributionItemUnit.InnerHtml = string.Format("{0} ({1}", lstDistributionItemUnit[idx], Convert.ToDecimal(lstDistributionConversionFactor[idx]).ToString("G29"));
+                    lblConsumptionItemUnit.InnerHtml = string.Format("{0} ({1}", lstConsumptionItemUnit[idx], Convert.ToDecimal(lstConsumptionConversionFactor[idx]).ToString("G29"));
+                    lblPurchaseRequestItemUnit.InnerHtml = string.Format("{0} ({1}", lstPurchaseRequestItemUnit[idx], Convert.ToDecimal(lstPurchaseRequestConversionFactor[idx]).ToString("G29"));
+
+                    hdnGCDistributionItemUnit.Value = lstDistributionGCItemUnit[idx];
+                    hdnDistributionItemUnit.Value = lstDistributionItemUnit[idx];
+                    hdnDistributionConversionFactor.Value = lstDistributionConversionFactor[idx];
+                    hdnGCConsumptionItemUnit.Value = lstConsumptionGCItemUnit[idx];
+                    hdnConsumptionItemUnit.Value = lstConsumptionItemUnit[idx];
+                    hdnConsumptionConversionFactor.Value = lstConsumptionConversionFactor[idx];
+                    hdnGCPurchaseRequestItemUnit.Value = lstPurchaseRequestGCItemUnit[idx];
+                    hdnPurchaseRequestItemUnit.Value = lstPurchaseRequestItemUnit[idx];
+                    hdnPurchaseRequestConversionFactor.Value = lstPurchaseRequestConversionFactor[idx];
+
                     chkIsSelected.Checked = true;
+                }
+                else
+                {
+                    lblDistributionItemUnit.Attributes.Add("class", "lblDistributionItemUnit lblDisabled");
+                    lblConsumptionItemUnit.Attributes.Add("class", "lblConsumptionItemUnit lblDisabled");
+                    lblPurchaseRequestItemUnit.Attributes.Add("class", "lblPurchaseRequestItemUnit lblDisabled");
                 }
             }
         }
@@ -295,9 +365,15 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             String[] paramID = hdnSelectedMember.Value.Substring(1).Split(',');
-            String[] paramPurchaseRequest = hdnParamPurchaseReq.Value.Substring(1).Split(',');
-            String[] paramItemDistribution = hdnParamDistribution.Value.Substring(1).Split(',');
-            String[] paramItemConsumption = hdnParamConsumption.Value.Substring(1).Split(',');
+            String[] paramPurchaseRequest = hdnParamPurchaseRequest.Value.Substring(1).Split(',');
+            String[] paramDistribution = hdnParamDistribution.Value.Substring(1).Split(',');
+            String[] paramConsumption = hdnParamConsumption.Value.Substring(1).Split(',');
+            String[] paramPurchaseRequestConversionFactor = hdnParamPurchaseRequestConversionFactor.Value.Substring(1).Split(',');
+            String[] paramDistributionConversionFactor = hdnParamDistributionConversionFactor.Value.Substring(1).Split(',');
+            String[] paramConsumptionConversionFactor = hdnParamConsumptionConversionFactor.Value.Substring(1).Split(',');
+            String[] paramPurchaseRequestGCItemUnit = hdnParamPurchaseRequestGCItemUnit.Value.Substring(1).Split(',');
+            String[] paramDistributionGCItemUnit = hdnParamDistributionGCItemUnit.Value.Substring(1).Split(',');
+            String[] paramConsumptionGCItemUnit = hdnParamConsumptionGCItemUnit.Value.Substring(1).Split(',');
 
             string purchaseRequestNo = "";
             string distributionNo = "";
@@ -330,8 +406,8 @@ namespace CodeX.Muses.Web.Inventory.Program
                             itemDt.PurchaseRequestID = purchaseRequestID;
                             itemDt.ItemID = Convert.ToInt32(entityItemReqDt.ItemID);
                             itemDt.Quantity = Convert.ToDecimal(paramPurchaseRequest[ct]);
-                            itemDt.ConversionFactor = entityItemReqDt.ConversionFactor;
-                            itemDt.GCPurchaseUnit = entityItemReqDt.GCItemUnit;
+                            itemDt.ConversionFactor = Convert.ToDecimal(paramPurchaseRequestConversionFactor[ct]);
+                            itemDt.GCPurchaseUnit = paramPurchaseRequestGCItemUnit[ct];
                             itemDt.GCBaseUnit = entityItemReqDt.GCBaseUnit;
                             if (vPlan.Count > 0)
                             {
@@ -360,15 +436,15 @@ namespace CodeX.Muses.Web.Inventory.Program
                         SaveItemDistributionHd(ctx, ref distributionID, ref distributionNo);
                         for (int ct = 0; ct < paramID.Length; ct++)
                         {
-                            if (Convert.ToDecimal(paramItemDistribution[ct]) == 0) continue;
+                            if (Convert.ToDecimal(paramDistribution[ct]) == 0) continue;
                             ItemRequestDt entityItemReqDt = entityItemRequestDtDao.Get(Convert.ToInt32(paramID[ct]));
                             ItemDistributionDt itemDt = new ItemDistributionDt();
                             entityItemReqDt.GCItemDetailStatus = Constant.TransactionStatus.PROCESSED;
                             itemDt.DistributionID = distributionID;
                             itemDt.ItemID = Convert.ToInt32(entityItemReqDt.ItemID);
-                            itemDt.Quantity = Convert.ToDecimal(paramItemDistribution[ct]);
-                            itemDt.ConversionFactor = entityItemReqDt.ConversionFactor;
-                            itemDt.GCItemUnit = entityItemReqDt.GCItemUnit;
+                            itemDt.Quantity = Convert.ToDecimal(paramDistribution[ct]);
+                            itemDt.ConversionFactor = Convert.ToDecimal(paramDistributionConversionFactor[ct]);
+                            itemDt.GCItemUnit = paramDistributionGCItemUnit[ct];
                             itemDt.GCBaseUnit = entityItemReqDt.GCBaseUnit;
                             itemDt.GCItemDetailStatus = Constant.DistributionStatus.OPEN;
                             itemDt.CreatedBy = AppSession.UserLogin.UserID;
@@ -385,15 +461,15 @@ namespace CodeX.Muses.Web.Inventory.Program
                         SaveItemConsumptionHd(ctx, ref itemConsumptionID, ref itemConsumptionNo);
                         for (int ct = 0; ct < paramID.Length; ct++)
                         {
-                            if (Convert.ToDecimal(paramItemConsumption[ct]) == 0) continue;
+                            if (Convert.ToDecimal(paramConsumption[ct]) == 0) continue;
                             ItemRequestDt entityItemReqDt = entityItemRequestDtDao.Get(Convert.ToInt32(paramID[ct]));
                             ItemTransactionDt itemDt = new ItemTransactionDt();
                             entityItemReqDt.GCItemDetailStatus = Constant.TransactionStatus.PROCESSED;
                             itemDt.TransactionID = itemConsumptionID;
                             itemDt.ItemID = Convert.ToInt32(entityItemReqDt.ItemID);
-                            itemDt.Quantity = Convert.ToDecimal(paramItemConsumption[ct]);
-                            itemDt.ConversionFactor = entityItemReqDt.ConversionFactor;
-                            itemDt.GCItemUnit = entityItemReqDt.GCItemUnit;
+                            itemDt.Quantity = Convert.ToDecimal(paramConsumption[ct]);
+                            itemDt.ConversionFactor = Convert.ToDecimal(paramConsumptionConversionFactor[ct]);
+                            itemDt.GCItemUnit = paramConsumptionGCItemUnit[ct];
                             itemDt.GCBaseUnit = entityItemReqDt.GCBaseUnit;
                             itemDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
                             itemDt.CreatedBy = AppSession.UserLogin.UserID;

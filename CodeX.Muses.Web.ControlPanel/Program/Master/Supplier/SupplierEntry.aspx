@@ -115,10 +115,6 @@
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Short Name")%></label></td>
                             <td><asp:TextBox ID="txtShortName" Width="200px" runat="server" /></td>
                         </tr>
-                        <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Contact Person")%></label></td>
-                            <td><asp:TextBox ID="txtContactPerson" Width="100%" runat="server" /></td>
-                        </tr>
                     </table>
                 </div>
                 <h4 class="h4expanded"><%=GetLabel("Supplier Information")%></h4>
@@ -193,6 +189,30 @@
                 </div>
             </td>
             <td style="padding:5px;vertical-align:top">
+                <h4 class="h4expanded"><%=GetLabel("Informasi Kontak")%></h4>
+                <div class="containerTblEntryContent">
+                    <table class="tblEntryContent" style="width:100%">
+                        <colgroup>
+                            <col style="width:30%"/>
+                        </colgroup>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Contact Person")%></label></td>
+                            <td><asp:TextBox ID="txtContactPerson" Width="100%" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("No HP Contact Person")%></label></td>
+                            <td><asp:TextBox ID="txtContactPersonMobilePhoneNo" Width="100%" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Email 1")%></label></td>
+                            <td><asp:TextBox ID="txtEmailAddress1" Width="100%" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Email 2")%></label></td>
+                            <td><asp:TextBox ID="txtEmailAddress2" Width="100%" runat="server" /></td>
+                        </tr>
+                    </table>
+                </div>
                 <h4 class="h4expanded"><%=GetLabel("Address")%></h4>
                 <div class="containerTblEntryContent">
                     <table class="tblEntryContent" style="width:100%">

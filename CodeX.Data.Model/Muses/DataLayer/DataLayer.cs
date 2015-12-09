@@ -1864,12 +1864,15 @@ namespace CodeX.Data.Model
         private String _ShortName;
         private String _GCBusinessPartnerType;
         private String _ContactPerson;
+        private String _ContactPersonMobilePhoneNo;
         private String _SiteID;
         private String _AddressID;
         private Boolean _IsTaxable;
         private String _VATRegistrationNo;
         private Int32? _TermID;
         private Boolean _IsBlackList;
+        private String _EmailAddress1;
+        private String _EmailAddress2;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -1913,6 +1916,12 @@ namespace CodeX.Data.Model
             get { return _ContactPerson; }
             set { _ContactPerson = value; }
         }
+        [Column(Name = "ContactPersonMobilePhoneNo", DataType = "String", IsNullable = true)]
+        public String ContactPersonMobilePhoneNo
+        {
+            get { return _ContactPersonMobilePhoneNo; }
+            set { _ContactPersonMobilePhoneNo = value; }
+        }
         [Column(Name = "SiteID", DataType = "String", IsNullable = true)]
         public String SiteID
         {
@@ -1948,6 +1957,18 @@ namespace CodeX.Data.Model
         {
             get { return _IsBlackList; }
             set { _IsBlackList = value; }
+        }
+        [Column(Name = "EmailAddress1", DataType = "String", IsNullable = true)]
+        public String EmailAddress1
+        {
+            get { return _EmailAddress1; }
+            set { _EmailAddress1 = value; }
+        }
+        [Column(Name = "EmailAddress2", DataType = "String", IsNullable = true)]
+        public String EmailAddress2
+        {
+            get { return _EmailAddress2; }
+            set { _EmailAddress2 = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
@@ -14077,8 +14098,6 @@ namespace CodeX.Data.Model
         private Boolean _IsHeader;
         private Int32? _ParentID;
         private Int16 _PrintOrder;
-        private Int32 _NDaysBackward;
-        private Int32 _NDaysForward;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -14132,18 +14151,6 @@ namespace CodeX.Data.Model
         {
             get { return _PrintOrder; }
             set { _PrintOrder = value; }
-        }
-        [Column(Name = "NDaysBackward", DataType = "Int32")]
-        public Int32 NDaysBackward
-        {
-            get { return _NDaysBackward; }
-            set { _NDaysBackward = value; }
-        }
-        [Column(Name = "NDaysForward", DataType = "Int32")]
-        public Int32 NDaysForward
-        {
-            get { return _NDaysForward; }
-            set { _NDaysForward = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -14811,9 +14818,6 @@ namespace CodeX.Data.Model
         private String _GCABCClass;
         private Decimal _CycleCountInterval;
         private Decimal _HETAmount;
-        private Boolean _IsROPSettingDefault;
-        private Int32 _NDaysBackward;
-        private Int32 _NDaysForward;
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
 
@@ -14907,24 +14911,6 @@ namespace CodeX.Data.Model
             get { return _HETAmount; }
             set { _HETAmount = value; }
         }
-        [Column(Name = "IsROPSettingDefault", DataType = "Boolean")]
-        public Boolean IsROPSettingDefault
-        {
-            get { return _IsROPSettingDefault; }
-            set { _IsROPSettingDefault = value; }
-        }
-        [Column(Name = "NDaysBackward", DataType = "Int32")]
-        public Int32 NDaysBackward
-        {
-            get { return _NDaysBackward; }
-            set { _NDaysBackward = value; }
-        }
-        [Column(Name = "NDaysForward", DataType = "Int32")]
-        public Int32 NDaysForward
-        {
-            get { return _NDaysForward; }
-            set { _NDaysForward = value; }
-        }
         [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
         public Int32? LastUpdatedBy
         {
@@ -14993,8 +14979,14 @@ namespace CodeX.Data.Model
         private String _GCBaseUnit;
         private Decimal _ConversionFactor;
         private Decimal _DistributionQty;
+        private String _GCDistributionItemUnit;
+        private Decimal _DistributionConversionFactor;
         private Decimal _ConsumptionQty;
+        private String _GCConsumptionItemUnit;
+        private Decimal _ConsumptionConversionFactor;
         private Decimal _PurchaseRequestQty;
+        private String _GCPurchaseRequestItemUnit;
+        private Decimal _PurchaseRequestConversionFactor;
         private String _GCItemDetailStatus;
         private Boolean _IsDeleted;
         private Int32 _CreatedBy;
@@ -15050,17 +15042,53 @@ namespace CodeX.Data.Model
             get { return _DistributionQty; }
             set { _DistributionQty = value; }
         }
+        [Column(Name = "GCDistributionItemUnit", DataType = "String", IsNullable = true)]
+        public String GCDistributionItemUnit
+        {
+            get { return _GCDistributionItemUnit; }
+            set { _GCDistributionItemUnit = value; }
+        }
+        [Column(Name = "DistributionConversionFactor", DataType = "Decimal", IsNullable = true)]
+        public Decimal DistributionConversionFactor
+        {
+            get { return _DistributionConversionFactor; }
+            set { _DistributionConversionFactor = value; }
+        }
         [Column(Name = "ConsumptionQty", DataType = "Decimal")]
         public Decimal ConsumptionQty
         {
             get { return _ConsumptionQty; }
             set { _ConsumptionQty = value; }
         }
+        [Column(Name = "GCConsumptionItemUnit", DataType = "String", IsNullable = true)]
+        public String GCConsumptionItemUnit
+        {
+            get { return _GCConsumptionItemUnit; }
+            set { _GCConsumptionItemUnit = value; }
+        }
+        [Column(Name = "ConsumptionConversionFactor", DataType = "Decimal", IsNullable = true)]
+        public Decimal ConsumptionConversionFactor
+        {
+            get { return _ConsumptionConversionFactor; }
+            set { _ConsumptionConversionFactor = value; }
+        }
         [Column(Name = "PurchaseRequestQty", DataType = "Decimal")]
         public Decimal PurchaseRequestQty
         {
             get { return _PurchaseRequestQty; }
             set { _PurchaseRequestQty = value; }
+        }
+        [Column(Name = "GCPurchaseRequestItemUnit", DataType = "String", IsNullable = true)]
+        public String GCPurchaseRequestItemUnit
+        {
+            get { return _GCPurchaseRequestItemUnit; }
+            set { _GCPurchaseRequestItemUnit = value; }
+        }
+        [Column(Name = "PurchaseRequestConversionFactor", DataType = "Decimal", IsNullable = true)]
+        public Decimal PurchaseRequestConversionFactor
+        {
+            get { return _PurchaseRequestConversionFactor; }
+            set { _PurchaseRequestConversionFactor = value; }
         }
         [Column(Name = "GCItemDetailStatus", DataType = "String")]
         public String GCItemDetailStatus

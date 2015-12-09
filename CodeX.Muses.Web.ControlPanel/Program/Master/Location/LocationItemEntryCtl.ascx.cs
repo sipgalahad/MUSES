@@ -22,6 +22,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtLocationCode.Text = entity.LocationCode;
             txtLocationName.Text = entity.LocationName;
 
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.REORDER_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboReorderType, lstSc, "StandardCodeName", "StandardCodeID");
+
             BindGridView(1, true, ref PageCount);
 
             txtItemCode.Attributes.Add("validationgroup", "mpEntryPopup");
@@ -120,6 +123,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void ControlToEntity(ItemBalance entity)
         {
             entity.ItemID = Convert.ToInt32(hdnItemID.Value);
+            entity.GCReorderType = cboReorderType.Value.ToString();
             entity.QuantityMIN = Convert.ToDecimal(txtMinimum.Text);
             entity.QuantityMAX = Convert.ToDecimal(txtMaximum.Text);
         }

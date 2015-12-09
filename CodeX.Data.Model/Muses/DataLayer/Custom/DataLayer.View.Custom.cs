@@ -800,8 +800,43 @@ namespace CodeX.Data.Model
         {
             get
             {
-                if (_EndingBalance == null) return 0 + " " + _BaseUnit;
+                if (_EndingBalance == 0) return 0 + " " + _BaseUnit;
                 else return _EndingBalance + " " + _BaseUnit;
+            }
+        }
+        public String cfItemUnit
+        {
+            get
+            {
+                return string.Format("{0} ({1})", _ItemUnit, _ConversionFactor.ToString("G29"));
+            }
+        }
+        public String cfDistributionItemUnit
+        {
+            get
+            {
+                return string.Format("{0} ({1})", _DistributionItemUnit, _DistributionConversionFactor.ToString("G29"));
+            }
+        }
+        public String cfConsumptionItemUnit
+        {
+            get
+            {
+                return string.Format("{0} ({1})", _ConsumptionItemUnit, _ConsumptionConversionFactor.ToString("G29"));
+            }
+        }
+        public String cfPurchaseRequestItemUnit
+        {
+            get
+            {
+                return string.Format("{0} ({1})", _PurchaseRequestItemUnit, _PurchaseRequestConversionFactor.ToString("G29"));
+            }
+        }
+        public String cfPurchaseRequestReceivedItemUnit
+        {
+            get
+            {
+                return string.Format("{0} ({1})", _PurchaseRequestReceivedItemUnit, _PurchaseRequestReceivedConversionFactor.ToString("G29"));
             }
         }
 
@@ -1462,6 +1497,15 @@ namespace CodeX.Data.Model
     #region vPurchaseOrderHd
     public partial class vPurchaseOrderHd
     {
+        public string cfRemarks
+        {
+            get
+            {
+                if (_Remarks != "")
+                    return string.Format("Catatan :<br/>{0}", _Remarks.Replace("\n", "<br/>"));
+                return "";
+            }
+        }
         public string OrderDateInString
         {
             get

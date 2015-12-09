@@ -152,22 +152,31 @@
             $tr = $(this).closest('tr');
             if ($(this).is(':checked')) {
                 if ($('#<%=hdnIsAllowItemDistribution.ClientID %>').val() == '1') {
-                    if (parseInt($tr.find('.hdnDistributionQty').val()) == 0)
+                    if (parseInt($tr.find('.hdnDistributionQty').val()) == 0) {
                         $tr.find('.txtDistribution').removeAttr('readonly');
+                        $tr.find('.lblDistributionItemUnit').attr('class', 'lblDistributionItemUnit lblLink');
+                    }
                 }
                 if ($('#<%=hdnIsAllowItemConsumption.ClientID %>').val() == '1') {
-                    if (parseInt($tr.find('.hdnConsumptionQty').val()) == 0)
+                    if (parseInt($tr.find('.hdnConsumptionQty').val()) == 0) {
                         $tr.find('.txtConsumption').removeAttr('readonly');
+                        $tr.find('.lblConsumptionItemUnit').attr('class', 'lblConsumptionItemUnit lblLink');
+                    }
                 }
                 if ($('#<%=hdnIsAllowPurchaseRequest.ClientID %>').val() == '1') {
-                    if (parseInt($tr.find('.hdnPurchaseRequestQty').val()) == 0)
+                    if (parseInt($tr.find('.hdnPurchaseRequestQty').val()) == 0) {
                         $tr.find('.txtPurchaseRequest').removeAttr('readonly');
+                        $tr.find('.lblPurchaseRequestItemUnit').attr('class', 'lblPurchaseRequestItemUnit lblLink');
+                    }
                 }
             }
             else {
                 $tr.find('.txtDistribution').attr('readonly', 'readonly');
+                $tr.find('.lblDistributionItemUnit').attr('class', 'lblDistributionItemUnit lblDisabled');
                 $tr.find('.txtConsumption').attr('readonly', 'readonly');
+                $tr.find('.lblConsumptionItemUnit').attr('class', 'lblConsumptionItemUnit lblDisabled');
                 $tr.find('.txtPurchaseRequest').attr('readonly', 'readonly');
+                $tr.find('.lblPurchaseRequestItemUnit').attr('class', 'lblPurchaseRequestItemUnit lblDisabled');
             }
         });
 
@@ -199,7 +208,7 @@
                 $('#<%=hdnSelectedMember.ClientID %>').val('');
                 $('#<%=hdnParamDistribution.ClientID %>').val('');
                 $('#<%=hdnParamConsumption.ClientID %>').val('');
-                $('#<%=hdnParamPurchaseReq.ClientID %>').val('');
+                $('#<%=hdnParamPurchaseRequest.ClientID %>').val('');
                 if (param[0] == '0')
                     $('#<%=btnOrderListBack.ClientID %>').click();
                 cbpView.PerformCallback('refresh');
@@ -210,7 +219,17 @@
             var lstSelectedMember = $('#<%=hdnSelectedMember.ClientID %>').val().split(',');
             var lstDistribution = $('#<%=hdnParamDistribution.ClientID %>').val().split(',');
             var lstConsumption = $('#<%=hdnParamConsumption.ClientID %>').val().split(',');
-            var lstPR = $('#<%=hdnParamPurchaseReq.ClientID %>').val().split(',');
+            var lstPR = $('#<%=hdnParamPurchaseRequest.ClientID %>').val().split(',');
+            var lstDistributionGCItemUnit = $('#<%=hdnParamDistributionGCItemUnit.ClientID %>').val().split(',');
+            var lstConsumptionGCItemUnit = $('#<%=hdnParamConsumptionGCItemUnit.ClientID %>').val().split(',');
+            var lstPurchaseRequestGCItemUnit = $('#<%=hdnParamPurchaseRequestGCItemUnit.ClientID %>').val().split(',');
+            var lstDistributionItemUnit = $('#<%=hdnParamDistributionItemUnit.ClientID %>').val().split(',');
+            var lstConsumptionItemUnit = $('#<%=hdnParamConsumptionItemUnit.ClientID %>').val().split(',');
+            var lstPurchaseRequestItemUnit = $('#<%=hdnParamPurchaseRequestItemUnit.ClientID %>').val().split(',');
+            var lstDistributionConversionFactor = $('#<%=hdnParamDistributionConversionFactor.ClientID %>').val().split(',');
+            var lstConsumptionConversionFactor = $('#<%=hdnParamConsumptionConversionFactor.ClientID %>').val().split(',');
+            var lstPurchaseRequestConversionFactor = $('#<%=hdnParamPurchaseRequestConversionFactor.ClientID %>').val().split(',');
+
             var result = '';
             $('.grdItemRequest .chkIsSelected input').each(function () {
                 if ($(this).is(':checked')) {
@@ -219,30 +238,63 @@
                     var itemRequestDtDistribution = $tr.find('.txtDistribution').val();
                     var itemRequestDtConsumption = $tr.find('.txtConsumption').val();
                     var itemRequestDtPR = $tr.find('.txtPurchaseRequest').val();
+                    var itemRequestDtDistributionGCItemUnit = $tr.find('.hdnGCDistributionItemUnit').val();
+                    var itemRequestDtConsumptionGCItemUnit = $tr.find('.hdnGCConsumptionItemUnit').val();
+                    var itemRequestDtPurchaseRequestGCItemUnit = $tr.find('.hdnPurchaseRequestItemUnit').val();
+                    var itemRequestDtDistributionItemUnit = $tr.find('.hdnDistributionItemUnit').val();
+                    var itemRequestDtConsumptionItemUnit = $tr.find('.hdnConsumptionItemUnit').val();
+                    var itemRequestDtPurchaseRequestItemUnit = $tr.find('.hdnPurchaseRequestItemUnit').val();
+                    var itemRequestDtDistributionConversionFactor = $tr.find('.hdnDistributionConversionFactor').val();
+                    var itemRequestDtConsumptionConversionFactor = $tr.find('.hdnConsumptionConversionFactor').val();
+                    var itemRequestDtPurchaseRequestConversionFactor = $tr.find('.hdnPurchaseRequestConversionFactor').val();
                     var idx = lstSelectedMember.indexOf(key);
                     if (idx < 0) {
                         lstSelectedMember.push(key);
                         lstDistribution.push(itemRequestDtDistribution);
                         lstConsumption.push(itemRequestDtConsumption);
                         lstPR.push(itemRequestDtPR);
+                        lstDistributionGCItemUnit.push(itemRequestDtDistributionGCItemUnit);
+                        lstConsumptionGCItemUnit.push(itemRequestDtConsumptionGCItemUnit);
+                        lstPurchaseRequestGCItemUnit.push(itemRequestDtPurchaseRequestGCItemUnit);
+                        lstDistributionItemUnit.push(itemRequestDtDistributionItemUnit);
+                        lstConsumptionItemUnit.push(itemRequestDtConsumptionItemUnit);
+                        lstPurchaseRequestItemUnit.push(itemRequestDtPurchaseRequestItemUnit);
+                        lstDistributionConversionFactor.push(itemRequestDtDistributionConversionFactor);
+                        lstConsumptionConversionFactor.push(itemRequestDtConsumptionConversionFactor);
+                        lstPurchaseRequestConversionFactor.push(itemRequestDtPurchaseRequestConversionFactor);
                     }
                     else {
                         lstDistribution[idx] = itemRequestDtDistribution;
                         lstConsumption[idx] = itemRequestDtConsumption;
                         lstPR[idx] = itemRequestDtPR;
+                        lstDistributionGCItemUnit[idx] = itemRequestDtDistributionGCItemUnit;
+                        lstConsumptionGCItemUnit[idx] = itemRequestDtConsumptionGCItemUnit;
+                        lstPurchaseRequestGCItemUnit[idx] = itemRequestDtPurchaseRequestGCItemUnit;
+                        lstDistributionItemUnit[idx] = itemRequestDtDistributionItemUnit;
+                        lstConsumptionItemUnit[idx] = itemRequestDtConsumptionItemUnit;
+                        lstPurchaseRequestItemUnit[idx] = itemRequestDtPurchaseRequestItemUnit;
+                        lstDistributionConversionFactor[idx] = itemRequestDtDistributionConversionFactor;
+                        lstConsumptionConversionFactor[idx] = itemRequestDtConsumptionConversionFactor;
+                        lstPurchaseRequestConversionFactor[idx] = itemRequestDtPurchaseRequestConversionFactor;
                     }
                 }
                 else {
                     var key = $(this).closest('tr').find('.keyField').html();
-                    var itemRequestDtDistribution = $(this).closest('tr').find('.txtDistribution').val();
-                    var itemRequestDtConsumption = $(this).closest('tr').find('.txtConsumption').val();
-                    var itemRequestDtPR = $(this).closest('tr').find('.txtPurchaseRequest').val();
                     var idx = lstSelectedMember.indexOf(key);
                     if (idx > -1) {
                         lstSelectedMember.splice(idx, 1);
                         lstDistribution.splice(idx, 1);
                         lstConsumption.splice(idx, 1);
                         lstPR.splice(idx, 1);
+                        lstDistributionGCItemUnit.splice(idx, 1);
+                        lstConsumptionGCItemUnit.splice(idx, 1);
+                        lstPurchaseRequestGCItemUnit.splice(idx, 1);
+                        lstDistributionItemUnit.splice(idx, 1);
+                        lstConsumptionItemUnit.splice(idx, 1);
+                        lstPurchaseRequestItemUnit.splice(idx, 1);
+                        lstDistributionConversionFactor.splice(idx, 1);
+                        lstConsumptionConversionFactor.splice(idx, 1);
+                        lstPurchaseRequestConversionFactor.splice(idx, 1);
                     }
                 }
             });
@@ -276,8 +328,66 @@
             $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
             $('#<%=hdnParamDistribution.ClientID %>').val(lstDistribution.join(','));
             $('#<%=hdnParamConsumption.ClientID %>').val(lstConsumption.join(','));
-            $('#<%=hdnParamPurchaseReq.ClientID %>').val(lstPR.join(','));
+            $('#<%=hdnParamPurchaseRequest.ClientID %>').val(lstPR.join(','));
+            $('#<%=hdnParamDistributionGCItemUnit.ClientID %>').val(lstDistributionGCItemUnit.join(','));
+            $('#<%=hdnParamConsumptionGCItemUnit.ClientID %>').val(lstConsumptionGCItemUnit.join(','));
+            $('#<%=hdnParamPurchaseRequestGCItemUnit.ClientID %>').val(lstPurchaseRequestGCItemUnit.join(','));
+            $('#<%=hdnParamDistributionItemUnit.ClientID %>').val(lstDistributionItemUnit.join(','));
+            $('#<%=hdnParamConsumptionItemUnit.ClientID %>').val(lstConsumptionItemUnit.join(','));
+            $('#<%=hdnParamPurchaseRequestItemUnit.ClientID %>').val(lstPurchaseRequestItemUnit.join(','));
+            $('#<%=hdnParamDistributionConversionFactor.ClientID %>').val(lstDistributionConversionFactor.join(','));
+            $('#<%=hdnParamConsumptionConversionFactor.ClientID %>').val(lstConsumptionConversionFactor.join(','));
+            $('#<%=hdnParamPurchaseRequestConversionFactor.ClientID %>').val(lstPurchaseRequestConversionFactor.join(','));
         }
+
+        //#region Item Unit
+        function getItemUnitFilterExpression() {
+            var filterExpression = "ItemID = " + itemID;
+            return filterExpression;
+        }
+
+        var itemID = 0;
+        $('.lblDistributionItemUnit.lblLink').live('click', function () {
+            $tr = $(this).closest('tr').parent().closest('tr');
+            itemID = $tr.find('.hdnItemID').val();
+            openSearchDialog('itemalternateunit', getItemUnitFilterExpression(), function (value) {
+                onTxtItemUnitChanged(value, 'hdnGCDistributionItemUnit', 'hdnDistributionItemUnit', 'lblDistributionItemUnit', 'hdnDistributionConversionFactor');
+            });
+        });
+        $('.lblConsumptionItemUnit.lblLink').live('click', function () {
+            $tr = $(this).closest('tr').parent().closest('tr');
+            itemID = $tr.find('.hdnItemID').val();
+            openSearchDialog('itemalternateunit', getItemUnitFilterExpression(), function (value) {
+                onTxtItemUnitChanged(value, 'hdnGCConsumptionItemUnit', 'hdnConsumptionItemUnit', 'lblConsumptionItemUnit', 'hdnConsumptionConversionFactor');
+            });
+        });
+        $('.lblPurchaseRequestItemUnit.lblLink').live('click', function () {
+            $tr = $(this).closest('tr').parent().closest('tr');
+            itemID = $tr.find('.hdnItemID').val();
+            openSearchDialog('itemalternateunit', getItemUnitFilterExpression(), function (value) {
+                onTxtItemUnitChanged(value, 'hdnGCPurchaseRequestItemUnit', 'hdnPurchaseRequestItemUnit', 'lblPurchaseRequestItemUnit', 'hdnPurchaseRequestConversionFactor');
+            });
+        });
+
+        function onTxtItemUnitChanged(value, hdnGCItemUnit, hdnItemUnit, lblItemUnit, hdnConversionFactor) {
+            var temp = value.split('|');
+            var filterExpression = getItemUnitFilterExpression() + " AND GCAlternateUnit = '" + temp[0] + "' AND ConversionFactor = " + temp[1];
+            Methods.getObject('GetvItemAlternateUnitCustomList', filterExpression, function (result) {
+                if (result != null) {
+                    $tr.find('.' + hdnGCItemUnit).val(result.GCAlternateUnit);
+                    $tr.find('.' + hdnItemUnit).val(result.AlternateUnit);
+                    $tr.find('.' + lblItemUnit).html(result.cfAlternateUnit);
+                    $tr.find('.' + hdnConversionFactor).val(result.ConversionFactor);
+                }
+                else {
+                    $tr.find('.' + hdnGCItemUnit).val('');
+                    $tr.find('.' + hdnItemUnit).val('');
+                    $tr.find('.' + lblItemUnit).html('');
+                    $tr.find('.' + hdnConversionFactor).val('');
+                }
+            });
+        }
+        //#endregion
 
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
@@ -322,8 +432,17 @@
     </script>
     <input type="hidden" value="" id="hdnParamID" runat="server" />
     <input type="hidden" value="" id="hdnParamDistribution" runat="server" />
+    <input type="hidden" value="" id="hdnParamDistributionGCItemUnit" runat="server" />
+    <input type="hidden" value="" id="hdnParamDistributionItemUnit" runat="server" />
+    <input type="hidden" value="" id="hdnParamDistributionConversionFactor" runat="server" />
     <input type="hidden" value="" id="hdnParamConsumption" runat="server" />
-    <input type="hidden" value="" id="hdnParamPurchaseReq" runat="server" />
+    <input type="hidden" value="" id="hdnParamConsumptionGCItemUnit" runat="server" />
+    <input type="hidden" value="" id="hdnParamConsumptionItemUnit" runat="server" />
+    <input type="hidden" value="" id="hdnParamConsumptionConversionFactor" runat="server" />
+    <input type="hidden" value="" id="hdnParamPurchaseRequest" runat="server" />
+    <input type="hidden" value="" id="hdnParamPurchaseRequestGCItemUnit" runat="server" />
+    <input type="hidden" value="" id="hdnParamPurchaseRequestItemUnit" runat="server" />
+    <input type="hidden" value="" id="hdnParamPurchaseRequestConversionFactor" runat="server" />
     <input type="hidden" value="" id="hdnOrderID" runat="server" />
     <input type="hidden" value="" id="hdnDefaultGCConsumptionType" runat="server" />
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
@@ -474,21 +593,22 @@
                                                         <input id="chkSelectAll" type="checkbox" />
                                                     </th>
                                                     <th rowspan="2"><%=GetLabel("NAMA BARANG")%></th>
-                                                    <th colspan="3" class="thCenter"><%=GetLabel("JUMLAH BARANG")%></th>
+                                                    <th colspan="4" class="thCenter"><%=GetLabel("JUMLAH BARANG")%></th>
                                                     <th colspan="2" class="thCenter"><%=GetLabel("SEDANG DIPROSES")%></th>
                                                     <th colspan="3" class="thCenter"><%=GetLabel("JUMLAH PROSES")%></th>
                                                 </tr>
                                                 <tr>
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Diminta")%></th>
+                                                    <th style="width: 100px" class="thCenter"><%=GetLabel("Total Diminta")%></th>
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Tersedia")%></th>
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Bisa Digunakan")%></th>
 
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Minta Beli")%></th>
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Diterima")%></th>
 
-                                                    <th style="width: 140px" class="thCenter"><%=GetLabel("Distribusi")%></th>
-                                                    <th style="width: 140px" class="thCenter"><%=GetLabel("Pemakaian")%></th>
-                                                    <th style="width: 140px" class="thCenter"><%=GetLabel("Minta Beli")%></th>
+                                                    <th style="width: 130px" class="thCenter"><%=GetLabel("Distribusi")%></th>
+                                                    <th style="width: 130px" class="thCenter"><%=GetLabel("Pemakaian")%></th>
+                                                    <th style="width: 130px" class="thCenter"><%=GetLabel("Minta Beli")%></th>
                                                 </tr>
                                                 <tr class="trEmpty">
                                                     <td colspan="10">
@@ -507,21 +627,22 @@
                                                         <input id="chkSelectAll" type="checkbox" />
                                                     </th>
                                                     <th rowspan="2"><%=GetLabel("NAMA BARANG")%></th>
-                                                    <th colspan="3" class="thCenter"><%=GetLabel("JUMLAH BARANG")%></th>
+                                                    <th colspan="4" class="thCenter"><%=GetLabel("JUMLAH BARANG")%></th>
                                                     <th colspan="2" class="thCenter"><%=GetLabel("SEDANG DIPROSES")%></th>
                                                     <th colspan="3" class="thCenter"><%=GetLabel("JUMLAH PROSES")%></th>
                                                 </tr>
                                                 <tr>
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Diminta")%></th>
+                                                    <th style="width: 100px" class="thCenter"><%=GetLabel("Total Diminta")%></th>
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Tersedia")%></th>
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Bisa Digunakan")%></th>
 
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Minta Beli")%></th>
                                                     <th style="width: 100px" class="thCenter"><%=GetLabel("Diterima")%></th>
 
-                                                    <th style="width: 140px" class="thCenter"><%=GetLabel("Distribusi")%></th>
-                                                    <th style="width: 140px" class="thCenter"><%=GetLabel("Pemakaian")%></th>
-                                                    <th style="width: 140px" class="thCenter"><%=GetLabel("Minta Beli")%></th>
+                                                    <th style="width: 130px" class="thCenter"><%=GetLabel("Distribusi")%></th>
+                                                    <th style="width: 130px" class="thCenter"><%=GetLabel("Pemakaian")%></th>
+                                                    <th style="width: 130px" class="thCenter"><%=GetLabel("Minta Beli")%></th>
                                                 </tr>
                                                 <tr runat="server" id="itemPlaceholder">
                                                 </tr>
@@ -536,18 +657,18 @@
                                                 <td>
                                                     <input type="hidden" value='<%#Eval("ItemID") %>' class="hdnItemID" />
                                                     <input type="hidden" value='<%#Eval("ItemUnit") %>' class="hdnItemUnit" />
-                                                    <input type="hidden" value='<%#Eval("EndingBalance") %>' class="hdnQuantityEND" />
+                                                    <input type="hidden" value='<%#Eval("EndingBalance") %>' class="hdnQuantityEND" /> 
                                                     <%# Eval("ItemName1")%>
                                                 </td>
                                                 <td align="right">
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>
                                                             <col />
-                                                            <col style="width:35px" />
+                                                            <col style="width:50px" />
                                                         </colgroup>
                                                         <tr>
                                                             <td class="lblReadOnlyText" align="right"><%# Eval("Quantity")%></td>
-                                                            <td>&nbsp;<%# Eval("ItemUnit")%></td>
+                                                            <td>&nbsp;<%# Eval("cfItemUnit")%></td>
                                                         </tr>
                                                     </table>  
                                                 </td>
@@ -555,7 +676,19 @@
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>
                                                             <col />
-                                                            <col style="width:35px" />
+                                                            <col style="width:50px" />
+                                                        </colgroup>
+                                                        <tr>
+                                                            <td class="lblReadOnlyText" align="right"><%# Eval("CustomTotal", "{0:G29}")%></td>
+                                                            <td>&nbsp;<%# Eval("BaseUnit")%></td>
+                                                        </tr>
+                                                    </table>  
+                                                </td>
+                                                <td align="right">
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                                                        <colgroup>
+                                                            <col />
+                                                            <col style="width:50px" />
                                                         </colgroup>
                                                         <tr>
                                                             <td class="lblReadOnlyText" align="right">
@@ -569,7 +702,7 @@
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>
                                                             <col />
-                                                            <col style="width:35px" />
+                                                            <col style="width:50px" />
                                                         </colgroup>
                                                         <tr>
                                                             <td class="lblReadOnlyText" align="right">
@@ -583,11 +716,11 @@
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>
                                                             <col />
-                                                            <col style="width:35px" />
+                                                            <col style="width:50px" />
                                                         </colgroup>
                                                         <tr>
                                                             <td class="lblReadOnlyText" align="right"><%# Eval("PurchaseRequestQty")%></td>
-                                                            <td>&nbsp;<%# Eval("ItemUnit")%></td>
+                                                            <td>&nbsp;<%# Eval("cfPurchaseRequestItemUnit")%></td>
                                                         </tr>
                                                     </table>  
                                                 </td>
@@ -595,14 +728,15 @@
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>
                                                             <col />
-                                                            <col style="width:35px" />
+                                                            <col style="width:50px" />
                                                         </colgroup>
                                                         <tr>
                                                             <td class="lblReadOnlyText" align="right"><%# Eval("PurchaseRequestReceivedQty")%></td>
-                                                            <td>&nbsp;<%# Eval("ItemUnit")%></td>
+                                                            <td>&nbsp;<%# Eval("cfPurchaseRequestReceivedItemUnit")%></td>
                                                         </tr>
                                                     </table>  
                                                 </td>
+
                                                 <td align="right">
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>
@@ -610,10 +744,13 @@
                                                             <col style="width:60px" />
                                                         </colgroup>
                                                         <tr>
-                                                            <td><asp:TextBox ID="txtDistribution" Width="75px" runat="server" value="0" CssClass="number max txtDistribution" ReadOnly="true"/></td>
+                                                            <td><asp:TextBox ID="txtDistribution" Width="65px" runat="server" value="0" CssClass="number max txtDistribution" ReadOnly="true"/></td>
                                                             <td>
-                                                                &nbsp; <%# Eval("ItemUnit")%>
+                                                                &nbsp<label runat="server" id="lblDistributionItemUnit" class="lblDistributionItemUnit"></label>
                                                                 <input type="hidden" class="hdnDistributionQty" value='<%# Eval("DistributionQty")%>' />
+                                                                <input type="hidden" class="hdnGCDistributionItemUnit" id="hdnGCDistributionItemUnit" runat="server" />
+                                                                <input type="hidden" class="hdnDistributionItemUnit" id="hdnDistributionItemUnit" runat="server" />
+                                                                <input type="hidden" class="hdnDistributionConversionFactor" id="hdnDistributionConversionFactor" runat="server" />
                                                             </td>
                                                         </tr>
                                                     </table>                                                                                                        
@@ -625,10 +762,13 @@
                                                             <col style="width:60px" />
                                                         </colgroup>
                                                         <tr>
-                                                            <td><asp:TextBox ID="txtConsumption" Width="75px" runat="server" value="0" CssClass="number max txtConsumption" ReadOnly="true"/></td>
+                                                            <td><asp:TextBox ID="txtConsumption" Width="65px" runat="server" value="0" CssClass="number max txtConsumption" ReadOnly="true"/></td>
                                                             <td>
-                                                                &nbsp; <%# Eval("ItemUnit")%>
+                                                                &nbsp<label runat="server" id="lblConsumptionItemUnit" class="lblConsumptionItemUnit"></label>
                                                                 <input type="hidden" class="hdnConsumptionQty" value='<%# Eval("ConsumptionQty")%>' />
+                                                                <input type="hidden" class="hdnGCConsumptionItemUnit" id="hdnGCConsumptionItemUnit" runat="server" />
+                                                                <input type="hidden" class="hdnConsumptionItemUnit" id="hdnConsumptionItemUnit" runat="server" />
+                                                                <input type="hidden" class="hdnConsumptionConversionFactor" id="hdnConsumptionConversionFactor" runat="server" />
                                                             </td>
                                                         </tr>
                                                     </table> 
@@ -640,10 +780,13 @@
                                                             <col style="width:60px" />
                                                         </colgroup>
                                                         <tr>
-                                                            <td><asp:TextBox ID="txtPurchaseRequest" Width="75px" runat="server" value="0" CssClass="number txtPurchaseRequest" ReadOnly="true"/></td>
+                                                            <td><asp:TextBox ID="txtPurchaseRequest" Width="65px" runat="server" value="0" CssClass="number txtPurchaseRequest" ReadOnly="true"/></td>
                                                             <td>
-                                                                &nbsp; <%# Eval("ItemUnit")%>
+                                                                &nbsp<label runat="server" id="lblPurchaseRequestItemUnit" class="lblPurchaseRequestItemUnit"></label>
                                                                 <input type="hidden" class="hdnPurchaseRequestQty" value='<%# Eval("PurchaseRequestQty")%>' />
+                                                                <input type="hidden" class="hdnGCPurchaseRequestItemUnit" id="hdnGCPurchaseRequestItemUnit" runat="server" />
+                                                                <input type="hidden" class="hdnPurchaseRequestItemUnit" id="hdnPurchaseRequestItemUnit" runat="server" />
+                                                                <input type="hidden" class="hdnPurchaseRequestConversionFactor" id="hdnPurchaseRequestConversionFactor" runat="server" />
                                                             </td>
                                                         </tr>
                                                     </table> 

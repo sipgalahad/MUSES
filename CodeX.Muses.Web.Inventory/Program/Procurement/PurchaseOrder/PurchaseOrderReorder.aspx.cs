@@ -80,10 +80,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             int PageCount = 1;
             int RowCount = 1;
 
-            List<Variable> lstVariable = new List<Variable>();
-            lstVariable.Add(new Variable { Code = "1", Value = GetLabel("Static") });
-            lstVariable.Add(new Variable { Code = "2", Value = GetLabel("Dynamic") });
-            Methods.SetComboBoxField<Variable>(cboReorderType, lstVariable, "Value", "Code");
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.REORDER_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboReorderType, lstSc, "StandardCodeName", "StandardCodeID");
             cboReorderType.SelectedIndex = 0;
 
             BindGridView(1, true, ref PageCount, ref RowCount);
@@ -196,6 +194,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 HtmlGenericControl lblEndingBalance = e.Row.FindControl("lblEndingBalance") as HtmlGenericControl;
                 HtmlGenericControl lblQtyOnOrder = e.Row.FindControl("lblQtyOnOrder") as HtmlGenericControl;
                 HtmlInputHidden hdnGCItemUnit = (HtmlInputHidden)e.Row.FindControl("hdnGCItemUnit");
+                HtmlInputHidden hdnItemUnit = (HtmlInputHidden)e.Row.FindControl("hdnItemUnit");
                 HtmlInputHidden hdnConversionFactor = (HtmlInputHidden)e.Row.FindControl("hdnConversionFactor");
                 HtmlGenericControl lblItemUnit = (HtmlGenericControl)e.Row.FindControl("lblItemUnit");
 
@@ -208,6 +207,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 lblEndingBalance.InnerHtml = quantityEND.ToString("0.00");
                 lblQtyOnOrder.InnerHtml = qtyOnOrder.ToString("0.00");
                 hdnGCItemUnit.Value = itemPlanning.GCPurchaseUnit;
+                hdnItemUnit.Value = itemPlanning.PurchaseUnit;
                 lblItemUnit.InnerText = string.Format("{0} ({1})", itemPlanning.PurchaseUnit, itemPlanning.PurchaseUnitConversionFactor.ToString("G29"));
                 hdnConversionFactor.Value = itemPlanning.PurchaseUnitConversionFactor.ToString();
 
@@ -222,6 +222,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     txtQty.Text = lstQty[idx];
                     hdnConversionFactor.Value = lstConversionFactor[idx];
                     hdnGCItemUnit.Value = lstGCItemUnit[idx];
+                    hdnItemUnit.Value = lstItemUnit[idx];
                     lblItemUnit.Attributes.Add("class", "lblItemUnit lblLink");
                     conversionFactor = Convert.ToDecimal(lstConversionFactor[idx]);
                     lblItemUnit.InnerHtml = string.Format("{0} ({1})", lstItemUnit[idx], conversionFactor.ToString("G29"));
@@ -241,13 +242,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = "1 = 0";
             if (hdnLstLocationID.Value != "")
             {
-                if (cboReorderType.Value.ToString() == "1")
-                    filterExpression = string.Format("ItemID IN (SELECT ItemID FROM ItemBalance WHERE LocationID IN ({0}) AND IsDeleted = 0 GROUP BY ItemID HAVING SUM(QuantityEND) <= SUM(QuantityMIN)) AND IsDeleted = 0", hdnLstLocationID.Value);
+                if (cboReorderType.Value.ToString() == Constant.ReorderType.STATIC)
+                    filterExpression = string.Format("ItemID IN (SELECT ItemID FROM ItemBalance WHERE LocationID IN ({0}) AND GCReorderType = '{1}' AND IsDeleted = 0 GROUP BY ItemID HAVING SUM(QuantityEND) <= SUM(QuantityMIN)) AND IsDeleted = 0", hdnLstLocationID.Value, cboReorderType.Value);
             }
 
             if (isCountPageCount)
             {
-                if (cboReorderType.Value.ToString() == "1")
+                if (cboReorderType.Value.ToString() == Constant.ReorderType.STATIC)
                     rowCount = BusinessLayer.GetvItemMasterRowCount(filterExpression);
                 else
                     rowCount = BusinessLayer.GetItemUsagePurchaseRequestROPRowCount(hdnLstLocationID.Value, "");
@@ -261,7 +262,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             List<vItemMaster> lstEntity = null;
             List<GetItemUsagePurchaseRequestROPList> lstEntity2 = null;
             string lstItemID = "";
-            if (cboReorderType.Value.ToString() == "1")
+            if (cboReorderType.Value.ToString() == Constant.ReorderType.STATIC)
             {
                 lstEntity = BusinessLayer.GetvItemMasterList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ItemName1 ASC");
                 lstItemID = string.Join(",", lstEntity.Select(p => p.ItemID).ToList());
@@ -281,7 +282,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 lstQtyOnOrder = new List<vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit>();
 
             if (lstItemID != "" && hdnLstLocationID.Value != "")
-                lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID IN ({0}) AND ItemID IN ({1}) AND IsDeleted = 0", hdnLstLocationID.Value, lstItemID));
+                lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID IN ({0}) AND ItemID IN ({1}) AND GCReorderType = '{2}' AND IsDeleted = 0", hdnLstLocationID.Value, lstItemID, cboReorderType.Value));
             else
                 lstItemBalance = new List<ItemBalance>();
             if (lstItemID != "")
@@ -289,7 +290,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             else
                 lstItemPlanning = new List<vItemPlanningCustom>();
 
-            if (cboReorderType.Value.ToString() == "1")
+            if (cboReorderType.Value.ToString() == Constant.ReorderType.STATIC)
             {
                 grdView.DataSource = lstEntity;
                 grdView.DataBind();

@@ -118,6 +118,12 @@ namespace CodeX.Common
             public const string DIRECT_PURCHASE = "X309^002";
         }
 
+        public static class ReorderType
+        {
+            public const string STATIC = "X310^001";
+            public const string DYNAMIC = "X310^002";
+        }
+
         public static class AchievementType
         {
             public const string AKADEMIS = "MS019^001";

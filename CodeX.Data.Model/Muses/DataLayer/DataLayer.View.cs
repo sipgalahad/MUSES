@@ -13246,9 +13246,21 @@ namespace CodeX.Data.Model
         private String _BaseUnit;
         private Decimal _ConversionFactor;
         private Decimal _DistributionQty;
+        private String _GCDistributionItemUnit;
+        private String _DistributionItemUnit;
+        private Decimal _DistributionConversionFactor;
         private Decimal _ConsumptionQty;
+        private String _GCConsumptionItemUnit;
+        private String _ConsumptionItemUnit;
+        private Decimal _ConsumptionConversionFactor;
         private Decimal _PurchaseRequestQty;
+        private String _GCPurchaseRequestItemUnit;
+        private String _PurchaseRequestItemUnit;
+        private Decimal _PurchaseRequestConversionFactor;
         private Decimal _PurchaseRequestReceivedQty;
+        private String _GCPurchaseRequestReceivedItemUnit;
+        private String _PurchaseRequestReceivedItemUnit;
+        private Decimal _PurchaseRequestReceivedConversionFactor;
         private String _GCItemDetailStatus;
         private String _GCTransactionStatus;
         private Decimal _EndingBalance;
@@ -13428,11 +13440,47 @@ namespace CodeX.Data.Model
             get { return _DistributionQty; }
             set { _DistributionQty = value; }
         }
+        [Column(Name = "GCDistributionItemUnit", DataType = "String")]
+        public String GCDistributionItemUnit
+        {
+            get { return _GCDistributionItemUnit; }
+            set { _GCDistributionItemUnit = value; }
+        }
+        [Column(Name = "DistributionItemUnit", DataType = "String")]
+        public String DistributionItemUnit
+        {
+            get { return _DistributionItemUnit; }
+            set { _DistributionItemUnit = value; }
+        }
+        [Column(Name = "DistributionConversionFactor", DataType = "Decimal")]
+        public Decimal DistributionConversionFactor
+        {
+            get { return _DistributionConversionFactor; }
+            set { _DistributionConversionFactor = value; }
+        }
         [Column(Name = "ConsumptionQty", DataType = "Decimal")]
         public Decimal ConsumptionQty
         {
             get { return _ConsumptionQty; }
             set { _ConsumptionQty = value; }
+        }
+        [Column(Name = "GCConsumptionItemUnit", DataType = "String")]
+        public String GCConsumptionItemUnit
+        {
+            get { return _GCConsumptionItemUnit; }
+            set { _GCConsumptionItemUnit = value; }
+        }
+        [Column(Name = "ConsumptionItemUnit", DataType = "String")]
+        public String ConsumptionItemUnit
+        {
+            get { return _ConsumptionItemUnit; }
+            set { _ConsumptionItemUnit = value; }
+        }
+        [Column(Name = "ConsumptionConversionFactor", DataType = "Decimal")]
+        public Decimal ConsumptionConversionFactor
+        {
+            get { return _ConsumptionConversionFactor; }
+            set { _ConsumptionConversionFactor = value; }
         }
         [Column(Name = "PurchaseRequestQty", DataType = "Decimal")]
         public Decimal PurchaseRequestQty
@@ -13440,11 +13488,47 @@ namespace CodeX.Data.Model
             get { return _PurchaseRequestQty; }
             set { _PurchaseRequestQty = value; }
         }
+        [Column(Name = "GCPurchaseRequestItemUnit", DataType = "String")]
+        public String GCPurchaseRequestItemUnit
+        {
+            get { return _GCPurchaseRequestItemUnit; }
+            set { _GCPurchaseRequestItemUnit = value; }
+        }
+        [Column(Name = "PurchaseRequestItemUnit", DataType = "String")]
+        public String PurchaseRequestItemUnit
+        {
+            get { return _PurchaseRequestItemUnit; }
+            set { _PurchaseRequestItemUnit = value; }
+        }
+        [Column(Name = "PurchaseRequestConversionFactor", DataType = "Decimal")]
+        public Decimal PurchaseRequestConversionFactor
+        {
+            get { return _PurchaseRequestConversionFactor; }
+            set { _PurchaseRequestConversionFactor = value; }
+        }
         [Column(Name = "PurchaseRequestReceivedQty", DataType = "Decimal")]
         public Decimal PurchaseRequestReceivedQty
         {
             get { return _PurchaseRequestReceivedQty; }
             set { _PurchaseRequestReceivedQty = value; }
+        }
+        [Column(Name = "GCPurchaseRequestReceivedItemUnit", DataType = "String")]
+        public String GCPurchaseRequestReceivedItemUnit
+        {
+            get { return _GCPurchaseRequestReceivedItemUnit; }
+            set { _GCPurchaseRequestReceivedItemUnit = value; }
+        }
+        [Column(Name = "PurchaseRequestReceivedItemUnit", DataType = "String")]
+        public String PurchaseRequestReceivedItemUnit
+        {
+            get { return _PurchaseRequestReceivedItemUnit; }
+            set { _PurchaseRequestReceivedItemUnit = value; }
+        }
+        [Column(Name = "PurchaseRequestReceivedConversionFactor", DataType = "Decimal")]
+        public Decimal PurchaseRequestReceivedConversionFactor
+        {
+            get { return _PurchaseRequestReceivedConversionFactor; }
+            set { _PurchaseRequestReceivedConversionFactor = value; }
         }
         [Column(Name = "GCItemDetailStatus", DataType = "String")]
         public String GCItemDetailStatus
@@ -18832,6 +18916,14 @@ namespace CodeX.Data.Model
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerCode;
         private String _BusinessPartnerName;
+        private String _ContactPerson;
+        private String _ContactPersonMobilePhoneNo;
+        private String _EmailAddress1;
+        private String _EmailAddress2;
+        private String _PhoneNo1;
+        private String _PhoneNo2;
+        private String _FaxNo1;
+        private String _FaxNo2;
         private Int32 _TermID;
         private String _TermName;
         private String _GCFrancoRegion;
@@ -18964,6 +19056,54 @@ namespace CodeX.Data.Model
         {
             get { return _BusinessPartnerName; }
             set { _BusinessPartnerName = value; }
+        }
+        [Column(Name = "ContactPerson", DataType = "String")]
+        public String ContactPerson
+        {
+            get { return _ContactPerson; }
+            set { _ContactPerson = value; }
+        }
+        [Column(Name = "ContactPersonMobilePhoneNo", DataType = "String")]
+        public String ContactPersonMobilePhoneNo
+        {
+            get { return _ContactPersonMobilePhoneNo; }
+            set { _ContactPersonMobilePhoneNo = value; }
+        }
+        [Column(Name = "EmailAddress1", DataType = "String")]
+        public String EmailAddress1
+        {
+            get { return _EmailAddress1; }
+            set { _EmailAddress1 = value; }
+        }
+        [Column(Name = "EmailAddress2", DataType = "String")]
+        public String EmailAddress2
+        {
+            get { return _EmailAddress2; }
+            set { _EmailAddress2 = value; }
+        }
+        [Column(Name = "PhoneNo1", DataType = "String")]
+        public String PhoneNo1
+        {
+            get { return _PhoneNo1; }
+            set { _PhoneNo1 = value; }
+        }
+        [Column(Name = "PhoneNo2", DataType = "String")]
+        public String PhoneNo2
+        {
+            get { return _PhoneNo2; }
+            set { _PhoneNo2 = value; }
+        }
+        [Column(Name = "FaxNo1", DataType = "String")]
+        public String FaxNo1
+        {
+            get { return _FaxNo1; }
+            set { _FaxNo1 = value; }
+        }
+        [Column(Name = "FaxNo2", DataType = "String")]
+        public String FaxNo2
+        {
+            get { return _FaxNo2; }
+            set { _FaxNo2 = value; }
         }
         [Column(Name = "TermID", DataType = "Int32")]
         public Int32 TermID

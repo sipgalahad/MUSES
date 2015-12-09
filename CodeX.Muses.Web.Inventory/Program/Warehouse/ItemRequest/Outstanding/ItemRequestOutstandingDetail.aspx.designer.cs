@@ -58,6 +58,33 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamDistribution;
         
         /// <summary>
+        /// hdnParamDistributionGCItemUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamDistributionGCItemUnit;
+        
+        /// <summary>
+        /// hdnParamDistributionItemUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamDistributionItemUnit;
+        
+        /// <summary>
+        /// hdnParamDistributionConversionFactor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamDistributionConversionFactor;
+        
+        /// <summary>
         /// hdnParamConsumption control.
         /// </summary>
         /// <remarks>
@@ -67,13 +94,67 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamConsumption;
         
         /// <summary>
-        /// hdnParamPurchaseReq control.
+        /// hdnParamConsumptionGCItemUnit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamPurchaseReq;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamConsumptionGCItemUnit;
+        
+        /// <summary>
+        /// hdnParamConsumptionItemUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamConsumptionItemUnit;
+        
+        /// <summary>
+        /// hdnParamConsumptionConversionFactor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamConsumptionConversionFactor;
+        
+        /// <summary>
+        /// hdnParamPurchaseRequest control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamPurchaseRequest;
+        
+        /// <summary>
+        /// hdnParamPurchaseRequestGCItemUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamPurchaseRequestGCItemUnit;
+        
+        /// <summary>
+        /// hdnParamPurchaseRequestItemUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamPurchaseRequestItemUnit;
+        
+        /// <summary>
+        /// hdnParamPurchaseRequestConversionFactor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParamPurchaseRequestConversionFactor;
         
         /// <summary>
         /// hdnOrderID control.

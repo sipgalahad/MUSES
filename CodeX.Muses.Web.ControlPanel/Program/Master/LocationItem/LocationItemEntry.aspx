@@ -17,6 +17,7 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 tacItem.setValue('');
                 tacItem.setText('');
+                cboReorderType.SetValue('');
                 $('#<%=txtMinimum.ClientID %>').val('');
                 $('#<%=txtMaximum.ClientID %>').val('');
                 $('#entryDetailContainer').show();
@@ -168,6 +169,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.ID);
             tacItem.setValue(entity.ItemID);
             tacItem.setText(entity.ItemName1);
+            cboReorderType.SetValue(entity.GCReorderType);
             $('#<%=txtMinimum.ClientID %>').val(entity.QuantityMIN);
             $('#<%=txtMaximum.ClientID %>').val(entity.QuantityMAX);
             $('#entryDetailContainer').show();
@@ -249,6 +251,11 @@
                                                 ValueChanged="function(){ onTacItemValueChanged(); }" />
                                         </cdx:CodeXAutoCompleteTextBox>  
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Reorder Type")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboReorderType" ClientInstanceName="cboReorderType" runat="server" Width="150px" /></td>
+                                    <td>&nbsp;</td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Reorder Minimum")%></label></td>
@@ -339,6 +346,7 @@
                                         <input type="hidden" value="<%#Eval("ID") %>" bindingfield="ID" />
                                         <input type="hidden" value="<%#Eval("ItemID") %>" bindingfield="ItemID" />
                                         <input type="hidden" value="<%#Eval("ItemName1") %>" bindingfield="ItemName1" />
+                                        <input type="hidden" value="<%#Eval("GCReorderType") %>" bindingfield="GCReorderType" />
                                         <input type="hidden" value="<%#Eval("QuantityMIN") %>" bindingfield="QuantityMIN" />
                                         <input type="hidden" value="<%#Eval("QuantityMAX") %>" bindingfield="QuantityMAX" />
                                         <input type="hidden" value="<%#Eval("QuantityBEGIN") %>" bindingfield="QuantityBEGIN" />

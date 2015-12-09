@@ -840,7 +840,7 @@
                                             <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="ItemName1" HeaderText="Nama Item" HeaderStyle-Width="350px" />
                                             <asp:BoundField HeaderStyle-CssClass="thRight" DataField="CustomItemUnit" ItemStyle-HorizontalAlign="Right" HeaderText="Didistribusi" HeaderStyle-Width="150px" />
-                                            <asp:BoundField HeaderStyle-CssClass="thRight" DataField="BaseUnit" ItemStyle-HorizontalAlign="Center" HeaderText="Satuan Dasar" HeaderStyle-Width="150px" />
+                                            <asp:BoundField HeaderStyle-CssClass="thCenter" DataField="BaseUnit" ItemStyle-HorizontalAlign="Center" HeaderText="Satuan Dasar" HeaderStyle-Width="150px" />
                                             <asp:BoundField HeaderStyle-CssClass="thCenter" DataField="CustomConversion" ItemStyle-HorizontalAlign="Center" HeaderText="Conversion" />
                                             <asp:BoundField HeaderStyle-CssClass="thRight" DataField="CustomItemDistribution" ItemStyle-HorizontalAlign="Right" HeaderText="Total Didistribusi" HeaderStyle-Width="150px" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
