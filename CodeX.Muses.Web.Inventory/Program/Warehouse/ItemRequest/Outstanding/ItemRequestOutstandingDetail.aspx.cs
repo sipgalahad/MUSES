@@ -80,9 +80,42 @@ namespace CodeX.Muses.Web.Inventory.Program
             List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_DISTRIBUTION, filterExpression);
             hdnLstLocationID.Value = string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList());
 
+            if (lstUserLocation.Count == 1)
+            {
+                GetLocationUserList location = lstUserLocation.FirstOrDefault();
+                hdnToLocationID.Value = location.LocationID.ToString();
+                txtToLocationCode.Text = location.LocationCode;
+                txtToLocationName.Text = location.LocationName;
+                hdnRestrictionID.Value = location.RestrictionID.ToString();
+
+                List<LocationItemGroup> lstLocationItemGroup = BusinessLayer.GetLocationItemGroupList(string.Format("LocationID = {0}", location.LocationID));
+                if (lstLocationItemGroup.Count > 0)
+                    hdnLstFilterToLocationItemGroup.Value = string.Format("({0})", String.Join(" OR ", lstLocationItemGroup.Select(p => string.Format("DisplayPath LIKE '%/{0}/%'", p.ItemGroupID))));
+                else
+                    hdnLstFilterToLocationItemGroup.Value = "";
+
+                filterExpression = OnGetRestrictionTransactionCodeFilterExpression();
+                filterExpression.Replace("[RestrictionID]", hdnRestrictionID.Value);
+
+                bool isAllowItemConsumption = false;
+                bool isAllowItemDistribution = false;
+                List<RestrictionDt> lstRestrictionDt = BusinessLayer.GetRestrictionDtList(filterExpression);
+                foreach (RestrictionDt restrictionDt in lstRestrictionDt)
+                {
+                    if (restrictionDt.TransactionCode == OnGetTransactionCodeItemDistribution())
+                        isAllowItemDistribution = true;
+                    else if (restrictionDt.TransactionCode == OnGetTransactionCodeItemConsumption())
+                        isAllowItemConsumption = true;
+                }
+
+                hdnIsAllowItemDistribution.Value = isAllowItemDistribution ? "1" : "0";
+                hdnIsAllowItemConsumption.Value = isAllowItemConsumption ? "1" : "0";
+            }
+
+            filterExpression = string.Format("LocationID IN (SELECT LocationID FROM ServiceUnitLocation WHERE SiteServiceUnitID = {0})", entityItemRequest.ToSiteServiceUnitID);
             lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_REQUEST, filterExpression);
             hdnIsAllowPurchaseRequest.Value = lstUserLocation.Count > 0 ? "1" : "0";
-            
+
             EntityToControl(entityItemRequest);
 
             List<StandardCode> lstGCConsumptionType = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CONSUMPTION_TYPE));

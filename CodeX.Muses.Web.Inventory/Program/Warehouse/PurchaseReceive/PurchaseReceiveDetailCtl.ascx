@@ -225,125 +225,127 @@
 <input type="hidden" id="hdnLstPurchaseOrderDtID" runat="server" value="" />
 <input type="hidden" id="hdnSaveValue" runat="server" value="" />
 
-<table class="tblContentArea">
-    <tr>
-        <td style="padding: 5px; vertical-align: top">
-            <table class="tblEntryContent" style="width: 50%">
-                <colgroup>
-                    <col style="width: 30%" />
-                    <col />
-                </colgroup>
-                <tr>
-                    <td class="tdLabel">
-                        <label class="lblLink" id="lblOrderNo">
-                            <%=GetLabel("No. Pemesanan")%></label>
-                    </td>
-                    <td>
-                        <input type="hidden" id="hdnOrderID" value="" runat="server" />
-                        <asp:TextBox ID="txtOrderNo" Width="150px" ReadOnly="true" runat="server" />
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <dxcp:ASPxCallbackPanel ID="cbpViewPopup" runat="server" Width="100%" ClientInstanceName="cbpViewPopup"
-                ShowLoadingPanel="false" OnCallback="cbpViewPopup_Callback">
-                <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpViewPopupEndCallback(s); }" />
-                <PanelCollection>
-                    <dx:PanelContent ID="PanelContent1" runat="server">
-                        <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
-                            position: relative; font-size: 0.95em;">
-                            <asp:ListView runat="server" ID="lvwView" OnItemDataBound="lvwView_ItemDataBound">
-                                <EmptyDataTemplate>
-                                     <table id="tblView" runat="server" class="grdBorder grdPurchaseReceiveDt grdNormal" cellspacing="0" rules="all" >
+<div style="height:440px; overflow-y:scroll">
+    <table class="tblContentArea">
+        <tr>
+            <td style="padding: 5px; vertical-align: top">
+                <table class="tblEntryContent" style="width: 50%">
+                    <colgroup>
+                        <col style="width: 30%" />
+                        <col />
+                    </colgroup>
+                    <tr>
+                        <td class="tdLabel">
+                            <label class="lblLink" id="lblOrderNo">
+                                <%=GetLabel("No. Pemesanan")%></label>
+                        </td>
+                        <td>
+                            <input type="hidden" id="hdnOrderID" value="" runat="server" />
+                            <asp:TextBox ID="txtOrderNo" Width="150px" ReadOnly="true" runat="server" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <dxcp:ASPxCallbackPanel ID="cbpViewPopup" runat="server" Width="100%" ClientInstanceName="cbpViewPopup"
+                    ShowLoadingPanel="false" OnCallback="cbpViewPopup_Callback">
+                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpViewPopupEndCallback(s); }" />
+                    <PanelCollection>
+                        <dx:PanelContent ID="PanelContent1" runat="server">
+                            <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
+                                position: relative; font-size: 0.95em;">
+                                <asp:ListView runat="server" ID="lvwView" OnItemDataBound="lvwView_ItemDataBound">
+                                    <EmptyDataTemplate>
+                                         <table id="tblView" runat="server" class="grdBorder grdPurchaseReceiveDt grdNormal" cellspacing="0" rules="all" >
+                                            <tr>
+                                                <th style="width:40px" class="thCenter" rowspan="2"><input id="chkSelectAll" type="checkbox" /></th>
+                                                <th rowspan="2"><%=GetLabel("Item")%></th>
+                                                <th class="thRight" style="width:40px;" rowspan="2"><%=GetLabel("Sisa")%></th>
+                                                <th class="thCenter" style="width:70px;" rowspan="2"><%=GetLabel("Diterima")%></th>
+                                                <th class="thCenter" style="width:90px;" rowspan="2"><%=GetLabel("Harga")%></th>
+                                                <th class="thCenter" style="width:70px;" rowspan="2"><%=GetLabel("Satuan")%></th>
+                                                <th class="thCenter" colspan="2"><%=GetLabel("Diskon 1")%></th>
+                                                <th class="thCenter" colspan="2"><%=GetLabel("Diskon 2")%></th>
+                                                <th class="thCenter" style="width:150px;" rowspan="2"><%=GetLabel("Konversi")%></th>
+                                                <th class="thCenter" style="width:80px;" rowspan="2"><%=GetLabel("No Serial")%></th>
+                                                <th class="thCenter" style="width:90px;" rowspan="2"><%=GetLabel("No Batch")%></th>
+                                                <th class="thCenter" style="width:120px;" rowspan="2"><%=GetLabel("Expired")%></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="thCenter" style="width:50px;"><%=GetLabel("%")%></th>
+                                                <th class="thCenter" style="width:80px;"><%=GetLabel("Nilai")%></th>
+                                                <th class="thCenter" style="width:50px;"><%=GetLabel("%")%></th>
+                                                <th class="thCenter" style="width:80px;"><%=GetLabel("Nilai")%></th>
+                                            </tr>
+                                            <tr class="trEmpty">
+                                                <td colspan="20">
+                                                    <%=GetLabel("No Data To Display")%>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </EmptyDataTemplate>
+                                    <LayoutTemplate>
+                                        <table id="tblView" runat="server" class="grdBorder grdPurchaseReceiveDt grdNormal" cellspacing="0" rules="all" >
+                                            <tr>
+                                                <th style="width:40px" class="thCenter" rowspan="2"><input id="chkSelectAll" type="checkbox" /></th>
+                                                <th rowspan="2"><%=GetLabel("Item")%></th>
+                                                <th class="thRight" style="width:40px;" rowspan="2"><%=GetLabel("Sisa")%></th>
+                                                <th class="thCenter" style="width:70px;" rowspan="2"><%=GetLabel("Diterima")%></th>
+                                                <th class="thCenter" style="width:90px;" rowspan="2"><%=GetLabel("Harga")%></th>
+                                                <th class="thCenter" style="width:70px;" rowspan="2"><%=GetLabel("Satuan")%></th>
+                                                <th class="thCenter" colspan="2"><%=GetLabel("Diskon 1")%></th>
+                                                <th class="thCenter" colspan="2"><%=GetLabel("Diskon 2")%></th>
+                                                <th class="thCenter" style="width:150px;" rowspan="2"><%=GetLabel("Konversi")%></th>
+                                                <th class="thCenter" style="width:80px;" rowspan="2"><%=GetLabel("No Serial")%></th>
+                                                <th class="thCenter" style="width:90px;" rowspan="2"><%=GetLabel("No Batch")%></th>
+                                                <th class="thCenter" style="width:120px;" rowspan="2"><%=GetLabel("Expired")%></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="thCenter" style="width:50px;"><%=GetLabel("%")%></th>
+                                                <th class="thCenter" style="width:80px;"><%=GetLabel("Nilai")%></th>
+                                                <th class="thCenter" style="width:50px;"><%=GetLabel("%")%></th>
+                                                <th class="thCenter" style="width:80px;"><%=GetLabel("Nilai")%></th>
+                                            </tr>
+                                            <tr runat="server" id="itemPlaceholder" ></tr>
+                                        </table>
+                                    </LayoutTemplate>
+                                    <ItemTemplate>
                                         <tr>
-                                            <th style="width:40px" class="thCenter" rowspan="2"><input id="chkSelectAll" type="checkbox" /></th>
-                                            <th rowspan="2"><%=GetLabel("Item")%></th>
-                                            <th class="thRight" style="width:40px;" rowspan="2"><%=GetLabel("Sisa")%></th>
-                                            <th class="thCenter" style="width:70px;" rowspan="2"><%=GetLabel("Diterima")%></th>
-                                            <th class="thCenter" style="width:90px;" rowspan="2"><%=GetLabel("Harga")%></th>
-                                            <th class="thCenter" style="width:70px;" rowspan="2"><%=GetLabel("Satuan")%></th>
-                                            <th class="thCenter" colspan="2"><%=GetLabel("Diskon 1")%></th>
-                                            <th class="thCenter" colspan="2"><%=GetLabel("Diskon 2")%></th>
-                                            <th class="thCenter" style="width:150px;" rowspan="2"><%=GetLabel("Konversi")%></th>
-                                            <th class="thCenter" style="width:80px;" rowspan="2"><%=GetLabel("No Serial")%></th>
-                                            <th class="thCenter" style="width:90px;" rowspan="2"><%=GetLabel("No Batch")%></th>
-                                            <th class="thCenter" style="width:120px;" rowspan="2"><%=GetLabel("Expired")%></th>
-                                        </tr>
-                                        <tr>
-                                            <th class="thCenter" style="width:50px;"><%=GetLabel("%")%></th>
-                                            <th class="thCenter" style="width:80px;"><%=GetLabel("Nilai")%></th>
-                                            <th class="thCenter" style="width:50px;"><%=GetLabel("%")%></th>
-                                            <th class="thCenter" style="width:80px;"><%=GetLabel("Nilai")%></th>
-                                        </tr>
-                                        <tr class="trEmpty">
-                                            <td colspan="20">
-                                                <%=GetLabel("No Data To Display")%>
+                                            <td align="center">
+                                                <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
+                                                <input type="hidden" class="keyField" id="keyField" runat="server" value='<%# Eval("ID")%>' />
+                                                <input type="hidden" id="hdnPOHdID" class="hdnPOHdID" runat="server" value='<%# Eval("PurchaseOrderID")%>' />
+                                                <input type="hidden" id="hdnItemID" class="hdnItemID" runat="server" value='<%# Eval("ItemID")%>' />
+                                                <input type="hidden" id="hdnGCPurchaseUnit" class="hdnGCPurchaseUnit" runat="server" value='<%# Eval("GCPurchaseUnit")%>' />
+                                                <input type="hidden" id="hdnConversionFactor" class="hdnConversionFactor" runat="server" value='<%# Eval("ConversionFactor")%>' />
+                                                <input type="hidden" id="hdnBaseUnit" class="hdnBaseUnit" runat="server" value='<%# Eval("BaseUnit")%>' />
                                             </td>
+                                            <td><%# Eval("ItemName1")%></td>
+                                            <td align="right"><%# Eval("CustomQtyRemaining")%></td>
+                                            <td align="center"><asp:TextBox ID="txtReceivedItem" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="number txtReceivedItem"/> </td>
+                                            <td align="center"><asp:TextBox ID="txtUnitPrice" ReadOnly="true" Width="100%" runat="server" CssClass="txtCurrency txtUnitPrice"/> </td>
+                                            <td align="center"><label runat="server" id="lblPurchaseUnit" class="lblPurchaseUnit"></label></td>
+                                            <td align="center"><asp:TextBox ID="txtDiscountPercentage1" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="number txtDiscountPercentage1"/> </td>
+                                            <td align="center"><asp:TextBox ID="txtDiscountAmount1" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="txtCurrency txtDiscountAmount1"/> </td>
+                                            <td align="center"><asp:TextBox ID="txtDiscountPercentage2" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="number txtDiscountPercentage2"/> </td>
+                                            <td align="center"><asp:TextBox ID="txtDiscountAmount2" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="txtCurrency txtDiscountAmount2"/> </td>
+                                            <td align="center"><label runat="server" id="lblConversion" class="lblConversion"><%#Eval("CustomConversion")%></label></td>
+                                            <td align="center"><asp:TextBox ID="txtSerialNo" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="number txtSerialNo"/> </td>
+                                            <td align="center"><asp:TextBox ID="txtBatchNo" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="txtBatchNo"/> </td>
+                                            <td align="center"><asp:TextBox ID="txtExpired" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="txtExpired datepicker"/> </td>
                                         </tr>
-                                    </table>
-                                </EmptyDataTemplate>
-                                <LayoutTemplate>
-                                    <table id="tblView" runat="server" class="grdBorder grdPurchaseReceiveDt grdNormal" cellspacing="0" rules="all" >
-                                        <tr>
-                                            <th style="width:40px" class="thCenter" rowspan="2"><input id="chkSelectAll" type="checkbox" /></th>
-                                            <th rowspan="2"><%=GetLabel("Item")%></th>
-                                            <th class="thRight" style="width:40px;" rowspan="2"><%=GetLabel("Sisa")%></th>
-                                            <th class="thCenter" style="width:70px;" rowspan="2"><%=GetLabel("Diterima")%></th>
-                                            <th class="thCenter" style="width:90px;" rowspan="2"><%=GetLabel("Harga")%></th>
-                                            <th class="thCenter" style="width:70px;" rowspan="2"><%=GetLabel("Satuan")%></th>
-                                            <th class="thCenter" colspan="2"><%=GetLabel("Diskon 1")%></th>
-                                            <th class="thCenter" colspan="2"><%=GetLabel("Diskon 2")%></th>
-                                            <th class="thCenter" style="width:150px;" rowspan="2"><%=GetLabel("Konversi")%></th>
-                                            <th class="thCenter" style="width:80px;" rowspan="2"><%=GetLabel("No Serial")%></th>
-                                            <th class="thCenter" style="width:90px;" rowspan="2"><%=GetLabel("No Batch")%></th>
-                                            <th class="thCenter" style="width:120px;" rowspan="2"><%=GetLabel("Expired")%></th>
-                                        </tr>
-                                        <tr>
-                                            <th class="thCenter" style="width:50px;"><%=GetLabel("%")%></th>
-                                            <th class="thCenter" style="width:80px;"><%=GetLabel("Nilai")%></th>
-                                            <th class="thCenter" style="width:50px;"><%=GetLabel("%")%></th>
-                                            <th class="thCenter" style="width:80px;"><%=GetLabel("Nilai")%></th>
-                                        </tr>
-                                        <tr runat="server" id="itemPlaceholder" ></tr>
-                                    </table>
-                                </LayoutTemplate>
-                                <ItemTemplate>
-                                    <tr>
-                                        <td align="center">
-                                            <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
-                                            <input type="hidden" class="keyField" id="keyField" runat="server" value='<%# Eval("ID")%>' />
-                                            <input type="hidden" id="hdnPOHdID" class="hdnPOHdID" runat="server" value='<%# Eval("PurchaseOrderID")%>' />
-                                            <input type="hidden" id="hdnItemID" class="hdnItemID" runat="server" value='<%# Eval("ItemID")%>' />
-                                            <input type="hidden" id="hdnGCPurchaseUnit" class="hdnGCPurchaseUnit" runat="server" value='<%# Eval("GCPurchaseUnit")%>' />
-                                            <input type="hidden" id="hdnConversionFactor" class="hdnConversionFactor" runat="server" value='<%# Eval("ConversionFactor")%>' />
-                                            <input type="hidden" id="hdnBaseUnit" class="hdnBaseUnit" runat="server" value='<%# Eval("BaseUnit")%>' />
-                                        </td>
-                                        <td><%# Eval("ItemName1")%></td>
-                                        <td align="right"><%# Eval("CustomQtyRemaining")%></td>
-                                        <td align="center"><asp:TextBox ID="txtReceivedItem" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="number txtReceivedItem"/> </td>
-                                        <td align="center"><asp:TextBox ID="txtUnitPrice" ReadOnly="true" Width="100%" runat="server" CssClass="txtCurrency txtUnitPrice"/> </td>
-                                        <td align="center"><label runat="server" id="lblPurchaseUnit" class="lblPurchaseUnit"></label></td>
-                                        <td align="center"><asp:TextBox ID="txtDiscountPercentage1" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="number txtDiscountPercentage1"/> </td>
-                                        <td align="center"><asp:TextBox ID="txtDiscountAmount1" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="txtCurrency txtDiscountAmount1"/> </td>
-                                        <td align="center"><asp:TextBox ID="txtDiscountPercentage2" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="number txtDiscountPercentage2"/> </td>
-                                        <td align="center"><asp:TextBox ID="txtDiscountAmount2" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="txtCurrency txtDiscountAmount2"/> </td>
-                                        <td align="center"><label runat="server" id="lblConversion" class="lblConversion"><%#Eval("CustomConversion")%></label></td>
-                                        <td align="center"><asp:TextBox ID="txtSerialNo" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="number txtSerialNo"/> </td>
-                                        <td align="center"><asp:TextBox ID="txtBatchNo" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="txtBatchNo"/> </td>
-                                        <td align="center"><asp:TextBox ID="txtExpired" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="txtExpired datepicker"/> </td>
-                                    </tr>
-                                </ItemTemplate>
-                            </asp:ListView>
-                        </asp:Panel>
-                    </dx:PanelContent>
-                </PanelCollection>
-            </dxcp:ASPxCallbackPanel>
-            <div class="imgLoadingGrdView" id="containerImgLoadingView">
-                <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
-            </div>
-        </td>
-    </tr>
-</table>
+                                    </ItemTemplate>
+                                </asp:ListView>
+                            </asp:Panel>
+                        </dx:PanelContent>
+                    </PanelCollection>
+                </dxcp:ASPxCallbackPanel>
+                <div class="imgLoadingGrdView" id="containerImgLoadingView">
+                    <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -133,7 +133,7 @@
         });
 
         $('.lblEndingBalance').live('click', function () {
-            var itemID = $(this).closest('tr').parent().closest('tr').find('.keyField').html();
+            var itemID = $(this).closest('tr').parent().closest('tr').find('.hdnItemID').val();
             var locationID = $('#<%=hdnLstLocationID.ClientID %>').val();
             if (itemID != '' && locationID != '') {
                 var param = itemID + '|' + locationID;
@@ -238,9 +238,9 @@
                     var itemRequestDtDistribution = $tr.find('.txtDistribution').val();
                     var itemRequestDtConsumption = $tr.find('.txtConsumption').val();
                     var itemRequestDtPR = $tr.find('.txtPurchaseRequest').val();
-                    var itemRequestDtDistributionGCItemUnit = $tr.find('.hdnGCDistributionItemUnit').val();
-                    var itemRequestDtConsumptionGCItemUnit = $tr.find('.hdnGCConsumptionItemUnit').val();
-                    var itemRequestDtPurchaseRequestGCItemUnit = $tr.find('.hdnPurchaseRequestItemUnit').val();
+                    var itemRequestDtDistributionGCItemUnit = $tr.find('.hdnGCDistributionGCItemUnit').val();
+                    var itemRequestDtConsumptionGCItemUnit = $tr.find('.hdnGCConsumptionGCItemUnit').val();
+                    var itemRequestDtPurchaseRequestGCItemUnit = $tr.find('.hdnPurchaseRequestGCItemUnit').val();
                     var itemRequestDtDistributionItemUnit = $tr.find('.hdnDistributionItemUnit').val();
                     var itemRequestDtConsumptionItemUnit = $tr.find('.hdnConsumptionItemUnit').val();
                     var itemRequestDtPurchaseRequestItemUnit = $tr.find('.hdnPurchaseRequestItemUnit').val();

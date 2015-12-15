@@ -146,7 +146,9 @@ namespace CodeX.Muses.Web.Finance.Program
                         entityARInvoiceDt.ARInvoiceID = ARInvoiceHdID;
                         entityARInvoiceDt.StudentFeeDtID = studentFeeDt.StudentFeeDtID;
                         entityARInvoiceDt.StudentFeeCompTypeID = studentFeeDt.StudentFeeCompTypeID;
-                        entityARInvoiceDt.ClaimedAmount = entityARInvoiceDt.TransactionAmount = studentFeeDt.TotalStudentAmount;
+                        entityARInvoiceDt.TransactionAmount = studentFeeDt.StudentAmount;
+                        entityARInvoiceDt.PenaltyAmount = studentFeeDt.TotalStudentPenaltyAmount;
+                        entityARInvoiceDt.ClaimedAmount = studentFeeDt.TotalStudentAmount;
                         entityARInvoiceDt.DiscountAmount = 0;
                         entityARInvoiceDt.VarianceAmount = null;
                         entityARInvoiceDt.CreatedBy = AppSession.UserLogin.UserID;

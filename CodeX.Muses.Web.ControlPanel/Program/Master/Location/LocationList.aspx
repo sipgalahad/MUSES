@@ -102,7 +102,8 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="LocationName" HeaderText="Location Name" />
                                 <asp:BoundField DataField="ShortName" HeaderText="Short Name" HeaderStyle-Width="200px" />
-                                <asp:BoundField DataField="SiteName" HeaderText="Base Site" HeaderStyle-Width="150px" /><asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkItemGroup" HeaderText="Item" HeaderStyle-Width="80px">
+                                <asp:BoundField DataField="SiteName" HeaderText="Base Site" HeaderStyle-Width="150px" />
+                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkItemGroup" HeaderText="Item" HeaderStyle-Width="80px">
                                     <ItemTemplate>
                                         <a <%# Eval("IsHeader").ToString() == "True" ? "style='display:none'" : ""%>>Item Group</a>
                                     </ItemTemplate>

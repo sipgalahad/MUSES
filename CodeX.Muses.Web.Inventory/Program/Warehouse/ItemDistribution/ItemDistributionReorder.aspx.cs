@@ -331,7 +331,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 hdnConversionFactor.Value = itemPlanning.DistributionUnitConversionFactor.ToString();
 
                 decimal conversionFactor = itemPlanning.DistributionUnitConversionFactor;
-                Decimal autoQty = (entity.QtyOrder - qtyOnOrder);
+                Decimal autoQty = (entity.QtyOrder - qtyOnOrder - quantityEND);
                 if (autoQty < 0) autoQty = 0;
                 ItemBalance itemBalanceFromLocation = lstItemBalanceFromLocation.FirstOrDefault(p => p.ItemID == entity.ItemID);
                 if (itemBalanceFromLocation != null)

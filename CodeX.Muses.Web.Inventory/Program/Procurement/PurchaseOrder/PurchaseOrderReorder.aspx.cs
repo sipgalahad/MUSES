@@ -339,7 +339,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 hdnConversionFactor.Value = itemPlanning.PurchaseUnitConversionFactor.ToString();
 
                 decimal conversionFactor = itemPlanning.PurchaseUnitConversionFactor;
-                Decimal autoQty = (entity.QtyOrder - qtyOnOrder);
+                Decimal autoQty = (entity.QtyOrder - qtyOnOrder - quantityEND);
                 if (autoQty < 0) autoQty = 0;
 
                 if (lstSelectedMember.Contains(entity.ItemID.ToString()))
