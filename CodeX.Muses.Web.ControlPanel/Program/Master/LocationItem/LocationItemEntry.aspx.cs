@@ -31,13 +31,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected string OnGetItemProductFilterExpression()
         {
-            return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
+            return string.Format("GCItemType IN ('{0}') AND IsDeleted = 0", Constant.ItemType.PRODUCT);
         }
 
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.REORDER_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboReorderType, lstSc, "StandardCodeName", "StandardCodeID");
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.REORDER_TYPE, Constant.StandardCode.DISTRIBUTION_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboReorderType, lstSc.Where(p => p.ParentID == Constant.StandardCode.REORDER_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboDistributionType, lstSc.Where(p => p.ParentID == Constant.StandardCode.DISTRIBUTION_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
 
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
@@ -46,6 +47,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             Helper.SetControlEntrySetting(txtMaximum, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtMinimum, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboReorderType, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboDistributionType, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -155,6 +157,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.ItemID = Convert.ToInt32(tacItem.Value);
             entity.GCReorderType = cboReorderType.Value.ToString();
+            entity.GCDistributionType = cboDistributionType.Value.ToString();
             entity.QuantityMIN = Convert.ToDecimal(txtMinimum.Text);
             entity.QuantityMAX = Convert.ToDecimal(txtMaximum.Text);
         }

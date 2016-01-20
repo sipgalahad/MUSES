@@ -455,6 +455,8 @@
             });
 
             calculateTotal();
+
+            setDdeLocationText();
         }
 
         function GetItemQtyFromServiceUnit() {

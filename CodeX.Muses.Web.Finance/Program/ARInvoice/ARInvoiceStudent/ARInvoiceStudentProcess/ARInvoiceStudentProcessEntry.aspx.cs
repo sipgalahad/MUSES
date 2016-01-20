@@ -309,7 +309,6 @@ namespace CodeX.Muses.Web.Finance.Program
             entityDt.TransactionYear = Convert.ToInt32(cboYear.Value);
             entityDt.TransactionMonth = Convert.ToInt32(cboMonth.Value);
             entityDt.ClaimedAmount = entityDt.TransactionAmount = Convert.ToDecimal(Request.Form[txtTransactionAmount.UniqueID]);
-            entityDt.LineAmount = entityDt.TransactionAmount;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int ARInvoiceID)

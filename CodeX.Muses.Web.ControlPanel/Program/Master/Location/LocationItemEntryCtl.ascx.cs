@@ -22,10 +22,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtLocationCode.Text = entity.LocationCode;
             txtLocationName.Text = entity.LocationName;
 
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.REORDER_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboReorderType, lstSc, "StandardCodeName", "StandardCodeID");
-
             BindGridView(1, true, ref PageCount);
+
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.REORDER_TYPE, Constant.StandardCode.DISTRIBUTION_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboReorderType, lstSc.Where(p => p.ParentID == Constant.StandardCode.REORDER_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboDistributionType, lstSc.Where(p => p.ParentID == Constant.StandardCode.DISTRIBUTION_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
 
             txtItemCode.Attributes.Add("validationgroup", "mpEntryPopup");
             txtMinimum.Attributes.Add("validationgroup", "mpEntryPopup");
@@ -34,7 +35,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected string OnGetItemProductFilterExpression()
         {
-            return string.Format("GCItemType = '{1}' AND ItemID NOT IN (SELECT ItemID FROM ItemBalance WHERE LocationID = {0} AND IsDeleted = 0) AND IsDeleted = 0", hdnLocationID.Value, Constant.ItemType.PRODUCT);
+            return string.Format("GCItemType IN ('{1}') AND ItemID NOT IN (SELECT ItemID FROM ItemBalance WHERE LocationID = {0} AND IsDeleted = 0) AND IsDeleted = 0", hdnLocationID.Value, Constant.ItemType.PRODUCT);
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
@@ -124,6 +125,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.ItemID = Convert.ToInt32(hdnItemID.Value);
             entity.GCReorderType = cboReorderType.Value.ToString();
+            entity.GCDistributionType = cboDistributionType.Value.ToString();
             entity.QuantityMIN = Convert.ToDecimal(txtMinimum.Text);
             entity.QuantityMAX = Convert.ToDecimal(txtMaximum.Text);
         }

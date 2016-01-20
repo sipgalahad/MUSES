@@ -107,12 +107,15 @@ namespace CodeX.Muses.Web.Finance.Program
                 List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", hdnSelectedValue.Value), ctx);
                 List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
 
-                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}'", prospectiveStudent.ProspectiveStudentID, Constant.TransactionStatus.VOID), ctx);
+                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}') AND TotalPaymentAmount = 0", prospectiveStudent.ProspectiveStudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID), ctx);
                 foreach (ARInvoiceHd arInvoiceHD in lstARInvoiceHd)
                 {
-                    arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                    arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    arInvoiceHdDao.Update(arInvoiceHD);
+                    if (BusinessLayer.GetARInvoiceDtRowCount(string.Format("ARInvoiceID = {0} AND StudentFeeDtID IS NOT NULL AND IsDeleted = 0", arInvoiceHD.ARInvoiceID), ctx) > 0)
+                    {
+                        arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                        arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        arInvoiceHdDao.Update(arInvoiceHD);
+                    }
                 }
 
                 String schoolType = siteParameterDao.Get(prospectiveStudent.SiteID, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;

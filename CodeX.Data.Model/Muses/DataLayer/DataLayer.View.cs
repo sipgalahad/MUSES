@@ -11050,6 +11050,7 @@ namespace CodeX.Data.Model
         private String _PurchaseUnit;
         private Int32 _ItemGroupID;
         private String _GCReorderType;
+        private String _GCDistributionType;
         private Decimal _QuantityMIN;
         private Decimal _QuantityMAX;
         private Decimal _QuantityBEGIN;
@@ -11154,6 +11155,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCReorderType; }
             set { _GCReorderType = value; }
+        }
+        [Column(Name = "GCDistributionType", DataType = "String")]
+        public String GCDistributionType
+        {
+            get { return _GCDistributionType; }
+            set { _GCDistributionType = value; }
         }
         [Column(Name = "QuantityMIN", DataType = "Decimal")]
         public Decimal QuantityMIN
@@ -26804,6 +26811,42 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionStatusWatermark; }
             set { _TransactionStatusWatermark = value; }
+        }
+    }
+    #endregion
+    #region vStudentUsekSummary
+    [Serializable]
+    [Table(Name = "vStudentUsekSummary")]
+    public class vStudentUsekSummary
+    {
+        private String _SiteID;
+        private Int32 _TransactionMonth;
+        private Int32 _TransactionYear;
+        private Decimal _TransactionAmount;
+
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "TransactionMonth", DataType = "Int32")]
+        public Int32 TransactionMonth
+        {
+            get { return _TransactionMonth; }
+            set { _TransactionMonth = value; }
+        }
+        [Column(Name = "TransactionYear", DataType = "Int32")]
+        public Int32 TransactionYear
+        {
+            get { return _TransactionYear; }
+            set { _TransactionYear = value; }
+        }
+        [Column(Name = "TransactionAmount", DataType = "Decimal")]
+        public Decimal TransactionAmount
+        {
+            get { return _TransactionAmount; }
+            set { _TransactionAmount = value; }
         }
     }
     #endregion

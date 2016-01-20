@@ -7,109 +7,73 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.ControlPanel.Program {
+namespace CodeX.Muses.Web.Information.Program {
     
     
-    public partial class LocationItemEntry {
+    public partial class StudentRevenueUsekInformationDtCtl {
         
         /// <summary>
-        /// hdnFilterExpressionQuickSearch control.
+        /// hdnID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpressionQuickSearch;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// hdnLocationItemGroupID control.
+        /// hdnSiteID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLocationItemGroupID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteID;
         
         /// <summary>
-        /// tacLocation control.
+        /// hdnMonth control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacLocation;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMonth;
         
         /// <summary>
-        /// txtSearchView control.
+        /// hdnYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.QISIntellisenseTextBox txtSearchView;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnYear;
         
         /// <summary>
-        /// hdnEntryID control.
+        /// txtHeaderText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
+        protected global::System.Web.UI.WebControls.TextBox txtHeaderText;
         
         /// <summary>
-        /// tacItem control.
+        /// txtHeaderText2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacItem;
+        protected global::System.Web.UI.WebControls.TextBox txtHeaderText2;
         
         /// <summary>
-        /// cboReorderType control.
+        /// cbpPopupView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboReorderType;
-        
-        /// <summary>
-        /// cboDistributionType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboDistributionType;
-        
-        /// <summary>
-        /// txtMinimum control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMinimum;
-        
-        /// <summary>
-        /// txtMaximum control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMaximum;
-        
-        /// <summary>
-        /// cbpView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopupView;
         
         /// <summary>
         /// PanelContent1 control.
@@ -130,21 +94,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
-        /// lvwView control.
+        /// grdPopupView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView lvwView;
-        
-        /// <summary>
-        /// cbpProcess control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcess;
+        protected global::System.Web.UI.WebControls.GridView grdPopupView;
     }
 }

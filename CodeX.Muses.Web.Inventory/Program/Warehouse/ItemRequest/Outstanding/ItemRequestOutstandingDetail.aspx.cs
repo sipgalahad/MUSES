@@ -187,6 +187,10 @@ namespace CodeX.Muses.Web.Inventory.Program
                 lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID = {0} AND ItemID IN ({1})", hdnToLocationID.Value, lsItemID));
             else
                 lstItemBalance = new List<ItemBalance>();
+            if (lsItemID != "" && hdnFromLocationID.Value != "")
+                lstFromItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID = {0} AND ItemID IN ({1})", hdnFromLocationID.Value, lsItemID));
+            else
+                lstFromItemBalance = new List<ItemBalance>();
 
             lvwView.DataSource = lstEntity;
             lvwView.DataBind();
@@ -194,6 +198,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         List<vItemRequestDtRealizationPerItem> lstItemRequestDtRealizationPerItem = null;
         List<ItemBalance> lstItemBalance = null;
+        List<ItemBalance> lstFromItemBalance = null;
         protected void lvwView_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             if (e.Item.ItemType == ListViewItemType.DataItem)
@@ -223,6 +228,8 @@ namespace CodeX.Muses.Web.Inventory.Program
                 decimal endingBalance = lstItemBalance.Where(p => p.ItemID == entity.ItemID).Sum(p => p.QuantityEND);
                 lblEndingBalance.InnerHtml = endingBalance.ToString("0.00");
 
+                ItemBalance itemBalanceFrom = lstFromItemBalance.FirstOrDefault(p => p.ItemID == entity.ItemID);
+
                 decimal availableQty = 0;
                 vItemRequestDtRealizationPerItem itemRequestDtRealizationPerItem = lstItemRequestDtRealizationPerItem.FirstOrDefault(p => p.ItemID == entity.ItemID);
                 if (itemRequestDtRealizationPerItem != null)
@@ -243,11 +250,20 @@ namespace CodeX.Muses.Web.Inventory.Program
 
                 if (entity.Quantity > endingBalance)
                 {
-                    txtDistribution.Text = endingBalance.ToString();
+                    if (itemBalanceFrom.GCDistributionType == Constant.DistributionType.CONSUMPTION)
+                        txtConsumption.Text = endingBalance.ToString();
+                    else
+                        txtDistribution.Text = endingBalance.ToString();
                     if (hdnIsAllowPurchaseRequest.Value == "1" && entity.PurchaseRequestQty == 0)
                         txtPurchaseRequest.Text = (entity.Quantity - endingBalance).ToString();
                 }
-                else txtDistribution.Text = entity.Quantity.ToString();
+                else
+                {
+                    if (itemBalanceFrom.GCDistributionType == Constant.DistributionType.CONSUMPTION)
+                        txtConsumption.Text = entity.Quantity.ToString();
+                    else
+                        txtDistribution.Text = entity.Quantity.ToString();
+                }
 
                 txtConsumption.Attributes.Add("max", endingBalance.ToString());
                 txtDistribution.Attributes.Add("max", endingBalance.ToString());

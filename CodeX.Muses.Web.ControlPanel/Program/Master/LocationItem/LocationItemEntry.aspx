@@ -18,6 +18,7 @@
                 tacItem.setValue('');
                 tacItem.setText('');
                 cboReorderType.SetValue('');
+                cboDistributionType.SetValue('');
                 $('#<%=txtMinimum.ClientID %>').val('');
                 $('#<%=txtMaximum.ClientID %>').val('');
                 $('#entryDetailContainer').show();
@@ -170,6 +171,7 @@
             tacItem.setValue(entity.ItemID);
             tacItem.setText(entity.ItemName1);
             cboReorderType.SetValue(entity.GCReorderType);
+            cboDistributionType.SetValue(entity.GCDistributionType);
             $('#<%=txtMinimum.ClientID %>').val(entity.QuantityMIN);
             $('#<%=txtMaximum.ClientID %>').val(entity.QuantityMAX);
             $('#entryDetailContainer').show();
@@ -258,6 +260,11 @@
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Distribution Type")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboDistributionType" ClientInstanceName="cboDistributionType" runat="server" Width="150px" /></td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Reorder Minimum")%></label></td>
                                     <td><asp:TextBox ID="txtMinimum" CssClass="number required" runat="server" Width="100px" /></td>
                                 </tr>
@@ -332,13 +339,13 @@
                             </LayoutTemplate>
                             <ItemTemplate>
                                 <tr>
-                                    <td><%#: Eval("ItemName1")%></td>
-                                    <td align="right"><%#: Eval("QuantityMIN")%></td>
-                                    <td align="right"><%#: Eval("QuantityMAX")%></td>
-                                    <td align="right"><%#: Eval("QuantityBEGIN")%></td>
-                                    <td align="right"><%#: Eval("QuantityIN")%></td>
-                                    <td align="right"><%#: Eval("QuantityOUT")%></td>
-                                    <td align="right"><%#: Eval("QuantityEND")%></td>
+                                    <td><%# Eval("ItemName1")%></td>
+                                    <td align="right"><%# Eval("QuantityMIN")%></td>
+                                    <td align="right"><%# Eval("QuantityMAX")%></td>
+                                    <td align="right"><%# Eval("QuantityBEGIN")%></td>
+                                    <td align="right"><%# Eval("QuantityIN")%></td>
+                                    <td align="right"><%# Eval("QuantityOUT")%></td>
+                                    <td align="right"><%# Eval("QuantityEND")%></td>
                                     <td align="center"><label id="lblExpiredDate" runat="server" class="lblExpiredDate lblLink"><%=GetLabel("Expired Date") %></label></td>
                                     <td align="center">
                                         <div style='float:right;' class="divDetailDelete"></div>
@@ -347,6 +354,7 @@
                                         <input type="hidden" value="<%#Eval("ItemID") %>" bindingfield="ItemID" />
                                         <input type="hidden" value="<%#Eval("ItemName1") %>" bindingfield="ItemName1" />
                                         <input type="hidden" value="<%#Eval("GCReorderType") %>" bindingfield="GCReorderType" />
+                                        <input type="hidden" value="<%#Eval("GCDistributionType") %>" bindingfield="GCDistributionType" />
                                         <input type="hidden" value="<%#Eval("QuantityMIN") %>" bindingfield="QuantityMIN" />
                                         <input type="hidden" value="<%#Eval("QuantityMAX") %>" bindingfield="QuantityMAX" />
                                         <input type="hidden" value="<%#Eval("QuantityBEGIN") %>" bindingfield="QuantityBEGIN" />

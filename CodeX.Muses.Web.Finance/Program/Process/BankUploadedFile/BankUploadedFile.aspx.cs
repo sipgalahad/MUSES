@@ -184,7 +184,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 if (lstStudentID != "")
                 {
                     filterExpressionARBalance = String.Format("StudentID IN ({0})", lstStudentID);
-                    lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", lstStudentID), ctx);
+                    lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0}) AND IsDeleted = 0", lstStudentID), ctx);
                 }
                 else
                     lstStudent = new List<Student>();
@@ -196,7 +196,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     if (filterExpressionARBalance != "")
                         filterExpressionARBalance += " AND ";
                     filterExpressionARBalance = String.Format("ProspectiveStudentID IN ({0})", lstProspectiveStudentID);
-                    lstProspectiveStudent = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0})", lstProspectiveStudentID), ctx);
+                    lstProspectiveStudent = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0}) AND IsDeleted = 0", lstProspectiveStudentID), ctx);
                 }
                 else
                     lstProspectiveStudent = new List<ProspectiveStudent>();

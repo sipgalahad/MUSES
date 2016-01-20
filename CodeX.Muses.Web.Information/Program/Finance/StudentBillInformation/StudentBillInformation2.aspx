@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/MPBaseContent.master" AutoEventWireup="true" 
-    CodeBehind="StudentBillInformation.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.StudentBillInformation" %>
+    CodeBehind="StudentBillInformation2.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.StudentBillInformation2" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -16,7 +16,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server">
     <script type="text/javascript">
         $(function () {
-            setDatePicker('<%=txtDate.ClientID %>');
             $('#btnRefresh').click(function () {
                 onRefreshGridView();
             });
@@ -154,10 +153,8 @@
 
         $('.lblPrint.lblLink').live('click', function () {
             $tr = $(this).closest('tr');
-            var date = $('#<%=txtDate.ClientID %>').val();
             var studentID = $tr.find('.hdnStudentID').val();
-            var id = studentID + ';' + date;
-            openReportViewer("FN-00001", id);
+            openReportViewer("FN-00001", studentID);
         });
 
     </script>
@@ -216,8 +213,18 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdLabel" style="width:100px;"><%=GetLabel("Tanggal") %></td>
-                            <td><asp:TextBox ID="txtDate" runat="server" Width="120px" CssClass="datepicker" /></td>                        
+                            <td class="tdLabel" style="width:100px;"><%=GetLabel("Tipe Tagihan") %></td>
+                            <td>
+                                <dxe:ASPxComboBox runat="server" ID="cboViewType" ClientInstanceName="cboViewType" Width="200px">
+                                    <ClientSideEvents Init="function(s,e){ onCboViewTypeValueChanged(); }"  ValueChanged="function(s,e){ onCboViewTypeValueChanged() }" />
+                                </dxe:ASPxComboBox>
+                            </td>                        
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <asp:CheckBox runat="server" Text="Belum Dibayar" ID="chkNotPaid" Checked="true" />
+                            </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -270,10 +277,10 @@
                                                     </td>
                                                     <td><%#Eval("StudentName") %></td>
                                                     <td><%#Eval("SchoolClassCode") %></td>
-                                                    <td align="right"><%#Eval("Col2", "{0:N}")%></td>
-                                                    <td align="right"><%#Eval("Col3", "{0:N}")%></td>
-                                                    <td align="right"><%#Eval("Col1", "{0:N}")%></td>
-                                                    <td align="right"><%#Eval("Total", "{0:N}")%></td>
+                                                    <td align="right"><div id="divUsek" runat="server"></div></td>
+                                                    <td align="right"><div id="divKeg" runat="server"></div></td>
+                                                    <td align="right"><div id="divPemb" runat="server"></div></td>
+                                                    <td align="right"><label class='lblDetail lblLink' id="lblClaimedAmount" runat="server"></label></td>
                                                     <td align="center" id="tdPrint" runat="server"><label class='lblPrint lblLink'>Print</label></td>
                                                 </tr>
                                             </ItemTemplate>

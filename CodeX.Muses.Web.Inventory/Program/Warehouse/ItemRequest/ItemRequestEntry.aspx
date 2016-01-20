@@ -386,6 +386,8 @@
                 cbpView.PerformCallback('changepage|' + page);
                 setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
             });
+
+            setDdeLocationText();
         }
 
         function GetItemQtyFromServiceUnit() {

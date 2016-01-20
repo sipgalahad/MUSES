@@ -126,12 +126,15 @@ namespace CodeX.Muses.Web.Finance.Program
             StudentFeeDtDao studentFeeDtDao = new StudentFeeDtDao(ctx);
             try
             {
-                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}'", AppSession.ProspectiveStudentID, Constant.TransactionStatus.VOID), ctx);
+                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}') AND TotalPaymentAmount = 0", AppSession.ProspectiveStudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID), ctx);
                 foreach (ARInvoiceHd arInvoiceHD in lstARInvoiceHd)
                 {
-                    arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                    arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    arInvoiceHdDao.Update(arInvoiceHD);
+                    if (BusinessLayer.GetARInvoiceDtRowCount(string.Format("ARInvoiceID = {0} AND StudentFeeDtID IS NOT NULL AND IsDeleted = 0", arInvoiceHD.ARInvoiceID), ctx) > 0)
+                    {
+                        arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                        arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        arInvoiceHdDao.Update(arInvoiceHD);
+                    }
                 }
 
                 List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(string.Format("StudentFeeID IN ({0})", hdnLstStudentFeeID.Value), ctx);

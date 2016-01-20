@@ -144,6 +144,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             hdnPageCount.Value = "0";
             hdnIsEditable.Value = "1";
+            BindLocation();
         }
 
         protected string IsEditable()

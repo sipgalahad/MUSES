@@ -269,7 +269,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             else
             {
-                if (lstItemID != "" && hdnLstLocationID.Value != "")
+                if (hdnLstLocationID.Value != "")
                     lstEntity2 = BusinessLayer.GetItemUsagePurchaseRequestROPList(hdnLstLocationID.Value, "", pageIndex, Constant.GridViewPageSize.GRID_MASTER);
                 else
                     lstEntity2 = new List<GetItemUsagePurchaseRequestROPList>();

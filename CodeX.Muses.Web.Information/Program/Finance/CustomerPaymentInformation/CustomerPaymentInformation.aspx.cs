@@ -72,7 +72,7 @@ namespace CodeX.Muses.Web.Information.Program
             lstTotalInvoiceDt = new List<vARInvoiceDt>();
 
             List<vARInvoiceDt> lstStudent = (from p in lstEntityDt
-                                             select new vARInvoiceDt { PayedStudentID = p.PayedStudentID, PayedStudentCode = p.PayedStudentCode, PayedStudentName = p.PayedStudentName, SiteID = p.SiteID, PayedSchoolClassCode = p.PayedSchoolClassCode, PayedSchoolClassName = p.PayedSchoolClassName }).GroupBy(p => new { p.PayedStudentID }).Select(p => p.First()).ToList().OrderBy(p => p.StudentCode).ToList();
+                                             select new vARInvoiceDt { PayedStudentID = p.PayedStudentID, PayedStudentCode = p.PayedStudentCode, PayedStudentName = p.PayedStudentName, SiteID = p.SiteID, PayedSchoolClassCode = p.PayedSchoolClassCode, PayedSchoolClassName = p.PayedSchoolClassName }).GroupBy(p => new { p.PayedStudentID }).Select(p => p.First()).ToList().OrderBy(p => p.PayedStudentCode).ToList();
 
             lstTransactionDate = (from p in lstEntityDt
                                                      select new vARInvoiceDt { TransactionMonth = p.TransactionMonth, TransactionYear = p.TransactionYear, GCAdmissionPaymentPeriod = p.GCAdmissionPaymentPeriod }).GroupBy(p => new { p.TransactionMonth, p.TransactionYear }).Select(p => p.First()).ToList().OrderBy(p => p.cfTransactionMonthYear).ToList();

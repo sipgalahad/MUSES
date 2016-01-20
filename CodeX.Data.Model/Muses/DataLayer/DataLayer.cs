@@ -13371,6 +13371,7 @@ namespace CodeX.Data.Model
         private Int32 _LocationID;
         private Int32 _ItemID;
         private String _GCReorderType;
+        private String _GCDistributionType;
         private Decimal _QuantityBEGIN;
         private Decimal _QuantityIN;
         private Decimal _QuantityOUT;
@@ -13406,6 +13407,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCReorderType; }
             set { _GCReorderType = value; }
+        }
+        [Column(Name = "GCDistributionType", DataType = "String", IsNullable = true)]
+        public String GCDistributionType
+        {
+            get { return _GCDistributionType; }
+            set { _GCDistributionType = value; }
         }
         [Column(Name = "QuantityBEGIN", DataType = "Decimal")]
         public Decimal QuantityBEGIN

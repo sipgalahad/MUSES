@@ -72,6 +72,18 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetARStudentPerDate
+    public partial class GetARStudentPerDate
+    {
+        public Decimal Total
+        {
+            get
+            {
+                return _Col1 + _Col2 + _Col3;
+            }
+        }
+    }
+    #endregion
     #region GetFixedAssetValue
     public partial class GetFixedAssetValue
     {

@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.Information.Program {
     
     
-    public partial class StudentBillInformation {
+    public partial class StudentBillInformation2 {
         
         /// <summary>
         /// hdnSiteID control.
@@ -94,13 +94,22 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::CodeX.Web.CustomControl.QISIntellisenseTextBox txtSearchView;
         
         /// <summary>
-        /// txtDate control.
+        /// cboViewType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDate;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboViewType;
+        
+        /// <summary>
+        /// chkNotPaid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkNotPaid;
         
         /// <summary>
         /// cbpView control.

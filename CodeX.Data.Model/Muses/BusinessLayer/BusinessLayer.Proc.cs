@@ -593,6 +593,37 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GetARStudentPerDate
+        public static List<GetARStudentPerDate> GetARStudentPerDate(Boolean IsAllStudent, String LstStudentID, DateTime Date)
+        {
+            List<GetARStudentPerDate> result = new List<GetARStudentPerDate>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetARStudentPerDate));
+                ctx.CommandText = "GetARStudentPerDate";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("IsAllStudent", IsAllStudent);
+                ctx.Add("LstStudentID", LstStudentID);
+                ctx.Add("Date", Date);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetARStudentPerDate)helper.IDataReaderToObject(reader, new GetARStudentPerDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetGLBalanceDtPerPeriod
         public static Int32 GetGLBalanceDtPerPeriodRowCount(Int32 GLAccountID, Int32 year, Int32 month, IDbContext ctx)
         {

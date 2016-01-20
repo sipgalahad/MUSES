@@ -22,6 +22,7 @@
         $('#<%=txtMinimum.ClientID %>').val('');
         $('#<%=txtMaximum.ClientID %>').val('');
         cboReorderType.SetValue('');
+        cboDistributionType.SetValue('');
 
         $('#containerPopupEntryData').show();
     });
@@ -65,6 +66,7 @@
         var itemID = $row.find('.hdnItemID').val();
         var itemCode = $row.find('.hdnItemCode').val();
         var GCReorderType = $row.find('.hdnGCReorderType').val();
+        var GCDistributionType = $row.find('.hdnGCDistributionType').val();
 
         var itemName = $row.find('.tdItemName1').html();
         var minimum = $row.find('.tdMinimum').html();
@@ -79,6 +81,7 @@
         $('#<%=txtItemCode.ClientID %>').val(itemCode);
         $('#<%=txtItemName.ClientID %>').val(itemName);
         cboReorderType.SetValue(GCReorderType);
+        cboDistributionType.SetValue(GCDistributionType);
         $('#<%=txtMinimum.ClientID %>').val(minimum);
         $('#<%=txtMaximum.ClientID %>').val(maximum);
 
@@ -234,6 +237,11 @@
                                 <td>&nbsp;</td>
                             </tr>
                             <tr>
+                                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Distribution Type")%></label></td>
+                                <td><dxe:ASPxComboBox ID="cboDistributionType" ClientInstanceName="cboDistributionType" runat="server" Width="150px" /></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
                                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Reorder Minimum")%></label></td>
                                 <td><asp:TextBox ID="txtMinimum" CssClass="number required" runat="server" Width="100px" /></td>
                                 <td>&nbsp;</td>
@@ -321,6 +329,7 @@
                                                 <input type="hidden" class="hdnItemID" value="<%# Eval("ItemID")%>" />
                                                 <input type="hidden" class="hdnItemCode" value="<%# Eval("ItemCode")%>" />
                                                 <input type="hidden" class="hdnGCReorderType" value="<%# Eval("GCReorderType")%>" />
+                                                <input type="hidden" class="hdnGCDistributionType" value="<%# Eval("GCDistributionType")%>" />
                                             </td>
                                             <td class="tdItemName1"><%# Eval("ItemName1")%></td>
                                             <td class="tdMinimum" align="right"><%# Eval("QuantityMIN")%></td>

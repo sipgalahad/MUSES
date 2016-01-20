@@ -601,6 +601,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetARStudentPerDate
+    [Serializable]
+    [Table(Name = "GetARStudentPerDate")]
+    public partial class GetARStudentPerDate
+    {
+        private Int32 _StudentID;
+        private String _StudentCode;
+        private String _VirtualAccountNo;
+        private String _StudentName;
+        private String _SchoolClassCode;
+        private Decimal _Col1;
+        private Decimal _Col2;
+        private Decimal _Col3;
+        private String _Remarks;
+
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "StudentCode", DataType = "String")]
+        public String StudentCode
+        {
+            get { return _StudentCode; }
+            set { _StudentCode = value; }
+        }
+        [Column(Name = "VirtualAccountNo", DataType = "String")]
+        public String VirtualAccountNo
+        {
+            get { return _VirtualAccountNo; }
+            set { _VirtualAccountNo = value; }
+        }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
+        }
+        [Column(Name = "SchoolClassCode", DataType = "String")]
+        public String SchoolClassCode
+        {
+            get { return _SchoolClassCode; }
+            set { _SchoolClassCode = value; }
+        }
+        [Column(Name = "Col1", DataType = "Decimal")]
+        public Decimal Col1
+        {
+            get { return _Col1; }
+            set { _Col1 = value; }
+        }
+        [Column(Name = "Col2", DataType = "Decimal")]
+        public Decimal Col2
+        {
+            get { return _Col2; }
+            set { _Col2 = value; }
+        }
+        [Column(Name = "Col3", DataType = "Decimal")]
+        public Decimal Col3
+        {
+            get { return _Col3; }
+            set { _Col3 = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
     #region GetFixedAssetValue
     public partial class GetFixedAssetValue
     {

@@ -263,7 +263,7 @@
             </td>
             <td style="padding:5px;vertical-align:top">
                 <h4><%=GetLabel("Dipilih")%></h4>
-                <fieldset id="fsDrugsQuickPicks">
+                <fieldset id="fsDrugsQuickPicks" style="height:390px; overflow-y:scroll">
                     <table id="tblSelectedItem" class="grdView notAllowSelect" cellspacing="0" rules="all" >
                         <tr id="trHeader2">
                             <th style="width:40px">&nbsp;</th>

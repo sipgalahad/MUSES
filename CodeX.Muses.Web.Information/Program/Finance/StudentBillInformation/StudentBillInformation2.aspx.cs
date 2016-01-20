@@ -18,7 +18,7 @@ using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.Information.Program
 {
-    public partial class StudentBillInformation : BasePageList
+    public partial class StudentBillInformation2 : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -51,7 +51,11 @@ namespace CodeX.Muses.Web.Information.Program
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.SelectedIndex = 0;
 
-            txtDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            List<Variable> lstViewType = new List<Variable>();
+            lstViewType.Add(new Variable { Code = "0", Value = GetLabel("Jatuh Tempo") });
+            lstViewType.Add(new Variable { Code = "1", Value = GetLabel("Semua") });
+            Methods.SetComboBoxField<Variable>(cboViewType, lstViewType, "Value", "Code");
+            cboViewType.SelectedIndex = 0;
 
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);
@@ -64,10 +68,13 @@ namespace CodeX.Muses.Web.Information.Program
                 filterExpression += string.Format(" AND SchoolClassID = {0}", tacSchoolClass.Value);
             if (hdnFilterExpressionQuickSearch.Value != "")
                 filterExpression += string.Format(" AND {0}", hdnFilterExpressionQuickSearch.Value);
+            if (chkNotPaid.Checked)
+                filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ARInvoiceHd WHERE StudentID IS NOT NULL AND GCTransactionStatus NOT IN ('{0}','{1}'))", Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
 
             return filterExpression;
         }
 
+        List<vStudentFeeDt> lstStudentFeeDt = null;
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = GetFilterExpression();
@@ -78,15 +85,15 @@ namespace CodeX.Muses.Web.Information.Program
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<GetARStudentPerDate> lstEntity = null;
-            List<vStudent> lstStudent = BusinessLayer.GetvStudentList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "VirtualAccountNo");
-            if (lstStudent.Count > 0)
+            List<vStudent> lstEntity = BusinessLayer.GetvStudentList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "VirtualAccountNo");
+            if (lstEntity.Count > 0)
             {
-                string lstStudentID = string.Join(",", lstStudent.Select(p => p.StudentID).ToList());
-                lstEntity = BusinessLayer.GetARStudentPerDate(false, lstStudentID, Helper.GetDatePickerValue(txtDate.Text));
+                string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
+                if (cboViewType.Value.ToString() == "0")
+                    lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("StudentID IN ({0}) AND TotalStudentAmount != ISNULL(PaymentAmount,0) AND TotalStudentAmount > 0 AND ARInvoiceDtID IS NOT NULL AND IsDeleted = 0", lstStudentID));
+                else
+                    lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("StudentID IN ({0}) AND TotalStudentAmount != ISNULL(PaymentAmount,0) AND TotalStudentAmount > 0 AND IsDeleted = 0", lstStudentID));
             }
-            else
-                lstEntity = new List<GetARStudentPerDate>();
 
             rptView.DataSource = lstEntity;
             rptView.DataBind();
@@ -96,12 +103,24 @@ namespace CodeX.Muses.Web.Information.Program
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                GetARStudentPerDate entity = (GetARStudentPerDate)e.Item.DataItem;
+                vStudent entity = (vStudent)e.Item.DataItem;
+
+                List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(p => p.StudentID == entity.StudentID).ToList();
+                List<vStudentFeeDt> lstStudentFeeDtUsek = lstStudentFeeDt1.Where(p => p.StudentFeeCompTypeID == 2).ToList();
+
+                HtmlGenericControl divPemb = e.Item.FindControl("divPemb") as HtmlGenericControl;
+                HtmlGenericControl divSek = e.Item.FindControl("divUsek") as HtmlGenericControl;
+                HtmlGenericControl divKeg = e.Item.FindControl("divKeg") as HtmlGenericControl;
+                HtmlGenericControl lblClaimedAmount = e.Item.FindControl("lblClaimedAmount") as HtmlGenericControl;
+                divPemb.InnerHtml = lstStudentFeeDt1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+                divSek.InnerHtml = lstStudentFeeDtUsek.Sum(p => p.TotalStudentAmount - p.PaymentAmount - p.TotalStudentPenaltyAmount).ToString("N");
+                divKeg.InnerHtml = lstStudentFeeDt1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+                lblClaimedAmount.InnerHtml = lstStudentFeeDt1.Sum(p => p.TotalStudentAmount - p.PaymentAmount - p.TotalStudentPenaltyAmount).ToString("N");
 
                 if (IsExportExcel)
                 {
                     HtmlTableCell tdPrint = e.Item.FindControl("tdPrint") as HtmlTableCell;
-                    tdPrint.InnerHtml = entity.Remarks;
+                    tdPrint.InnerHtml = string.Join(", ", lstStudentFeeDtUsek.Select(p => p.cfPeriod));
                 }
             }
         }
@@ -138,7 +157,7 @@ namespace CodeX.Muses.Web.Information.Program
             thPrint.InnerHtml = "Keterangan Uang Sekolah";
             thPrint.Style.Add("width", "200px");
 
-            fileName = string.Format("InformasiTagihan{0}_{1}", Helper.GetDatePickerValue(Request.Form[txtDate.UniqueID]).ToString("yyyyMMdd"), Request.Form[hdnSiteName.UniqueID]);
+            fileName = string.Format("InformasiTagihan{0}_{1}", DateTime.Now.ToString("yyyyMMdd"), Request.Form[hdnSiteName.UniqueID]);
             isShowTitle = false;
 
 
@@ -147,26 +166,28 @@ namespace CodeX.Muses.Web.Information.Program
                 filterExpression += string.Format(" AND SchoolClassID = {0}", tacSchoolClass.Value);
             if (Request.Form[hdnFilterExpressionQuickSearch.UniqueID] != "")
                 filterExpression += string.Format(" AND {0}", Request.Form[hdnFilterExpressionQuickSearch.UniqueID]);
+            if (chkNotPaid.Checked)
+                filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ARInvoiceHd WHERE StudentID IS NOT NULL AND GCTransactionStatus NOT IN ('{0}','{1}'))", Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
 
             filterExpression += " ORDER BY VirtualAccountNo";
-            List<vStudent> lstStudent = BusinessLayer.GetvStudentList(filterExpression);
+            List<vStudent> lstEntity = BusinessLayer.GetvStudentList(filterExpression);
 
-            List<GetARStudentPerDate> lstEntity = null;
-            if (lstStudent.Count > 0)
+            if (lstEntity.Count > 0)
             {
-                string lstStudentID = string.Join(",", lstStudent.Select(p => p.StudentID).ToList());
-                lstEntity = BusinessLayer.GetARStudentPerDate(false, lstStudentID, Helper.GetDatePickerValue(Request.Form[txtDate.UniqueID]));
+                string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
+                if (Request.Form[hdnViewTypeID.UniqueID] == "0")
+                    lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("StudentID IN ({0}) AND TotalStudentAmount != ISNULL(PaymentAmount,0) AND TotalStudentAmount > 0 AND ARInvoiceDtID IS NOT NULL AND IsDeleted = 0", lstStudentID));
+                else
+                    lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("StudentID IN ({0}) AND TotalStudentAmount != ISNULL(PaymentAmount,0) AND TotalStudentAmount > 0 AND IsDeleted = 0", lstStudentID));
             }
-            else
-                lstEntity = new List<GetARStudentPerDate>();
 
             rptView.DataSource = lstEntity;
             rptView.DataBind();
 
-            divTotalPemb.InnerHtml = lstEntity.Sum(p => p.Col1).ToString("N");
-            divTotalUsek.InnerHtml = lstEntity.Sum(p => p.Col2).ToString("N");
-            divTotalKeg.InnerHtml = lstEntity.Sum(p => p.Col3).ToString("N");
-            divTotalAll.InnerHtml = lstEntity.Sum(p => p.Total).ToString("N");
+            divTotalPemb.InnerHtml = lstStudentFeeDt.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+            divTotalUsek.InnerHtml = lstStudentFeeDt.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+            divTotalKeg.InnerHtml = lstStudentFeeDt.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
+            divTotalAll.InnerHtml = lstStudentFeeDt.Sum(p => p.TotalStudentAmount - p.PaymentAmount).ToString("N");
 
             HtmlGenericControl div = new HtmlGenericControl("DIV");
             HtmlGenericControl h4 = new HtmlGenericControl("h4");
@@ -181,7 +202,7 @@ namespace CodeX.Muses.Web.Information.Program
             div.Controls.Add(h2Title);
 
 
-            h4.InnerHtml = String.Format("Tanggal : {0}", Helper.GetDatePickerValue(Request.Form[txtDate.UniqueID]).ToString(Constant.FormatString.DATE_FORMAT));
+            h4.InnerHtml = String.Format("Tanggal : {0}", DateTime.Now.ToString(Constant.FormatString.DATE_FORMAT));
             h42.InnerHtml = String.Format("Unit : {0}", Request.Form[hdnSiteName.UniqueID]);
             div.Controls.Add(h4);
             div.Controls.Add(h42);

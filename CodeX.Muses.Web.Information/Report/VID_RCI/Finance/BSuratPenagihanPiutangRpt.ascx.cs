@@ -22,17 +22,12 @@ namespace CodeX.Muses.Web.Information.Report
         protected string printMargin = "";
         public override void Bind(string filterExpression, string[] param)
         {
-            List<vARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("StudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}')", param[0], Constant.TransactionStatus.VOID, Constant.TransactionStatus.CLOSED));
-            Int32 id = lstARInvoiceDt[0].StudentID;
-            vStudent std = BusinessLayer.GetvStudentList(String.Format("StudentID = {0}", id)).FirstOrDefault();
-            var lstObject = lstARInvoiceDt.GroupBy(x => x.GCAdmissionPaymentPeriod).Select(
-                    y => new
-                    {
-                        GroupName = y.Key,
-                        TotalAmount = y.Sum(z => z.RemainingAmount - z.PenaltyAmount)
-                    });
+            string[] temp = param[0].Split(';');
+            int studentID = Convert.ToInt32(temp[0]);
+            DateTime date = Helper.GetDatePickerValue(temp[1]);
 
-            string remarks = string.Join(", ", lstARInvoiceDt.Where(p => p.GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.BULANAN).Select(p => p.cfTransactionMonthYear.ToString("MMM yyyy")).ToList());
+            vStudent std = BusinessLayer.GetvStudentList(String.Format("StudentID = {0}", studentID)).FirstOrDefault();
+            GetARStudentPerDate entity = BusinessLayer.GetARStudentPerDate(false, studentID.ToString(), date).FirstOrDefault();
 
             printMargin = BusinessLayer.GetSiteParameter(std.SiteID, Constant.SiteParameter.STUDENT_BILL_PRINT_MARGIN).ParameterValue;
 
@@ -45,10 +40,10 @@ namespace CodeX.Muses.Web.Information.Report
                 text = text.Replace("{SchoolType}", schoolType);
                 text = text.Replace("{Class}", String.Format("{0} / {1}", std.SchoolClassName.Replace("Kelas ", ""), std.StudentCode));
             }
-            text = text.Replace("{Usek}", lstObject.Where(x => x.GroupName == Constant.AdmissionPaymentPeriod.BULANAN).Sum(p => p.TotalAmount).ToString("N2"));
-            text = text.Replace("{Kegiatan}", lstObject.Where(x => x.GroupName == Constant.AdmissionPaymentPeriod.TAHUNAN).Sum(p => p.TotalAmount).ToString("N2"));
-            text = text.Replace("{Pembangunan}", lstObject.Where(x => x.GroupName == Constant.AdmissionPaymentPeriod.SEKALI_BAYAR).Sum(p => p.TotalAmount).ToString("N2"));
-            text = text.Replace("{UsekRemarks}", remarks);
+            text = text.Replace("{Usek}", entity.Col2.ToString("N2"));
+            text = text.Replace("{Kegiatan}", entity.Col3.ToString("N2"));
+            text = text.Replace("{Pembangunan}", entity.Col1.ToString("N2"));
+            text = text.Replace("{UsekRemarks}", entity.Remarks);
             
 
             int month = DateTime.Now.Month;

@@ -306,6 +306,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
         }
 
+        protected bool OnBeforeSaveAddRecord(ref string errMessage)
+        {
+            errMessage = string.Empty;
+
+            string FilterExpression = string.Format("ProspectiveStudentCode = '{0}'", txtRegistrationNo.Text);
+            List<ProspectiveStudent> lst = BusinessLayer.GetProspectiveStudentList(FilterExpression);
+
+            if (lst.Count > 0)
+                errMessage = "Calon Siswa dengan kode " + txtStudentCode.Text + " sudah ada!";
+
+            return (errMessage == string.Empty);
+        }
+
         private bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
             IDbContext ctx = DbFactory.Configure(true);
@@ -412,8 +425,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             result = "save|";
             if (hdnIsAdd.Value == "1")
             {
-                if (OnSaveAddRecord(ref errMessage, ref retval))
-                    result += string.Format("success|{0}", retval);
+                if (OnBeforeSaveAddRecord(ref errMessage))
+                {
+                    if (OnSaveAddRecord(ref errMessage, ref retval))
+                        result += string.Format("success|{0}", retval);
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
                 else
                     result += string.Format("fail|{0}", errMessage);
             }

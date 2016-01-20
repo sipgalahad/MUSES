@@ -124,6 +124,12 @@ namespace CodeX.Common
             public const string DYNAMIC = "X310^002";
         }
 
+        public static class DistributionType
+        {
+            public const string DISTRIBUTION = "X311^001";
+            public const string CONSUMPTION = "X311^002";
+        }
+
         public static class AchievementType
         {
             public const string AKADEMIS = "MS019^001";
@@ -597,12 +603,13 @@ namespace CodeX.Common
                 public const string AR_CUSTOMER_INFORMATION = "IF030203";
                 public const string TARIFF_INFORMATION = "IF030300";
                 public const string STUDENT_FEE = "IF030401";                
-                public const string STUDENT_REVENUE_INFO = "IF030402";
+                public const string STUDENT_REVENUE_USEK_INFO = "IF030402";
                 public const string STUDENT_PAYMENT_SUMMARY_INFO = "IF030403";
                 public const string STUDENT_BILL_INFORMATION = "IF030404";
                 public const string STUDENT_PAYMENT_INFORMATION = "IF030405";
                 public const string PROSPECTIVE_STUDENT_PAYMENT_INFORMATION = "IF030406";
                 public const string CUSTOMER_PAYMENT_INFORMATION = "IF030407";
+                public const string STUDENT_REVENUE_INFO = "IF030408";
                 public const string STUDENT_COVERAGE_INFO = "IF030501";
                 public const string STUDENT_SCHOLARSHIP_INFO = "IF030502";
 
