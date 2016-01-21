@@ -26814,6 +26814,49 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentUkegUpembSummary
+    [Serializable]
+    [Table(Name = "vStudentUkegUpembSummary")]
+    public class vStudentUkegUpembSummary
+    {
+        private String _SiteID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Int32 _StudentFeeCompTypeID;
+        private Decimal _TransactionAmount;
+
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "TransactionAmount", DataType = "Decimal")]
+        public Decimal TransactionAmount
+        {
+            get { return _TransactionAmount; }
+            set { _TransactionAmount = value; }
+        }
+    }
+    #endregion
     #region vStudentUsekSummary
     [Serializable]
     [Table(Name = "vStudentUsekSummary")]

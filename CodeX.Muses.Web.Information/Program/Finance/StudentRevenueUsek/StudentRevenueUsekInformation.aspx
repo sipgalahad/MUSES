@@ -38,7 +38,25 @@
             var month = $(this).attr('month');
             var year = $(this).attr('year');
             var param = siteID + '|' + month + '|' + year;
-            openUserControlPopup(url, param, 'Detail Information', 900, 550);
+            openUserControlPopup(url, param, 'Detil Uang Sekolah', 900, 550);
+        });
+
+        $('.lblStudentFeeUkeg').live('click', function () {
+            var url = ResolveUrl("~/Program/Finance/StudentRevenueUsek/StudentRevenueUkegUpembInformationDtCtl.ascx");
+            var siteID = $(this).attr('siteid');
+            var startdate = $(this).attr('startdate');
+            var enddate = $(this).attr('enddate');
+            var param = siteID + '|' + startdate + '|' + enddate + '|3';
+            openUserControlPopup(url, param, 'Detil Uang Kegiatan', 900, 550);
+        });
+
+        $('.lblStudentFeeUpemb').live('click', function () {
+            var url = ResolveUrl("~/Program/Finance/StudentRevenueUsek/StudentRevenueUkegUpembInformationDtCtl.ascx");
+            var siteID = $(this).attr('siteid');
+            var startdate = $(this).attr('startdate');
+            var enddate = $(this).attr('enddate');
+            var param = siteID + '|' + startdate + '|' + enddate + '|1' ;
+            openUserControlPopup(url, param, 'Detil Uang Pembangunan', 900, 550);
         });
     </script>
     <style type="text/css">
@@ -69,11 +87,13 @@
                     <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                         position: relative; font-size: 0.95em;">
                         <input type="hidden" id="hdnTempPeriodText" class="hdnTempPeriodText" runat="server" />
-                        <div id="divContainerView">
-                            <table cellpadding="0" cellspacing="0" class="grdSelected grdBorder tblStudentRevenueInformation">
+                        <div id="divContainerView" style="width:1100; overflow-x:scroll">
+                            <table cellpadding="0" style="width:1500px" cellspacing="0" class="grdSelected grdBorder tblStudentRevenueInformation">
                                 <tr>
                                     <th class="thCenter" style="width: 80px" rowspan="2"><%=GetLabel("UNIT") %></th>
                                     <th class="thCenter" colspan="12"><%=GetLabel("UANG SEKOLAH") %></th>
+                                    <th class="thCenter" style="width: 100px" rowspan="2"><%=GetLabel("UANG KEG") %></th>
+                                    <th class="thCenter" style="width: 100px" rowspan="2"><%=GetLabel("UANG PEMB") %></th>
                                 </tr>
                                 <tr>
                                     <asp:Repeater ID="rptMonth" runat="server">
@@ -93,6 +113,8 @@
                                                     </td>
                                                 </ItemTemplate>
                                             </asp:Repeater>
+                                            <td align="right"><label class="lblLink lblStudentFeeUkeg" runat="server" id="lblStudentFeeUkeg"></label></td>
+                                            <td align="right"><label class="lblLink lblStudentFeeUpemb" runat="server" id="lblStudentFeeUpemb"></label></td>
                                         </tr>
                                     </ItemTemplate>
                                 </asp:Repeater>
@@ -103,6 +125,8 @@
                                             <td align="right" id="tdStudentFeeMonth" runat="server"></td>
                                         </ItemTemplate>
                                     </asp:Repeater>
+                                    <td align="right" id="tdStudentFeeUkeg" runat="server"></td>
+                                    <td align="right" id="tdStudentFeeUpemb" runat="server"></td>
                                 </tr>
                             </table>
                         </div>

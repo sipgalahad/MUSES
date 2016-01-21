@@ -45,13 +45,15 @@ namespace CodeX.Muses.Web.Information.Program
 
         List<DateTime> lstDateTime = null;
         List<vStudentUsekSummary> lstUsek = null;
+        List<vStudentUkegUpembSummary> lstUkegUpemb = null;
+        SchoolPeriod selectedSchoolPeriod = null;
         #region Bind Grid View
         private void BindGridView()
         {
             if (lstSite == null)
                 lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
 
-            SchoolPeriod selectedSchoolPeriod = BusinessLayer.GetSchoolPeriod(Convert.ToInt32(cboSchoolPeriod.Value));
+            selectedSchoolPeriod = BusinessLayer.GetSchoolPeriod(Convert.ToInt32(cboSchoolPeriod.Value));
 
             lstDateTime = new List<DateTime>();
             for (var dt = selectedSchoolPeriod.StartDate; dt <= selectedSchoolPeriod.EndDate; dt = dt.AddMonths(1))
@@ -60,6 +62,7 @@ namespace CodeX.Muses.Web.Information.Program
             }
 
             lstUsek = BusinessLayer.GetvStudentUsekSummaryList("");
+            lstUkegUpemb = BusinessLayer.GetvStudentUkegUpembSummaryList(string.Format("StartDate = '{0}' AND EndDate = '{1}'", selectedSchoolPeriod.StartDate, selectedSchoolPeriod.EndDate));
 
             rptSite.DataSource = lstSite;
             rptSite.DataBind();
@@ -69,6 +72,9 @@ namespace CodeX.Muses.Web.Information.Program
 
             rptStudentFeeMonthTotal.DataSource = lstDateTime;
             rptStudentFeeMonthTotal.DataBind();
+
+            tdStudentFeeUkeg.InnerHtml = lstUkegUpemb.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.TransactionAmount).ToString("N");
+            tdStudentFeeUpemb.InnerHtml = lstUkegUpemb.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.TransactionAmount).ToString("N");
         }
 
         protected void rptSite_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -80,6 +86,28 @@ namespace CodeX.Muses.Web.Information.Program
                 Repeater rptStudentFeeMonth = (Repeater)e.Item.FindControl("rptStudentFeeMonth");
                 rptStudentFeeMonth.DataSource = lstDateTime;
                 rptStudentFeeMonth.DataBind();
+
+                HtmlGenericControl lblStudentFeeUkeg = (HtmlGenericControl)e.Item.FindControl("lblStudentFeeUkeg");
+                HtmlGenericControl lblStudentFeeUpemb = (HtmlGenericControl)e.Item.FindControl("lblStudentFeeUpemb");
+
+                decimal ukeg = 0;
+                decimal upemb = 0;
+
+                vStudentUkegUpembSummary entityUkeg = lstUkegUpemb.FirstOrDefault(p => p.SiteID == entity.SiteID && p.StudentFeeCompTypeID == 3);
+                if (entityUkeg != null)
+                    ukeg = entityUkeg.TransactionAmount;
+                vStudentUkegUpembSummary entityUpemb = lstUkegUpemb.FirstOrDefault(p => p.SiteID == entity.SiteID && p.StudentFeeCompTypeID == 1);
+                if (entityUpemb != null)
+                    upemb = entityUpemb.TransactionAmount;
+
+                lblStudentFeeUkeg.Attributes.Add("siteid", entity.SiteID);
+                lblStudentFeeUkeg.Attributes.Add("startdate", selectedSchoolPeriod.StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT));
+                lblStudentFeeUkeg.Attributes.Add("enddate", selectedSchoolPeriod.EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT));
+                lblStudentFeeUkeg.InnerHtml = ukeg.ToString("N");
+                lblStudentFeeUpemb.Attributes.Add("siteid", entity.SiteID);
+                lblStudentFeeUpemb.Attributes.Add("startdate", selectedSchoolPeriod.StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT));
+                lblStudentFeeUpemb.Attributes.Add("enddate", selectedSchoolPeriod.EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT));
+                lblStudentFeeUpemb.InnerHtml = upemb.ToString("N");
             }
         }
 

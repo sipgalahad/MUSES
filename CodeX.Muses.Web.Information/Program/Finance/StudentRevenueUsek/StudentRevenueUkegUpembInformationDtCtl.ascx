@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="StudentRevenueUsekInformationDtCtl.ascx.cs"
-    Inherits="CodeX.Muses.Web.Information.Program.StudentRevenueUsekInformationDtCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="StudentRevenueUkegUpembInformationDtCtl.ascx.cs"
+    Inherits="CodeX.Muses.Web.Information.Program.StudentRevenueUkegUpembInformationDtCtl" %>
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -32,8 +32,8 @@
 </script>
 <input type="hidden" id="hdnID" runat="server" />
 <input type="hidden" id="hdnSiteID" runat="server" />
-<input type="hidden" id="hdnMonth" runat="server" />
-<input type="hidden" id="hdnYear" runat="server" />
+<input type="hidden" id="hdnSchoolPeriodID" runat="server" />
+<input type="hidden" id="hdnStudentFeeCompTypeID" runat="server" />
 
 <table class="tblContentArea">
     <tr>
@@ -48,7 +48,7 @@
                     <td><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="100%" runat="server" /></td>
                 </tr>  
                 <tr>
-                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Bulan")%></label></td>
+                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tahun Ajaran")%></label></td>
                     <td><asp:TextBox ID="txtHeaderText2" ReadOnly="true" Width="100%" runat="server" /></td>
                 </tr>  
             </table>

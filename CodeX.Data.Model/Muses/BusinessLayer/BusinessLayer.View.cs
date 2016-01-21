@@ -10264,6 +10264,30 @@ namespace CodeX.Data.Model
             return null;
         }
         #endregion
+        #region vStudentUkegUpembSummary
+        public static List<vStudentUkegUpembSummary> GetvStudentUkegUpembSummaryList(string filterExpression)
+        {
+            List<vStudentUkegUpembSummary> result = new List<vStudentUkegUpembSummary>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentUkegUpembSummary));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentUkegUpembSummary)helper.IDataReaderToObject(reader, new vStudentUkegUpembSummary()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudentUsekSummary
         public static List<vStudentUsekSummary> GetvStudentUsekSummaryList(string filterExpression)
         {
