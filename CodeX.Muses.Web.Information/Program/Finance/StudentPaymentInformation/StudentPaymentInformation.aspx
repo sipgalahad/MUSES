@@ -99,6 +99,7 @@
                                             <HeaderTemplate>
                                                 <table cellpadding="0" cellspacing="0" border="1" rules="all" class="grdSelected grdBorder">
                                                     <colgroup>
+                                                        <col style="width:40px"/>
                                                         <col style="width:120px"/>
                                                         <col/>
                                                         <col style="width:150px"/>
@@ -109,6 +110,7 @@
                                                         <col style="width:120px"/>
                                                     </colgroup>
                                                     <tr>
+                                                        <th rowspan="2" class="thCenter"><%=GetLabel("No") %></th>
                                                         <th rowspan="2" class="thCenter"><%=GetLabel("NBS") %></th>
                                                         <th rowspan="2" class="thCenter"><%=GetLabel("Nama") %></th>
                                                         <th rowspan="2" class="thCenter"><%=GetLabel("Kelas") %></th>
@@ -124,6 +126,7 @@
                                             </HeaderTemplate>
                                             <ItemTemplate>
                                                 <tr>
+                                                    <td align="right"><%# Container.ItemIndex + 1%></td>
                                                     <td><%#Eval("cfStudentCode") %></td>
                                                     <td><%#Eval("cfStudentName") %></td>
                                                     <td><%#Eval("cfSchoolClassCode") %></td>
@@ -136,7 +139,7 @@
                                             </ItemTemplate>
                                         </asp:Repeater>
                                             <tr>
-                                                <td colspan="3" style="font-weight:bold;" align="right"><%=GetLabel("Total") %></td>
+                                                <td colspan="4" style="font-weight:bold;" align="right"><%=GetLabel("Total") %></td>
                                                 <td align="right"><div id="divTotalUsek" runat="server"></div></td>
                                                 <td align="right"><div id="divTotalKeg" runat="server"></div></td>
                                                 <td align="right"><div id="divTotalPemb" runat="server"></div></td>

@@ -14,6 +14,7 @@
     <script type="text/javascript">
         function onLoad() {
             setDatePicker('<%=txtDateOfBaptism.ClientID %>');
+            setDatePicker('<%=txtDropOutDate.ClientID %>'); 
             //#region DOB
             $('#<%=txtDOB.ClientID %>').change(function () {
                 var age = Methods.getAgeFromDatePickerFormat($(this).val());
@@ -334,6 +335,10 @@
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboStudentStatus" Width="120px" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Keluar")%></label></td>
+                            <td><asp:TextBox ID="txtDropOutDate" Width="120px" runat="server" CssClass="datepicker" /></td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kelas")%></label></td>

@@ -13,6 +13,24 @@ namespace CodeX.Muses.Web.Information.Program {
     public partial class StudentPaymentSummaryInformation {
         
         /// <summary>
+        /// hdnSiteID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteID;
+        
+        /// <summary>
+        /// hdnSiteName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteName;
+        
+        /// <summary>
         /// hdnExportControl control.
         /// </summary>
         /// <remarks>
@@ -29,6 +47,15 @@ namespace CodeX.Muses.Web.Information.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnExportPeriodText;
+        
+        /// <summary>
+        /// cboSite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSite;
         
         /// <summary>
         /// trPeriode control.
@@ -76,13 +103,13 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// pnlView control.
+        /// pnlGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
+        protected global::System.Web.UI.WebControls.Panel pnlGridView;
         
         /// <summary>
         /// hdnTempPeriodText control.
@@ -94,39 +121,57 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTempPeriodText;
         
         /// <summary>
-        /// rptSite control.
+        /// rptView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptSite;
+        protected global::System.Web.UI.WebControls.Repeater rptView;
         
         /// <summary>
-        /// rptStudentFeeCompType control.
+        /// divTotalUsek control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudentFeeCompType;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTotalUsek;
         
         /// <summary>
-        /// rptSiteGrandTotal control.
+        /// divTotalKeg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptSiteGrandTotal;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTotalKeg;
         
         /// <summary>
-        /// tdStudentFeeCompTypeGrandTotal control.
+        /// divTotalPemb control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdStudentFeeCompTypeGrandTotal;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTotalPemb;
+        
+        /// <summary>
+        /// divTotalDenda control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTotalDenda;
+        
+        /// <summary>
+        /// divTotalAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTotalAll;
     }
 }

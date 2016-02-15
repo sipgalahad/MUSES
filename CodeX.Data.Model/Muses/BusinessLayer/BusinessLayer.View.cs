@@ -9798,6 +9798,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vStudentFee> GetvStudentFeeList(string filterExpression, IDbContext ctx)
+        {
+            List<vStudentFee> result = new List<vStudentFee>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentFee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentFee)helper.IDataReaderToObject(reader, new vStudentFee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region vStudentFeeComp
         public static List<vStudentFeeComp> GetvStudentFeeCompList(string filterExpression)

@@ -7,55 +7,55 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Program {
+namespace CodeX.Muses.Web.Information.Program {
     
     
-    public partial class StudentList {
+    public partial class StudentPaymentSummaryInformation2 {
         
         /// <summary>
-        /// btnDropOut control.
+        /// hdnExportControl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnDropOut;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnExportControl;
         
         /// <summary>
-        /// hdnID control.
+        /// hdnExportPeriodText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnExportPeriodText;
         
         /// <summary>
-        /// hdnFilterExpression control.
+        /// trPeriode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trPeriode;
         
         /// <summary>
-        /// hdnDropOutDate control.
+        /// cboYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDropOutDate;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboYear;
         
         /// <summary>
-        /// cboSite control.
+        /// cboMonth control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSite;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMonth;
         
         /// <summary>
         /// cbpView control.
@@ -85,12 +85,48 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
-        /// grdView control.
+        /// hdnTempPeriodText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdView;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTempPeriodText;
+        
+        /// <summary>
+        /// rptSite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptSite;
+        
+        /// <summary>
+        /// rptStudentFeeCompType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptStudentFeeCompType;
+        
+        /// <summary>
+        /// rptSiteGrandTotal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptSiteGrandTotal;
+        
+        /// <summary>
+        /// tdStudentFeeCompTypeGrandTotal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdStudentFeeCompTypeGrandTotal;
     }
 }

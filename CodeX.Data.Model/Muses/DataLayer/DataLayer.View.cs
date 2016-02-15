@@ -867,6 +867,7 @@ namespace CodeX.Data.Model
         private Int32 _ARReceivingID;
         private Int32 _ARInvoiceID;
         private Int32 _ARInvoiceDtID;
+        private DateTime _ReceivingDate;
         private Int32 _StudentFeeCompTypeID;
         private Decimal _TransactionAmount;
         private Decimal _PenaltyAmount;
@@ -889,6 +890,12 @@ namespace CodeX.Data.Model
         {
             get { return _ARInvoiceDtID; }
             set { _ARInvoiceDtID = value; }
+        }
+        [Column(Name = "ReceivingDate", DataType = "DateTime")]
+        public DateTime ReceivingDate
+        {
+            get { return _ReceivingDate; }
+            set { _ReceivingDate = value; }
         }
         [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
         public Int32 StudentFeeCompTypeID
@@ -1120,6 +1127,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ARReceivingDetailID;
         private Int32 _ARReceivingID;
+        private DateTime _ReceivingDate;
         private String _GCARPaymentMethod;
         private String _ARPaymentMethod;
         private Int32 _EDCMachineID;
@@ -1149,6 +1157,12 @@ namespace CodeX.Data.Model
         {
             get { return _ARReceivingID; }
             set { _ARReceivingID = value; }
+        }
+        [Column(Name = "ReceivingDate", DataType = "DateTime")]
+        public DateTime ReceivingDate
+        {
+            get { return _ReceivingDate; }
+            set { _ReceivingDate = value; }
         }
         [Column(Name = "GCARPaymentMethod", DataType = "String")]
         public String GCARPaymentMethod
@@ -24793,6 +24807,7 @@ namespace CodeX.Data.Model
         private String _MobilePhoneNo2;
         private String _PhoneNo1;
         private String _PictureFileName;
+        private DateTime _DropOutDate;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -25083,6 +25098,12 @@ namespace CodeX.Data.Model
         {
             get { return _PictureFileName; }
             set { _PictureFileName = value; }
+        }
+        [Column(Name = "DropOutDate", DataType = "DateTime")]
+        public DateTime DropOutDate
+        {
+            get { return _DropOutDate; }
+            set { _DropOutDate = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -25887,9 +25908,13 @@ namespace CodeX.Data.Model
     public partial class vStudentFee
     {
         private Int32 _StudentFeeID;
+        private String _SiteID;
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
+        private Int32 _SchoolClassID;
+        private String _SchoolClassCode;
+        private String _SchoolClassName;
         private Int32 _ProspectiveStudentID;
         private Int32 _BusinessPartnerID;
         private Int32 _SchoolPeriodID;
@@ -25922,6 +25947,12 @@ namespace CodeX.Data.Model
             get { return _StudentFeeID; }
             set { _StudentFeeID = value; }
         }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
         [Column(Name = "StudentID", DataType = "Int32")]
         public Int32 StudentID
         {
@@ -25939,6 +25970,24 @@ namespace CodeX.Data.Model
         {
             get { return _StudentName; }
             set { _StudentName = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "SchoolClassCode", DataType = "String")]
+        public String SchoolClassCode
+        {
+            get { return _SchoolClassCode; }
+            set { _SchoolClassCode = value; }
+        }
+        [Column(Name = "SchoolClassName", DataType = "String")]
+        public String SchoolClassName
+        {
+            get { return _SchoolClassName; }
+            set { _SchoolClassName = value; }
         }
         [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
         public Int32 ProspectiveStudentID

@@ -38,7 +38,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(string.Format("SchoolPeriodID = {0} AND StudentFeeCompTypeID = {1} AND IsDeleted = 0 ORDER BY StudentCode", hdnSchoolPeriodID.Value, hdnStudentFeeCompTypeID.Value));
+            List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(string.Format("SchoolPeriodID = {0} AND StudentFeeCompTypeID = {1} AND StudentIsDeleted = 0 AND IsDeleted = 0 ORDER BY StudentCode", hdnSchoolPeriodID.Value, hdnStudentFeeCompTypeID.Value));
             grdPopupView.DataSource = lstEntity;
             grdPopupView.DataBind();
         }
@@ -47,7 +47,7 @@ namespace CodeX.Muses.Web.Information.Program
         {
             isShowTitle = false;
             fileName = string.Format("{0}_{1}_{2}", Request.Form[txtHeaderText.UniqueID], Request.Form[txtHeaderText2.UniqueID]);
-            List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(string.Format("SchoolPeriodID = {0} AND StudentFeeCompTypeID = {1} AND IsDeleted = 0 ORDER BY StudentCode", Request.Form[hdnSchoolPeriodID.UniqueID], Request.Form[hdnStudentFeeCompTypeID.UniqueID]));
+            List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(string.Format("SchoolPeriodID = {0} AND StudentFeeCompTypeID = {1} AND StudentIsDeleted = 0 AND IsDeleted = 0 ORDER BY StudentCode", Request.Form[hdnSchoolPeriodID.UniqueID], Request.Form[hdnStudentFeeCompTypeID.UniqueID]));
             grdPopupView.DataSource = lstEntity;
             grdPopupView.DataBind();
             HtmlGenericControl div = new HtmlGenericControl("DIV");

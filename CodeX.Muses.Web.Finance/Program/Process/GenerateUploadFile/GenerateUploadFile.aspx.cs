@@ -171,7 +171,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             ARBalance entityARBalance = lstARBalance.FirstOrDefault(p => p.ProspectiveStudentID == ps.ProspectiveStudentID);
                             if (entityARBalance != null)
                                 depositAmount = entityARBalance.DepositAmount;
-                            
+
                             foreach (vStudentFeeComp obj in sfctList.Where(x => x.ProspectiveStudentID  == ps.ProspectiveStudentID))
                             {
                                 List<vARInvoiceDt> lstvARInvoiceDt1 = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
@@ -179,7 +179,6 @@ namespace CodeX.Muses.Web.Finance.Program
                                 if (lstvARInvoiceDt1.Count > 0)
                                 {
                                     decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount - x.PaymentAmount));
-
                                     if (depositAmount < amount)
                                     {
                                         amount = amount - depositAmount;
@@ -193,12 +192,15 @@ namespace CodeX.Muses.Web.Finance.Program
                                         depositAmount -= amount;
                                 }
                             }
-                            for (; count < 26; count++)
+                            if (count > 1)
                             {
-                                tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
-                                tempFormat = tempFormat.Replace("{NA" + count + "}", "");
+                                for (; count < 26; count++)
+                                {
+                                    tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
+                                    tempFormat = tempFormat.Replace("{NA" + count + "}", "");
+                                }
+                                txt += String.Format("{0}{1}", tempFormat, Environment.NewLine);
                             }
-                            txt += String.Format("{0}{1}", tempFormat, Environment.NewLine);
                         }
                     }
                     #endregion
@@ -237,7 +239,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             ARBalance entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == s.StudentID);
                             if (entityARBalance != null)
                                 depositAmount = entityARBalance.DepositAmount;
-                            
+
                             foreach (vStudentFeeComp obj in sfctList.Where(x => x.StudentID == s.StudentID))
                             {
                                 List<vARInvoiceDt> lstvARInvoiceDt1 = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
@@ -245,7 +247,6 @@ namespace CodeX.Muses.Web.Finance.Program
                                 if (lstvARInvoiceDt1.Count > 0)
                                 {
                                     decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount - x.PaymentAmount));
-
                                     if (depositAmount < amount)
                                     {
                                         amount = amount - depositAmount;
@@ -259,12 +260,15 @@ namespace CodeX.Muses.Web.Finance.Program
                                         depositAmount -= amount;
                                 }
                             }
-                            for (; count < 26; count++)
+                            if (count > 1)
                             {
-                                tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
-                                tempFormat = tempFormat.Replace("{NA" + count + "}", "");
+                                for (; count < 26; count++)
+                                {
+                                    tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
+                                    tempFormat = tempFormat.Replace("{NA" + count + "}", "");
+                                }
+                                txt += String.Format("{0}{1}", tempFormat, Environment.NewLine);
                             }
-                            txt += String.Format("{0}{1}", tempFormat, Environment.NewLine);
                         }
                     }
                     #endregion

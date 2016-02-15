@@ -140,6 +140,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboStudentStatus, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtDropOutDate, new ControlEntrySetting(true, true, false));
             #endregion
         }
 
@@ -194,6 +195,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #region Additional Information
             txtVirtualAccountNo.Text = entity.VirtualAccountNo;
             cboStudentStatus.Value = entity.GCStudentStatus;
+            txtDropOutDate.Text = entity.DropOutDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboGrade.Value = entity.GCGrade;
             cboMajor.Value = entity.GCMajor;
             txtRemarks.Text = entity.Remarks;
@@ -259,6 +261,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #region Additional Information
             entity.VirtualAccountNo = txtVirtualAccountNo.Text;
             entity.GCStudentStatus = cboStudentStatus.Value.ToString();
+            entity.DropOutDate = Helper.GetDatePickerValue(Request.Form[txtDropOutDate.UniqueID]);
             entity.GCGrade = cboGrade.Value.ToString();
             if (cboMajor.Value != null)
                 entity.GCMajor = cboMajor.Value.ToString();

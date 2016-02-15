@@ -52,7 +52,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 filterExpression = hdnFilterExpression.Value;
                 if (filterExpression != "")
                     filterExpression += " AND ";
-                filterExpression += string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus IN ('{1}','{2}','{3}','{4}')", tacPeriodAdmission.Value, Constant.RegistrationStatus.AR_PROCESSED, Constant.RegistrationStatus.PAID, Constant.RegistrationStatus.SETTLED, Constant.RegistrationStatus.CLOSED);
+                filterExpression += string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus IN ('{1}','{2}','{3}')", tacPeriodAdmission.Value, Constant.RegistrationStatus.AR_PROCESSED, Constant.RegistrationStatus.PAID, Constant.RegistrationStatus.SETTLED);
             }
             return filterExpression;
         }

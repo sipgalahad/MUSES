@@ -8,10 +8,23 @@
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnDropOut" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><div><%=GetLabel("Keluar")%></div></li>
+</asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
+        function onDropOutDateSaveClick(date) {
+            $('#<%=hdnDropOutDate.ClientID %>').val(date);
+            onCustomButtonClick('dropout');
+        }
+
         $(function () {
+            $('#<%=btnDropOut.ClientID %>').click(function () {
+                var url = ResolveUrl("~/Program/Master/Student/StudentDropOutEntryCtl.ascx");
+                openUserControlPopup(url, '', 'Drop Out', 400, 200);                
+            });
+
             var grd = new customGridView();
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
         });
@@ -86,6 +99,7 @@
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
+    <input type="hidden" id="hdnDropOutDate" runat="server" value="" />
     <table>
         <colgroup>
             <col style="width:150px"/>

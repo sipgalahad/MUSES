@@ -23,8 +23,7 @@
 
             onCbpViewEndCallback();
         });
-
-        function onCbpViewEndCallback() {
+        function onCbpViewEndCallback(s) {
             $tempDiv = $('<div></div>');
             $tempDiv.html($('#divContainerView').html());
             $tempDiv.find('.tblStudentPaymentInformation').attr('border', '1');
@@ -33,43 +32,16 @@
             hideLoadingPanel();
         }
 
-        $('.lblThisMonth').live('click', function () {
-            $td = $(this).closest('td');
-            var siteID = $td.find('.hdnSiteID').val();
-            var studentFeeCompTypeID = $(this).closest('tr').find('.hdnStudentFeeCompTypeID').val();
-            openDetail(siteID, studentFeeCompTypeID, 'ThisMonth');
-        });
-
-        $('.lblDownPayment').live('click', function () {
-            $td = $(this).closest('td');
-            var siteID = $td.find('.hdnSiteID').val();
-            var studentFeeCompTypeID = $(this).closest('tr').find('.hdnStudentFeeCompTypeID').val();
-            openDetail(siteID, studentFeeCompTypeID, 'DownPayment');
-        });
-
-        $('.lblProspectiveStudent').live('click', function () {
-            $td = $(this).closest('td');
-            var siteID = $td.find('.hdnSiteID').val();
-            var studentFeeCompTypeID = $(this).closest('tr').find('.hdnStudentFeeCompTypeID').val();
-            openDetail(siteID, studentFeeCompTypeID, 'ProspectiveStudent');
-        });
-
-        $('.lblARStudent').live('click', function () {
-            $td = $(this).closest('td');
-            var siteID = $td.find('.hdnSiteID').val();
-            var studentFeeCompTypeID = $(this).closest('tr').find('.hdnStudentFeeCompTypeID').val();
-            openDetail(siteID, studentFeeCompTypeID, 'ARStudent');
-        });
-
-        function openDetail(siteID, studentFeeCompTypeID, type) {
-            var url = ResolveUrl("~/Program/Finance/StudentPaymentSummary/StudentPaymentSummaryInformationDtCtl.ascx");
-            var param = siteID + '|' + cboMonth.GetValue() + '|' + cboYear.GetValue() + '|' + type + '|' + studentFeeCompTypeID;
-            openUserControlPopup(url, param, 'Detail Information', 1200, 550);
+        function onCboSiteValueChanged() {
+            $('#<%=hdnSiteID.ClientID %>').val(cboSite.GetValue());
+            $('#<%=hdnSiteName.ClientID %>').val(cboSite.GetText());
         }
     </script>
     <style type="text/css">
         .divRemarks             { height: 30px; }
     </style>
+    <input type="hidden" value="" id="hdnSiteID" runat="server" />
+    <input type="hidden" value="" id="hdnSiteName" runat="server" />
     <input type="hidden" id="hdnExportControl" runat="server" />
     <input type="hidden" id="hdnExportPeriodText" runat="server" />
     <table>
@@ -80,6 +52,14 @@
             <col width="80px" />
             <col />
         </colgroup>
+        <tr>
+            <td class="tdLabel" style="width:100px;"><%=GetLabel("Site") %></td>
+            <td colspan="3">
+                <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
+                    <ClientSideEvents Init="function(s,e){ onCboSiteValueChanged(); }"  ValueChanged="function(s,e){ onCboSiteValueChanged() }" />
+                </dxe:ASPxComboBox>
+            </td>
+        </tr>
         <tr id="trPeriode" runat="server">
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Periode")%></label></td>
             <td><dxe:ASPxComboBox ID="cboYear" Width="80px" ClientInstanceName="cboYear" runat="server" HorizontalAlign="Center" /></td>
@@ -90,120 +70,54 @@
     <div class="divTransactionEntry">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
-            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
-                EndCallback="function(s,e){ onCbpViewEndCallback(); }" />
+            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
             <PanelCollection>
                 <dx:PanelContent ID="PanelContent1" runat="server">
-                    <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
-                        position: relative; font-size: 0.95em;">
+                    <asp:Panel runat="server" ID="pnlGridView" CssClass="pnlContainerGrid" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;height:380px;overflow-y:auto;">
                         <input type="hidden" id="hdnTempPeriodText" class="hdnTempPeriodText" runat="server" />
                         <div id="divContainerView">
-                            <table cellpadding="0" cellspacing="0" class="grdSelected grdBorder tblStudentPaymentInformation">
+                            <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
+                                <HeaderTemplate>
+                                    <table cellpadding="0" cellspacing="0" border="1" rules="all" class="grdSelected grdBorder">
+                                        <colgroup>
+                                            <col/>
+                                            <col style="width:200px"/>
+                                            <col style="width:200px"/>
+                                            <col style="width:200px"/>
+                                            <col style="width:200px"/>
+                                            <col style="width:200px"/>
+                                        </colgroup>
+                                        <tr>
+                                            <th rowspan="2" class="thCenter"><%=GetLabel("Tanggal") %></th> 
+                                            <th colspan="4" class="thCenter"><%=GetLabel("Jenis Pembayaran") %></th>
+                                            <th rowspan="2" class="thCenter"><%=GetLabel("Total") %></th>
+                                        </tr>
+                                        <tr>
+                                            <th class="thCenter"><%=GetLabel("Uang Sekolah") %></th>
+                                            <th class="thCenter"><%=GetLabel("Uang Kegiatan") %></th>
+                                            <th class="thCenter"><%=GetLabel("Uang Pembangunan") %></th>
+                                            <th class="thCenter"><%=GetLabel("Denda") %></th>
+                                        </tr>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <tr>
+                                        <td align="right"><%# Container.ItemIndex + 1%></td>
+                                        <td align="right"><div id="divUsek" runat="server"></div></td>
+                                        <td align="right"><div id="divKeg" runat="server"></div></td>
+                                        <td align="right"><div id="divPemb" runat="server"></div></td>
+                                        <td align="right"><div id="divDenda" runat="server"></div></td>
+                                        <td align="right"><div id="divTotal" runat="server"></div></td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
                                 <tr>
-                                    <th class="thCenter" colspan="2"><%=GetLabel("URAIAN") %></th>
-                                    <asp:Repeater ID="rptSite" runat="server">
-                                        <ItemTemplate>
-                                            <th class="thCenter" style="width: 100px"><%#Eval("SiteName") %></th>
-                                        </ItemTemplate>
-                                    </asp:Repeater>
-                                    <th class="thCenter" style="width: 100px"><%=GetLabel("JUMLAH") %></th>
-                                </tr>
-                                <asp:Repeater ID="rptStudentFeeCompType" runat="server" OnItemDataBound="rptStudentFeeCompType_ItemDataBound">
-                                    <ItemTemplate>
-                                        <tr>
-                                            <td align="center" rowspan="5" valign="top" style="width:60px"><b><%# Container.ItemIndex + 1 %></b></td>
-                                            <td valign="top">
-                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' />
-                                                <b><%#Eval("StudentFeeCompTypeName")%></b>
-                                            </td>
-                                            <asp:Repeater ID="rptSiteDt1" runat="server">
-                                                <ItemTemplate>
-                                                    <td align="right">&nbsp;</td>
-                                                </ItemTemplate>
-                                            </asp:Repeater>
-                                            <td align="right">&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Bulan Ini                                                
-                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' />
-                                            </td>
-                                            <asp:Repeater ID="rptSiteDt2" runat="server" OnItemDataBound="rptSiteDt2_ItemDataBound">
-                                                <ItemTemplate>
-                                                    <td align="right">
-                                                        <input type="hidden" class="hdnSiteID" value='<%#Eval("SiteID") %>' />
-                                                        <label id="lblStudentReceiveAmount" runat="server" class="lblStudentReceiveAmount lblThisMonth lblLink"></label>
-                                                    </td>
-                                                </ItemTemplate>
-                                            </asp:Repeater>
-                                            <td align="right" id="tdTotalThisMonth" runat="server"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Uang muka (bln yang akan datang)                                             
-                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' />
-                                            </td>
-                                            <asp:Repeater ID="rptSiteDt3" runat="server" OnItemDataBound="rptSiteDt3_ItemDataBound">
-                                                <ItemTemplate>
-                                                    <td align="right">
-                                                        <input type="hidden" class="hdnSiteID" value='<%#Eval("SiteID") %>' />
-                                                        <label id="lblStudentReceiveAmount" runat="server" class="lblStudentReceiveAmount lblDownPayment lblLink"></label>
-                                                    </td>
-                                                </ItemTemplate>
-                                            </asp:Repeater>
-                                            <td align="right" id="tdTotalDP" runat="server"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Siswa baru masuk                                        
-                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' />
-                                            </td>
-                                            <asp:Repeater ID="rptSiteDt4" runat="server" OnItemDataBound="rptSiteDt4_ItemDataBound">
-                                                <ItemTemplate>
-                                                    <td align="right">
-                                                        <input type="hidden" class="hdnSiteID" value='<%#Eval("SiteID") %>' />
-                                                        <label id="lblStudentReceiveAmount" runat="server" class="lblStudentReceiveAmount lblProspectiveStudent lblLink"></label>
-                                                    </td>
-                                                </ItemTemplate>
-                                            </asp:Repeater>
-                                            <td align="right" id="tdTotalProspectiveStudent" runat="server"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Piutang                                     
-                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' />
-                                            </td>
-                                            <asp:Repeater ID="rptSiteDt5" runat="server" OnItemDataBound="rptSiteDt5_ItemDataBound">
-                                                <ItemTemplate>
-                                                    <td align="right">
-                                                        <input type="hidden" class="hdnSiteID" value='<%#Eval("SiteID") %>' />
-                                                        <label id="lblStudentReceiveAmount" runat="server" class="lblStudentReceiveAmount lblARStudent lblLink"></label>
-                                                    </td>
-                                                </ItemTemplate>
-                                            </asp:Repeater>
-                                            <td align="right" id="tdTotalAR" runat="server"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>&nbsp;</td>
-                                            <td><b><%=GetLabel("Total") %> <%#Eval("StudentFeeCompTypeName")%></b></td>
-                                            <asp:Repeater ID="rptSiteTotal" runat="server" OnItemDataBound="rptSiteTotal_ItemDataBound">
-                                                <ItemTemplate>
-                                                    <td align="right" id="tdStudentFeeCompTypeTotal" runat="server"></td>
-                                                </ItemTemplate>
-                                            </asp:Repeater>
-                                            <td align="right" id="tdTotalStudentFeeCompType" runat="server"></td>
-                                        </tr>
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td><b><%=GetLabel("Total Seluruhnya") %></b></td>
-                                    <asp:Repeater ID="rptSiteGrandTotal" runat="server" OnItemDataBound="rptSiteGrandTotal_ItemDataBound">
-                                        <ItemTemplate>
-                                            <td align="right" id="tdStudentFeeCompTypeTotal" runat="server"></td>
-                                        </ItemTemplate>
-                                    </asp:Repeater>
-                                    <td align="right" id="tdStudentFeeCompTypeGrandTotal" runat="server"></td>
+                                    <td style="font-weight:bold;" align="right"><%=GetLabel("Total") %></td>
+                                    <td align="right"><div id="divTotalUsek" runat="server"></div></td>
+                                    <td align="right"><div id="divTotalKeg" runat="server"></div></td>
+                                    <td align="right"><div id="divTotalPemb" runat="server"></div></td>
+                                    <td align="right"><div id="divTotalDenda" runat="server"></div></td>
+                                    <td align="right"><div id="divTotalAll" runat="server"></div></td>
                                 </tr>
                             </table>
                         </div>

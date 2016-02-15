@@ -21,11 +21,15 @@ namespace CodeX.Muses.Web.Information.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Information.STUDENT_PAYMENT_SUMMARY_INFO;
+            return Constant.MenuCode.Information.STUDENT_PAYMENT_SUMMARY;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
+
             #region Data Month
             cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
             {
@@ -51,160 +55,84 @@ namespace CodeX.Muses.Web.Information.Program
             BindGridView();
         }
 
-        List<StudentFeeCompType> lstStudentFeeCompType = null;
-        List<vSite> lstSite = null;
-        List<GetStudentReceiveSummary> lstStudentReceive = null;
-
-        class CStudentFeeCompTypeTotal
-        {
-            public string SiteID { get; set; }
-            public int StudentFeeCompTypeID { get; set; }
-            public decimal TotalAmount { get; set; }
-        }
-        List<CStudentFeeCompTypeTotal> lstStudentFeeCompTypeTotal = null;
-
+        List<vARReceivingHd> lstARReceivingHd = null;
+        List<vARReceivingDt> lstEntityDt = null;
+        List<vARInvoiceReceiving> lstARInvoiceReceiving = null;
         #region Bind Grid View
         private void BindGridView()
         {
             hdnTempPeriodText.Value = string.Format("BULAN {0} {1}", cboMonth.Text, cboYear.Value);
 
-            lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
-            lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
-
-            lstStudentReceive = new List<GetStudentReceiveSummary>();
-            foreach (vSite site in lstSite)
+            DateTime startDate = new DateTime(Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value), 1);
+            DateTime endDate = startDate.AddMonths(1).AddDays(-1);
+            List<DateTime> lstDateTime = new List<DateTime>();
+            for (var dt = startDate; dt <= endDate; dt = dt.AddDays(1))
             {
-                List<GetStudentReceiveSummary> lstStudentReceive1 = BusinessLayer.GetStudentReceiveSummary(site.SiteID, Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value));
-                foreach (GetStudentReceiveSummary studentReceive in lstStudentReceive1)
-                {
-                    studentReceive.SiteID = site.SiteID;
-                }
-                lstStudentReceive = lstStudentReceive.Concat(lstStudentReceive1).ToList();
-            }
-            rptSite.DataSource = lstSite;
-            rptSite.DataBind();
-
-            lstStudentFeeCompTypeTotal = new List<CStudentFeeCompTypeTotal>();
-
-            foreach (vSite site in lstSite)
-            {
-                foreach (StudentFeeCompType studentFeeCompType in lstStudentFeeCompType)
-                {
-                    lstStudentFeeCompTypeTotal.Add(new CStudentFeeCompTypeTotal { SiteID = site.SiteID, StudentFeeCompTypeID = studentFeeCompType.StudentFeeCompTypeID, TotalAmount = 0 });
-                }
+                lstDateTime.Add(dt);
             }
 
-            rptStudentFeeCompType.DataSource = lstStudentFeeCompType;
-            rptStudentFeeCompType.DataBind();
+            string filterExpression = string.Format("SiteID = '{0}' AND MONTH(ReceivingDate) = {1} AND YEAR(ReceivingDate) = {2} AND GCTransactionStatus != '{3}' AND BusinessPartnerID IS NULL", cboSite.Value, cboMonth.Value, cboYear.Value, Constant.TransactionStatus.VOID);
+            lstARReceivingHd = BusinessLayer.GetvARReceivingHdList(filterExpression);
 
-            rptSiteGrandTotal.DataSource = lstSite;
-            rptSiteGrandTotal.DataBind();
-
-            tdStudentFeeCompTypeGrandTotal.InnerHtml = lstStudentReceive.Sum(p => p.TotalAmount).ToString("N");
-        }
-
-        protected void rptStudentFeeCompType_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            if (lstARReceivingHd.Count > 0)
             {
-                StudentFeeCompType entity = (StudentFeeCompType)e.Item.DataItem;
-
-                Repeater rptSiteDt1 = (Repeater)e.Item.FindControl("rptSiteDt1");
-                rptSiteDt1.DataSource = lstSite;
-                rptSiteDt1.DataBind();
-                Repeater rptSiteDt2 = (Repeater)e.Item.FindControl("rptSiteDt2");
-                rptSiteDt2.DataSource = lstSite;
-                rptSiteDt2.DataBind();
-                Repeater rptSiteDt3 = (Repeater)e.Item.FindControl("rptSiteDt3");
-                rptSiteDt3.DataSource = lstSite;
-                rptSiteDt3.DataBind();
-                Repeater rptSiteDt4 = (Repeater)e.Item.FindControl("rptSiteDt4");
-                rptSiteDt4.DataSource = lstSite;
-                rptSiteDt4.DataBind();
-                Repeater rptSiteDt5 = (Repeater)e.Item.FindControl("rptSiteDt5");
-                rptSiteDt5.DataSource = lstSite;
-                rptSiteDt5.DataBind();
-
-                HtmlTableCell tdTotalThisMonth = (HtmlTableCell)e.Item.FindControl("tdTotalThisMonth");
-                HtmlTableCell tdTotalDP = (HtmlTableCell)e.Item.FindControl("tdTotalDP");
-                HtmlTableCell tdTotalProspectiveStudent = (HtmlTableCell)e.Item.FindControl("tdTotalProspectiveStudent");
-                HtmlTableCell tdTotalAR = (HtmlTableCell)e.Item.FindControl("tdTotalAR");
-                HtmlTableCell tdTotalStudentFeeCompType = (HtmlTableCell)e.Item.FindControl("tdTotalStudentFeeCompType");
-                tdTotalThisMonth.InnerHtml = lstStudentReceive.Where(p => p.Code == "ThisMonth" && p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID).Sum(p => p.TotalAmount).ToString("N");
-                tdTotalDP.InnerHtml = lstStudentReceive.Where(p => p.Code == "DownPayment" && p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID).Sum(p => p.TotalAmount).ToString("N");
-                tdTotalProspectiveStudent.InnerHtml = lstStudentReceive.Where(p => p.Code == "ProspectiveStudent" && p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID).Sum(p => p.TotalAmount).ToString("N");
-                tdTotalAR.InnerHtml = lstStudentReceive.Where(p => p.Code == "ARStudent" && p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID).Sum(p => p.TotalAmount).ToString("N");
-                tdTotalStudentFeeCompType.InnerHtml = lstStudentReceive.Where(p => p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID).Sum(p => p.TotalAmount).ToString("N");
-
-                Repeater rptSiteTotal = (Repeater)e.Item.FindControl("rptSiteTotal");
-                rptSiteTotal.DataSource = lstSite;
-                rptSiteTotal.DataBind();
+                string lstARReceivingID = string.Join(",", lstARReceivingHd.Select(p => p.ARReceivingID).ToList());
+                lstEntityDt = BusinessLayer.GetvARReceivingDtList(string.Format("ARReceivingID IN ({0}) AND GCARPaymentMethod IN ('{1}')", lstARReceivingID, Constant.PaymentMethod.DOWN_PAYMENT_RETURN));
+                lstARInvoiceReceiving = BusinessLayer.GetvARInvoiceReceivingList(string.Format("ARReceivingID IN ({0}) AND ReceivingAmount != 0", lstARReceivingID));
             }
-        }
-
-        private void rptSiteDt_ItemDataBound(object sender, RepeaterItemEventArgs e, string type)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            else
             {
-                vSite entity = (vSite)e.Item.DataItem;
-                List<GetStudentReceiveSummary> lstStudentReceive1 = lstStudentReceive.Where(p => p.SiteID == entity.SiteID).ToList();
-                StudentFeeCompType studentFeeCompType = ((RepeaterItem)e.Item.Parent.Parent).DataItem as StudentFeeCompType;
-
-                CStudentFeeCompTypeTotal studentFeeCompTypeTotal = lstStudentFeeCompTypeTotal.FirstOrDefault(p => p.SiteID == entity.SiteID && p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID);
-
-                decimal totalAmount = 0;
-                GetStudentReceiveSummary studentReceive = lstStudentReceive1.FirstOrDefault(p => p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID && p.Code == type);
-                if (studentReceive != null)
-                {
-                    totalAmount = studentReceive.TotalAmount;
-                    studentFeeCompTypeTotal.TotalAmount += totalAmount;
-                }
-                HtmlGenericControl lblStudentReceiveAmount = (HtmlGenericControl)e.Item.FindControl("lblStudentReceiveAmount");
-                lblStudentReceiveAmount.InnerHtml = totalAmount.ToString("N");
+                lstEntityDt = new List<vARReceivingDt>();
+                lstARInvoiceReceiving = new List<vARInvoiceReceiving>();
             }
+
+            rptView.DataSource = lstDateTime;
+            rptView.DataBind();
+
+            divTotalPemb.InnerHtml = totalUangPemb.ToString("N2");
+            divTotalUsek.InnerHtml = totalUangSek.ToString("N2");
+            divTotalKeg.InnerHtml = totalUangKeg.ToString("N2");
+            divTotalDenda.InnerHtml = totalDenda.ToString("N");
+            divTotalAll.InnerHtml = (totalUangPemb + totalUangSek + totalUangKeg + totalDenda).ToString("N2");
         }
 
-        protected void rptSiteDt2_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        decimal totalUangPemb = 0;
+        decimal totalUangSek = 0;
+        decimal totalUangKeg = 0;
+        decimal totalDenda = 0;
+        protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            rptSiteDt_ItemDataBound(sender, e, "ThisMonth");
-        }
-
-        protected void rptSiteDt3_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            rptSiteDt_ItemDataBound(sender, e, "DownPayment");
-        }
-
-        protected void rptSiteDt4_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            rptSiteDt_ItemDataBound(sender, e, "ProspectiveStudent");
-        }
-
-        protected void rptSiteDt5_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            rptSiteDt_ItemDataBound(sender, e, "ARStudent");
-        }
-
-        protected void rptSiteTotal_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                vSite entity = (vSite)e.Item.DataItem;
-                StudentFeeCompType studentFeeCompType = ((RepeaterItem)e.Item.Parent.Parent).DataItem as StudentFeeCompType;
+                DateTime dt = (DateTime)e.Item.DataItem;
+                List<vARReceivingHd> lstARReceivingHd1 = lstARReceivingHd.Where(p => p.ReceivingDate == dt).ToList();
+                List<vARReceivingDt> lstARReceivingDt = lstEntityDt.Where(p => p.ReceivingDate == dt).ToList();
+                List<vARInvoiceReceiving> lstARInvoiceReceiving1 = lstARInvoiceReceiving.Where(p => p.ReceivingDate == dt).ToList();
 
-                HtmlTableCell tdStudentFeeCompTypeTotal = (HtmlTableCell)e.Item.FindControl("tdStudentFeeCompTypeTotal");
-                CStudentFeeCompTypeTotal studentFeeCompTypeTotal = lstStudentFeeCompTypeTotal.FirstOrDefault(p => p.SiteID == entity.SiteID && p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID);
-                tdStudentFeeCompTypeTotal.InnerHtml = studentFeeCompTypeTotal.TotalAmount.ToString("N");
-            }
-        }
+                HtmlGenericControl divPemb = e.Item.FindControl("divPemb") as HtmlGenericControl;
+                HtmlGenericControl divSek = e.Item.FindControl("divUsek") as HtmlGenericControl;
+                HtmlGenericControl divKeg = e.Item.FindControl("divKeg") as HtmlGenericControl;
+                HtmlGenericControl divDenda = e.Item.FindControl("divDenda") as HtmlGenericControl;
+                HtmlGenericControl divTotal = e.Item.FindControl("divTotal") as HtmlGenericControl;
+                decimal pemb = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.ReceivingAmount);
+                decimal usek = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.ReceivingAmount - p.cfPenaltyAmount);
+                decimal keg = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.ReceivingAmount);
+                decimal denda = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.cfPenaltyAmount);
 
-        protected void rptSiteGrandTotal_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            {
-                vSite entity = (vSite)e.Item.DataItem;
+                usek -= lstARReceivingDt.Sum(p => p.PaymentAmount);
+                usek += lstARReceivingHd1.Sum(p => p.DepositAmount);
 
-                HtmlTableCell tdStudentFeeCompTypeTotal = (HtmlTableCell)e.Item.FindControl("tdStudentFeeCompTypeTotal");
-                tdStudentFeeCompTypeTotal.InnerHtml = lstStudentFeeCompTypeTotal.Where(p => p.SiteID == entity.SiteID).Sum(p => p.TotalAmount).ToString("N");
+                totalUangPemb += pemb;
+                totalUangSek += usek;
+                totalUangKeg += keg;
+                totalDenda += denda;
+
+                decimal total = pemb + usek + keg + denda;
+                divPemb.InnerHtml = pemb.ToString("N2");
+                divSek.InnerHtml = usek.ToString("N2");
+                divKeg.InnerHtml = keg.ToString("N2");
+                divDenda.InnerHtml = denda.ToString("N2");
+                divTotal.InnerHtml = total.ToString("N2");
             }
         }
 

@@ -310,7 +310,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             errMessage = string.Empty;
 
-            string FilterExpression = string.Format("ProspectiveStudentCode = '{0}'", txtRegistrationNo.Text);
+            string FilterExpression = string.Format("ProspectiveStudentCode = '{0}' AND IsDeleted = 0", txtRegistrationNo.Text);
             List<ProspectiveStudent> lst = BusinessLayer.GetProspectiveStudentList(FilterExpression);
 
             if (lst.Count > 0)

@@ -9,6 +9,7 @@ using CodeX.Data.Model;
 using CodeX.Web.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
+using CodeX.Data.Core.Dal;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -124,6 +125,63 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.UpdateStudent(entity);
                 return true;
+            }
+            return false;
+        }
+
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        {
+            if (hdnID.Value.ToString() != "")
+            {
+                IDbContext ctx = DbFactory.Configure(true);
+                StudentDao entityDao = new StudentDao(ctx);
+                StudentFeeDao entityStudentFeeDao = new StudentFeeDao(ctx);
+                StudentFeeDtDao entityStudentFeeDtDao = new StudentFeeDtDao(ctx);
+                bool result = true;
+                try
+                {
+                    Student entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                    entity.DropOutDate = Helper.GetDatePickerValue(hdnDropOutDate.Value);
+                    entity.GCStudentStatus = Constant.StudentStatus.DROP_OUT;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDao.Update(entity);
+
+                    List<vStudentFee> lstvStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("StudentID = {0} AND TransactionMonth IS NOT NULL AND TransactionYear IS NOT NULL AND ({1} < TransactionYear OR ({1} = TransactionYear AND {2} < TransactionMonth)) AND IsPaid = 0", hdnID.Value, entity.DropOutDate.Year, entity.DropOutDate.Month), ctx);
+                    if (lstvStudentFee.Count > 0)
+                    {
+                        string lstStudentFeeID = string.Join(",", lstvStudentFee.Select(p => p.StudentFeeID).ToList());
+                        List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(string.Format("StudentFeeID IN ({0})", lstStudentFeeID), ctx);
+                        foreach (StudentFee studentFee in lstStudentFee)
+                        {
+                            studentFee.TransactionAmount = studentFee.StudentAmount = studentFee.StudentPenaltyAmount = studentFee.TotalDiscountAmount = studentFee.DiscountAmount = studentFee.TotalStudentPenaltyAmount = studentFee.PayerAmount = studentFee.LineAmount = 0;
+                            studentFee.IsDeleted = true;
+                            studentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityStudentFeeDao.Update(studentFee);
+                        }
+                        List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0}) AND IsDeleted = 0 AND IsPaid = 0", lstStudentFeeID), ctx);
+                        foreach (StudentFeeDt studentFeeDt in lstStudentFeeDt)
+                        {
+                            studentFeeDt.TransactionAmount = studentFeeDt.StudentAmount = studentFeeDt.TotalStudentPenaltyAmount = studentFeeDt.TotalStudentAmount = studentFeeDt.PayerAmount = studentFeeDt.LineAmount = 0;
+                            studentFeeDt.IsDeleted = true;
+                            studentFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityStudentFeeDtDao.Update(studentFeeDt);
+                        }
+                    }
+
+                    ctx.CommitTransaction();
+                }
+                catch (Exception ex)
+                {
+                    Helper.InsertErrorLog(ex);
+                    ctx.RollBackTransaction();
+                    result = false;
+                    errMessage = ex.Message;
+                }
+                finally
+                {
+                    ctx.Close();
+                }
+                return result;
             }
             return false;
         }

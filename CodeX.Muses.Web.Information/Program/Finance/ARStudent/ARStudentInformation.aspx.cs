@@ -47,7 +47,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("StudentID IN (SELECT StudentID FROM ARMovement WHERE StudentID IS NOT NULL) AND IsDeleted = 0");
+            string filterExpression = string.Format("StudentID IN (SELECT StudentID FROM ARMovement WHERE StudentID IS NOT NULL) AND GCStudentStatus = '{0}' AND IsDeleted = 0", Constant.StudentStatus.ACTIVE);
             if (hdnFilterExpressionQuickSearch.Value != "")
                 filterExpression += string.Format(" AND {0}", hdnFilterExpressionQuickSearch.Value);
             if (cboSite.Value != null && cboSite.Value.ToString() != "")

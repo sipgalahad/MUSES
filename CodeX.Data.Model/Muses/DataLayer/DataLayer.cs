@@ -26470,6 +26470,8 @@ namespace CodeX.Data.Model
         private String _MobilePhoneNo1;
         private String _MobilePhoneNo2;
         private String _PictureFileName;
+        private DateTime _AcceptedDate;
+        private DateTime _DropOutDate;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -26674,6 +26676,18 @@ namespace CodeX.Data.Model
         {
             get { return _PictureFileName; }
             set { _PictureFileName = value; }
+        }
+        [Column(Name = "AcceptedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime AcceptedDate
+        {
+            get { return _AcceptedDate; }
+            set { _AcceptedDate = value; }
+        }
+        [Column(Name = "DropOutDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime DropOutDate
+        {
+            get { return _DropOutDate; }
+            set { _DropOutDate = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

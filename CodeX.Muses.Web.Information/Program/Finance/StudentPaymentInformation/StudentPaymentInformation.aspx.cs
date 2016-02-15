@@ -83,7 +83,7 @@ namespace CodeX.Muses.Web.Information.Program
             {
                 string lstARReceivingID = string.Join(",", lstEntity.Select(p => p.ARReceivingID).ToList());
                 lstEntityDt = BusinessLayer.GetARReceivingDtList(string.Format("ARReceivingID IN ({0}) AND GCARPaymentMethod IN ('{1}')", lstARReceivingID, Constant.PaymentMethod.DOWN_PAYMENT_RETURN));
-                lstARInvoiceReceiving = BusinessLayer.GetvARInvoiceReceivingList(string.Format("ARReceivingID IN ({0})", lstARReceivingID));
+                lstARInvoiceReceiving = BusinessLayer.GetvARInvoiceReceivingList(string.Format("ARReceivingID IN ({0}) AND ReceivingAmount != 0", lstARReceivingID));
             }
 
             rptView.DataSource = lstEntity;

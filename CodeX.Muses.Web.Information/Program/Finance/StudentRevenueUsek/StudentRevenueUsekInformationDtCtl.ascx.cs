@@ -34,7 +34,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(string.Format("SiteID = '{0}' AND TransactionMonth = {1} AND TransactionYear = {2} AND IsDeleted = 0 ORDER BY StudentCode", hdnSiteID.Value, hdnMonth.Value, hdnYear.Value));
+            List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(string.Format("SiteID = '{0}' AND TransactionMonth = {1} AND TransactionYear = {2} AND StudentIsDeleted = 0 AND IsDeleted = 0 ORDER BY StudentCode", hdnSiteID.Value, hdnMonth.Value, hdnYear.Value));
             grdPopupView.DataSource = lstEntity;
             grdPopupView.DataBind();
         }
@@ -44,7 +44,7 @@ namespace CodeX.Muses.Web.Information.Program
             DateTime dt = new DateTime(Convert.ToInt32(Request.Form[hdnYear.UniqueID]), Convert.ToInt32(Request.Form[hdnMonth.UniqueID]), 1);
             isShowTitle = false;
             fileName = string.Format("{0}_{1}_{2}", Request.Form[txtHeaderText.UniqueID], Request.Form[txtHeaderText2.UniqueID], dt.ToString("yyyyMM"));
-            List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(string.Format("SiteID = '{0}' AND TransactionMonth = {1} AND TransactionYear = {2} AND IsDeleted = 0 ORDER BY StudentCode", Request.Form[hdnSiteID.UniqueID], Request.Form[hdnMonth.UniqueID], Request.Form[hdnYear.UniqueID]));
+            List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(string.Format("SiteID = '{0}' AND TransactionMonth = {1} AND TransactionYear = {2} AND StudentIsDeleted = 0 AND IsDeleted = 0 ORDER BY StudentCode", Request.Form[hdnSiteID.UniqueID], Request.Form[hdnMonth.UniqueID], Request.Form[hdnYear.UniqueID]));
             grdPopupView.DataSource = lstEntity;
             grdPopupView.DataBind();
             HtmlGenericControl div = new HtmlGenericControl("DIV");

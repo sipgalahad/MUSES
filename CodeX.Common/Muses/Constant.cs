@@ -104,6 +104,7 @@ namespace CodeX.Common
         public static class StudentStatus
         {
             public const string ACTIVE = "MS006^001";
+            public const string DROP_OUT = "MS006^002";
         }
 
         public static class PurchaseType
@@ -604,12 +605,13 @@ namespace CodeX.Common
                 public const string TARIFF_INFORMATION = "IF030300";
                 public const string STUDENT_FEE = "IF030401";                
                 public const string STUDENT_REVENUE_USEK_INFO = "IF030402";
-                public const string STUDENT_PAYMENT_SUMMARY_INFO = "IF030403";
+                public const string STUDENT_PAYMENT_SUMMARY = "IF030403";
                 public const string STUDENT_BILL_INFORMATION = "IF030404";
                 public const string STUDENT_PAYMENT_INFORMATION = "IF030405";
                 public const string PROSPECTIVE_STUDENT_PAYMENT_INFORMATION = "IF030406";
                 public const string CUSTOMER_PAYMENT_INFORMATION = "IF030407";
                 public const string STUDENT_REVENUE_INFO = "IF030408";
+                public const string STUDENT_PAYMENT_SUMMARY_INFO = "IF030409";
                 public const string STUDENT_COVERAGE_INFO = "IF030501";
                 public const string STUDENT_SCHOLARSHIP_INFO = "IF030502";
 

@@ -23,11 +23,6 @@ namespace CodeX.Muses.Web.Finance.Program
             return Constant.MenuCode.Finance.AR_INVOICE_CUSTOMER_PROCESS;
         }
 
-        public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
-        {
-            IsAllowAdd = false;
-        }
-
         protected string OnGetCustomerFilterExpression()
         {
             return string.Format("IsDeleted = 0");
@@ -76,6 +71,10 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             hdnIsEditable.Value = "1";
             hdnPageCount.Value = "0";
+
+            List<vARInvoiceDt> lstInvoiceDt = new List<vARInvoiceDt>();
+            grdView.DataSource = lstInvoiceDt;
+            grdView.DataBind();
         }
 
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
