@@ -120,11 +120,41 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                Student entity = BusinessLayer.GetStudent(Convert.ToInt32(hdnID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateStudent(entity);
-                return true;
+                IDbContext ctx = DbFactory.Configure(true);
+                StudentDao entityDao = new StudentDao(ctx);
+                ProspectiveStudentDao entityProspectiveStudentDao = new ProspectiveStudentDao(ctx);
+                StudentFeeDao entityStudentFeeDao = new StudentFeeDao(ctx);
+                StudentFeeDtDao entityStudentFeeDtDao = new StudentFeeDtDao(ctx);
+                bool result = true;
+                try
+                {
+                    Student entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                    entity.DropOutDate = Helper.GetDatePickerValue(hdnDropOutDate.Value);
+                    entity.IsDeleted = true;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDao.Update(entity);
+
+                    if (entity.RegistrationID != null && entity.RegistrationID != 0)
+                    {
+                        ProspectiveStudent entityProspectiveStudent = BusinessLayer.GetProspectiveStudentList(string.Format("ProspectiveStudentID IN (SELECT ProspectiveStudentID FROM Registration WHERE RegistrationID = {0})", entity.RegistrationID)).FirstOrDefault();
+                        entityProspectiveStudent.IsDeleted = true;
+                        entityProspectiveStudent.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityProspectiveStudentDao.Update(entityProspectiveStudent);
+                    }
+                    ctx.CommitTransaction();
+                }
+                catch (Exception ex)
+                {
+                    Helper.InsertErrorLog(ex);
+                    ctx.RollBackTransaction();
+                    result = false;
+                    errMessage = ex.Message;
+                }
+                finally
+                {
+                    ctx.Close();
+                }
+                return result;
             }
             return false;
         }
