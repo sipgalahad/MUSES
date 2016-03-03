@@ -2388,6 +2388,32 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentFeeStatusPerClassSummary
+    public partial class vStudentFeeStatusPerClassSummary
+    {
+        public Decimal StudentAmount
+        {
+            get
+            {
+                return _StudentNotPaidAmount + _StudentPaidAmount;
+            }
+        }
+        public Decimal StudentPaidCountPercentage
+        {
+            get
+            {
+                return (_StudentPaidCount * 100 / _StudentCount);
+            }
+        }
+        public Decimal StudentNotPaidCountPercentage
+        {
+            get
+            {
+                return (_StudentNotPaidCount * 100 / _StudentCount);
+            }
+        }
+    }
+    #endregion
     #region vStudentScholarshipTransactionHd
     public partial class vStudentScholarshipTransactionHd
     {

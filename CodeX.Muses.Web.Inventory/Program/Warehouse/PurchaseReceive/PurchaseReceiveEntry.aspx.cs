@@ -112,8 +112,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(lblSupplier, new ControlEntrySetting(true, false));
             SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, true));
-            SetControlEntrySetting(txtFacturNo, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(txtDateReferrence, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
+            SetControlEntrySetting(txtFacturNo, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtDateReferrence, new ControlEntrySetting(true, true, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
 
             SetControlEntrySetting(cboTerm, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, false, true, hdnDefaultServiceUnitCode.Value));
@@ -269,8 +269,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
             entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
             entityHd.TermID = Convert.ToInt32(cboTerm.Value.ToString());
-            entityHd.ReferenceNo = txtFacturNo.Text;
-            entityHd.ReferenceDate = Helper.GetDatePickerValue(txtDateReferrence.Text);
+            entityHd.ReferenceNo = Request.Form[txtFacturNo.UniqueID];
+            entityHd.ReferenceDate = Helper.GetDatePickerValue(Request.Form[txtDateReferrence.UniqueID]);
 
             entityHd.GCCurrencyCode = cboCurrency.Value.ToString();
             entityHd.CurrencyRate = Convert.ToDecimal(txtKurs.Text);

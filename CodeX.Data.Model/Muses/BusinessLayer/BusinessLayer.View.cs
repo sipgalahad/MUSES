@@ -10029,6 +10029,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentFeeStatusPerClassSummary
+        public static List<vStudentFeeStatusPerClassSummary> GetvStudentFeeStatusPerClassSummaryList(string filterExpression)
+        {
+            List<vStudentFeeStatusPerClassSummary> result = new List<vStudentFeeStatusPerClassSummary>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentFeeStatusPerClassSummary));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentFeeStatusPerClassSummary)helper.IDataReaderToObject(reader, new vStudentFeeStatusPerClassSummary()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudentMoveOut
         public static List<vStudentMoveOut> GetvStudentMoveOutList(string filterExpression)
         {

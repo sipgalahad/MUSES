@@ -26863,6 +26863,91 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentFeeStatusPerClassSummary
+    [Serializable]
+    [Table(Name = "vStudentFeeStatusPerClassSummary")]
+    public partial class vStudentFeeStatusPerClassSummary
+    {
+        private String _SiteID;
+        private Int32 _SchoolClassID;
+        private String _SchoolClassCode;
+        private String _SchoolClassName;
+        private Int32 _TransactionMonth;
+        private Int32 _TransactionYear;
+        private Int32 _StudentCount;
+        private Int32 _StudentPaidCount;
+        private Int32 _StudentNotPaidCount;
+        private Decimal _StudentPaidAmount;
+        private Decimal _StudentNotPaidAmount;
+
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "SchoolClassCode", DataType = "String")]
+        public String SchoolClassCode
+        {
+            get { return _SchoolClassCode; }
+            set { _SchoolClassCode = value; }
+        }
+        [Column(Name = "SchoolClassName", DataType = "String")]
+        public String SchoolClassName
+        {
+            get { return _SchoolClassName; }
+            set { _SchoolClassName = value; }
+        }
+        [Column(Name = "TransactionMonth", DataType = "Int32")]
+        public Int32 TransactionMonth
+        {
+            get { return _TransactionMonth; }
+            set { _TransactionMonth = value; }
+        }
+        [Column(Name = "TransactionYear", DataType = "Int32")]
+        public Int32 TransactionYear
+        {
+            get { return _TransactionYear; }
+            set { _TransactionYear = value; }
+        }
+        [Column(Name = "StudentCount", DataType = "Int32")]
+        public Int32 StudentCount
+        {
+            get { return _StudentCount; }
+            set { _StudentCount = value; }
+        }
+        [Column(Name = "StudentPaidCount", DataType = "Int32")]
+        public Int32 StudentPaidCount
+        {
+            get { return _StudentPaidCount; }
+            set { _StudentPaidCount = value; }
+        }
+        [Column(Name = "StudentNotPaidCount", DataType = "Int32")]
+        public Int32 StudentNotPaidCount
+        {
+            get { return _StudentNotPaidCount; }
+            set { _StudentNotPaidCount = value; }
+        }
+        [Column(Name = "StudentPaidAmount", DataType = "Decimal")]
+        public Decimal StudentPaidAmount
+        {
+            get { return _StudentPaidAmount; }
+            set { _StudentPaidAmount = value; }
+        }
+        [Column(Name = "StudentNotPaidAmount", DataType = "Decimal")]
+        public Decimal StudentNotPaidAmount
+        {
+            get { return _StudentNotPaidAmount; }
+            set { _StudentNotPaidAmount = value; }
+        }
+    }
+    #endregion
     #region vStudentUkegUpembSummary
     [Serializable]
     [Table(Name = "vStudentUkegUpembSummary")]
