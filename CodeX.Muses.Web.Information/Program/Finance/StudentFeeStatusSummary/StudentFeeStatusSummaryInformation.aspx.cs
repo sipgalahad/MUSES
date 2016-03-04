@@ -64,6 +64,15 @@ namespace CodeX.Muses.Web.Information.Program
             List<vStudentFeeStatusPerClassSummary> lstEntity = BusinessLayer.GetvStudentFeeStatusPerClassSummaryList(string.Format("TransactionMonth = {0} AND TransactionYear = {1} AND SiteID = '{2}' ORDER BY SchoolClassCode", cboMonth.Value, cboYear.Value, cboSite.Value));
             rptView.DataSource = lstEntity;
             rptView.DataBind();
+
+            divTotalStudentCount.InnerHtml = lstEntity.Sum(p => p.StudentCount).ToString();
+            divTotalStudentAmount.InnerHtml = lstEntity.Sum(p => p.StudentAmount).ToString("N");
+            divTotalStudentPaidAmount.InnerHtml = lstEntity.Sum(p => p.StudentPaidAmount).ToString("N");
+            divTotalStudentPaidCount.InnerHtml = lstEntity.Sum(p => p.StudentPaidCount).ToString();
+            divTotalStudentPaidCountPercentage.InnerHtml = lstEntity.Sum(p => p.StudentPaidCountPercentage).ToString();
+            divTotalStudentNotPaidAmount.InnerHtml = lstEntity.Sum(p => p.StudentNotPaidAmount).ToString("N");
+            divTotalStudentNotPaidCount.InnerHtml = lstEntity.Sum(p => p.StudentNotPaidCount).ToString();
+            divTotalStudentNotPaidCountPercentage.InnerHtml = lstEntity.Sum(p => p.StudentNotPaidCountPercentage).ToString();
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

@@ -32,6 +32,26 @@
             hideLoadingPanel();
         }
 
+        $('.lblStudentCount').live('click', function () {
+            var id = $(this).closest('tr').find('.hdnSchoolClassID').val();
+            openStudentCountDetail(id, '');
+        });
+
+        $('.lblStudentPaidCount').live('click', function () {
+            var id = $(this).closest('tr').find('.hdnSchoolClassID').val();
+            openStudentCountDetail(id, '1');
+        });
+
+        $('.lblStudentNotPaidCount').live('click', function () {
+            var id = $(this).closest('tr').find('.hdnSchoolClassID').val();
+            openStudentCountDetail(id, '0');
+        });
+
+        function openStudentCountDetail(schoolClassID, type) {
+            var id = schoolClassID + '|' + $('#<%=hdnSelectedMonth.ClientID %>').val() + '|' + $('#<%=hdnSelectedYear.ClientID %>').val() + '|' + type;
+            var url = ResolveUrl("~/Program/Finance/StudentFeeStatusSummary/StudentFeeStatusSummaryDtCtl.ascx");
+            openUserControlPopup(url, id, 'Detil Siswa', 700, 550);
+        }
     </script>
     <input type="hidden" id="hdnSiteID" runat="server" />
     <input type="hidden" id="hdnSiteName" runat="server" />
@@ -83,18 +103,32 @@
                                 <asp:Repeater ID="rptView" runat="server">
                                     <ItemTemplate>
                                         <tr>
-                                            <td><%#Eval("SchoolClassCode") %></td>
-                                            <td align="center"><%#Eval("StudentCount") %></td>
+                                            <td>
+                                                <input type="hidden" class="hdnSchoolClassID" value='<%#Eval("SchoolClassID") %>' />
+                                                <%#Eval("SchoolClassCode") %>
+                                            </td>
+                                            <td align="center"><label class='lblLink lblStudentCount'><%#Eval("StudentCount") %></label></td>
                                             <td align="right"><%#Eval("StudentAmount", "{0:N}") %></td>
                                             <td align="right" style="width:150px;"><%#Eval("StudentPaidAmount", "{0:N}") %></td>
-                                            <td align="right" style="width:50px;"><%#Eval("StudentPaidCount") %></td>
+                                            <td align="right" style="width:50px;"><label class='lblLink lblStudentPaidCount'><%#Eval("StudentPaidCount") %></label></td> 
                                             <td align="right"><%#Eval("StudentPaidCountPercentage") %></td>
                                             <td align="right" style="width:150px;"><%#Eval("StudentNotPaidAmount", "{0:N}") %></td>
-                                            <td align="right" style="width:50px;"><%#Eval("StudentNotPaidCount") %></td>
+                                            <td align="right" style="width:50px;"><label class='lblLink lblStudentNotPaidCount'><%#Eval("StudentNotPaidCount") %></label></td>
                                             <td align="right"><%#Eval("StudentNotPaidCountPercentage") %></td>
                                         </tr>
                                     </ItemTemplate>
                                 </asp:Repeater>
+                                <tr>
+                                    <td style="font-weight:bold"><%=GetLabel("JUMLAH") %></td>
+                                    <td align="center"><div style="font-weight:bold" id="divTotalStudentCount" runat="server"></div></td>
+                                    <td align="right"><div style="font-weight:bold" id="divTotalStudentAmount" runat="server"></div></td>
+                                    <td align="right"><div style="font-weight:bold" id="divTotalStudentPaidAmount" runat="server"></div></td>
+                                    <td align="right"><div style="font-weight:bold" id="divTotalStudentPaidCount" runat="server"></div></td>
+                                    <td align="right"><div style="font-weight:bold" id="divTotalStudentPaidCountPercentage" runat="server"></div></td>
+                                    <td align="right"><div style="font-weight:bold" id="divTotalStudentNotPaidAmount" runat="server"></div></td>
+                                    <td align="right"><div style="font-weight:bold" id="divTotalStudentNotPaidCount" runat="server"></div></td>
+                                    <td align="right"><div style="font-weight:bold" id="divTotalStudentNotPaidCountPercentage" runat="server"></div></td>
+                                </tr>
                             </table>
                         </div>
                     </asp:Panel>

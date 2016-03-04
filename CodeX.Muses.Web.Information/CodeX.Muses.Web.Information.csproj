@@ -100,6 +100,7 @@
     <Content Include="Program\Finance\ARCustomer\ARCustomerInformationDtCtl.ascx" />
     <Content Include="Program\Finance\ARCustomer\ARCustomerMovementInformationDtCtl.ascx" />
     <Content Include="Program\Finance\StudentFeeStatusSummary\StudentFeeStatusSummaryInformation.aspx" />
+    <Content Include="Program\Finance\StudentFeeStatusSummary\StudentFeeStatusSummaryDtCtl.ascx" />
     <Content Include="Program\Finance\StudentPaymentSummary\StudentPaymentSummaryInformation2.aspx" />
     <Content Include="Program\Finance\StudentRevenueUsek\StudentRevenueUkegUpembInformationDtCtl.ascx" />
     <Content Include="Program\Finance\StudentRevenueUsek\StudentRevenueUsekInformationDtCtl.ascx" />
@@ -351,6 +352,13 @@
     </Compile>
     <Compile Include="Program\Finance\StudentFeeStatusSummary\StudentFeeStatusSummaryInformation.aspx.designer.cs">
       <DependentUpon>StudentFeeStatusSummaryInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Finance\StudentFeeStatusSummary\StudentFeeStatusSummaryDtCtl.ascx.cs">
+      <DependentUpon>StudentFeeStatusSummaryDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Finance\StudentFeeStatusSummary\StudentFeeStatusSummaryDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentFeeStatusSummaryDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Finance\StudentPaymentSummary\StudentPaymentSummaryInformation2.aspx.cs">
       <DependentUpon>StudentPaymentSummaryInformation2.aspx</DependentUpon>

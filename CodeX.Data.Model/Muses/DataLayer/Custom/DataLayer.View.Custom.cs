@@ -2316,6 +2316,13 @@ namespace CodeX.Data.Model
                 return "";
             }
         }
+        public Decimal LineAmountWithoutPenalty
+        {
+            get
+            {
+                return _LineAmount - _TotalStudentPenaltyAmount;
+            }
+        }
     }
     #endregion
     #region vStudentFeeDt
