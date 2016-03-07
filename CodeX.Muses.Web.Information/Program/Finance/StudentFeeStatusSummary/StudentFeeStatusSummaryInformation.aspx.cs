@@ -65,14 +65,20 @@ namespace CodeX.Muses.Web.Information.Program
             rptView.DataSource = lstEntity;
             rptView.DataBind();
 
-            divTotalStudentCount.InnerHtml = lstEntity.Sum(p => p.StudentCount).ToString();
+            int totalStudentCount = lstEntity.Sum(p => p.StudentCount);
+            decimal totalStudentPaidAmount = lstEntity.Sum(p => p.StudentPaidAmount);
+            int totalStudentPaidCount = lstEntity.Sum(p => p.StudentPaidCount);
+            decimal totalStudentNotPaidAmount = lstEntity.Sum(p => p.StudentNotPaidAmount);
+            int totalStudentNotPaidCount = lstEntity.Sum(p => p.StudentNotPaidCount);
+
+            divTotalStudentCount.InnerHtml = totalStudentCount.ToString();
             divTotalStudentAmount.InnerHtml = lstEntity.Sum(p => p.StudentAmount).ToString("N");
-            divTotalStudentPaidAmount.InnerHtml = lstEntity.Sum(p => p.StudentPaidAmount).ToString("N");
-            divTotalStudentPaidCount.InnerHtml = lstEntity.Sum(p => p.StudentPaidCount).ToString();
-            divTotalStudentPaidCountPercentage.InnerHtml = lstEntity.Sum(p => p.StudentPaidCountPercentage).ToString();
-            divTotalStudentNotPaidAmount.InnerHtml = lstEntity.Sum(p => p.StudentNotPaidAmount).ToString("N");
-            divTotalStudentNotPaidCount.InnerHtml = lstEntity.Sum(p => p.StudentNotPaidCount).ToString();
-            divTotalStudentNotPaidCountPercentage.InnerHtml = lstEntity.Sum(p => p.StudentNotPaidCountPercentage).ToString();
+            divTotalStudentPaidAmount.InnerHtml = totalStudentPaidAmount.ToString("N");
+            divTotalStudentPaidCount.InnerHtml = totalStudentPaidCount.ToString();
+            divTotalStudentPaidCountPercentage.InnerHtml = ((Double)(totalStudentPaidCount * 100) / totalStudentCount).ToString("N1");
+            divTotalStudentNotPaidAmount.InnerHtml = totalStudentNotPaidAmount.ToString("N");
+            divTotalStudentNotPaidCount.InnerHtml = totalStudentNotPaidCount.ToString();
+            divTotalStudentNotPaidCountPercentage.InnerHtml = ((Double)(totalStudentNotPaidCount * 100) / totalStudentCount).ToString("N1");
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
@@ -82,7 +88,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         public override Control OnGetExportControl()
         {
-            List<vStudentFeeStatusPerClassSummary> lstEntity = BusinessLayer.GetvStudentFeeStatusPerClassSummaryList(string.Format("TransactionMonth = {0} AND TransactionYear = {1} AND SiteID = '{2}' ORDER BY SchoolClassCode", hdnSelectedMonth.Value, hdnSelectedYear.Value, hdnSiteID.Value));
+            List<vStudentFeeStatusPerClassSummary> lstEntity = BusinessLayer.GetvStudentFeeStatusPerClassSummaryList(string.Format("TransactionMonth = {0} AND TransactionYear = {1} AND SiteID = '{2}' ORDER BY SchoolClassCode", Request.Form[hdnSelectedMonth.UniqueID], Request.Form[hdnSelectedYear.UniqueID], Request.Form[hdnSiteID.UniqueID]));
             rptView.DataSource = lstEntity;
             rptView.DataBind();
 
@@ -90,8 +96,8 @@ namespace CodeX.Muses.Web.Information.Program
             HtmlGenericControl h4 = new HtmlGenericControl("h4");
             HtmlGenericControl h42 = new HtmlGenericControl("h42");
             HtmlGenericControl div2 = new HtmlGenericControl("DIV");
-            h4.InnerHtml = String.Format("Site : {0}", hdnSiteName.Value);
-            h42.InnerHtml = String.Format("Periode : {0} - {1}", hdnSelectedYear.Value, hdnSelectedMonth.Value);
+            h4.InnerHtml = String.Format("Site : {0}", Request.Form[hdnSiteName.UniqueID]);
+            h42.InnerHtml = String.Format("Periode : {0} - {1}", Request.Form[hdnSelectedYear.UniqueID], Request.Form[hdnSelectedMonth.UniqueID]);
             div2.InnerHtml = hdnExportControl.Value;
             div.Controls.Add(h4);
             div.Controls.Add(h42);

@@ -2405,18 +2405,18 @@ namespace CodeX.Data.Model
                 return _StudentNotPaidAmount + _StudentPaidAmount;
             }
         }
-        public Decimal StudentPaidCountPercentage
+        public Double StudentPaidCountPercentage
         {
             get
             {
-                return (_StudentPaidCount * 100 / _StudentCount);
+                return (Double)(_StudentPaidCount * 100) / _StudentCount;
             }
         }
-        public Decimal StudentNotPaidCountPercentage
+        public Double StudentNotPaidCountPercentage
         {
             get
             {
-                return (_StudentNotPaidCount * 100 / _StudentCount);
+                return (Double)(_StudentNotPaidCount * 100) / _StudentCount;
             }
         }
     }

@@ -23956,6 +23956,302 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region RProject
+    [Serializable]
+    [Table(Name = "RProject")]
+    public class RProject : DbDataModel
+    {
+        private Int32 _ProjectID;
+        private String _ProjectCode;
+        private String _ProjectName;
+        private Int32 _ProjectGroupID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _ProjectIndicator;
+        private String _ProjectTarget;
+        private String _ProjectAchievement;
+        private String _GCProjectStatus;
+        private String _Remarks;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProjectID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectCode", DataType = "String")]
+        public String ProjectCode
+        {
+            get { return _ProjectCode; }
+            set { _ProjectCode = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "ProjectGroupID", DataType = "Int32")]
+        public Int32 ProjectGroupID
+        {
+            get { return _ProjectGroupID; }
+            set { _ProjectGroupID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "ProjectIndicator", DataType = "String", IsNullable = true)]
+        public String ProjectIndicator
+        {
+            get { return _ProjectIndicator; }
+            set { _ProjectIndicator = value; }
+        }
+        [Column(Name = "ProjectTarget", DataType = "String", IsNullable = true)]
+        public String ProjectTarget
+        {
+            get { return _ProjectTarget; }
+            set { _ProjectTarget = value; }
+        }
+        [Column(Name = "ProjectAchievement", DataType = "String", IsNullable = true)]
+        public String ProjectAchievement
+        {
+            get { return _ProjectAchievement; }
+            set { _ProjectAchievement = value; }
+        }
+        [Column(Name = "GCProjectStatus", DataType = "String")]
+        public String GCProjectStatus
+        {
+            get { return _GCProjectStatus; }
+            set { _GCProjectStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class RProjectDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RProject));
+        private bool _isAuditLog = false;
+        private const string p_ProjectID = "@p_ProjectID";
+        public RProjectDao() { }
+        public RProjectDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RProject Get(Int32 ProjectID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProjectID, ProjectID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RProject)_helper.DataRowToObject(row, new RProject());
+        }
+        public int Insert(RProject record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RProject record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProjectID)
+        {
+            RProject record;
+            if (_ctx.Transaction == null)
+                record = new RProjectDao().Get(ProjectID);
+            else
+                record = Get(ProjectID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region RProjectGroup
+    [Serializable]
+    [Table(Name = "RProjectGroup")]
+    public class RProjectGroup : DbDataModel
+    {
+        private Int32 _ProjectGroupID;
+        private String _ProjectGroupCode;
+        private String _ProjectGroupName;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Int32? _ParentID;
+        private Boolean _IsHeader;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProjectGroupID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ProjectGroupID
+        {
+            get { return _ProjectGroupID; }
+            set { _ProjectGroupID = value; }
+        }
+        [Column(Name = "ProjectGroupCode", DataType = "String")]
+        public String ProjectGroupCode
+        {
+            get { return _ProjectGroupCode; }
+            set { _ProjectGroupCode = value; }
+        }
+        [Column(Name = "ProjectGroupName", DataType = "String")]
+        public String ProjectGroupName
+        {
+            get { return _ProjectGroupName; }
+            set { _ProjectGroupName = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class RProjectGroupDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RProjectGroup));
+        private bool _isAuditLog = false;
+        private const string p_ProjectGroupID = "@p_ProjectGroupID";
+        public RProjectGroupDao() { }
+        public RProjectGroupDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RProjectGroup Get(Int32 ProjectGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProjectGroupID, ProjectGroupID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RProjectGroup)_helper.DataRowToObject(row, new RProjectGroup());
+        }
+        public int Insert(RProjectGroup record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RProjectGroup record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProjectGroupID)
+        {
+            RProjectGroup record;
+            if (_ctx.Transaction == null)
+                record = new RProjectGroupDao().Get(ProjectGroupID);
+            else
+                record = Get(ProjectGroupID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Room
     [Serializable]
     [Table(Name = "Room")]

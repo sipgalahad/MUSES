@@ -111,10 +111,10 @@
                                             <td align="right"><%#Eval("StudentAmount", "{0:N}") %></td>
                                             <td align="right" style="width:150px;"><%#Eval("StudentPaidAmount", "{0:N}") %></td>
                                             <td align="right" style="width:50px;"><label class='lblLink lblStudentPaidCount'><%#Eval("StudentPaidCount") %></label></td> 
-                                            <td align="right"><%#Eval("StudentPaidCountPercentage") %></td>
+                                            <td align="right"><%#Eval("StudentPaidCountPercentage", "{0:N1}")%></td>
                                             <td align="right" style="width:150px;"><%#Eval("StudentNotPaidAmount", "{0:N}") %></td>
                                             <td align="right" style="width:50px;"><label class='lblLink lblStudentNotPaidCount'><%#Eval("StudentNotPaidCount") %></label></td>
-                                            <td align="right"><%#Eval("StudentNotPaidCountPercentage") %></td>
+                                            <td align="right"><%#Eval("StudentNotPaidCountPercentage", "{0:N1}")%></td>
                                         </tr>
                                     </ItemTemplate>
                                 </asp:Repeater>

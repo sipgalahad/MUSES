@@ -758,6 +758,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region RProject Group -->
+  <searchdialog type="rprojectgroup" methodname="GetvRProjectGroupList" keyfieldname="ProjectGroupCode" istreeview="1">
+    <gridcolumns>
+      <gridcolumn datafield="ProjectGroupCode" headertext="Kode Kelompok Project" width="100px" />
+      <gridcolumn datafield="ProjectGroupName" headertext="Nama Kelompok Project" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ProjectGroupName" headertext="Nama Kelompok Project" description="" />
+      <intellisensetext datafield="ProjectGroupCode" headertext="Kode Kelompok Project" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Room -->
   <searchdialog type="room" methodname="GetRoomList" keyfieldname="RoomCode" orderbyexpression="RoomName ASC">
     <gridcolumns>

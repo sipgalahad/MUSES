@@ -23298,6 +23298,204 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRProject
+    [Serializable]
+    [Table(Name = "vRProject")]
+    public class vRProject
+    {
+        private Int32 _ProjectID;
+        private String _ProjectCode;
+        private String _ProjectName;
+        private Int32 _ProjectGroupID;
+        private String _ProjectGroupName;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _ProjectIndicator;
+        private String _ProjectTarget;
+        private String _ProjectAchievement;
+        private String _GCProjectStatus;
+        private String _ProjectStatus;
+        private String _Remarks;
+
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectCode", DataType = "String")]
+        public String ProjectCode
+        {
+            get { return _ProjectCode; }
+            set { _ProjectCode = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "ProjectGroupID", DataType = "Int32")]
+        public Int32 ProjectGroupID
+        {
+            get { return _ProjectGroupID; }
+            set { _ProjectGroupID = value; }
+        }
+        [Column(Name = "ProjectGroupName", DataType = "String")]
+        public String ProjectGroupName
+        {
+            get { return _ProjectGroupName; }
+            set { _ProjectGroupName = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "ProjectIndicator", DataType = "String")]
+        public String ProjectIndicator
+        {
+            get { return _ProjectIndicator; }
+            set { _ProjectIndicator = value; }
+        }
+        [Column(Name = "ProjectTarget", DataType = "String")]
+        public String ProjectTarget
+        {
+            get { return _ProjectTarget; }
+            set { _ProjectTarget = value; }
+        }
+        [Column(Name = "ProjectAchievement", DataType = "String")]
+        public String ProjectAchievement
+        {
+            get { return _ProjectAchievement; }
+            set { _ProjectAchievement = value; }
+        }
+        [Column(Name = "GCProjectStatus", DataType = "String")]
+        public String GCProjectStatus
+        {
+            get { return _GCProjectStatus; }
+            set { _GCProjectStatus = value; }
+        }
+        [Column(Name = "ProjectStatus", DataType = "String")]
+        public String ProjectStatus
+        {
+            get { return _ProjectStatus; }
+            set { _ProjectStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
+    #region vRProjectGroup
+    [Serializable]
+    [Table(Name = "vRProjectGroup")]
+    public class vRProjectGroup
+    {
+        private Int32 _ProjectGroupID;
+        private String _ProjectGroupCode;
+        private String _ProjectGroupName;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Boolean _IsHeader;
+        private Int32 _ParentID;
+        private String _ParentCode;
+        private String _ParentName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _Level;
+        private String _DisplayPath;
+
+        [Column(Name = "ProjectGroupID", DataType = "Int32")]
+        public Int32 ProjectGroupID
+        {
+            get { return _ProjectGroupID; }
+            set { _ProjectGroupID = value; }
+        }
+        [Column(Name = "ProjectGroupCode", DataType = "String")]
+        public String ProjectGroupCode
+        {
+            get { return _ProjectGroupCode; }
+            set { _ProjectGroupCode = value; }
+        }
+        [Column(Name = "ProjectGroupName", DataType = "String")]
+        public String ProjectGroupName
+        {
+            get { return _ProjectGroupName; }
+            set { _ProjectGroupName = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "ParentCode", DataType = "String")]
+        public String ParentCode
+        {
+            get { return _ParentCode; }
+            set { _ParentCode = value; }
+        }
+        [Column(Name = "ParentName", DataType = "String")]
+        public String ParentName
+        {
+            get { return _ParentName; }
+            set { _ParentName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "DisplayPath", DataType = "String")]
+        public String DisplayPath
+        {
+            get { return _DisplayPath; }
+            set { _DisplayPath = value; }
+        }
+    }
+    #endregion
     #region vSalesInvoiceDt
     [Serializable]
     [Table(Name = "vSalesInvoiceDt")]

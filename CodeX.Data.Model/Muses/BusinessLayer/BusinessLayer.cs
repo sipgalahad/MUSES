@@ -11280,6 +11280,118 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RProject
+        public static RProject GetRProject(Int32 ProjectID)
+        {
+            return new RProjectDao().Get(ProjectID);
+        }
+        public static int InsertRProject(RProject record)
+        {
+            return new RProjectDao().Insert(record);
+        }
+        public static int UpdateRProject(RProject record)
+        {
+            return new RProjectDao().Update(record);
+        }
+        public static int DeleteRProject(Int32 ProjectID)
+        {
+            return new RProjectDao().Delete(ProjectID);
+        }
+        public static List<RProject> GetRProjectList(string filterExpression)
+        {
+            List<RProject> result = new List<RProject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProject)helper.IDataReaderToObject(reader, new RProject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRProjectMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProject));
+                ctx.CommandText = helper.SelectMaxColumn("ProjectID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region RProjectGroup
+        public static RProjectGroup GetRProjectGroup(Int32 ProjectGroupID)
+        {
+            return new RProjectGroupDao().Get(ProjectGroupID);
+        }
+        public static int InsertRProjectGroup(RProjectGroup record)
+        {
+            return new RProjectGroupDao().Insert(record);
+        }
+        public static int UpdateRProjectGroup(RProjectGroup record)
+        {
+            return new RProjectGroupDao().Update(record);
+        }
+        public static int DeleteRProjectGroup(Int32 ProjectGroupID)
+        {
+            return new RProjectGroupDao().Delete(ProjectGroupID);
+        }
+        public static List<RProjectGroup> GetRProjectGroupList(string filterExpression)
+        {
+            List<RProjectGroup> result = new List<RProjectGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectGroup)helper.IDataReaderToObject(reader, new RProjectGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRProjectGroupMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectGroup));
+                ctx.CommandText = helper.SelectMaxColumn("ProjectGroupID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region Room
         public static Room GetRoom(Int32 RoomID)
         {

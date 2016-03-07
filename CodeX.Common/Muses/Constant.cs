@@ -695,6 +695,8 @@ namespace CodeX.Common
             {
                 public const string PROJECT = "PM010100";
                 public const string BUDGET = "PM010200";
+                public const string RPROJECT_GROUP = "PM010300";
+                public const string RPROJECT = "PM010400";
 
                 public const string PROJECT_TASK = "PM020100";
                 public const string TO_DO_LIST = "PM020200";

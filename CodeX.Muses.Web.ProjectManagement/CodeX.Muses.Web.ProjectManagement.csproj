@@ -106,9 +106,13 @@
     <Content Include="MasterPage\ProjectManagementBannerDtCtl.ascx" />
     <Content Include="Program\Master\Budget\BudgetEntry.aspx" />
     <Content Include="Program\Master\Budget\BudgetList.aspx" />
+    <Content Include="Program\Master\RProject\RProjectEntry.aspx" />
+    <Content Include="Program\Master\RProject\RProjectList.aspx" />
     <Content Include="Program\Master\Project\OrganizationDtEntryCtl.ascx" />
     <Content Include="Program\Master\Project\ProjectEntry.aspx" />
     <Content Include="Program\Master\Project\ProjectList.aspx" />
+    <Content Include="Program\Master\RProjectGroup\RProjectGroupEntry.aspx" />
+    <Content Include="Program\Master\RProjectGroup\RProjectGroupList.aspx" />
     <Content Include="Program\Proses\BudgetManagement\BudgetManagementList.aspx" />
     <Content Include="Program\Proses\BudgetManagement\BudgetManagementPageLauncher.aspx" />
     <Content Include="Program\Proses\ProjectBudget\BudgetInformation\BudgetInformationList.aspx" />
@@ -396,6 +400,20 @@
     <Compile Include="Program\Master\Budget\BudgetList.aspx.designer.cs">
       <DependentUpon>BudgetList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\RProject\RProjectEntry.aspx.cs">
+      <DependentUpon>RProjectEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\RProject\RProjectEntry.aspx.designer.cs">
+      <DependentUpon>RProjectEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\RProject\RProjectList.aspx.cs">
+      <DependentUpon>RProjectList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\RProject\RProjectList.aspx.designer.cs">
+      <DependentUpon>RProjectList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\Project\OrganizationDtEntryCtl.ascx.cs">
       <DependentUpon>OrganizationDtEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -416,6 +434,20 @@
     </Compile>
     <Compile Include="Program\Master\Project\ProjectList.aspx.designer.cs">
       <DependentUpon>ProjectList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\RProjectGroup\RProjectGroupEntry.aspx.cs">
+      <DependentUpon>RProjectGroupEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\RProjectGroup\RProjectGroupEntry.aspx.designer.cs">
+      <DependentUpon>RProjectGroupEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\RProjectGroup\RProjectGroupList.aspx.cs">
+      <DependentUpon>RProjectGroupList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\RProjectGroup\RProjectGroupList.aspx.designer.cs">
+      <DependentUpon>RProjectGroupList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Proses\BudgetManagement\BudgetManagementList.aspx.cs">
       <DependentUpon>BudgetManagementList.aspx</DependentUpon>
