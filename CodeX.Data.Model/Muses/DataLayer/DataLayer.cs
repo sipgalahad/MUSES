@@ -24252,6 +24252,204 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region RProjectOrganization
+    [Serializable]
+    [Table(Name = "RProjectOrganization")]
+    public class RProjectOrganization : DbDataModel
+    {
+        private Int32 _ProjectOrganizationID;
+        private Int32 _ProjectID;
+        private String _Position;
+        private Int32? _ParentID;
+        private Boolean _IsHeader;
+        private Int16 _DisplayOrder;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProjectOrganizationID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ProjectOrganizationID
+        {
+            get { return _ProjectOrganizationID; }
+            set { _ProjectOrganizationID = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class RProjectOrganizationDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RProjectOrganization));
+        private bool _isAuditLog = false;
+        private const string p_ProjectOrganizationID = "@p_ProjectOrganizationID";
+        public RProjectOrganizationDao() { }
+        public RProjectOrganizationDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RProjectOrganization Get(Int32 ProjectOrganizationID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProjectOrganizationID, ProjectOrganizationID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RProjectOrganization)_helper.DataRowToObject(row, new RProjectOrganization());
+        }
+        public int Insert(RProjectOrganization record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RProjectOrganization record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProjectOrganizationID)
+        {
+            RProjectOrganization record;
+            if (_ctx.Transaction == null)
+                record = new RProjectOrganizationDao().Get(ProjectOrganizationID);
+            else
+                record = Get(ProjectOrganizationID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region RProjectOrganizationMember
+    [Serializable]
+    [Table(Name = "RProjectOrganizationMember")]
+    public class RProjectOrganizationMember : DbDataModel
+    {
+        private Int32 _ProjectOrganizationID;
+        private Int32 _EmployeeID;
+        private Boolean _IsCoordinator;
+
+        [Column(Name = "ProjectOrganizationID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ProjectOrganizationID
+        {
+            get { return _ProjectOrganizationID; }
+            set { _ProjectOrganizationID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "IsCoordinator", DataType = "Boolean")]
+        public Boolean IsCoordinator
+        {
+            get { return _IsCoordinator; }
+            set { _IsCoordinator = value; }
+        }
+    }
+
+    public class RProjectOrganizationMemberDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RProjectOrganizationMember));
+        private bool _isAuditLog = false;
+        private const string p_EmployeeID = "@p_EmployeeID";
+        private const string p_ProjectOrganizationID = "@p_ProjectOrganizationID";
+        public RProjectOrganizationMemberDao() { }
+        public RProjectOrganizationMemberDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RProjectOrganizationMember Get(Int32 ProjectOrganizationID, Int32 EmployeeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_EmployeeID, EmployeeID);
+            _ctx.Add(p_ProjectOrganizationID, ProjectOrganizationID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RProjectOrganizationMember)_helper.DataRowToObject(row, new RProjectOrganizationMember());
+        }
+        public int Insert(RProjectOrganizationMember record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RProjectOrganizationMember record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProjectOrganizationID, Int32 EmployeeID)
+        {
+            RProjectOrganizationMember record;
+            if (_ctx.Transaction == null)
+                record = new RProjectOrganizationMemberDao().Get(ProjectOrganizationID, EmployeeID);
+            else
+                record = Get(ProjectOrganizationID, EmployeeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Room
     [Serializable]
     [Table(Name = "Room")]

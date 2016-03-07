@@ -11392,6 +11392,119 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RProjectOrganization
+        public static RProjectOrganization GetRProjectOrganization(Int32 ProjectOrganizationID)
+        {
+            return new RProjectOrganizationDao().Get(ProjectOrganizationID);
+        }
+        public static int InsertRProjectOrganization(RProjectOrganization record)
+        {
+            return new RProjectOrganizationDao().Insert(record);
+        }
+        public static int UpdateRProjectOrganization(RProjectOrganization record)
+        {
+            return new RProjectOrganizationDao().Update(record);
+        }
+        public static int DeleteRProjectOrganization(Int32 ProjectOrganizationID)
+        {
+            return new RProjectOrganizationDao().Delete(ProjectOrganizationID);
+        }
+        public static List<RProjectOrganization> GetRProjectOrganizationList(string filterExpression)
+        {
+            List<RProjectOrganization> result = new List<RProjectOrganization>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectOrganization));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectOrganization)helper.IDataReaderToObject(reader, new RProjectOrganization()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRProjectOrganizationMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectOrganization));
+                ctx.CommandText = helper.SelectMaxColumn("ProjectOrganizationID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region RProjectOrganizationMember
+        public static RProjectOrganizationMember GetRProjectOrganizationMember(Int32 ProjectOrganizationID, Int32 EmployeeID)
+        {
+            return new RProjectOrganizationMemberDao().Get(ProjectOrganizationID, EmployeeID);
+        }
+        public static int InsertRProjectOrganizationMember(RProjectOrganizationMember record)
+        {
+            return new RProjectOrganizationMemberDao().Insert(record);
+        }
+        public static int UpdateRProjectOrganizationMember(RProjectOrganizationMember record)
+        {
+            return new RProjectOrganizationMemberDao().Update(record);
+        }
+        public static int DeleteRProjectOrganizationMember(Int32 ProjectOrganizationID, Int32 EmployeeID)
+        {
+            return new RProjectOrganizationMemberDao().Delete(ProjectOrganizationID, EmployeeID);
+        }
+        public static List<RProjectOrganizationMember> GetRProjectOrganizationMemberList(string filterExpression)
+        {
+            List<RProjectOrganizationMember> result = new List<RProjectOrganizationMember>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectOrganizationMember));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectOrganizationMember)helper.IDataReaderToObject(reader, new RProjectOrganizationMember()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RProjectOrganizationMember> GetRProjectOrganizationMemberList(string filterExpression, IDbContext ctx)
+        {
+            List<RProjectOrganizationMember> result = new List<RProjectOrganizationMember>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectOrganizationMember));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectOrganizationMember)helper.IDataReaderToObject(reader, new RProjectOrganizationMember()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region Room
         public static Room GetRoom(Int32 RoomID)
         {

@@ -23496,6 +23496,155 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRProjectOrganization
+    [Serializable]
+    [Table(Name = "vRProjectOrganization")]
+    public class vRProjectOrganization
+    {
+        private Int32 _ProjectOrganizationID;
+        private Int32 _ProjectID;
+        private String _Position;
+        private Boolean _IsHeader;
+        private Int32 _ParentID;
+        private String _ParentName;
+        private Int16 _DisplayOrder;
+        private Boolean _IsDeleted;
+        private Int32 _EmployeeCoordinatorID;
+        private String _EmployeeCoordinatorCode;
+        private String _EmployeeCoordinatorName;
+        private String _ListEmployeeID;
+        private String _ListEmployeeName;
+        private Int32 _Level;
+        private String _DisplayPath;
+
+        [Column(Name = "ProjectOrganizationID", DataType = "Int32")]
+        public Int32 ProjectOrganizationID
+        {
+            get { return _ProjectOrganizationID; }
+            set { _ProjectOrganizationID = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "ParentName", DataType = "String")]
+        public String ParentName
+        {
+            get { return _ParentName; }
+            set { _ParentName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "EmployeeCoordinatorID", DataType = "Int32")]
+        public Int32 EmployeeCoordinatorID
+        {
+            get { return _EmployeeCoordinatorID; }
+            set { _EmployeeCoordinatorID = value; }
+        }
+        [Column(Name = "EmployeeCoordinatorCode", DataType = "String")]
+        public String EmployeeCoordinatorCode
+        {
+            get { return _EmployeeCoordinatorCode; }
+            set { _EmployeeCoordinatorCode = value; }
+        }
+        [Column(Name = "EmployeeCoordinatorName", DataType = "String")]
+        public String EmployeeCoordinatorName
+        {
+            get { return _EmployeeCoordinatorName; }
+            set { _EmployeeCoordinatorName = value; }
+        }
+        [Column(Name = "ListEmployeeID", DataType = "String")]
+        public String ListEmployeeID
+        {
+            get { return _ListEmployeeID; }
+            set { _ListEmployeeID = value; }
+        }
+        [Column(Name = "ListEmployeeName", DataType = "String")]
+        public String ListEmployeeName
+        {
+            get { return _ListEmployeeName; }
+            set { _ListEmployeeName = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "DisplayPath", DataType = "String")]
+        public String DisplayPath
+        {
+            get { return _DisplayPath; }
+            set { _DisplayPath = value; }
+        }
+    }
+    #endregion
+    #region vRProjectOrganizationMember
+    [Serializable]
+    [Table(Name = "vRProjectOrganizationMember")]
+    public class vRProjectOrganizationMember
+    {
+        private Int32 _ProjectOrganizationID;
+        private Int32 _ProjectID;
+        private Int32 _EmployeeID;
+        private Boolean _IsCoordinator;
+
+        [Column(Name = "ProjectOrganizationID", DataType = "Int32")]
+        public Int32 ProjectOrganizationID
+        {
+            get { return _ProjectOrganizationID; }
+            set { _ProjectOrganizationID = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "IsCoordinator", DataType = "Boolean")]
+        public Boolean IsCoordinator
+        {
+            get { return _IsCoordinator; }
+            set { _IsCoordinator = value; }
+        }
+    }
+    #endregion
     #region vSalesInvoiceDt
     [Serializable]
     [Table(Name = "vSalesInvoiceDt")]

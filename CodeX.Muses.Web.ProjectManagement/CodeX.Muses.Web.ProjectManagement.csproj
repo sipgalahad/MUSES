@@ -106,6 +106,7 @@
     <Content Include="MasterPage\ProjectManagementBannerDtCtl.ascx" />
     <Content Include="Program\Master\Budget\BudgetEntry.aspx" />
     <Content Include="Program\Master\Budget\BudgetList.aspx" />
+    <Content Include="Program\Master\RProject\ROrganizationDtEntryCtl.ascx" />
     <Content Include="Program\Master\RProject\RProjectEntry.aspx" />
     <Content Include="Program\Master\RProject\RProjectList.aspx" />
     <Content Include="Program\Master\Project\OrganizationDtEntryCtl.ascx" />
@@ -399,6 +400,13 @@
     </Compile>
     <Compile Include="Program\Master\Budget\BudgetList.aspx.designer.cs">
       <DependentUpon>BudgetList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\RProject\ROrganizationDtEntryCtl.ascx.cs">
+      <DependentUpon>ROrganizationDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\RProject\ROrganizationDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>ROrganizationDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\RProject\RProjectEntry.aspx.cs">
       <DependentUpon>RProjectEntry.aspx</DependentUpon>

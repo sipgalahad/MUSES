@@ -8723,6 +8723,54 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vRProjectOrganization
+        public static List<vRProjectOrganization> GetvRProjectOrganizationList(string filterExpression)
+        {
+            List<vRProjectOrganization> result = new List<vRProjectOrganization>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectOrganization));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRProjectOrganization)helper.IDataReaderToObject(reader, new vRProjectOrganization()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vRProjectOrganizationMember
+        public static List<vRProjectOrganizationMember> GetvRProjectOrganizationMemberList(string filterExpression)
+        {
+            List<vRProjectOrganizationMember> result = new List<vRProjectOrganizationMember>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectOrganizationMember));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRProjectOrganizationMember)helper.IDataReaderToObject(reader, new vRProjectOrganizationMember()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vSalesInvoiceDt
         public static List<vSalesInvoiceDt> GetvSalesInvoiceDtList(string filterExpression)
         {

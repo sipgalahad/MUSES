@@ -13,9 +13,8 @@
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
         });
 
-        $('.lblLink').die('click');
         $('.lblLink').live('click', function () {
-            var url = ResolveUrl('~/Program/Master/Project/OrganizationDtEntryCtl.ascx');
+            var url = ResolveUrl('~/Program/Master/RProject/ROrganizationDtEntryCtl.ascx');
             var id = $(this).closest('tr').find('.keyField').html();
             openUserControlPopup(url, id, 'Team', 900, 500);
         });
