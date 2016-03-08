@@ -13,37 +13,36 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Muses.Web.ProjectManagement.Program
 {
-    public partial class ROrganizationDtEntryCtl : BaseViewPopupCtl
+    public partial class RProjectTaskDtEntryCtl : BaseViewPopupCtl
     {
         public override void InitializeDataControl(string param)
         {
             hdnID.Value = param;
-            RProject entity = BusinessLayer.GetRProject(Convert.ToInt32(hdnID.Value));
-            txtHeaderText.Text = string.Format("{0} - {1}", entity.ProjectCode, entity.ProjectName);
+            RProjectTaskGroup entity = BusinessLayer.GetRProjectTaskGroup(Convert.ToInt32(hdnID.Value));
+            txtHeaderText.Text = string.Format("{0}", entity.ProjectTaskGroupName);
+
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROJECT_TASK_PRIORITY));
+            Methods.SetComboBoxField(cboPriority, lstStandardCode, "StandardCodeName", "StandardCodeID");
+            cboPriority.SelectedIndex = 0;
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(txtDisplayOrder, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(txtPosition, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(tacEmployeeCoordinator, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(cboPriority, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtProjectTaskName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(tacOrganizationCoordinator, new ControlEntrySetting(true, true, true), "mpTrxPopup");
         }
 
 
         #region HTML Getter
-        protected string OnGetEmployeeFilterExpression()
+        protected string OnGetOrganizationFilterExpression()
         {
-            return string.Format("GCEmployeeStatus = '{0}' AND EmployeeID NOT IN (SELECT EmployeeID FROM vRProjectOrganizationMember WHERE ProjectID = {1}) AND IsDeleted = 0", Constant.EmployeeStatus.FULL_TIME_EMPLOYED, hdnID.Value);
-        }
-
-        protected string OnGetParentFilterExpression() 
-        {
-            return string.Format("ProjectID = {0} AND IsHeader = 1 AND IsDeleted = 0", hdnID.Value);
+            return string.Format("ProjectID = {0} AND IsDeleted = 0", AppSession.ProjectID);
         }
         #endregion
 
         private void BindGridView()
         {
-            grdView.DataSource = BusinessLayer.GetvRProjectOrganizationList(string.Format("ProjectID = {0}", hdnID.Value));
+            grdView.DataSource = BusinessLayer.GetvRProjectTaskList(string.Format("ProjectTaskGroupID = {0}", hdnID.Value));
             grdView.DataBind();
         }
 
@@ -88,45 +87,42 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(RProjectOrganization entity)
+        private void ControlToEntity(RProjectTask entity)
         {
-            entity.DisplayOrder = Convert.ToInt16(txtDisplayOrder.Text);
-            entity.IsHeader = chkIsHeader.Checked;
-            if (hdnParent.Value != "" && hdnParent.Value != "0")
-                entity.ParentID = Convert.ToInt32(hdnParent.Value);
-            else
-                entity.ParentID = null;
-            entity.Position = txtPosition.Text;
+            entity.GCProjectTaskPriority = cboPriority.Value.ToString();
+            entity.ProjectTaskName = txtProjectTaskName.Text;
+            entity.Remarks = txtRemarks.Text;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            RProjectOrganizationDao entityDao = new RProjectOrganizationDao(ctx);
-            RProjectOrganizationMemberDao entityDtDao = new RProjectOrganizationMemberDao(ctx);
+            RProjectTaskDao entityDao = new RProjectTaskDao(ctx);
+            RProjectTaskAssignDao entityDtDao = new RProjectTaskAssignDao(ctx);
             try
             {
-                RProjectOrganization entity = new RProjectOrganization();
+                RProjectTask entity = new RProjectTask();
                 ControlToEntity(entity);
-                entity.ProjectID = Convert.ToInt32(hdnID.Value);
+                entity.ProjectTaskGroupID = Convert.ToInt32(hdnID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
+                entity.GCProjectTaskStatus = Constant.ProjectStatus.OPEN;
                 entityDao.Insert(entity);
-                entity.ProjectOrganizationID = BusinessLayer.GetRProjectOrganizationMaxID(ctx);
+                entity.ProjectTaskID = BusinessLayer.GetRProjectTaskMaxID(ctx);
 
-                RProjectOrganizationMember entityCoordinator = new RProjectOrganizationMember();
-                entityCoordinator.ProjectOrganizationID = entity.ProjectOrganizationID;
-                entityCoordinator.EmployeeID = Convert.ToInt32(hdnEmployeeCoordinatorID.Value);
+                RProjectTaskAssign entityCoordinator = new RProjectTaskAssign();
+                entityCoordinator.ProjectTaskID = entity.ProjectTaskID;
+                entityCoordinator.ProjectOrganizationID = Convert.ToInt32(hdnOrganizationCoordinatorID.Value);
                 entityCoordinator.IsCoordinator = true;
                 entityDtDao.Insert(entityCoordinator);
-                if (hdnEmployeeSave.Value != "")
+                if (hdnOrganizationSave.Value != "")
                 {
-                    string[] lstStudentID = hdnEmployeeSave.Value.Split(',');
+                    string[] lstStudentID = hdnOrganizationSave.Value.Split(',');
                     foreach (string studentID in lstStudentID)
                     {
-                        RProjectOrganizationMember entityDt = new RProjectOrganizationMember();
-                        entityDt.ProjectOrganizationID = entity.ProjectOrganizationID;
-                        entityDt.EmployeeID = Convert.ToInt32(studentID);
+                        RProjectTaskAssign entityDt = new RProjectTaskAssign();
+                        entityDt.ProjectTaskID = entity.ProjectTaskID;
+                        entityDt.ProjectOrganizationID = Convert.ToInt32(studentID);
                         entityDt.IsCoordinator = false;
                         entityDtDao.Insert(entityDt);
                     }
@@ -152,33 +148,33 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            RProjectOrganizationDao entityDao = new RProjectOrganizationDao(ctx);
-            RProjectOrganizationMemberDao entityDtDao = new RProjectOrganizationMemberDao(ctx);
+            RProjectTaskDao entityDao = new RProjectTaskDao(ctx);
+            RProjectTaskAssignDao entityDtDao = new RProjectTaskAssignDao(ctx);
             try
             {
-                RProjectOrganization entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                RProjectTask entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
 
-                List<RProjectOrganizationMember> lstEntityDt = BusinessLayer.GetRProjectOrganizationMemberList(string.Format("ProjectOrganizationID = {0}", entity.ProjectOrganizationID), ctx);
+                List<RProjectTaskAssign> lstEntityDt = BusinessLayer.GetRProjectTaskAssignList(string.Format("ProjectTaskID = {0}", entity.ProjectTaskID), ctx);
 
-                RProjectOrganizationMember entityCoordinator = lstEntityDt.FirstOrDefault(p => p.IsCoordinator);
-                entityCoordinator.EmployeeID = Convert.ToInt32(hdnEmployeeCoordinatorID.Value);
+                RProjectTaskAssign entityCoordinator = lstEntityDt.FirstOrDefault(p => p.IsCoordinator);
+                entityCoordinator.ProjectOrganizationID = Convert.ToInt32(hdnOrganizationCoordinatorID.Value);
                 entityDtDao.Update(entityCoordinator);
                 lstEntityDt.Remove(entityCoordinator);
 
-                if (hdnEmployeeSave.Value != "")
+                if (hdnOrganizationSave.Value != "")
                 {
-                    string[] lstStudentID = hdnEmployeeSave.Value.Split(',');
+                    string[] lstStudentID = hdnOrganizationSave.Value.Split(',');
                     foreach (string studentID in lstStudentID)
                     {
-                        RProjectOrganizationMember entityDt = lstEntityDt.FirstOrDefault(p => p.EmployeeID == Convert.ToInt32(studentID));
+                        RProjectTaskAssign entityDt = lstEntityDt.FirstOrDefault(p => p.ProjectOrganizationID == Convert.ToInt32(studentID));
                         if (entityDt == null)
                         {
-                            entityDt = new RProjectOrganizationMember();
-                            entityDt.ProjectOrganizationID = entity.ProjectOrganizationID;
-                            entityDt.EmployeeID = Convert.ToInt32(studentID);
+                            entityDt = new RProjectTaskAssign();
+                            entityDt.ProjectTaskID = entity.ProjectTaskID;
+                            entityDt.ProjectOrganizationID = Convert.ToInt32(studentID);
                             entityDt.IsCoordinator = false;
                             entityDtDao.Insert(entityDt);
                         }
@@ -187,9 +183,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                     }
                 }
 
-                foreach (RProjectOrganizationMember entityDt in lstEntityDt)
+                foreach (RProjectTaskAssign entityDt in lstEntityDt)
                 {
-                    entityDtDao.Delete(entityDt.ProjectOrganizationID, entityDt.EmployeeID);
+                    entityDtDao.Delete(entityDt.ProjectTaskAssignID);
                 }
 
                 ctx.CommitTransaction();

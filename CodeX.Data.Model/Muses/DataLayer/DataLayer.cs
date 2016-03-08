@@ -24450,6 +24450,315 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region RProjectTask
+    [Serializable]
+    [Table(Name = "RProjectTask")]
+    public class RProjectTask : DbDataModel
+    {
+        private Int32 _ProjectTaskID;
+        private String _ProjectTaskName;
+        private Int32 _ProjectTaskGroupID;
+        private String _GCProjectTaskPriority;
+        private String _GCProjectTaskStatus;
+        private String _Remarks;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProjectTaskID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "ProjectTaskName", DataType = "String")]
+        public String ProjectTaskName
+        {
+            get { return _ProjectTaskName; }
+            set { _ProjectTaskName = value; }
+        }
+        [Column(Name = "ProjectTaskGroupID", DataType = "Int32")]
+        public Int32 ProjectTaskGroupID
+        {
+            get { return _ProjectTaskGroupID; }
+            set { _ProjectTaskGroupID = value; }
+        }
+        [Column(Name = "GCProjectTaskPriority", DataType = "String")]
+        public String GCProjectTaskPriority
+        {
+            get { return _GCProjectTaskPriority; }
+            set { _GCProjectTaskPriority = value; }
+        }
+        [Column(Name = "GCProjectTaskStatus", DataType = "String")]
+        public String GCProjectTaskStatus
+        {
+            get { return _GCProjectTaskStatus; }
+            set { _GCProjectTaskStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class RProjectTaskDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RProjectTask));
+        private bool _isAuditLog = false;
+        private const string p_ProjectTaskID = "@p_ProjectTaskID";
+        public RProjectTaskDao() { }
+        public RProjectTaskDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RProjectTask Get(Int32 ProjectTaskID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProjectTaskID, ProjectTaskID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RProjectTask)_helper.DataRowToObject(row, new RProjectTask());
+        }
+        public int Insert(RProjectTask record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RProjectTask record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProjectTaskID)
+        {
+            RProjectTask record;
+            if (_ctx.Transaction == null)
+                record = new RProjectTaskDao().Get(ProjectTaskID);
+            else
+                record = Get(ProjectTaskID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region RProjectTaskAssign
+    [Serializable]
+    [Table(Name = "RProjectTaskAssign")]
+    public class RProjectTaskAssign : DbDataModel
+    {
+        private Int32 _ProjectTaskAssignID;
+        private Int32 _ProjectTaskID;
+        private Int32 _ProjectOrganizationID;
+        private Boolean _IsCoordinator;
+
+        [Column(Name = "ProjectTaskAssignID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ProjectTaskAssignID
+        {
+            get { return _ProjectTaskAssignID; }
+            set { _ProjectTaskAssignID = value; }
+        }
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "ProjectOrganizationID", DataType = "Int32")]
+        public Int32 ProjectOrganizationID
+        {
+            get { return _ProjectOrganizationID; }
+            set { _ProjectOrganizationID = value; }
+        }
+        [Column(Name = "IsCoordinator", DataType = "Boolean")]
+        public Boolean IsCoordinator
+        {
+            get { return _IsCoordinator; }
+            set { _IsCoordinator = value; }
+        }
+    }
+
+    public class RProjectTaskAssignDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RProjectTaskAssign));
+        private bool _isAuditLog = false;
+        private const string p_ProjectTaskAssignID = "@p_ProjectTaskAssignID";
+        public RProjectTaskAssignDao() { }
+        public RProjectTaskAssignDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RProjectTaskAssign Get(Int32 ProjectTaskAssignID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProjectTaskAssignID, ProjectTaskAssignID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RProjectTaskAssign)_helper.DataRowToObject(row, new RProjectTaskAssign());
+        }
+        public int Insert(RProjectTaskAssign record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RProjectTaskAssign record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProjectTaskAssignID)
+        {
+            RProjectTaskAssign record;
+            if (_ctx.Transaction == null)
+                record = new RProjectTaskAssignDao().Get(ProjectTaskAssignID);
+            else
+                record = Get(ProjectTaskAssignID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region RProjectTaskGroup
+    [Serializable]
+    [Table(Name = "RProjectTaskGroup")]
+    public class RProjectTaskGroup : DbDataModel
+    {
+        private Int32 _ProjectTaskGroupID;
+        private String _ProjectTaskGroupName;
+        private Int32 _ProjectID;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProjectTaskGroupID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ProjectTaskGroupID
+        {
+            get { return _ProjectTaskGroupID; }
+            set { _ProjectTaskGroupID = value; }
+        }
+        [Column(Name = "ProjectTaskGroupName", DataType = "String")]
+        public String ProjectTaskGroupName
+        {
+            get { return _ProjectTaskGroupName; }
+            set { _ProjectTaskGroupName = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class RProjectTaskGroupDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RProjectTaskGroup));
+        private bool _isAuditLog = false;
+        private const string p_ProjectTaskGroupID = "@p_ProjectTaskGroupID";
+        public RProjectTaskGroupDao() { }
+        public RProjectTaskGroupDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RProjectTaskGroup Get(Int32 ProjectTaskGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProjectTaskGroupID, ProjectTaskGroupID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RProjectTaskGroup)_helper.DataRowToObject(row, new RProjectTaskGroup());
+        }
+        public int Insert(RProjectTaskGroup record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RProjectTaskGroup record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProjectTaskGroupID)
+        {
+            RProjectTaskGroup record;
+            if (_ctx.Transaction == null)
+                record = new RProjectTaskGroupDao().Get(ProjectTaskGroupID);
+            else
+                record = Get(ProjectTaskGroupID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Room
     [Serializable]
     [Table(Name = "Room")]

@@ -64,7 +64,7 @@
     $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
         $row = $(this).closest('tr');
         var entity = rowToObject($row);
-        $('#<%=hdnEntryID.ClientID %>').val(entity.TeamDtID);
+        $('#<%=hdnEntryID.ClientID %>').val(entity.ProjectOrganizationID);
         $('#<%=txtDisplayOrder.ClientID %>').val(entity.DisplayOrder);
         $('#<%=txtPosition.ClientID %>').val(entity.Position);
         $('#<%=hdnParent.ClientID %>').val(entity.ParentID);
@@ -330,7 +330,7 @@
                         <td>
                             <input type="hidden" id="hdnParent" value="" runat="server" />
                             <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacParent" ClientInstanceName="tacParent" MethodName="GetTeamDtList" GetFilterExpressionFunction="onGetParentFilterExpression"
-                                SearchFields="Position" TextField="Position" ValueField="TeamDtID" SearchText="${Position}" OrderByExpression="DisplayOrder">
+                                SearchFields="Position" TextField="Position" ValueField="ProjectOrganizationID" SearchText="${Position}" OrderByExpression="DisplayOrder">
                                 <ClientSideEvents ButtonSearchClick="function(){ onTacParentButtonSearchClick(); }"
                                     ValueChanged="function(){ onTacParentValueChanged(); }" />
                             </cdx:CodeXAutoCompleteTextBox>   
@@ -380,7 +380,7 @@
                                 <ItemTemplate>
                                     <div style='float:right;' class="divDetailDelete"></div>
                                     <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                    <input type="hidden" value="<%#Eval("ProjectOrganizationID") %>" bindingfield="TeamDtID" />
+                                    <input type="hidden" value="<%#Eval("ProjectOrganizationID") %>" bindingfield="ProjectOrganizationID" />
                                     <input type="hidden" value="<%#Eval("Position") %>" bindingfield="Position" />
                                     <input type="hidden" value="<%#Eval("IsHeader") %>" bindingfield="IsHeader" />
                                     <input type="hidden" value="<%#Eval("ParentID") %>" bindingfield="ParentID" />

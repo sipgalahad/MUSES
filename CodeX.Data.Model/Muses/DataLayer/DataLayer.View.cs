@@ -23645,6 +23645,84 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRProjectTask
+    [Serializable]
+    [Table(Name = "vRProjectTask")]
+    public class vRProjectTask
+    {
+        private Int32 _ProjectTaskID;
+        private Int32 _ProjectTaskGroupID;
+        private String _ProjectTaskName;
+        private String _Remarks;
+        private String _GCProjectTaskPriority;
+        private String _GCProjectTaskStatus;
+        private Int32 _OrganizationCoordinatorID;
+        private String _OrganizationCoordinatorName;
+        private String _ListOrganizationID;
+        private String _ListOrganizationName;
+
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "ProjectTaskGroupID", DataType = "Int32")]
+        public Int32 ProjectTaskGroupID
+        {
+            get { return _ProjectTaskGroupID; }
+            set { _ProjectTaskGroupID = value; }
+        }
+        [Column(Name = "ProjectTaskName", DataType = "String")]
+        public String ProjectTaskName
+        {
+            get { return _ProjectTaskName; }
+            set { _ProjectTaskName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCProjectTaskPriority", DataType = "String")]
+        public String GCProjectTaskPriority
+        {
+            get { return _GCProjectTaskPriority; }
+            set { _GCProjectTaskPriority = value; }
+        }
+        [Column(Name = "GCProjectTaskStatus", DataType = "String")]
+        public String GCProjectTaskStatus
+        {
+            get { return _GCProjectTaskStatus; }
+            set { _GCProjectTaskStatus = value; }
+        }
+        [Column(Name = "OrganizationCoordinatorID", DataType = "Int32")]
+        public Int32 OrganizationCoordinatorID
+        {
+            get { return _OrganizationCoordinatorID; }
+            set { _OrganizationCoordinatorID = value; }
+        }
+        [Column(Name = "OrganizationCoordinatorName", DataType = "String")]
+        public String OrganizationCoordinatorName
+        {
+            get { return _OrganizationCoordinatorName; }
+            set { _OrganizationCoordinatorName = value; }
+        }
+        [Column(Name = "ListOrganizationID", DataType = "String")]
+        public String ListOrganizationID
+        {
+            get { return _ListOrganizationID; }
+            set { _ListOrganizationID = value; }
+        }
+        [Column(Name = "ListOrganizationName", DataType = "String")]
+        public String ListOrganizationName
+        {
+            get { return _ListOrganizationName; }
+            set { _ListOrganizationName = value; }
+        }
+    }
+    #endregion
     #region vSalesInvoiceDt
     [Serializable]
     [Table(Name = "vSalesInvoiceDt")]

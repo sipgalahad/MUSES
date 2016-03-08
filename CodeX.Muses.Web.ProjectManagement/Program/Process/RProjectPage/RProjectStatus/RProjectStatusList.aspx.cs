@@ -1,0 +1,178 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using CodeX.Data.Model;
+using CodeX.Web.Common;
+using CodeX.Web.Common.UI;
+using DevExpress.Web.ASPxCallbackPanel;
+using CodeX.Common;
+using System.Web.UI.HtmlControls;
+using DevExpress.Web.ASPxEditors;
+using System.Net;
+using CodeX.Data.Core.Dal;
+
+namespace CodeX.Muses.Web.ProjectManagement.Program
+{
+    public partial class RProjectStatusList : BasePageTrx
+    {
+        public override string OnGetMenuCode()
+        {
+            return Constant.MenuCode.ProjectManagement.RPROJECT_STATUS;
+        }
+
+        protected override void InitializeDataControl()
+        {
+            BindGridView();
+        }
+
+        #region Bind Grid View
+        private void BindGridView()
+        {
+            grdView.DataSource = BusinessLayer.GetvRProjectOrganizationList(string.Format("ProjectID = {0}", AppSession.ProjectID));
+            grdView.DataBind();
+        }
+
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridView();
+        }
+        #endregion
+
+        #region Bind Grid View
+        private void BindGridView2()
+        {
+            grdView2.DataSource = BusinessLayer.GetRProjectTaskGroupList(string.Format("ProjectID = {0} AND IsDeleted = 0", AppSession.ProjectID));
+            grdView2.DataBind();
+        }
+
+        protected void cbpView2_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridView2();
+        }
+        #endregion
+
+        public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
+        {
+            IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
+        }
+
+        #region Process Detail
+        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string result = "";
+            string errMessage = "";
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
+            if (param[0] == "save")
+            {
+                if (hdnEntryID.Value.ToString() != "")
+                {
+                    if (OnSaveEditRecordEntityDt(ref errMessage))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+                else
+                {
+                    if (OnSaveAddRecordEntityDt(ref errMessage))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+            }
+            else if (param[0] == "delete")
+            {
+                if (OnDeleteEntityDt(ref errMessage))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+        }
+
+        private void ControlToEntity(RProjectTaskGroup entity)
+        {
+            entity.ProjectTaskGroupName = txtProjectTaskGroupName.Text;
+            entity.Remarks = txtRemarks.Text;
+        }
+
+        private bool OnSaveAddRecordEntityDt(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            RProjectTaskGroupDao entityDao = new RProjectTaskGroupDao(ctx);
+            try
+            {
+                RProjectTaskGroup entity = new RProjectTaskGroup();
+                ControlToEntity(entity);
+                entity.ProjectID = AppSession.ProjectID;
+                entity.CreatedBy = AppSession.UserLogin.UserID;
+                entityDao.Insert(entity);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnSaveEditRecordEntityDt(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            RProjectTaskGroupDao entityDao = new RProjectTaskGroupDao(ctx);
+            try
+            {
+                RProjectTaskGroup entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                ControlToEntity(entity);
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityDao.Update(entity);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnDeleteEntityDt(ref string errMessage)
+        {
+            try
+            {
+                RProjectTaskGroup entity = BusinessLayer.GetRProjectTaskGroup(Convert.ToInt32(hdnEntryID.Value));
+                entity.IsDeleted = true;
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateRProjectTaskGroup(entity);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                return false;
+            }
+        }
+        #endregion
+    }
+}

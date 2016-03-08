@@ -8771,6 +8771,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vRProjectTask
+        public static List<vRProjectTask> GetvRProjectTaskList(string filterExpression)
+        {
+            List<vRProjectTask> result = new List<vRProjectTask>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectTask));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRProjectTask)helper.IDataReaderToObject(reader, new vRProjectTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vSalesInvoiceDt
         public static List<vSalesInvoiceDt> GetvSalesInvoiceDtList(string filterExpression)
         {

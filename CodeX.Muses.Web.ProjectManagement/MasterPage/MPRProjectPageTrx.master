@@ -1,0 +1,28 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Libs/MasterPage/MPBaseDetailPageTrx.master" AutoEventWireup="true" 
+    CodeBehind="MPRProjectPageTrx.master.cs" Inherits="CodeX.Muses.Web.ProjectManagement.MasterPage.MPRProjectPageTrx" %>
+
+<%@ Register Src="~/MasterPage/RProjectBannerDtCtl.ascx" TagName="BannerCtl" TagPrefix="uc1" %>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="plhMPBaseDetailPageDetailInfo" runat="server"> 
+    <uc1:BannerCtl ID="ctlBanner" runat="server" />  
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="plhHeader" runat="server"> 
+    <asp:ContentPlaceHolder ID="plhHeader" runat="server">        
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server"> 
+    <asp:ContentPlaceHolder ID="plhEntry" runat="server">        
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server"> 
+    <asp:ContentPlaceHolder ID="plhCustomButtonToolbar" runat="server">        
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="plhPopupListFilter" runat="server"> 
+    <asp:ContentPlaceHolder ID="plhPopupListFilter" runat="server">        
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content6" ContentPlaceHolderID="plhPopupListGridView" runat="server"> 
+    <asp:ContentPlaceHolder ID="plhPopupListGridView" runat="server">        
+    </asp:ContentPlaceHolder>
+</asp:Content>

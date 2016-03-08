@@ -11505,6 +11505,159 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RProjectTask
+        public static RProjectTask GetRProjectTask(Int32 ProjectTaskID)
+        {
+            return new RProjectTaskDao().Get(ProjectTaskID);
+        }
+        public static int InsertRProjectTask(RProjectTask record)
+        {
+            return new RProjectTaskDao().Insert(record);
+        }
+        public static int UpdateRProjectTask(RProjectTask record)
+        {
+            return new RProjectTaskDao().Update(record);
+        }
+        public static int DeleteRProjectTask(Int32 ProjectTaskID)
+        {
+            return new RProjectTaskDao().Delete(ProjectTaskID);
+        }
+        public static List<RProjectTask> GetRProjectTaskList(string filterExpression)
+        {
+            List<RProjectTask> result = new List<RProjectTask>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectTask));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectTask)helper.IDataReaderToObject(reader, new RProjectTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRProjectTaskMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectTask));
+                ctx.CommandText = helper.SelectMaxColumn("ProjectTaskID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region RProjectTaskAssign
+        public static RProjectTaskAssign GetRProjectTaskAssign(Int32 ProjectTaskAssignID)
+        {
+            return new RProjectTaskAssignDao().Get(ProjectTaskAssignID);
+        }
+        public static int InsertRProjectTaskAssign(RProjectTaskAssign record)
+        {
+            return new RProjectTaskAssignDao().Insert(record);
+        }
+        public static int UpdateRProjectTaskAssign(RProjectTaskAssign record)
+        {
+            return new RProjectTaskAssignDao().Update(record);
+        }
+        public static int DeleteRProjectTaskAssign(Int32 ProjectTaskAssignID)
+        {
+            return new RProjectTaskAssignDao().Delete(ProjectTaskAssignID);
+        }
+        public static List<RProjectTaskAssign> GetRProjectTaskAssignList(string filterExpression)
+        {
+            List<RProjectTaskAssign> result = new List<RProjectTaskAssign>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectTaskAssign));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectTaskAssign)helper.IDataReaderToObject(reader, new RProjectTaskAssign()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RProjectTaskAssign> GetRProjectTaskAssignList(string filterExpression, IDbContext ctx)
+        {
+            List<RProjectTaskAssign> result = new List<RProjectTaskAssign>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectTaskAssign));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectTaskAssign)helper.IDataReaderToObject(reader, new RProjectTaskAssign()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region RProjectTaskGroup
+        public static RProjectTaskGroup GetRProjectTaskGroup(Int32 ProjectTaskGroupID)
+        {
+            return new RProjectTaskGroupDao().Get(ProjectTaskGroupID);
+        }
+        public static int InsertRProjectTaskGroup(RProjectTaskGroup record)
+        {
+            return new RProjectTaskGroupDao().Insert(record);
+        }
+        public static int UpdateRProjectTaskGroup(RProjectTaskGroup record)
+        {
+            return new RProjectTaskGroupDao().Update(record);
+        }
+        public static int DeleteRProjectTaskGroup(Int32 ProjectTaskGroupID)
+        {
+            return new RProjectTaskGroupDao().Delete(ProjectTaskGroupID);
+        }
+        public static List<RProjectTaskGroup> GetRProjectTaskGroupList(string filterExpression)
+        {
+            List<RProjectTaskGroup> result = new List<RProjectTaskGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectTaskGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectTaskGroup)helper.IDataReaderToObject(reader, new RProjectTaskGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region Room
         public static Room GetRoom(Int32 RoomID)
         {
