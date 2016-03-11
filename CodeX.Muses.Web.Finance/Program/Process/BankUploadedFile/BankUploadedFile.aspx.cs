@@ -215,155 +215,157 @@ namespace CodeX.Muses.Web.Finance.Program
                             BankData entity = new BankData();
                             entity.NBS = arrData[i].Substring(24, 6);
                             String PaymentDate = arrData[i - 1].Substring(4,6);
-                            DateTime date = DateTime.ParseExact(PaymentDate, "yyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                            entity.PaymentDate = date.ToString(Constant.FormatString.DATE_FORMAT);
-                            entity.Amount = Convert.ToDecimal(arrData[i - 1].Substring(arrData[i - 1].IndexOf('C') + 1, arrData[i - 1].IndexOf('N') - 1 - arrData[i - 1].IndexOf('C')));
-
-                            Student entityStudent = lstStudent.FirstOrDefault(p => p.VirtualAccountNo == entity.NBS);
-                            ProspectiveStudent entityProspectiveStudent = lstProspectiveStudent.FirstOrDefault(p => p.ProspectiveStudentCode == entity.NBS);
-                            
-                            #region Proses ARReceiving, ARInvoice, ARBalance
-                            if (entityStudent != null || entityProspectiveStudent != null)
+                            if (arrData[i - 1].Contains(PaymentDate + "C"))
                             {
-                                #region Generate Data
-                                string stringDate = arrData[i - 1].Substring(4, 6);
-                                //DateTime receivingDate = DateTime.ParseExact(stringDate,
-                                //                "yyMMdd",
-                                //                CultureInfo.InvariantCulture,
-                                //                DateTimeStyles.None);
-                                DateTime receivingDate = Helper.GetDatePickerValue(Request.Form[txtReceivedDate.UniqueID]);
+                                DateTime date = DateTime.ParseExact(PaymentDate, "yyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                                entity.PaymentDate = date.ToString(Constant.FormatString.DATE_FORMAT);
+                                entity.Amount = Convert.ToDecimal(arrData[i - 1].Substring(arrData[i - 1].IndexOf('C') + 1, arrData[i - 1].IndexOf('N') - 1 - arrData[i - 1].IndexOf('C')));
+                                Student entityStudent = lstStudent.FirstOrDefault(p => p.VirtualAccountNo == entity.NBS);
+                                ProspectiveStudent entityProspectiveStudent = lstProspectiveStudent.FirstOrDefault(p => p.ProspectiveStudentCode == entity.NBS);
 
-                                ARBalance entityARBalance = null;
-                                if (entityStudent != null)
+                                #region Proses ARReceiving, ARInvoice, ARBalance
+                                if (entityStudent != null || entityProspectiveStudent != null)
                                 {
-                                    entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == entityStudent.StudentID);
-                                    entity.StudentID = entityStudent.StudentID;
-                                    entity.ProspectiveStudentID = 0;
-                                    entity.StudentName = entityStudent.StudentName;
-                                    entity.Status = "Siswa";
+                                    #region Generate Data
+                                    string stringDate = arrData[i - 1].Substring(4, 6);
+                                    //DateTime receivingDate = DateTime.ParseExact(stringDate,
+                                    //                "yyMMdd",
+                                    //                CultureInfo.InvariantCulture,
+                                    //                DateTimeStyles.None);
+                                    DateTime receivingDate = Helper.GetDatePickerValue(Request.Form[txtReceivedDate.UniqueID]);
+
+                                    ARBalance entityARBalance = null;
+                                    if (entityStudent != null)
+                                    {
+                                        entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == entityStudent.StudentID);
+                                        entity.StudentID = entityStudent.StudentID;
+                                        entity.ProspectiveStudentID = 0;
+                                        entity.StudentName = entityStudent.StudentName;
+                                        entity.Status = "Siswa";
+                                    }
+                                    else if (entityProspectiveStudent != null)
+                                    {
+                                        entityARBalance = lstARBalance.FirstOrDefault(p => p.ProspectiveStudentID == entityProspectiveStudent.ProspectiveStudentID);
+                                        entity.StudentName = entityProspectiveStudent.ProspectiveStudentName;
+                                        entity.Status = "Calon Siswa";
+                                        entity.StudentID = 0;
+                                        entity.ProspectiveStudentID = entityProspectiveStudent.ProspectiveStudentID;
+                                    }
+
+                                    decimal totalAmount = entity.Amount - bank.AdministrationAmount;
+                                    if (entityARBalance != null)
+                                        totalAmount += entityARBalance.DepositAmount;
+                                    #endregion
+
+                                    List<vARInvoiceHd> lstARInvoiceHd1 = lstARInvoiceHd.Where(x => x.VirtualAccount == entity.NBS).ToList();
+                                    if (lstARInvoiceHd1.Sum(p => p.TotalClaimedAmount - p.TotalPaymentAmount) == totalAmount)
+                                    {
+                                        entity.IsProcessed = true;
+                                        #region ARReceiving
+                                        ARReceivingHd entityReceivingHd = new ARReceivingHd();
+                                        if (entityStudent != null)
+                                            entityReceivingHd.StudentID = entityStudent.StudentID;
+                                        else
+                                            entityReceivingHd.StudentID = null;
+
+                                        if (entityProspectiveStudent != null)
+                                            entityReceivingHd.ProspectiveStudentID = entityProspectiveStudent.ProspectiveStudentID;
+                                        else
+                                            entityReceivingHd.ProspectiveStudentID = null;
+                                        entityReceivingHd.ReceivingDate = receivingDate;
+                                        entityReceivingHd.TotalInvoiceAmount = entityReceivingHd.TotalReceivingAmount = totalAmount;
+                                        entityReceivingHd.TotalFeeAmount = bank.AdministrationAmount;
+                                        entityReceivingHd.CashBackAmount = 0;
+                                        entityReceivingHd.Remarks = "";
+                                        entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                                        if (entityStudent != null)
+                                            entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
+                                        else
+                                            entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_PROSPECTIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
+                                        entityReceivingHd.CreatedBy = entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                        ctx.CommandType = CommandType.Text;
+                                        ctx.Command.Parameters.Clear();
+                                        entityReceivingHdDao.Insert(entityReceivingHd);
+                                        entityReceivingHd.ARReceivingID = BusinessLayer.GetARReceivingHdMaxID(ctx);
+
+                                        ARReceivingDt entityDt = new ARReceivingDt();
+                                        entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
+                                        entityDt.GCARPaymentMethod = Constant.PaymentMethod.BANK_TRANSFER;
+                                        entityDt.BankID = bank.BankID;
+                                        entityDt.PaymentAmount = entity.Amount - bank.AdministrationAmount;
+                                        entityDt.CardFeeAmount = bank.AdministrationAmount;
+                                        entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                                        entityReceivingDtDao.Insert(entityDt);
+                                        #endregion
+
+                                        #region ARBalance
+                                        if (entityARBalance != null && entityARBalance.DepositAmount > 0)
+                                        {
+                                            ARReceivingDt entityDt2 = new ARReceivingDt();
+                                            entityDt2.ARReceivingID = entityReceivingHd.ARReceivingID;
+                                            entityDt2.GCARPaymentMethod = Constant.PaymentMethod.DOWN_PAYMENT_RETURN;
+                                            if (totalAmount < entityARBalance.DepositAmount)
+                                                entityDt2.PaymentAmount = totalAmount;
+                                            else
+                                                entityDt2.PaymentAmount = entityARBalance.DepositAmount;
+                                            entityDt2.CardFeeAmount = 0;
+                                            entityDt2.CreatedBy = AppSession.UserLogin.UserID;
+                                            entityReceivingDtDao.Insert(entityDt2);
+
+                                            entityARBalance.DepositAmount -= entityDt2.PaymentAmount;
+                                            entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                            arBalanceDao.Update(entityARBalance);
+                                        }
+                                        #endregion
+
+                                        #region ARInvoice
+                                        decimal totalInvoiceAmount = 0;
+                                        foreach (vARInvoiceHd obj in lstARInvoiceHd1)
+                                        {
+                                            ARInvoiceHd arInvoiceHD = arInvoiceHdDao.Get(obj.ARInvoiceID);
+                                            arInvoiceHD.TotalPaymentAmount = arInvoiceHD.TotalClaimedAmount;
+                                            totalInvoiceAmount += arInvoiceHD.TotalPaymentAmount;
+                                            arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
+                                            arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                            arInvoiceHdDao.Update(arInvoiceHD);
+
+                                            List<ARInvoiceDt> lstARInvoiceDt1 = lstARInvoiceDt.Where(p => p.ARInvoiceID == arInvoiceHD.ARInvoiceID).ToList();
+                                            foreach (ARInvoiceDt aRInvoiceDt in lstARInvoiceDt1)
+                                            {
+                                                StudentFeeDt studentFeeDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeDtID == aRInvoiceDt.StudentFeeDtID);
+                                                if (studentFeeDt != null)
+                                                {
+                                                    studentFeeDt.IsPaid = true;
+                                                    studentFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                                    entityStudentFeeDtDao.Update(studentFeeDt);
+                                                }
+
+                                                ARInvoiceReceiving ARInvoiceReceivingObj = new ARInvoiceReceiving();
+                                                ARInvoiceReceivingObj.ARInvoiceID = arInvoiceHD.ARInvoiceID;
+                                                ARInvoiceReceivingObj.ARReceivingID = entityReceivingHd.ARReceivingID;
+                                                ARInvoiceReceivingObj.ReceivingAmount = aRInvoiceDt.ClaimedAmount - aRInvoiceDt.PaymentAmount;
+                                                ARInvoiceReceivingObj.ARInvoiceDtID = aRInvoiceDt.ARInvoiceDtID;
+                                                entityIRDao.Insert(ARInvoiceReceivingObj);
+
+                                                aRInvoiceDt.PaymentAmount = aRInvoiceDt.ClaimedAmount;
+                                                aRInvoiceDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                                entityInvoiceDtDao.Update(aRInvoiceDt);
+                                            }
+                                        }
+                                        #endregion
+
+                                        entityReceivingHd = entityReceivingHdDao.Get(entityReceivingHd.ARReceivingID);
+                                        entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                                        entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                        entityReceivingHdDao.Update(entityReceivingHd);
+                                    }
+                                    else
+                                        entity.IsProcessed = false;
                                 }
-                                else if (entityProspectiveStudent != null)
-                                {
-                                    entityARBalance = lstARBalance.FirstOrDefault(p => p.ProspectiveStudentID == entityProspectiveStudent.ProspectiveStudentID);
-                                    entity.StudentName = entityProspectiveStudent.ProspectiveStudentName;
-                                    entity.Status = "Calon Siswa";
-                                    entity.StudentID = 0;
-                                    entity.ProspectiveStudentID = entityProspectiveStudent.ProspectiveStudentID;
-                                }
-                                
-                                decimal totalAmount = entity.Amount - bank.AdministrationAmount;
-                                if (entityARBalance != null)
-                                    totalAmount += entityARBalance.DepositAmount;
                                 #endregion
 
-                                List<vARInvoiceHd> lstARInvoiceHd1 = lstARInvoiceHd.Where(x => x.VirtualAccount == entity.NBS).ToList();
-                                if (lstARInvoiceHd1.Sum(p => p.TotalClaimedAmount - p.TotalPaymentAmount) == totalAmount)
-                                {
-                                    entity.IsProcessed = true;
-                                    #region ARReceiving
-                                    ARReceivingHd entityReceivingHd = new ARReceivingHd();
-                                    if (entityStudent != null)
-                                        entityReceivingHd.StudentID = entityStudent.StudentID;
-                                    else
-                                        entityReceivingHd.StudentID = null;
-
-                                    if (entityProspectiveStudent != null)
-                                        entityReceivingHd.ProspectiveStudentID = entityProspectiveStudent.ProspectiveStudentID;
-                                    else
-                                        entityReceivingHd.ProspectiveStudentID = null;
-                                    entityReceivingHd.ReceivingDate = receivingDate;
-                                    entityReceivingHd.TotalInvoiceAmount = entityReceivingHd.TotalReceivingAmount = totalAmount;
-                                    entityReceivingHd.TotalFeeAmount = bank.AdministrationAmount;
-                                    entityReceivingHd.CashBackAmount = 0;
-                                    entityReceivingHd.Remarks = "";
-                                    entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                                    if (entityStudent != null)
-                                        entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
-                                    else
-                                        entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_PROSPECTIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
-                                    entityReceivingHd.CreatedBy = entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                    ctx.CommandType = CommandType.Text;
-                                    ctx.Command.Parameters.Clear();
-                                    entityReceivingHdDao.Insert(entityReceivingHd);
-                                    entityReceivingHd.ARReceivingID = BusinessLayer.GetARReceivingHdMaxID(ctx);
-
-                                    ARReceivingDt entityDt = new ARReceivingDt();
-                                    entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
-                                    entityDt.GCARPaymentMethod = Constant.PaymentMethod.BANK_TRANSFER;
-                                    entityDt.BankID = bank.BankID;
-                                    entityDt.PaymentAmount = entity.Amount - bank.AdministrationAmount;
-                                    entityDt.CardFeeAmount = bank.AdministrationAmount;
-                                    entityDt.CreatedBy = AppSession.UserLogin.UserID;
-                                    entityReceivingDtDao.Insert(entityDt);
-                                    #endregion
-
-                                    #region ARBalance
-                                    if (entityARBalance != null && entityARBalance.DepositAmount > 0)
-                                    {
-                                        ARReceivingDt entityDt2 = new ARReceivingDt();
-                                        entityDt2.ARReceivingID = entityReceivingHd.ARReceivingID;
-                                        entityDt2.GCARPaymentMethod = Constant.PaymentMethod.DOWN_PAYMENT_RETURN;
-                                        if (totalAmount < entityARBalance.DepositAmount)
-                                            entityDt2.PaymentAmount = totalAmount;
-                                        else
-                                            entityDt2.PaymentAmount = entityARBalance.DepositAmount;
-                                        entityDt2.CardFeeAmount = 0;
-                                        entityDt2.CreatedBy = AppSession.UserLogin.UserID;
-                                        entityReceivingDtDao.Insert(entityDt2);
-
-                                        entityARBalance.DepositAmount -= entityDt2.PaymentAmount;
-                                        entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                        arBalanceDao.Update(entityARBalance);
-                                    }
-                                    #endregion
-
-                                    #region ARInvoice
-                                    decimal totalInvoiceAmount = 0;
-                                    foreach (vARInvoiceHd obj in lstARInvoiceHd1)
-                                    {
-                                        ARInvoiceHd arInvoiceHD = arInvoiceHdDao.Get(obj.ARInvoiceID);
-                                        arInvoiceHD.TotalPaymentAmount = arInvoiceHD.TotalClaimedAmount;
-                                        totalInvoiceAmount += arInvoiceHD.TotalPaymentAmount;
-                                        arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
-                                        arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                        arInvoiceHdDao.Update(arInvoiceHD);
-
-                                        List<ARInvoiceDt> lstARInvoiceDt1 = lstARInvoiceDt.Where(p => p.ARInvoiceID == arInvoiceHD.ARInvoiceID).ToList();
-                                        foreach (ARInvoiceDt aRInvoiceDt in lstARInvoiceDt1)
-                                        {
-                                            StudentFeeDt studentFeeDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeDtID == aRInvoiceDt.StudentFeeDtID);
-                                            if (studentFeeDt != null)
-                                            {
-                                                studentFeeDt.IsPaid = true;
-                                                studentFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                                entityStudentFeeDtDao.Update(studentFeeDt);
-                                            }
-
-                                            ARInvoiceReceiving ARInvoiceReceivingObj = new ARInvoiceReceiving();
-                                            ARInvoiceReceivingObj.ARInvoiceID = arInvoiceHD.ARInvoiceID;
-                                            ARInvoiceReceivingObj.ARReceivingID = entityReceivingHd.ARReceivingID;
-                                            ARInvoiceReceivingObj.ReceivingAmount = aRInvoiceDt.ClaimedAmount - aRInvoiceDt.PaymentAmount;
-                                            ARInvoiceReceivingObj.ARInvoiceDtID = aRInvoiceDt.ARInvoiceDtID;
-                                            entityIRDao.Insert(ARInvoiceReceivingObj);
-
-                                            aRInvoiceDt.PaymentAmount = aRInvoiceDt.ClaimedAmount;
-                                            aRInvoiceDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                            entityInvoiceDtDao.Update(aRInvoiceDt);
-                                        }
-                                    }
-                                    #endregion
-
-                                    entityReceivingHd = entityReceivingHdDao.Get(entityReceivingHd.ARReceivingID);
-                                    entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                                    entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                    entityReceivingHdDao.Update(entityReceivingHd);
-                                }
-                                else
-                                    entity.IsProcessed = false;
+                                lstBankData.Add(entity);
                             }
-                            #endregion
-
-                            lstBankData.Add(entity);
                         }
                         i += 2;
                     }

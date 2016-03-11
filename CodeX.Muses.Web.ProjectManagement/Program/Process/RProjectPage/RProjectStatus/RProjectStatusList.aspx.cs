@@ -44,7 +44,10 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         #region Bind Grid View
         private void BindGridView2()
         {
-            grdView2.DataSource = BusinessLayer.GetRProjectTaskGroupList(string.Format("ProjectID = {0} AND IsDeleted = 0", AppSession.ProjectID));
+            string filterExpression = string.Format("ProjectID = {0} AND IsDeleted = 0", AppSession.ProjectID);
+            if (!chkIsShowAllGroup.Checked && hdnProjectOrganizationID.Value != "" && hdnProjectOrganizationID.Value != "0")
+                filterExpression += string.Format(" AND ProjectTaskGroupID IN (SELECT ProjectTaskGroupID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{0}/%')", hdnProjectOrganizationID.Value);
+            grdView2.DataSource = BusinessLayer.GetRProjectTaskGroupList(filterExpression);
             grdView2.DataBind();
         }
 

@@ -23655,6 +23655,7 @@ namespace CodeX.Data.Model
         private String _ProjectTaskName;
         private String _Remarks;
         private String _GCProjectTaskPriority;
+        private String _ProjectTaskPriority;
         private String _GCProjectTaskStatus;
         private Int32 _OrganizationCoordinatorID;
         private String _OrganizationCoordinatorName;
@@ -23691,6 +23692,12 @@ namespace CodeX.Data.Model
             get { return _GCProjectTaskPriority; }
             set { _GCProjectTaskPriority = value; }
         }
+        [Column(Name = "ProjectTaskPriority", DataType = "String")]
+        public String ProjectTaskPriority
+        {
+            get { return _ProjectTaskPriority; }
+            set { _ProjectTaskPriority = value; }
+        }
         [Column(Name = "GCProjectTaskStatus", DataType = "String")]
         public String GCProjectTaskStatus
         {
@@ -23720,6 +23727,98 @@ namespace CodeX.Data.Model
         {
             get { return _ListOrganizationName; }
             set { _ListOrganizationName = value; }
+        }
+    }
+    #endregion
+    #region vRProjectTaskLog
+    [Serializable]
+    [Table(Name = "vRProjectTaskLog")]
+    public class vRProjectTaskLog
+    {
+        private Int32 _ProjectTaskLogID;
+        private Int32 _ProjectTaskID;
+        private DateTime _LogDate;
+        private String _LogTime;
+        private String _LogText;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private String _CreatedByName;
+        private DateTime _CreatedDate;
+        private Int32 _LastUpdatedBy;
+        private String _LastUpdatedByName;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProjectTaskLogID", DataType = "Int32")]
+        public Int32 ProjectTaskLogID
+        {
+            get { return _ProjectTaskLogID; }
+            set { _ProjectTaskLogID = value; }
+        }
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "LogDate", DataType = "DateTime")]
+        public DateTime LogDate
+        {
+            get { return _LogDate; }
+            set { _LogDate = value; }
+        }
+        [Column(Name = "LogTime", DataType = "String")]
+        public String LogTime
+        {
+            get { return _LogTime; }
+            set { _LogTime = value; }
+        }
+        [Column(Name = "LogText", DataType = "String")]
+        public String LogText
+        {
+            get { return _LogText; }
+            set { _LogText = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedByName", DataType = "String")]
+        public String CreatedByName
+        {
+            get { return _CreatedByName; }
+            set { _CreatedByName = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32")]
+        public Int32 LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedByName", DataType = "String")]
+        public String LastUpdatedByName
+        {
+            get { return _LastUpdatedByName; }
+            set { _LastUpdatedByName = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime")]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
         }
     }
     #endregion

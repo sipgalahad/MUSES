@@ -17,17 +17,25 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
     {
         public override void InitializeDataControl(string param)
         {
-            hdnID.Value = param;
+            string[] temp = param.Split('|');
+            hdnID.Value = temp[0];
+            hdnProjectOrganizationID.Value = temp[1];
+
+            RProjectOrganization entityOrganization = BusinessLayer.GetRProjectOrganization(Convert.ToInt32(hdnProjectOrganizationID.Value));
+            hdnPosition.Value = entityOrganization.Position;
+
             RProjectTaskGroup entity = BusinessLayer.GetRProjectTaskGroup(Convert.ToInt32(hdnID.Value));
             txtHeaderText.Text = string.Format("{0}", entity.ProjectTaskGroupName);
 
-            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROJECT_TASK_PRIORITY));
-            Methods.SetComboBoxField(cboPriority, lstStandardCode, "StandardCodeName", "StandardCodeID");
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROJECT_TASK_PRIORITY, Constant.StandardCode.PROJECT_STATUS));
+            Methods.SetComboBoxField(cboPriority, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.PROJECT_TASK_PRIORITY).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboStatus, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.PROJECT_STATUS).ToList(), "StandardCodeName", "StandardCodeID");
             cboPriority.SelectedIndex = 0;
 
             BindGridView();
 
             Helper.SetControlEntrySetting(cboPriority, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(cboStatus, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(txtProjectTaskName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(tacOrganizationCoordinator, new ControlEntrySetting(true, true, true), "mpTrxPopup");
         }
@@ -42,13 +50,27 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         private void BindGridView()
         {
-            grdView.DataSource = BusinessLayer.GetvRProjectTaskList(string.Format("ProjectTaskGroupID = {0}", hdnID.Value));
+            grdView.DataSource = BusinessLayer.GetvRProjectTaskList(string.Format("ProjectTaskGroupID = {0} ORDER BY GCProjectTaskPriority DESC", hdnID.Value));
             grdView.DataBind();
         }
 
         protected void cbpViewPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             BindGridView();
+        }
+
+        private void BindGridView2()
+        {
+            string filterExpression = "1 = 0";
+            if (hdnProjectTaskID.Value != "")
+                filterExpression = string.Format("ProjectTaskID = {0} AND IsDeleted = 0 ORDER BY CreatedDate DESC", hdnProjectTaskID.Value);
+            grdView2.DataSource = BusinessLayer.GetvRProjectTaskLogList(filterExpression);
+            grdView2.DataBind();
+        }
+
+        protected void cbpViewPopup2_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridView2();
         }
 
         #region Process Detail
@@ -90,6 +112,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         private void ControlToEntity(RProjectTask entity)
         {
             entity.GCProjectTaskPriority = cboPriority.Value.ToString();
+            entity.GCProjectTaskStatus = cboStatus.Value.ToString();
             entity.ProjectTaskName = txtProjectTaskName.Text;
             entity.Remarks = txtRemarks.Text;
         }
@@ -106,7 +129,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 ControlToEntity(entity);
                 entity.ProjectTaskGroupID = Convert.ToInt32(hdnID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                entity.GCProjectTaskStatus = Constant.ProjectStatus.OPEN;
                 entityDao.Insert(entity);
                 entity.ProjectTaskID = BusinessLayer.GetRProjectTaskMaxID(ctx);
 
@@ -212,6 +234,125 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.UpdateRProjectOrganization(entity);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                return false;
+            }
+        }
+        #endregion
+
+        #region Process Detail2
+        protected void cbpProcessPopup2_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string result = "";
+            string errMessage = "";
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
+            if (param[0] == "save")
+            {
+                if (hdnEntry2ID.Value.ToString() != "")
+                {
+                    if (OnSaveEditRecordEntityDt2(ref errMessage))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+                else
+                {
+                    if (OnSaveAddRecordEntityDt2(ref errMessage))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+            }
+            else if (param[0] == "delete")
+            {
+                if (OnDeleteEntityDt2(ref errMessage))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+        }
+
+        private void ControlToEntity2(RProjectTaskLog entity)
+        {
+            entity.LogDate = Helper.GetDatePickerValue(txtLogDate.Text);
+            entity.LogTime = txtLogTime.Text;
+            entity.LogText = txtLogText.Text;
+        }
+
+        private bool OnSaveAddRecordEntityDt2(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            RProjectTaskLogDao entityDao = new RProjectTaskLogDao(ctx);
+            try
+            {
+                RProjectTaskLog entity = new RProjectTaskLog();
+                ControlToEntity2(entity);
+                entity.ProjectTaskID = Convert.ToInt32(hdnProjectTaskID.Value);
+                entity.CreatedBy = AppSession.UserLogin.UserID;
+                entityDao.Insert(entity);
+                
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnSaveEditRecordEntityDt2(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            RProjectTaskLogDao entityDao = new RProjectTaskLogDao(ctx);
+            try
+            {
+                RProjectTaskLog entity = entityDao.Get(Convert.ToInt32(hdnEntry2ID.Value));
+                ControlToEntity2(entity);
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityDao.Update(entity);
+
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnDeleteEntityDt2(ref string errMessage)
+        {
+            try
+            {
+                RProjectTaskLog entity = BusinessLayer.GetRProjectTaskLog(Convert.ToInt32(hdnEntry2ID.Value));
+                entity.IsDeleted = true;
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateRProjectTaskLog(entity);
                 return true;
             }
             catch (Exception ex)

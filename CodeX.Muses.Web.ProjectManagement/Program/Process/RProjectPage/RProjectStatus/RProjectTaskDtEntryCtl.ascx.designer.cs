@@ -22,6 +22,33 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
+        /// hdnProjectOrganizationID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnProjectOrganizationID;
+        
+        /// <summary>
+        /// hdnPosition control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPosition;
+        
+        /// <summary>
+        /// hdnProjectTaskID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnProjectTaskID;
+        
+        /// <summary>
         /// hdnOrganizationSave control.
         /// </summary>
         /// <remarks>
@@ -85,6 +112,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboPriority;
         
         /// <summary>
+        /// cboStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboStatus;
+        
+        /// <summary>
         /// txtRemarks control.
         /// </summary>
         /// <remarks>
@@ -137,5 +173,86 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcessPopup;
+        
+        /// <summary>
+        /// hdnEntry2ID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntry2ID;
+        
+        /// <summary>
+        /// txtLogDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLogDate;
+        
+        /// <summary>
+        /// txtLogTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLogTime;
+        
+        /// <summary>
+        /// txtLogText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLogText;
+        
+        /// <summary>
+        /// cbpViewPopup2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopup2;
+        
+        /// <summary>
+        /// PanelContent2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent2;
+        
+        /// <summary>
+        /// Panel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel Panel1;
+        
+        /// <summary>
+        /// grdView2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdView2;
+        
+        /// <summary>
+        /// cbpProcessPopup2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcessPopup2;
     }
 }

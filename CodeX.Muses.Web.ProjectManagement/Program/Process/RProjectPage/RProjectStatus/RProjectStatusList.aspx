@@ -12,6 +12,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
+            $('#<%=chkIsShowAllGroup.ClientID %>').change(function () {
+                cbpView2.PerformCallback();
+            });
+
             $('#divTransactionAdd').click(function () {
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtProjectTaskGroupName.ClientID %>').val('');
@@ -24,15 +28,15 @@
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx')) 
+                if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
             });
         });
 
         $('.lblTask').live('click', function () {
             var url = ResolveUrl('~/Program/Process/RProjectPage/RProjectStatus/RProjectTaskDtEntryCtl.ascx');
-            var id = $(this).closest('tr').find('.keyField').html();
-            openUserControlPopup(url, id, 'Task', 900, 500);
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + $('#<%=hdnProjectOrganizationID.ClientID %>').val();
+            openUserControlPopup(url, id, 'Task', 1100, 500);
         });
 
         $('#<%=grdView2.ClientID %> .divDetailDelete').die('click');
@@ -102,6 +106,7 @@
                             <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                                 <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
+                                        <asp:BoundField DataField="ProjectOrganizationID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:TemplateField HeaderStyle-Width="200px" >
                                             <HeaderTemplate>
                                                 <div style="padding-left:3px">

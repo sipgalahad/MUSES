@@ -11658,6 +11658,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RProjectTaskLog
+        public static RProjectTaskLog GetRProjectTaskLog(Int32 ProjectTaskLogID)
+        {
+            return new RProjectTaskLogDao().Get(ProjectTaskLogID);
+        }
+        public static int InsertRProjectTaskLog(RProjectTaskLog record)
+        {
+            return new RProjectTaskLogDao().Insert(record);
+        }
+        public static int UpdateRProjectTaskLog(RProjectTaskLog record)
+        {
+            return new RProjectTaskLogDao().Update(record);
+        }
+        public static int DeleteRProjectTaskLog(Int32 ProjectTaskLogID)
+        {
+            return new RProjectTaskLogDao().Delete(ProjectTaskLogID);
+        }
+        public static List<RProjectTaskLog> GetRProjectTaskLogList(string filterExpression)
+        {
+            List<RProjectTaskLog> result = new List<RProjectTaskLog>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectTaskLog));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectTaskLog)helper.IDataReaderToObject(reader, new RProjectTaskLog()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region Room
         public static Room GetRoom(Int32 RoomID)
         {
