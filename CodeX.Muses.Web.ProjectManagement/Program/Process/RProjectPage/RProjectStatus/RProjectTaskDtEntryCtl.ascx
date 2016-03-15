@@ -120,6 +120,10 @@
         $('#entryDetailContainerPopup').show();
     });
 
+    function onCboFilterStatusValueChanged() {
+        cbpViewPopup.PerformCallback('refresh');
+    }
+
     function onCboDueDateTypeValueChanged() {
         var value = cboDueDateType.GetValue();
         $('#trDueDateEndDate').attr('style', 'display:none');
@@ -318,6 +322,12 @@
     //#endregion
 </script>
 
+<style type="text/css">
+    .tr003 td, .nts003      { background-color: #40CF4E; }
+    .tr002 td, .nts002      { background-color: #40A7CF; }
+    .tr001 td, .nts001      { background-color: #F0514A; }
+</style>
+
 <div style="height:440px; overflow-y:auto">
     <input type="hidden" id="hdnID" value="" runat="server" />
     <input type="hidden" id="hdnProjectOrganizationID" value="" runat="server" />
@@ -377,6 +387,16 @@
             <td style="width:600px; vertical-align: top" >
                 <h4><%=GetLabel("Task") %></h4>
                 <div class="divTransactionEntry">   
+                    <table>
+                        <tr>
+                            <td class="tdLabel" style="width:120px"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
+                            <td>
+                                <dxe:ASPxComboBox runat="server" ID="cboFilterStatus" ClientInstanceName="cboFilterStatus" Width="200px">
+                                    <ClientSideEvents ValueChanged="function(s,e){ onCboFilterStatusValueChanged() }" />
+                                </dxe:ASPxComboBox>
+                            </td>
+                        </tr>
+                    </table>
                     <span id="divTransactionAddPopup" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
                     <div id="entryDetailContainerPopup" class="entryDetailContainer" style="display: none">
                         <fieldset id="fsTrxPopup" style="margin:0"> 
@@ -459,7 +479,7 @@
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
                             <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
-                                <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="ProjectTaskID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:BoundField DataField="ProjectTaskName" HeaderText="Tugas" />
@@ -488,6 +508,22 @@
                                         <%=GetLabel("No Data To Display")%>
                                     </EmptyDataTemplate>
                                 </asp:GridView>
+                                <div style="font-weight: bold;"><%=GetLabel("Keterangan") %> :</div>
+                                <asp:Repeater ID="rptRemarks" runat="server" OnItemDataBound="rptRemarks_ItemDataBound">
+                                    <HeaderTemplate>
+                                        <table>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td><div class='nts<%#Eval("cfStandardCodeID") %>' style="width: 20px; height: 20px; border: 1px solid black;"></div></td>
+                                            <td><%#Eval("StandardCodeName") %></td>
+                                            <td id="tdStatistic" runat="server"></td>
+                                        </tr>
+                                    </ItemTemplate>
+                                    <FooterTemplate>
+                                        </table>
+                                    </FooterTemplate>
+                                </asp:Repeater>
                             </asp:Panel>
                         </dx:PanelContent>
                     </PanelCollection>
@@ -551,8 +587,8 @@
                                         <asp:BoundField DataField="CreatedByName" HeaderText="Pembuat" HeaderStyle-Width="150px" />
                                         <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                             <ItemTemplate>
-                                                <div style='float:right;' class="divDetailDelete"></div>
-                                                <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                                <div class="divDetailDelete" <%#Eval("CreatedBy").ToString() != OnGetUserID() ? "style='display:none'" : "style='float:right;'" %>></div>
+                                                <div class="divDetailEdit" <%#Eval("CreatedBy").ToString() != OnGetUserID() ? "style='display:none'" : "style='float:right;margin-right:10px;'" %>><%=GetLabel("Edit")%></div>
                                                 <input type="hidden" value="<%#Eval("ProjectTaskLogID") %>" bindingfield="ProjectTaskLogID" />
                                                 <input type="hidden" value="<%#Eval("LogDate", "{0:dd-MM-yyyy}") %>" bindingfield="LogDate" />
                                                 <input type="hidden" value="<%#Eval("LogTime") %>" bindingfield="LogTime" />

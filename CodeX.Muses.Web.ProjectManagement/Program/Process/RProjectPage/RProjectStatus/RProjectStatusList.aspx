@@ -67,8 +67,13 @@
                 $(this).addClass('selected');
                 $('#<%=hdnProjectOrganizationID.ClientID %>').val($(this).find('.keyField').html());
                 cbpView2.PerformCallback('refresh');
+                $('#divContainerProjectTaskGroup').show();
             }
         });
+
+        function onAfterPopupControlClosing() {
+            cbpView2.PerformCallback('refresh');
+        }
 
         $(function () {
             $('#<%=grdView.ClientID %> tr:eq(1)').click();
@@ -133,73 +138,79 @@
                 </dxcp:ASPxCallbackPanel>
             </td>
             <td style="width:50%; vertical-align: top" >
-                <asp:CheckBox ID="chkIsShowAllGroup" runat="server" Checked="false" Text="Tampilkan Semua Kelompok Tugas" />
-                <div class="divTransactionEntry">   
-                    <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
-                    <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
-                        <fieldset id="fsTrx" style="margin:0"> 
-                            <input type="hidden" id="hdnEntryID" runat="server" value="" />
-                            <table id="tblEntry">
-                                <colgroup>
-                                    <col style="width:150px"/>
-                                    <col />
-                                </colgroup>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kelompok Tugas") %></label></td>
-                                    <td><asp:TextBox runat="server" ID="txtProjectTaskGroupName" Width="300px" /></td>
-                                </tr>
-                                <tr valign="top" style="padding-top: 5px">
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
-                                    <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="3" Width="300px" /></td>
-                                </tr>
-                                <tr id="trSaveEntry">
-                                    <td> 
-                                        <input type="button" id="btnSave" class="btnWhite" value="Commit"/>
-                                        <input type="button" id="btnCancel" class="btnWhite" value="Cancel"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </fieldset>
+                <div id="divContainerProjectTaskGroup" style="display:none">
+                    <asp:CheckBox ID="chkIsShowAllGroup" runat="server" Checked="false" Text="Tampilkan Semua Kelompok Tugas" />
+                    <div class="divTransactionEntry">   
+                        <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
+                        <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
+                            <fieldset id="fsTrx" style="margin:0"> 
+                                <input type="hidden" id="hdnEntryID" runat="server" value="" />
+                                <table id="tblEntry">
+                                    <colgroup>
+                                        <col style="width:150px"/>
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kelompok Tugas") %></label></td>
+                                        <td><asp:TextBox runat="server" ID="txtProjectTaskGroupName" Width="300px" /></td>
+                                    </tr>
+                                    <tr valign="top" style="padding-top: 5px">
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
+                                        <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="3" Width="300px" /></td>
+                                    </tr>
+                                    <tr id="trSaveEntry">
+                                        <td> 
+                                            <input type="button" id="btnSave" class="btnWhite" value="Commit"/>
+                                            <input type="button" id="btnCancel" class="btnWhite" value="Cancel"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </div>
                     </div>
+                    <dxcp:ASPxCallbackPanel ID="cbpView2" runat="server" Width="100%" ClientInstanceName="cbpView2"
+                        ShowLoadingPanel="false" OnCallback="cbpView2_Callback">
+                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                            EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                        <PanelCollection>
+                            <dx:PanelContent ID="PanelContent2" runat="server">
+                                <asp:Panel runat="server" ID="Panel1" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
+                                    <asp:GridView ID="grdView2" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView2_RowDataBound">
+                                        <Columns>
+                                            <asp:BoundField DataField="ProjectTaskGroupID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                            <asp:BoundField DataField="ProjectTaskGroupName" HeaderText="Kelompok Tugas" />
+                                            <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Task" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <label class="lblLink lblTask"><%=GetLabel("Task") %></label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField><asp:TemplateField HeaderStyle-Width="100px" HeaderText="Status" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <div id="divPercentage" runat="server"></div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <div style='float:right;' class="divDetailDelete"></div>
+                                                    <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                                    <input type="hidden" value="<%#Eval("ProjectTaskGroupID") %>" bindingfield="ProjectTaskGroupID" />
+                                                    <input type="hidden" value="<%#Eval("ProjectTaskGroupName") %>" bindingfield="ProjectTaskGroupName" />
+                                                    <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <EmptyDataTemplate>
+                                            <%=GetLabel("No Data To Display")%>
+                                        </EmptyDataTemplate>
+                                    </asp:GridView>
+                                </asp:Panel>
+                            </dx:PanelContent>
+                        </PanelCollection>
+                    </dxcp:ASPxCallbackPanel>
+                    <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
+                        ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
+                        <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
+                    </dxcp:ASPxCallbackPanel>
                 </div>
-                <dxcp:ASPxCallbackPanel ID="cbpView2" runat="server" Width="100%" ClientInstanceName="cbpView2"
-                    ShowLoadingPanel="false" OnCallback="cbpView2_Callback">
-                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-                        EndCallback="function(s,e){ hideLoadingPanel(); }" />
-                    <PanelCollection>
-                        <dx:PanelContent ID="PanelContent2" runat="server">
-                            <asp:Panel runat="server" ID="Panel1" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
-                                <asp:GridView ID="grdView2" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
-                                    <Columns>
-                                        <asp:BoundField DataField="ProjectTaskGroupID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:BoundField DataField="ProjectTaskGroupName" HeaderText="Kelompok Tugas" HeaderStyle-Width="200px" />
-                                        <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Task" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
-                                            <ItemTemplate>
-                                                <label class="lblLink lblTask"><%=GetLabel("Task") %></label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
-                                            <ItemTemplate>
-                                                <div style='float:right;' class="divDetailDelete"></div>
-                                                <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                                <input type="hidden" value="<%#Eval("ProjectTaskGroupID") %>" bindingfield="ProjectTaskGroupID" />
-                                                <input type="hidden" value="<%#Eval("ProjectTaskGroupName") %>" bindingfield="ProjectTaskGroupName" />
-                                                <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                    </Columns>
-                                    <EmptyDataTemplate>
-                                        <%=GetLabel("No Data To Display")%>
-                                    </EmptyDataTemplate>
-                                </asp:GridView>
-                            </asp:Panel>
-                        </dx:PanelContent>
-                    </PanelCollection>
-                </dxcp:ASPxCallbackPanel>
-                <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
-                    ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
-                    <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
-                </dxcp:ASPxCallbackPanel>
             </td>
         </tr>
     </table>

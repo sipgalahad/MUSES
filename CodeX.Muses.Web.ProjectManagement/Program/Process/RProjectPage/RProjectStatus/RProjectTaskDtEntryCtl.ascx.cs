@@ -10,6 +10,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Web.Common;
 using CodeX.Common;
 using CodeX.Data.Core.Dal;
+using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.ProjectManagement.Program
 {
@@ -27,6 +28,10 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             return Constant.DueDateType.NO_DUE_DATE;
         }
+        protected string OnGetUserID()
+        {
+            return AppSession.UserLogin.UserID.ToString();
+        }
 
         public override void InitializeDataControl(string param)
         {
@@ -40,11 +45,16 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             RProjectTaskGroup entity = BusinessLayer.GetRProjectTaskGroup(Convert.ToInt32(hdnID.Value));
             txtHeaderText.Text = string.Format("{0}", entity.ProjectTaskGroupName);
 
-            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROJECT_TASK_PRIORITY, Constant.StandardCode.PROJECT_STATUS, Constant.StandardCode.DUE_DATE_TYPE));
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROJECT_TASK_PRIORITY, Constant.StandardCode.PROJECT_TASK_STATUS, Constant.StandardCode.DUE_DATE_TYPE));
+            List<StandardCode> lstProjectStatus = lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.PROJECT_TASK_STATUS).ToList();
             Methods.SetComboBoxField(cboPriority, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.PROJECT_TASK_PRIORITY).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboStatus, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.PROJECT_STATUS).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboStatus, lstProjectStatus, "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboDueDateType, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.DUE_DATE_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
             cboPriority.SelectedIndex = 0;
+
+            lstProjectStatus.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = GetLabel("-- All --") });
+            Methods.SetComboBoxField(cboFilterStatus, lstProjectStatus, "StandardCodeName", "StandardCodeID");
+            cboFilterStatus.Value = Constant.ProjectTaskStatus.OPEN;
 
             BindGridView();
 
@@ -71,8 +81,47 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         private void BindGridView()
         {
-            grdView.DataSource = BusinessLayer.GetvRProjectTaskList(string.Format("ProjectTaskGroupID = {0} ORDER BY GCProjectTaskPriority DESC", hdnID.Value));
+            string filterExpression = "";
+            if (AppSession.IsMyProject)
+                filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' AND ProjectTaskID IN (SELECT ProjectTaskID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{2}/%') ORDER BY GCProjectTaskPriority DESC", hdnID.Value, Constant.ProjectTaskStatus.VOID, DetailPage.OnGetMyProjectOrganizationID());
+            else
+                filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' AND ORDER BY GCProjectTaskPriority DESC", hdnID.Value, Constant.ProjectTaskStatus.VOID);
+
+            lstEntity = BusinessLayer.GetvRProjectTaskList(filterExpression);
+            totalTask = lstEntity.Count;
+
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROJECT_TASK_STATUS));
+            rptRemarks.DataSource = lstStandardCode.Where(p => p.StandardCodeID != Constant.ProjectTaskStatus.VOID);
+            rptRemarks.DataBind();
+
+            List<vRProjectTask> lstEntity1 = null;
+            if (cboFilterStatus.Value != null && cboFilterStatus.Value.ToString() != "")
+                lstEntity1 = lstEntity.Where(p => p.GCProjectTaskStatus == cboFilterStatus.Value.ToString()).ToList();
+            else
+                lstEntity1 = lstEntity.ToList();
+            grdView.DataSource = lstEntity1;
             grdView.DataBind();
+        }
+
+        List<vRProjectTask> lstEntity = null;
+        int totalTask = 0;
+        protected void rptRemarks_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                StandardCode entity = e.Item.DataItem as StandardCode;
+                HtmlTableCell tdStatistic = (HtmlTableCell)e.Item.FindControl("tdStatistic");
+                tdStatistic.InnerHtml = string.Format("{0}/{1}", lstEntity.Where(p => p.GCProjectTaskStatus == entity.StandardCodeID).Count(), totalTask);
+            }
+        }
+
+        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vRProjectTask entity = e.Row.DataItem as vRProjectTask;
+                e.Row.CssClass = string.Format("tr{0}", entity.GCProjectTaskStatus.Split('^')[1]);
+            }
         }
 
         protected void cbpViewPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

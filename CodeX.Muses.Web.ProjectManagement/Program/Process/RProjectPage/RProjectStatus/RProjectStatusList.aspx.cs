@@ -76,10 +76,42 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             string filterExpression = string.Format("ProjectID = {0} AND IsDeleted = 0", AppSession.ProjectID);
             if (!chkIsShowAllGroup.Checked && hdnProjectOrganizationID.Value != "" && hdnProjectOrganizationID.Value != "0")
                 filterExpression += string.Format(" AND ProjectTaskGroupID IN (SELECT ProjectTaskGroupID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{0}/%')", hdnProjectOrganizationID.Value);
-            grdView2.DataSource = BusinessLayer.GetRProjectTaskGroupList(filterExpression);
+            List<RProjectTaskGroup> lstEntity = BusinessLayer.GetRProjectTaskGroupList(filterExpression);
+
+            if (lstEntity.Count > 0)
+            {
+                string lstProjectTaskGroupID = string.Join(",", lstEntity.Select(p => p.ProjectTaskGroupID).ToList());
+                if (AppSession.IsMyProject)
+                    filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' AND ProjectTaskID IN (SELECT ProjectTaskID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{2}/%') ORDER BY GCProjectTaskPriority DESC", lstProjectTaskGroupID, Constant.ProjectTaskStatus.VOID, hdnMyProjectOrganizationID.Value);
+                else
+                    filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' ORDER BY GCProjectTaskPriority DESC", lstProjectTaskGroupID, Constant.ProjectTaskStatus.VOID);
+                lstProjectTask = BusinessLayer.GetvRProjectTaskList(filterExpression);
+            }
+            else
+                lstProjectTask = new List<vRProjectTask>();
+            grdView2.DataSource = lstEntity;
             grdView2.DataBind();
         }
 
+        protected void grdView2_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                RProjectTaskGroup entity = e.Row.DataItem as RProjectTaskGroup;
+                HtmlGenericControl divPercentage = (HtmlGenericControl)e.Row.FindControl("divPercentage");
+
+                int total = lstProjectTask.Count;
+                if (total > 0)
+                {
+                    int done = lstProjectTask.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED).Count();
+                    divPercentage.InnerHtml = string.Format("{0}%", ((Double)(done * 100) / total).ToString("N2"));
+                }
+                else
+                    divPercentage.InnerHtml = "-";
+            }
+        }
+
+        List<vRProjectTask> lstProjectTask = null;
         protected void cbpView2_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             BindGridView2();
