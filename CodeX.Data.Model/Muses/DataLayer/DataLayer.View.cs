@@ -23612,12 +23612,18 @@ namespace CodeX.Data.Model
     #region vRProjectOrganizationMember
     [Serializable]
     [Table(Name = "vRProjectOrganizationMember")]
-    public class vRProjectOrganizationMember
+    public partial class vRProjectOrganizationMember
     {
         private Int32 _ProjectOrganizationID;
         private Int32 _ProjectID;
+        private String _ProjectCode;
+        private String _ProjectName;
+        private String _Remarks;
         private Int32 _EmployeeID;
+        private String _GCProjectStatus;
+        private String _Position;
         private Boolean _IsCoordinator;
+        private String _DisplayPath;
 
         [Column(Name = "ProjectOrganizationID", DataType = "Int32")]
         public Int32 ProjectOrganizationID
@@ -23631,11 +23637,41 @@ namespace CodeX.Data.Model
             get { return _ProjectID; }
             set { _ProjectID = value; }
         }
+        [Column(Name = "ProjectCode", DataType = "String")]
+        public String ProjectCode
+        {
+            get { return _ProjectCode; }
+            set { _ProjectCode = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
         [Column(Name = "EmployeeID", DataType = "Int32")]
         public Int32 EmployeeID
         {
             get { return _EmployeeID; }
             set { _EmployeeID = value; }
+        }
+        [Column(Name = "GCProjectStatus", DataType = "String")]
+        public String GCProjectStatus
+        {
+            get { return _GCProjectStatus; }
+            set { _GCProjectStatus = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
         }
         [Column(Name = "IsCoordinator", DataType = "Boolean")]
         public Boolean IsCoordinator
@@ -23643,12 +23679,18 @@ namespace CodeX.Data.Model
             get { return _IsCoordinator; }
             set { _IsCoordinator = value; }
         }
+        [Column(Name = "DisplayPath", DataType = "String")]
+        public String DisplayPath
+        {
+            get { return _DisplayPath; }
+            set { _DisplayPath = value; }
+        }
     }
     #endregion
     #region vRProjectTask
     [Serializable]
     [Table(Name = "vRProjectTask")]
-    public class vRProjectTask
+    public partial class vRProjectTask
     {
         private Int32 _ProjectTaskID;
         private Int32 _ProjectTaskGroupID;
@@ -23657,6 +23699,10 @@ namespace CodeX.Data.Model
         private String _GCProjectTaskPriority;
         private String _ProjectTaskPriority;
         private String _GCProjectTaskStatus;
+        private String _GCDueDateType;
+        private String _DueDateType;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
         private Int32 _OrganizationCoordinatorID;
         private String _OrganizationCoordinatorName;
         private String _ListOrganizationID;
@@ -23703,6 +23749,30 @@ namespace CodeX.Data.Model
         {
             get { return _GCProjectTaskStatus; }
             set { _GCProjectTaskStatus = value; }
+        }
+        [Column(Name = "GCDueDateType", DataType = "String")]
+        public String GCDueDateType
+        {
+            get { return _GCDueDateType; }
+            set { _GCDueDateType = value; }
+        }
+        [Column(Name = "DueDateType", DataType = "String")]
+        public String DueDateType
+        {
+            get { return _DueDateType; }
+            set { _DueDateType = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
         }
         [Column(Name = "OrganizationCoordinatorID", DataType = "Int32")]
         public Int32 OrganizationCoordinatorID

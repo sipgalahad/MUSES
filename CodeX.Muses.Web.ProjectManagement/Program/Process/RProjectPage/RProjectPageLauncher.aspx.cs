@@ -14,7 +14,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            AppSession.ProjectID = Convert.ToInt32(Request.QueryString["id"]);
+            string[] temp = Request.QueryString["id"].Split('|');
+            AppSession.ProjectID = Convert.ToInt32(temp[0]);
+            AppSession.IsMyProject = temp[1] == "1";
 
             string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.ProjectManagement.RPROJECT_PAGE);
             List<GetUserMenuAccess> lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.PROJECT_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);

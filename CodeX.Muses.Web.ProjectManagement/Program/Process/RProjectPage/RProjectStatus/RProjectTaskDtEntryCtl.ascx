@@ -12,6 +12,10 @@
 
 <script type="text/javascript" id="dxss_serviceunitsiteentryctl">
     $(function () {
+        setDatePicker('<%=txtStartDate.ClientID %>');
+        setDatePicker('<%=txtEndDate.ClientID %>');
+        setDatePicker('<%=txtDueDateEndDate.ClientID %>');
+
         $('#divTransactionAddPopup').click(function () {
             $('#<%=hdnEntryID.ClientID %>').val('');
             $('#<%=txtProjectTaskName.ClientID %>').val('');
@@ -20,7 +24,14 @@
             tacOrganizationCoordinator.setText($('#<%=hdnPosition.ClientID %>').val());
             $('#<%=hdnOrganizationCoordinatorID.ClientID %>').val('');
             cboPriority.SetValue('');
-            cboStatus.SetSelectedIndex(0); 
+            cboStatus.SetSelectedIndex(0);
+            cboDueDateType.SetSelectedIndex(0);
+
+            $('#<%=txtStartDate.ClientID %>').val('');
+            $('#<%=txtEndDate.ClientID %>').val('');
+            $('#<%=txtDueDateEndDate.ClientID %>').val('');
+
+            onCboDueDateTypeValueChanged();
 
             idxOrganization = 0;
             $('.trOrganizationDt').each(function () {
@@ -71,7 +82,21 @@
         tacOrganizationCoordinator.setText(entity.OrganizationCoordinatorName);
         $('#<%=hdnOrganizationCoordinatorID.ClientID %>').val(entity.OrganizationCoordinatorID);
         cboPriority.SetValue(entity.GCProjectTaskPriority);
-        cboStatus.SetValue(entity.GCProjectTaskStatus); 
+        cboStatus.SetValue(entity.GCProjectTaskStatus);
+        cboDueDateType.SetValue(entity.GCDueDateType);
+
+        if (entity.GCDueDateType == '<%=OnGetDueDateNoDueDate() %>') {
+            $('#<%=txtStartDate.ClientID %>').val('');
+            $('#<%=txtEndDate.ClientID %>').val('');
+            $('#<%=txtDueDateEndDate.ClientID %>').val('');
+        }
+        else {
+            $('#<%=txtStartDate.ClientID %>').val(entity.StartDate);
+            $('#<%=txtEndDate.ClientID %>').val(entity.EndDate);
+            $('#<%=txtDueDateEndDate.ClientID %>').val(entity.EndDate);
+        }
+
+        onCboDueDateTypeValueChanged();
 
         idxOrganization = 0;
         $('.trOrganizationDt').each(function () {
@@ -94,6 +119,17 @@
 
         $('#entryDetailContainerPopup').show();
     });
+
+    function onCboDueDateTypeValueChanged() {
+        var value = cboDueDateType.GetValue();
+        $('#trDueDateEndDate').attr('style', 'display:none');
+        $('#trDueDateRange').attr('style', 'display:none');
+
+        if (value == '<%=OnGetDueDateRange() %>')
+            $('#trDueDateRange').removeAttr('style');
+        else if (value == '<%=OnGetDueDateEndDate() %>')
+            $('#trDueDateEndDate').removeAttr('style');
+    }
 
     function onCbpProcesPopupEndCallback(s) {
         hideLoadingPanel();
@@ -338,7 +374,7 @@
     
     <table style="width:100%">
         <tr>
-            <td style="width:50%; vertical-align: top" >
+            <td style="width:600px; vertical-align: top" >
                 <h4><%=GetLabel("Task") %></h4>
                 <div class="divTransactionEntry">   
                     <span id="divTransactionAddPopup" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
@@ -373,8 +409,32 @@
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
                                     <td><dxe:ASPxComboBox runat="server" ID="cboStatus" ClientInstanceName="cboStatus" Width="200px" /></td>
                                 </tr>
-                                <tr valign="top" style="padding-top: 5px">
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tenggat Waktu")%></label></td>
+                                    <td>
+                                        <dxe:ASPxComboBox runat="server" ID="cboDueDateType" ClientInstanceName="cboDueDateType" Width="200px">
+                                            <ClientSideEvents ValueChanged="function(s,e){ onCboDueDateTypeValueChanged(); }" />
+                                        </dxe:ASPxComboBox>
+                                    </td>
+                                </tr>
+                                <tr id="trDueDateRange">
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal")%></label></td>
+                                    <td>
+                                        <table cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td><asp:TextBox ID="txtStartDate" Width="120px" runat="server" CssClass="datepicker" /></td>
+                                                <td style="width:40px; text-align:center">s/d</td>
+                                                <td><asp:TextBox ID="txtEndDate" Width="120px" runat="server" CssClass="datepicker" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr id="trDueDateEndDate">
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tgl Tenggat Waktu")%></label></td>
+                                    <td><asp:TextBox ID="txtDueDateEndDate" Width="120px" runat="server" CssClass="datepicker" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel" valign="top" style="padding-top: 5px"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
                                     <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="3" Width="300px" /></td>
                                 </tr>
                                 <tr>
@@ -402,9 +462,10 @@
                                 <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
                                         <asp:BoundField DataField="ProjectTaskID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:BoundField DataField="ProjectTaskName" HeaderText="Tugas" HeaderStyle-Width="150px" />
-                                        <asp:BoundField DataField="OrganizationCoordinatorName" HeaderText="Koordinator" HeaderStyle-Width="150px" />
-                                        <asp:BoundField DataField="ProjectTaskPriority" HeaderText="Prioritas" HeaderStyle-Width="100px" />
+                                        <asp:BoundField DataField="ProjectTaskName" HeaderText="Tugas" />
+                                        <asp:BoundField DataField="OrganizationCoordinatorName" HeaderText="Koordinator" HeaderStyle-Width="100px" />
+                                        <asp:BoundField DataField="ProjectTaskPriority" HeaderText="Prioritas" HeaderStyle-Width="80px" />
+                                        <asp:BoundField DataField="cfDueDate" HeaderText="Tenggat Waktu" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                         <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                             <ItemTemplate>
                                                 <div style='float:right;' class="divDetailDelete"></div>
@@ -417,6 +478,9 @@
                                                 <input type="hidden" value="<%#Eval("ListOrganizationName") %>" bindingfield="ListOrganizationName" />
                                                 <input type="hidden" value="<%#Eval("GCProjectTaskPriority") %>" bindingfield="GCProjectTaskPriority" />
                                                 <input type="hidden" value="<%#Eval("GCProjectTaskStatus") %>" bindingfield="GCProjectTaskStatus" />
+                                                <input type="hidden" value="<%#Eval("GCDueDateType") %>" bindingfield="GCDueDateType" />
+                                                <input type="hidden" value="<%#Eval("StartDate", "{0:dd-MM-yyyy}") %>" bindingfield="StartDate" />
+                                                <input type="hidden" value="<%#Eval("EndDate", "{0:dd-MM-yyyy}") %>" bindingfield="EndDate" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                     </Columns>
@@ -433,7 +497,7 @@
                     <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesPopupEndCallback(s); }" />
                 </dxcp:ASPxCallbackPanel>
             </td>
-            <td style="width:50%; vertical-align: top">
+            <td style="vertical-align: top">
                  <h4><%=GetLabel("Log") %></h4>
                  <div class="divTransactionEntry" id="divTransactionEntry2" style="display:none">   
                     <span id="divTransactionAddPopup2" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />

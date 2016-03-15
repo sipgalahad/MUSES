@@ -93,6 +93,7 @@ namespace CodeX.Common
             public const string SCHEDULE_TASK_TYPE = "DT005";
             public const string PROJECT_FUNDING = "DT006";
             public const string BUDGET_TYPE = "DT007";
+            public const string DUE_DATE_TYPE = "DT008";
         }
 
         public static class TeacherProfileMarkType 
@@ -136,6 +137,13 @@ namespace CodeX.Common
             public const string AKADEMIS = "MS019^001";
             public const string KESENIAN = "MS019^002";
             public const string OLAHRAGA = "MS019^003";
+        }
+
+        public static class DueDateType
+        {
+            public const string NO_DUE_DATE = "DT008^001";
+            public const string RANGE = "DT008^002";
+            public const string DUE_DATE_END_DATE = "DT008^003";
         }
 
         public static class AbsenceReason
@@ -704,6 +712,7 @@ namespace CodeX.Common
                 public const string TO_DO_LIST_IN_CALENDAR = "PM020400";
                 public const string BUDGET_MANAGEMENT = "PM020500";
                 public const string RPROJECT_PAGE_LIST = "PM020600";
+                public const string MY_RPROJECT_PAGE_LIST = "PM020700";
 
                 public const string RPROJECT_PAGE = "PM99030000";
                 public const string RPROJECT_STATUS = "PM99030101";

@@ -163,9 +163,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
                 List<RProjectOrganizationMember> lstEntityDt = BusinessLayer.GetRProjectOrganizationMemberList(string.Format("ProjectOrganizationID = {0}", entity.ProjectOrganizationID), ctx);
 
+                int newCoordinatorID = Convert.ToInt32(hdnEmployeeCoordinatorID.Value);
                 RProjectOrganizationMember entityCoordinator = lstEntityDt.FirstOrDefault(p => p.IsCoordinator);
-                entityCoordinator.EmployeeID = Convert.ToInt32(hdnEmployeeCoordinatorID.Value);
-                entityDtDao.Update(entityCoordinator);
+                if (newCoordinatorID != entityCoordinator.EmployeeID)
+                {
+                    entityDtDao.Delete(entityCoordinator.ProjectOrganizationID, entityCoordinator.EmployeeID);
+                    entityCoordinator.EmployeeID = newCoordinatorID;
+                    entityDtDao.Insert(entityCoordinator);
+                }
+                
                 lstEntityDt.Remove(entityCoordinator);
 
                 if (hdnEmployeeSave.Value != "")

@@ -115,6 +115,7 @@
     <Content Include="Program\Master\Project\ProjectList.aspx" />
     <Content Include="Program\Master\RProjectGroup\RProjectGroupEntry.aspx" />
     <Content Include="Program\Master\RProjectGroup\RProjectGroupList.aspx" />
+    <Content Include="Program\Process\RProjectPage\MyRProjectPageList.aspx" />
     <Content Include="Program\Process\RProjectPage\RProjectStatus\RProjectTaskDtEntryCtl.ascx" />
     <Content Include="Program\Proses\BudgetManagement\BudgetManagementList.aspx" />
     <Content Include="Program\Proses\BudgetManagement\BudgetManagementPageLauncher.aspx" />
@@ -475,6 +476,13 @@
     </Compile>
     <Compile Include="Program\Master\RProjectGroup\RProjectGroupList.aspx.designer.cs">
       <DependentUpon>RProjectGroupList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\MyRProjectPageList.aspx.cs">
+      <DependentUpon>MyRProjectPageList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\MyRProjectPageList.aspx.designer.cs">
+      <DependentUpon>MyRProjectPageList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Process\RProjectPage\RProjectStatus\RProjectTaskDtEntryCtl.ascx.cs">
       <DependentUpon>RProjectTaskDtEntryCtl.ascx</DependentUpon>

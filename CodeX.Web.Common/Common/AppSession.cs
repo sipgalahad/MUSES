@@ -687,6 +687,36 @@ namespace CodeX.Web.Common
                 HttpContext.Current.Session["_ProjectID"] = value;
             }
         }
+        public static Boolean IsMyProject
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_IsMyProject"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_IsMyProject"] != null)
+                        {
+                            bool value = HttpContext.Current.Request.Cookies["Muses"]["_IsMyProject"] == "1";
+                            HttpContext.Current.Session["_IsMyProject"] = value ? "1" : "0";
+                            return value;
+                        }
+                    }
+                    return false;
+                }
+                return HttpContext.Current.Session["_IsMyProject"].ToString() == "1";
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_IsMyProject"] = value ? "1" : "0";
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_IsMyProject"] = value ? "1" : "0";
+            }
+        }
         #endregion
 
         #region BudgetID

@@ -36,7 +36,7 @@
         $('.lblTask').live('click', function () {
             var url = ResolveUrl('~/Program/Process/RProjectPage/RProjectStatus/RProjectTaskDtEntryCtl.ascx');
             var id = $(this).closest('tr').find('.keyField').html() + '|' + $('#<%=hdnProjectOrganizationID.ClientID %>').val();
-            openUserControlPopup(url, id, 'Task', 1100, 500);
+            openUserControlPopup(url, id, 'Task', 1200, 500);
         });
 
         $('#<%=grdView2.ClientID %> .divDetailDelete').die('click');
@@ -62,10 +62,12 @@
         });
 
         $('#<%=grdView.ClientID %> tr:gt(0)').live('click', function () {
-            $('#<%=grdView.ClientID %> tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            $('#<%=hdnProjectOrganizationID.ClientID %>').val($(this).find('.keyField').html());
-            cbpView2.PerformCallback('refresh');
+            if ($(this).find('.hdnIsAllowAccess').val() == '1') {
+                $('#<%=grdView.ClientID %> tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                $('#<%=hdnProjectOrganizationID.ClientID %>').val($(this).find('.keyField').html());
+                cbpView2.PerformCallback('refresh');
+            }
         });
 
         $(function () {
@@ -94,6 +96,7 @@
     </script>
 
     <input type="hidden" id="hdnProjectOrganizationID" runat="server" />
+    <input type="hidden" id="hdnMyProjectOrganizationID" runat="server" />
     <table style="width:100%">
         <tr>
             <td style="width:50%; vertical-align: top" >
@@ -104,7 +107,7 @@
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
                             <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
-                                <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="ProjectOrganizationID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:TemplateField HeaderStyle-Width="200px" >
@@ -115,6 +118,7 @@
                                             </HeaderTemplate>
                                             <ItemTemplate>
                                                 <div style='margin-left:<%# Eval("Level") %>0px;'><%# Eval("Position") %></div>
+                                                <input type="hidden" runat="server" id="hdnIsAllowAccess" class="hdnIsAllowAccess" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="EmployeeCoordinatorName" HeaderText="Koordinator" HeaderStyle-Width="200px" />

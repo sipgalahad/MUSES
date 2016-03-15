@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="RProjectPageList.aspx.cs" Inherits="CodeX.Muses.Web.ProjectManagement.Program.RProjectPageList" %>
+    CodeBehind="MyRProjectPageList.aspx.cs" Inherits="CodeX.Muses.Web.ProjectManagement.Program.MyRProjectPageList" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -17,7 +17,7 @@
 
         $('.lblLink').die('click');
         $('.lblLink').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html() + '|0';
+            var id = $(this).closest('tr').find('.keyField').html() + '|1';
             var url = ResolveUrl('~/Program/Process/RProjectPage/RProjectPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'Project Status' + id, '1300', '650');
         });
@@ -86,8 +86,9 @@
                             ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="ProjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ProjectCode" HeaderText="Kode" HeaderStyle-Width="200px"  HeaderStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="ProjectCode" HeaderText="Kode" HeaderStyle-Width="150px"  HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="ProjectName" HeaderText="Nama" HeaderStyle-Width="220px"  HeaderStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="Position" HeaderText="Posisi" HeaderStyle-Width="220px"  HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan"  HeaderStyle-HorizontalAlign="Left" />
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Detail" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>

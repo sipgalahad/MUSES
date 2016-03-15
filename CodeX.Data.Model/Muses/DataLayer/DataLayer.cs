@@ -24460,6 +24460,9 @@ namespace CodeX.Data.Model
         private Int32 _ProjectTaskGroupID;
         private String _GCProjectTaskPriority;
         private String _GCProjectTaskStatus;
+        private String _GCDueDateType;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
         private String _Remarks;
         private Int32 _CreatedBy;
         private DateTime _CreatedDate;
@@ -24495,6 +24498,24 @@ namespace CodeX.Data.Model
         {
             get { return _GCProjectTaskStatus; }
             set { _GCProjectTaskStatus = value; }
+        }
+        [Column(Name = "GCDueDateType", DataType = "String", IsNullable = true)]
+        public String GCDueDateType
+        {
+            get { return _GCDueDateType; }
+            set { _GCDueDateType = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

@@ -2083,6 +2083,30 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRProjectOrganizationMember
+    public partial class vRProjectOrganizationMember
+    {
+        public Boolean IsAllowAccess
+        {
+            get { return _DisplayPath.Contains("/" + _ProjectOrganizationID + "/"); }
+        }
+    }
+    #endregion
+    #region vRProjectTask
+    public partial class vRProjectTask
+    {
+        public String cfDueDate
+        {
+            get {
+                if (_GCDueDateType == Constant.DueDateType.NO_DUE_DATE)
+                    return _DueDateType;
+                if (_GCDueDateType == Constant.DueDateType.RANGE)
+                    return string.Format("{0} s/d {1}", _StartDate.ToString("dd-MM-yy"), _EndDate.ToString("dd-MM-yy"));
+                return _EndDate.ToString("dd-MM-yy");
+            }
+        }
+    }
+    #endregion
     #region vSalesInvoiceDt
     public partial class vSalesInvoiceDt
     {

@@ -15,6 +15,19 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 {
     public partial class RProjectTaskDtEntryCtl : BaseViewPopupCtl
     {
+        protected string OnGetDueDateRange()
+        {
+            return Constant.DueDateType.RANGE;
+        }
+        protected string OnGetDueDateEndDate()
+        {
+            return Constant.DueDateType.DUE_DATE_END_DATE;
+        }
+        protected string OnGetDueDateNoDueDate()
+        {
+            return Constant.DueDateType.NO_DUE_DATE;
+        }
+
         public override void InitializeDataControl(string param)
         {
             string[] temp = param.Split('|');
@@ -27,23 +40,31 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             RProjectTaskGroup entity = BusinessLayer.GetRProjectTaskGroup(Convert.ToInt32(hdnID.Value));
             txtHeaderText.Text = string.Format("{0}", entity.ProjectTaskGroupName);
 
-            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROJECT_TASK_PRIORITY, Constant.StandardCode.PROJECT_STATUS));
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROJECT_TASK_PRIORITY, Constant.StandardCode.PROJECT_STATUS, Constant.StandardCode.DUE_DATE_TYPE));
             Methods.SetComboBoxField(cboPriority, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.PROJECT_TASK_PRIORITY).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboStatus, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.PROJECT_STATUS).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboDueDateType, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.DUE_DATE_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
             cboPriority.SelectedIndex = 0;
 
             BindGridView();
 
             Helper.SetControlEntrySetting(cboPriority, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(cboStatus, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(cboDueDateType, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(txtProjectTaskName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(tacOrganizationCoordinator, new ControlEntrySetting(true, true, true), "mpTrxPopup");
         }
 
+        private RProjectStatusList DetailPage
+        {
+            get { return (RProjectStatusList)Page; }
+        }
 
         #region HTML Getter
         protected string OnGetOrganizationFilterExpression()
         {
+            if (AppSession.IsMyProject)
+                return string.Format("ProjectID = {0} AND DisplayPath LIKE '%/{1}/%' AND IsDeleted = 0", AppSession.ProjectID, DetailPage.OnGetMyProjectOrganizationID());
             return string.Format("ProjectID = {0} AND IsDeleted = 0", AppSession.ProjectID);
         }
         #endregion
@@ -113,8 +134,17 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             entity.GCProjectTaskPriority = cboPriority.Value.ToString();
             entity.GCProjectTaskStatus = cboStatus.Value.ToString();
+            entity.GCDueDateType = cboDueDateType.Value.ToString();
             entity.ProjectTaskName = txtProjectTaskName.Text;
             entity.Remarks = txtRemarks.Text;
+
+            if (entity.GCDueDateType == Constant.DueDateType.RANGE)
+            {
+                entity.StartDate = Helper.GetDatePickerValue(txtStartDate);
+                entity.EndDate = Helper.GetDatePickerValue(txtEndDate);
+            }
+            else if (entity.GCDueDateType == Constant.DueDateType.DUE_DATE_END_DATE)
+                entity.EndDate = Helper.GetDatePickerValue(txtDueDateEndDate);
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

@@ -23,16 +23,45 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             return Constant.MenuCode.ProjectManagement.RPROJECT_STATUS;
         }
 
+        public string OnGetMyProjectOrganizationID()
+        {
+            return Request.Form[hdnMyProjectOrganizationID.UniqueID];
+        }
+
         protected override void InitializeDataControl()
         {
             BindGridView();
         }
 
+        vRProjectOrganizationMember entityOrganizationMember = null;
         #region Bind Grid View
         private void BindGridView()
         {
+            if (AppSession.IsMyProject)
+            {
+                entityOrganizationMember = BusinessLayer.GetvRProjectOrganizationMemberList(string.Format("ProjectID = {0} AND EmployeeID = {1}", AppSession.ProjectID, AppSession.UserLogin.EmployeeID)).FirstOrDefault();
+                hdnMyProjectOrganizationID.Value = entityOrganizationMember.ProjectOrganizationID.ToString();
+            }
             grdView.DataSource = BusinessLayer.GetvRProjectOrganizationList(string.Format("ProjectID = {0}", AppSession.ProjectID));
             grdView.DataBind();
+        }
+
+        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                HtmlInputHidden hdnIsAllowAccess = e.Row.FindControl("hdnIsAllowAccess") as HtmlInputHidden;
+                if (AppSession.IsMyProject)
+                {
+                    vRProjectOrganization entity = e.Row.DataItem as vRProjectOrganization;
+                    if (entity.DisplayPath.Contains("/" + entityOrganizationMember.ProjectOrganizationID + "/"))
+                        hdnIsAllowAccess.Value = "1";
+                    else
+                        hdnIsAllowAccess.Value = "0";
+                }
+                else
+                    hdnIsAllowAccess.Value = "1";
+            }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
