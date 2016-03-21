@@ -2858,5 +2858,25 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRActivityHistory
+    public partial class vRActivityHistory
+    {
+        public string CustomRemarks
+        {
+            get { return WebUtility.HtmlEncode(_Remarks).Replace(@"\n", "<br/>"); }
+        }
+
+        public string CreatedDateInDatePicker
+        {
+            get { return _CreatedDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+
+        public string CreatedDateInDateTime
+        {
+            get { return _CreatedDate.ToString(Constant.FormatString.DATE_TIME_FORMAT); }
+        }
+
+    }
+    #endregion
     #endregion
 }

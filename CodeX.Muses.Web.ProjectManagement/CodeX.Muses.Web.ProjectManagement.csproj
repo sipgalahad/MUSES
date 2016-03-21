@@ -116,7 +116,9 @@
     <Content Include="Program\Master\RProjectGroup\RProjectGroupEntry.aspx" />
     <Content Include="Program\Master\RProjectGroup\RProjectGroupList.aspx" />
     <Content Include="Program\Process\RProjectPage\MyRProjectPageList.aspx" />
+    <Content Include="Program\Process\RProjectPage\RProjectEvaluation\RProjectEvaluationEntry.aspx" />
     <Content Include="Program\Process\RProjectPage\RProjectStatus\RProjectTaskDtEntryCtl.ascx" />
+    <Content Include="Program\Process\RProjectPage\RTimeline\RTimelineList.aspx" />
     <Content Include="Program\Proses\BudgetManagement\BudgetManagementList.aspx" />
     <Content Include="Program\Proses\BudgetManagement\BudgetManagementPageLauncher.aspx" />
     <Content Include="Program\Proses\ProjectBudget\BudgetInformation\BudgetInformationList.aspx" />
@@ -484,12 +486,26 @@
     <Compile Include="Program\Process\RProjectPage\MyRProjectPageList.aspx.designer.cs">
       <DependentUpon>MyRProjectPageList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Process\RProjectPage\RProjectEvaluation\RProjectEvaluationEntry.aspx.cs">
+      <DependentUpon>RProjectEvaluationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RProjectEvaluation\RProjectEvaluationEntry.aspx.designer.cs">
+      <DependentUpon>RProjectEvaluationEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Process\RProjectPage\RProjectStatus\RProjectTaskDtEntryCtl.ascx.cs">
       <DependentUpon>RProjectTaskDtEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Process\RProjectPage\RProjectStatus\RProjectTaskDtEntryCtl.ascx.designer.cs">
       <DependentUpon>RProjectTaskDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RTimeline\RTimelineList.aspx.cs">
+      <DependentUpon>RTimelineList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RTimeline\RTimelineList.aspx.designer.cs">
+      <DependentUpon>RTimelineList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Proses\BudgetManagement\BudgetManagementList.aspx.cs">
       <DependentUpon>BudgetManagementList.aspx</DependentUpon>

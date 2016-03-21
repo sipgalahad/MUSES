@@ -22341,6 +22341,63 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRActivityHistory
+    [Serializable]
+    [Table(Name = "vRActivityHistory")]
+    public partial class vRActivityHistory
+    {
+        private Int32 _HistoryID;
+        private Int32 _ProjectID;
+        private Int32 _UserID;
+        private String _Username;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private DateTime _CreatedDate;
+
+        [Column(Name = "HistoryID", DataType = "Int32")]
+        public Int32 HistoryID
+        {
+            get { return _HistoryID; }
+            set { _HistoryID = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "UserID", DataType = "Int32")]
+        public Int32 UserID
+        {
+            get { return _UserID; }
+            set { _UserID = value; }
+        }
+        [Column(Name = "Username", DataType = "String")]
+        public String Username
+        {
+            get { return _Username; }
+            set { _Username = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+    }
+    #endregion
     #region vRegistration
     [Serializable]
     [Table(Name = "vRegistration")]
@@ -23493,6 +23550,98 @@ namespace CodeX.Data.Model
         {
             get { return _DisplayPath; }
             set { _DisplayPath = value; }
+        }
+    }
+    #endregion
+    #region vRProjectLog
+    [Serializable]
+    [Table(Name = "vRProjectLog")]
+    public class vRProjectLog
+    {
+        private Int32 _ProjectLogID;
+        private Int32 _ProjectID;
+        private DateTime _LogDate;
+        private String _LogTime;
+        private String _LogText;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private String _CreatedByName;
+        private DateTime _CreatedDate;
+        private Int32 _LastUpdatedBy;
+        private String _LastUpdatedByName;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProjectLogID", DataType = "Int32")]
+        public Int32 ProjectLogID
+        {
+            get { return _ProjectLogID; }
+            set { _ProjectLogID = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "LogDate", DataType = "DateTime")]
+        public DateTime LogDate
+        {
+            get { return _LogDate; }
+            set { _LogDate = value; }
+        }
+        [Column(Name = "LogTime", DataType = "String")]
+        public String LogTime
+        {
+            get { return _LogTime; }
+            set { _LogTime = value; }
+        }
+        [Column(Name = "LogText", DataType = "String")]
+        public String LogText
+        {
+            get { return _LogText; }
+            set { _LogText = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedByName", DataType = "String")]
+        public String CreatedByName
+        {
+            get { return _CreatedByName; }
+            set { _CreatedByName = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32")]
+        public Int32 LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedByName", DataType = "String")]
+        public String LastUpdatedByName
+        {
+            get { return _LastUpdatedByName; }
+            set { _LastUpdatedByName = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime")]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
         }
     }
     #endregion

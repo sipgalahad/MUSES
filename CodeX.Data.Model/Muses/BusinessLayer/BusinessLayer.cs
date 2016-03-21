@@ -11392,6 +11392,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RProjectLog
+        public static RProjectLog GetRProjectLog(Int32 ProjectLogID)
+        {
+            return new RProjectLogDao().Get(ProjectLogID);
+        }
+        public static int InsertRProjectLog(RProjectLog record)
+        {
+            return new RProjectLogDao().Insert(record);
+        }
+        public static int UpdateRProjectLog(RProjectLog record)
+        {
+            return new RProjectLogDao().Update(record);
+        }
+        public static int DeleteRProjectLog(Int32 ProjectLogID)
+        {
+            return new RProjectLogDao().Delete(ProjectLogID);
+        }
+        public static List<RProjectLog> GetRProjectLogList(string filterExpression)
+        {
+            List<RProjectLog> result = new List<RProjectLog>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectLog));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectLog)helper.IDataReaderToObject(reader, new RProjectLog()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region RProjectOrganization
         public static RProjectOrganization GetRProjectOrganization(Int32 ProjectOrganizationID)
         {

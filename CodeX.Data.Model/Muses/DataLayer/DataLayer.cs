@@ -24252,6 +24252,126 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region RProjectLog
+    [Serializable]
+    [Table(Name = "RProjectLog")]
+    public class RProjectLog : DbDataModel
+    {
+        private Int32 _ProjectLogID;
+        private Int32 _ProjectID;
+        private DateTime _LogDate;
+        private String _LogTime;
+        private String _LogText;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProjectLogID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ProjectLogID
+        {
+            get { return _ProjectLogID; }
+            set { _ProjectLogID = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "LogDate", DataType = "DateTime")]
+        public DateTime LogDate
+        {
+            get { return _LogDate; }
+            set { _LogDate = value; }
+        }
+        [Column(Name = "LogTime", DataType = "String")]
+        public String LogTime
+        {
+            get { return _LogTime; }
+            set { _LogTime = value; }
+        }
+        [Column(Name = "LogText", DataType = "String")]
+        public String LogText
+        {
+            get { return _LogText; }
+            set { _LogText = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class RProjectLogDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RProjectLog));
+        private bool _isAuditLog = false;
+        private const string p_ProjectLogID = "@p_ProjectLogID";
+        public RProjectLogDao() { }
+        public RProjectLogDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RProjectLog Get(Int32 ProjectLogID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProjectLogID, ProjectLogID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RProjectLog)_helper.DataRowToObject(row, new RProjectLog());
+        }
+        public int Insert(RProjectLog record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RProjectLog record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProjectLogID)
+        {
+            RProjectLog record;
+            if (_ctx.Transaction == null)
+                record = new RProjectLogDao().Get(ProjectLogID);
+            else
+                record = Get(ProjectLogID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region RProjectOrganization
     [Serializable]
     [Table(Name = "RProjectOrganization")]

@@ -8301,6 +8301,30 @@ namespace CodeX.Data.Model
             return null;
         }
         #endregion
+        #region vRActivityHistory
+        public static List<vRActivityHistory> GetvRActivityHistoryList(string filterExpression)
+        {
+            List<vRActivityHistory> result = new List<vRActivityHistory>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRActivityHistory));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRActivityHistory)helper.IDataReaderToObject(reader, new vRActivityHistory()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vRegistration
         public static List<vRegistration> GetvRegistrationList(string filterExpression)
         {
@@ -8723,6 +8747,95 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vRProjectLog
+        public static List<vRProjectLog> GetvRProjectLogList(string filterExpression)
+        {
+            List<vRProjectLog> result = new List<vRProjectLog>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectLog));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRProjectLog)helper.IDataReaderToObject(reader, new vRProjectLog()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vRProjectLog> GetvRProjectLogList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vRProjectLog> result = new List<vRProjectLog>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectLog));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRProjectLog)helper.IDataReaderToObject(reader, new vRProjectLog()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetvRProjectLogRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectLog));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvRProjectLogRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectLog));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "ProjectLogID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vRProjectOrganization
         public static List<vRProjectOrganization> GetvRProjectOrganizationList(string filterExpression)
         {
@@ -8874,6 +8987,71 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vRProjectTaskLog)helper.IDataReaderToObject(reader, new vRProjectTaskLog()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vRProjectTaskLog> GetvRProjectTaskLogList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vRProjectTaskLog> result = new List<vRProjectTaskLog>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectTaskLog));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRProjectTaskLog)helper.IDataReaderToObject(reader, new vRProjectTaskLog()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetvRProjectTaskLogRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectTaskLog));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvRProjectTaskLogRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectTaskLog));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "ProjectTaskLogID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
             catch (Exception ex)
             {
