@@ -42,18 +42,26 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 entityOrganizationMember = BusinessLayer.GetvRProjectOrganizationMemberList(string.Format("ProjectID = {0} AND EmployeeID = {1}", AppSession.ProjectID, AppSession.UserLogin.EmployeeID)).FirstOrDefault();
                 hdnMyProjectOrganizationID.Value = entityOrganizationMember.ProjectOrganizationID.ToString();
             }
+
+            lstProjectTaskAssign = BusinessLayer.GetvRProjectTaskAssignList(string.Format("ProjectID = {0}", AppSession.ProjectID));
             grdView.DataSource = BusinessLayer.GetvRProjectOrganizationList(string.Format("ProjectID = {0}", AppSession.ProjectID));
             grdView.DataBind();
         }
 
+        List<vRProjectTaskAssign> lstProjectTaskAssign = null;
         protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                vRProjectOrganization entity = e.Row.DataItem as vRProjectOrganization;
                 HtmlInputHidden hdnIsAllowAccess = e.Row.FindControl("hdnIsAllowAccess") as HtmlInputHidden;
+                HtmlGenericControl divPercentage = e.Row.FindControl("divPercentage") as HtmlGenericControl;
+
+                
+
+
                 if (AppSession.IsMyProject)
                 {
-                    vRProjectOrganization entity = e.Row.DataItem as vRProjectOrganization;
                     if (entity.DisplayPath.Contains("/" + entityOrganizationMember.ProjectOrganizationID + "/"))
                         hdnIsAllowAccess.Value = "1";
                     else
@@ -61,6 +69,25 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 }
                 else
                     hdnIsAllowAccess.Value = "1";
+
+                if (hdnIsAllowAccess.Value == "1")
+                {
+                    List<RProjectTask> lstTask = (from p in lstProjectTaskAssign.Where(p => p.DisplayPath.Contains("/" + entity.ProjectOrganizationID + "/")).ToList()
+                                                  select new RProjectTask { ProjectTaskID = p.ProjectTaskID, GCProjectTaskStatus = p.GCProjectTaskStatus }).GroupBy(p => p.ProjectTaskID).Select(p => p.First()).ToList();
+
+                    double percentage = 0;
+                    if (lstTask.Count > 0)
+                    {
+                        int count = lstTask.Count;
+                        int finishedCount = lstTask.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED).Count();
+                        percentage = (double)finishedCount * 100 / (double)count;
+                        divPercentage.InnerHtml = string.Format("{0}%", percentage);
+                    }
+                    else
+                        divPercentage.InnerHtml = "-";
+                }
+                else
+                    divPercentage.InnerHtml = "";
             }
         }
 
@@ -81,7 +108,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             if (lstEntity.Count > 0)
             {
                 string lstProjectTaskGroupID = string.Join(",", lstEntity.Select(p => p.ProjectTaskGroupID).ToList());
-                if (AppSession.IsMyProject)
+                if (hdnProjectOrganizationID.Value != "" && hdnProjectOrganizationID.Value != "0")
+                    filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' AND ProjectTaskID IN (SELECT ProjectTaskID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{2}/%') ORDER BY GCProjectTaskPriority DESC", lstProjectTaskGroupID, Constant.ProjectTaskStatus.VOID, hdnProjectOrganizationID.Value);
+                else if (AppSession.IsMyProject)
                     filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' AND ProjectTaskID IN (SELECT ProjectTaskID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{2}/%') ORDER BY GCProjectTaskPriority DESC", lstProjectTaskGroupID, Constant.ProjectTaskStatus.VOID, hdnMyProjectOrganizationID.Value);
                 else
                     filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' ORDER BY GCProjectTaskPriority DESC", lstProjectTaskGroupID, Constant.ProjectTaskStatus.VOID);
@@ -100,10 +129,11 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 RProjectTaskGroup entity = e.Row.DataItem as RProjectTaskGroup;
                 HtmlGenericControl divPercentage = (HtmlGenericControl)e.Row.FindControl("divPercentage");
 
-                int total = lstProjectTask.Count;
+                List<vRProjectTask> lstProjectTask1 = lstProjectTask.Where(p => p.ProjectTaskGroupID == entity.ProjectTaskGroupID).ToList();
+                int total = lstProjectTask1.Count;
                 if (total > 0)
                 {
-                    int done = lstProjectTask.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED).Count();
+                    int done = lstProjectTask1.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED).Count();
                     divPercentage.InnerHtml = string.Format("{0}%", ((Double)(done * 100) / total).ToString("N2"));
                 }
                 else

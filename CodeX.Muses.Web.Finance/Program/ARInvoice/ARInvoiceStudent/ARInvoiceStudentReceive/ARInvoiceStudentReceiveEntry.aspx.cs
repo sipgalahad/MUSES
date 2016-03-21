@@ -454,7 +454,11 @@ namespace CodeX.Muses.Web.Finance.Program
                         string lstARInvoiceDtID = string.Join(",", lstARIR1.Select(p => p.ARInvoiceDtID).ToList());
                         List<ARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetARInvoiceDtList(string.Format("ARInvoiceDtID IN ({0})", lstARInvoiceDtID), ctx);
                         String lstStudentFeeDtID = String.Join(",", lstARInvoiceDt.Select(x => x.StudentFeeDtID).ToList());
-                        List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", lstStudentFeeDtID), ctx);
+                        List<StudentFeeDt> lstStudentFeeDt= null;
+                        if (lstStudentFeeDtID != "")
+                            lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", lstStudentFeeDtID), ctx);
+                        else
+                            lstStudentFeeDt = new List<StudentFeeDt>();
 
                         foreach (ARInvoiceDt aRInvoiceDt in lstARInvoiceDt)
                         {
@@ -463,11 +467,14 @@ namespace CodeX.Muses.Web.Finance.Program
                             entityARIDtDao.Update(aRInvoiceDt);
 
                             StudentFeeDt studentFeeDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeDtID == aRInvoiceDt.StudentFeeDtID);
-                            if (aRInvoiceDt.PaymentAmount == 0)
+                            if (studentFeeDt != null)
                             {
-                                studentFeeDt.IsPaid = false;
-                                studentFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                entityStudentFeeDtDao.Update(studentFeeDt);
+                                if (aRInvoiceDt.PaymentAmount == 0)
+                                {
+                                    studentFeeDt.IsPaid = false;
+                                    studentFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                    entityStudentFeeDtDao.Update(studentFeeDt);
+                                }
                             }
                         }
 

@@ -8838,6 +8838,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vRProjectTaskAssign
+        public static List<vRProjectTaskAssign> GetvRProjectTaskAssignList(string filterExpression)
+        {
+            List<vRProjectTaskAssign> result = new List<vRProjectTaskAssign>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectTaskAssign));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRProjectTaskAssign)helper.IDataReaderToObject(reader, new vRProjectTaskAssign()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vRProjectTaskLog
         public static List<vRProjectTaskLog> GetvRProjectTaskLogList(string filterExpression)
         {

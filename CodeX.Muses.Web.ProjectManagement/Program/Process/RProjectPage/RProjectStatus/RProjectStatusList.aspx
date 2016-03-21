@@ -36,7 +36,7 @@
         $('.lblTask').live('click', function () {
             var url = ResolveUrl('~/Program/Process/RProjectPage/RProjectStatus/RProjectTaskDtEntryCtl.ascx');
             var id = $(this).closest('tr').find('.keyField').html() + '|' + $('#<%=hdnProjectOrganizationID.ClientID %>').val();
-            openUserControlPopup(url, id, 'Task', 1200, 500);
+            openUserControlPopup(url, id, 'Detil Tugas', 1200, 500);
         });
 
         $('#<%=grdView2.ClientID %> .divDetailDelete').die('click');
@@ -72,7 +72,7 @@
         });
 
         function onAfterPopupControlClosing() {
-            cbpView2.PerformCallback('refresh');
+            cbpView.PerformCallback('refresh');
         }
 
         $(function () {
@@ -127,6 +127,14 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="EmployeeCoordinatorName" HeaderText="Koordinator" HeaderStyle-Width="200px" />
+                                        <asp:TemplateField HeaderStyle-Width="50px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" >
+                                            <HeaderTemplate>                                              
+                                                <%=GetLabel("Persentase")%>
+                                            </HeaderTemplate>
+                                            <ItemTemplate>
+                                                <div id="divPercentage" runat="server"><%# Eval("Position") %></div>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>

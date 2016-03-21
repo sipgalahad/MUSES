@@ -40,7 +40,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             hdnProjectOrganizationID.Value = temp[1];
 
             RProjectOrganization entityOrganization = BusinessLayer.GetRProjectOrganization(Convert.ToInt32(hdnProjectOrganizationID.Value));
-            hdnPosition.Value = entityOrganization.Position;
+            txtPosition.Text = hdnPosition.Value = entityOrganization.Position;
 
             RProjectTaskGroup entity = BusinessLayer.GetRProjectTaskGroup(Convert.ToInt32(hdnID.Value));
             txtHeaderText.Text = string.Format("{0}", entity.ProjectTaskGroupName);
@@ -82,10 +82,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         private void BindGridView()
         {
             string filterExpression = "";
-            if (AppSession.IsMyProject)
-                filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' AND ProjectTaskID IN (SELECT ProjectTaskID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{2}/%') ORDER BY GCProjectTaskPriority DESC", hdnID.Value, Constant.ProjectTaskStatus.VOID, DetailPage.OnGetMyProjectOrganizationID());
+            if (chkIsShowAllTask.Checked)
+            {
+                if (AppSession.IsMyProject)
+                    filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' AND ProjectTaskID IN (SELECT ProjectTaskID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{2}/%') ORDER BY GCProjectTaskPriority DESC", hdnID.Value, Constant.ProjectTaskStatus.VOID, DetailPage.OnGetMyProjectOrganizationID());
+                else
+                    filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' ORDER BY GCProjectTaskPriority DESC", hdnID.Value, Constant.ProjectTaskStatus.VOID);
+            }
             else
-                filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' AND ORDER BY GCProjectTaskPriority DESC", hdnID.Value, Constant.ProjectTaskStatus.VOID);
+                filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' AND ProjectTaskID IN (SELECT ProjectTaskID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{2}/%') ORDER BY GCProjectTaskPriority DESC", hdnID.Value, Constant.ProjectTaskStatus.VOID, hdnProjectOrganizationID.Value);
 
             lstEntity = BusinessLayer.GetvRProjectTaskList(filterExpression);
             totalTask = lstEntity.Count;

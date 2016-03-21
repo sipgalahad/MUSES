@@ -23800,6 +23800,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRProjectTaskAssign
+    [Serializable]
+    [Table(Name = "vRProjectTaskAssign")]
+    public class vRProjectTaskAssign
+    {
+        private Int32 _ProjectTaskAssignID;
+        private Int32 _ProjectTaskID;
+        private Int32 _ProjectTaskGroupID;
+        private String _DisplayPath;
+        private Int32 _ProjectOrganizationID;
+        private Boolean _IsCoordinator;
+        private String _GCProjectTaskStatus;
+        private String _GCProjectTaskPriority;
+
+        [Column(Name = "ProjectTaskAssignID", DataType = "Int32")]
+        public Int32 ProjectTaskAssignID
+        {
+            get { return _ProjectTaskAssignID; }
+            set { _ProjectTaskAssignID = value; }
+        }
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "ProjectTaskGroupID", DataType = "Int32")]
+        public Int32 ProjectTaskGroupID
+        {
+            get { return _ProjectTaskGroupID; }
+            set { _ProjectTaskGroupID = value; }
+        }
+        [Column(Name = "DisplayPath", DataType = "String")]
+        public String DisplayPath
+        {
+            get { return _DisplayPath; }
+            set { _DisplayPath = value; }
+        }
+        [Column(Name = "ProjectOrganizationID", DataType = "Int32")]
+        public Int32 ProjectOrganizationID
+        {
+            get { return _ProjectOrganizationID; }
+            set { _ProjectOrganizationID = value; }
+        }
+        [Column(Name = "IsCoordinator", DataType = "Boolean")]
+        public Boolean IsCoordinator
+        {
+            get { return _IsCoordinator; }
+            set { _IsCoordinator = value; }
+        }
+        [Column(Name = "GCProjectTaskStatus", DataType = "String")]
+        public String GCProjectTaskStatus
+        {
+            get { return _GCProjectTaskStatus; }
+            set { _GCProjectTaskStatus = value; }
+        }
+        [Column(Name = "GCProjectTaskPriority", DataType = "String")]
+        public String GCProjectTaskPriority
+        {
+            get { return _GCProjectTaskPriority; }
+            set { _GCProjectTaskPriority = value; }
+        }
+    }
+    #endregion
     #region vRProjectTaskLog
     [Serializable]
     [Table(Name = "vRProjectTaskLog")]

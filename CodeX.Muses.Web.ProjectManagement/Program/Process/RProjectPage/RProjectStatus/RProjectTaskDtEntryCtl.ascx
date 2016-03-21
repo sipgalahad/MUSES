@@ -22,7 +22,7 @@
             $('#<%=txtRemarks.ClientID %>').val('');
             tacOrganizationCoordinator.setValue($('#<%=hdnProjectOrganizationID.ClientID %>').val());
             tacOrganizationCoordinator.setText($('#<%=hdnPosition.ClientID %>').val());
-            $('#<%=hdnOrganizationCoordinatorID.ClientID %>').val('');
+            $('#<%=hdnOrganizationCoordinatorID.ClientID %>').val($('#<%=hdnProjectOrganizationID.ClientID %>').val());
             cboPriority.SetValue('');
             cboStatus.SetSelectedIndex(0);
             cboDueDateType.SetSelectedIndex(0);
@@ -39,6 +39,10 @@
             });
 
             $('#entryDetailContainerPopup').show();
+        });
+
+        $('#<%=chkIsShowAllTask.ClientID %>').change(function () {
+            cbpViewPopup.PerformCallback('refresh');
         });
 
         $('#btnCancelPopup').click(function () {
@@ -380,6 +384,10 @@
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kelompok Tugas")%></label></td>
             <td colspan="2"><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="100%" runat="server" /></td>
         </tr> 
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Posisi")%></label></td>
+            <td colspan="2"><asp:TextBox ID="txtPosition" ReadOnly="true" Width="100%" runat="server" /></td>
+        </tr> 
     </table>
     
     <table style="width:100%">
@@ -388,6 +396,10 @@
                 <h4><%=GetLabel("Task") %></h4>
                 <div class="divTransactionEntry">   
                     <table>
+                        <tr>
+                            <td></td>
+                            <td><asp:CheckBox ID="chkIsShowAllTask" runat="server" Checked="false" Text="Tampilkan Semua Tugas" /></td>
+                        </tr>
                         <tr>
                             <td class="tdLabel" style="width:120px"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
                             <td>
