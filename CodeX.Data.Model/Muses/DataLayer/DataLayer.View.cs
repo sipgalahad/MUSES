@@ -22398,6 +22398,105 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRBudgetRequestHd
+    [Serializable]
+    [Table(Name = "vRBudgetRequestHd")]
+    public partial class vRBudgetRequestHd
+    {
+        private Int32 _BudgetRequestID;
+        private String _BudgetRequestNo;
+        private DateTime _RequestDate;
+        private String _RequestTime;
+        private DateTime _DueDate;
+        private Int32 _ProjectID;
+        private Int32 _ProjectTaskGroupID;
+        private String _ProjectTaskGroupName;
+        private Decimal _TotalAmount;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+        private String _Remarks;
+
+        [Column(Name = "BudgetRequestID", DataType = "Int32")]
+        public Int32 BudgetRequestID
+        {
+            get { return _BudgetRequestID; }
+            set { _BudgetRequestID = value; }
+        }
+        [Column(Name = "BudgetRequestNo", DataType = "String")]
+        public String BudgetRequestNo
+        {
+            get { return _BudgetRequestNo; }
+            set { _BudgetRequestNo = value; }
+        }
+        [Column(Name = "RequestDate", DataType = "DateTime")]
+        public DateTime RequestDate
+        {
+            get { return _RequestDate; }
+            set { _RequestDate = value; }
+        }
+        [Column(Name = "RequestTime", DataType = "String")]
+        public String RequestTime
+        {
+            get { return _RequestTime; }
+            set { _RequestTime = value; }
+        }
+        [Column(Name = "DueDate", DataType = "DateTime")]
+        public DateTime DueDate
+        {
+            get { return _DueDate; }
+            set { _DueDate = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectTaskGroupID", DataType = "Int32")]
+        public Int32 ProjectTaskGroupID
+        {
+            get { return _ProjectTaskGroupID; }
+            set { _ProjectTaskGroupID = value; }
+        }
+        [Column(Name = "ProjectTaskGroupName", DataType = "String")]
+        public String ProjectTaskGroupName
+        {
+            get { return _ProjectTaskGroupName; }
+            set { _ProjectTaskGroupName = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
     #region vRegistration
     [Serializable]
     [Table(Name = "vRegistration")]

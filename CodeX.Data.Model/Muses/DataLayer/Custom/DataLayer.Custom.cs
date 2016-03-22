@@ -201,6 +201,18 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region RBudgetRequestDt
+    public partial class RBudgetRequestDt
+    {
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+    }
+    #endregion
     #region ScholarshipComp
     public partial class ScholarshipComp
     {

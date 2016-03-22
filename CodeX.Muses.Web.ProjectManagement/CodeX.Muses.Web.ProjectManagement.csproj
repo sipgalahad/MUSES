@@ -115,6 +115,7 @@
     <Content Include="Program\Master\Project\ProjectList.aspx" />
     <Content Include="Program\Master\RProjectGroup\RProjectGroupEntry.aspx" />
     <Content Include="Program\Master\RProjectGroup\RProjectGroupList.aspx" />
+    <Content Include="Program\Process\RProjectPage\RBudgetRequest\RBudgetRequestEntry.aspx" />
     <Content Include="Program\Process\RProjectPage\MyRProjectPageList.aspx" />
     <Content Include="Program\Process\RProjectPage\RProjectEvaluation\RProjectEvaluationEntry.aspx" />
     <Content Include="Program\Process\RProjectPage\RProjectStatus\RProjectTaskDtEntryCtl.ascx" />
@@ -478,6 +479,13 @@
     </Compile>
     <Compile Include="Program\Master\RProjectGroup\RProjectGroupList.aspx.designer.cs">
       <DependentUpon>RProjectGroupList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RBudgetRequest\RBudgetRequestEntry.aspx.cs">
+      <DependentUpon>RBudgetRequestEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RBudgetRequest\RBudgetRequestEntry.aspx.designer.cs">
+      <DependentUpon>RBudgetRequestEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Process\RProjectPage\MyRProjectPageList.aspx.cs">
       <DependentUpon>MyRProjectPageList.aspx</DependentUpon>

@@ -1923,6 +1923,18 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRBudgetRequestHd
+    public partial class vRBudgetRequestHd
+    {
+        public String RequestDateInString
+        {
+            get
+            {
+                return _RequestDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region vRegistration
     public partial class vRegistration
     {

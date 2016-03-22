@@ -10916,6 +10916,202 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RBudgetRequestDt
+        public static RBudgetRequestDt GetRBudgetRequestDt(Int32 BudgetRequestDtID)
+        {
+            return new RBudgetRequestDtDao().Get(BudgetRequestDtID);
+        }
+        public static int InsertRBudgetRequestDt(RBudgetRequestDt record)
+        {
+            return new RBudgetRequestDtDao().Insert(record);
+        }
+        public static int UpdateRBudgetRequestDt(RBudgetRequestDt record)
+        {
+            return new RBudgetRequestDtDao().Update(record);
+        }
+        public static int DeleteRBudgetRequestDt(Int32 BudgetRequestDtID)
+        {
+            return new RBudgetRequestDtDao().Delete(BudgetRequestDtID);
+        }
+        public static List<RBudgetRequestDt> GetRBudgetRequestDtList(string filterExpression)
+        {
+            List<RBudgetRequestDt> result = new List<RBudgetRequestDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRequestDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RBudgetRequestDt)helper.IDataReaderToObject(reader, new RBudgetRequestDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RBudgetRequestDt> GetRBudgetRequestDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<RBudgetRequestDt> result = new List<RBudgetRequestDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRequestDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RBudgetRequestDt)helper.IDataReaderToObject(reader, new RBudgetRequestDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRBudgetRequestDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRequestDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region RBudgetRequestDtFund
+        public static RBudgetRequestDtFund GetRBudgetRequestDtFund(Int32 BudgetRequestDtID, String GCProjectFundType)
+        {
+            return new RBudgetRequestDtFundDao().Get(BudgetRequestDtID, GCProjectFundType);
+        }
+        public static int InsertRBudgetRequestDtFund(RBudgetRequestDtFund record)
+        {
+            return new RBudgetRequestDtFundDao().Insert(record);
+        }
+        public static int UpdateRBudgetRequestDtFund(RBudgetRequestDtFund record)
+        {
+            return new RBudgetRequestDtFundDao().Update(record);
+        }
+        public static int DeleteRBudgetRequestDtFund(Int32 BudgetRequestDtID, String GCProjectFundType)
+        {
+            return new RBudgetRequestDtFundDao().Delete(BudgetRequestDtID, GCProjectFundType);
+        }
+        public static List<RBudgetRequestDtFund> GetRBudgetRequestDtFundList(string filterExpression)
+        {
+            List<RBudgetRequestDtFund> result = new List<RBudgetRequestDtFund>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRequestDtFund));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RBudgetRequestDtFund)helper.IDataReaderToObject(reader, new RBudgetRequestDtFund()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RBudgetRequestDtFund> GetRBudgetRequestDtFundList(string filterExpression, IDbContext ctx)
+        {
+            List<RBudgetRequestDtFund> result = new List<RBudgetRequestDtFund>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRequestDtFund));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RBudgetRequestDtFund)helper.IDataReaderToObject(reader, new RBudgetRequestDtFund()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region RBudgetRequestHd
+        public static RBudgetRequestHd GetRBudgetRequestHd(Int32 BudgetRequestID)
+        {
+            return new RBudgetRequestHdDao().Get(BudgetRequestID);
+        }
+        public static int InsertRBudgetRequestHd(RBudgetRequestHd record)
+        {
+            return new RBudgetRequestHdDao().Insert(record);
+        }
+        public static int UpdateRBudgetRequestHd(RBudgetRequestHd record)
+        {
+            return new RBudgetRequestHdDao().Update(record);
+        }
+        public static int DeleteRBudgetRequestHd(Int32 BudgetRequestID)
+        {
+            return new RBudgetRequestHdDao().Delete(BudgetRequestID);
+        }
+        public static List<RBudgetRequestHd> GetRBudgetRequestHdList(string filterExpression)
+        {
+            List<RBudgetRequestHd> result = new List<RBudgetRequestHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRequestHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RBudgetRequestHd)helper.IDataReaderToObject(reader, new RBudgetRequestHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRBudgetRequestHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRequestHd));
+                ctx.CommandText = helper.SelectMaxColumn("BudgetRequestID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region Registration
         public static Registration GetRegistration(Int32 RegistrationID)
         {

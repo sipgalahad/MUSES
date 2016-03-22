@@ -57,9 +57,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 HtmlInputHidden hdnIsAllowAccess = e.Row.FindControl("hdnIsAllowAccess") as HtmlInputHidden;
                 HtmlGenericControl divPercentage = e.Row.FindControl("divPercentage") as HtmlGenericControl;
 
-                
-
-
                 if (AppSession.IsMyProject)
                 {
                     if (entity.DisplayPath.Contains("/" + entityOrganizationMember.ProjectOrganizationID + "/"))

@@ -718,7 +718,8 @@ namespace CodeX.Common
                 public const string RPROJECT_STATUS = "PM99030101";
                 public const string RTIMELINE = "PM99030102";
                 public const string RPROJECT_EVALUATION = "PM99030103";
-
+                public const string RBUDGET_REQUEST = "PM99030201";
+                public const string RITEM_REQUEST = "PM99030202";
 
                 public const string PROJECT_MANAGEMENT_PAGE = "PM99010000";
                 public const string PROJECT_MANAGEMENT_DETAIL = "PM99010100";

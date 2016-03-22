@@ -722,6 +722,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region RBudget RequestHd -->
+  <searchdialog type="rbudgetrequesthd" methodname="GetvRBudgetRequestHdList" keyfieldname="BudgetRequestNo" orderbyexpression="BudgetRequestNo ASC">
+    <gridcolumns>
+      <gridcolumn datafield="BudgetRequestNo" headertext="No" width="150px" />
+      <gridcolumn datafield="RequestDateInString" headertext="Tanggal" width="120px" />
+      <gridcolumn datafield="TransactionStatus" headertext="Status" width="70px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="BudgetRequestNo" headertext="No" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Registration -->
   <searchdialog type="registration" methodname="GetvRegistrationList" keyfieldname="RegistrationNo" orderbyexpression="ProspectiveStudentName ASC">
     <gridcolumns>
