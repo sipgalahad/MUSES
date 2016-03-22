@@ -8325,6 +8325,118 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vRBudgetRealizationHd
+        public static List<vRBudgetRealizationHd> GetvRBudgetRealizationHdList(string filterExpression)
+        {
+            List<vRBudgetRealizationHd> result = new List<vRBudgetRealizationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRBudgetRealizationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRBudgetRealizationHd)helper.IDataReaderToObject(reader, new vRBudgetRealizationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vRBudgetRealizationHd> GetvRBudgetRealizationHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vRBudgetRealizationHd> result = new List<vRBudgetRealizationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRBudgetRealizationHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRBudgetRealizationHd)helper.IDataReaderToObject(reader, new vRBudgetRealizationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvRBudgetRealizationHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRBudgetRealizationHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvRBudgetRealizationHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRBudgetRealizationHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "BudgetRealizationNo", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static vRBudgetRealizationHd GetvRBudgetRealizationHd(string filterExpression, int pageIndex, string orderByExpression = "")
+        {
+            List<vRBudgetRealizationHd> result = new List<vRBudgetRealizationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRBudgetRealizationHd));
+                ctx.CommandText = helper.SelectByPageIndex(filterExpression, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRBudgetRealizationHd)helper.IDataReaderToObject(reader, new vRBudgetRealizationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            if (result.Count > 0)
+                return result[0];
+            return null;
+        }
+        #endregion
         #region vRBudgetRequestHd
         public static List<vRBudgetRequestHd> GetvRBudgetRequestHdList(string filterExpression)
         {
@@ -8334,6 +8446,28 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(vRBudgetRequestHd));
                 ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRBudgetRequestHd)helper.IDataReaderToObject(reader, new vRBudgetRequestHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vRBudgetRequestHd> GetvRBudgetRequestHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vRBudgetRequestHd> result = new List<vRBudgetRequestHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRBudgetRequestHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vRBudgetRequestHd)helper.IDataReaderToObject(reader, new vRBudgetRequestHd()));

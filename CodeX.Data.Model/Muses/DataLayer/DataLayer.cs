@@ -23424,6 +23424,338 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region RBudgetRealizationDt
+    [Serializable]
+    [Table(Name = "RBudgetRealizationDt")]
+    public class RBudgetRealizationDt : DbDataModel
+    {
+        private Int32 _BudgetRealizationDtID;
+        private Int32 _BudgetRealizationID;
+        private String _BudgetRealizationDtName;
+        private Decimal _TotalAmount;
+        private String _Remarks;
+        private String _GCItemDetailStatus;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "BudgetRealizationDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 BudgetRealizationDtID
+        {
+            get { return _BudgetRealizationDtID; }
+            set { _BudgetRealizationDtID = value; }
+        }
+        [Column(Name = "BudgetRealizationID", DataType = "Int32")]
+        public Int32 BudgetRealizationID
+        {
+            get { return _BudgetRealizationID; }
+            set { _BudgetRealizationID = value; }
+        }
+        [Column(Name = "BudgetRealizationDtName", DataType = "String")]
+        public String BudgetRealizationDtName
+        {
+            get { return _BudgetRealizationDtName; }
+            set { _BudgetRealizationDtName = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCItemDetailStatus", DataType = "String")]
+        public String GCItemDetailStatus
+        {
+            get { return _GCItemDetailStatus; }
+            set { _GCItemDetailStatus = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class RBudgetRealizationDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RBudgetRealizationDt));
+        private bool _isAuditLog = false;
+        private const string p_BudgetRealizationDtID = "@p_BudgetRealizationDtID";
+        public RBudgetRealizationDtDao() { }
+        public RBudgetRealizationDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RBudgetRealizationDt Get(Int32 BudgetRealizationDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BudgetRealizationDtID, BudgetRealizationDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RBudgetRealizationDt)_helper.DataRowToObject(row, new RBudgetRealizationDt());
+        }
+        public int Insert(RBudgetRealizationDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RBudgetRealizationDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 BudgetRealizationDtID)
+        {
+            RBudgetRealizationDt record;
+            if (_ctx.Transaction == null)
+                record = new RBudgetRealizationDtDao().Get(BudgetRealizationDtID);
+            else
+                record = Get(BudgetRealizationDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region RBudgetRealizationDtFund
+    [Serializable]
+    [Table(Name = "RBudgetRealizationDtFund")]
+    public class RBudgetRealizationDtFund : DbDataModel
+    {
+        private Int32 _BudgetRealizationDtID;
+        private String _GCProjectFundType;
+        private Decimal _TotalAmount;
+
+        [Column(Name = "BudgetRealizationDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 BudgetRealizationDtID
+        {
+            get { return _BudgetRealizationDtID; }
+            set { _BudgetRealizationDtID = value; }
+        }
+        [Column(Name = "GCProjectFundType", DataType = "String", IsPrimaryKey = true)]
+        public String GCProjectFundType
+        {
+            get { return _GCProjectFundType; }
+            set { _GCProjectFundType = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+    }
+
+    public class RBudgetRealizationDtFundDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RBudgetRealizationDtFund));
+        private bool _isAuditLog = false;
+        private const string p_BudgetRealizationDtID = "@p_BudgetRealizationDtID";
+        private const string p_GCProjectFundType = "@p_GCProjectFundType";
+        public RBudgetRealizationDtFundDao() { }
+        public RBudgetRealizationDtFundDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RBudgetRealizationDtFund Get(Int32 BudgetRealizationDtID, String GCProjectFundType)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BudgetRealizationDtID, BudgetRealizationDtID);
+            _ctx.Add(p_GCProjectFundType, GCProjectFundType);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RBudgetRealizationDtFund)_helper.DataRowToObject(row, new RBudgetRealizationDtFund());
+        }
+        public int Insert(RBudgetRealizationDtFund record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RBudgetRealizationDtFund record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 BudgetRealizationDtID, String GCProjectFundType)
+        {
+            RBudgetRealizationDtFund record;
+            if (_ctx.Transaction == null)
+                record = new RBudgetRealizationDtFundDao().Get(BudgetRealizationDtID, GCProjectFundType);
+            else
+                record = Get(BudgetRealizationDtID, GCProjectFundType);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region RBudgetRealizationHd
+    [Serializable]
+    [Table(Name = "RBudgetRealizationHd")]
+    public class RBudgetRealizationHd : DbDataModel
+    {
+        private Int32 _BudgetRealizationID;
+        private String _BudgetRealizationNo;
+        private DateTime _RealizationDate;
+        private String _RealizationTime;
+        private Int32? _BudgetRequestID;
+        private Decimal _TotalAmount;
+        private String _GCTransactionStatus;
+        private String _Remarks;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "BudgetRealizationID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 BudgetRealizationID
+        {
+            get { return _BudgetRealizationID; }
+            set { _BudgetRealizationID = value; }
+        }
+        [Column(Name = "BudgetRealizationNo", DataType = "String")]
+        public String BudgetRealizationNo
+        {
+            get { return _BudgetRealizationNo; }
+            set { _BudgetRealizationNo = value; }
+        }
+        [Column(Name = "RealizationDate", DataType = "DateTime")]
+        public DateTime RealizationDate
+        {
+            get { return _RealizationDate; }
+            set { _RealizationDate = value; }
+        }
+        [Column(Name = "RealizationTime", DataType = "String")]
+        public String RealizationTime
+        {
+            get { return _RealizationTime; }
+            set { _RealizationTime = value; }
+        }
+        [Column(Name = "BudgetRequestID", DataType = "Int32", IsNullable = true)]
+        public Int32? BudgetRequestID
+        {
+            get { return _BudgetRequestID; }
+            set { _BudgetRequestID = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class RBudgetRealizationHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RBudgetRealizationHd));
+        private bool _isAuditLog = false;
+        private const string p_BudgetRealizationID = "@p_BudgetRealizationID";
+        public RBudgetRealizationHdDao() { }
+        public RBudgetRealizationHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RBudgetRealizationHd Get(Int32 BudgetRealizationID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BudgetRealizationID, BudgetRealizationID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RBudgetRealizationHd)_helper.DataRowToObject(row, new RBudgetRealizationHd());
+        }
+        public int Insert(RBudgetRealizationHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RBudgetRealizationHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 BudgetRealizationID)
+        {
+            RBudgetRealizationHd record;
+            if (_ctx.Transaction == null)
+                record = new RBudgetRealizationHdDao().Get(BudgetRealizationID);
+            else
+                record = Get(BudgetRealizationID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region RBudgetRequestDt
     [Serializable]
     [Table(Name = "RBudgetRequestDt")]

@@ -10916,6 +10916,203 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RBudgetRealizationDt
+        public static RBudgetRealizationDt GetRBudgetRealizationDt(Int32 BudgetRealizationDtID)
+        {
+            return new RBudgetRealizationDtDao().Get(BudgetRealizationDtID);
+        }
+        public static int InsertRBudgetRealizationDt(RBudgetRealizationDt record)
+        {
+            return new RBudgetRealizationDtDao().Insert(record);
+        }
+        public static int UpdateRBudgetRealizationDt(RBudgetRealizationDt record)
+        {
+            return new RBudgetRealizationDtDao().Update(record);
+        }
+        public static int DeleteRBudgetRealizationDt(Int32 BudgetRealizationDtID)
+        {
+            return new RBudgetRealizationDtDao().Delete(BudgetRealizationDtID);
+        }
+        public static List<RBudgetRealizationDt> GetRBudgetRealizationDtList(string filterExpression)
+        {
+            List<RBudgetRealizationDt> result = new List<RBudgetRealizationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRealizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RBudgetRealizationDt)helper.IDataReaderToObject(reader, new RBudgetRealizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RBudgetRealizationDt> GetRBudgetRealizationDtList(string filterExpression, IDbContext ctx)
+        {
+            List<RBudgetRealizationDt> result = new List<RBudgetRealizationDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRealizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RBudgetRealizationDt)helper.IDataReaderToObject(reader, new RBudgetRealizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static List<RBudgetRealizationDt> GetRBudgetRealizationDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<RBudgetRealizationDt> result = new List<RBudgetRealizationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRealizationDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RBudgetRealizationDt)helper.IDataReaderToObject(reader, new RBudgetRealizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRBudgetRealizationDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRealizationDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region RBudgetRealizationDtFund
+        public static RBudgetRealizationDtFund GetRBudgetRealizationDtFund(Int32 BudgetRealizationDtID, String GCProjectFundType)
+        {
+            return new RBudgetRealizationDtFundDao().Get(BudgetRealizationDtID, GCProjectFundType);
+        }
+        public static int InsertRBudgetRealizationDtFund(RBudgetRealizationDtFund record)
+        {
+            return new RBudgetRealizationDtFundDao().Insert(record);
+        }
+        public static int UpdateRBudgetRealizationDtFund(RBudgetRealizationDtFund record)
+        {
+            return new RBudgetRealizationDtFundDao().Update(record);
+        }
+        public static int DeleteRBudgetRealizationDtFund(Int32 BudgetRealizationDtID, String GCProjectFundType)
+        {
+            return new RBudgetRealizationDtFundDao().Delete(BudgetRealizationDtID, GCProjectFundType);
+        }
+        public static List<RBudgetRealizationDtFund> GetRBudgetRealizationDtFundList(string filterExpression)
+        {
+            List<RBudgetRealizationDtFund> result = new List<RBudgetRealizationDtFund>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRealizationDtFund));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RBudgetRealizationDtFund)helper.IDataReaderToObject(reader, new RBudgetRealizationDtFund()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region RBudgetRealizationHd
+        public static RBudgetRealizationHd GetRBudgetRealizationHd(Int32 BudgetRealizationID)
+        {
+            return new RBudgetRealizationHdDao().Get(BudgetRealizationID);
+        }
+        public static int InsertRBudgetRealizationHd(RBudgetRealizationHd record)
+        {
+            return new RBudgetRealizationHdDao().Insert(record);
+        }
+        public static int UpdateRBudgetRealizationHd(RBudgetRealizationHd record)
+        {
+            return new RBudgetRealizationHdDao().Update(record);
+        }
+        public static int DeleteRBudgetRealizationHd(Int32 BudgetRealizationID)
+        {
+            return new RBudgetRealizationHdDao().Delete(BudgetRealizationID);
+        }
+        public static List<RBudgetRealizationHd> GetRBudgetRealizationHdList(string filterExpression)
+        {
+            List<RBudgetRealizationHd> result = new List<RBudgetRealizationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRealizationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RBudgetRealizationHd)helper.IDataReaderToObject(reader, new RBudgetRealizationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RBudgetRealizationHd> GetRBudgetRealizationHdList(string filterExpression, IDbContext ctx)
+        {
+            List<RBudgetRealizationHd> result = new List<RBudgetRealizationHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRealizationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RBudgetRealizationHd)helper.IDataReaderToObject(reader, new RBudgetRealizationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region RBudgetRequestDt
         public static RBudgetRequestDt GetRBudgetRequestDt(Int32 BudgetRequestDtID)
         {
@@ -10995,6 +11192,22 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRBudgetRequestDtRowCount(string filterExpression, IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RBudgetRequestDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

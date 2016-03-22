@@ -22398,6 +22398,112 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRBudgetRealizationHd
+    [Serializable]
+    [Table(Name = "vRBudgetRealizationHd")]
+    public partial class vRBudgetRealizationHd
+    {
+        private Int32 _BudgetRealizationID;
+        private String _BudgetRealizationNo;
+        private DateTime _RealizationDate;
+        private String _RealizationTime;
+        private Int32 _BudgetRequestID;
+        private Int32 _ProjectID;
+        private String _ProjectName;
+        private Int32 _ProjectTaskGroupID;
+        private String _ProjectTaskGroupName;
+        private Decimal _TotalAmount;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+        private String _Remarks;
+
+        [Column(Name = "BudgetRealizationID", DataType = "Int32")]
+        public Int32 BudgetRealizationID
+        {
+            get { return _BudgetRealizationID; }
+            set { _BudgetRealizationID = value; }
+        }
+        [Column(Name = "BudgetRealizationNo", DataType = "String")]
+        public String BudgetRealizationNo
+        {
+            get { return _BudgetRealizationNo; }
+            set { _BudgetRealizationNo = value; }
+        }
+        [Column(Name = "RealizationDate", DataType = "DateTime")]
+        public DateTime RealizationDate
+        {
+            get { return _RealizationDate; }
+            set { _RealizationDate = value; }
+        }
+        [Column(Name = "RealizationTime", DataType = "String")]
+        public String RealizationTime
+        {
+            get { return _RealizationTime; }
+            set { _RealizationTime = value; }
+        }
+        [Column(Name = "BudgetRequestID", DataType = "Int32")]
+        public Int32 BudgetRequestID
+        {
+            get { return _BudgetRequestID; }
+            set { _BudgetRequestID = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "ProjectTaskGroupID", DataType = "Int32")]
+        public Int32 ProjectTaskGroupID
+        {
+            get { return _ProjectTaskGroupID; }
+            set { _ProjectTaskGroupID = value; }
+        }
+        [Column(Name = "ProjectTaskGroupName", DataType = "String")]
+        public String ProjectTaskGroupName
+        {
+            get { return _ProjectTaskGroupName; }
+            set { _ProjectTaskGroupName = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
     #region vRBudgetRequestHd
     [Serializable]
     [Table(Name = "vRBudgetRequestHd")]
@@ -22409,6 +22515,7 @@ namespace CodeX.Data.Model
         private String _RequestTime;
         private DateTime _DueDate;
         private Int32 _ProjectID;
+        private String _ProjectName;
         private Int32 _ProjectTaskGroupID;
         private String _ProjectTaskGroupName;
         private Decimal _TotalAmount;
@@ -22452,6 +22559,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProjectID; }
             set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
         }
         [Column(Name = "ProjectTaskGroupID", DataType = "Int32")]
         public Int32 ProjectTaskGroupID
