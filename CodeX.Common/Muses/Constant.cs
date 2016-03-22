@@ -722,6 +722,7 @@ namespace CodeX.Common
                 public const string RBUDGET_REQUEST = "PM99030201";
                 public const string RITEM_REQUEST = "PM99030202";
                 public const string RBUDGET_REQUEST_CONFIRMATION = "PM99030203";
+                public const string RBUDGET_REQUEST_REALIZATION_INFORMATION = "PM99030901";
 
                 public const string PROJECT_MANAGEMENT_PAGE = "PM99010000";
                 public const string PROJECT_MANAGEMENT_DETAIL = "PM99010100";

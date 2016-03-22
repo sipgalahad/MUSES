@@ -117,6 +117,8 @@
     <Content Include="Program\Master\RProjectGroup\RProjectGroupList.aspx" />
     <Content Include="Program\Process\RBudgetRequestOutstanding\RBudgetRequestOutstandingDetail.aspx" />
     <Content Include="Program\Process\RBudgetRequestOutstanding\RBudgetRequestOutstandingList.aspx" />
+    <Content Include="Program\Process\RProjectPage\RBudgetRequestRealizationInformation\RBudgetRequestRealizationInformationDtCtl.ascx" />
+    <Content Include="Program\Process\RProjectPage\RBudgetRequestRealizationInformation\RBudgetRequestRealizationInformation.aspx" />
     <Content Include="Program\Process\RProjectPage\RBudgetRealizationConfirmation\RBudgetRealizationConfirmationDetailCtl.ascx" />
     <Content Include="Program\Process\RProjectPage\RBudgetRealizationConfirmation\RBudgetRealizationConfirmationList.aspx" />
     <Content Include="Program\Process\RProjectPage\RBudgetRequest\RBudgetRequestEntry.aspx" />
@@ -497,6 +499,20 @@
     </Compile>
     <Compile Include="Program\Process\RBudgetRequestOutstanding\RBudgetRequestOutstandingList.aspx.designer.cs">
       <DependentUpon>RBudgetRequestOutstandingList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RBudgetRequestRealizationInformation\RBudgetRequestRealizationInformationDtCtl.ascx.cs">
+      <DependentUpon>RBudgetRequestRealizationInformationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RBudgetRequestRealizationInformation\RBudgetRequestRealizationInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>RBudgetRequestRealizationInformationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RBudgetRequestRealizationInformation\RBudgetRequestRealizationInformation.aspx.cs">
+      <DependentUpon>RBudgetRequestRealizationInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RBudgetRequestRealizationInformation\RBudgetRequestRealizationInformation.aspx.designer.cs">
+      <DependentUpon>RBudgetRequestRealizationInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Process\RProjectPage\RBudgetRealizationConfirmation\RBudgetRealizationConfirmationDetailCtl.ascx.cs">
       <DependentUpon>RBudgetRealizationConfirmationDetailCtl.ascx</DependentUpon>

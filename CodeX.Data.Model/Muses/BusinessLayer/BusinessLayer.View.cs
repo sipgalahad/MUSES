@@ -8325,6 +8325,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vRBudgetRealizationDt
+        public static List<vRBudgetRealizationDt> GetvRBudgetRealizationDtList(string filterExpression)
+        {
+            List<vRBudgetRealizationDt> result = new List<vRBudgetRealizationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRBudgetRealizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRBudgetRealizationDt)helper.IDataReaderToObject(reader, new vRBudgetRealizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vRBudgetRealizationHd
         public static List<vRBudgetRealizationHd> GetvRBudgetRealizationHdList(string filterExpression)
         {

@@ -22398,6 +22398,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRBudgetRealizationDt
+    [Serializable]
+    [Table(Name = "vRBudgetRealizationDt")]
+    public class vRBudgetRealizationDt
+    {
+        private Int32 _BudgetRealizationDtID;
+        private Int32 _BudgetRealizationID;
+        private String _BudgetRealizationDtName;
+        private Int32 _BudgetRequestID;
+        private Decimal _TotalAmount;
+        private String _Remarks;
+        private String _GCItemDetailStatus;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "BudgetRealizationDtID", DataType = "Int32")]
+        public Int32 BudgetRealizationDtID
+        {
+            get { return _BudgetRealizationDtID; }
+            set { _BudgetRealizationDtID = value; }
+        }
+        [Column(Name = "BudgetRealizationID", DataType = "Int32")]
+        public Int32 BudgetRealizationID
+        {
+            get { return _BudgetRealizationID; }
+            set { _BudgetRealizationID = value; }
+        }
+        [Column(Name = "BudgetRealizationDtName", DataType = "String")]
+        public String BudgetRealizationDtName
+        {
+            get { return _BudgetRealizationDtName; }
+            set { _BudgetRealizationDtName = value; }
+        }
+        [Column(Name = "BudgetRequestID", DataType = "Int32")]
+        public Int32 BudgetRequestID
+        {
+            get { return _BudgetRequestID; }
+            set { _BudgetRequestID = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCItemDetailStatus", DataType = "String")]
+        public String GCItemDetailStatus
+        {
+            get { return _GCItemDetailStatus; }
+            set { _GCItemDetailStatus = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vRBudgetRealizationHd
     [Serializable]
     [Table(Name = "vRBudgetRealizationHd")]

@@ -1945,6 +1945,13 @@ namespace CodeX.Data.Model
                 return _RequestDate.ToString(Constant.FormatString.DATE_FORMAT);
             }
         }
+        public String DueDateInString
+        {
+            get
+            {
+                return _DueDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
     }
     #endregion
     #region vRegistration

@@ -80,6 +80,7 @@ CodeBehind="RBudgetRequestOutstandingList.aspx.cs" Inherits="CodeX.Muses.Web.Pro
                                 <asp:BoundField DataField="BudgetRequestID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="BudgetRequestNo" HeaderText="No Permintaan" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="RequestDateInString" HeaderText="Tanggal Permintaan" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="DueDateInString" HeaderText="Max Tgl Dibutuhkan" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="ProjectName" HeaderText="Project" HeaderStyle-Width="200px"/>
                                 <asp:BoundField DataField="ProjectTaskGroupName" HeaderText="Kelompok Tugas" HeaderStyle-Width="200px"/>
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan"/>

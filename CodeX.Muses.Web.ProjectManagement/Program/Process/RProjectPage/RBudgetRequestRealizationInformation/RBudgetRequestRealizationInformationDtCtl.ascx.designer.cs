@@ -10,25 +10,25 @@
 namespace CodeX.Muses.Web.ProjectManagement.Program {
     
     
-    public partial class RBudgetRealizationConfirmationDetailCtl {
+    public partial class RBudgetRequestRealizationInformationDtCtl {
         
         /// <summary>
-        /// hdnDistributionID control.
+        /// hdnBudgetRequestID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDistributionID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnBudgetRequestID;
         
         /// <summary>
-        /// txtBudgetRealizationNo control.
+        /// txtBudgetRequestNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBudgetRealizationNo;
+        protected global::System.Web.UI.WebControls.TextBox txtBudgetRequestNo;
         
         /// <summary>
         /// Label5 control.
@@ -85,6 +85,24 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
+        /// thRequest control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thRequest;
+        
+        /// <summary>
+        /// thRealization control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thRealization;
+        
+        /// <summary>
         /// thContainerAmount control.
         /// </summary>
         /// <remarks>
@@ -94,6 +112,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell thContainerAmount;
         
         /// <summary>
+        /// thContainerAmount2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thContainerAmount2;
+        
+        /// <summary>
         /// rptViewHeader control.
         /// </summary>
         /// <remarks>
@@ -101,6 +128,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptViewHeader;
+        
+        /// <summary>
+        /// rptViewHeader2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptViewHeader2;
         
         /// <summary>
         /// rptView control.
