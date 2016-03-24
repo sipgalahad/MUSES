@@ -15187,8 +15187,9 @@ namespace CodeX.Data.Model
         private String _TransactionTime;
         private String _TransactionCode;
         private String _ItemRequestNo;
+        private Int32? _ProjectID;
         private Int32? _FromSiteServiceUnitID;
-        private Int32 _FromLocationID;
+        private Int32? _FromLocationID;
         private Int32? _ToSiteServiceUnitID;
         private Int32? _ToLocationID;
         private String _Remarks;
@@ -15228,14 +15229,20 @@ namespace CodeX.Data.Model
             get { return _ItemRequestNo; }
             set { _ItemRequestNo = value; }
         }
+        [Column(Name = "ProjectID", DataType = "Int32", IsNullable = true)]
+        public Int32? ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
         [Column(Name = "FromSiteServiceUnitID", DataType = "Int32", IsNullable = true)]
         public Int32? FromSiteServiceUnitID
         {
             get { return _FromSiteServiceUnitID; }
             set { _FromSiteServiceUnitID = value; }
         }
-        [Column(Name = "FromLocationID", DataType = "Int32")]
-        public Int32 FromLocationID
+        [Column(Name = "FromLocationID", DataType = "Int32", IsNullable = true)]
+        public Int32? FromLocationID
         {
             get { return _FromLocationID; }
             set { _FromLocationID = value; }

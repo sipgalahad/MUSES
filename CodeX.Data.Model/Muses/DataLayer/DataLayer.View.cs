@@ -13709,6 +13709,9 @@ namespace CodeX.Data.Model
         private String _TransactionTime;
         private String _TransactionCode;
         private String _ItemRequestNo;
+        private Int32 _ProjectID;
+        private String _ProjectCode;
+        private String _ProjectName;
         private Int32 _FromSiteServiceUnitID;
         private String _FromServiceUnitCode;
         private String _FromServiceUnitName;
@@ -13759,6 +13762,24 @@ namespace CodeX.Data.Model
         {
             get { return _ItemRequestNo; }
             set { _ItemRequestNo = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectCode", DataType = "String")]
+        public String ProjectCode
+        {
+            get { return _ProjectCode; }
+            set { _ProjectCode = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
         }
         [Column(Name = "FromSiteServiceUnitID", DataType = "Int32")]
         public Int32 FromSiteServiceUnitID
