@@ -227,6 +227,18 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region SchoolPeriod
+    public partial class SchoolPeriod
+    {
+        public String EndDateInDatePickerFormat
+        {
+            get
+            {
+                return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region StudentFeeDt
     public partial class StudentFeeDt
     {

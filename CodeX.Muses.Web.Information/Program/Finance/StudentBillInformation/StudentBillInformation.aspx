@@ -78,10 +78,12 @@
                     if (result != null) {
                         tacSchoolPeriod.setValue(result.SchoolPeriodID);
                         tacSchoolPeriod.setText(result.SchoolPeriodName);
+                        $('#<%=hdnSchoolPeriodEndDate.ClientID %>').val(result.EndDateInDatePickerFormat);
                     }
                     else {
                         tacSchoolPeriod.setValue('');
                         tacSchoolPeriod.setText('');
+                        $('#<%=hdnSchoolPeriodEndDate.ClientID %>').val('');
                     }
                     onTacSchoolPeriodValueChanged();
                 });
@@ -131,10 +133,12 @@
                 if (result != null) {
                     tacSchoolPeriod.setValue(result.SchoolPeriodID);
                     tacSchoolPeriod.setText(result.SchoolPeriodName);
+                    $('#<%=hdnSchoolPeriodEndDate.ClientID %>').val(result.EndDateInDatePickerFormat);
                 }
                 else {
                     tacSchoolPeriod.setValue('');
                     tacSchoolPeriod.setText('');
+                    $('#<%=hdnSchoolPeriodEndDate.ClientID %>').val('');
                 }
                 onTacSchoolPeriodValueChanged();
             });
@@ -161,6 +165,7 @@
         });
 
     </script>
+    <input type="hidden" value="" id="hdnSchoolPeriodEndDate" runat="server" />
     <input type="hidden" value="" id="hdnSiteID" runat="server" />
     <input type="hidden" value="" id="hdnSiteName" runat="server" />
     <input type="hidden" value="" id="hdnViewTypeID" runat="server" />

@@ -26873,7 +26873,7 @@ namespace CodeX.Data.Model
     #region SchoolPeriod
     [Serializable]
     [Table(Name = "SchoolPeriod")]
-    public class SchoolPeriod : DbDataModel
+    public partial class SchoolPeriod : DbDataModel
     {
         private Int32 _SchoolPeriodID;
         private String _SchoolPeriodCode;

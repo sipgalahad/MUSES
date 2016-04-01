@@ -11579,6 +11579,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _DistributionID;
         private String _DistributionNo;
+        private Int32 _ItemRequestID;
         private Int32 _FromSiteServiceUnitID;
         private String _FromServiceUnitCode;
         private String _FromServiceUnitName;
@@ -11628,6 +11629,12 @@ namespace CodeX.Data.Model
         {
             get { return _DistributionNo; }
             set { _DistributionNo = value; }
+        }
+        [Column(Name = "ItemRequestID", DataType = "Int32")]
+        public Int32 ItemRequestID
+        {
+            get { return _ItemRequestID; }
+            set { _ItemRequestID = value; }
         }
         [Column(Name = "FromSiteServiceUnitID", DataType = "Int32")]
         public Int32 FromSiteServiceUnitID

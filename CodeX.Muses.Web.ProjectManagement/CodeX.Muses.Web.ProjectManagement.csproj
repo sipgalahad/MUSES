@@ -117,6 +117,8 @@
     <Content Include="Program\Master\RProjectGroup\RProjectGroupList.aspx" />
     <Content Include="Program\Process\RBudgetRequestOutstanding\RBudgetRequestOutstandingDetail.aspx" />
     <Content Include="Program\Process\RBudgetRequestOutstanding\RBudgetRequestOutstandingList.aspx" />
+    <Content Include="Program\Process\RProjectPage\RItemRequestRealizationInformation\RItemRequestRealizationInformation.aspx" />
+    <Content Include="Program\Process\RProjectPage\RItemRequestRealizationInformation\RItemRequestRealizationInformationDtCtl.ascx" />
     <Content Include="Program\Process\RProjectPage\RItemRequest\RItemRequestQuickPicksCtl.ascx" />
     <Content Include="Program\Process\RProjectPage\RItemRequest\RItemRequestEntry.aspx" />
     <Content Include="Program\Process\RProjectPage\RBudgetRequestRealizationInformation\RBudgetRequestRealizationInformationDtCtl.ascx" />
@@ -501,6 +503,20 @@
     </Compile>
     <Compile Include="Program\Process\RBudgetRequestOutstanding\RBudgetRequestOutstandingList.aspx.designer.cs">
       <DependentUpon>RBudgetRequestOutstandingList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RItemRequestRealizationInformation\RItemRequestRealizationInformation.aspx.cs">
+      <DependentUpon>RItemRequestRealizationInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RItemRequestRealizationInformation\RItemRequestRealizationInformation.aspx.designer.cs">
+      <DependentUpon>RItemRequestRealizationInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RItemRequestRealizationInformation\RItemRequestRealizationInformationDtCtl.ascx.cs">
+      <DependentUpon>RItemRequestRealizationInformationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RItemRequestRealizationInformation\RItemRequestRealizationInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>RItemRequestRealizationInformationDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Process\RProjectPage\RItemRequest\RItemRequestQuickPicksCtl.ascx.cs">
       <DependentUpon>RItemRequestQuickPicksCtl.ascx</DependentUpon>

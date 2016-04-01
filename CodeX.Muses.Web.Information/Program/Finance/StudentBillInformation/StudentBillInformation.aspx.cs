@@ -62,6 +62,8 @@ namespace CodeX.Muses.Web.Information.Program
             String filterExpression = String.Format("SiteID = '{0}' AND GCStudentStatus = '{1}' AND IsDeleted = 0", cboSite.Value, Constant.StudentStatus.ACTIVE);
             if (tacSchoolClass.Value != "")
                 filterExpression += string.Format(" AND SchoolClassID = {0}", tacSchoolClass.Value);
+            else if (hdnSchoolPeriodEndDate.Value != "")
+                filterExpression += string.Format(" AND (StartSchoolDate IS NULL OR StartSchoolDate <= '{0}')", Helper.GetDatePickerValue(hdnSchoolPeriodEndDate.Value).ToString("yyyyMMdd"));
             if (hdnFilterExpressionQuickSearch.Value != "")
                 filterExpression += string.Format(" AND {0}", hdnFilterExpressionQuickSearch.Value);
 

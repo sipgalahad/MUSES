@@ -33,7 +33,7 @@
         });
 
         function refresh() {
-            var filterExpression = "HistoryID IN (SELECT HistoryID FROM (SELECT ROW_NUMBER() OVER (ORDER BY HistoryID DESC) AS 'RowNumber',HistoryID FROM RActivityHistory) a WHERE a.RowNumber BETWEEN " + (((currScroll - 1) * rowNumber) + 1) + " AND " + (currScroll * rowNumber) + ")";
+            var filterExpression = "HistoryID IN (SELECT HistoryID FROM (SELECT ROW_NUMBER() OVER (ORDER BY HistoryID DESC) AS 'RowNumber',HistoryID FROM RActivityHistory WHERE ProjectID = " + $('#<%=hdnProjectID.ClientID %>').val() + ") a WHERE a.RowNumber BETWEEN " + (((currScroll - 1) * rowNumber) + 1) + " AND " + (currScroll * rowNumber) + ")";
             Methods.getListObject('GetvRActivityHistoryList', filterExpression, function (result) {
                 if (result != null) {
                     if (result.length == 0) isRefresh = false;
@@ -53,7 +53,7 @@
         }
         
         function addData() {
-            var filterExpression = "HistoryID IN (SELECT HistoryID FROM (SELECT ROW_NUMBER() OVER (ORDER BY HistoryID DESC) AS 'RowNumber',HistoryID FROM RActivityHistory WHERE CreatedDate <= '" + dateTime + "') a WHERE a.RowNumber BETWEEN " + (((currScroll - 1) * rowNumber) + 1) + " AND " + (currScroll * rowNumber) + ")";
+            var filterExpression = "HistoryID IN (SELECT HistoryID FROM (SELECT ROW_NUMBER() OVER (ORDER BY HistoryID DESC) AS 'RowNumber',HistoryID FROM RActivityHistory WHERE ProjectID = " + $('#<%=hdnProjectID.ClientID %>').val() + " AND CreatedDate <= '" + dateTime + "') a WHERE a.RowNumber BETWEEN " + (((currScroll - 1) * rowNumber) + 1) + " AND " + (currScroll * rowNumber) + ")";
             Methods.getListObject('GetRvActivityHistoryList', filterExpression, function (result) {
                 if (result != null) {
                     if (result.length == 0) isRefresh = false;
@@ -83,6 +83,7 @@
         </tr>
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
+    <input type="hidden" id="hdnProjectID" runat="server" value="" />
     <div class="divTimeline" id="divTimeline" style="height:500px; width:110%; overflow-y:auto; overflow-x:hidden;">
         <div style="width:50px; height:50px; position: fixed; top: 200px; right: 5px; display:none">
         </div>
