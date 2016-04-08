@@ -69,7 +69,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderStyle-Width="5px" />
-                                        <asp:BoundField DataField="StudentCode" HeaderText="NBS" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="100px" />
+                                        <asp:BoundField DataField="VirtualAccountNo" HeaderText="NBS" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="100px" />
                                         <asp:BoundField DataField="StudentName" HeaderText="Nama Siswa" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" />
                                         <asp:BoundField DataField="SchoolClassCode" HeaderText="Kelas" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="100px" />
                                         <asp:BoundField DataField="TransactionAmount" HeaderText="Jml" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="100px" DataFormatString="{0:n}" />

@@ -255,7 +255,7 @@
 	                    <ClientSideEvents SearchClick="function(s){ onTxtSearchViewSearchClick(s); }" />
 	                    <IntellisenseHints>
 		                    <cdx:QISIntellisenseHint Text="Name" FieldName="StudentName" />
-		                    <cdx:QISIntellisenseHint Text="NIS" FieldName="StudentCode" />
+		                    <cdx:QISIntellisenseHint Text="NBS" FieldName="VirtualAccountNo" />
 	                    </IntellisenseHints>
                     </cdx:QISIntellisenseTextBox>
                 </td>
@@ -303,7 +303,7 @@
                                     <asp:CheckBox runat="server" ID="chkIsSelected" CssClass="chkIsSelected" />
                                 </ItemTemplate>
                             </asp:TemplateField>                                          
-                            <asp:BoundField DataField="StudentCode" HeaderText="NIS" HeaderStyle-Width="150px" />
+                            <asp:BoundField DataField="VirtualAccountNo" HeaderText="NBS" HeaderStyle-Width="150px" />
                             <asp:BoundField DataField="StudentName" HeaderText="Nama Siswa" />
                             <asp:BoundField DataField="StudentAmount" DataFormatString="{0:N}" HeaderText="Uang Sekolah" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                             <asp:BoundField DataField="TotalStudentPenaltyAmount" DataFormatString="{0:N}" HeaderText="Denda" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" ItemStyle-CssClass="tdTotalStudentPenaltyAmount" />

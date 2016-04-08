@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.Information.Program
             hdnStudentID.Value = lstParam[0];
 
             Student im = BusinessLayer.GetStudent(Convert.ToInt32(hdnStudentID.Value));
-            txtItemName.Text = string.Format("{0} - {1}", im.StudentCode, im.StudentName);
+            txtItemName.Text = string.Format("{0} - {1}", im.VirtualAccountNo, im.StudentName);
 
             hdnDateFrom.Value = lstParam[1];
             hdnDateTo.Value = lstParam[2];

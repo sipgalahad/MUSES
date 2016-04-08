@@ -466,6 +466,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentID;
         private String _StudentCode;
+        private String _VirtualAccountNo;
         private String _StudentName;
         private Decimal _BalanceBegin;
         private Decimal _BalanceIN;
@@ -487,6 +488,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentCode; }
             set { _StudentCode = value; }
+        }
+        [Column(Name = "VirtualAccountNo", DataType = "String")]
+        public String VirtualAccountNo
+        {
+            get { return _VirtualAccountNo; }
+            set { _VirtualAccountNo = value; }
         }
         [Column(Name = "StudentName", DataType = "String")]
         public String StudentName

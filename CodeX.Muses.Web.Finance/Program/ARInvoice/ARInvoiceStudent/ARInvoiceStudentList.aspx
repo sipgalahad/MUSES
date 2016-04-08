@@ -163,7 +163,7 @@
                                                     <td><%# Eval("PreferredName")%></td>
                                                     <td style="text-align:right;font-size:0.9em;font-style:italic"><%=GetLabel("NIS")%></td>
                                                     <td>&nbsp;</td>
-                                                    <td><%# Eval("StudentCode")%></td>
+                                                    <td><%# Eval("VirtualAccountNo")%></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align:right;font-size:0.9em;font-style:italic"><%=GetLabel("Tanggal Lahir")%></td>

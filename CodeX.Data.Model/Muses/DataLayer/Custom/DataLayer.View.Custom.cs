@@ -161,7 +161,7 @@ namespace CodeX.Data.Model
         {
             get
             {
-                if (_StudentID > 0) return _StudentCode;
+                if (_StudentID > 0) return _VirtualAccountNo;
                 return _ProspectiveStudentCode;
             }
         }

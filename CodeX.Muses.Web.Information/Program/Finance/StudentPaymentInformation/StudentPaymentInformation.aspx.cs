@@ -67,7 +67,7 @@ namespace CodeX.Muses.Web.Information.Program
                 filterExpression += string.Format(" AND SiteID = '{0}'", Request.Form[hdnSiteID.UniqueID]);
             else
                 filterExpression += string.Format(" AND SiteID = '{0}'", hdnSiteID.Value);
-            filterExpression += string.Format(" AND GCTransactionStatus != '{0}' AND BusinessPartnerID IS NULL ORDER BY StudentCode", Constant.TransactionStatus.VOID);
+            filterExpression += string.Format(" AND GCTransactionStatus != '{0}' AND BusinessPartnerID IS NULL ORDER BY VirtualAccountNo", Constant.TransactionStatus.VOID);
 
             return filterExpression;
         }

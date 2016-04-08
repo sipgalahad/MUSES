@@ -1279,6 +1279,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private String _SiteID;
         private String _StudentCode;
+        private String _VirtualAccountNo;
         private String _StudentName;
         private Int32 _SchoolClassID;
         private String _SchoolClassCode;
@@ -1336,6 +1337,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentCode; }
             set { _StudentCode = value; }
+        }
+        [Column(Name = "VirtualAccountNo", DataType = "String")]
+        public String VirtualAccountNo
+        {
+            get { return _VirtualAccountNo; }
+            set { _VirtualAccountNo = value; }
         }
         [Column(Name = "StudentName", DataType = "String")]
         public String StudentName
@@ -27023,6 +27030,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
+        private String _VirtualAccountNo;
         private Int32 _SchoolClassID;
         private String _SchoolClassCode;
         private String _SchoolClassName;
@@ -27049,6 +27057,8 @@ namespace CodeX.Data.Model
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
         private Boolean _IsGeneratePayerAmount;
+        private String _GCStudentStatus;
+        private Boolean _StudentIsDeleted;
         private Boolean _IsPaid;
         private Boolean _IsDeleted;
 
@@ -27081,6 +27091,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentName; }
             set { _StudentName = value; }
+        }
+        [Column(Name = "VirtualAccountNo", DataType = "String")]
+        public String VirtualAccountNo
+        {
+            get { return _VirtualAccountNo; }
+            set { _VirtualAccountNo = value; }
         }
         [Column(Name = "SchoolClassID", DataType = "Int32")]
         public Int32 SchoolClassID
@@ -27237,6 +27253,18 @@ namespace CodeX.Data.Model
         {
             get { return _IsGeneratePayerAmount; }
             set { _IsGeneratePayerAmount = value; }
+        }
+        [Column(Name = "GCStudentStatus", DataType = "String")]
+        public String GCStudentStatus
+        {
+            get { return _GCStudentStatus; }
+            set { _GCStudentStatus = value; }
+        }
+        [Column(Name = "StudentIsDeleted", DataType = "Boolean")]
+        public Boolean StudentIsDeleted
+        {
+            get { return _StudentIsDeleted; }
+            set { _StudentIsDeleted = value; }
         }
         [Column(Name = "IsPaid", DataType = "Boolean")]
         public Boolean IsPaid
@@ -27397,6 +27425,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
+        private String _VirtualAccountNo;
         private Int32 _ProspectiveStudentID;
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
@@ -27453,6 +27482,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentName; }
             set { _StudentName = value; }
+        }
+        [Column(Name = "VirtualAccountNo", DataType = "String")]
+        public String VirtualAccountNo
+        {
+            get { return _VirtualAccountNo; }
+            set { _VirtualAccountNo = value; }
         }
         [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
         public Int32 ProspectiveStudentID

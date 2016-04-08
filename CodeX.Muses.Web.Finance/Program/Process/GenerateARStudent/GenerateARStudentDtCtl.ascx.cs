@@ -25,7 +25,7 @@ namespace CodeX.Muses.Web.Finance.Program
             hdnYear.Value = temp[2];
 
             Student student = BusinessLayer.GetStudent(Convert.ToInt32(temp[0]));
-            txtStudent.Text = string.Format("{0} ({1})", student.StudentName, student.StudentCode);
+            txtStudent.Text = string.Format("{0} ({1})", student.StudentName, student.VirtualAccountNo);
 
             DateTime date = new DateTime(Convert.ToInt32(temp[2]), Convert.ToInt32(temp[1]), 1);
             txtPeriod.Text = date.ToString("MMM yyyy");

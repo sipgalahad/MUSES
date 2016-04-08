@@ -207,7 +207,7 @@
 	                                <ClientSideEvents SearchClick="function(s){ onTxtSearchViewSearchClick(s); }" />
 	                                <IntellisenseHints>
 		                                <cdx:QISIntellisenseHint Text="Nama" FieldName="StudentName" />
-		                                <cdx:QISIntellisenseHint Text="NIS" FieldName="StudentCode" />
+		                                <cdx:QISIntellisenseHint Text="NBS" FieldName="VirtualAccountNo" />
 	                                </IntellisenseHints>
                                 </cdx:QISIntellisenseTextBox>
                             </td>
@@ -272,7 +272,7 @@
                                             <ItemTemplate>
                                                 <tr>
                                                     <td>
-                                                        <%#Eval("StudentCode") %>
+                                                        <%#Eval("VirtualAccountNo")%>
                                                         <input type="hidden" class="hdnStudentID" value='<%#Eval("StudentID") %>' />
                                                     </td>
                                                     <td><%#Eval("StudentName") %></td>
