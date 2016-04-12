@@ -1926,6 +1926,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ClassSubjectTask> GetClassSubjectTaskList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassSubjectTask> result = new List<ClassSubjectTask>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubjectTask));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSubjectTask)helper.IDataReaderToObject(reader, new ClassSubjectTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetClassSubjectTaskMaxID(IDbContext ctx)
         {
             Int32 result = 0;

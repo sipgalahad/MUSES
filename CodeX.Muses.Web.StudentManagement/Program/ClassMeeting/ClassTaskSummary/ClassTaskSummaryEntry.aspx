@@ -17,7 +17,25 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         var isOnLoad = true;
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#<%=hdnUploadedFile1.ClientID %>').val(e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         $(function () {
+            $('#btnUploadFile').click(function () {
+                cbpProcess.PerformCallback('upload');
+            });
+
+            $('#<%=FileUpload1.ClientID %>').change(function () {
+                readURL(this);
+            });	
+
             $('#<%=btnSave.ClientID %>').click(function () {
                 var result = '';
                 $('.txtFinalMarkPercentage').each(function () {
@@ -217,8 +235,9 @@
                 });
 
                 $(this).val(totalGroup);
-                if (!isOnLoad) {
-                    $txtFinal = $(this).parent().next().find('.txtFinalStudentMarkGroup');
+                $txtFinal = $(this).parent().next().find('.txtFinalStudentMarkGroup');
+                if (!isOnLoad || $txtFinal.val() == '') {
+                    isOnLoad = false;
                     $txtFinal.val(totalGroup);
                     //$txtFinal.change();
                 }
@@ -360,6 +379,17 @@
         }
         //#endregion
 
+        function onCbpProcesEndCallback(s) {
+            hideLoadingPanel();
+            var param = s.cpResult.split('|');
+            if (param[0] == 'upload') {
+                if (param[1] == 'fail')
+                    showToast('Import Gagal', 'Error Message : ' + param[2]);
+                else
+                    cbpView.PerformCallback('refresh');
+            }
+        }
+
     </script>
     <style type="text/css">
         .bIsRemedial                { cursor: pointer; }
@@ -377,6 +407,15 @@
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("KKM") %></td>
             <td><asp:TextBox ID="txtPassingGrade" runat="server" Width="100px" CssClass="number" ReadOnly="true" /></td>
+        </tr>
+        <tr>
+            <td></td>
+			<td>
+				<input type="hidden" id="hdnFileName" runat="server" value="" />
+				<input type="hidden" id="hdnUploadedFile1" runat="server" value="" />
+				<asp:FileUpload ID="FileUpload1" runat="server" />
+				<input type="button" id="btnUploadFile" value="Upload" />
+			</td>
         </tr>
     </table>
     <div style="width:1250px; overflow-x: auto; max-height:420px; overflow-y:auto;">
@@ -522,5 +561,11 @@
                 </ItemTemplate>
             </asp:Repeater>
         </table>
+    </div>
+    <div style="display:none">
+        <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
+            ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
+            <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
+        </dxcp:ASPxCallbackPanel>
     </div>
 </asp:Content>

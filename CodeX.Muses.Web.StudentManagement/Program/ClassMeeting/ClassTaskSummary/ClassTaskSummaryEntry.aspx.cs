@@ -13,6 +13,8 @@ using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 using System.Web.UI.HtmlControls;
 using DevExpress.Web.ASPxEditors;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -470,7 +472,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 ASPxComboBox cboFinalStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboFinalStudentMarkOption");
                 TextBox txtFinalStudentMarkDescription = (TextBox)e.Item.FindControl("txtFinalStudentMarkDescription");
-                txtFinalStudentMark.Attributes.Add("positiontag", string.Format("{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2")));
+                txtFinalStudentMark.Attributes.Add("positiontag", string.Format("{0}{1}", parentIndex.ToString("D2"), "00"));
                 cboFinalStudentMarkOption.ClientInstanceName = string.Format("cboFinalStudentMarkOption{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
                 cboPredicateStudentMarkOption.ClientInstanceName = string.Format("cboPredicateStudentMarkOption{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
 
@@ -618,6 +620,267 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
         {
             IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
+        }
+
+        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string result = "";
+            string errMessage = "";
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
+
+            if (param[0] == "upload")
+            {
+                string imageData = hdnUploadedFile1.Value;
+                if (imageData != "")
+                {
+                    string[] parts = Regex.Split(imageData, ",").Skip(1).ToArray();
+                    imageData = String.Join(",", parts);
+                }
+
+                byte[] data = Convert.FromBase64String(imageData);
+                StreamReader stream = new StreamReader(new MemoryStream(data));
+
+                if (OnUploadFile(stream, ref errMessage))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+        }
+        public bool OnUploadFile(StreamReader stream, ref String errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ClassSubjectTaskDao classTaskDao = new ClassSubjectTaskDao(ctx);
+            ClassStudentSubjectTaskMarkDao entityStudentSubjectTaskMarkDao = new ClassStudentSubjectTaskMarkDao(ctx);
+            try
+            {
+                List<CStudentMarkUpload> lstUploadFile = new List<CStudentMarkUpload>();
+                int ctr = 0;
+                int maxMark1 = 0;
+                int maxMark2 = 0;
+                int maxMark3 = 0;
+                while (true)
+                {
+                    string line = stream.ReadLine();
+                    if (line == null)
+                    {
+                        break;
+                    }
+                    if (ctr > 8)
+                    {
+                        var regex = new Regex("\"([^\"]*)\"");
+                        foreach (Match match in regex.Matches(line))
+                        {
+                            string temp = match.ToString();
+                            string temp2 = temp.Replace(",", "").Replace("\"", "");
+                            line = line.Replace(temp, temp2);
+                        }
+
+                        CStudentMarkUpload entity = new CStudentMarkUpload();
+                        String[] lstTemp = line.Split(',');
+
+                        entity.StudentCode = lstTemp[2];
+                        if (entity.StudentCode != "")
+                        {
+                            for (int i = 1; i <= 10; ++i)
+                            {
+                                entity.LstMark1.Add(lstTemp[2 + i]);
+                                if (i > maxMark1 && lstTemp[2 + i] != "")
+                                    maxMark1 = i;
+
+                                entity.LstMark2.Add(lstTemp[15 + i]);
+                                if (i > maxMark2 && lstTemp[15 + i] != "")
+                                    maxMark2 = i;
+
+                                entity.LstMark3.Add(lstTemp[29 + i]);
+                                if (i > maxMark3 && lstTemp[29 + i] != "")
+                                    maxMark3 = i;
+                            }
+                            entity.LstMarkUTS.Add(lstTemp[14]);
+                            entity.LstMarkUAS.Add(lstTemp[27]);
+                            lstUploadFile.Add(entity);
+                        }
+                    }
+                    ctr++;
+                }
+
+                List<ClassSubjectTask> lstClassTask = BusinessLayer.GetClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID), ctx);
+                List<ClassStudentSubjectTaskMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", string.Join(",", lstClassTask.Select(p => p.ClassSubjectTaskID).ToList())), ctx);
+                List<Student> lstStudent = BusinessLayer.GetStudentList(string.Format("StudentCode IN ({0})", String.Join(",", from l in lstUploadFile select String.Format("'{0}'", l.StudentCode))), ctx);
+
+                //ulangan
+                List<ClassSubjectTask> lstClassTaskUH = lstClassTask.Where(p => p.CurriculumMarkTypeDtID == 3).ToList();
+                short totalFinalMarkPercentage = InsertUpdateClassSubjectTask(0, maxMark1, maxMark1 + 1, 0, lstClassTaskUH, classTaskDao, "UH", 1, 3, true);
+
+                //Tugas
+                List<ClassSubjectTask> lstClassTaskT = lstClassTask.Where(p => p.CurriculumMarkTypeDtID == 5).ToList();
+                InsertUpdateClassSubjectTask(0, maxMark2, maxMark2, 0, lstClassTaskT, classTaskDao, "T", 1, 5, true);
+
+                //Praktek
+                List<ClassSubjectTask> lstClassTaskP = lstClassTask.Where(p => p.CurriculumMarkTypeDtID == 7).ToList();
+                InsertUpdateClassSubjectTask(0, maxMark3, maxMark3, 0, lstClassTaskP, classTaskDao, "P", 2, 7, true);
+
+                //UTS
+                List<ClassSubjectTask> lstClassTaskUTS = lstClassTask.Where(p => p.CurriculumMarkTypeDtID == 1).ToList();
+                InsertUpdateClassSubjectTask(totalFinalMarkPercentage, 1, maxMark1 + 1, maxMark1, lstClassTaskUTS, classTaskDao, "UTS", 1, 1, false);
+
+                //UAS
+                List<ClassSubjectTask> lstClassTaskUAS = lstClassTask.Where(p => p.CurriculumMarkTypeDtID == 2).ToList();
+                InsertUpdateClassSubjectTask(0, 1, 1, maxMark1, lstClassTaskUAS, classTaskDao, "UAS", 1, 2, false);
+                
+                foreach (CStudentMarkUpload uploadFile in lstUploadFile)
+                {
+                    Student student = lstStudent.FirstOrDefault(p => p.StudentCode == uploadFile.StudentCode);
+                    if (student != null)
+                    {
+                        List<ClassStudentSubjectTaskMark> lstStudentMark1 = lstStudentMark.Where(p => p.StudentID == student.StudentID).ToList();
+                        InsertUpdateStudentMark(entityStudentSubjectTaskMarkDao, uploadFile.LstMark1, student, lstClassTaskUH, maxMark1, lstStudentMark1);
+                        InsertUpdateStudentMark(entityStudentSubjectTaskMarkDao, uploadFile.LstMark2, student, lstClassTaskT, maxMark2, lstStudentMark1);
+                        InsertUpdateStudentMark(entityStudentSubjectTaskMarkDao, uploadFile.LstMark3, student, lstClassTaskP, maxMark3, lstStudentMark1);
+                        InsertUpdateStudentMark(entityStudentSubjectTaskMarkDao, uploadFile.LstMarkUTS, student, lstClassTaskUTS, 1, lstStudentMark1);
+                        InsertUpdateStudentMark(entityStudentSubjectTaskMarkDao, uploadFile.LstMarkUAS, student, lstClassTaskUAS, 1, lstStudentMark1);
+                    }
+                }
+
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        private void InsertUpdateStudentMark(ClassStudentSubjectTaskMarkDao entityStudentSubjectTaskMarkDao, List<String> lstMark, Student student, List<ClassSubjectTask> lstClassTask1, int maxMark1, List<ClassStudentSubjectTaskMark> lstStudentMark1)
+        {
+            for (int i = 1; i <= maxMark1; ++i)
+            {
+                if (i <= lstClassTask1.Count)
+                {
+                    ClassSubjectTask classTask = lstClassTask1[i - 1];
+
+                    ClassStudentSubjectTaskMark studentMark = lstStudentMark1.FirstOrDefault(p => p.StudentID == student.StudentID && p.ClassSubjectTaskID == classTask.ClassSubjectTaskID);
+                    if (studentMark == null)
+                    {
+                        if (lstMark[i - 1] != "")
+                        {
+                            studentMark = new ClassStudentSubjectTaskMark();
+                            studentMark.StudentID = student.StudentID;
+                            studentMark.ClassSubjectTaskID = classTask.ClassSubjectTaskID;
+                            studentMark.OriginalMark = studentMark.Mark = Convert.ToDecimal(lstMark[i - 1]);
+                            entityStudentSubjectTaskMarkDao.Insert(studentMark);
+                        }
+                    }
+                    else
+                    {
+                        if (lstMark[i - 1] != "")
+                        {
+                            if (lstMark[i - 1] != studentMark.Mark.ToString())
+                            {
+                                studentMark.OriginalMark = studentMark.Mark = Convert.ToDecimal(lstMark[i - 1]);
+                                entityStudentSubjectTaskMarkDao.Update(studentMark);
+                            }
+                        }
+                        else
+                        {
+                            entityStudentSubjectTaskMarkDao.Delete(studentMark.ClassSubjectTaskID, studentMark.StudentID);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private short InsertUpdateClassSubjectTask(short totalFinalMarkPercentage, int maxMark1, int finalMarkPercentageMaxMark, int startFinalMarkMaxMark, List<ClassSubjectTask> lstClassTask1, ClassSubjectTaskDao classTaskDao, String initial, int CurriculumMarkTypeID, int CurriculumMarkTypeDtID, bool isAddCounter)
+        {
+            for (int i = 1; i <= maxMark1; ++i)
+            {
+                if (i <= lstClassTask1.Count)
+                {
+                    ClassSubjectTask classTask = lstClassTask1[i - 1];
+                    if (isAddCounter)
+                        classTask.ClassTaskCode = initial + i;
+                    else
+                        classTask.ClassTaskCode = initial;
+                    if (i + startFinalMarkMaxMark == finalMarkPercentageMaxMark)
+                        classTask.FinalMarkPercentage = (short)(100 - totalFinalMarkPercentage);
+                    else
+                    {
+                        classTask.FinalMarkPercentage = Convert.ToInt16(100 / finalMarkPercentageMaxMark);
+                        totalFinalMarkPercentage += classTask.FinalMarkPercentage;
+                    }
+                    classTask.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    classTaskDao.Update(classTask);
+                }
+                else 
+                {
+                    ClassSubjectTask classTask = new ClassSubjectTask();
+                    classTask.CurriculumMarkTypeID = CurriculumMarkTypeID;
+                    classTask.CurriculumMarkTypeDtID = CurriculumMarkTypeDtID;
+                    if (i + startFinalMarkMaxMark == finalMarkPercentageMaxMark)
+                        classTask.FinalMarkPercentage = (short)(100 - totalFinalMarkPercentage);
+                    else
+                    {
+                        classTask.FinalMarkPercentage = Convert.ToInt16(100 / finalMarkPercentageMaxMark);
+                        totalFinalMarkPercentage += classTask.FinalMarkPercentage;
+                    }
+
+                    if (isAddCounter)
+                        classTask.ClassTaskCode = initial + i;
+                    else
+                        classTask.ClassTaskCode = initial;
+                    classTask.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
+                    classTask.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
+                    classTask.Topic = "-";
+                    classTask.TaskDate = DateTime.Now;
+                    classTask.StartDate = DateTime.Now;
+                    classTask.EndDate = DateTime.Now;
+                    classTask.StartTime = DateTime.Now.ToString(Constant.FormatString.TIME_FORMAT);
+                    classTask.EndTime = DateTime.Now.ToString(Constant.FormatString.TIME_FORMAT);
+                    classTask.Remarks = "";
+                    classTask.CreatedBy = AppSession.UserLogin.UserID;
+                    classTask.ClassSubjectTaskID = classTaskDao.Insert(classTask);
+
+                    lstClassTask1.Add(classTask);
+                }
+            }
+            for (int i = maxMark1 + 1; i <= lstClassTask1.Count; ++i)
+            {
+                ClassSubjectTask classTask = lstClassTask1[i - 1];
+                classTask.IsDeleted = true;
+                classTask.LastUpdatedBy = AppSession.UserLogin.UserID;
+                classTaskDao.Update(classTask);
+            }
+            return totalFinalMarkPercentage;
+        }
+
+        class CStudentMarkUpload
+        {
+            public String StudentCode { get; set; }
+            public List<String> LstMark1 { get; set; }
+            public List<String> LstMark2 { get; set; }
+            public List<String> LstMark3 { get; set; }
+            public List<String> LstMarkUTS { get; set; }
+            public List<String> LstMarkUAS { get; set; }
+            public CStudentMarkUpload()
+            {
+                LstMark1 = new List<string>();
+                LstMark2 = new List<string>();
+                LstMark3 = new List<string>();
+                LstMarkUTS = new List<string>();
+                LstMarkUAS = new List<string>();
+            }
         }
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)
