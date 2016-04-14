@@ -105,7 +105,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vClassSubject entityClassSubject = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassSubject;
                 vCurriculumMarkType markType = (vCurriculumMarkType)e.Item.DataItem;
-                vClassStudentSubjectMark studentMark = lstMark.FirstOrDefault(p => p.ClassSubjectID == entityClassSubject.ClassSubjectID);
+                vClassStudentSubjectMark studentMark = lstMark.FirstOrDefault(p => p.ClassSubjectID == entityClassSubject.ClassSubjectID && p.CurriculumMarkTypeID == markType.CurriculumMarkTypeID);
 
                 HtmlTableCell tdFinalMark = (HtmlTableCell)e.Item.FindControl("tdFinalMark");
                 HtmlTableCell tdPredicateMark = (HtmlTableCell)e.Item.FindControl("tdPredicateMark");

@@ -80,7 +80,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         public void BindGridView() 
         {
-            List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(String.Format("ProspectiveStudentID = {0} AND StudentAmount > 0 AND IsPaid = 0", AppSession.ProspectiveStudentID));
+            List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(String.Format("ProspectiveStudentID = {0} AND StudentAmount > 0 AND IsPaid = 0 AND IsDeleted = 0", AppSession.ProspectiveStudentID));
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

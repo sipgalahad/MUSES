@@ -151,7 +151,7 @@
             setTimeout(function () {
                 setTotalPercentage();
                 isOnLoad = false;
-            }, 500);
+            }, 1000);
         });
 
         $('.lblTask.lblLink').live('click', function () {

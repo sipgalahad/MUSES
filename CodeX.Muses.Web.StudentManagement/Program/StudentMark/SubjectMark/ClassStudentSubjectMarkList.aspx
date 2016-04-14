@@ -35,7 +35,7 @@
                     </asp:Repeater>
                     <asp:Repeater ID="rptHeader2Desc" runat="server">
                         <ItemTemplate>
-                            <th class="thCenter" rowspan="2" style="width:80px"><%#Eval("CurriculumMarkTypeName")%></th>    
+                            <th class="thCenter" rowspan="2" style="width:300px"><%#Eval("CurriculumMarkTypeName")%></th>    
                         </ItemTemplate>
                     </asp:Repeater>
                 </tr>
