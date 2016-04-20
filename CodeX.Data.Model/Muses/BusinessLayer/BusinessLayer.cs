@@ -8302,6 +8302,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<MarkTypeDt> GetMarkTypeDtList(string filterExpression, IDbContext ctx)
+        {
+            List<MarkTypeDt> result = new List<MarkTypeDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarkTypeDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MarkTypeDt)helper.IDataReaderToObject(reader, new MarkTypeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region MarkTypeFormula
         public static MarkTypeFormula GetMarkTypeFormula(Int32 MarkTypeFormulaID)

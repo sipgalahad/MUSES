@@ -472,7 +472,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 ASPxComboBox cboFinalStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboFinalStudentMarkOption");
                 TextBox txtFinalStudentMarkDescription = (TextBox)e.Item.FindControl("txtFinalStudentMarkDescription");
-                txtFinalStudentMark.Attributes.Add("positiontag", string.Format("{0}{1}", parentIndex.ToString("D2"), "00"));
+                txtFinalStudentMark.Attributes.Add("positiontag", string.Format("{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2")));
                 cboFinalStudentMarkOption.ClientInstanceName = string.Format("cboFinalStudentMarkOption{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
                 cboPredicateStudentMarkOption.ClientInstanceName = string.Format("cboPredicateStudentMarkOption{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
 
@@ -656,6 +656,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             ClassSubjectTaskDao classTaskDao = new ClassSubjectTaskDao(ctx);
             ClassStudentSubjectTaskMarkDao entityStudentSubjectTaskMarkDao = new ClassStudentSubjectTaskMarkDao(ctx);
+            ClassStudentSubjectMarkDao entityStudentSubjectMarkDao = new ClassStudentSubjectMarkDao(ctx);
             try
             {
                 List<CStudentMarkUpload> lstUploadFile = new List<CStudentMarkUpload>();
@@ -702,6 +703,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             }
                             entity.LstMarkUTS.Add(lstTemp[14]);
                             entity.LstMarkUAS.Add(lstTemp[27]);
+                            entity.Affective = lstTemp[42];
+                            entity.CompetencyDescription = lstTemp[44];
                             lstUploadFile.Add(entity);
                         }
                     }
@@ -709,7 +712,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
 
                 List<ClassSubjectTask> lstClassTask = BusinessLayer.GetClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID), ctx);
-                List<ClassStudentSubjectTaskMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", string.Join(",", lstClassTask.Select(p => p.ClassSubjectTaskID).ToList())), ctx);
+                List<ClassStudentSubjectTaskMark> lstStudentMark = null;
+                if (lstClassTask.Count > 0)
+                    lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", string.Join(",", lstClassTask.Select(p => p.ClassSubjectTaskID).ToList())), ctx);
+                else
+                    lstStudentMark = new List<ClassStudentSubjectTaskMark>();
                 List<Student> lstStudent = BusinessLayer.GetStudentList(string.Format("StudentCode IN ({0})", String.Join(",", from l in lstUploadFile select String.Format("'{0}'", l.StudentCode))), ctx);
 
                 //ulangan
@@ -731,7 +738,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 //UAS
                 List<ClassSubjectTask> lstClassTaskUAS = lstClassTask.Where(p => p.CurriculumMarkTypeDtID == 2).ToList();
                 InsertUpdateClassSubjectTask(0, 1, 1, maxMark1, lstClassTaskUAS, classTaskDao, "UAS", 1, 2, false);
-                
+
+                List<MarkTypeDt> lstMarkTypeDt = BusinessLayer.GetMarkTypeDtList(string.Format("MarkTypeID = 3 AND IsDeleted = 0"), ctx);
+                List<ClassStudentSubjectMark> lstStudentFinalMarkAll = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("ClassSubjectID = {0} AND CurriculumMarkTypeID IN (1,3)", AppSession.ClassSubject.ClassSubjectID), ctx);
+                List<ClassStudentSubjectMark> lstStudentFinalMark = lstStudentFinalMarkAll.Where(p => p.CurriculumMarkTypeID == 3).ToList();
+                List<ClassStudentSubjectMark> lstStudentFinalMarkTheory = lstStudentFinalMarkAll.Where(p => p.CurriculumMarkTypeID == 1).ToList();
+
                 foreach (CStudentMarkUpload uploadFile in lstUploadFile)
                 {
                     Student student = lstStudent.FirstOrDefault(p => p.StudentCode == uploadFile.StudentCode);
@@ -743,6 +755,46 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         InsertUpdateStudentMark(entityStudentSubjectTaskMarkDao, uploadFile.LstMark3, student, lstClassTaskP, maxMark3, lstStudentMark1);
                         InsertUpdateStudentMark(entityStudentSubjectTaskMarkDao, uploadFile.LstMarkUTS, student, lstClassTaskUTS, 1, lstStudentMark1);
                         InsertUpdateStudentMark(entityStudentSubjectTaskMarkDao, uploadFile.LstMarkUAS, student, lstClassTaskUAS, 1, lstStudentMark1);
+
+                        ClassStudentSubjectMark studentFinalMark = lstStudentFinalMark.FirstOrDefault(p => p.StudentID == student.StudentID);
+                        if (studentFinalMark == null)
+                        {
+                            studentFinalMark = new ClassStudentSubjectMark();
+                            studentFinalMark.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
+                            studentFinalMark.StudentID = student.StudentID;
+                            studentFinalMark.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
+                            studentFinalMark.CurriculumMarkTypeID = 3;
+                            if (uploadFile.Affective != "")
+                                studentFinalMark.MarkTypeDtID = lstMarkTypeDt.FirstOrDefault(p => p.MarkTypeDtName == uploadFile.Affective).MarkTypeDtID;
+                            else
+                                studentFinalMark.MarkTypeDtID = null;
+                            entityStudentSubjectMarkDao.Insert(studentFinalMark);
+                        }
+                        else
+                        {
+                            if (uploadFile.Affective != "")
+                                studentFinalMark.MarkTypeDtID = lstMarkTypeDt.FirstOrDefault(p => p.MarkTypeDtName == uploadFile.Affective).MarkTypeDtID;
+                            else
+                                studentFinalMark.MarkTypeDtID = null;
+                            entityStudentSubjectMarkDao.Update(studentFinalMark);
+                        }
+
+                        ClassStudentSubjectMark studentFinalMarkTheory = lstStudentFinalMarkTheory.FirstOrDefault(p => p.StudentID == student.StudentID);
+                        if (studentFinalMarkTheory == null)
+                        {
+                            studentFinalMarkTheory = new ClassStudentSubjectMark();
+                            studentFinalMarkTheory.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
+                            studentFinalMarkTheory.StudentID = student.StudentID;
+                            studentFinalMarkTheory.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
+                            studentFinalMarkTheory.CurriculumMarkTypeID = 1;
+                            studentFinalMarkTheory.CompetencyDescription = uploadFile.CompetencyDescription;
+                            entityStudentSubjectMarkDao.Insert(studentFinalMarkTheory);
+                        }
+                        else
+                        {
+                            studentFinalMarkTheory.CompetencyDescription = uploadFile.CompetencyDescription;
+                            entityStudentSubjectMarkDao.Update(studentFinalMarkTheory);
+                        }
                     }
                 }
 
@@ -873,6 +925,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             public List<String> LstMark3 { get; set; }
             public List<String> LstMarkUTS { get; set; }
             public List<String> LstMarkUAS { get; set; }
+            public String Affective { get; set; }
+            public String CompetencyDescription { get; set; }
             public CStudentMarkUpload()
             {
                 LstMark1 = new List<string>();

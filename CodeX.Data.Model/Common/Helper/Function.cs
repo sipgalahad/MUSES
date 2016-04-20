@@ -270,18 +270,25 @@ namespace CodeX.Data.Model
 
         public static String NumberInWordsForScore(Decimal number)
         {
-
             Decimal temp1 = (number % 1);
             Int64 amount = Convert.ToInt64(number - temp1);
             int count = BitConverter.GetBytes(decimal.GetBits(temp1)[3])[2];
-            Int64 amount2 = Convert.ToInt64(temp1 * Convert.ToInt64(Math.Pow(10, count)));
-            String str = "koma ";
-            if (amount2.ToString().Length != count)
+            if ((amount % 1) == 0)
             {
-                for (int i = amount2.ToString().Length; i < count; i++) str += "nol ";
+                String result = String.Format("{0}", NumberInWords(amount));
+                return UpperFirst(result.ToLower());
             }
-            String result = String.Format("{0}{1}{2}", NumberInWords(amount), str, NumberInWords(amount2));
-            return UpperFirst(result.ToLower());
+            else
+            {
+                Int64 amount2 = Convert.ToInt64(temp1 * Convert.ToInt64(Math.Pow(10, count)));
+                String str = "koma ";
+                if (amount2.ToString().Length != count)
+                {
+                    for (int i = amount2.ToString().Length; i < count; i++) str += "nol ";
+                }
+                String result = String.Format("{0}{1}{2}", NumberInWords(amount), str, NumberInWords(amount2));
+                return UpperFirst(result.ToLower());
+            }
         }
 
         private static string UpperFirst(string text)

@@ -34,7 +34,7 @@
 
             $('#<%=FileUpload1.ClientID %>').change(function () {
                 readURL(this);
-            });	
+            });
 
             $('#<%=btnSave.ClientID %>').click(function () {
                 var result = '';
@@ -266,7 +266,7 @@
 
                     if (isAllowTask) {
                         if (taskMarkTypeID == finalMarkTypeID) {
-                            $(this).val(total);
+                            $(this).val(Math.round(total));
                             $(this).change();
                         }
                         else {
@@ -339,41 +339,49 @@
             var finalMarkTypeID = $td.find('.hdnFinalMarkTypeID').val();
             var finalGCMarkType = $td.find('.hdnFinalGCMarkType').val();
 
-            var cboCompetencyMarkType = eval('cboCompetencyMarkType' + positiontag);
+            try {
+                if ($('#<%=hdnIsAutoUpdateCompetencyDescription.ClientID %>').val() == '1') {
+                    var cboCompetencyMarkType = eval('cboCompetencyMarkType' + positiontag);
+                    var lstMarkTypeFormula = $('#<%=hdnListMarkTypeFormula.ClientID %>').val().split('|');
+                    for (var i = 0; i < lstMarkTypeFormula.length; ++i) {
+                        var temp = lstMarkTypeFormula[i].split(';');
+                        if (temp[0] == competencyMarkTypeID && temp[1] == finalMarkTypeID) {
+                            if (finalGCMarkType == '<%=OnGetSubjectMarkTypeNumber() %>') {
+                                if (total >= parseFloat(temp[2]) && total <= parseFloat(temp[3])) {
+                                    cboCompetencyMarkType.SetValue(temp[5]);
+                                    break;
+                                }
+                            }
+                        }
+                    }
 
-            var lstMarkTypeFormula = $('#<%=hdnListMarkTypeFormula.ClientID %>').val().split('|');
-            for (var i = 0; i < lstMarkTypeFormula.length; ++i) {
-                var temp = lstMarkTypeFormula[i].split(';');
-                if (temp[0] == competencyMarkTypeID && temp[1] == finalMarkTypeID) {
-                    if (finalGCMarkType == '<%=OnGetSubjectMarkTypeNumber() %>') {
-                        if (total >= parseFloat(temp[2]) && total <= parseFloat(temp[3])) {
-                            cboCompetencyMarkType.SetValue(temp[5]);
-                            break;
+
+                    var studentName = $tr.find('.hdnPreferredName').val();
+                    var value = cboCompetencyMarkType.GetValue();
+                    var idx2 = parseInt(positiontag.substring(2));
+                    var lstProgress = $tr.find('.hdnListProgress:eq(' + idx2 + ')').val().split('|');
+                    for (var i = 0; i < lstProgress.length; ++i) {
+                        var temp = lstProgress[i].split(';');
+                        if (temp[0] == value) {
+                            $tr.find('.txtCompetencyDescription').val(temp[1].replace('{NamaSiswa}', studentName));
                         }
                     }
                 }
             }
-
-            var studentName = $tr.find('.hdnPreferredName').val();
-            var value = cboCompetencyMarkType.GetValue();
-            var idx2 = parseInt(positiontag.substring(2));
-            var lstProgress = $tr.find('.hdnListProgress:eq(' + idx2 + ')').val().split('|');
-            for (var i = 0; i < lstProgress.length; ++i) {
-                var temp = lstProgress[i].split(';');
-                if (temp[0] == value) {
-                    $tr.find('.txtCompetencyDescription').val(temp[1].replace('{NamaSiswa}', studentName));
-                }
+            catch (ex) {
             }
         });
 
         function onCboCompetencyMarkTypeValueChanged(s, idx, idx2, studentName) {
-            $tr = $('.trDetail:eq(' + idx + ')');
-            var value = s.GetValue();
-            var lstProgress = $tr.find('.hdnListProgress:eq('+idx2+')').val().split('|');
-            for (var i = 0; i < lstProgress.length; ++i) {
-                var temp = lstProgress[i].split(';');
-                if (temp[0] == value) {
-                    $tr.find('.txtCompetencyDescription').val(temp[1].replace('{NamaSiswa}', studentName));
+            if ($('#<%=hdnIsAutoUpdateCompetencyDescription.ClientID %>').val() == '1') {
+                $tr = $('.trDetail:eq(' + idx + ')');
+                var value = s.GetValue();
+                var lstProgress = $tr.find('.hdnListProgress:eq(' + idx2 + ')').val().split('|');
+                for (var i = 0; i < lstProgress.length; ++i) {
+                    var temp = lstProgress[i].split(';');
+                    if (temp[0] == value) {
+                        $tr.find('.txtCompetencyDescription').val(temp[1].replace('{NamaSiswa}', studentName));
+                    }
                 }
             }
         }
@@ -403,6 +411,7 @@
     <input type="hidden" id="hdnGCClassStudyType" runat="server" />
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
     <input type="hidden" id="hdnGCTransactionStatus" runat="server" />
+    <input type="hidden" id="hdnIsAutoUpdateCompetencyDescription" runat="server" value="0" />
     <table cellspacing="0" cellpadding="0">
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("KKM") %></td>

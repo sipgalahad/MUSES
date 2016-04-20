@@ -238,7 +238,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
                 vClassStudentSubjectMark affectiveMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.AFFECTIVE);
                 if (affectiveMark != null)
-                    tdAffective.InnerHtml = affectiveMark.DescriptionMark;
+                    tdAffective.InnerHtml = affectiveMark.MarkTypeDtName;
                 else
                     tdAffective.InnerHtml = "-";
             }
