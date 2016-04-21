@@ -13,7 +13,36 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#<%=hdnUploadedFile1.ClientID %>').val(e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function onCbpProcesEndCallback(s) {
+            hideLoadingPanel();
+            var param = s.cpResult.split('|');
+            if (param[0] == 'upload') {
+                if (param[1] == 'fail')
+                    showToast('Import Gagal', 'Error Message : ' + param[2]);
+                else
+                    cbpView.PerformCallback('refresh');
+            }
+        }
+
         $(function () {
+            $('#btnUploadFile').click(function () {
+                cbpProcess.PerformCallback('upload');
+            });
+
+            $('#<%=FileUpload1.ClientID %>').change(function () {
+                readURL(this);
+            });
+
             var grd = new customGridView();
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 
@@ -177,6 +206,15 @@
                 </cdx:CodeXAutoCompleteTextBox>   
             </td>
         </tr>
+        <tr>
+            <td></td>
+			<td>
+				<input type="hidden" id="hdnFileName" runat="server" value="" />
+				<input type="hidden" id="hdnUploadedFile1" runat="server" value="" />
+				<asp:FileUpload ID="FileUpload1" runat="server" />
+				<input type="button" id="btnUploadFile" value="Upload" />
+			</td>
+        </tr>
     </table>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -228,5 +266,11 @@
                 <div id="paging"></div>
             </div>
         </div> 
+    </div>
+    <div style="display:none">
+        <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
+            ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
+            <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
+        </dxcp:ASPxCallbackPanel>
     </div>
 </asp:Content>

@@ -2964,6 +2964,102 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ClassStudentAttendance
+    [Serializable]
+    [Table(Name = "ClassStudentAttendance")]
+    public class ClassStudentAttendance : DbDataModel
+    {
+        private Int32 _SchoolClassID;
+        private Int32 _PeriodSectionID;
+        private Int32 _StudentID;
+        private String _GCAttendanceStatus;
+        private Int16 _TotalAttendanceStatus;
+        private String _Remarks;
+
+        [Column(Name = "SchoolClassID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "GCAttendanceStatus", DataType = "String", IsPrimaryKey = true)]
+        public String GCAttendanceStatus
+        {
+            get { return _GCAttendanceStatus; }
+            set { _GCAttendanceStatus = value; }
+        }
+        [Column(Name = "TotalAttendanceStatus", DataType = "Int16")]
+        public Int16 TotalAttendanceStatus
+        {
+            get { return _TotalAttendanceStatus; }
+            set { _TotalAttendanceStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+
+    public class ClassStudentAttendanceDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassStudentAttendance));
+        private bool _isAuditLog = false;
+        private const string p_GCAttendanceStatus = "@p_GCAttendanceStatus";
+        private const string p_PeriodSectionID = "@p_PeriodSectionID";
+        private const string p_SchoolClassID = "@p_SchoolClassID";
+        private const string p_StudentID = "@p_StudentID";
+        public ClassStudentAttendanceDao() { }
+        public ClassStudentAttendanceDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassStudentAttendance Get(Int32 SchoolClassID, Int32 PeriodSectionID, Int32 StudentID, String GCAttendanceStatus)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCAttendanceStatus, GCAttendanceStatus);
+            _ctx.Add(p_PeriodSectionID, PeriodSectionID);
+            _ctx.Add(p_SchoolClassID, SchoolClassID);
+            _ctx.Add(p_StudentID, StudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassStudentAttendance)_helper.DataRowToObject(row, new ClassStudentAttendance());
+        }
+        public int Insert(ClassStudentAttendance record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassStudentAttendance record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SchoolClassID, Int32 PeriodSectionID, Int32 StudentID, String GCAttendanceStatus)
+        {
+            ClassStudentAttendance record;
+            if (_ctx.Transaction == null)
+                record = new ClassStudentAttendanceDao().Get(SchoolClassID, PeriodSectionID, StudentID, GCAttendanceStatus);
+            else
+                record = Get(SchoolClassID, PeriodSectionID, StudentID, GCAttendanceStatus);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassStudentDailyAttendance
     [Serializable]
     [Table(Name = "ClassStudentDailyAttendance")]

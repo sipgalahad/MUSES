@@ -969,6 +969,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vClassSubject> GetvClassSubjectList(string filterExpression, IDbContext ctx)
+        {
+            List<vClassSubject> result = new List<vClassSubject>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassSubject)helper.IDataReaderToObject(reader, new vClassSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region vClassSubjectCustom
         public static List<vClassSubjectCustom> GetvClassSubjectCustomList(string filterExpression)

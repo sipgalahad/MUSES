@@ -160,10 +160,20 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 rptOrganization.DataSource = lstOrganization;
                 rptOrganization.DataBind();
 
-                List<ClassStudentDailyAttendance> csda = BusinessLayer.GetClassStudentDailyAttendanceList(String.Format("SchoolClassID = {0} AND PeriodSectionID = {1} AND StudentID = {2}", SchoolClassID, PeriodSectionID, StudentID));
-                tdSick.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.SAKIT).Count());
-                tdPermit.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.IZIN).Count());
-                tdAlpha.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.ALPA).Count());
+                List<ClassStudentAttendance> csa = BusinessLayer.GetClassStudentAttendanceList(String.Format("SchoolClassID = {0} AND PeriodSectionID = {1} AND StudentID = {2}", SchoolClassID, PeriodSectionID, StudentID));
+                if (csa.Count > 0)
+                {
+                    tdSick.InnerHtml = String.Format("{0} hari", csa.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.SAKIT).Sum(p => p.TotalAttendanceStatus));
+                    tdPermit.InnerHtml = String.Format("{0} hari", csa.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.IZIN).Sum(p => p.TotalAttendanceStatus));
+                    tdAlpha.InnerHtml = String.Format("{0} hari", csa.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.ALPA).Sum(p => p.TotalAttendanceStatus));
+                }
+                else
+                {
+                    List<ClassStudentDailyAttendance> csda = BusinessLayer.GetClassStudentDailyAttendanceList(String.Format("SchoolClassID = {0} AND PeriodSectionID = {1} AND StudentID = {2}", SchoolClassID, PeriodSectionID, StudentID));
+                    tdSick.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.SAKIT).Count());
+                    tdPermit.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.IZIN).Count());
+                    tdAlpha.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.ALPA).Count());
+                }
                 
                 String text = divPageFooter.InnerHtml;
                 text = text.Replace("{Date.Now}", DateTime.Now.ToString(Constant.FormatString.DATE_REPORT_FORMAT));
@@ -196,6 +206,22 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 vClassStudentSubjectMark cs = lstNilai.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID && x.GCStudentMarkGroup == Constant.StudentMarkGroup.THEORY);
                 if (cs != null) tdKompetensi.InnerHtml = cs.CompetencyDescription;
                 else tdKompetensi.InnerHtml = "-";
+            }
+        }
+
+        protected void rptPersonality_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
+            {
+                vClassSubject entity = e.Item.DataItem as vClassSubject;
+
+                List<vClassStudentSubjectMark> lstMark = lstNilai.Where(x => x.ClassSubjectID == entity.ClassSubjectID).ToList();
+                vClassStudentSubjectMark mark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.AFFECTIVE);
+                HtmlTableCell tdPersonalityScore = e.Item.FindControl("tdPersonalityScore") as HtmlTableCell;
+                if (mark != null)
+                    tdPersonalityScore.InnerHtml = mark.DescriptionMark;
+                else
+                    tdPersonalityScore.InnerHtml = "";
             }
         }
 

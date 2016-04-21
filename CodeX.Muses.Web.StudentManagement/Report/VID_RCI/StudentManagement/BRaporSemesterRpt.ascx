@@ -298,12 +298,12 @@
                                         <td class="lblHeader" align="center">Aspek yang dinilai</td>
                                         <td class="lblHeader" align="center">Keterangan</td>
                                     </tr>
-                                    <asp:Repeater runat="server" ID="rptPersonality">
+                                    <asp:Repeater runat="server" ID="rptPersonality" OnItemDataBound="rptPersonality_ItemDataBound">
                                         <ItemTemplate>
                                             <tr>
                                                 <td align="center" style="width:50px;"><%# Container.ItemIndex + 1 %></td>
                                                 <td><%#:Eval("SubjectName") %></td>
-                                                <td runat="server" id="tdPersonalityScore"></td>
+                                                <td runat="server" id="tdPersonalityScore" style="white-space:pre-wrap ; word-wrap:break-word;"></td>
                                             </tr>
                                         </ItemTemplate>
                                     </asp:Repeater>
@@ -341,7 +341,7 @@
                                         <td class="lblHeader">Catatan Wali Kelas :</td>
                                     </tr>
                                     <tr>
-                                        <td style="height: 80px; vertical-align:top;" id="tdStudentRemarks" runat="server"></td>
+                                        <td style="height: 80px; vertical-align:top;white-space:pre-wrap ; word-wrap:break-word;" id="tdStudentRemarks" runat="server"></td>
                                     </tr>
                                 </table>
                             </div>
