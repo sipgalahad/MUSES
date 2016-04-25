@@ -134,13 +134,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 string filterExpressionSetDefaultDt = String.Format("PurchaseReceiveID = {0} AND GCItemDetailStatus = '{1}'", hdnReceiveID.Value, Constant.TransactionStatus.WAIT_FOR_APPROVAL);
-                List<PurchaseReceiveDt> lstPurchaseReceiveDtSetDefault = BusinessLayer.GetPurchaseReceiveDtList(filterExpressionSetDefaultDt);
+                List<PurchaseReceiveDt> lstPurchaseReceiveDtSetDefault = BusinessLayer.GetPurchaseReceiveDtList(filterExpressionSetDefaultDt, ctx);
 
                 List<PurchaseReceiveDt> lstPurchaseRequestDt = null;
                 if (hdnSelectedMember.Value != "")
                 {
                     string filterExpressionPurchaseReceiveDt = String.Format("ID IN ({0})", hdnSelectedMember.Value.Substring(1));
-                    lstPurchaseRequestDt = BusinessLayer.GetPurchaseReceiveDtList(filterExpressionPurchaseReceiveDt);
+                    lstPurchaseRequestDt = BusinessLayer.GetPurchaseReceiveDtList(filterExpressionPurchaseReceiveDt, ctx);
                 }
 
                 foreach (PurchaseReceiveDt itemDt in lstPurchaseReceiveDtSetDefault)

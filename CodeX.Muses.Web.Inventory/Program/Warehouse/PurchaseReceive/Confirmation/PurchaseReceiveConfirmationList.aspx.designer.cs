@@ -13,13 +13,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
     public partial class PurchaseReceiveConfirmationList {
         
         /// <summary>
-        /// btnPurchaseReceiveHdItem control.
+        /// btnProcess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnPurchaseReceiveHdItem;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnProcess;
         
         /// <summary>
         /// hdnParam control.
@@ -40,6 +40,24 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
+        /// hdnIsDiscountAppliedToAveragePrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsDiscountAppliedToAveragePrice;
+        
+        /// <summary>
+        /// hdnIsDiscountAppliedToUnitPrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsDiscountAppliedToUnitPrice;
+        
+        /// <summary>
         /// hdnFilterExpression control.
         /// </summary>
         /// <remarks>
@@ -47,6 +65,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
+        
+        /// <summary>
+        /// cboViewType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboViewType;
         
         /// <summary>
         /// cbpView control.

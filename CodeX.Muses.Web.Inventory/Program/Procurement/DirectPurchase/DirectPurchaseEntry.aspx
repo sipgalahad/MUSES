@@ -279,19 +279,19 @@
                     $('#<%=txtDiscountPercentage.ClientID %>').val('0');
                     $('#<%=txtDiscountAmount.ClientID %>').val('0');
                     $('#<%=txtLineAmount.ClientID %>').val('').trigger('changeValue');
-                    $('#<%=lblSupplier.ClientID %>').attr('class', 'lblDisabled');
+                    /*$('#<%=lblSupplier.ClientID %>').attr('class', 'lblDisabled');
                     $('#<%=txtSupplierCode.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=txtLocationCode.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=txtServiceUnitCode.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=lblSiteServiceUnit.ClientID %>').attr('class', 'lblDisabled');
-                    $('#<%=lblLocation.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=lblLocation.ClientID %>').attr('class', 'lblDisabled');*/
                     lastTransactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
                     editedLineAmount = 0;
                     cboItemUnit.SetValue('');
                     cboDirectPurchaseType.SetEnabled(false);
                     $('#<%=txtConversion.ClientID %>').val('');
 
-                    $('#<%=chkIsFromMasterSupplier.ClientID %>').attr("disabled", true);
+                    //$('#<%=chkIsFromMasterSupplier.ClientID %>').attr("disabled", true);
                     $('#<%=chkIsFromMasterItem.ClientID %>').prop("checked", true);
                     $('#<%=chkIsFromMasterItem.ClientID %>').change();
                     $('#entryDetailContainer').show();

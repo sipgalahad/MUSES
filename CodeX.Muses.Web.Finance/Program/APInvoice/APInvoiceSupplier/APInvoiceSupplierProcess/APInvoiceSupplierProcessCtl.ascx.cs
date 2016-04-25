@@ -41,7 +41,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 transactionCode = Constant.TransactionCode.CONSIGNMENT_RECEIVE;
             else
                 transactionCode = Constant.TransactionCode.PURCHASE_RECEIVE;
-            string filterExpression = string.Format("BusinessPartnerID = {0} AND GCTransactionStatus IN ('{1}','{2}') AND GCItemType = '{3}' AND TransactionCode = '{4}' AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseReceiveID IS NOT NULL AND IsDeleted = 0)", AppSession.BusinessPartnerID, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED, hdnGCItemType.Value, transactionCode);
+            string filterExpression = string.Format("BusinessPartnerID = {0} AND GCTransactionStatus IN ('{1}') AND GCItemType = '{2}' AND TransactionCode = '{3}' AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseReceiveID IS NOT NULL AND IsDeleted = 0)", AppSession.BusinessPartnerID, Constant.TransactionStatus.PROCESSED, hdnGCItemType.Value, transactionCode);
             if (isCountPageCount)
             {
                 int rowCount = BusinessLayer.GetvPurchaseReceiveCreditRowCount(filterExpression);

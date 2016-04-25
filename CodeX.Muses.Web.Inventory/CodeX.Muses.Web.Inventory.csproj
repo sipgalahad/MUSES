@@ -165,6 +165,8 @@
     <Content Include="Program\Warehouse\PurchaseReceive\Approval\PurchaseReceiveApprovalDetail.aspx" />
     <Content Include="Program\Warehouse\PurchaseReceive\Approval\PurchaseReceiveApprovalList.aspx" />
     <Content Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationDetail.aspx" />
+    <Content Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationDtCtl.ascx" />
+    <Content Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationEditDtCtl.ascx" />
     <Content Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationList.aspx" />
     <Content Include="Program\Warehouse\PurchaseReceive\ExpiredDatePerItemCtl.ascx" />
     <Content Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveDetailCtl.ascx" />
@@ -815,6 +817,20 @@
     </Compile>
     <Compile Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationDetail.aspx.designer.cs">
       <DependentUpon>PurchaseReceiveConfirmationDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationDtCtl.ascx.cs">
+      <DependentUpon>PurchaseReceiveConfirmationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationDtCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseReceiveConfirmationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationEditDtCtl.ascx.cs">
+      <DependentUpon>PurchaseReceiveConfirmationEditDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationEditDtCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseReceiveConfirmationEditDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationList.aspx.cs">
       <DependentUpon>PurchaseReceiveConfirmationList.aspx</DependentUpon>

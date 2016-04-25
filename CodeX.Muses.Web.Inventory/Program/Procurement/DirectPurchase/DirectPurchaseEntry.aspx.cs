@@ -103,17 +103,17 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             SetControlEntrySetting(hdnDirectPurchaseID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(txtDirectPurchaseNo, new ControlEntrySetting(false, false, false));
-            SetControlEntrySetting(txtDirectPurchaseDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
-            SetControlEntrySetting(lblLocation, new ControlEntrySetting(true, false));
-            SetControlEntrySetting(lblSupplier, new ControlEntrySetting(true, false));
-            SetControlEntrySetting(chkIsFromMasterSupplier, new ControlEntrySetting(true, false, false, true, true));
-            SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtDirectPurchaseDate, new ControlEntrySetting(true, true, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
+            SetControlEntrySetting(lblLocation, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(lblSupplier, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(chkIsFromMasterSupplier, new ControlEntrySetting(true, true, false, true, true));
+            SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, false));
-            SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, false));
-            SetControlEntrySetting(txtNonMasterSupplierName, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, false, true, hdnDefaultServiceUnitCode.Value));
-            SetControlEntrySetting(lblSiteServiceUnit, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtNonMasterSupplierName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, true, true, hdnDefaultServiceUnitCode.Value));
+            SetControlEntrySetting(lblSiteServiceUnit, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, true, hdnDefaultServiceUnitName.Value));
 
             SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(true, true));

@@ -154,7 +154,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         entityStudentFee.BusinessPartnerID = null;
                     else
                         entityStudentFee.BusinessPartnerID = customerID;
-                    entityStudentFee.TransactionAmount = totalAmount;
+                    entityStudentFee.TransactionAmount = totalAmount + entityStudentFee.TotalDiscountAmount;
                     entityStudentFee.PayerAmount = payerAmount;
                     entityStudentFee.TotalStudentAmount = entityStudentFee.StudentAmount = totalAmount - payerAmount;
                     entityStudentFee.LineAmount = entityStudentFee.StudentAmount + entityStudentFee.PayerAmount;
