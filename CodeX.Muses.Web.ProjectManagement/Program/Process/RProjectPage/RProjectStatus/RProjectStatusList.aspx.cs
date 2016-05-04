@@ -99,7 +99,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             string filterExpression = string.Format("ProjectID = {0} AND IsDeleted = 0", AppSession.ProjectID);
             if (!chkIsShowAllGroup.Checked && hdnProjectOrganizationID.Value != "" && hdnProjectOrganizationID.Value != "0")
-                filterExpression += string.Format(" AND ProjectTaskGroupID IN (SELECT ProjectTaskGroupID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{0}/%')", hdnProjectOrganizationID.Value);
+                filterExpression += string.Format(" AND (ProjectTaskGroupID IN (SELECT ProjectTaskGroupID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{0}/%') OR ProjectTaskGroupID NOT IN (SELECT ProjectTaskGroupID FROM RProjectTask WHERE IsDeleted = 0))", hdnProjectOrganizationID.Value);
             List<RProjectTaskGroup> lstEntity = BusinessLayer.GetRProjectTaskGroupList(filterExpression);
 
             if (lstEntity.Count > 0)
@@ -131,7 +131,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 if (total > 0)
                 {
                     int done = lstProjectTask1.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED).Count();
-                    divPercentage.InnerHtml = string.Format("{0}%", ((Double)(done * 100) / total).ToString("N2"));
+                    divPercentage.InnerHtml = string.Format("{0:0.00}%", ((Double)(done * 100) / total).ToString("N2"));
                 }
                 else
                     divPercentage.InnerHtml = "-";

@@ -82,14 +82,14 @@
                                 <asp:TemplateField HeaderStyle-Width="200px" >
                                     <HeaderTemplate>
                                         <div style="padding-left:3px">
-                                            <%=GetLabel("Item Group Code")%>
+                                            <%=GetLabel("Kode")%>
                                         </div>
                                     </HeaderTemplate>
                                     <ItemTemplate>
                                         <div style='margin-left:<%# Eval("Level") %>0px;'><%# Eval("ProjectGroupCode") %></div>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:BoundField DataField="ProjectGroupName" HeaderText="Item Group Name 1" />
+                                <asp:BoundField DataField="ProjectGroupName" HeaderText="Nama" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

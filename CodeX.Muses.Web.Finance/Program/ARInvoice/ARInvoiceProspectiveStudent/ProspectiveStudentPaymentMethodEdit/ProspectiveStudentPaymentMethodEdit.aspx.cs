@@ -138,90 +138,68 @@ namespace CodeX.Muses.Web.Finance.Program
                 }
 
                 List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(string.Format("StudentFeeID IN ({0})", hdnLstStudentFeeID.Value), ctx);
-                List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0}) AND IsDeleted = 0", hdnLstStudentFeeID.Value), ctx);
+                List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0}) AND IsPaid = 0 AND IsDeleted = 0", hdnLstStudentFeeID.Value), ctx);
                 string[] lstSaveValue = hdnSaveValue.Value.Split('|');
                 foreach (string saveValue in lstSaveValue)
                 {
                     string[] temp = saveValue.Split(';');
-                    int studentFeeID = Convert.ToInt32(temp[0]);
-                    decimal totalAmount = Convert.ToDecimal(temp[1]);
-                    int customerID = Convert.ToInt32(temp[2]);
-                    decimal payerAmount = Convert.ToDecimal(temp[3]);
-                    string[] lstSaveValue1 = temp[4].Split('^');
-
-                    StudentFee entityStudentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == studentFeeID);
-                    if (customerID == 0)
-                        entityStudentFee.BusinessPartnerID = null;
-                    else
-                        entityStudentFee.BusinessPartnerID = customerID;
-                    entityStudentFee.TransactionAmount = totalAmount + entityStudentFee.TotalDiscountAmount;
-                    entityStudentFee.PayerAmount = payerAmount;
-                    entityStudentFee.TotalStudentAmount = entityStudentFee.StudentAmount = totalAmount - payerAmount;
-                    entityStudentFee.LineAmount = entityStudentFee.StudentAmount + entityStudentFee.PayerAmount;
-                    entityStudentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    studentFeeDao.Update(entityStudentFee);
-
-                    short ctr = 1;
-                    foreach (string saveValue1 in lstSaveValue1)
+                    if (temp[4] != "")
                     {
-                        string[] temp1 = saveValue1.Split(',');
-                        int studentFeeDtID = Convert.ToInt32(temp1[0]);
-                        DateTime dueDate = Helper.GetDatePickerValue(temp1[1]);
-                        decimal transactionAmount = Convert.ToDecimal(temp1[2]);
+                        int studentFeeID = Convert.ToInt32(temp[0]);
+                        decimal totalAmount = Convert.ToDecimal(temp[1]);
+                        int customerID = Convert.ToInt32(temp[2]);
+                        decimal payerAmount = Convert.ToDecimal(temp[3]);
+                        string[] lstSaveValue1 = temp[4].Split('^');
 
-                        StudentFeeDt entityDt = lstStudentFeeDt.FirstOrDefault(x => x.StudentFeeDtID == studentFeeDtID);
-                        if (entityDt == null)
-                        {
-                            entityDt = new StudentFeeDt();
-                            entityDt.StudentFeeID = studentFeeID;
-                            entityDt.DisplayOrder = ctr;
-                            entityDt.DueDate = dueDate;
-                            entityDt.IsTransactionAmountInPercentage = false;
-                            entityDt.LineAmount = entityDt.StudentAmount = entityDt.TotalStudentAmount = entityDt.TransactionAmount = transactionAmount;
-                            entityDt.IsPaid = false;
-                            entityDt.CreatedBy = AppSession.UserLogin.UserID;
-                            studentFeeDtDao.Insert(entityDt);
-                        }
+                        StudentFee entityStudentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == studentFeeID);
+                        if (customerID == 0)
+                            entityStudentFee.BusinessPartnerID = null;
                         else
-                        {
-                            entityDt.DisplayOrder = ctr;
-                            entityDt.DueDate = dueDate;
-                            entityDt.IsTransactionAmountInPercentage = false;
-                            entityDt.LineAmount = entityDt.StudentAmount = entityDt.TotalStudentAmount = entityDt.TransactionAmount = transactionAmount;
-                            entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                            studentFeeDtDao.Update(entityDt);
+                            entityStudentFee.BusinessPartnerID = customerID;
+                        entityStudentFee.TransactionAmount = totalAmount + entityStudentFee.TotalDiscountAmount;
+                        entityStudentFee.PayerAmount = payerAmount;
+                        entityStudentFee.TotalStudentAmount = entityStudentFee.StudentAmount = totalAmount - payerAmount;
+                        entityStudentFee.LineAmount = entityStudentFee.StudentAmount + entityStudentFee.PayerAmount;
+                        entityStudentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        studentFeeDao.Update(entityStudentFee);
 
-                            lstStudentFeeDt.Remove(entityDt);
-                        }
-                        ctr++;
-                    }
-                    StudentFeeDt entityPayerDt = lstStudentFeeDt.FirstOrDefault(x => x.StudentFeeID == studentFeeID && x.PayerAmount > 0);
-                    if (entityPayerDt != null)
-                    {
-                        if (entityStudentFee.TransactionMonth != null)
+                        short ctr = 1;
+                        foreach (string saveValue1 in lstSaveValue1)
                         {
-                            DateTime dt = new DateTime((int)entityStudentFee.TransactionYear, (int)entityStudentFee.TransactionMonth, 1);
-                            entityPayerDt.DueDate = dt;
+                            string[] temp1 = saveValue1.Split(',');
+                            int studentFeeDtID = Convert.ToInt32(temp1[0]);
+                            DateTime dueDate = Helper.GetDatePickerValue(temp1[1]);
+                            decimal transactionAmount = Convert.ToDecimal(temp1[2]);
+
+                            StudentFeeDt entityDt = lstStudentFeeDt.FirstOrDefault(x => x.StudentFeeDtID == studentFeeDtID);
+                            if (entityDt == null)
+                            {
+                                entityDt = new StudentFeeDt();
+                                entityDt.StudentFeeID = studentFeeID;
+                                entityDt.DisplayOrder = ctr;
+                                entityDt.DueDate = dueDate;
+                                entityDt.IsTransactionAmountInPercentage = false;
+                                entityDt.LineAmount = entityDt.StudentAmount = entityDt.TotalStudentAmount = entityDt.TransactionAmount = transactionAmount;
+                                entityDt.IsPaid = false;
+                                entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                                studentFeeDtDao.Insert(entityDt);
+                            }
+                            else
+                            {
+                                entityDt.DisplayOrder = ctr;
+                                entityDt.DueDate = dueDate;
+                                entityDt.IsTransactionAmountInPercentage = false;
+                                entityDt.LineAmount = entityDt.StudentAmount = entityDt.TotalStudentAmount = entityDt.TransactionAmount = transactionAmount;
+                                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                studentFeeDtDao.Update(entityDt);
+
+                                lstStudentFeeDt.Remove(entityDt);
+                            }
+                            ctr++;
                         }
-                        else
-                            entityPayerDt.DueDate = entityStudentFee.DueDate;
-                        entityPayerDt.IsTransactionAmountInPercentage = false;
-                        entityPayerDt.LineAmount = entityStudentFee.PayerAmount;
-                        entityPayerDt.TotalStudentAmount = 0;
-                        entityPayerDt.LineAmount = entityPayerDt.TransactionAmount = entityPayerDt.PayerAmount = entityStudentFee.PayerAmount;
-                        if (entityStudentFee.PayerAmount == 0)
-                            entityStudentFee.IsDeleted = true;
-                        entityPayerDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                        studentFeeDtDao.Update(entityPayerDt);
-                        lstStudentFeeDt.Remove(entityPayerDt);
-                    }
-                    else
-                    {
-                        if (entityStudentFee.BusinessPartnerID != null && entityStudentFee.PayerAmount > 0)
+                        StudentFeeDt entityPayerDt = lstStudentFeeDt.FirstOrDefault(x => x.StudentFeeID == studentFeeID && x.PayerAmount > 0);
+                        if (entityPayerDt != null)
                         {
-                            entityPayerDt = new StudentFeeDt();
-                            entityPayerDt.StudentFeeID = entityStudentFee.StudentFeeID;
-                            entityPayerDt.DisplayOrder = 1;
                             if (entityStudentFee.TransactionMonth != null)
                             {
                                 DateTime dt = new DateTime((int)entityStudentFee.TransactionYear, (int)entityStudentFee.TransactionMonth, 1);
@@ -230,13 +208,37 @@ namespace CodeX.Muses.Web.Finance.Program
                             else
                                 entityPayerDt.DueDate = entityStudentFee.DueDate;
                             entityPayerDt.IsTransactionAmountInPercentage = false;
+                            entityPayerDt.LineAmount = entityStudentFee.PayerAmount;
                             entityPayerDt.TotalStudentAmount = 0;
                             entityPayerDt.LineAmount = entityPayerDt.TransactionAmount = entityPayerDt.PayerAmount = entityStudentFee.PayerAmount;
-                            entityPayerDt.CreatedBy = AppSession.UserLogin.UserID;
-                            studentFeeDtDao.Insert(entityPayerDt);
+                            if (entityStudentFee.PayerAmount == 0)
+                                entityStudentFee.IsDeleted = true;
+                            entityPayerDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            studentFeeDtDao.Update(entityPayerDt);
+                            lstStudentFeeDt.Remove(entityPayerDt);
+                        }
+                        else
+                        {
+                            if (entityStudentFee.BusinessPartnerID != null && entityStudentFee.PayerAmount > 0)
+                            {
+                                entityPayerDt = new StudentFeeDt();
+                                entityPayerDt.StudentFeeID = entityStudentFee.StudentFeeID;
+                                entityPayerDt.DisplayOrder = 1;
+                                if (entityStudentFee.TransactionMonth != null)
+                                {
+                                    DateTime dt = new DateTime((int)entityStudentFee.TransactionYear, (int)entityStudentFee.TransactionMonth, 1);
+                                    entityPayerDt.DueDate = dt;
+                                }
+                                else
+                                    entityPayerDt.DueDate = entityStudentFee.DueDate;
+                                entityPayerDt.IsTransactionAmountInPercentage = false;
+                                entityPayerDt.TotalStudentAmount = 0;
+                                entityPayerDt.LineAmount = entityPayerDt.TransactionAmount = entityPayerDt.PayerAmount = entityStudentFee.PayerAmount;
+                                entityPayerDt.CreatedBy = AppSession.UserLogin.UserID;
+                                studentFeeDtDao.Insert(entityPayerDt);
+                            }
                         }
                     }
-
                 }
 
                 foreach (StudentFeeDt entityDt in lstStudentFeeDt)
