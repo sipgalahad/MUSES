@@ -52,9 +52,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             Methods.SetComboBoxField(cboDueDateType, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.DUE_DATE_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
             cboPriority.SelectedIndex = 0;
 
-            lstProjectStatus.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = GetLabel("-- All --") });
-            Methods.SetComboBoxField(cboFilterStatus, lstProjectStatus, "StandardCodeName", "StandardCodeID");
-            cboFilterStatus.Value = Constant.ProjectTaskStatus.OPEN;
+            Repeater rptFilterStatus = (Repeater)ddeFilterStatus.FindControl("rptFilterStatus");
+            rptFilterStatus.DataSource = lstProjectStatus;
+            rptFilterStatus.DataBind();
 
             BindGridView();
 
@@ -63,6 +63,19 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             Helper.SetControlEntrySetting(cboDueDateType, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(txtProjectTaskName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(tacOrganizationCoordinator, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+        }
+
+        protected void rptFilterStatus_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                StandardCode obj = (StandardCode)e.Item.DataItem;
+                CheckBox chkFilterStatus = (CheckBox)e.Item.FindControl("chkFilterStatus");
+                if (obj.StandardCodeID != Constant.ProjectTaskStatus.CLOSED && obj.StandardCodeID != Constant.ProjectTaskStatus.VOID)
+                    chkFilterStatus.Checked = true;
+                chkFilterStatus.Attributes.Add("standardcodename", obj.StandardCodeName);
+                chkFilterStatus.Attributes.Add("standardcodeid", obj.StandardCodeID);
+            }
         }
 
         private RProjectStatusList DetailPage
@@ -99,11 +112,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             rptRemarks.DataSource = lstStandardCode.Where(p => p.StandardCodeID != Constant.ProjectTaskStatus.VOID);
             rptRemarks.DataBind();
 
+            string[] lstProjectStatus = hdnLstFilterStatusID.Value.Split(',');
             List<vRProjectTask> lstEntity1 = null;
-            if (cboFilterStatus.Value != null && cboFilterStatus.Value.ToString() != "")
-                lstEntity1 = lstEntity.Where(p => p.GCProjectTaskStatus == cboFilterStatus.Value.ToString()).ToList();
-            else
-                lstEntity1 = lstEntity.ToList();
+            lstEntity1 = lstEntity.Where(p => lstProjectStatus.Contains(p.GCProjectTaskStatus)).ToList();
             grdView.DataSource = lstEntity1;
             grdView.DataBind();
         }

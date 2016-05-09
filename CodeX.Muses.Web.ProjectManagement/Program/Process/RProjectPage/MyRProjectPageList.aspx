@@ -83,12 +83,28 @@
                 <dx:PanelContent ID="PanelContent1" runat="server">
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" 
-                            ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                            ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
                             <Columns>
                                 <asp:BoundField DataField="ProjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="ProjectCode" HeaderText="Kode" HeaderStyle-Width="150px"  HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="ProjectName" HeaderText="Nama" HeaderStyle-Width="220px"  HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="Position" HeaderText="Posisi" HeaderStyle-Width="220px"  HeaderStyle-HorizontalAlign="Left" />
+                                <asp:TemplateField HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" >
+                                    <HeaderTemplate>                                              
+                                        <%=GetLabel("Tenggat Waktu")%>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <div id="divDueDate" runat="server"></div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderStyle-Width="50px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" >
+                                    <HeaderTemplate>                                              
+                                        <%=GetLabel("Persentase")%>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <div id="divPercentage" runat="server"></div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan"  HeaderStyle-HorizontalAlign="Left" />
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Detail" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>

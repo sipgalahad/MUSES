@@ -10,6 +10,7 @@ using CodeX.Web.Common.UI;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
 using DevExpress.Web.ASPxEditors;
+using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.ProjectManagement.Program
 {
@@ -52,7 +53,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("GCProjectStatus != '{0}' AND EmployeeID = {1}", Constant.ProjectStatus.CANCELED, AppSession.UserLogin.EmployeeID);
+            filterExpression += string.Format("GCProjectStatus != '{0}' AND EmployeeID = {1}", Constant.TransactionStatus.VOID, AppSession.UserLogin.EmployeeID);
             return filterExpression;
         }
 
@@ -64,10 +65,55 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 rowCount = BusinessLayer.GetvRProjectOrganizationMemberRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
-
+            
             List<vRProjectOrganizationMember> lstEntity = BusinessLayer.GetvRProjectOrganizationMemberList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            if (lstEntity.Count > 0)
+            {
+                string lstProjectID = string.Join(",", lstEntity.Select(p => p.ProjectID).ToList());
+                string filterExpressionTask = "";
+                foreach (vRProjectOrganizationMember entity in lstEntity)
+                {
+                    if (filterExpressionTask != "")
+                        filterExpressionTask += " OR ";
+                    filterExpressionTask += string.Format("(ProjectID = {0} AND DisplayPath LIKE '%/{1}/%')", entity.ProjectID, entity.ProjectOrganizationID);
+                }
+                lstProjectTaskAssign = BusinessLayer.GetvRProjectTaskAssignList(filterExpressionTask);
+            }
+            else
+                lstProjectTaskAssign = new List<vRProjectTaskAssign>();
             grdView.DataSource = lstEntity;
             grdView.DataBind();
+        }
+
+        List<vRProjectTaskAssign> lstProjectTaskAssign = null;
+        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vRProjectOrganizationMember entity = e.Row.DataItem as vRProjectOrganizationMember;
+                HtmlGenericControl divPercentage = e.Row.FindControl("divPercentage") as HtmlGenericControl;
+                HtmlGenericControl divDueDate = e.Row.FindControl("divDueDate") as HtmlGenericControl;
+
+                List<RProjectTask> lstTask = (from p in lstProjectTaskAssign.Where(p => p.DisplayPath.Contains("/" + entity.ProjectOrganizationID + "/")).ToList()
+                                              select new RProjectTask { ProjectTaskID = p.ProjectTaskID, GCProjectTaskStatus = p.GCProjectTaskStatus, GCDueDateType = p.GCDueDateType, EndDate = p.EndDate }).GroupBy(p => p.ProjectTaskID).Select(p => p.First()).ToList();
+
+                List<RProjectTask> lstUnfinishedTask = lstTask.Where(p => p.GCProjectTaskStatus != Constant.ProjectTaskStatus.CLOSED && p.GCDueDateType != Constant.DueDateType.NO_DUE_DATE).ToList();
+                String endDate = "";
+                if (lstUnfinishedTask.Count > 0)
+                    endDate = lstUnfinishedTask.Min(p => p.EndDate).ToString(Constant.FormatString.DATE_FORMAT);
+
+                divDueDate.InnerHtml = endDate;
+                double percentage = 0;
+                if (lstTask.Count > 0)
+                {
+                    int count = lstTask.Count;
+                    int finishedCount = lstTask.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED).Count();
+                    percentage = (double)finishedCount * 100 / (double)count;
+                    divPercentage.InnerHtml = string.Format("{0}%", percentage);
+                }
+                else
+                    divPercentage.InnerHtml = "-";
+            }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

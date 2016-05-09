@@ -24269,10 +24269,13 @@ namespace CodeX.Data.Model
         private Int32 _ProjectTaskID;
         private Int32 _ProjectTaskGroupID;
         private String _DisplayPath;
+        private Int32 _ProjectID;
         private Int32 _ProjectOrganizationID;
         private Boolean _IsCoordinator;
         private String _GCProjectTaskStatus;
         private String _GCProjectTaskPriority;
+        private String _GCDueDateType;
+        private DateTime _EndDate;
 
         [Column(Name = "ProjectTaskAssignID", DataType = "Int32")]
         public Int32 ProjectTaskAssignID
@@ -24298,6 +24301,12 @@ namespace CodeX.Data.Model
             get { return _DisplayPath; }
             set { _DisplayPath = value; }
         }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
         [Column(Name = "ProjectOrganizationID", DataType = "Int32")]
         public Int32 ProjectOrganizationID
         {
@@ -24321,6 +24330,18 @@ namespace CodeX.Data.Model
         {
             get { return _GCProjectTaskPriority; }
             set { _GCProjectTaskPriority = value; }
+        }
+        [Column(Name = "GCDueDateType", DataType = "String")]
+        public String GCDueDateType
+        {
+            get { return _GCDueDateType; }
+            set { _GCDueDateType = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
         }
     }
     #endregion

@@ -124,9 +124,9 @@
         $('#entryDetailContainerPopup').show();
     });
 
-    function onCboFilterStatusValueChanged() {
+    $('#btnPopupRefresh').click(function () {
         cbpViewPopup.PerformCallback('refresh');
-    }
+    });
 
     function onCboDueDateTypeValueChanged() {
         var value = cboDueDateType.GetValue();
@@ -278,6 +278,11 @@
                 cbpProcessPopup2.PerformCallback('save');
             }
         });
+
+        setTimeout(function () {
+            setDdeFilterStatusText();
+            cbpViewPopup.PerformCallback('refresh');
+        }, 500);
     });
 
     $('#<%=grdView2.ClientID %> .divDetailDelete').die('click');
@@ -324,6 +329,26 @@
         }
     }
     //#endregion
+
+    $('.chkFilterStatus input').live('change', function () {
+        setDdeFilterStatusText();
+    });
+
+    function setDdeFilterStatusText() {
+        var lstFilterStatusID = '';
+        var lstFilterStatusName = '';
+        $('.chkFilterStatus input:checked').each(function () {
+            if (lstFilterStatusName != '') {
+                lstFilterStatusName += ', ';
+                lstFilterStatusID += ',';
+            }
+            lstFilterStatusID += $(this).parent().attr('standardcodeid');
+            lstFilterStatusName += $(this).parent().attr('standardcodename');
+        });
+        $('#<%=hdnLstFilterStatusID.ClientID %>').val(lstFilterStatusID);
+        ddeFilterStatus.SetText(lstFilterStatusName);
+    }
+
 </script>
 
 <style type="text/css">
@@ -403,9 +428,21 @@
                         <tr>
                             <td class="tdLabel" style="width:120px"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
                             <td>
-                                <dxe:ASPxComboBox runat="server" ID="cboFilterStatus" ClientInstanceName="cboFilterStatus" Width="200px">
-                                    <ClientSideEvents ValueChanged="function(s,e){ onCboFilterStatusValueChanged() }" />
-                                </dxe:ASPxComboBox>
+                                <input type="hidden" id="hdnLstFilterStatusID" runat="server" />
+                                <dxe:ASPxDropDownEdit ClientInstanceName="ddeFilterStatus" ID="ddeFilterStatus"
+                                    Width="250px" runat="server" EnableAnimation="False">
+                                    <DropDownWindowStyle BackColor="#EDEDED" />
+                                    <DropDownWindowTemplate>
+                                        <asp:Repeater ID="rptFilterStatus" runat="server" OnItemDataBound="rptFilterStatus_ItemDataBound">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkFilterStatus" CssClass="chkFilterStatus" runat="server"  /> <%#Eval("StandardCodeName") %><br />
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </DropDownWindowTemplate>
+                                </dxe:ASPxDropDownEdit>
+                            </td>
+                            <td>                                
+                                <input type="button" id="btnPopupRefresh" value='<%=GetLabel("Refresh") %>' />
                             </td>
                         </tr>
                     </table>

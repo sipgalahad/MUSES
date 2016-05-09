@@ -52,7 +52,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("GCProjectStatus != '{0}'", Constant.ProjectStatus.CANCELED);
+            filterExpression += string.Format("GCProjectStatus != '{0}'", Constant.TransactionStatus.VOID);
             return filterExpression;
         }
 

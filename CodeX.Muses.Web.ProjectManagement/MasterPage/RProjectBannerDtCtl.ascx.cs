@@ -17,6 +17,8 @@ namespace CodeX.Muses.Web.ProjectManagement.MasterPage
         {
             RProject entity = BusinessLayer.GetRProjectList(string.Format("ProjectID = {0}", AppSession.ProjectID))[0];
             hdnTitleText.Value = entity.ProjectName;
+            divCode.InnerHtml = entity.ProjectCode;
+            divDate.InnerHtml = string.Format("{0} - {1}", entity.StartDate.ToString(Constant.FormatString.DATE_FORMAT), entity.EndDate.ToString(Constant.FormatString.DATE_FORMAT));
             //divBusinessPartnerCode.InnerHtml = entity.BusinessPartnerCode;
             //divContactPerson.InnerHtml = entity.ContactPerson;
             //divPhoneNo.InnerHtml = entity.cfPhoneNo;

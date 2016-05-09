@@ -85,13 +85,22 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.WebControls.CheckBox chkIsShowAllTask;
         
         /// <summary>
-        /// cboFilterStatus control.
+        /// hdnLstFilterStatusID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFilterStatus;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstFilterStatusID;
+        
+        /// <summary>
+        /// ddeFilterStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeFilterStatus;
         
         /// <summary>
         /// hdnEntryID control.
