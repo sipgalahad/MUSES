@@ -49,7 +49,14 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 IsAdd = true;
             }
 
-            txtProjectCode.Focus();
+            ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.PROJECT);
+            ctlEntityCode.SetControlVisibility(IsAdd);
+            ctlEntityCode.SetFocus();
+        }
+
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
         }
 
         protected override void SetControlProperties()
@@ -59,7 +66,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(txtProjectCode, new ControlEntrySetting(true, false, true));
+            //SetControlEntrySetting(txtProjectCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtProjectName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, true));
@@ -69,7 +76,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         private void EntityToControl(vRProject entity)
         {
-            txtProjectCode.Text = entity.ProjectCode;
+            ctlEntityCode.SetText(entity.ProjectCode);
             txtProjectName.Text = entity.ProjectName;
             txtStartDate.Text = entity.StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtEndDate.Text = entity.EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
@@ -81,9 +88,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             txtRemarks.Text = entity.Remarks;
         }
 
-        private void ControlToEntity(RProject entity)
+        private void ControlToEntity(RProject entity, IDbContext ctx)
         {
-            entity.ProjectCode = txtProjectCode.Text;
             entity.ProjectName = txtProjectName.Text;
             entity.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
@@ -91,6 +97,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             entity.ProjectIndicator = txtProjectIndicator.Text;
             entity.ProjectTarget = txtProjectTarget.Text;
             entity.Remarks = txtRemarks.Text;
+            entity.ProjectCode = ctlEntityCode.GetCode(entity.ProjectName, ctx);
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -103,7 +110,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             {
                 RProject entity = new RProject();
 
-                ControlToEntity(entity);
+                ControlToEntity(entity, ctx);
                 entity.GCProjectStatus = Constant.ProjectStatus.OPEN;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
@@ -135,7 +142,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             try
             {
                 RProject entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
-                ControlToEntity(entity);
+                ControlToEntity(entity, ctx);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
                 ctx.CommitTransaction();

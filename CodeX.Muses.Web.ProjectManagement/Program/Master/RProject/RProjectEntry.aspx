@@ -9,6 +9,7 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
+<%@ Register Src="~/Libs/Controls/MasterCodingCtl.ascx" TagName="MasterCodingCtl" TagPrefix="uc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
@@ -57,7 +58,7 @@
                         </colgroup>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode Proyek")%></label></td>
-                            <td><asp:TextBox ID="txtProjectCode" Width="100px" runat="server" /></td>
+                            <td><uc1:MasterCodingCtl ID="ctlEntityCode" runat="server" /> </td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Proyek")%></label></td>

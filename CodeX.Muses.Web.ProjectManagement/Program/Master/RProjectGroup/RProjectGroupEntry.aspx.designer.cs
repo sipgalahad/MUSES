@@ -22,13 +22,13 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// txtProjectGroupCode control.
+        /// ctlEntityCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProjectGroupCode;
+        protected global::CodeX.Web.CommonLibs.Controls.MasterCodingCtl ctlEntityCode;
         
         /// <summary>
         /// txtProjectGroupName control.

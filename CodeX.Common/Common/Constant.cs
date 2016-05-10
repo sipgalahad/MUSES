@@ -50,7 +50,7 @@ namespace CodeX.Common
             public const string ITEM_TRANSACTION = "IM001";
         }
 
-        public static class MasterCode
+        public static partial class MasterCode
         {
             public const string ITEM = "XXX001";
             public const string SUPPLIER = "XXX002";

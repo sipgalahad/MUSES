@@ -35,12 +35,20 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 SetControlProperties();
                 IsAdd = true;
             }
-            txtProjectGroupCode.Focus();
+
+            ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.PROJECT_GROUP);
+            ctlEntityCode.SetControlVisibility(IsAdd);
+            ctlEntityCode.SetFocus();
+        }
+
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
         }
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(txtProjectGroupCode, new ControlEntrySetting(true, true, true));
+            //SetControlEntrySetting(txtProjectGroupCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtProjectGroupName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(hdnParentID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtParentCode, new ControlEntrySetting(true, true, false));
@@ -50,7 +58,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         private void EntityToControl(vRProjectGroup entity)
         {
-            txtProjectGroupCode.Text = entity.ProjectGroupCode;
+            ctlEntityCode.SetText(entity.ProjectGroupCode);
             txtProjectGroupName.Text = entity.ProjectGroupName;
             hdnParentID.Value = entity.ParentID.ToString();
             txtParentCode.Text = entity.ParentCode;
@@ -58,40 +66,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             chkIsHeader.Checked = entity.IsHeader;
         }
 
-        private void ControlToEntity(RProjectGroup entity)
+        private void ControlToEntity(RProjectGroup entity, IDbContext ctx)
         {
-            entity.ProjectGroupCode = txtProjectGroupCode.Text;
             entity.ProjectGroupName = txtProjectGroupName.Text;
             if (hdnParentID.Value == "" || hdnParentID.Value == "0")
                 entity.ParentID = null;
             else
                 entity.ParentID = Convert.ToInt32(hdnParentID.Value);
             entity.IsHeader = chkIsHeader.Checked;
-        }
-
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("ProjectGroupCode = '{0}'", txtProjectGroupCode.Text);
-            List<RProjectGroup> lst = BusinessLayer.GetRProjectGroupList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Project Group with Code " + txtProjectGroupCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            string FilterExpression = string.Format("ProjectGroupCode = '{0}' AND ProjectGroupID != {1}", txtProjectGroupCode.Text, hdnID.Value);
-            List<RProjectGroup> lst = BusinessLayer.GetRProjectGroupList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Project Group with Code " + txtProjectGroupCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
+            entity.ProjectGroupCode = ctlEntityCode.GetCode(entity.ProjectGroupName, ctx);
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -102,7 +85,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             try
             {
                 RProjectGroup entity = new RProjectGroup();
-                ControlToEntity(entity);
+                ControlToEntity(entity, ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 entity.ProjectGroupID = BusinessLayer.GetRProjectGroupMaxID(ctx);
@@ -113,6 +96,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 result = false;
                 errMessage = ex.Message;
@@ -126,19 +110,30 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
+            IDbContext ctx = DbFactory.Configure(true);
+            RProjectGroupDao entityDao = new RProjectGroupDao(ctx);
+            bool result = false;
             try
             {
-                RProjectGroup entity = BusinessLayer.GetRProjectGroup(Convert.ToInt32(hdnID.Value));
-                ControlToEntity(entity);
+                RProjectGroup entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                ControlToEntity(entity, ctx);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateRProjectGroup(entity);
-                return true;
+                entityDao.Update(entity);
+                ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
                 errMessage = ex.Message;
-                return false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

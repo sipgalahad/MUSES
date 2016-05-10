@@ -43,6 +43,12 @@ namespace CodeX.Common
         }
         #endregion
 
+        public static partial class MasterCode
+        {
+            public const string PROJECT_GROUP = "VID001";
+            public const string PROJECT = "VID002";
+        }
+
         #region Standard Code
         public static partial class StandardCode
         {
