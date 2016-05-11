@@ -36,6 +36,13 @@
         }
 
         $('.lnkDetail a').live('click', function () {
+            var classSubjectID = $(this).closest('tr').find('.keyField').html();
+            var id = tacPeriodSection.getValue() + '|' + classSubjectID + '|0';
+            var url = ResolveUrl("~/Program/ClassMeeting/ClassMeetingHistoryCtl.ascx");
+            openUserControlPopup(url, id, 'Riwayat Pertemuan', 1000, 550);
+        });
+
+        $('.lnkMark a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl('~/Program/ClassMeeting/ClassMeetingPageLauncher.aspx?id=tcs|' + tacPeriodSection.getValue() + '|' + id);
             openWindowPopup(url, 'TeacherClassSubject' + id, '1300', '650');
@@ -112,6 +119,7 @@
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" HeaderStyle-Width="350px" />
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jam Mengajar" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:HyperLinkField HeaderText="Detil" Text="Detil" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" />
+                                <asp:HyperLinkField HeaderText="Penilaian" Text="Penilaian" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkMark" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>

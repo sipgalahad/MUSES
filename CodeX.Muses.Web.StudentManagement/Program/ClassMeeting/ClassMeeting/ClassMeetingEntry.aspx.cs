@@ -42,16 +42,31 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (AppSession.ClassSubject.ClassMeetingID == 0)
             {
-                vClassSchedule entity = BusinessLayer.GetvClassScheduleList(string.Format("ClassScheduleID = {0}", AppSession.ClassSubject.ClassScheduleID)).FirstOrDefault();
                 txtMeetingDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-                txtStartTime.Text = entity.StartTime;
-                txtEndTime.Text = entity.EndTime;
-                tacRoom.Value = entity.RoomID.ToString();
-                tacRoom.Text = entity.RoomName;
-                tacTeacher.Value = entity.TeacherID.ToString();
-                tacTeacher.Text = entity.TeacherName;
-                tacAssistantTeacher.Value = entity.AssistantTeacherID.ToString();
-                tacAssistantTeacher.Text = entity.AssistantTeacherName;
+                if (AppSession.ClassSubject.ClassScheduleID > 0)
+                {
+                    vClassSchedule entity = BusinessLayer.GetvClassScheduleList(string.Format("ClassScheduleID = {0}", AppSession.ClassSubject.ClassScheduleID)).FirstOrDefault();
+                    txtStartTime.Text = entity.StartTime;
+                    txtEndTime.Text = entity.EndTime;
+                    tacRoom.Value = entity.RoomID.ToString();
+                    tacRoom.Text = entity.RoomName;
+                    tacTeacher.Value = entity.TeacherID.ToString();
+                    tacTeacher.Text = entity.TeacherName;
+                    tacAssistantTeacher.Value = entity.AssistantTeacherID.ToString();
+                    tacAssistantTeacher.Text = entity.AssistantTeacherName;
+                }
+                else
+                {
+                    vClassSubject entity = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+                    txtStartTime.Text = "";
+                    txtEndTime.Text = "";
+                    tacRoom.Value = entity.RoomID.ToString();
+                    tacRoom.Text = entity.RoomName;
+                    tacTeacher.Value = entity.TeacherID.ToString();
+                    tacTeacher.Text = entity.TeacherName;
+                    tacAssistantTeacher.Value = entity.AssistantTeacherID.ToString();
+                    tacAssistantTeacher.Text = entity.AssistantTeacherName;
+                }
                 //if (AppSession.UserLogin.EmployeeID != null && AppSession.UserLogin.EmployeeID != 0)
                 //{
                 //    Employee emp = BusinessLayer.GetEmployee((int)AppSession.UserLogin.EmployeeID);

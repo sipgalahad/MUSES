@@ -24,7 +24,7 @@ namespace CodeX.Muses.Web.StudentManagement.MasterPage
             if (!Page.IsPostBack)
             {
                 string parentCode = "";
-                if (AppSession.ClassSubject.ClassScheduleID > 0)
+                if (!AppSession.ClassSubject.IsMarkEntry)
                     parentCode = Constant.MenuCode.StudentManagement.CLASS_MEETING_PAGE;
                 else
                     parentCode = Constant.MenuCode.StudentManagement.TEACHER_CLASS_SUBJECT_PAGE;

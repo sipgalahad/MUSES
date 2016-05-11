@@ -22,6 +22,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 classSubject.ClassSubjectID = Convert.ToInt32(temp[2]);
                 classSubject.ClassScheduleID = 0;
                 classSubject.ClassMeetingID = 0;
+                classSubject.IsMarkEntry = true;
                 vPeriodSection entityPeriodSection = BusinessLayer.GetvPeriodSectionList(string.Format("PeriodSectionID = {0}", classSubject.PeriodSectionID)).FirstOrDefault();
                 classSubject.CurriculumID = entityPeriodSection.CurriculumID;
                 AppSession.ClassSubject = classSubject;
@@ -42,6 +43,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 classSubject.ClassSubjectID = Convert.ToInt32(temp[1]);
                 classSubject.ClassScheduleID = Convert.ToInt32(temp[2]);
                 classSubject.ClassMeetingID = Convert.ToInt32(temp[3]);
+                classSubject.IsMarkEntry = false;
                 vPeriodSection entityPeriodSection = BusinessLayer.GetvPeriodSectionList(string.Format("PeriodSectionID = {0}", classSubject.PeriodSectionID)).FirstOrDefault();
                 classSubject.CurriculumID = entityPeriodSection.CurriculumID;
                 AppSession.ClassSubject = classSubject;

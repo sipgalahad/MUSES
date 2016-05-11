@@ -13,6 +13,7 @@ namespace CodeX.Data.Model
         public Int32 CurriculumID { get; set; }
         public Int32 ClassScheduleID { get; set; }
         public Int32 ClassMeetingID { get; set; }
+        public Boolean IsMarkEntry { get; set; }
     }
     #endregion
     #region ClassStudentModel
