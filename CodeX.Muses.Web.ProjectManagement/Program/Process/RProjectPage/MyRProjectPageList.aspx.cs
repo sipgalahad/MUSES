@@ -109,7 +109,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                     int count = lstTask.Count;
                     int finishedCount = lstTask.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED).Count();
                     percentage = (double)finishedCount * 100 / (double)count;
-                    divPercentage.InnerHtml = string.Format("{0}%", percentage);
+                    divPercentage.InnerHtml = string.Format("{1}/{2} ({0}%)", percentage, finishedCount, count);
                 }
                 else
                     divPercentage.InnerHtml = "-";

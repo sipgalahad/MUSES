@@ -131,7 +131,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 if (total > 0)
                 {
                     int done = lstProjectTask1.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED).Count();
-                    divPercentage.InnerHtml = string.Format("{0:0.00}%", ((Double)(done * 100) / total).ToString("N2"));
+                    divPercentage.InnerHtml = string.Format("{1}/{2} ({0:0.00}%)", ((Double)(done * 100) / total).ToString("N2"), done, total);
                 }
                 else
                     divPercentage.InnerHtml = "-";

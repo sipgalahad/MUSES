@@ -12101,6 +12101,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<RProjectTask> GetRProjectTaskList(string filterExpression, IDbContext ctx)
+        {
+            List<RProjectTask> result = new List<RProjectTask>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectTask));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectTask)helper.IDataReaderToObject(reader, new RProjectTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetRProjectTaskMaxID(IDbContext ctx)
         {
             Int32 result = 0;
@@ -12211,6 +12228,22 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRProjectTaskGroupMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectTaskGroup));
+                ctx.CommandText = helper.SelectMaxColumn("ProjectTaskGroupID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

@@ -23,6 +23,12 @@
                 $('#entryDetailContainer').show();
             });
 
+            $('#divTransactionCopy').click(function () {
+                var url = ResolveUrl('~/Program/Process/RProjectPage/RProjectStatus/RProjectTaskGroupCopyEntryCtl.ascx');
+                var id = $('#<%=hdnProjectOrganizationID.ClientID %>').val();
+                openUserControlPopup(url, id, 'Copy Kelompok Tugas', 1100, 400);
+            }); 
+
             $('#btnCancel').click(function () {
                 $('#entryDetailContainer').hide();
             });
@@ -79,6 +85,16 @@
             $('#<%=grdView.ClientID %> tr:eq(1)').click();
         });
 
+        function onCbpViewEndCallback(s) {
+            hideLoadingPanel();
+
+            $('#<%=grdView.ClientID %> tr:gt(0)').each(function () {
+                if ($('#<%=hdnProjectOrganizationID.ClientID %>').val() == $(this).find('.keyField').html()) {
+                    $(this).addClass('selected');
+                }
+            });
+        }
+
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();
 
@@ -108,7 +124,7 @@
                 <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
                     ShowLoadingPanel="false" OnCallback="cbpView_Callback">
                     <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-                        EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                        EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
                             <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
@@ -149,7 +165,8 @@
                 <div id="divContainerProjectTaskGroup" style="display:none">
                     <asp:CheckBox ID="chkIsShowAllGroup" runat="server" Checked="false" Text="Tampilkan Semua Kelompok Tugas" />
                     <div class="divTransactionEntry">   
-                        <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
+                        <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
+                        <span id="divTransactionCopy" class="divAdd" style="margin-left: 40px;"><%=GetLabel("Copy Data")%></span><br />
                         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                             <fieldset id="fsTrx" style="margin:0"> 
                                 <input type="hidden" id="hdnEntryID" runat="server" value="" />
@@ -191,7 +208,7 @@
                                                 <ItemTemplate>
                                                     <label class="lblLink lblTask"><%=GetLabel("Task") %></label>
                                                 </ItemTemplate>
-                                            </asp:TemplateField><asp:TemplateField HeaderStyle-Width="100px" HeaderText="Status" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
+                                            </asp:TemplateField><asp:TemplateField HeaderStyle-Width="100px" HeaderText="Persentase" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <div id="divPercentage" runat="server"></div>
                                                 </ItemTemplate>
