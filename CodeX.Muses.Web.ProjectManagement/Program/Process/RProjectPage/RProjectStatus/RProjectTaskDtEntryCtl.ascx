@@ -410,8 +410,8 @@
         ddeFilterStatus.SetText(lstFilterStatusName);
     }
 
-    $('.lnkDownload').die('click');
-    $('.lnkDownload').live('click', function () {
+    $('.lblDownload').die('click');
+    $('.lblDownload').live('click', function () {
         document.location = $(this).closest('tr').find('.hdnDownloadedFile').val();
     });
 
@@ -485,10 +485,6 @@
         }
     }
     //#endregion
-
-    $('.lnkDownload').click(function () {
-        
-    });
 </script>
 
 <style type="text/css">
@@ -871,10 +867,13 @@
                                 <asp:GridView ID="grdView3" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView3_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="ProjectTaskFileID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:BoundField DataField="FileName" HeaderText="Nama" HeaderStyle-Width="150px" />
+                                        <asp:TemplateField HeaderText="Nama" HeaderStyle-Width="150px">
+                                            <ItemTemplate>
+                                                <label class="lblDownload lblLink"><%#Eval("FileName") %></label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                         <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                                         <asp:BoundField DataField="CreatedByName" HeaderText="Pembuat" HeaderStyle-Width="120px" />
-                                        <asp:HyperLinkField ItemStyle-CssClass="lnkDownload" HeaderText="Download" Text="Download" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px" />
                                         <asp:TemplateField HeaderStyle-Width="30px" ItemStyle-HorizontalAlign="Center">
                                             <ItemTemplate>
                                                 <div class="divDetailDelete" <%#Eval("CreatedBy").ToString() != OnGetUserID() ? "style='display:none'" : "style='float:right;'" %>></div>
