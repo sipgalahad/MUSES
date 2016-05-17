@@ -31,6 +31,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMyProjectOrganizationID;
         
         /// <summary>
+        /// hdnMyProjectOrganizationIDDisplayPath control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMyProjectOrganizationIDDisplayPath;
+        
+        /// <summary>
         /// cbpView control.
         /// </summary>
         /// <remarks>

@@ -24165,6 +24165,9 @@ namespace CodeX.Data.Model
         private DateTime _EndDate;
         private Int32 _OrganizationCoordinatorID;
         private String _OrganizationCoordinatorName;
+        private Int32 _ProjectID;
+        private Int32 _AssignedByPosition;
+        private Boolean _IsVerified;
         private String _ListOrganizationID;
         private String _ListOrganizationName;
 
@@ -24245,6 +24248,24 @@ namespace CodeX.Data.Model
         {
             get { return _OrganizationCoordinatorName; }
             set { _OrganizationCoordinatorName = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "AssignedByPosition", DataType = "Int32")]
+        public Int32 AssignedByPosition
+        {
+            get { return _AssignedByPosition; }
+            set { _AssignedByPosition = value; }
+        }
+        [Column(Name = "IsVerified", DataType = "Boolean")]
+        public Boolean IsVerified
+        {
+            get { return _IsVerified; }
+            set { _IsVerified = value; }
         }
         [Column(Name = "ListOrganizationID", DataType = "String")]
         public String ListOrganizationID

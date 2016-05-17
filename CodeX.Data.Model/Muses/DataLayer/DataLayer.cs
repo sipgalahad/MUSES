@@ -25365,6 +25365,8 @@ namespace CodeX.Data.Model
         private DateTime _StartDate;
         private DateTime _EndDate;
         private String _Remarks;
+        private Int32? _AssignedByPosition;
+        private Boolean _IsVerified;
         private Int32 _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
@@ -25423,6 +25425,18 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
+        }
+        [Column(Name = "AssignedByPosition", DataType = "Int32", IsNullable = true)]
+        public Int32? AssignedByPosition
+        {
+            get { return _AssignedByPosition; }
+            set { _AssignedByPosition = value; }
+        }
+        [Column(Name = "IsVerified", DataType = "Boolean")]
+        public Boolean IsVerified
+        {
+            get { return _IsVerified; }
+            set { _IsVerified = value; }
         }
         [Column(Name = "CreatedBy", DataType = "Int32")]
         public Int32 CreatedBy

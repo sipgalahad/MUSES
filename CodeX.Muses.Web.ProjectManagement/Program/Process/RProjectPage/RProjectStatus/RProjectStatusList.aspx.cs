@@ -28,6 +28,11 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             return Request.Form[hdnMyProjectOrganizationID.UniqueID];
         }
 
+        public string OnGetMyProjectOrganizationIDDisplayPath()
+        {
+            return Request.Form[hdnMyProjectOrganizationIDDisplayPath.UniqueID];
+        }
+
         protected override void InitializeDataControl()
         {
             BindGridView();
@@ -41,6 +46,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             {
                 entityOrganizationMember = BusinessLayer.GetvRProjectOrganizationMemberList(string.Format("ProjectID = {0} AND EmployeeID = {1}", AppSession.ProjectID, AppSession.UserLogin.EmployeeID)).FirstOrDefault();
                 hdnMyProjectOrganizationID.Value = entityOrganizationMember.ProjectOrganizationID.ToString();
+                hdnMyProjectOrganizationIDDisplayPath.Value = entityOrganizationMember.DisplayPath;
             }
 
             lstProjectTaskAssign = BusinessLayer.GetvRProjectTaskAssignList(string.Format("ProjectID = {0}", AppSession.ProjectID));

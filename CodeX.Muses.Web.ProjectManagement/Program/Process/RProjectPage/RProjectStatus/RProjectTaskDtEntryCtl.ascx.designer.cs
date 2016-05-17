@@ -85,6 +85,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.WebControls.CheckBox chkIsShowAllTask;
         
         /// <summary>
+        /// cboFilterStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFilterStatus;
+        
+        /// <summary>
         /// hdnLstFilterStatusID control.
         /// </summary>
         /// <remarks>
@@ -110,6 +119,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
+        
+        /// <summary>
+        /// hdnIsAllowEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsAllowEdit;
         
         /// <summary>
         /// txtProjectTaskName control.
@@ -155,6 +173,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboStatus;
+        
+        /// <summary>
+        /// chkIsVerified control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsVerified;
         
         /// <summary>
         /// cboDueDateType control.

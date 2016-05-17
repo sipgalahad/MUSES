@@ -28,6 +28,10 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             return Constant.DueDateType.NO_DUE_DATE;
         }
+        protected string OnGetProjectTaskStatusClosed()
+        {
+            return Constant.ProjectTaskStatus.CLOSED;
+        }
         protected string OnGetUserID()
         {
             return AppSession.UserLogin.UserID.ToString();
@@ -45,12 +49,20 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             RProjectTaskGroup entity = BusinessLayer.GetRProjectTaskGroup(Convert.ToInt32(hdnID.Value));
             txtHeaderText.Text = string.Format("{0}", entity.ProjectTaskGroupName);
 
-            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROJECT_TASK_PRIORITY, Constant.StandardCode.PROJECT_TASK_STATUS, Constant.StandardCode.DUE_DATE_TYPE));
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}','{2}') AND StandardCodeID NOT IN ('{3}','{4}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROJECT_TASK_PRIORITY, Constant.StandardCode.PROJECT_TASK_STATUS, Constant.StandardCode.DUE_DATE_TYPE, Constant.ProjectTaskStatus.CLOSED, Constant.ProjectTaskStatus.VOID));
             List<StandardCode> lstProjectStatus = lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.PROJECT_TASK_STATUS).ToList();
             Methods.SetComboBoxField(cboPriority, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.PROJECT_TASK_PRIORITY).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboStatus, lstProjectStatus, "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboDueDateType, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.DUE_DATE_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
             cboPriority.SelectedIndex = 0;
+
+            List<Variable> lstFilterStatus = new List<Variable>();
+            lstFilterStatus.Add(new Variable { Code = "0", Value = "Semua" });
+            lstFilterStatus.Add(new Variable { Code = "1", Value = "Belum Selesai" });
+            lstFilterStatus.Add(new Variable { Code = "2", Value = "Sudah Selesai & Belum Diverifikasi" });
+            lstFilterStatus.Add(new Variable { Code = "3", Value = "Sudah Selesai & Sudah Diverifikasi" });
+            Methods.SetComboBoxField<Variable>(cboFilterStatus, lstFilterStatus, "Value", "Code");
+            cboFilterStatus.Value = "1";
 
             Repeater rptFilterStatus = (Repeater)ddeFilterStatus.FindControl("rptFilterStatus");
             rptFilterStatus.DataSource = lstProjectStatus;
@@ -114,7 +126,14 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
             string[] lstProjectStatus = hdnLstFilterStatusID.Value.Split(',');
             List<vRProjectTask> lstEntity1 = null;
-            lstEntity1 = lstEntity.Where(p => lstProjectStatus.Contains(p.GCProjectTaskStatus)).ToList();
+            if (cboFilterStatus.Value.ToString() == "1")
+                lstEntity1 = lstEntity.Where(p => lstProjectStatus.Contains(p.GCProjectTaskStatus)).ToList();
+            else if (cboFilterStatus.Value.ToString() == "2")
+                lstEntity1 = lstEntity.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED && !p.IsVerified).ToList();
+            else if (cboFilterStatus.Value.ToString() == "3")
+                lstEntity1 = lstEntity.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED && p.IsVerified).ToList();
+            else
+                lstEntity1 = lstEntity;
             grdView.DataSource = lstEntity1;
             grdView.DataBind();
         }
@@ -136,7 +155,19 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 vRProjectTask entity = e.Row.DataItem as vRProjectTask;
+                HtmlInputHidden hdnIsAllowEdit = (HtmlInputHidden)e.Row.FindControl("hdnIsAllowEdit");
+                HtmlGenericControl divDetailDelete = (HtmlGenericControl)e.Row.FindControl("divDetailDelete");
+
                 e.Row.CssClass = string.Format("tr{0}", entity.GCProjectTaskStatus.Split('^')[1]);
+
+                if (entity.AssignedByPosition.ToString() != DetailPage.OnGetMyProjectOrganizationID() && DetailPage.OnGetMyProjectOrganizationIDDisplayPath().Contains("/" + entity.AssignedByPosition + "/"))
+                {
+                    hdnIsAllowEdit.Value = "0";
+                    divDetailDelete.Style.Add("display", "none");
+                }
+                else
+                    hdnIsAllowEdit.Value = "1";
+                //entity.AssignedByPosition
             }
         }
 
@@ -202,6 +233,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             entity.GCDueDateType = cboDueDateType.Value.ToString();
             entity.ProjectTaskName = txtProjectTaskName.Text;
             entity.Remarks = txtRemarks.Text;
+            entity.IsVerified = chkIsVerified.Checked;
 
             if (entity.GCDueDateType == Constant.DueDateType.RANGE)
             {
@@ -224,6 +256,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 ControlToEntity(entity);
                 entity.ProjectTaskGroupID = Convert.ToInt32(hdnID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
+                if (AppSession.IsMyProject)
+                    entity.AssignedByPosition = Convert.ToInt32(DetailPage.OnGetMyProjectOrganizationID());
                 entityDao.Insert(entity);
                 entity.ProjectTaskID = BusinessLayer.GetRProjectTaskMaxID(ctx);
 

@@ -118,6 +118,7 @@
 
     <input type="hidden" id="hdnProjectOrganizationID" runat="server" />
     <input type="hidden" id="hdnMyProjectOrganizationID" runat="server" />
+    <input type="hidden" id="hdnMyProjectOrganizationIDDisplayPath" runat="server" />
     <table style="width:100%">
         <tr>
             <td style="width:50%; vertical-align: top" >

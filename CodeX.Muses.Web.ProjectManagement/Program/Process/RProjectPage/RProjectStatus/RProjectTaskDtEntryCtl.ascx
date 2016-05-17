@@ -17,6 +17,7 @@
         setDatePicker('<%=txtDueDateEndDate.ClientID %>');
 
         $('#divTransactionAddPopup').click(function () {
+            $('#<%=hdnIsAllowEdit.ClientID %>').val('1');
             $('#<%=hdnEntryID.ClientID %>').val('');
             $('#<%=txtProjectTaskName.ClientID %>').val('');
             $('#<%=txtRemarks.ClientID %>').val('');
@@ -30,6 +31,18 @@
             $('#<%=txtStartDate.ClientID %>').val('');
             $('#<%=txtEndDate.ClientID %>').val('');
             $('#<%=txtDueDateEndDate.ClientID %>').val('');
+
+            tacOrganizationCoordinator.setEnabled(true);
+            cboPriority.SetEnabled(true);
+            cboDueDateType.SetEnabled(true);
+            $('#<%=txtProjectTaskName.ClientID %>').removeAttr('readonly');
+            $('#<%=txtDueDateEndDate.ClientID %>').removeAttr('readonly');
+            $('#<%=txtStartDate.ClientID %>').removeAttr('readonly');
+            $('#trIsVerified').removeAttr('style');
+            $('#<%=txtEndDate.ClientID %>').removeAttr('readonly');
+            $('#<%=chkIsVerified.ClientID %>').removeAttr("disabled");
+
+            $('#<%=chkIsVerified.ClientID %>').prop('checked', false);
 
             onCboDueDateTypeValueChanged();
 
@@ -79,6 +92,7 @@
     $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
         $row = $(this).closest('tr');
         var entity = rowToObject($row);
+        $('#<%=hdnIsAllowEdit.ClientID %>').val($row.find('.hdnIsAllowEdit').val());
         $('#<%=hdnEntryID.ClientID %>').val(entity.ProjectTaskID);
         $('#<%=txtProjectTaskName.ClientID %>').val(entity.ProjectTaskName);
         $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
@@ -88,6 +102,31 @@
         cboPriority.SetValue(entity.GCProjectTaskPriority);
         cboStatus.SetValue(entity.GCProjectTaskStatus);
         cboDueDateType.SetValue(entity.GCDueDateType);
+
+        $('#<%=chkIsVerified.ClientID %>').prop('checked', entity.IsVerified == 'True');
+
+        if ($row.find('.hdnIsAllowEdit').val() == '0') {
+            tacOrganizationCoordinator.setEnabled(false);
+            cboPriority.SetEnabled(false);
+            cboDueDateType.SetEnabled(false);
+            $('#<%=txtProjectTaskName.ClientID %>').attr('readonly', 'readonly');
+            $('#<%=txtDueDateEndDate.ClientID %>').attr('readonly', 'readonly');
+            $('#<%=txtStartDate.ClientID %>').attr('readonly', 'readonly');
+            $('#<%=txtEndDate.ClientID %>').attr('readonly', 'readonly');
+            $('#trIsVerified').attr('style', 'display:none');
+            $('#<%=chkIsVerified.ClientID %>').attr("disabled", true);
+        }
+        else {
+            tacOrganizationCoordinator.setEnabled(true);
+            cboPriority.SetEnabled(true);
+            cboDueDateType.SetEnabled(true);
+            $('#<%=txtProjectTaskName.ClientID %>').removeAttr('readonly');
+            $('#<%=txtDueDateEndDate.ClientID %>').removeAttr('readonly');
+            $('#<%=txtStartDate.ClientID %>').removeAttr('readonly');
+            $('#trIsVerified').removeAttr('style');
+            $('#<%=txtEndDate.ClientID %>').removeAttr('readonly');
+            $('#<%=chkIsVerified.ClientID %>').removeAttr("disabled");
+        }
 
         if (entity.GCDueDateType == '<%=OnGetDueDateNoDueDate() %>') {
             $('#<%=txtStartDate.ClientID %>').val('');
@@ -100,6 +139,7 @@
             $('#<%=txtDueDateEndDate.ClientID %>').val(entity.EndDate);
         }
 
+        onCboStatusValueChanged();
         onCboDueDateTypeValueChanged();
 
         idxOrganization = 0;
@@ -127,6 +167,25 @@
     $('#btnPopupRefresh').click(function () {
         cbpViewPopup.PerformCallback('refresh');
     });
+
+    function onCboStatusValueChanged() {
+        var value = cboStatus.GetValue();
+        if (value == '<%=OnGetProjectTaskStatusClosed() %>' && $('#<%=hdnIsAllowEdit.ClientID %>').val() == '1') {
+            $('#trIsVerified').removeAttr('style');
+            $('#<%=chkIsVerified.ClientID %>').removeAttr("disabled");
+        }
+        else {
+            $('#trIsVerified').attr('style', 'display:none');
+            $('#<%=chkIsVerified.ClientID %>').attr("disabled", true);
+        }
+    }
+
+    function onCboFilterStatusValueChanged() {
+        if (cboFilterStatus.GetValue() == '1')
+            $('#trFilterStatus').removeAttr('style');
+        else
+            $('#trFilterStatus').attr('style', 'display:none');
+    }
 
     function onCboDueDateTypeValueChanged() {
         var value = cboDueDateType.GetValue();
@@ -417,7 +476,7 @@
     
     <table style="width:100%">
         <tr>
-            <td style="width:600px; vertical-align: top" >
+            <td style="width:680px; vertical-align: top" >
                 <h4><%=GetLabel("Task") %></h4>
                 <div class="divTransactionEntry">   
                     <table>
@@ -426,6 +485,14 @@
                             <td><asp:CheckBox ID="chkIsShowAllTask" runat="server" Checked="false" Text="Tampilkan Semua Tugas" /></td>
                         </tr>
                         <tr>
+                            <td class="tdLabel" style="width:120px"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
+                            <td>
+                                <dxe:ASPxComboBox ID="cboFilterStatus" ClientInstanceName="cboFilterStatus" runat="server" Width="200px">
+                                    <ClientSideEvents ValueChanged="function(s,e){ onCboFilterStatusValueChanged() }" />
+                                </dxe:ASPxComboBox>
+                            </td>
+                        </tr>
+                        <tr id="trFilterStatus">
                             <td class="tdLabel" style="width:120px"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
                             <td>
                                 <input type="hidden" id="hdnLstFilterStatusID" runat="server" />
@@ -441,15 +508,17 @@
                                     </DropDownWindowTemplate>
                                 </dxe:ASPxDropDownEdit>
                             </td>
-                            <td>                                
-                                <input type="button" id="btnPopupRefresh" value='<%=GetLabel("Refresh") %>' />
-                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><input type="button" id="btnPopupRefresh" value='<%=GetLabel("Refresh") %>' /></td>
                         </tr>
                     </table>
                     <span id="divTransactionAddPopup" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
                     <div id="entryDetailContainerPopup" class="entryDetailContainer" style="display: none">
                         <fieldset id="fsTrxPopup" style="margin:0"> 
                             <input type="hidden" id="hdnEntryID" runat="server" value="" />
+                            <input type="hidden" id="hdnIsAllowEdit" value="" runat="server" />
                             <table id="tblEntryPopup">
                                 <colgroup>
                                     <col style="width:150px"/>
@@ -476,7 +545,15 @@
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
-                                    <td><dxe:ASPxComboBox runat="server" ID="cboStatus" ClientInstanceName="cboStatus" Width="200px" /></td>
+                                    <td>
+                                        <dxe:ASPxComboBox runat="server" ID="cboStatus" ClientInstanceName="cboStatus" Width="200px">
+                                            <ClientSideEvents ValueChanged="function(s,e){ onCboStatusValueChanged(); }" />
+                                        </dxe:ASPxComboBox>
+                                    </td>
+                                </tr>
+                                <tr id="trIsVerified">
+                                    <td>&nbsp;</td>
+                                    <td><asp:CheckBox ID="chkIsVerified" runat="server" /><%=GetLabel("Verified") %></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tenggat Waktu")%></label></td>
@@ -534,11 +611,13 @@
                                         <asp:BoundField DataField="ProjectTaskName" HeaderText="Tugas" />
                                         <asp:BoundField DataField="OrganizationCoordinatorName" HeaderText="Koordinator" HeaderStyle-Width="100px" />
                                         <asp:BoundField DataField="ProjectTaskPriority" HeaderText="Prioritas" HeaderStyle-Width="80px" />
+                                        <asp:CheckBoxField DataField="IsVerified" HeaderStyle-Width="60px" HeaderText="Verified" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                         <asp:BoundField DataField="cfDueDate" HeaderText="Tenggat Waktu" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                         <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                             <ItemTemplate>
-                                                <div style='float:right;' class="divDetailDelete"></div>
+                                                <div style='float:right;' class="divDetailDelete" id="divDetailDelete" runat="server"></div>
                                                 <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                                <input type="hidden" id="hdnIsAllowEdit" runat="server" class="hdnIsAllowEdit" />
                                                 <input type="hidden" value="<%#Eval("ProjectTaskID") %>" bindingfield="ProjectTaskID" />
                                                 <input type="hidden" value="<%#Eval("ProjectTaskName") %>" bindingfield="ProjectTaskName" />
                                                 <input type="hidden" value="<%#Eval("OrganizationCoordinatorID") %>" bindingfield="OrganizationCoordinatorID" />
@@ -548,6 +627,7 @@
                                                 <input type="hidden" value="<%#Eval("GCProjectTaskPriority") %>" bindingfield="GCProjectTaskPriority" />
                                                 <input type="hidden" value="<%#Eval("GCProjectTaskStatus") %>" bindingfield="GCProjectTaskStatus" />
                                                 <input type="hidden" value="<%#Eval("GCDueDateType") %>" bindingfield="GCDueDateType" />
+                                                <input type="hidden" value="<%#Eval("IsVerified") %>" bindingfield="IsVerified" />
                                                 <input type="hidden" value="<%#Eval("StartDate", "{0:dd-MM-yyyy}") %>" bindingfield="StartDate" />
                                                 <input type="hidden" value="<%#Eval("EndDate", "{0:dd-MM-yyyy}") %>" bindingfield="EndDate" />
                                             </ItemTemplate>
