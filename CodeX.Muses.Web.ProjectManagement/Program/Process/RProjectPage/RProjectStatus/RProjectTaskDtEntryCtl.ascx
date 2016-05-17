@@ -616,7 +616,7 @@
                                         <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                             <ItemTemplate>
                                                 <div style='float:right;' class="divDetailDelete" id="divDetailDelete" runat="server"></div>
-                                                <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                                <div style='float:right;margin-right:10px;' class="divDetailEdit" id="divDetailEdit" runat="server"><%=GetLabel("Edit")%></div>
                                                 <input type="hidden" id="hdnIsAllowEdit" runat="server" class="hdnIsAllowEdit" />
                                                 <input type="hidden" value="<%#Eval("ProjectTaskID") %>" bindingfield="ProjectTaskID" />
                                                 <input type="hidden" value="<%#Eval("ProjectTaskName") %>" bindingfield="ProjectTaskName" />

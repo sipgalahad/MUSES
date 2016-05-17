@@ -10,16 +10,7 @@
 namespace CodeX.Muses.Web.ProjectManagement.Program {
     
     
-    public partial class ROrganizationDtEntryCtl {
-        
-        /// <summary>
-        /// hdnID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
+    public partial class RProjectStatusOrganizationDtEntryCtl {
         
         /// <summary>
         /// hdnEmployeeSave control.
@@ -29,15 +20,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEmployeeSave;
-        
-        /// <summary>
-        /// txtHeaderText control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtHeaderText;
         
         /// <summary>
         /// hdnEntryID control.

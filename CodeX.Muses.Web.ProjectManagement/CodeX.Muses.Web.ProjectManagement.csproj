@@ -128,6 +128,7 @@
     <Content Include="Program\Process\RProjectPage\RBudgetRequest\RBudgetRequestEntry.aspx" />
     <Content Include="Program\Process\RProjectPage\MyRProjectPageList.aspx" />
     <Content Include="Program\Process\RProjectPage\RProjectEvaluation\RProjectEvaluationEntry.aspx" />
+    <Content Include="Program\Process\RProjectPage\RProjectStatus\RProjectStatusOrganizationDtEntryCtl.ascx" />
     <Content Include="Program\Process\RProjectPage\RProjectStatus\RProjectTaskGroupCopyEntryCtl.ascx" />
     <Content Include="Program\Process\RProjectPage\RProjectStatus\RProjectTaskDtEntryCtl.ascx" />
     <Content Include="Program\Process\RProjectPage\RTimeline\RTimelineList.aspx" />
@@ -581,6 +582,13 @@
     </Compile>
     <Compile Include="Program\Process\RProjectPage\RProjectEvaluation\RProjectEvaluationEntry.aspx.designer.cs">
       <DependentUpon>RProjectEvaluationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RProjectStatus\RProjectStatusOrganizationDtEntryCtl.ascx.cs">
+      <DependentUpon>RProjectStatusOrganizationDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RProjectStatus\RProjectStatusOrganizationDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>RProjectStatusOrganizationDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Process\RProjectPage\RProjectStatus\RProjectTaskGroupCopyEntryCtl.ascx.cs">
       <DependentUpon>RProjectTaskGroupCopyEntryCtl.ascx</DependentUpon>

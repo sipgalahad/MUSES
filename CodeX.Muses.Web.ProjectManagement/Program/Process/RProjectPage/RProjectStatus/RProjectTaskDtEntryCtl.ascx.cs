@@ -157,17 +157,25 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 vRProjectTask entity = e.Row.DataItem as vRProjectTask;
                 HtmlInputHidden hdnIsAllowEdit = (HtmlInputHidden)e.Row.FindControl("hdnIsAllowEdit");
                 HtmlGenericControl divDetailDelete = (HtmlGenericControl)e.Row.FindControl("divDetailDelete");
+                HtmlGenericControl divDetailEdit = (HtmlGenericControl)e.Row.FindControl("divDetailEdit");
 
                 e.Row.CssClass = string.Format("tr{0}", entity.GCProjectTaskStatus.Split('^')[1]);
 
-                if (entity.AssignedByPosition.ToString() != DetailPage.OnGetMyProjectOrganizationID() && DetailPage.OnGetMyProjectOrganizationIDDisplayPath().Contains("/" + entity.AssignedByPosition + "/"))
+                if (entity.AssignedByPosition > 0)
                 {
-                    hdnIsAllowEdit.Value = "0";
-                    divDetailDelete.Style.Add("display", "none");
+                    if (entity.AssignedByPosition.ToString() != DetailPage.OnGetMyProjectOrganizationID() && DetailPage.OnGetMyProjectOrganizationIDDisplayPath().Contains("/" + entity.AssignedByPosition + "/"))
+                    {
+                        hdnIsAllowEdit.Value = "0";
+                        divDetailDelete.Style.Add("display", "none");
+
+                        if (entity.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED && entity.IsVerified)
+                            divDetailEdit.Style.Add("display", "none");
+                    }
+                    else
+                        hdnIsAllowEdit.Value = "1";
                 }
                 else
                     hdnIsAllowEdit.Value = "1";
-                //entity.AssignedByPosition
             }
         }
 

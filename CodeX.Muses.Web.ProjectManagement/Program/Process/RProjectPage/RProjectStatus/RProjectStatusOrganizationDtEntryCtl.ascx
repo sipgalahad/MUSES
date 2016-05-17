@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ROrganizationDtEntryCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.ProjectManagement.Program.ROrganizationDtEntryCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="RProjectStatusOrganizationDtEntryCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.ProjectManagement.Program.RProjectStatusOrganizationDtEntryCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -247,7 +247,6 @@
 </script>
 
 <div style="height:440px; overflow-y:auto">
-    <input type="hidden" id="hdnID" value="" runat="server" />
     <input type="hidden" id="hdnEmployeeSave" value="" runat="server" />
     <script id="tmplEntityDt" type="text/x-jquery-tmpl">
         <tr class="trEmployeeDt">
@@ -286,16 +285,6 @@
             </td>
         </tr>
     </script>
-    <table class="tblEntryContent" style="width:70%">
-        <colgroup>
-            <col style="width:160px"/>
-            <col/>
-        </colgroup>
-        <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Project")%></label></td>
-            <td colspan="2"><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="100%" runat="server" /></td>
-        </tr> 
-    </table>
                 
     <div class="divTransactionEntry">   
         <span id="divTransactionAddPopup" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
@@ -327,7 +316,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Parent")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Parent")%></label></td>
                         <td>
                             <input type="hidden" id="hdnParent" value="" runat="server" />
                             <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacParent" ClientInstanceName="tacParent" MethodName="GetTeamDtList" GetFilterExpressionFunction="onGetParentFilterExpression"

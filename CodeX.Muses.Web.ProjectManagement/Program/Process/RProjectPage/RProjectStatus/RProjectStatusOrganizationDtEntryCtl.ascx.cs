@@ -13,37 +13,43 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Muses.Web.ProjectManagement.Program
 {
-    public partial class ROrganizationDtEntryCtl : BaseViewPopupCtl
+    public partial class RProjectStatusOrganizationDtEntryCtl : BaseViewPopupCtl
     {
         public override void InitializeDataControl(string param)
         {
-            hdnID.Value = param;
-            RProject entity = BusinessLayer.GetRProject(Convert.ToInt32(hdnID.Value));
-            txtHeaderText.Text = string.Format("{0} - {1}", entity.ProjectCode, entity.ProjectName);
+            RProjectOrganization entity = BusinessLayer.GetRProjectOrganization(Convert.ToInt32(DetailPage.OnGetMyProjectOrganizationID()));
+            tacParent.Value = entity.ProjectOrganizationID.ToString();
+            tacParent.Text = entity.Position;
 
             BindGridView();
 
             Helper.SetControlEntrySetting(txtDisplayOrder, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(txtPosition, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(tacEmployeeCoordinator, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(tacParent, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+        }
+
+        private RProjectStatusList DetailPage
+        {
+            get { return (RProjectStatusList)Page; }
         }
 
 
         #region HTML Getter
         protected string OnGetEmployeeFilterExpression()
         {
-            return string.Format("GCEmployeeStatus = '{0}' AND EmployeeID NOT IN (SELECT EmployeeID FROM vRProjectOrganizationMember WHERE ProjectID = {1}) AND IsDeleted = 0", Constant.EmployeeStatus.FULL_TIME_EMPLOYED, hdnID.Value);
+            return string.Format("GCEmployeeStatus = '{0}' AND EmployeeID NOT IN (SELECT EmployeeID FROM vRProjectOrganizationMember WHERE ProjectID = {1}) AND IsDeleted = 0", Constant.EmployeeStatus.FULL_TIME_EMPLOYED, AppSession.ProjectID);
         }
 
         protected string OnGetParentFilterExpression() 
         {
-            return string.Format("ProjectID = {0} AND IsHeader = 1 AND IsDeleted = 0", hdnID.Value);
+            return string.Format("ProjectID = {0} AND IsHeader = 1 AND DisplayPath LIKE '%/{1}/%' AND IsDeleted = 0", AppSession.ProjectID, DetailPage.OnGetMyProjectOrganizationID());
         }
         #endregion
 
         private void BindGridView()
         {
-            grdView.DataSource = BusinessLayer.GetvRProjectOrganizationList(string.Format("ProjectID = {0}", hdnID.Value));
+            grdView.DataSource = BusinessLayer.GetvRProjectOrganizationList(string.Format("ProjectID = {0} AND DisplayPath LIKE '%/{1}/%'", AppSession.ProjectID, DetailPage.OnGetMyProjectOrganizationID()));
             grdView.DataBind();
         }
 
@@ -110,7 +116,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             {
                 RProjectOrganization entity = new RProjectOrganization();
                 ControlToEntity(entity);
-                entity.ProjectID = Convert.ToInt32(hdnID.Value);
+                entity.ProjectID = AppSession.ProjectID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 entity.ProjectOrganizationID = BusinessLayer.GetRProjectOrganizationMaxID(ctx);

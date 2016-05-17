@@ -9,9 +9,17 @@
 <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnTeam" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Team")%></div></li>
+</asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
+            $('#<%=btnTeam.ClientID %>').click(function () {
+                var url = ResolveUrl('~/Program/Process/RProjectPage/RProjectStatus/RProjectStatusOrganizationDtEntryCtl.ascx');
+                openUserControlPopup(url, '', 'Team', 900, 500);
+            });
+
             $('#<%=chkIsShowAllGroup.ClientID %>').change(function () {
                 cbpView2.PerformCallback();
             });
@@ -27,7 +35,7 @@
                 var url = ResolveUrl('~/Program/Process/RProjectPage/RProjectStatus/RProjectTaskGroupCopyEntryCtl.ascx');
                 var id = $('#<%=hdnProjectOrganizationID.ClientID %>').val();
                 openUserControlPopup(url, id, 'Copy Kelompok Tugas', 1100, 400);
-            }); 
+            });
 
             $('#btnCancel').click(function () {
                 $('#entryDetailContainer').hide();

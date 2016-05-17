@@ -47,7 +47,11 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 entityOrganizationMember = BusinessLayer.GetvRProjectOrganizationMemberList(string.Format("ProjectID = {0} AND EmployeeID = {1}", AppSession.ProjectID, AppSession.UserLogin.EmployeeID)).FirstOrDefault();
                 hdnMyProjectOrganizationID.Value = entityOrganizationMember.ProjectOrganizationID.ToString();
                 hdnMyProjectOrganizationIDDisplayPath.Value = entityOrganizationMember.DisplayPath;
+                if (!entityOrganizationMember.IsAllowAddTeam)
+                    btnTeam.Style.Add("display", "none");
             }
+            else
+                btnTeam.Style.Add("display", "none");
 
             lstProjectTaskAssign = BusinessLayer.GetvRProjectTaskAssignList(string.Format("ProjectID = {0}", AppSession.ProjectID));
             grdView.DataSource = BusinessLayer.GetvRProjectOrganizationList(string.Format("ProjectID = {0}", AppSession.ProjectID));

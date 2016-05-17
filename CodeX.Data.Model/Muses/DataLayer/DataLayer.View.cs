@@ -23968,6 +23968,7 @@ namespace CodeX.Data.Model
         private Int32 _ParentID;
         private String _ParentName;
         private Int16 _DisplayOrder;
+        private Boolean _IsAllowAddTeam;
         private Boolean _IsDeleted;
         private Int32 _EmployeeCoordinatorID;
         private String _EmployeeCoordinatorCode;
@@ -24018,6 +24019,12 @@ namespace CodeX.Data.Model
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsAllowAddTeam", DataType = "Boolean")]
+        public Boolean IsAllowAddTeam
+        {
+            get { return _IsAllowAddTeam; }
+            set { _IsAllowAddTeam = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -24083,6 +24090,7 @@ namespace CodeX.Data.Model
         private String _GCProjectStatus;
         private String _Position;
         private Boolean _IsCoordinator;
+        private Boolean _IsAllowAddTeam;
         private String _DisplayPath;
 
         [Column(Name = "ProjectOrganizationID", DataType = "Int32")]
@@ -24138,6 +24146,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsCoordinator; }
             set { _IsCoordinator = value; }
+        }
+        [Column(Name = "IsAllowAddTeam", DataType = "Boolean")]
+        public Boolean IsAllowAddTeam
+        {
+            get { return _IsAllowAddTeam; }
+            set { _IsAllowAddTeam = value; }
         }
         [Column(Name = "DisplayPath", DataType = "String")]
         public String DisplayPath
