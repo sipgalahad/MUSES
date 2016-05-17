@@ -24380,6 +24380,105 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRProjectTaskFile
+    [Serializable]
+    [Table(Name = "vRProjectTaskFile")]
+    public class vRProjectTaskFile
+    {
+        private Int32 _ProjectTaskFileID;
+        private Int32 _ProjectTaskID;
+        private String _FileName;
+        private String _Path;
+        private String _Extension;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private String _CreatedByName;
+        private DateTime _CreatedDate;
+        private Int32 _LastUpdatedBy;
+        private String _LastUpdatedByName;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProjectTaskFileID", DataType = "Int32")]
+        public Int32 ProjectTaskFileID
+        {
+            get { return _ProjectTaskFileID; }
+            set { _ProjectTaskFileID = value; }
+        }
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "FileName", DataType = "String")]
+        public String FileName
+        {
+            get { return _FileName; }
+            set { _FileName = value; }
+        }
+        [Column(Name = "Path", DataType = "String")]
+        public String Path
+        {
+            get { return _Path; }
+            set { _Path = value; }
+        }
+        [Column(Name = "Extension", DataType = "String")]
+        public String Extension
+        {
+            get { return _Extension; }
+            set { _Extension = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedByName", DataType = "String")]
+        public String CreatedByName
+        {
+            get { return _CreatedByName; }
+            set { _CreatedByName = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32")]
+        public Int32 LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedByName", DataType = "String")]
+        public String LastUpdatedByName
+        {
+            get { return _LastUpdatedByName; }
+            set { _LastUpdatedByName = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime")]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+    #endregion
     #region vRProjectTaskLog
     [Serializable]
     [Table(Name = "vRProjectTaskLog")]

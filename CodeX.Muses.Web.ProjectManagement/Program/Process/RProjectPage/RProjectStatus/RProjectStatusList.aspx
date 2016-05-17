@@ -98,7 +98,7 @@
 
             $('#<%=grdView.ClientID %> tr:gt(0)').each(function () {
                 if ($('#<%=hdnProjectOrganizationID.ClientID %>').val() == $(this).find('.keyField').html()) {
-                    $(this).addClass('selected');
+                    $(this).click();
                 }
             });
         }

@@ -307,7 +307,9 @@
         $(this).addClass('selected');
         $('#<%=hdnProjectTaskID.ClientID %>').val($(this).find('.keyField').html());
         cbpViewPopup2.PerformCallback('refresh');
+        cbpViewPopup3.PerformCallback('refresh');
         $('#divTransactionEntry2').show();
+        $('#divTransactionEntry3').show();
     });
 
     //#region Log
@@ -408,12 +410,94 @@
         ddeFilterStatus.SetText(lstFilterStatusName);
     }
 
+    $('.lnkDownload').die('click');
+    $('.lnkDownload').live('click', function () {
+        document.location = $(this).closest('tr').find('.hdnDownloadedFile').val();
+    });
+
+    //#region Upload
+    $(function () {
+        $('#divTransactionAddPopup3').click(function () {
+            $('#<%=hdnEntry3ID.ClientID %>').val('');
+            $('#FileUpload').val('');
+            $('#<%=hdnUploadedFile.ClientID %>').val('');
+            $('#<%=txtFileName.ClientID %>').val(''); 
+            $('#entryDetailContainerPopup3').show();
+        });
+
+        $('#btnCancelPopup3').click(function () {
+            $('#entryDetailContainerPopup3').hide();
+        });
+
+        $('#FileUpload').change(function (evt) {
+            var files = evt.target.files;
+            var temp = {};
+            var tempArr = [];
+            temp["ListData"] = tempArr;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+
+                // Closure to capture the file information.
+                reader.onload = (function (theFile) {
+                    return function (evt) {
+                        var arr = {};
+                        arr['filename'] = theFile.name;
+                        arr['data'] = [];
+                        var text = evt.target.result;
+                        for (var s = 0; s < text.length; s++) {
+                            arr['data'].push(text.charCodeAt(s));
+                        }
+                        tempArr.push(arr);
+                        var json = JSON.stringify(temp);
+                        $('#<%=hdnUploadedFile.ClientID %>').val(json);
+                    };
+                })(file);
+                reader.readAsBinaryString(file);
+            }
+        });
+
+        $('#btnSavePopup3').click(function () {
+            cbpProcessPopup3.PerformCallback('save');
+        });
+    });
+
+    function onCbpProcesPopup3EndCallback(s) {
+        hideLoadingPanel();
+
+        var param = s.cpResult.split('|');
+        if (param[0] == 'save') {
+            if (param[1] == 'fail')
+                showToast('Save Failed', 'Error Message : ' + param[2]);
+            else {
+                $('#divTransactionAddPopup3').click();
+                $('#FileUpload').val('');
+                $('#<%=hdnUploadedFile.ClientID %>').val('');
+                cbpViewPopup3.PerformCallback('refresh');
+            }
+        }
+        else if (param[0] == 'delete') {
+            if (param[1] == 'fail')
+                showToast('Delete Failed', 'Error Message : ' + param[2]);
+            else
+                cbpViewPopup3.PerformCallback('refresh');
+        }
+    }
+    //#endregion
+
+    $('.lnkDownload').click(function () {
+        
+    });
 </script>
 
 <style type="text/css">
     .tr003 td, .nts003      { background-color: #40CF4E; }
     .tr002 td, .nts002      { background-color: #40A7CF; }
-    .tr001 td, .nts001      { background-color: #F0514A; }
+    .tr001 td, .nts001      { background-color: #EB6A7D; }
+    
+    .grdTask .selected      { border: 1px solid Red; }
+    .grdTask .selected td   { border-top: 1px solid Red; border-bottom: 1px solid Red; }
 </style>
 
 <div style="height:440px; overflow-y:auto">
@@ -476,7 +560,7 @@
     
     <table style="width:100%">
         <tr>
-            <td style="width:680px; vertical-align: top" >
+            <td style="width:630px; vertical-align: top" >
                 <h4><%=GetLabel("Task") %></h4>
                 <div class="divTransactionEntry">   
                     <table>
@@ -605,7 +689,7 @@
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
                             <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
-                                <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
+                                <asp:GridView ID="grdView" runat="server" CssClass="grdSelected grdTask" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="ProjectTaskID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:BoundField DataField="ProjectTaskName" HeaderText="Tugas" />
@@ -691,6 +775,7 @@
                                     <td><asp:TextBox runat="server" ID="txtLogText" TextMode="MultiLine" Rows="3" Width="300px" /></td>
                                 </tr>
                                 <tr id="trSaveEntry">
+                                    <td></td>
                                     <td> 
                                         <input type="button" id="btnSavePopup2" class="btnWhite" value="Commit"/>
                                         <input type="button" id="btnCancelPopup2" class="btnWhite" value="Cancel"/>
@@ -736,6 +821,78 @@
                 <dxcp:ASPxCallbackPanel ID="cbpProcessPopup2" runat="server" Width="100%" ClientInstanceName="cbpProcessPopup2"
                     ShowLoadingPanel="false" OnCallback="cbpProcessPopup2_Callback">
                     <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesPopup2EndCallback(s); }" />
+                </dxcp:ASPxCallbackPanel>
+
+                
+                 <h4><%=GetLabel("File") %></h4>
+                 <div class="divTransactionEntry" id="divTransactionEntry3" style="display:none">   
+                    <span id="divTransactionAddPopup3" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
+                    <div id="entryDetailContainerPopup3" class="entryDetailContainer" style="display: none">
+                        <fieldset id="fsTrxPopup3" style="margin:0"> 
+                            <input type="hidden" id="hdnEntry3ID" runat="server" value="" />
+                            <table>
+                                <colgroup>
+                                    <col style="width:150px"/>
+                                    <col />
+                                </colgroup>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <input type="hidden" id="hdnUploadedFile" runat="server" value="" />
+                                        <input type="file" id="FileUpload" name="FileUpload" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama File") %></label></td>
+                                    <td><asp:TextBox runat="server" ID="txtFileName" Width="300px" /></td>
+                                </tr>
+                                <tr valign="top" style="padding-top: 5px">
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
+                                    <td><asp:TextBox runat="server" ID="txtFileRemarks" TextMode="MultiLine" Rows="3" Width="300px" /></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td> 
+                                        <input type="button" id="btnSavePopup3" class="btnWhite" value="Commit"/>
+                                        <input type="button" id="btnCancelPopup3" class="btnWhite" value="Cancel"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </div>
+                </div>
+                <dxcp:ASPxCallbackPanel ID="cbpViewPopup3" runat="server" Width="100%" ClientInstanceName="cbpViewPopup3"
+                    ShowLoadingPanel="false" OnCallback="cbpViewPopup3_Callback">
+                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                        EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                    <PanelCollection>
+                        <dx:PanelContent ID="PanelContent3" runat="server">
+                            <asp:Panel runat="server" ID="Panel2" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
+                                <asp:GridView ID="grdView3" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView3_RowDataBound">
+                                    <Columns>
+                                        <asp:BoundField DataField="ProjectTaskFileID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                        <asp:BoundField DataField="FileName" HeaderText="Nama" HeaderStyle-Width="150px" />
+                                        <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                                        <asp:BoundField DataField="CreatedByName" HeaderText="Pembuat" HeaderStyle-Width="120px" />
+                                        <asp:HyperLinkField ItemStyle-CssClass="lnkDownload" HeaderText="Download" Text="Download" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px" />
+                                        <asp:TemplateField HeaderStyle-Width="30px" ItemStyle-HorizontalAlign="Center">
+                                            <ItemTemplate>
+                                                <div class="divDetailDelete" <%#Eval("CreatedBy").ToString() != OnGetUserID() ? "style='display:none'" : "style='float:right;'" %>></div>
+                                                <input type="hidden" id="hdnDownloadedFile" runat="server" class="hdnDownloadedFile" />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                    <EmptyDataTemplate>
+                                        <%=GetLabel("No Data To Display")%>
+                                    </EmptyDataTemplate>
+                                </asp:GridView>
+                            </asp:Panel>
+                        </dx:PanelContent>
+                    </PanelCollection>
+                </dxcp:ASPxCallbackPanel>
+                <dxcp:ASPxCallbackPanel ID="cbpProcessPopup3" runat="server" Width="100%" ClientInstanceName="cbpProcessPopup3"
+                    ShowLoadingPanel="false" OnCallback="cbpProcessPopup3_Callback">
+                    <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesPopup3EndCallback(s); }" />
                 </dxcp:ASPxCallbackPanel>
             </td>
         </tr>

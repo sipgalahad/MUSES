@@ -9240,6 +9240,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vRProjectTaskFile
+        public static List<vRProjectTaskFile> GetvRProjectTaskFileList(string filterExpression)
+        {
+            List<vRProjectTaskFile> result = new List<vRProjectTaskFile>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectTaskFile));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRProjectTaskFile)helper.IDataReaderToObject(reader, new vRProjectTaskFile()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vRProjectTaskLog
         public static List<vRProjectTaskLog> GetvRProjectTaskLogList(string filterExpression)
         {

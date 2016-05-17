@@ -12192,6 +12192,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RProjectTaskFile
+        public static RProjectTaskFile GetRProjectTaskFile(Int32 ProjectTaskFileID)
+        {
+            return new RProjectTaskFileDao().Get(ProjectTaskFileID);
+        }
+        public static int InsertRProjectTaskFile(RProjectTaskFile record)
+        {
+            return new RProjectTaskFileDao().Insert(record);
+        }
+        public static int UpdateRProjectTaskFile(RProjectTaskFile record)
+        {
+            return new RProjectTaskFileDao().Update(record);
+        }
+        public static int DeleteRProjectTaskFile(Int32 ProjectTaskFileID)
+        {
+            return new RProjectTaskFileDao().Delete(ProjectTaskFileID);
+        }
+        public static List<RProjectTaskFile> GetRProjectTaskFileList(string filterExpression)
+        {
+            List<RProjectTaskFile> result = new List<RProjectTaskFile>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RProjectTaskFile));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RProjectTaskFile)helper.IDataReaderToObject(reader, new RProjectTaskFile()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region RProjectTaskGroup
         public static RProjectTaskGroup GetRProjectTaskGroup(Int32 ProjectTaskGroupID)
         {
