@@ -7,12 +7,38 @@
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnOpen" style="display:none" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/redo.png")%>' alt="" /><div><%=GetLabel("Buka")%></div></li>
+    <li id="btnClose" style="display:none" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Tutup")%></div></li>
+</asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
+        $('#<%=grdView.ClientID %> tr:gt(0)').live('click', function () {
+            if ($(this).find('.hdnIsProjectAdmin').val() == '1') {
+                $('#<%=btnClose.ClientID %>').hide();
+                $('#<%=btnOpen.ClientID %>').hide();
+                if ($(this).find('.hdnGCProjectStatus').val() == '<%=OnGetProjectStatusClosed() %>')
+                    $('#<%=btnOpen.ClientID %>').show();
+                else
+                    $('#<%=btnClose.ClientID %>').show();
+            }
+            else {
+                $('#<%=btnClose.ClientID %>').hide();
+                $('#<%=btnOpen.ClientID %>').hide();
+            }
+        });
+
         $(function () {
             var grd = new customGridView();
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
+
+            $('#<%=btnOpen.ClientID %>').click(function () {
+                onCustomButtonClick('open');
+            });
+            $('#<%=btnClose.ClientID %>').click(function () {
+                onCustomButtonClick('close');
+            });
         });
 
         $('.lblLink').die('click');
@@ -70,10 +96,29 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
+
+        function onCboFilterStatusValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+
+        function onAfterCustomClickSuccess() {
+            cbpView.PerformCallback('refresh');
+        }
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" value="" id="hdnStatus" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
+    
+    <table>
+        <tr>
+            <td class="tdLabel" style="width:80px"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
+            <td>
+                <dxe:ASPxComboBox ID="cboFilterStatus" ClientInstanceName="cboFilterStatus" runat="server" Width="200px">
+                    <ClientSideEvents ValueChanged="function(s,e){ onCboFilterStatusValueChanged() }" />
+                </dxe:ASPxComboBox>
+            </td>
+        </tr>
+    </table>
     <div style="position: relative;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
@@ -109,6 +154,8 @@
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Detail" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <label class="lblLink"><%=GetLabel("Detail") %></label>
+                                        <input type="hidden" class="hdnGCProjectStatus" value='<%#Eval("GCProjectStatus") %>' runat="server" />
+                                        <input type="hidden" id="hdnIsProjectAdmin" class="hdnIsProjectAdmin" runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

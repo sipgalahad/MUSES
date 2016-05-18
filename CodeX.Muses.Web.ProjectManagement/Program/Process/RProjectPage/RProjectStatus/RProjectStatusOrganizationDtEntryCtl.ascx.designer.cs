@@ -94,6 +94,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.WebControls.CheckBox chkIsHeader;
         
         /// <summary>
+        /// chkIsProjectAdmin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsProjectAdmin;
+        
+        /// <summary>
         /// chkIsAllowAddTeam control.
         /// </summary>
         /// <remarks>

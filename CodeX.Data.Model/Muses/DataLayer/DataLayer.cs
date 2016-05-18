@@ -25165,6 +25165,7 @@ namespace CodeX.Data.Model
         private Boolean _IsHeader;
         private Int16 _DisplayOrder;
         private Boolean _IsAllowAddTeam;
+        private Boolean _IsProjectAdmin;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -25212,6 +25213,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsAllowAddTeam; }
             set { _IsAllowAddTeam = value; }
+        }
+        [Column(Name = "IsProjectAdmin", DataType = "Boolean")]
+        public Boolean IsProjectAdmin
+        {
+            get { return _IsProjectAdmin; }
+            set { _IsProjectAdmin = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

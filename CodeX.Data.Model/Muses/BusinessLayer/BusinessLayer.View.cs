@@ -9215,6 +9215,27 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetvRProjectTaskRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectTask));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region vRProjectTaskAssign
         public static List<vRProjectTaskAssign> GetvRProjectTaskAssignList(string filterExpression)
@@ -9252,6 +9273,50 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vRProjectTaskFile)helper.IDataReaderToObject(reader, new vRProjectTaskFile()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vRProjectTaskFile> GetvRProjectTaskFileList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vRProjectTaskFile> result = new List<vRProjectTaskFile>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectTaskFile));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRProjectTaskFile)helper.IDataReaderToObject(reader, new vRProjectTaskFile()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetvRProjectTaskFileRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectTaskFile));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
             catch (Exception ex)
             {

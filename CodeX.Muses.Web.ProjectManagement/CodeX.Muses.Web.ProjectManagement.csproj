@@ -117,6 +117,7 @@
     <Content Include="Program\Master\RProjectGroup\RProjectGroupList.aspx" />
     <Content Include="Program\Process\RBudgetRequestOutstanding\RBudgetRequestOutstandingDetail.aspx" />
     <Content Include="Program\Process\RBudgetRequestOutstanding\RBudgetRequestOutstandingList.aspx" />
+    <Content Include="Program\Process\RProjectPage\RProjectTaskFile\RProjectTaskFileList.aspx" />
     <Content Include="Program\Process\RProjectPage\RItemRequestRealizationInformation\RItemRequestRealizationInformation.aspx" />
     <Content Include="Program\Process\RProjectPage\RItemRequestRealizationInformation\RItemRequestRealizationInformationDtCtl.ascx" />
     <Content Include="Program\Process\RProjectPage\RItemRequest\RItemRequestQuickPicksCtl.ascx" />
@@ -505,6 +506,13 @@
     </Compile>
     <Compile Include="Program\Process\RBudgetRequestOutstanding\RBudgetRequestOutstandingList.aspx.designer.cs">
       <DependentUpon>RBudgetRequestOutstandingList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RProjectTaskFile\RProjectTaskFileList.aspx.cs">
+      <DependentUpon>RProjectTaskFileList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\RProjectPage\RProjectTaskFile\RProjectTaskFileList.aspx.designer.cs">
+      <DependentUpon>RProjectTaskFileList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Process\RProjectPage\RItemRequestRealizationInformation\RItemRequestRealizationInformation.aspx.cs">
       <DependentUpon>RItemRequestRealizationInformation.aspx</DependentUpon>

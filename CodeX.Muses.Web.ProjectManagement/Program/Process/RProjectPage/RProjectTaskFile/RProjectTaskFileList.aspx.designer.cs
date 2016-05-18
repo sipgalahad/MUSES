@@ -10,25 +10,7 @@
 namespace CodeX.Muses.Web.ProjectManagement.Program {
     
     
-    public partial class RProjectPageList {
-        
-        /// <summary>
-        /// btnOpen control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnOpen;
-        
-        /// <summary>
-        /// btnClose control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnClose;
+    public partial class RProjectTaskFileList {
         
         /// <summary>
         /// hdnID control.
@@ -40,15 +22,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// hdnStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStatus;
-        
-        /// <summary>
         /// hdnFilterExpression control.
         /// </summary>
         /// <remarks>
@@ -58,13 +31,22 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
         
         /// <summary>
-        /// cboFilterStatus control.
+        /// hdnMyProjectOrganizationID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFilterStatus;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMyProjectOrganizationID;
+        
+        /// <summary>
+        /// hdnMyProjectOrganizationIDDisplayPath control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMyProjectOrganizationIDDisplayPath;
         
         /// <summary>
         /// cbpView control.

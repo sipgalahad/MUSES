@@ -182,9 +182,9 @@
 
     function onCboFilterStatusValueChanged() {
         if (cboFilterStatus.GetValue() == '1')
-            $('#trFilterStatus').removeAttr('style');
+            $('#tdFilterStatus').removeAttr('style');
         else
-            $('#trFilterStatus').attr('style', 'display:none');
+            $('#tdFilterStatus').attr('style', 'display:none');
     }
 
     function onCboDueDateTypeValueChanged() {
@@ -421,7 +421,8 @@
             $('#<%=hdnEntry3ID.ClientID %>').val('');
             $('#FileUpload').val('');
             $('#<%=hdnUploadedFile.ClientID %>').val('');
-            $('#<%=txtFileName.ClientID %>').val(''); 
+            $('#<%=txtFileName.ClientID %>').val('');
+            $('#<%=txtFileRemarks.ClientID %>').val(''); 
             $('#entryDetailContainerPopup3').show();
         });
 
@@ -485,6 +486,8 @@
         }
     }
     //#endregion
+
+    registerCollapseExpandHandler();
 </script>
 
 <style type="text/css">
@@ -562,19 +565,16 @@
                     <table>
                         <tr>
                             <td></td>
-                            <td><asp:CheckBox ID="chkIsShowAllTask" runat="server" Checked="false" Text="Tampilkan Semua Tugas" /></td>
+                            <td colspan="2"><asp:CheckBox ID="chkIsShowAllTask" runat="server" Checked="false" Text="Tampilkan Semua Tugas" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel" style="width:120px"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
+                            <td class="tdLabel" style="width:80px"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
                             <td>
                                 <dxe:ASPxComboBox ID="cboFilterStatus" ClientInstanceName="cboFilterStatus" runat="server" Width="200px">
                                     <ClientSideEvents ValueChanged="function(s,e){ onCboFilterStatusValueChanged() }" />
                                 </dxe:ASPxComboBox>
                             </td>
-                        </tr>
-                        <tr id="trFilterStatus">
-                            <td class="tdLabel" style="width:120px"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
-                            <td>
+                            <td id="tdFilterStatus">
                                 <input type="hidden" id="hdnLstFilterStatusID" runat="server" />
                                 <dxe:ASPxDropDownEdit ClientInstanceName="ddeFilterStatus" ID="ddeFilterStatus"
                                     Width="250px" runat="server" EnableAnimation="False">
@@ -586,7 +586,7 @@
                                             </ItemTemplate>
                                         </asp:Repeater>
                                     </DropDownWindowTemplate>
-                                </dxe:ASPxDropDownEdit>
+                                </dxe:ASPxDropDownEdit>                                
                             </td>
                         </tr>
                         <tr>
@@ -743,156 +743,159 @@
                 </dxcp:ASPxCallbackPanel>
             </td>
             <td style="vertical-align: top">
-                 <h4><%=GetLabel("Log") %></h4>
-                 <div class="divTransactionEntry" id="divTransactionEntry2" style="display:none">   
-                    <span id="divTransactionAddPopup2" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
-                    <div id="entryDetailContainerPopup2" class="entryDetailContainer" style="display: none">
-                        <fieldset id="fsTrxPopup2" style="margin:0"> 
-                            <input type="hidden" id="hdnEntry2ID" runat="server" value="" />
-                            <table id="tblEntry">
-                                <colgroup>
-                                    <col style="width:150px"/>
-                                    <col />
-                                </colgroup>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal")%></label></td>
-                                    <td>
-                                        <table cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td><asp:TextBox ID="txtLogDate" Width="120px" runat="server" CssClass="datepicker" /></td>
-                                                <td style="width:10px; text-align:center">&nbsp;</td>
-                                                <td><asp:TextBox ID="txtLogTime" CssClass="thCenter" Width="70px" runat="server"/></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr valign="top" style="padding-top: 5px">
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
-                                    <td><asp:TextBox runat="server" ID="txtLogText" TextMode="MultiLine" Rows="3" Width="300px" /></td>
-                                </tr>
-                                <tr id="trSaveEntry">
-                                    <td></td>
-                                    <td> 
-                                        <input type="button" id="btnSavePopup2" class="btnWhite" value="Commit"/>
-                                        <input type="button" id="btnCancelPopup2" class="btnWhite" value="Cancel"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </fieldset>
+                 <h4 class="h4expanded"><%=GetLabel("Log") %></h4>
+                 <div class="containerTblEntryContent">
+                     <div class="divTransactionEntry" id="divTransactionEntry2" style="display:none">   
+                        <span id="divTransactionAddPopup2" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
+                        <div id="entryDetailContainerPopup2" class="entryDetailContainer" style="display: none">
+                            <fieldset id="fsTrxPopup2" style="margin:0"> 
+                                <input type="hidden" id="hdnEntry2ID" runat="server" value="" />
+                                <table id="tblEntry">
+                                    <colgroup>
+                                        <col style="width:150px"/>
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal")%></label></td>
+                                        <td>
+                                            <table cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td><asp:TextBox ID="txtLogDate" Width="120px" runat="server" CssClass="datepicker" /></td>
+                                                    <td style="width:10px; text-align:center">&nbsp;</td>
+                                                    <td><asp:TextBox ID="txtLogTime" CssClass="thCenter" Width="70px" runat="server"/></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr valign="top" style="padding-top: 5px">
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
+                                        <td><asp:TextBox runat="server" ID="txtLogText" TextMode="MultiLine" Rows="3" Width="300px" /></td>
+                                    </tr>
+                                    <tr id="trSaveEntry">
+                                        <td></td>
+                                        <td> 
+                                            <input type="button" id="btnSavePopup2" class="btnWhite" value="Commit"/>
+                                            <input type="button" id="btnCancelPopup2" class="btnWhite" value="Cancel"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </div>
                     </div>
+                    <dxcp:ASPxCallbackPanel ID="cbpViewPopup2" runat="server" Width="100%" ClientInstanceName="cbpViewPopup2"
+                        ShowLoadingPanel="false" OnCallback="cbpViewPopup2_Callback">
+                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                            EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                        <PanelCollection>
+                            <dx:PanelContent ID="PanelContent2" runat="server">
+                                <asp:Panel runat="server" ID="Panel1" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
+                                    <asp:GridView ID="grdView2" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                        <Columns>
+                                            <asp:BoundField DataField="ProjectTaskLogID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                            <asp:BoundField DataField="LogDate" DataFormatString="{0:dd-MMM-yyyy}" HeaderText="Tanggal" HeaderStyle-Width="120px" />
+                                            <asp:BoundField DataField="LogTime" HeaderText="Waktu" HeaderStyle-Width="70px" />
+                                            <asp:BoundField DataField="LogText" HeaderText="Keterangan" />
+                                            <asp:BoundField DataField="CreatedByName" HeaderText="Pembuat" HeaderStyle-Width="150px" />
+                                            <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <div class="divDetailDelete" <%#Eval("CreatedBy").ToString() != OnGetUserID() ? "style='display:none'" : "style='float:right;'" %>></div>
+                                                    <div class="divDetailEdit" <%#Eval("CreatedBy").ToString() != OnGetUserID() ? "style='display:none'" : "style='float:right;margin-right:10px;'" %>><%=GetLabel("Edit")%></div>
+                                                    <input type="hidden" value="<%#Eval("ProjectTaskLogID") %>" bindingfield="ProjectTaskLogID" />
+                                                    <input type="hidden" value="<%#Eval("LogDate", "{0:dd-MM-yyyy}") %>" bindingfield="LogDate" />
+                                                    <input type="hidden" value="<%#Eval("LogTime") %>" bindingfield="LogTime" />
+                                                    <input type="hidden" value="<%#Eval("LogText") %>" bindingfield="LogText" />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <EmptyDataTemplate>
+                                            <%=GetLabel("No Data To Display")%>
+                                        </EmptyDataTemplate>
+                                    </asp:GridView>
+                                </asp:Panel>
+                            </dx:PanelContent>
+                        </PanelCollection>
+                    </dxcp:ASPxCallbackPanel>
+                    <dxcp:ASPxCallbackPanel ID="cbpProcessPopup2" runat="server" Width="100%" ClientInstanceName="cbpProcessPopup2"
+                        ShowLoadingPanel="false" OnCallback="cbpProcessPopup2_Callback">
+                        <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesPopup2EndCallback(s); }" />
+                    </dxcp:ASPxCallbackPanel>
                 </div>
-                <dxcp:ASPxCallbackPanel ID="cbpViewPopup2" runat="server" Width="100%" ClientInstanceName="cbpViewPopup2"
-                    ShowLoadingPanel="false" OnCallback="cbpViewPopup2_Callback">
-                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-                        EndCallback="function(s,e){ hideLoadingPanel(); }" />
-                    <PanelCollection>
-                        <dx:PanelContent ID="PanelContent2" runat="server">
-                            <asp:Panel runat="server" ID="Panel1" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
-                                <asp:GridView ID="grdView2" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
-                                    <Columns>
-                                        <asp:BoundField DataField="ProjectTaskLogID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:BoundField DataField="LogDate" DataFormatString="{0:dd-MMM-yyyy}" HeaderText="Tanggal" HeaderStyle-Width="120px" />
-                                        <asp:BoundField DataField="LogTime" HeaderText="Waktu" HeaderStyle-Width="70px" />
-                                        <asp:BoundField DataField="LogText" HeaderText="Keterangan" />
-                                        <asp:BoundField DataField="CreatedByName" HeaderText="Pembuat" HeaderStyle-Width="150px" />
-                                        <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
-                                            <ItemTemplate>
-                                                <div class="divDetailDelete" <%#Eval("CreatedBy").ToString() != OnGetUserID() ? "style='display:none'" : "style='float:right;'" %>></div>
-                                                <div class="divDetailEdit" <%#Eval("CreatedBy").ToString() != OnGetUserID() ? "style='display:none'" : "style='float:right;margin-right:10px;'" %>><%=GetLabel("Edit")%></div>
-                                                <input type="hidden" value="<%#Eval("ProjectTaskLogID") %>" bindingfield="ProjectTaskLogID" />
-                                                <input type="hidden" value="<%#Eval("LogDate", "{0:dd-MM-yyyy}") %>" bindingfield="LogDate" />
-                                                <input type="hidden" value="<%#Eval("LogTime") %>" bindingfield="LogTime" />
-                                                <input type="hidden" value="<%#Eval("LogText") %>" bindingfield="LogText" />
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                    </Columns>
-                                    <EmptyDataTemplate>
-                                        <%=GetLabel("No Data To Display")%>
-                                    </EmptyDataTemplate>
-                                </asp:GridView>
-                            </asp:Panel>
-                        </dx:PanelContent>
-                    </PanelCollection>
-                </dxcp:ASPxCallbackPanel>
-                <dxcp:ASPxCallbackPanel ID="cbpProcessPopup2" runat="server" Width="100%" ClientInstanceName="cbpProcessPopup2"
-                    ShowLoadingPanel="false" OnCallback="cbpProcessPopup2_Callback">
-                    <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesPopup2EndCallback(s); }" />
-                </dxcp:ASPxCallbackPanel>
-
                 
-                 <h4><%=GetLabel("File") %></h4>
-                 <div class="divTransactionEntry" id="divTransactionEntry3" style="display:none">   
-                    <span id="divTransactionAddPopup3" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
-                    <div id="entryDetailContainerPopup3" class="entryDetailContainer" style="display: none">
-                        <fieldset id="fsTrxPopup3" style="margin:0"> 
-                            <input type="hidden" id="hdnEntry3ID" runat="server" value="" />
-                            <table>
-                                <colgroup>
-                                    <col style="width:150px"/>
-                                    <col />
-                                </colgroup>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        <input type="hidden" id="hdnUploadedFile" runat="server" value="" />
-                                        <input type="file" id="FileUpload" name="FileUpload" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama File") %></label></td>
-                                    <td><asp:TextBox runat="server" ID="txtFileName" Width="300px" /></td>
-                                </tr>
-                                <tr valign="top" style="padding-top: 5px">
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
-                                    <td><asp:TextBox runat="server" ID="txtFileRemarks" TextMode="MultiLine" Rows="3" Width="300px" /></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td> 
-                                        <input type="button" id="btnSavePopup3" class="btnWhite" value="Commit"/>
-                                        <input type="button" id="btnCancelPopup3" class="btnWhite" value="Cancel"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </fieldset>
+                 <h4 class="h4expanded"><%=GetLabel("File") %></h4>
+                 <div class="containerTblEntryContent">
+                     <div class="divTransactionEntry" id="divTransactionEntry3" style="display:none">   
+                        <span id="divTransactionAddPopup3" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
+                        <div id="entryDetailContainerPopup3" class="entryDetailContainer" style="display: none">
+                            <fieldset id="fsTrxPopup3" style="margin:0"> 
+                                <input type="hidden" id="hdnEntry3ID" runat="server" value="" />
+                                <table>
+                                    <colgroup>
+                                        <col style="width:150px"/>
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>
+                                            <input type="hidden" id="hdnUploadedFile" runat="server" value="" />
+                                            <input type="file" id="FileUpload" name="FileUpload" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama File") %></label></td>
+                                        <td><asp:TextBox runat="server" ID="txtFileName" Width="300px" /></td>
+                                    </tr>
+                                    <tr valign="top" style="padding-top: 5px">
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
+                                        <td><asp:TextBox runat="server" ID="txtFileRemarks" TextMode="MultiLine" Rows="3" Width="300px" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td> 
+                                            <input type="button" id="btnSavePopup3" class="btnWhite" value="Commit"/>
+                                            <input type="button" id="btnCancelPopup3" class="btnWhite" value="Cancel"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </div>
                     </div>
+                    <dxcp:ASPxCallbackPanel ID="cbpViewPopup3" runat="server" Width="100%" ClientInstanceName="cbpViewPopup3"
+                        ShowLoadingPanel="false" OnCallback="cbpViewPopup3_Callback">
+                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                            EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                        <PanelCollection>
+                            <dx:PanelContent ID="PanelContent3" runat="server">
+                                <asp:Panel runat="server" ID="Panel2" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
+                                    <asp:GridView ID="grdView3" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView3_RowDataBound">
+                                        <Columns>
+                                            <asp:BoundField DataField="ProjectTaskFileID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                            <asp:TemplateField HeaderText="Nama" HeaderStyle-Width="150px">
+                                                <ItemTemplate>
+                                                    <label class="lblDownload lblLink"><%#Eval("FileName") %></label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                                            <asp:BoundField DataField="CreatedByName" HeaderText="Pembuat" HeaderStyle-Width="120px" />
+                                            <asp:TemplateField HeaderStyle-Width="30px" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <div class="divDetailDelete" <%#Eval("CreatedBy").ToString() != OnGetUserID() ? "style='display:none'" : "style='float:right;'" %>></div>
+                                                    <input type="hidden" id="hdnDownloadedFile" runat="server" class="hdnDownloadedFile" />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <EmptyDataTemplate>
+                                            <%=GetLabel("No Data To Display")%>
+                                        </EmptyDataTemplate>
+                                    </asp:GridView>
+                                </asp:Panel>
+                            </dx:PanelContent>
+                        </PanelCollection>
+                    </dxcp:ASPxCallbackPanel>
+                    <dxcp:ASPxCallbackPanel ID="cbpProcessPopup3" runat="server" Width="100%" ClientInstanceName="cbpProcessPopup3"
+                        ShowLoadingPanel="false" OnCallback="cbpProcessPopup3_Callback">
+                        <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesPopup3EndCallback(s); }" />
+                    </dxcp:ASPxCallbackPanel>
                 </div>
-                <dxcp:ASPxCallbackPanel ID="cbpViewPopup3" runat="server" Width="100%" ClientInstanceName="cbpViewPopup3"
-                    ShowLoadingPanel="false" OnCallback="cbpViewPopup3_Callback">
-                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-                        EndCallback="function(s,e){ hideLoadingPanel(); }" />
-                    <PanelCollection>
-                        <dx:PanelContent ID="PanelContent3" runat="server">
-                            <asp:Panel runat="server" ID="Panel2" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
-                                <asp:GridView ID="grdView3" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView3_RowDataBound">
-                                    <Columns>
-                                        <asp:BoundField DataField="ProjectTaskFileID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:TemplateField HeaderText="Nama" HeaderStyle-Width="150px">
-                                            <ItemTemplate>
-                                                <label class="lblDownload lblLink"><%#Eval("FileName") %></label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
-                                        <asp:BoundField DataField="CreatedByName" HeaderText="Pembuat" HeaderStyle-Width="120px" />
-                                        <asp:TemplateField HeaderStyle-Width="30px" ItemStyle-HorizontalAlign="Center">
-                                            <ItemTemplate>
-                                                <div class="divDetailDelete" <%#Eval("CreatedBy").ToString() != OnGetUserID() ? "style='display:none'" : "style='float:right;'" %>></div>
-                                                <input type="hidden" id="hdnDownloadedFile" runat="server" class="hdnDownloadedFile" />
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                    </Columns>
-                                    <EmptyDataTemplate>
-                                        <%=GetLabel("No Data To Display")%>
-                                    </EmptyDataTemplate>
-                                </asp:GridView>
-                            </asp:Panel>
-                        </dx:PanelContent>
-                    </PanelCollection>
-                </dxcp:ASPxCallbackPanel>
-                <dxcp:ASPxCallbackPanel ID="cbpProcessPopup3" runat="server" Width="100%" ClientInstanceName="cbpProcessPopup3"
-                    ShowLoadingPanel="false" OnCallback="cbpProcessPopup3_Callback">
-                    <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesPopup3EndCallback(s); }" />
-                </dxcp:ASPxCallbackPanel>
             </td>
         </tr>
     </table>

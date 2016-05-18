@@ -71,7 +71,8 @@
         tacParent.setValue(entity.ParentID);
         tacParent.setText(entity.ParentName);
         $('#<%=chkIsHeader.ClientID %>').attr('checked', entity.IsHeader == 'True');
-        $('#<%=chkIsAllowAddTeam.ClientID %>').attr('checked', entity.IsAllowAddTeam == 'True'); 
+        $('#<%=chkIsAllowAddTeam.ClientID %>').attr('checked', entity.IsAllowAddTeam == 'True');
+        $('#<%=chkIsProjectAdmin.ClientID %>').attr('checked', entity.IsProjectAdmin == 'True'); 
         tacEmployeeCoordinator.setValue(entity.EmployeeCoordinatorID);
         tacEmployeeCoordinator.setText(entity.EmployeeCoordinatorName);
         $('#<%=hdnEmployeeCoordinatorID.ClientID %>').val(entity.EmployeeCoordinatorID);
@@ -332,6 +333,10 @@
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
+                        <td><asp:CheckBox ID="chkIsProjectAdmin" runat="server" /><%=GetLabel("Project Admin")%></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
                         <td><asp:CheckBox ID="chkIsAllowAddTeam" runat="server" /><%=GetLabel("Bisa Tambah Tim")%></td>
                     </tr>
                     <tr>
@@ -378,6 +383,7 @@
                                     <input type="hidden" value="<%#Eval("Position") %>" bindingfield="Position" />
                                     <input type="hidden" value="<%#Eval("IsHeader") %>" bindingfield="IsHeader" />
                                     <input type="hidden" value="<%#Eval("IsAllowAddTeam") %>" bindingfield="IsAllowAddTeam" />
+                                    <input type="hidden" value="<%#Eval("IsProjectAdmin") %>" bindingfield="IsProjectAdmin" />
                                     <input type="hidden" value="<%#Eval("ParentID") %>" bindingfield="ParentID" />
                                     <input type="hidden" value="<%#Eval("ParentName") %>" bindingfield="ParentName" />
                                     <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />

@@ -24,9 +24,20 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             return Constant.MenuCode.ProjectManagement.MY_RPROJECT_PAGE_LIST;
         }
+        protected string OnGetProjectStatusClosed()
+        {
+            return Constant.TransactionStatus.CLOSED;
+        }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<Variable> lstFilterStatus = new List<Variable>();
+            lstFilterStatus.Add(new Variable { Code = "0", Value = "Semua" });
+            lstFilterStatus.Add(new Variable { Code = "1", Value = "Belum Selesai" });
+            lstFilterStatus.Add(new Variable { Code = "2", Value = "Sudah Selesai" });
+            Methods.SetComboBoxField<Variable>(cboFilterStatus, lstFilterStatus, "Value", "Code");
+            cboFilterStatus.Value = "1";
+
             hdnFilterExpression.Value = filterExpression;
             hdnID.Value = keyValue;
             filterExpression = GetFilterExpression();
@@ -53,7 +64,13 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("GCProjectStatus != '{0}' AND EmployeeID = {1}", Constant.TransactionStatus.VOID, AppSession.UserLogin.EmployeeID);
+            filterExpression += string.Format("EmployeeID = {0}", AppSession.UserLogin.EmployeeID);
+            if (cboFilterStatus.Value.ToString() == "0")
+                filterExpression += string.Format(" AND GCProjectStatus != '{0}'", Constant.TransactionStatus.VOID);
+            else if (cboFilterStatus.Value.ToString() == "1")
+                filterExpression += string.Format(" AND GCProjectStatus NOT IN ('{0}','{1}')", Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
+            else
+                filterExpression += string.Format(" AND GCProjectStatus = '{0}'", Constant.TransactionStatus.CLOSED);
             return filterExpression;
         }
 
@@ -93,6 +110,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 vRProjectOrganizationMember entity = e.Row.DataItem as vRProjectOrganizationMember;
                 HtmlGenericControl divPercentage = e.Row.FindControl("divPercentage") as HtmlGenericControl;
                 HtmlGenericControl divDueDate = e.Row.FindControl("divDueDate") as HtmlGenericControl;
+                HtmlInputHidden hdnIsProjectAdmin = e.Row.FindControl("hdnIsProjectAdmin") as HtmlInputHidden;
+
+                hdnIsProjectAdmin.Value = entity.IsProjectAdmin ? "1" : "0";
 
                 List<RProjectTask> lstTask = (from p in lstProjectTaskAssign.Where(p => p.DisplayPath.Contains("/" + entity.ProjectOrganizationID + "/")).ToList()
                                               select new RProjectTask { ProjectTaskID = p.ProjectTaskID, GCProjectTaskStatus = p.GCProjectTaskStatus, GCDueDateType = p.GCDueDateType, EndDate = p.EndDate }).GroupBy(p => p.ProjectTaskID).Select(p => p.First()).ToList();
@@ -138,6 +158,43 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
+        }
+
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        {
+            if (type == "close")
+            {
+                if (hdnID.Value.ToString() != "")
+                {
+                    int count = BusinessLayer.GetvRProjectTaskRowCount(string.Format("ProjectID = {0} AND GCProjectTaskStatus NOT IN ('{1}','{2}')", AppSession.ProjectID, Constant.ProjectTaskStatus.CLOSED, Constant.ProjectTaskStatus.VOID));
+                    if (count > 0)
+                    {
+                        errMessage = "Ada Tugas Belum Selesai. Project Belum Bisa Ditutup";
+                        return false;
+                    }
+                    else
+                    {
+                        RProject entity = BusinessLayer.GetRProject(Convert.ToInt32(hdnID.Value));
+                        entity.GCProjectStatus = Constant.TransactionStatus.CLOSED;
+                        entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        BusinessLayer.UpdateRProject(entity);
+                        return true;
+                    }
+                }
+                return false;
+            }
+            else
+            {
+                if (hdnID.Value.ToString() != "")
+                {
+                    RProject entity = BusinessLayer.GetRProject(Convert.ToInt32(hdnID.Value));
+                    entity.GCProjectStatus = Constant.TransactionStatus.OPEN;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdateRProject(entity);
+                    return true;
+                }
+                return false;
+            }
         }
     }
 }

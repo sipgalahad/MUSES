@@ -13,6 +13,24 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
     public partial class MyRProjectPageList {
         
         /// <summary>
+        /// btnOpen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnOpen;
+        
+        /// <summary>
+        /// btnClose control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnClose;
+        
+        /// <summary>
         /// hdnID control.
         /// </summary>
         /// <remarks>
@@ -38,6 +56,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
+        
+        /// <summary>
+        /// cboFilterStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFilterStatus;
         
         /// <summary>
         /// cbpView control.

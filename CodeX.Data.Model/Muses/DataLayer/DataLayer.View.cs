@@ -23969,6 +23969,7 @@ namespace CodeX.Data.Model
         private String _ParentName;
         private Int16 _DisplayOrder;
         private Boolean _IsAllowAddTeam;
+        private Boolean _IsProjectAdmin;
         private Boolean _IsDeleted;
         private Int32 _EmployeeCoordinatorID;
         private String _EmployeeCoordinatorCode;
@@ -24025,6 +24026,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsAllowAddTeam; }
             set { _IsAllowAddTeam = value; }
+        }
+        [Column(Name = "IsProjectAdmin", DataType = "Boolean")]
+        public Boolean IsProjectAdmin
+        {
+            get { return _IsProjectAdmin; }
+            set { _IsProjectAdmin = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -24091,6 +24098,7 @@ namespace CodeX.Data.Model
         private String _Position;
         private Boolean _IsCoordinator;
         private Boolean _IsAllowAddTeam;
+        private Boolean _IsProjectAdmin;
         private String _DisplayPath;
 
         [Column(Name = "ProjectOrganizationID", DataType = "Int32")]
@@ -24152,6 +24160,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsAllowAddTeam; }
             set { _IsAllowAddTeam = value; }
+        }
+        [Column(Name = "IsProjectAdmin", DataType = "Boolean")]
+        public Boolean IsProjectAdmin
+        {
+            get { return _IsProjectAdmin; }
+            set { _IsProjectAdmin = value; }
         }
         [Column(Name = "DisplayPath", DataType = "String")]
         public String DisplayPath
@@ -24387,6 +24401,10 @@ namespace CodeX.Data.Model
     {
         private Int32 _ProjectTaskFileID;
         private Int32 _ProjectTaskID;
+        private String _ProjectTaskName;
+        private Int32 _ProjectTaskGroupID;
+        private String _ProjectTaskGroupName;
+        private Int32 _ProjectID;
         private String _FileName;
         private String _Path;
         private String _Extension;
@@ -24410,6 +24428,30 @@ namespace CodeX.Data.Model
         {
             get { return _ProjectTaskID; }
             set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "ProjectTaskName", DataType = "String")]
+        public String ProjectTaskName
+        {
+            get { return _ProjectTaskName; }
+            set { _ProjectTaskName = value; }
+        }
+        [Column(Name = "ProjectTaskGroupID", DataType = "Int32")]
+        public Int32 ProjectTaskGroupID
+        {
+            get { return _ProjectTaskGroupID; }
+            set { _ProjectTaskGroupID = value; }
+        }
+        [Column(Name = "ProjectTaskGroupName", DataType = "String")]
+        public String ProjectTaskGroupName
+        {
+            get { return _ProjectTaskGroupName; }
+            set { _ProjectTaskGroupName = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
         }
         [Column(Name = "FileName", DataType = "String")]
         public String FileName

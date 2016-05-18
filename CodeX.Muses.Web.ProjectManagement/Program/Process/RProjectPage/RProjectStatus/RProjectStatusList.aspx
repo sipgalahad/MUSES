@@ -217,7 +217,13 @@
                                                 <ItemTemplate>
                                                     <label class="lblLink lblTask"><%=GetLabel("Task") %></label>
                                                 </ItemTemplate>
-                                            </asp:TemplateField><asp:TemplateField HeaderStyle-Width="100px" HeaderText="Persentase" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderStyle-Width="80px" HeaderText="Verified" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <div id="divVerified" runat="server"></div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Persentase" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <div id="divPercentage" runat="server"></div>
                                                 </ItemTemplate>

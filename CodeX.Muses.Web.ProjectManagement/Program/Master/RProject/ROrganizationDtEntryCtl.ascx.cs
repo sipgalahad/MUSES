@@ -93,6 +93,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             entity.DisplayOrder = Convert.ToInt16(txtDisplayOrder.Text);
             entity.IsHeader = chkIsHeader.Checked;
             entity.IsAllowAddTeam = chkIsAllowAddTeam.Checked;
+            entity.IsProjectAdmin = chkIsProjectAdmin.Checked;
             if (hdnParent.Value != "" && hdnParent.Value != "0")
                 entity.ParentID = Convert.ToInt32(hdnParent.Value);
             else

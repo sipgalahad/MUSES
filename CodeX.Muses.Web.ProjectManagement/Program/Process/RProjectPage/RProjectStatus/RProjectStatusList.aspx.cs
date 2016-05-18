@@ -135,13 +135,20 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             {
                 RProjectTaskGroup entity = e.Row.DataItem as RProjectTaskGroup;
                 HtmlGenericControl divPercentage = (HtmlGenericControl)e.Row.FindControl("divPercentage");
+                HtmlGenericControl divVerified = (HtmlGenericControl)e.Row.FindControl("divVerified");
 
                 List<vRProjectTask> lstProjectTask1 = lstProjectTask.Where(p => p.ProjectTaskGroupID == entity.ProjectTaskGroupID).ToList();
                 int total = lstProjectTask1.Count;
                 if (total > 0)
                 {
-                    int done = lstProjectTask1.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED).Count();
+                    List<vRProjectTask> lstClosed = lstProjectTask1.Where(p => p.GCProjectTaskStatus == Constant.ProjectTaskStatus.CLOSED).ToList();
+                    int done = lstClosed.Count();
                     divPercentage.InnerHtml = string.Format("{1}/{2} ({0:0.00}%)", ((Double)(done * 100) / total).ToString("N2"), done, total);
+
+                    if (done > 0)
+                        divVerified.InnerHtml = string.Format("{0}/{1}", lstClosed.Where(p => p.IsVerified).Count(), done);
+                    else
+                        divVerified.InnerHtml = "-";
                 }
                 else
                     divPercentage.InnerHtml = "-";
