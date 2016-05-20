@@ -383,6 +383,10 @@
                                 <colgroup>
                                     <col style="width:180px"/>
                                 </colgroup>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Siswa")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboStudentType" Width="120px" runat="server" /></td>
+                                </tr>
                                 <tr id="trGrade" runat="server">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kelas")%></label></td>
                                     <td>

@@ -13,9 +13,9 @@ using System.Web.UI.HtmlControls;
 using CodeX.Data.Core.Dal;
 using DevExpress.Web.ASPxEditors;
 
-namespace CodeX.Muses.Web.StudentManagement.Program
+namespace CodeX.Muses.Web.Finance.Program
 {
-    public partial class StudentSchoolFeeEntry : BasePageList
+    public partial class StudentReRegistrationEntry : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.STUDENT_SCHOOL_FEE;
+            return Constant.MenuCode.Finance.STUDENT_REREGISTRATION;
         }
 
         protected string OnGetClassStudyTypeRegular()
@@ -31,9 +31,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.ClassStudyType.REGULAR;
         }
 
-        protected string OnGetPeriodSectionFilterExpression()
+        protected string OnGetSchoolPeriodNowFilterExpression()
         {
-            return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
+            return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
+        }
+
+        protected string OnGetSchoolPeriodNextFilterExpression()
+        {
+            return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.AddYears(1).ToString("yyyyMMdd"));
         }
 
         List<StudentFeeCompType> lstComp = null;
@@ -46,43 +51,33 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptStudentFeeCompTypeView2.DataSource = lstComp;
             rptStudentFeeCompTypeView2.DataBind();
 
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
-            Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            Methods.SetComboBoxField<SchoolPeriod>(cboNextSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
-            
-            if (selectedSchoolPeriod == null)
-                cboSchoolPeriod.SelectedIndex = 0;
-            else
-                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
+            List<StandardCode> lstStudentType = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.STUDENT_TYPE));
+            lstStudentType.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "Semua" });
+            Methods.SetComboBoxField<StandardCode>(cboStudentType, lstStudentType, "StandardCodeName", "StandardCodeID");
+            cboStudentType.SelectedIndex = 0;
 
-            SchoolPeriod nextSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now.AddYears(1) && p.EndDate >= DateTime.Now.AddYears(1));
-            if (nextSchoolPeriod != null)
-                cboNextSchoolPeriod.Value = nextSchoolPeriod.SchoolPeriodID.ToString();
-            else
-                cboNextSchoolPeriod.Value = cboSchoolPeriod.Value.ToString();
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
 
-            if (cboSchoolPeriod.Value.ToString() != "")
-            {
-                List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("SchoolPeriodID = {0} AND '{1}' BETWEEN StartDate AND EndDate", cboSchoolPeriod.Value, DateTime.Now.ToString("yyyyMMdd")));
-                if (lstPeriodSection.Count > 0)
-                {
-                    PeriodSection periodSection = lstPeriodSection.FirstOrDefault();
-                    tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
-                    tacPeriodSection.Text = periodSection.PeriodSectionName;
-                }
-            }
             BindGridView();
         }
 
         private string GetFilterExpression()
         {
-            if (tacSchoolClass.Value == "")
+            if (tacSchoolPeriod.Value == "")
                 return "1 = 0";
+
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SchoolClassID = {0}", tacSchoolClass.Value);
+
+            if (tacPeriodClassType.Value == "")
+                filterExpression += string.Format("SiteID = '{0}'", cboSite.Value);
+            else
+                filterExpression += string.Format("PeriodClassTypeID = {0}", tacPeriodClassType.Value);
+            if (cboStudentType.Value != null && cboStudentType.Value.ToString() != "")
+                filterExpression += string.Format(" AND GCStudentType = '{0}'", cboStudentType.Value);
             return filterExpression;
         }
 
@@ -95,7 +90,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (lstEntity.Count > 0)
             {
                 string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
-                lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(String.Format("StudentID IN ({0}) AND SchoolPeriodID IN ({1},{2})", lstStudentID, cboSchoolPeriod.Value, cboNextSchoolPeriod.Value));
+                lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(String.Format("StudentID IN ({0}) AND SchoolPeriodID IN ({1},{2})", lstStudentID, tacSchoolPeriod.Value, tacNextSchoolPeriod.Value));
             }
             else
                 lstStudentFeeComp = new List<StudentFeeComp>();
@@ -122,8 +117,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vStudentCustom student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vStudentCustom;
                 StudentFeeCompType studentFeeCompType = (StudentFeeCompType)e.Item.DataItem;
-                StudentFeeComp entity = lstStudentFeeComp.FirstOrDefault(p => p.StudentID == student.StudentID && p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID && p.SchoolPeriodID == Convert.ToInt32(cboSchoolPeriod.Value));
-                StudentFeeComp nextEntity = lstStudentFeeComp.FirstOrDefault(p => p.StudentID == student.StudentID && p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID && p.SchoolPeriodID == Convert.ToInt32(cboNextSchoolPeriod.Value));
+                StudentFeeComp entity = lstStudentFeeComp.FirstOrDefault(p => p.StudentID == student.StudentID && p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID && p.SchoolPeriodID == Convert.ToInt32(tacSchoolPeriod.Value));
+                StudentFeeComp nextEntity = lstStudentFeeComp.FirstOrDefault(p => p.StudentID == student.StudentID && p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID && p.SchoolPeriodID == Convert.ToInt32(tacNextSchoolPeriod.Value));
                 TextBox txtOldCompValue = (TextBox)e.Item.FindControl("txtOldCompValue");
                 TextBox txtNewCompValue = (TextBox)e.Item.FindControl("txtNewCompValue");
                 if (entity != null)
@@ -146,7 +141,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             StudentFeeCompDao entityStudentFeeCompDao = new StudentFeeCompDao(ctx);
             try
             {
-                int SchoolPeriodID = Convert.ToInt32(cboNextSchoolPeriod.Value);
+                int SchoolPeriodID = Convert.ToInt32(tacNextSchoolPeriod.Value);
                 List<StudentFeeComp> lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(string.Format("StudentID IN ({0}) AND SchoolPeriodID = {1}", hdnLstStudentID.Value, SchoolPeriodID), ctx);
                 string[] lstSaveValue = hdnSaveValue.Value.Split('|');
                 foreach (string saveValue in lstSaveValue)

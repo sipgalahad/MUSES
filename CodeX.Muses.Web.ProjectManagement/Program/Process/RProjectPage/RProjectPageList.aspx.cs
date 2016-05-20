@@ -23,6 +23,10 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             return Constant.MenuCode.ProjectManagement.RPROJECT_PAGE_LIST;
         }
+        protected string OnGetProjectStatusClosed()
+        {
+            return Constant.TransactionStatus.CLOSED;
+        }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {

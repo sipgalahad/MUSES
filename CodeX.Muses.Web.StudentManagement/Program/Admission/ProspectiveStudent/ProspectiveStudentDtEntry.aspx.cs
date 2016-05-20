@@ -107,6 +107,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
 
             #region Other Information
+            Helper.SetControlEntrySetting(cboStudentType, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtStudentCode, new ControlEntrySetting(true, true, true), "mpEntry");
@@ -120,8 +121,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             String GCSchoolType = BusinessLayer.GetSiteParameter(hdnSiteID.Value, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
 
-            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}') AND IsActive = 1 AND IsDeleted = 0",
-                Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER, Constant.StandardCode.NATIONALITY, Constant.StandardCode.RELIGION, Constant.StandardCode.REGISTRATION_TYPE);
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}') AND IsActive = 1 AND IsDeleted = 0",
+                Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER, Constant.StandardCode.NATIONALITY, Constant.StandardCode.RELIGION, Constant.StandardCode.REGISTRATION_TYPE, Constant.StandardCode.STUDENT_TYPE);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
 
             Methods.SetComboBoxField(cboSalutation, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SALUTATION).ToList(), "StandardCodeName", "StandardCodeID");
@@ -131,6 +132,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboGender, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboRegistrationType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.REGISTRATION_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboStudentType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.STUDENT_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
 
             List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("GCSchoolType = '{0}' ORDER BY DisplayOrder", GCSchoolType));
             List<vSchoolMajor> lstMajor = BusinessLayer.GetvSchoolMajorList(string.Format("GCSchoolType = '{0}'", GCSchoolType));
@@ -225,6 +227,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
 
             #region Additional Information
+            cboStudentType.Value = entity.GCStudentType;
             cboGrade.Value = entity.GCGrade;
             cboMajor.Value = entity.GCMajor;
             txtNationalStudentNo.Text = entity.NationalStudentNo;
@@ -295,6 +298,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
 
             #region Additional Information
+            entity.GCStudentType = cboStudentType.Value.ToString();
             entityRegistration.GCGrade = cboGrade.Value.ToString();
             if (cboMajor.Value == null)
                 entityRegistration.GCMajor = "";

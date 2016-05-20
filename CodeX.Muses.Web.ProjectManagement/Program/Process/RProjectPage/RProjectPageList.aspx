@@ -14,6 +14,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
+        $('#<%=grdView.ClientID %> tr:gt(0)').live('click', function () {
+            $('#<%=btnClose.ClientID %>').hide();
+            $('#<%=btnOpen.ClientID %>').hide();
+            if ($(this).find('.hdnGCProjectStatus').val() == '<%=OnGetProjectStatusClosed() %>')
+                $('#<%=btnOpen.ClientID %>').show();
+            else
+                $('#<%=btnClose.ClientID %>').show();
+        });
+
         $(function () {
             var grd = new customGridView();
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
@@ -122,6 +131,7 @@
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Detail" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <label class="lblLink"><%=GetLabel("Detail") %></label>
+                                        <input type="hidden" class="hdnGCProjectStatus" value='<%#Eval("GCProjectStatus") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

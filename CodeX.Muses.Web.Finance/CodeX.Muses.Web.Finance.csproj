@@ -149,6 +149,7 @@
     <Content Include="Program\Process\GenerateARStudent\GenerateARStudentEntry.aspx" />
     <Content Include="Program\Process\GenerateARStudent\GenerateARStudentDtCtl.ascx" />
     <Content Include="Program\Process\GenerateUploadFile\GenerateUploadFile.aspx" />
+    <Content Include="Program\Process\StudentReRegistration\StudentReRegistrationEntry.aspx" />
     <Content Include="Program\Transaction\StudentScholarshipTransaction\ScholarshipDtViewCtl.ascx" />
     <Content Include="Program\Transaction\StudentScholarshipTransaction\StudentScholarshipTransactionEntry.aspx" />
     <Content Include="Program\Transaction\DirectSales\DirectPaymentEntryCtl.ascx" />
@@ -709,6 +710,13 @@
     </Compile>
     <Compile Include="Program\Process\GenerateUploadFile\GenerateUploadFile.aspx.designer.cs">
       <DependentUpon>GenerateUploadFile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\StudentReRegistration\StudentReRegistrationEntry.aspx.cs">
+      <DependentUpon>StudentReRegistrationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\StudentReRegistration\StudentReRegistrationEntry.aspx.designer.cs">
+      <DependentUpon>StudentReRegistrationEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Transaction\StudentScholarshipTransaction\ScholarshipDtViewCtl.ascx.cs">
       <DependentUpon>ScholarshipDtViewCtl.ascx</DependentUpon>

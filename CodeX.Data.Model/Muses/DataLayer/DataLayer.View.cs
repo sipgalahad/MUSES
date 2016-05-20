@@ -17558,6 +17558,7 @@ namespace CodeX.Data.Model
         private String _GCLanguage;
         private String _Language;
         private Decimal _HomeDistance;
+        private String _GCStudentType;
         private String _MedicalHistory;
 
         [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
@@ -17805,6 +17806,12 @@ namespace CodeX.Data.Model
         {
             get { return _HomeDistance; }
             set { _HomeDistance = value; }
+        }
+        [Column(Name = "GCStudentType", DataType = "String")]
+        public String GCStudentType
+        {
+            get { return _GCStudentType; }
+            set { _GCStudentType = value; }
         }
         [Column(Name = "MedicalHistory", DataType = "String")]
         public String MedicalHistory
@@ -22771,6 +22778,7 @@ namespace CodeX.Data.Model
         private String _MobilePhoneNo2;
         private String _PhoneNo1;
         private String _PictureFileName;
+        private String _GCStudentType;
         private DateTime _AcceptedDate;
 
         [Column(Name = "RegistrationID", DataType = "Int32")]
@@ -23114,6 +23122,12 @@ namespace CodeX.Data.Model
         {
             get { return _PictureFileName; }
             set { _PictureFileName = value; }
+        }
+        [Column(Name = "GCStudentType", DataType = "String")]
+        public String GCStudentType
+        {
+            get { return _GCStudentType; }
+            set { _GCStudentType = value; }
         }
         [Column(Name = "AcceptedDate", DataType = "DateTime")]
         public DateTime AcceptedDate
@@ -26123,6 +26137,8 @@ namespace CodeX.Data.Model
         private String _PhoneNo1;
         private String _PictureFileName;
         private DateTime _DropOutDate;
+        private DateTime _StartSchoolDate;
+        private String _GCStudentType;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -26419,6 +26435,18 @@ namespace CodeX.Data.Model
         {
             get { return _DropOutDate; }
             set { _DropOutDate = value; }
+        }
+        [Column(Name = "StartSchoolDate", DataType = "DateTime")]
+        public DateTime StartSchoolDate
+        {
+            get { return _StartSchoolDate; }
+            set { _StartSchoolDate = value; }
+        }
+        [Column(Name = "GCStudentType", DataType = "String")]
+        public String GCStudentType
+        {
+            get { return _GCStudentType; }
+            set { _GCStudentType = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -26784,9 +26812,13 @@ namespace CodeX.Data.Model
         private String _StudentCode;
         private String _StudentName;
         private String _GCGender;
+        private String _GCStudentType;
         private String _PictureFileName;
         private String _GCClassStudentStatus;
+        private Int32 _PeriodClassTypeID;
+        private String _SiteID;
         private String _ClassStudentStatus;
+        private Boolean _IsGenerateStudentFeeNextPeriod;
 
         [Column(Name = "StudentID", DataType = "Int32")]
         public Int32 StudentID
@@ -26818,6 +26850,12 @@ namespace CodeX.Data.Model
             get { return _GCGender; }
             set { _GCGender = value; }
         }
+        [Column(Name = "GCStudentType", DataType = "String")]
+        public String GCStudentType
+        {
+            get { return _GCStudentType; }
+            set { _GCStudentType = value; }
+        }
         [Column(Name = "PictureFileName", DataType = "String")]
         public String PictureFileName
         {
@@ -26830,11 +26868,29 @@ namespace CodeX.Data.Model
             get { return _GCClassStudentStatus; }
             set { _GCClassStudentStatus = value; }
         }
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
         [Column(Name = "ClassStudentStatus", DataType = "String")]
         public String ClassStudentStatus
         {
             get { return _ClassStudentStatus; }
             set { _ClassStudentStatus = value; }
+        }
+        [Column(Name = "IsGenerateStudentFeeNextPeriod", DataType = "Boolean")]
+        public Boolean IsGenerateStudentFeeNextPeriod
+        {
+            get { return _IsGenerateStudentFeeNextPeriod; }
+            set { _IsGenerateStudentFeeNextPeriod = value; }
         }
     }
     #endregion

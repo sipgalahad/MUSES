@@ -333,6 +333,10 @@
                             <td><asp:TextBox ID="txtVirtualAccountNo" Width="150px" runat="server" /></td>
                         </tr>
                         <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Siswa")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboStudentType" Width="120px" runat="server" /></td>
+                        </tr>
+                        <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboStudentStatus" Width="120px" runat="server" /></td>
                         </tr>

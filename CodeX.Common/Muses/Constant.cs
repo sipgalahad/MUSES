@@ -91,6 +91,7 @@ namespace CodeX.Common
             public const string ORPHANS_STATUS = "MS041";
             public const string RELATIONSHIP_WITH_FAMILY = "MS042";
             public const string URINATE_STATUS = "MS043";
+            public const string STUDENT_TYPE = "MS044";
 
             public const string PROJECT_TASK_STATUS = "DT001";
             public const string PROJECT_TASK_PRIORITY = "DT002";
@@ -575,6 +576,7 @@ namespace CodeX.Common
                 public const string STUDENT_FEE_PENALTY = "FN070500";
                 public const string DIRECT_SALES_VOID = "FN070600";
                 public const string BUDGET_REALIZATION = "FN070700";
+                public const string STUDENT_REREGISTRATION = "FN070800";
 
                 public const string REPORT = "FN090000";
 

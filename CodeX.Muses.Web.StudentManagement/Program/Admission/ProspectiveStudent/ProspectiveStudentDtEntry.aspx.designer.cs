@@ -400,6 +400,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtTelephoneNo;
         
         /// <summary>
+        /// cboStudentType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboStudentType;
+        
+        /// <summary>
         /// trGrade control.
         /// </summary>
         /// <remarks>

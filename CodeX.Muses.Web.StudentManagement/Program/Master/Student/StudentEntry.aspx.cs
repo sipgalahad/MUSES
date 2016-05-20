@@ -58,9 +58,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             String GCSchoolType = BusinessLayer.GetSiteParameter(hdnSiteID.Value, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
 
-            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}') AND IsActive = 1 AND IsDeleted = 0",
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}') AND IsActive = 1 AND IsDeleted = 0",
                 Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER, Constant.StandardCode.RELIGION,
-                Constant.StandardCode.NATIONALITY, Constant.StandardCode.STUDENT_STATUS);
+                Constant.StandardCode.NATIONALITY, Constant.StandardCode.STUDENT_STATUS, Constant.StandardCode.STUDENT_TYPE);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
             lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
 
@@ -71,6 +71,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboStudentStatus, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.STUDENT_STATUS).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboGender, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboStudentType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.STUDENT_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
 
             List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("GCSchoolType = '{0}' ORDER BY DisplayOrder", GCSchoolType));
             List<vSchoolMajor> lstMajor = BusinessLayer.GetvSchoolMajorList(string.Format("GCSchoolType = '{0}'", GCSchoolType));
@@ -140,6 +141,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboStudentStatus, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboStudentType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtDropOutDate, new ControlEntrySetting(true, true, false));
             #endregion
         }
@@ -195,6 +197,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #region Additional Information
             txtVirtualAccountNo.Text = entity.VirtualAccountNo;
             cboStudentStatus.Value = entity.GCStudentStatus;
+            cboStudentType.Value = entity.GCStudentType;
             txtDropOutDate.Text = entity.DropOutDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboGrade.Value = entity.GCGrade;
             cboMajor.Value = entity.GCMajor;
@@ -261,6 +264,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #region Additional Information
             entity.VirtualAccountNo = txtVirtualAccountNo.Text;
             entity.GCStudentStatus = cboStudentStatus.Value.ToString();
+            entity.GCStudentType = cboStudentType.Value.ToString();
             entity.DropOutDate = Helper.GetDatePickerValue(Request.Form[txtDropOutDate.UniqueID]);
             entity.GCGrade = cboGrade.Value.ToString();
             if (cboMajor.Value != null)

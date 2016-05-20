@@ -19367,6 +19367,7 @@ namespace CodeX.Data.Model
         private String _GCBloodType;
         private String _GCLanguage;
         private Decimal _HomeDistance;
+        private String _GCStudentType;
         private String _MedicalHistory;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -19386,7 +19387,7 @@ namespace CodeX.Data.Model
             get { return _ProspectiveStudentCode; }
             set { _ProspectiveStudentCode = value; }
         }
-        [Column(Name = "NationalStudentNo", DataType = "String")]
+        [Column(Name = "NationalStudentNo", DataType = "String", IsNullable = true)]
         public String NationalStudentNo
         {
             get { return _NationalStudentNo; }
@@ -19559,6 +19560,12 @@ namespace CodeX.Data.Model
         {
             get { return _HomeDistance; }
             set { _HomeDistance = value; }
+        }
+        [Column(Name = "GCStudentType", DataType = "String", IsNullable = true)]
+        public String GCStudentType
+        {
+            get { return _GCStudentType; }
+            set { _GCStudentType = value; }
         }
         [Column(Name = "MedicalHistory", DataType = "String", IsNullable = true)]
         public String MedicalHistory
@@ -28472,6 +28479,7 @@ namespace CodeX.Data.Model
         private String _PictureFileName;
         private DateTime _AcceptedDate;
         private DateTime _DropOutDate;
+        private String _GCStudentType;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -28688,6 +28696,12 @@ namespace CodeX.Data.Model
         {
             get { return _DropOutDate; }
             set { _DropOutDate = value; }
+        }
+        [Column(Name = "GCStudentType", DataType = "String", IsNullable = true)]
+        public String GCStudentType
+        {
+            get { return _GCStudentType; }
+            set { _GCStudentType = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

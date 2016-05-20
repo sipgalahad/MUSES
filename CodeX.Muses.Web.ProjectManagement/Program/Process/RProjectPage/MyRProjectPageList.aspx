@@ -154,7 +154,7 @@
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Detail" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <label class="lblLink"><%=GetLabel("Detail") %></label>
-                                        <input type="hidden" class="hdnGCProjectStatus" value='<%#Eval("GCProjectStatus") %>' runat="server" />
+                                        <input type="hidden" class="hdnGCProjectStatus" value='<%#Eval("GCProjectStatus") %>' />
                                         <input type="hidden" id="hdnIsProjectAdmin" class="hdnIsProjectAdmin" runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
