@@ -370,7 +370,7 @@
                             <%=GetLabel("Baru") %><br />
                             <input type="text" class="txtCurrency txtNewValue" value="0" style="width:80px" /><br />
                             ↑ <input type="text" class="number txtMarkupPercentageValue" value="0" style="width:40px" /> [%]<br />
-                            ↑ <input type="text" class="number txtMarkupValue" value="0" style="width:60px" /><br />
+                            ↑ <input type="text" class="txtCurrency txtMarkupValue" value="0" style="width:60px" /><br />
                         </th>
                     </ItemTemplate>
                 </asp:Repeater>

@@ -65,17 +65,13 @@ namespace CodeX.Muses.Web.Finance.Program
 
         private string GetFilterExpression()
         {
-            if (tacSchoolPeriod.Value == "")
+            if (tacSchoolPeriod.Value == "" || tacPeriodClassType.Value == "")
                 return "1 = 0";
 
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-
-            if (tacPeriodClassType.Value == "")
-                filterExpression += string.Format("SiteID = '{0}'", cboSite.Value);
-            else
-                filterExpression += string.Format("PeriodClassTypeID = {0}", tacPeriodClassType.Value);
+            filterExpression += string.Format("PeriodClassTypeID = {0}", tacPeriodClassType.Value);
             if (cboStudentType.Value != null && cboStudentType.Value.ToString() != "")
                 filterExpression += string.Format(" AND GCStudentType = '{0}'", cboStudentType.Value);
             return filterExpression;
