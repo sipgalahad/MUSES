@@ -24195,7 +24195,11 @@ namespace CodeX.Data.Model
     public partial class vRProjectTask
     {
         private Int32 _ProjectTaskID;
+        private Int32 _ProjectID;
+        private String _ProjectCode;
+        private String _ProjectName;
         private Int32 _ProjectTaskGroupID;
+        private String _ProjectTaskGroupName;
         private String _ProjectTaskName;
         private String _Remarks;
         private String _GCProjectTaskPriority;
@@ -24207,9 +24211,9 @@ namespace CodeX.Data.Model
         private DateTime _EndDate;
         private Int32 _OrganizationCoordinatorID;
         private String _OrganizationCoordinatorName;
-        private Int32 _ProjectID;
         private Int32 _AssignedByPosition;
         private Boolean _IsVerified;
+        private String _CreatedByName;
         private String _ListOrganizationID;
         private String _ListOrganizationName;
 
@@ -24219,11 +24223,35 @@ namespace CodeX.Data.Model
             get { return _ProjectTaskID; }
             set { _ProjectTaskID = value; }
         }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectCode", DataType = "String")]
+        public String ProjectCode
+        {
+            get { return _ProjectCode; }
+            set { _ProjectCode = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
         [Column(Name = "ProjectTaskGroupID", DataType = "Int32")]
         public Int32 ProjectTaskGroupID
         {
             get { return _ProjectTaskGroupID; }
             set { _ProjectTaskGroupID = value; }
+        }
+        [Column(Name = "ProjectTaskGroupName", DataType = "String")]
+        public String ProjectTaskGroupName
+        {
+            get { return _ProjectTaskGroupName; }
+            set { _ProjectTaskGroupName = value; }
         }
         [Column(Name = "ProjectTaskName", DataType = "String")]
         public String ProjectTaskName
@@ -24291,12 +24319,6 @@ namespace CodeX.Data.Model
             get { return _OrganizationCoordinatorName; }
             set { _OrganizationCoordinatorName = value; }
         }
-        [Column(Name = "ProjectID", DataType = "Int32")]
-        public Int32 ProjectID
-        {
-            get { return _ProjectID; }
-            set { _ProjectID = value; }
-        }
         [Column(Name = "AssignedByPosition", DataType = "Int32")]
         public Int32 AssignedByPosition
         {
@@ -24308,6 +24330,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsVerified; }
             set { _IsVerified = value; }
+        }
+        [Column(Name = "CreatedByName", DataType = "String")]
+        public String CreatedByName
+        {
+            get { return _CreatedByName; }
+            set { _CreatedByName = value; }
         }
         [Column(Name = "ListOrganizationID", DataType = "String")]
         public String ListOrganizationID

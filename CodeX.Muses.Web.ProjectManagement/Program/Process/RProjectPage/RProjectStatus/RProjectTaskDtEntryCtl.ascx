@@ -31,6 +31,7 @@
             $('#<%=txtStartDate.ClientID %>').val('');
             $('#<%=txtEndDate.ClientID %>').val('');
             $('#<%=txtDueDateEndDate.ClientID %>').val('');
+            $('#trIsVerified').attr('style', 'display:none');
 
             tacOrganizationCoordinator.setEnabled(true);
             cboPriority.SetEnabled(true);

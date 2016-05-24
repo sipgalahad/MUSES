@@ -722,6 +722,7 @@ namespace CodeX.Common
                 public const string RPROJECT_PAGE_LIST = "PM020600";
                 public const string MY_RPROJECT_PAGE_LIST = "PM020700";
                 public const string RBUDGET_REQUEST_OUTSTANDING = "PM020800";
+                public const string MY_RPROJECT_SUMMARY_LIST = "PM020900";
 
                 public const string RPROJECT_PAGE = "PM99030000";
                 public const string RPROJECT_STATUS = "PM99030101";
