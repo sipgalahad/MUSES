@@ -13,12 +13,30 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
     public partial class MyRProjectSummaryList {
         
         /// <summary>
-        /// rptNewTask control.
+        /// grdNewTask control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptNewTask;
+        protected global::System.Web.UI.WebControls.GridView grdNewTask;
+        
+        /// <summary>
+        /// grdOldTask control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdOldTask;
+        
+        /// <summary>
+        /// grdNeedVerification control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdNeedVerification;
     }
 }

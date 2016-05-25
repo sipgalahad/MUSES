@@ -43,7 +43,11 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             string[] temp = param.Split('|');
             hdnID.Value = temp[0];
-            hdnProjectOrganizationID.Value = temp[1];
+            hdnProjectOrganizationID.Value = temp[1];            
+            hdnProjectID.Value = temp[2];
+            hdnIsMyProject.Value = temp[3];
+            hdnMyProjectOrganizationID.Value = temp[4];
+            hdnMyProjectOrganizationIDDisplayPath.Value = temp[5];
 
             RProjectOrganization entityOrganization = BusinessLayer.GetRProjectOrganization(Convert.ToInt32(hdnProjectOrganizationID.Value));
             txtPosition.Text = hdnPosition.Value = entityOrganization.Position;
@@ -64,7 +68,13 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             lstFilterStatus.Add(new Variable { Code = "2", Value = "Sudah Selesai & Belum Diverifikasi" });
             lstFilterStatus.Add(new Variable { Code = "3", Value = "Sudah Selesai & Sudah Diverifikasi" });
             Methods.SetComboBoxField<Variable>(cboFilterStatus, lstFilterStatus, "Value", "Code");
-            cboFilterStatus.Value = "1";
+            if (temp[6] == "0")
+                cboFilterStatus.Value = "1";
+            else
+            {
+                cboFilterStatus.Value = "2";
+                tdFilterStatus.Style.Add("display", "none");
+            }
 
             Repeater rptFilterStatus = (Repeater)ddeFilterStatus.FindControl("rptFilterStatus");
             rptFilterStatus.DataSource = lstProjectStatus.Where(p => p.StandardCodeID != Constant.ProjectTaskStatus.CLOSED).ToList();
@@ -92,17 +102,12 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
         }
 
-        private RProjectStatusList DetailPage
-        {
-            get { return (RProjectStatusList)Page; }
-        }
-
         #region HTML Getter
         protected string OnGetOrganizationFilterExpression()
         {
-            if (AppSession.IsMyProject)
-                return string.Format("ProjectID = {0} AND DisplayPath LIKE '%/{1}/%' AND IsDeleted = 0", AppSession.ProjectID, DetailPage.OnGetMyProjectOrganizationID());
-            return string.Format("ProjectID = {0} AND IsDeleted = 0", AppSession.ProjectID);
+            if (hdnIsMyProject.Value == "1")
+                return string.Format("ProjectID = {0} AND DisplayPath LIKE '%/{1}/%' AND IsDeleted = 0", hdnProjectID.Value, hdnMyProjectOrganizationID.Value);
+            return string.Format("ProjectID = {0} AND IsDeleted = 0", hdnProjectID.Value);
         }
         #endregion
 
@@ -111,8 +116,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             string filterExpression = "";
             if (chkIsShowAllTask.Checked)
             {
-                if (AppSession.IsMyProject)
-                    filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' AND ProjectTaskID IN (SELECT ProjectTaskID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{2}/%') ORDER BY GCProjectTaskPriority DESC", hdnID.Value, Constant.ProjectTaskStatus.VOID, DetailPage.OnGetMyProjectOrganizationID());
+                if (hdnIsMyProject.Value == "1")
+                    filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' AND ProjectTaskID IN (SELECT ProjectTaskID FROM vRProjectTaskAssign WHERE DisplayPath LIKE '%/{2}/%') ORDER BY GCProjectTaskPriority DESC", hdnID.Value, Constant.ProjectTaskStatus.VOID, hdnMyProjectOrganizationID.Value);
                 else
                     filterExpression = string.Format("ProjectTaskGroupID IN ({0}) AND GCProjectTaskStatus != '{1}' ORDER BY GCProjectTaskPriority DESC", hdnID.Value, Constant.ProjectTaskStatus.VOID);
             }
@@ -165,7 +170,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
                 if (entity.AssignedByPosition > 0)
                 {
-                    if (entity.AssignedByPosition.ToString() != DetailPage.OnGetMyProjectOrganizationID() && DetailPage.OnGetMyProjectOrganizationIDDisplayPath().Contains("/" + entity.AssignedByPosition + "/"))
+                    if (entity.AssignedByPosition.ToString() != hdnMyProjectOrganizationID.Value && hdnMyProjectOrganizationIDDisplayPath.Value.Contains("/" + entity.AssignedByPosition + "/"))
                     {
                         hdnIsAllowEdit.Value = "0";
                         divDetailDelete.Style.Add("display", "none");
@@ -215,7 +220,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             {
                 vRProjectTaskFile entity = e.Row.DataItem as vRProjectTaskFile;
                 HtmlInputHidden hdnDownloadedFile = (HtmlInputHidden)e.Row.FindControl("hdnDownloadedFile");
-                hdnDownloadedFile.Value = string.Format("{0}Project/{1}/{2}/{3}", AppConfigManager.CDXVirtualDirectory, AppSession.ProjectID, hdnProjectTaskID.Value, entity.Path);
+                hdnDownloadedFile.Value = string.Format("{0}Project/{1}/{2}/{3}", AppConfigManager.CDXVirtualDirectory, hdnProjectID.Value, hdnProjectTaskID.Value, entity.Path);
             }
         }
 
@@ -290,8 +295,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 ControlToEntity(entity);
                 entity.ProjectTaskGroupID = Convert.ToInt32(hdnID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                if (AppSession.IsMyProject)
-                    entity.AssignedByPosition = Convert.ToInt32(DetailPage.OnGetMyProjectOrganizationID());
+                if (hdnIsMyProject.Value == "1")
+                    entity.AssignedByPosition = Convert.ToInt32(hdnMyProjectOrganizationID.Value);
                 entityDao.Insert(entity);
                 entity.ProjectTaskID = BusinessLayer.GetRProjectTaskMaxID(ctx);
 
@@ -585,7 +590,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                     RProjectTaskFile entity = new RProjectTaskFile();
                     ControlToEntity3(entity);
 
-                    string path = string.Format("{0}Project\\{1}\\{2}\\", AppConfigManager.CDXPhysicalDirectory, AppSession.ProjectID, hdnProjectTaskID.Value);
+                    string path = string.Format("{0}Project\\{1}\\{2}\\", AppConfigManager.CDXPhysicalDirectory, hdnProjectID.Value, hdnProjectTaskID.Value);
                     if (!Directory.Exists(path))
                         Directory.CreateDirectory(path);
 
@@ -623,7 +628,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.UpdateRProjectTaskFile(entity);
-                string path = string.Format("{0}Project\\{1}\\{2}\\{3}", AppConfigManager.CDXPhysicalDirectory, AppSession.ProjectID, hdnProjectTaskID.Value, entity.Path);
+                string path = string.Format("{0}Project\\{1}\\{2}\\{3}", AppConfigManager.CDXPhysicalDirectory, hdnProjectID.Value, hdnProjectTaskID.Value, entity.Path);
                 File.Delete(path);
                 return true;
             }

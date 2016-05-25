@@ -17,7 +17,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
     {
         public override void InitializeDataControl(string param)
         {
-            RProjectOrganization entity = BusinessLayer.GetRProjectOrganization(Convert.ToInt32(DetailPage.OnGetMyProjectOrganizationID()));
+            hdnMyProjectOrganizationID.Value = param;
+            RProjectOrganization entity = BusinessLayer.GetRProjectOrganization(Convert.ToInt32(hdnMyProjectOrganizationID.Value));
             tacParent.Value = entity.ProjectOrganizationID.ToString();
             tacParent.Text = entity.Position;
             hdnParent.Value = entity.ProjectOrganizationID.ToString();
@@ -44,13 +45,13 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         protected string OnGetParentFilterExpression() 
         {
-            return string.Format("ProjectID = {0} AND IsHeader = 1 AND DisplayPath LIKE '%/{1}/%' AND IsDeleted = 0", AppSession.ProjectID, DetailPage.OnGetMyProjectOrganizationID());
+            return string.Format("ProjectID = {0} AND IsHeader = 1 AND DisplayPath LIKE '%/{1}/%' AND IsDeleted = 0", AppSession.ProjectID, hdnMyProjectOrganizationID.Value);
         }
         #endregion
 
         private void BindGridView()
         {
-            grdView.DataSource = BusinessLayer.GetvRProjectOrganizationList(string.Format("ProjectID = {0} AND DisplayPath LIKE '%/{1}/%'", AppSession.ProjectID, DetailPage.OnGetMyProjectOrganizationID()));
+            grdView.DataSource = BusinessLayer.GetvRProjectOrganizationList(string.Format("ProjectID = {0} AND DisplayPath LIKE '%/{1}/%'", AppSession.ProjectID, hdnMyProjectOrganizationID.Value));
             grdView.DataBind();
         }
 

@@ -10,16 +10,7 @@
 namespace CodeX.Muses.Web.ProjectManagement.Program {
     
     
-    public partial class RProjectTaskDtEntryCtl {
-        
-        /// <summary>
-        /// hdnID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
+    public partial class MyRProjectTaskDtEntryCtl {
         
         /// <summary>
         /// hdnProjectOrganizationID control.
@@ -49,15 +40,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnProjectTaskID;
         
         /// <summary>
-        /// hdnOrganizationSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnOrganizationSave;
-        
-        /// <summary>
         /// hdnProjectID control.
         /// </summary>
         /// <remarks>
@@ -67,31 +49,13 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnProjectID;
         
         /// <summary>
-        /// hdnIsMyProject control.
+        /// hdnIsVerifiedTask control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsMyProject;
-        
-        /// <summary>
-        /// hdnMyProjectOrganizationID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMyProjectOrganizationID;
-        
-        /// <summary>
-        /// hdnMyProjectOrganizationIDDisplayPath control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMyProjectOrganizationIDDisplayPath;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsVerifiedTask;
         
         /// <summary>
         /// txtHeaderText control.
@@ -112,105 +76,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtPosition;
         
         /// <summary>
-        /// chkIsShowAllTask control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsShowAllTask;
-        
-        /// <summary>
-        /// cboFilterStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFilterStatus;
-        
-        /// <summary>
-        /// tdFilterStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdFilterStatus;
-        
-        /// <summary>
-        /// hdnLstFilterStatusID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstFilterStatusID;
-        
-        /// <summary>
-        /// ddeFilterStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeFilterStatus;
-        
-        /// <summary>
-        /// hdnEntryID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
-        
-        /// <summary>
-        /// hdnIsAllowEdit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsAllowEdit;
-        
-        /// <summary>
-        /// txtProjectTaskName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProjectTaskName;
-        
-        /// <summary>
-        /// hdnOrganizationCoordinatorID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnOrganizationCoordinatorID;
-        
-        /// <summary>
-        /// tacOrganizationCoordinator control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacOrganizationCoordinator;
-        
-        /// <summary>
-        /// cboPriority control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboPriority;
-        
-        /// <summary>
         /// cboStatus control.
         /// </summary>
         /// <remarks>
@@ -220,6 +85,15 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboStatus;
         
         /// <summary>
+        /// trIsVerified control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trIsVerified;
+        
+        /// <summary>
         /// chkIsVerified control.
         /// </summary>
         /// <remarks>
@@ -227,96 +101,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkIsVerified;
-        
-        /// <summary>
-        /// cboDueDateType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboDueDateType;
-        
-        /// <summary>
-        /// txtStartDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStartDate;
-        
-        /// <summary>
-        /// txtEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEndDate;
-        
-        /// <summary>
-        /// txtDueDateEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDueDateEndDate;
-        
-        /// <summary>
-        /// txtRemarks control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
-        
-        /// <summary>
-        /// cbpViewPopup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopup;
-        
-        /// <summary>
-        /// PanelContent1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
-        
-        /// <summary>
-        /// pnlPatientVisitTransHdGrdView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlPatientVisitTransHdGrdView;
-        
-        /// <summary>
-        /// grdView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdView;
-        
-        /// <summary>
-        /// rptRemarks control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptRemarks;
         
         /// <summary>
         /// cbpProcessPopup control.

@@ -24213,6 +24213,7 @@ namespace CodeX.Data.Model
         private String _OrganizationCoordinatorName;
         private Int32 _AssignedByPosition;
         private Boolean _IsVerified;
+        private DateTime _CreatedDate;
         private String _CreatedByName;
         private String _ListOrganizationID;
         private String _ListOrganizationName;
@@ -24330,6 +24331,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsVerified; }
             set { _IsVerified = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
         }
         [Column(Name = "CreatedByName", DataType = "String")]
         public String CreatedByName

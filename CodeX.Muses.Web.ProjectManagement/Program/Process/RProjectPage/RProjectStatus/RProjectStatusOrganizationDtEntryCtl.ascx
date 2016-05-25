@@ -249,6 +249,7 @@
 
 <div style="height:440px; overflow-y:auto">
     <input type="hidden" id="hdnEmployeeSave" value="" runat="server" />
+    <input type="hidden" id="hdnMyProjectOrganizationID" value="" runat="server" />
     <script id="tmplEntityDt" type="text/x-jquery-tmpl">
         <tr class="trEmployeeDt">
             <td>&nbsp;</td>

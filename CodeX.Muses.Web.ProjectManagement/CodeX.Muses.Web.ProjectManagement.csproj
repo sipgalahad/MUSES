@@ -134,6 +134,7 @@
     <Content Include="Program\Process\RProjectPage\RProjectStatus\RProjectTaskDtEntryCtl.ascx" />
     <Content Include="Program\Process\RProjectPage\RTimeline\RTimelineList.aspx" />
     <Content Include="Program\Process\RProjectSummary\MyRProjectSummaryList.aspx" />
+    <Content Include="Program\Process\RProjectSummary\MyRProjectTaskDtEntryCtl.ascx" />
     <Content Include="Program\Proses\BudgetManagement\BudgetManagementList.aspx" />
     <Content Include="Program\Proses\BudgetManagement\BudgetManagementPageLauncher.aspx" />
     <Content Include="Program\Proses\ProjectBudget\BudgetInformation\BudgetInformationList.aspx" />
@@ -626,6 +627,13 @@
     </Compile>
     <Compile Include="Program\Process\RProjectSummary\MyRProjectSummaryList.aspx.designer.cs">
       <DependentUpon>MyRProjectSummaryList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\RProjectSummary\MyRProjectTaskDtEntryCtl.ascx.cs">
+      <DependentUpon>MyRProjectTaskDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\RProjectSummary\MyRProjectTaskDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>MyRProjectTaskDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Proses\BudgetManagement\BudgetManagementList.aspx.cs">
       <DependentUpon>BudgetManagementList.aspx</DependentUpon>

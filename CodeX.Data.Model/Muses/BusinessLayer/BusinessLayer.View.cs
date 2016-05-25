@@ -9215,6 +9215,28 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vRProjectTask> GetvRProjectTaskList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vRProjectTask> result = new List<vRProjectTask>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRProjectTask));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRProjectTask)helper.IDataReaderToObject(reader, new vRProjectTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         public static Int32 GetvRProjectTaskRowCount(string filterExpression)
         {
             Int32 result = 0;

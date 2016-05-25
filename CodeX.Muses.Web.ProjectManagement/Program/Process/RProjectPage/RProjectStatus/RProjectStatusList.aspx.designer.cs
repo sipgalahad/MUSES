@@ -22,6 +22,24 @@ namespace CodeX.Muses.Web.ProjectManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnTeam;
         
         /// <summary>
+        /// hdnProjectID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnProjectID;
+        
+        /// <summary>
+        /// hdnIsMyProject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsMyProject;
+        
+        /// <summary>
         /// hdnProjectOrganizationID control.
         /// </summary>
         /// <remarks>

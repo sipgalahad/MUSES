@@ -23,16 +23,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             return Constant.MenuCode.ProjectManagement.RPROJECT_STATUS;
         }
 
-        public string OnGetMyProjectOrganizationID()
-        {
-            return Request.Form[hdnMyProjectOrganizationID.UniqueID];
-        }
-
-        public string OnGetMyProjectOrganizationIDDisplayPath()
-        {
-            return Request.Form[hdnMyProjectOrganizationIDDisplayPath.UniqueID];
-        }
-
         protected override void InitializeDataControl()
         {
             BindGridView();
@@ -52,6 +42,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             else
                 btnTeam.Style.Add("display", "none");
+
+            hdnProjectID.Value = AppSession.ProjectID.ToString();
+            hdnIsMyProject.Value = AppSession.IsMyProject ? "1" : "0";
 
             lstProjectTaskAssign = BusinessLayer.GetvRProjectTaskAssignList(string.Format("ProjectID = {0}", AppSession.ProjectID));
             grdView.DataSource = BusinessLayer.GetvRProjectOrganizationList(string.Format("ProjectID = {0}", AppSession.ProjectID));

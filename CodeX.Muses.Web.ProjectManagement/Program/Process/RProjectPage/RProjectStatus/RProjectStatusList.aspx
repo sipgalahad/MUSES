@@ -17,7 +17,7 @@
         $(function () {
             $('#<%=btnTeam.ClientID %>').click(function () {
                 var url = ResolveUrl('~/Program/Process/RProjectPage/RProjectStatus/RProjectStatusOrganizationDtEntryCtl.ascx');
-                openUserControlPopup(url, '', 'Team', 900, 500);
+                openUserControlPopup(url, $('#<%=hdnMyProjectOrganizationID.ClientID %>').val(), 'Team', 900, 500);
             });
 
             $('#<%=chkIsShowAllGroup.ClientID %>').change(function () {
@@ -49,7 +49,7 @@
 
         $('.lblTask').live('click', function () {
             var url = ResolveUrl('~/Program/Process/RProjectPage/RProjectStatus/RProjectTaskDtEntryCtl.ascx');
-            var id = $(this).closest('tr').find('.keyField').html() + '|' + $('#<%=hdnProjectOrganizationID.ClientID %>').val();
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + $('#<%=hdnProjectOrganizationID.ClientID %>').val() + '|' + $('#<%=hdnProjectID.ClientID %>').val() + '|' + $('#<%=hdnIsMyProject.ClientID %>').val() + '|' + $('#<%=hdnMyProjectOrganizationID.ClientID %>').val() + '|' + $('#<%=hdnMyProjectOrganizationIDDisplayPath.ClientID %>').val() + '|0';
             openUserControlPopup(url, id, 'Detil Tugas', 1200, 500);
         });
 
@@ -123,7 +123,9 @@
             }
         }
     </script>
-
+    
+    <input type="hidden" id="hdnProjectID" runat="server" />
+    <input type="hidden" id="hdnIsMyProject" runat="server" />
     <input type="hidden" id="hdnProjectOrganizationID" runat="server" />
     <input type="hidden" id="hdnMyProjectOrganizationID" runat="server" />
     <input type="hidden" id="hdnMyProjectOrganizationIDDisplayPath" runat="server" />

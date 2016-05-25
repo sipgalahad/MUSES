@@ -183,9 +183,9 @@
 
     function onCboFilterStatusValueChanged() {
         if (cboFilterStatus.GetValue() == '1')
-            $('#tdFilterStatus').removeAttr('style');
+            $('#<%=tdFilterStatus.ClientID %>').removeAttr('style');
         else
-            $('#tdFilterStatus').attr('style', 'display:none');
+            $('#<%=tdFilterStatus.ClientID %>').attr('style', 'display:none');
     }
 
     function onCboDueDateTypeValueChanged() {
@@ -506,6 +506,10 @@
     <input type="hidden" id="hdnPosition" value="" runat="server" />
     <input type="hidden" id="hdnProjectTaskID" value="" runat="server" />
     <input type="hidden" id="hdnOrganizationSave" value="" runat="server" />
+    <input type="hidden" id="hdnProjectID" value="" runat="server" />
+    <input type="hidden" id="hdnIsMyProject" value="" runat="server" />
+    <input type="hidden" id="hdnMyProjectOrganizationID" runat="server" />
+    <input type="hidden" id="hdnMyProjectOrganizationIDDisplayPath" runat="server" />
     <script id="tmplEntityDt" type="text/x-jquery-tmpl">
         <tr class="trOrganizationDt">
             <td>&nbsp;</td>
@@ -575,7 +579,7 @@
                                     <ClientSideEvents ValueChanged="function(s,e){ onCboFilterStatusValueChanged() }" />
                                 </dxe:ASPxComboBox>
                             </td>
-                            <td id="tdFilterStatus">
+                            <td id="tdFilterStatus" runat="server">
                                 <input type="hidden" id="hdnLstFilterStatusID" runat="server" />
                                 <dxe:ASPxDropDownEdit ClientInstanceName="ddeFilterStatus" ID="ddeFilterStatus"
                                     Width="250px" runat="server" EnableAnimation="False">
