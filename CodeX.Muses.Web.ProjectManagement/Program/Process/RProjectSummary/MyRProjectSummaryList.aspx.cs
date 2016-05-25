@@ -34,7 +34,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            filterExpression = string.Format("ProjectTaskID IN (SELECT ProjectTaskID FROM RProjectTaskAssign WHERE ProjectOrganizationID IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0})) AND GCProjectTaskStatus IN ('{1}','{2}','{3}') AND CreatedDate >= '{4}'", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.OPEN, Constant.ProjectTaskStatus.IN_PROGRESS, Constant.ProjectTaskStatus.NEED_CONFIRMATION, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
+            filterExpression = string.Format("ProjectTaskID IN (SELECT ProjectTaskID FROM RProjectTaskAssign WHERE ProjectOrganizationID IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0})) AND GCProjectTaskStatus IN ('{1}','{2}','{3}') AND CreatedDate >= '{4}' AND IsDeleted = 0", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.OPEN, Constant.ProjectTaskStatus.IN_PROGRESS, Constant.ProjectTaskStatus.NEED_CONFIRMATION, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
             RowCount1 = BusinessLayer.GetvRProjectTaskRowCount(filterExpression);
             PageCount1 = Helper.GetPageCount(RowCount1, 5);
             List<vRProjectTask> lstNewTask = BusinessLayer.GetvRProjectTaskList(filterExpression, 5, 1, "EndDate ASC");
@@ -42,8 +42,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             string lstProjectID = "";
             if (lstNewTask.Count > 0)
                 lstProjectID = string.Join(",", lstNewTask.Select(p => p.ProjectID).ToList());
-            
-            filterExpression = string.Format("ProjectTaskID IN (SELECT ProjectTaskID FROM RProjectTaskAssign WHERE ProjectOrganizationID IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0})) AND GCProjectTaskStatus IN ('{1}','{2}','{3}') AND CreatedDate < '{4}'", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.OPEN, Constant.ProjectTaskStatus.IN_PROGRESS, Constant.ProjectTaskStatus.NEED_CONFIRMATION, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
+
+            filterExpression = string.Format("ProjectTaskID IN (SELECT ProjectTaskID FROM RProjectTaskAssign WHERE ProjectOrganizationID IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0})) AND GCProjectTaskStatus IN ('{1}','{2}','{3}') AND CreatedDate < '{4}' AND IsDeleted = 0", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.OPEN, Constant.ProjectTaskStatus.IN_PROGRESS, Constant.ProjectTaskStatus.NEED_CONFIRMATION, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
             RowCount2 = BusinessLayer.GetvRProjectTaskRowCount(filterExpression);
             PageCount2 = Helper.GetPageCount(RowCount2, 5);
             List<vRProjectTask> lstOldTask = BusinessLayer.GetvRProjectTaskList(filterExpression, 5, 1, "EndDate ASC");
@@ -54,7 +54,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 lstProjectID = string.Join(",", lstOldTask.Select(p => p.ProjectID).ToList());
             }
 
-            filterExpression = string.Format("AssignedByPosition IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0}) AND GCProjectTaskStatus IN ('{1}') AND IsVerified = 0", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.CLOSED, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
+            filterExpression = string.Format("AssignedByPosition IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0}) AND GCProjectTaskStatus IN ('{1}') AND IsVerified = 0 AND IsDeleted = 0", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.CLOSED, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
             RowCount3 = BusinessLayer.GetvRProjectTaskRowCount(filterExpression);
             PageCount3 = Helper.GetPageCount(RowCount3, 5);
             List<vRProjectTask> lstNeedVerifiedTask = BusinessLayer.GetvRProjectTaskList(filterExpression, 5, 1, "EndDate ASC");
@@ -98,7 +98,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         private void BindGridView1(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("ProjectTaskID IN (SELECT ProjectTaskID FROM RProjectTaskAssign WHERE ProjectOrganizationID IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0})) AND GCProjectTaskStatus IN ('{1}','{2}','{3}') AND CreatedDate >= '{4}'", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.OPEN, Constant.ProjectTaskStatus.IN_PROGRESS, Constant.ProjectTaskStatus.NEED_CONFIRMATION, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
+            string filterExpression = string.Format("ProjectTaskID IN (SELECT ProjectTaskID FROM RProjectTaskAssign WHERE ProjectOrganizationID IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0})) AND GCProjectTaskStatus IN ('{1}','{2}','{3}') AND CreatedDate >= '{4}' AND IsDeleted = 0", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.OPEN, Constant.ProjectTaskStatus.IN_PROGRESS, Constant.ProjectTaskStatus.NEED_CONFIRMATION, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvRProjectTaskRowCount(filterExpression);
@@ -143,7 +143,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         private void BindGridView2(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("ProjectTaskID IN (SELECT ProjectTaskID FROM RProjectTaskAssign WHERE ProjectOrganizationID IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0})) AND GCProjectTaskStatus IN ('{1}','{2}','{3}') AND CreatedDate < '{4}'", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.OPEN, Constant.ProjectTaskStatus.IN_PROGRESS, Constant.ProjectTaskStatus.NEED_CONFIRMATION, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
+            string filterExpression = string.Format("ProjectTaskID IN (SELECT ProjectTaskID FROM RProjectTaskAssign WHERE ProjectOrganizationID IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0})) AND GCProjectTaskStatus IN ('{1}','{2}','{3}') AND CreatedDate < '{4}' AND IsDeleted = 0", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.OPEN, Constant.ProjectTaskStatus.IN_PROGRESS, Constant.ProjectTaskStatus.NEED_CONFIRMATION, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvRProjectTaskRowCount(filterExpression);
@@ -188,7 +188,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         private void BindGridView3(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("AssignedByPosition IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0}) AND GCProjectTaskStatus IN ('{1}') AND IsVerified = 0", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.CLOSED, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
+            string filterExpression = string.Format("AssignedByPosition IN (SELECT ProjectOrganizationID FROM RProjectOrganizationMember WHERE EmployeeID = {0}) AND GCProjectTaskStatus IN ('{1}') AND IsVerified = 0 AND IsDeleted = 0", AppSession.UserLogin.EmployeeID, Constant.ProjectTaskStatus.CLOSED, DateTime.Now.AddDays(-1).ToString("yyyyMMdd"));
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvRProjectTaskRowCount(filterExpression);
