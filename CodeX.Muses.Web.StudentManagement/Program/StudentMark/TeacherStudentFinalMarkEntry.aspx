@@ -67,6 +67,18 @@
             openWindowPopup(url, 'ClassStudent' + id, '1300', '650');
         });
 
+        $('.lblStudentName').live('click', function () {
+            $row = $(this).closest('tr');
+            var id = $row.find('.keyField').html();
+            var entity = rowToObject($row);
+
+            $('#<%=hdnStudentID.ClientID %>').val(id);
+            $('#<%=hdnStudentCode.ClientID %>').val(entity.StudentCode);
+            $('#<%=hdnStudentName.ClientID %>').val(entity.StudentName);
+            $('#<%=btnCreatePDF.ClientID%>').click();
+        });
+        
+
         $('.lblFinalMark').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html() + '|' + $('#<%=hdnClassID.ClientID %>').val() + '|' + tacPeriodSection.getValue();
             var url = ResolveUrl("~/Program/StudentMark/StudentFinalMarkDtCtl.ascx");
@@ -123,6 +135,14 @@
         .gridCircle                         { display: block; width: 22px; height: 22px; margin: 0 auto; background-size: cover; background-repeat: no-repeat;
                                          background-position : center center; -webkit-border-radius: 99em; -moz-border-radius: 99em; border-radius: 99em; border: 1px solid #eee;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
     </style>
+        <div style="display:none;">
+            <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />
+            <asp:Button ID="btnCreatePDF" runat="server" onclick="btnCreatePDF_Click" />
+        </div>
+        
+        <input type="hidden" id="hdnStudentID" runat="server" />
+        <input type="hidden" id="hdnStudentCode" runat="server" />
+        <input type="hidden" id="hdnStudentName" runat="server" />
     <table>
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran") %></td>
@@ -146,6 +166,7 @@
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kelas")%></label></td>
             <td>
                 <input type="hidden" value="" id="hdnClassID" runat="server" />
+                <input type="hidden" value="" id="hdnClassCode" runat="server" />
                 <asp:TextBox ID="txtClassName" ReadOnly="true" runat="server" Width="200px" />
             </td>
         </tr>
@@ -172,7 +193,13 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="StudentCode" HeaderText="NIS" HeaderStyle-Width="100px" />
-                                <asp:BoundField DataField="StudentName" HeaderText="Nama Siswa" />
+                                <asp:TemplateField HeaderText="Nama Siswa">
+                                    <ItemTemplate>
+                                        <input type="hidden" value="<%#Eval("StudentCode") %>" bindingfield="StudentCode" />
+                                        <input type="hidden" value="<%#Eval("StudentName") %>" bindingfield="StudentName" />
+                                        <label class="lblLink lblStudentName"><%#Eval("StudentName")%></label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" HeaderText="Nilai Akhir" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <label class="lblLink lblFinalMark" runat="server" id="lblFinalMark"></label>

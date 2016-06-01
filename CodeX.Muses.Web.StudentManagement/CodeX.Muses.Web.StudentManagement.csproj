@@ -43,6 +43,9 @@
     <Reference Include="DevExpress.XtraReports.v11.1.Extensions, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v11.1.Service, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v11.1.Web, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="itextsharp">
+      <HintPath>..\..\..\_library\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -247,12 +250,14 @@
     <Content Include="Program\ClassList\ClassWeeklyScheduleList.aspx" />
     <Content Include="Program\TeacherProfile\DownloadUploadedTeacherProfileFile\DownloadUploadedTeacherProfileFile.aspx" />
     <Content Include="Report\VID_RCI\StudentManagement\BBukuIndukRpt.ascx" />
+    <Content Include="Report\VID_RCI\StudentManagement\BRapor2013.aspx" />
     <Content Include="Report\VID_RCI\StudentManagement\BSuratPenentuanPembayaranRpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterRpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BRaporSemesterRpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BRaporSemester2013Rpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BProfilGuruRpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BProfilGuru1Rpt.ascx" />
+    <Content Include="Report\VID_RCI\StudentManagement\Receipt.htm" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1518,6 +1523,13 @@
     </Compile>
     <Compile Include="Report\VID_RCI\StudentManagement\BBukuIndukRpt.ascx.designer.cs">
       <DependentUpon>BBukuIndukRpt.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRapor2013.aspx.cs">
+      <DependentUpon>BRapor2013.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRapor2013.aspx.designer.cs">
+      <DependentUpon>BRapor2013.aspx</DependentUpon>
     </Compile>
     <Compile Include="Report\VID_RCI\StudentManagement\BSuratPenentuanPembayaranRpt.ascx.cs">
       <DependentUpon>BSuratPenentuanPembayaranRpt.ascx</DependentUpon>

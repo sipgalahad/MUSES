@@ -7,162 +7,189 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Program {
+namespace CodeX.Muses.Web.StudentManagement.Report.VID_RCI.StudentManagement {
     
     
-    public partial class TeacherStudentFinalMarkEntry {
+    public partial class BRapor2013 {
         
         /// <summary>
-        /// btnTemp control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnTemp;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// btnCreatePDF control.
+        /// divStudentName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCreatePDF;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divStudentName;
         
         /// <summary>
-        /// hdnStudentID control.
+        /// divStudentNIS control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStudentID;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divStudentNIS;
         
         /// <summary>
-        /// hdnStudentCode control.
+        /// tdSchoolName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStudentCode;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolName;
         
         /// <summary>
-        /// hdnStudentName control.
+        /// tdSchoolNPSN control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStudentName;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolNPSN;
         
         /// <summary>
-        /// cboSchoolPeriod control.
+        /// tdSchoolAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSchoolPeriod;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolAddress;
         
         /// <summary>
-        /// tacPeriodSection control.
+        /// tdSchoolKelurahan control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacPeriodSection;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolKelurahan;
         
         /// <summary>
-        /// hdnClassID control.
+        /// tdSchoolKecamatan control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassID;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolKecamatan;
         
         /// <summary>
-        /// hdnClassCode control.
+        /// tdSchoolCity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassCode;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolCity;
         
         /// <summary>
-        /// txtClassName control.
+        /// tdSchoolProvince control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtClassName;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolProvince;
         
         /// <summary>
-        /// hdnEmployeeID control.
+        /// tdSchoolWebsite control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEmployeeID;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolWebsite;
         
         /// <summary>
-        /// hdnID control.
+        /// tdSchoolEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolEmail;
         
         /// <summary>
-        /// hdnFilterExpression control.
+        /// tdHeaderSchoolName1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHeaderSchoolName1;
         
         /// <summary>
-        /// cbpView control.
+        /// tdHeaderSchoolClassName1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHeaderSchoolClassName1;
         
         /// <summary>
-        /// PanelContent1 control.
+        /// tdHeaderSchoolAddress1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHeaderSchoolAddress1;
         
         /// <summary>
-        /// pnlView control.
+        /// td control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell td;
         
         /// <summary>
-        /// grdView control.
+        /// tdHeaderSchoolAddressLine21 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdView;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHeaderSchoolAddressLine21;
+        
+        /// <summary>
+        /// tdHeaderSchoolPeriod1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHeaderSchoolPeriod1;
+        
+        /// <summary>
+        /// tdHeaderStudentName1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHeaderStudentName1;
+        
+        /// <summary>
+        /// tdHeaderStudentCode1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHeaderStudentCode1;
     }
 }
