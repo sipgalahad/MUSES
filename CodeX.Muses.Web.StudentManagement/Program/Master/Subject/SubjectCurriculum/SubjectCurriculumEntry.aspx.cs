@@ -74,6 +74,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected void cbpClassType_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
+            BindClassType();
         }
 
         private void BindClassType()

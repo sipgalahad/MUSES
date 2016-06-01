@@ -35,7 +35,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected string OnGetTeacherFilterExpression()
         {
-            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            return string.Format("SiteID = '{0}' AND TeacherID IN (SELECT TeacherID FROM TeacherSubject WHERE SubjectID = {1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, hdnSubjectID.Value);
         }
 
         protected override void InitializeDataControl()

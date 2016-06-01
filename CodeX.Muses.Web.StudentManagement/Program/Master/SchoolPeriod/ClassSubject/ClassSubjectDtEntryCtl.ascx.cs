@@ -29,8 +29,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtSubjectName.Text = entityHd.SubjectName;
             txtNumberMeetingInHours.Text = entityHd.NoMeetingHoursInWeek.ToString();
 
-            BindGridView(1, true, ref PageCount);
-
             if (param != "")
             {
                 List<vClassSubject> lstSelected = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectID = {1} AND IsDeleted = 0", hdnSchoolClassID.Value, hdnSubjectID.Value));
@@ -39,6 +37,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 hdnSelectedMember.Value = String.Join(",", lstSelected.Select(p => p.TeacherID).ToList());
             }
+
+            BindGridView(1, true, ref PageCount);
         }
 
         protected void rptSelected_ItemDataBound(object sender, RepeaterItemEventArgs e)
