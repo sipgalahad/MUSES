@@ -105,7 +105,7 @@
         function onCboSchoolPeriodValueChanged(s) {
             var filterExpression = 'SchoolPeriodID = ' + cboSchoolPeriod.GetValue();
             Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
-                $('#<%=hdnCurriculumID.ClientID %>').val(entity.CurriculumID);
+                $('#<%=hdnCurriculumID.ClientID %>').val(result.CurriculumID);
                 cbpView.PerformCallback('refresh');
             });
         }

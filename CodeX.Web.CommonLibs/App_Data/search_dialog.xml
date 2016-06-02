@@ -172,10 +172,11 @@
   </searchdialog>
   <!-- #EndRegion -->
   <!-- #Region Curriculum Subject Class Type -->
-  <searchdialog type="curriculumsubjectclasstype" methodname="GetvCurriculumSubjectClassTypeList" keyfieldname="SubjectCode" orderbyexpression="SubjectName ASC">
+  <searchdialog type="curriculumsubjectclasstype" methodname="GetvCurriculumSubjectClassTypeList" keyfieldname="CurriculumSubjectID" orderbyexpression="SubjectName ASC">
     <gridcolumns>
       <gridcolumn datafield="SubjectCode" headertext="Kode" width="50px" />
-      <gridcolumn datafield="SubjectName" headertext="Nama" width="300px" />
+      <gridcolumn datafield="SubjectName" headertext="Nama" width="200px" />
+      <gridcolumn datafield="CurriculumSubjectGroupName" headertext="Kelompok" width="200px" />
     </gridcolumns>
     <intellisensetexts>
       <intellisensetext datafield="SubjectName" headertext="Nama" description="" />

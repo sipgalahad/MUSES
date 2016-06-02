@@ -17,6 +17,7 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 tacSubject.setValue('');
                 tacSubject.setText('');
+                cboCurriculumSubjectGroup.SetSelectedIndex(0);
 
                 $('#<%=hdnLstClassTypeID.ClientID %>').val('');
                 ddeClassType.SetText('');
@@ -62,6 +63,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumSubjectID);
             tacSubject.setValue(entity.SubjectID);
             tacSubject.setText(entity.SubjectName);
+            cboCurriculumSubjectGroup.SetValue(entity.CurriculumSubjectGroupID);
 
             $('.chkClassType input:checked').each(function () {
                 $(this).prop('checked', false);
@@ -213,6 +215,10 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kelompok Pelajaran")%></label></td>
+                                    <td colspan="3"><dxe:ASPxComboBox runat="server" ID="cboCurriculumSubjectGroup" ClientInstanceName="cboCurriculumSubjectGroup" Width="200px" /></td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Kelas")%></label></td>
                                     <td colspan="5">
                                         <dxe:ASPxDropDownEdit ClientInstanceName="ddeClassType" ID="ddeClassType"
@@ -268,8 +274,8 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" />
+                                <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Kelompok" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="ListCurriculumClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="460px" />
-                                <asp:BoundField DataField="ListCurriculumMarkTypeName" HeaderText="Tipe Nilai" HeaderStyle-Width="250px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
@@ -277,6 +283,7 @@
                                         <input type="hidden" value="<%#Eval("CurriculumSubjectID") %>" bindingfield="CurriculumSubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
+                                        <input type="hidden" value="<%#Eval("CurriculumSubjectGroupID") %>" bindingfield="CurriculumSubjectGroupID" />
                                         <input type="hidden" value="<%#Eval("ListCurriculumClassTypeID") %>" bindingfield="ListCurriculumClassTypeID" />
                                         <input type="hidden" value="<%#Eval("ListCurriculumClassTypeName") %>" bindingfield="ListCurriculumClassTypeName" />
                                         <input type="hidden" value="<%#Eval("ListCurriculumMarkTypeID") %>" bindingfield="ListCurriculumMarkTypeID" />

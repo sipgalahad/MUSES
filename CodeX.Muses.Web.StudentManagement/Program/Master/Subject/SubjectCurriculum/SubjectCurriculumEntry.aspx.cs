@@ -22,7 +22,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
-            List<Curriculum> lstCurriculum = BusinessLayer.GetCurriculumList(string.Format("IsDeleted = 0"));
+            List<Curriculum> lstCurriculum = BusinessLayer.GetCurriculumList(string.Format("GCSchoolType = '{0}' AND IsDeleted = 0", AppSession.Subject.GCSchoolType));
             Methods.SetComboBoxField<Curriculum>(cboCurriculum, lstCurriculum, "CurriculumName", "CurriculumID");
             cboCurriculum.SelectedIndex = 0;
 

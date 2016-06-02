@@ -173,15 +173,15 @@
             var filterExpression = "";
             if (parentID == "") {
                 if ($('#<%=hdnIsPerSchoolPeriodSection.ClientID %>').val() == '0')
-                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND ParentID IS NULL AND IsDeleted = 0";
+                    filterExpression = "SubjectCurriculumID = " + tacSubjectCurriculum.getValue() + " AND CurriculumMeetingPlanID = " + id + " AND ParentID IS NULL AND IsDeleted = 0";
                 else
-                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND CurriculumSchoolPeriodSectionID = " + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + " AND ParentID IS NULL AND IsDeleted = 0";
+                    filterExpression = "SubjectCurriculumID = " + tacSubjectCurriculum.getValue() + " AND CurriculumMeetingPlanID = " + id + " AND CurriculumSchoolPeriodSectionID = " + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + " AND ParentID IS NULL AND IsDeleted = 0";
             }
             else {
                 if ($('#<%=hdnIsPerSchoolPeriodSection.ClientID %>').val() == '0')
-                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND ParentID = " + parentID + " AND IsDeleted = 0";
+                    filterExpression = "SubjectCurriculumID = " + tacSubjectCurriculum.getValue() + " AND CurriculumMeetingPlanID = " + id + " AND ParentID = " + parentID + " AND IsDeleted = 0";
                 else
-                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND CurriculumSchoolPeriodSectionID = " + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + " AND ParentID = " + parentID + " AND IsDeleted = 0";
+                    filterExpression = "SubjectCurriculumID = " + tacSubjectCurriculum.getValue() + " AND CurriculumMeetingPlanID = " + id + " AND CurriculumSchoolPeriodSectionID = " + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + " AND ParentID = " + parentID + " AND IsDeleted = 0";
             }
             Methods.getListObject('GetvSubjectCurriculumMeetingPlanList', filterExpression, function (result) {
                 $("#tmplListSubjectCurriculumMeetingPlan").tmpl(result).appendTo($tbl);

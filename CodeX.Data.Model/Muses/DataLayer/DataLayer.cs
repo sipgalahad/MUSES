@@ -6618,6 +6618,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumSubjectID;
         private Int32 _CurriculumID;
         private Int32 _SubjectID;
+        private Int32? _CurriculumSubjectGroupID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -6641,6 +6642,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectID; }
             set { _SubjectID = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurriculumSubjectGroupID
+        {
+            get { return _CurriculumSubjectGroupID; }
+            set { _CurriculumSubjectGroupID = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

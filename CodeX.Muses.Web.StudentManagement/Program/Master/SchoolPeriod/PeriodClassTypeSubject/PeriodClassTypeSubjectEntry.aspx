@@ -23,7 +23,7 @@
                 tacTeacher.setText('');
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val('');
                 $('#<%=txtPassingGrade.ClientID %>').val('0');
-                cboCurriculumSubjectGroup.SetSelectedIndex(0);
+                cboCurriculumSubjectGroup.SetValue('');
 
                 tacSubject.setEnabled(true);
                 tacTeacher.setEnabled(true);
@@ -153,17 +153,18 @@
 
         //#region Subject
         function onGetSubjectFilterExpression() {
-            var filterExpression = "CurriculumClassTypeID = " + $('#<%=hdnClassTypeID.ClientID %>').val() + " AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM vPeriodClassTypeSubject WHERE PeriodClassTypeID = " + cboClassType.GetValue() + " AND IsDeleted = 0)";
+            var filterExpression = "CurriculumClassTypeID = " + $('#<%=hdnClassTypeID.ClientID %>').val() + " AND IsDeleted = 0 AND NOT EXISTS (SELECT 1 FROM vPeriodClassTypeSubject WHERE PeriodClassTypeID = " + cboClassType.GetValue() + " AND SubjectID = vCurriculumSubjectClassType.SubjectID AND CurriculumSubjectGroupID = vCurriculumSubjectClassType.CurriculumSubjectGroupID AND IsDeleted = 0)";
             return filterExpression;
         }
 
         function onTacSubjectButtonSearchClick() {
             openSearchDialog('curriculumsubjectclasstype', onGetSubjectFilterExpression(), function (value) {
-                var filterExpression = onGetSubjectFilterExpression() + " AND SubjectCode = '" + value + "'";
+                var filterExpression = onGetSubjectFilterExpression() + " AND CurriculumSubjectID = '" + value + "'";
                 Methods.getObject('GetvCurriculumSubjectClassTypeList', filterExpression, function (result) {
                     if (result != null) {
                         tacSubject.setValue(result.SubjectID);
                         tacSubject.setText(result.SubjectName);
+                        cboCurriculumSubjectGroup.SetValue(result.CurriculumSubjectGroupID);
                     }
                     else {
                         tacSubject.setValue('');
@@ -311,8 +312,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pelajaran")%></label></td>
-                                    <td colspan="3"><dxe:ASPxComboBox runat="server" ID="cboCurriculumSubjectGroup" ClientInstanceName="cboCurriculumSubjectGroup" Width="200px" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kelompok Pelajaran")%></label></td>
+                                    <td colspan="3"><dxe:ASPxComboBox runat="server" ClientEnabled="false" ID="cboCurriculumSubjectGroup" ClientInstanceName="cboCurriculumSubjectGroup" Width="200px" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Guru")%></label></td>

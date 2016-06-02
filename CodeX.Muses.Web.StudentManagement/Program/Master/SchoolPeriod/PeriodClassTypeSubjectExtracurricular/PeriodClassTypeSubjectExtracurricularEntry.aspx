@@ -143,7 +143,7 @@
 
         function onTacSubjectButtonSearchClick() {
             openSearchDialog('curriculumsubjectclasstype', onGetSubjectFilterExpression(), function (value) {
-                var filterExpression = onGetSubjectFilterExpression() + " AND SubjectCode = '" + value + "'";
+                var filterExpression = onGetSubjectFilterExpression() + " AND CurriculumSubjectID = '" + value + "'";
                 Methods.getObject('GetvCurriculumSubjectClassTypeList', filterExpression, function (result) {
                     if (result != null) {
                         tacSubject.setValue(result.SubjectID);

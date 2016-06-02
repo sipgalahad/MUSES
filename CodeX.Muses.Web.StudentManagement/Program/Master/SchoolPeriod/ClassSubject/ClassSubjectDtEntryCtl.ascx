@@ -215,6 +215,7 @@
     <input type="hidden" id="hdnSelectedIsMainTeacher" runat="server" value="" />
     <input type="hidden" id="hdnSchoolClassID" runat="server" value="" />
     <input type="hidden" id="hdnSubjectID" runat="server" value="" />
+    <input type="hidden" id="hdnCurriculumSubjectGroupID" runat="server" value="" />
     <input type="hidden" id="hdnPeriodClassTypeSubjectID" runat="server" value="" />
     <input type="hidden" id="hdnParam" runat="server" value="" />
     <input type="hidden" id="hdnFilterItemCode" runat="server" />

@@ -25,7 +25,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected string OnGetSubjectFilterExpression()
         {
-            return string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM CurriculumSubject WHERE CurriculumID = {1} AND IsDeleted = 0) AND SubjectID IN (SELECT SubjectID FROM SchoolSubject WHERE GCSchoolType = '{2}')", hdnGCClassStudyType.Value, AppSession.CurriculumID, hdnGCSchoolType.Value);
+            return string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0 AND SubjectID IN (SELECT SubjectID FROM SchoolSubject WHERE GCSchoolType = '{2}')", hdnGCClassStudyType.Value, AppSession.CurriculumID, hdnGCSchoolType.Value);
         }
 
         protected override void InitializeDataControl()
@@ -48,6 +48,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             rptClassType.DataSource = lstClassType;
             rptClassType.DataBind();
 
+            List<CurriculumSubjectGroup> lstSubjectGroup = BusinessLayer.GetCurriculumSubjectGroupList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID));
+            Methods.SetComboBoxField<CurriculumSubjectGroup>(cboCurriculumSubjectGroup, lstSubjectGroup, "CurriculumSubjectGroupName", "CurriculumSubjectGroupID");
+
             Repeater rptMarkType = (Repeater)ddeMarkType.FindControl("rptMarkType");
             List<vCurriculumMarkTypeClassStudyType> lstMarkType = BusinessLayer.GetvCurriculumMarkTypeClassStudyTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, hdnGCClassStudyType.Value));
             rptMarkType.DataSource = lstMarkType;
@@ -55,6 +58,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             BindGridView();
 
+            Helper.SetControlEntrySetting(cboCurriculumSubjectGroup, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
@@ -138,6 +142,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void ControlToEntity(CurriculumSubject entity)
         {
             entity.SubjectID = Convert.ToInt32(tacSubject.Value);
+            entity.CurriculumSubjectGroupID = Convert.ToInt32(cboCurriculumSubjectGroup.Value);
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

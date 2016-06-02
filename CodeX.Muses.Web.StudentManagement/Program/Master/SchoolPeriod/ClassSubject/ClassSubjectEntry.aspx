@@ -19,7 +19,7 @@
         $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
-            var id = cboClass.GetValue() + '|' + entity.SubjectID + '|' + entity.PeriodClassTypeSubjectID;
+            var id = cboClass.GetValue() + '|' + entity.SubjectID + '|' + entity.CurriculumSubjectGroupID + '|' + entity.PeriodClassTypeSubjectID;
             var url = ResolveUrl("~/Program/Master/SchoolPeriod/ClassSubject/ClassSubjectDtEntryCtl.ascx");
             openUserControlPopup(url, id, 'Detil Guru', 1150, 500);
         });
@@ -55,11 +55,13 @@
                             <Columns>
                                 <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" HeaderStyle-Width="250px" />
+                                <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Kelompok" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="TeacherName" HeaderText="Guru"/>
                                  <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
+                                        <input type="hidden" value="<%#Eval("CurriculumSubjectGroupID") %>" bindingfield="CurriculumSubjectGroupID" />
                                         <input type="hidden" value="<%#Eval("PeriodClassTypeSubjectID") %>" bindingfield="PeriodClassTypeSubjectID" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

@@ -76,7 +76,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = "1 = 0";
             if (cboClassType.Value != null && cboClassType.Value.ToString() != "0")
             {
-                filterExpression = string.Format("SchoolPeriodID = {0} AND PeriodClassTypeID = {1} AND GCClassStudyType = '{2}' AND IsDeleted = 0", AppSession.SchoolPeriodID, cboClassType.Value, Constant.ClassStudyType.REGULAR);
+                filterExpression = string.Format("SchoolPeriodID = {0} AND PeriodClassTypeID = {1} AND GCClassStudyType = '{2}' AND IsDeleted = 0 ORDER BY SubjectName", AppSession.SchoolPeriodID, cboClassType.Value, Constant.ClassStudyType.REGULAR);
                 vPeriodClassType entity = BusinessLayer.GetvPeriodClassTypeList(string.Format("PeriodClassTypeID = {0}", cboClassType.Value)).FirstOrDefault();
                 hdnClassTypeID.Value = entity.CurriculumClassTypeID.ToString();
 

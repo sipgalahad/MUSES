@@ -23,7 +23,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string[] temp = param.Split('|');
             hdnSchoolClassID.Value = temp[0];
             hdnSubjectID.Value = temp[1];
-            hdnPeriodClassTypeSubjectID.Value = temp[2];
+            hdnCurriculumSubjectGroupID.Value = temp[2];
+            hdnPeriodClassTypeSubjectID.Value = temp[3];
 
             vPeriodClassTypeSubject entityHd = BusinessLayer.GetvPeriodClassTypeSubjectList(string.Format("PeriodClassTypeSubjectID = {0}", hdnPeriodClassTypeSubjectID.Value)).FirstOrDefault();
             txtSubjectName.Text = entityHd.SubjectName;
@@ -31,7 +32,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             if (param != "")
             {
-                List<vClassSubject> lstSelected = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectID = {1} AND IsDeleted = 0", hdnSchoolClassID.Value, hdnSubjectID.Value));
+                List<vClassSubject> lstSelected = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectID = {1} AND CurriculumSubjectGroupID = {2} AND IsDeleted = 0", hdnSchoolClassID.Value, hdnSubjectID.Value, hdnCurriculumSubjectGroupID.Value));
                 rptSelected.DataSource = lstSelected;
                 rptSelected.DataBind();
 

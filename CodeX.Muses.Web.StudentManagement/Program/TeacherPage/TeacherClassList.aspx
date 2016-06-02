@@ -116,7 +116,8 @@
                             <Columns>
                                 <asp:BoundField DataField="ClassSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SchoolClassName" HeaderText="Nama Kelas"/>
-                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" HeaderStyle-Width="350px" />
+                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" HeaderStyle-Width="250px" />
+                                <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Kelompok" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jam Mengajar" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:HyperLinkField HeaderText="Detil" Text="Detil" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" />
                                 <asp:HyperLinkField HeaderText="Penilaian" Text="Penilaian" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkMark" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" />

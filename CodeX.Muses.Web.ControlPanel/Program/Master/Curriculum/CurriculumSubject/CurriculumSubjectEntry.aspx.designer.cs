@@ -67,6 +67,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubject;
         
         /// <summary>
+        /// cboCurriculumSubjectGroup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCurriculumSubjectGroup;
+        
+        /// <summary>
         /// ddeClassType control.
         /// </summary>
         /// <remarks>

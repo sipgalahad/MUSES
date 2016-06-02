@@ -2472,6 +2472,9 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private String _SubjectCode;
         private String _SubjectName;
+        private Int32 _CurriculumSubjectGroupID;
+        private String _CurriculumSubjectGroupCode;
+        private String _CurriculumSubjectGroupName;
         private String _GCClassStudyType;
         private String _TeacherName;
 
@@ -2516,6 +2519,24 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32")]
+        public Int32 CurriculumSubjectGroupID
+        {
+            get { return _CurriculumSubjectGroupID; }
+            set { _CurriculumSubjectGroupID = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupCode", DataType = "String")]
+        public String CurriculumSubjectGroupCode
+        {
+            get { return _CurriculumSubjectGroupCode; }
+            set { _CurriculumSubjectGroupCode = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupName", DataType = "String")]
+        public String CurriculumSubjectGroupName
+        {
+            get { return _CurriculumSubjectGroupName; }
+            set { _CurriculumSubjectGroupName = value; }
         }
         [Column(Name = "GCClassStudyType", DataType = "String")]
         public String GCClassStudyType
@@ -4155,6 +4176,9 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumID;
         private Int32 _SubjectID;
         private String _SubjectName;
+        private Int32 _CurriculumSubjectGroupID;
+        private String _CurriculumSubjectGroupCode;
+        private String _CurriculumSubjectGroupName;
         private String _GCClassStudyType;
         private String _ListCurriculumClassTypeID;
         private String _ListCurriculumClassTypeName;
@@ -4185,6 +4209,24 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32")]
+        public Int32 CurriculumSubjectGroupID
+        {
+            get { return _CurriculumSubjectGroupID; }
+            set { _CurriculumSubjectGroupID = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupCode", DataType = "String")]
+        public String CurriculumSubjectGroupCode
+        {
+            get { return _CurriculumSubjectGroupCode; }
+            set { _CurriculumSubjectGroupCode = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupName", DataType = "String")]
+        public String CurriculumSubjectGroupName
+        {
+            get { return _CurriculumSubjectGroupName; }
+            set { _CurriculumSubjectGroupName = value; }
         }
         [Column(Name = "GCClassStudyType", DataType = "String")]
         public String GCClassStudyType
@@ -4233,6 +4275,9 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private String _SubjectCode;
         private String _SubjectName;
+        private Int32 _CurriculumSubjectGroupID;
+        private String _CurriculumSubjectGroupCode;
+        private String _CurriculumSubjectGroupName;
         private Int32 _CurriculumClassTypeID;
         private String _CurriculumClassTypeCode;
         private String _CurriculumClassTypeName;
@@ -4267,6 +4312,24 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32")]
+        public Int32 CurriculumSubjectGroupID
+        {
+            get { return _CurriculumSubjectGroupID; }
+            set { _CurriculumSubjectGroupID = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupCode", DataType = "String")]
+        public String CurriculumSubjectGroupCode
+        {
+            get { return _CurriculumSubjectGroupCode; }
+            set { _CurriculumSubjectGroupCode = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupName", DataType = "String")]
+        public String CurriculumSubjectGroupName
+        {
+            get { return _CurriculumSubjectGroupName; }
+            set { _CurriculumSubjectGroupName = value; }
         }
         [Column(Name = "CurriculumClassTypeID", DataType = "Int32")]
         public Int32 CurriculumClassTypeID
@@ -31464,6 +31527,9 @@ namespace CodeX.Data.Model
         private Int32 _AssistantTeacherID;
         private Int32 _SchoolClassID;
         private String _SchoolClassName;
+        private Int32 _CurriculumSubjectGroupID;
+        private String _CurriculumSubjectGroupCode;
+        private String _CurriculumSubjectGroupName;
         private Int32 _SubjectID;
         private String _SubjectName;
         private Int16 _NoMeetingHoursInWeek;
@@ -31503,6 +31569,24 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolClassName; }
             set { _SchoolClassName = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32")]
+        public Int32 CurriculumSubjectGroupID
+        {
+            get { return _CurriculumSubjectGroupID; }
+            set { _CurriculumSubjectGroupID = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupCode", DataType = "String")]
+        public String CurriculumSubjectGroupCode
+        {
+            get { return _CurriculumSubjectGroupCode; }
+            set { _CurriculumSubjectGroupCode = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupName", DataType = "String")]
+        public String CurriculumSubjectGroupName
+        {
+            get { return _CurriculumSubjectGroupName; }
+            set { _CurriculumSubjectGroupName = value; }
         }
         [Column(Name = "SubjectID", DataType = "Int32")]
         public Int32 SubjectID
