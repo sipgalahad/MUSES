@@ -236,6 +236,13 @@ namespace CodeX.Common
             public const string ADMISSION = "MS018^001";
         }
 
+        public static class CurriculumSyllabusType
+        {
+            public const string INDICATOR = "MS033^001";
+            public const string STANDARD_CODE = "MS033^002";
+            public const string OTHER = "MS034^999";
+        }
+
         public static class CurriculumMeetingPlanType
         {
             public const string INDICATOR = "MS034^001";

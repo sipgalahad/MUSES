@@ -42,6 +42,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 List<vSubjectCurriculumSyllabus> lstReference = BusinessLayer.GetvSubjectCurriculumSyllabusList(string.Format("SubjectID = {0} AND CurriculumSyllabusID = {1} AND IsDeleted = 0", AppSession.Subject.SubjectID, entityDt.ReferenceID));
                 Methods.SetComboBoxField<vSubjectCurriculumSyllabus>(cboReferenceID, lstReference, "SubjectCurriculumSyllabusCode", "SubjectCurriculumSyllabusID");
             }
+            if (entityDt.GCCurriculumSyllabusType == Constant.CurriculumSyllabusType.STANDARD_CODE)
+            {
+                List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("StandardCodeID LIKE '{0}%' AND IsActive = 1 AND IsDeleted = 0", entityDt.StandardCodeID));
+                lblStandardCode.InnerHtml = lstSc.FirstOrDefault(p => p.ParentID == "").StandardCodeName;
+                Methods.SetComboBoxField<StandardCode>(cboStandardCode, lstSc.Where(p => p.ParentID != "").ToList(), "StandardCodeName", "StandardCodeID");
+            }
+            else
+                trCodeStandardCode.Style.Add("display", "none");
             hdnIsUsingCode.Value = entityDt.IsUsingCode ? "1" : "0";
 
             if (temp[0] == "edit")
@@ -54,6 +62,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 txtSubjectCurriculumSyllabusName.Text = entity.SubjectCurriculumSyllabusName;
                 txtRemarks.Text = entity.Remarks;
                 cboReferenceID.Value = entity.ReferenceID.ToString();
+                cboStandardCode.Value = entity.CodeStandardCodeID;
             }
             else
             {
@@ -63,6 +72,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             Helper.SetControlEntrySetting(txtSubjectCurriculumSyllabusCode, new ControlEntrySetting(true, true, true), "mpEntryPopup");
             Helper.SetControlEntrySetting(txtSubjectCurriculumSyllabusName, new ControlEntrySetting(true, true, true), "mpEntryPopup");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpEntryPopup");
+            Helper.SetControlEntrySetting(cboStandardCode, new ControlEntrySetting(true, true, true), "mpEntryPopup");
         }
 
         protected void cbpEntryPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
@@ -103,6 +113,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.ReferenceID = Convert.ToInt32(cboReferenceID.Value);
             else
                 entity.ReferenceID = null;
+            if (cboStandardCode.Value != null && cboStandardCode.Value.ToString() != "")
+                entity.CodeStandardCodeID = cboStandardCode.Value.ToString();
+            else
+                entity.CodeStandardCodeID = null;
             entity.Remarks = txtRemarks.Text;
         }
 

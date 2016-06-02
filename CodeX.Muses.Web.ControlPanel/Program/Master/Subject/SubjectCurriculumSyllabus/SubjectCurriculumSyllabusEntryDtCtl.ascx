@@ -88,6 +88,10 @@
                                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
                                 <td><asp:TextBox ID="txtSubjectCurriculumSyllabusCode" runat="server" Width="100px" /></td>
                             </tr>
+                            <tr id="trCodeStandardCode" runat="server">
+                                <td class="tdLabel"><label class="lblMandatory" id="lblStandardCode" runat="server"></label></td>
+                                <td><dxe:ASPxComboBox ID="cboStandardCode" ClientInstanceName="cboStandardCode" runat="server" Width="200px"  /></td>
+                            </tr>
                             <tr>
                                 <td style="padding-top:5px; vertical-align: top" class="tdLabel"><label class="lblMandatory"><%=GetLabel("Teks")%></label></td>
                                 <td><asp:TextBox ID="txtSubjectCurriculumSyllabusName" runat="server" Width="450px" TextMode="MultiLine" Rows="5" /></td>

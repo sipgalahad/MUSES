@@ -56,6 +56,17 @@
         }
     }
 
+    //#region Time
+    $('.time').live('change', function () {
+        var value = $(this).val();
+        if (value.length == 4) {
+            var h = value.substring(0, 2);
+            var mnt = value.substring(2, 4);
+            $(this).val(h + ':' + mnt);
+        }
+    });
+    //#endregion
+
     //#region Num Entries
     function setNumEntriesText($elm, rowCount, page, rowCountPerPage) {
         var end = rowCountPerPage * page;

@@ -17,7 +17,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         protected string OnGetSubjectIndicatorFilterExpression()
         {
-            return string.Format("SubjectCurriculumID = {0} AND GCCurriculumMeetingPlanType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumMeetingPlanType.INDICATOR);
+            return string.Format("SubjectCurriculumID = {0} AND GCCurriculumSyllabusType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumSyllabusType.INDICATOR);
         }
         public override void InitializeDataControl(string param)
         {

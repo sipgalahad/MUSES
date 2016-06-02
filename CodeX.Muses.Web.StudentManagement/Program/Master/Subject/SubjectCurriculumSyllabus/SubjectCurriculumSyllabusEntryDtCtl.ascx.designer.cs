@@ -130,6 +130,33 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtSubjectCurriculumSyllabusCode;
         
         /// <summary>
+        /// trCodeStandardCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trCodeStandardCode;
+        
+        /// <summary>
+        /// lblStandardCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblStandardCode;
+        
+        /// <summary>
+        /// cboStandardCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboStandardCode;
+        
+        /// <summary>
         /// txtSubjectCurriculumSyllabusName control.
         /// </summary>
         /// <remarks>

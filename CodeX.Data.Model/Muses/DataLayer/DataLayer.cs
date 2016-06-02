@@ -6967,7 +6967,7 @@ namespace CodeX.Data.Model
     #region CurriculumSyllabus
     [Serializable]
     [Table(Name = "CurriculumSyllabus")]
-    public class CurriculumSyllabus : DbDataModel
+    public partial class CurriculumSyllabus : DbDataModel
     {
         private Int32 _CurriculumSyllabusID;
         private Int32 _CurriculumID;
@@ -6977,6 +6977,7 @@ namespace CodeX.Data.Model
         private Int32? _ParentID;
         private Boolean _IsHeader;
         private String _GCCurriculumSyllabusType;
+        private String _StandardCodeID;
         private Int32? _ReferenceID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -7031,6 +7032,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCCurriculumSyllabusType; }
             set { _GCCurriculumSyllabusType = value; }
+        }
+        [Column(Name = "StandardCodeID", DataType = "String", IsNullable = true)]
+        public String StandardCodeID
+        {
+            get { return _StandardCodeID; }
+            set { _StandardCodeID = value; }
         }
         [Column(Name = "ReferenceID", DataType = "Int32", IsNullable = true)]
         public Int32? ReferenceID
@@ -31891,6 +31898,7 @@ namespace CodeX.Data.Model
         private String _SubjectCurriculumSyllabusCode;
         private String _SubjectCurriculumSyllabusName;
         private Int32? _ParentID;
+        private String _CodeStandardCodeID;
         private Int32? _ReferenceID;
         private Int32? _CurriculumSchoolPeriodSectionID;
         private String _Remarks;
@@ -31935,6 +31943,12 @@ namespace CodeX.Data.Model
         {
             get { return _ParentID; }
             set { _ParentID = value; }
+        }
+        [Column(Name = "CodeStandardCodeID", DataType = "String", IsNullable = true)]
+        public String CodeStandardCodeID
+        {
+            get { return _CodeStandardCodeID; }
+            set { _CodeStandardCodeID = value; }
         }
         [Column(Name = "ReferenceID", DataType = "Int32", IsNullable = true)]
         public Int32? ReferenceID

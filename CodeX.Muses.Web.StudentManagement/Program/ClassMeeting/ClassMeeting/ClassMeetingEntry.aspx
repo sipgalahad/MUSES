@@ -173,20 +173,23 @@
                 $('#<%=hdnParentSubjectCurriculumMeetingPlanID.ClientID %>').val(result.ParentID);
                 var filterExpression = onGetSubjectIndicatorFilterExpression();
 
+                var filterExpression1 = "";
                 if (result.ParentID > 0)
-                    filterExpression += " AND (DisplayPath LIKE '%/" + result.SubjectCurriculumMeetingPlanID + "/%' OR DisplayPath LIKE '%/" + result.ParentID + "/%' )";
+                    filterExpression1 += "(DisplayPath LIKE '%/" + result.SubjectCurriculumMeetingPlanID + "/%' OR DisplayPath LIKE '%/" + result.ParentID + "/%' )";
                 else
-                    filterExpression += " AND (DisplayPath LIKE '%/" + result.SubjectCurriculumMeetingPlanID + "/%')";
-                Methods.getListObject('GetvSubjectCurriculumMeetingPlanList', filterExpression, function (result) {
+                    filterExpression1 += "(DisplayPath LIKE '%/" + result.SubjectCurriculumMeetingPlanID + "/%')";
+
+                filterExpression += " AND SubjectCurriculumSyllabusID IN (SELECT ReferenceID FROM vSubjectCurriculumMeetingPlan WHERE <%=OnGetSubjectIndicatorMeetingPlanFilterExpression() %> AND " + filterExpression1 + ")";
+                Methods.getListObject('GetvSubjectCurriculumSyllabusList', filterExpression, function (result) {
                     for (var i = 0; i < result.length; ++i) {
                         var entity = result[i];
                         $('#divEntryDtAdd').click();
 
                         $tr = $('.trSubjectIndicatorDt').last();
                         $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
-                        $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectCurriculumMeetingPlanID);
-                        $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectCurriculumMeetingPlanName);
-                        $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectCurriculumMeetingPlanName);
+                        $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectCurriculumSyllabusID);
+                        $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectCurriculumSyllabusName);
+                        $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectCurriculumSyllabusName);
 
                         $tr.find('.divDetailDelete').hide();
                     }
@@ -212,7 +215,7 @@
                 $newTr.insertBefore($('#trSaveEntryPopup'));
 
                 tempHelper = new CodeXClientAutoCompleteHelper();
-                tempHelper.init("SubjectIndicator" + idxSubjectIndicator, "SubjectCurriculumMeetingPlanName", "GetvSubjectCurriculumMeetingPlanList", "", "onGetSubjectIndicatorFilterExpression", "SubjectCurriculumMeetingPlanID");
+                tempHelper.init("SubjectIndicator" + idxSubjectIndicator, "SubjectCurriculumSyllabusName", "GetvSubjectCurriculumSyllabusList", "", "onGetSubjectIndicatorFilterExpression", "SubjectCurriculumSyllabusID");
                 tempHelper.setClientSideEvents(onSubjectIndicatorIDValueChanged);
                 tempHelper.initializeControl();
                 idxSubjectIndicator++;
@@ -278,14 +281,14 @@
         $('.tacSubjectIndicator .btnAutoCompleteSearchMore').live('click', function () {
             if ($(this).attr('enabled') == null) {
                 $tacTr = $(this).closest('tr');
-                openSearchDialog('subjectcurriculummeetingplan', onGetSubjectIndicatorFilterExpression(), function (value) {
-                    var filterExpression = onGetSubjectIndicatorFilterExpression() + " AND SubjectCurriculumMeetingPlanID = '" + value + "'";
-                    Methods.getObject('GetvSubjectCurriculumMeetingPlanList', filterExpression, function (result) {
+                openSearchDialog('subjectcurriculumsyllabus', onGetSubjectIndicatorFilterExpression(), function (value) {
+                    var filterExpression = onGetSubjectIndicatorFilterExpression() + " AND SubjectCurriculumSyllabusID = '" + value + "'";
+                    Methods.getObject('GetvSubjectCurriculumSyllabusList', filterExpression, function (result) {
                         $tacCOA = $tacTr.find('.tacSubjectIndicator');
                         if (result != null) {
-                            $tacCOA.find('.hdnAutoCompleteValue').val(result.SubjectCurriculumMeetingPlanID);
-                            $tacCOA.find('.hdnAutoCompleteText').val(result.SubjectCurriculumMeetingPlanName);
-                            $tacCOA.find('.txtAutoComplete').val(result.SubjectCurriculumMeetingPlanName);
+                            $tacCOA.find('.hdnAutoCompleteValue').val(result.SubjectCurriculumSyllabusID);
+                            $tacCOA.find('.hdnAutoCompleteText').val(result.SubjectCurriculumSyllabusName);
+                            $tacCOA.find('.txtAutoComplete').val(result.SubjectCurriculumSyllabusName);
                         }
                         else {
                             $tacCOA.find('.hdnAutoCompleteValue').val('');
@@ -327,16 +330,16 @@
                                     </div>
                                     <script class="tmpltAutoComplete" type="text/x-jquery-tmpl">
                                         <div>
-                                            ${SubjectCurriculumMeetingPlanName}
-                                            <input type='hidden' value='${SubjectCurriculumMeetingPlanName}' class='hdnAutoCompleteRowText'/>
-                                            <input type='hidden' value='${SubjectCurriculumMeetingPlanID}' class='hdnAutoCompleteRowValue'/>
+                                            ${SubjectCurriculumSyllabusName}
+                                            <input type='hidden' value='${SubjectCurriculumSyllabusName}' class='hdnAutoCompleteRowText'/>
+                                            <input type='hidden' value='${SubjectCurriculumSyllabusID}' class='hdnAutoCompleteRowValue'/>
                                         </div>
                                     </script1>
                                 </div>
                             </div>
                             <input type="text" class="txtSubjectIndicatorName" style="width:440px; display:none"/>
                         </td>
-                        <td style='width:100px'><input type='checkbox' checked='checked' class='chkIsFromMeetingPlan'/><%=GetLabel("Dari RPP") %></td>
+                        <td style='width:100px'><input type='checkbox' checked='checked' class='chkIsFromMeetingPlan'/><%=GetLabel("Dari Silabus") %></td>
                         <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
                     </tr>
                 </table>

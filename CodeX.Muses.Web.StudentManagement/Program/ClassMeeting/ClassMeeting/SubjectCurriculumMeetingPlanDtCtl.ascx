@@ -76,7 +76,7 @@
         var parentID = $li.find('.hdnParentID').val();
         var filterExpression = "";
         var idx = $('#ulContainerSubjectCurriculumGroup li').index($li);
-        if (idx == 0) 
+        if (idx == 0 && $('#<%=hdnParentSubjectCurriculumMeetingPlanID.ClientID %>').val() != "") 
             filterExpression = "SubjectCurriculumMeetingPlanID = " + $('#<%=hdnParentSubjectCurriculumMeetingPlanID.ClientID %>').val(); 
         else {
             if (parentID == "")

@@ -82,7 +82,7 @@
         showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
             if (result) {
                 var entity = rowToObject($row);
-                $('#<%=hdnID.ClientID %>').val(entity.ClassSubjectTaskRemedialID);
+                $('#<%=hdnEntryID.ClientID %>').val(entity.ClassSubjectTaskRemedialID);
                 cbpProcessPopup.PerformCallback('delete');
             }
         });

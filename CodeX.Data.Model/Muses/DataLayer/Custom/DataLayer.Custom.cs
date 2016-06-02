@@ -96,6 +96,15 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region CurriculumSyllabus
+    public partial class CurriculumSyllabus
+    {
+        public Boolean IsUsingCodeStandardCode
+        {
+            get { return _GCCurriculumSyllabusType == Constant.CurriculumSyllabusType.STANDARD_CODE; }
+        }
+    }
+    #endregion
     #region DailyScheduleTypeDt
     public partial class DailyScheduleTypeDt
     {

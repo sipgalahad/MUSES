@@ -153,9 +153,12 @@
             Methods.getListObject('GetCurriculumSyllabusList', filterExpression, function (result) {
                 for (var i = 0; i < result.length; ++i) {
                     var isUsingCode = '1';
+                    var isUsingCodeStandardCode = '1';
                     if (!result[i].IsUsingCode)
                         isUsingCode = '0';
-                    $option = $("<option value='" + result[i].CurriculumSyllabusID + "' isusingcode='" + isUsingCode + "'>" + result[i].CurriculumSyllabusName + "</option>");
+                    if (!result[i].IsUsingCodeStandardCode)
+                        isUsingCodeStandardCode = '0';
+                    $option = $("<option value='" + result[i].CurriculumSyllabusID + "' isusingcodestandardcode='" + isUsingCodeStandardCode + "' isusingcode='" + isUsingCode + "'>" + result[i].CurriculumSyllabusName + "</option>");
                     $panel.find('.cboCurriculumSyllabusID').append($option);
                 }
                 $panel.find('.cboCurriculumSyllabusID').change(function () {
@@ -176,6 +179,7 @@
             $opt = $li.find('.cboCurriculumSyllabusID option:selected');
             var id = $opt.val();
             var isUsingCode = $opt.attr('isusingcode');
+            var isUsingCodeStandardCode = $opt.attr('isusingcodestandardcode');
 
             $tbl = $li.find('.tblSubjectCurriculumSyllabus');
             $tbl.find('tr:gt(0)').each(function () {
@@ -186,20 +190,24 @@
                 $tbl.find('.thCode').attr('style', 'width: 80px');
             else
                 $tbl.find('.thCode').attr('style', 'display:none');
+            if(isUsingCodeStandardCode == '1')
+                $tbl.find('.thCodeStandardCode').attr('style', 'width: 80px');
+            else
+                $tbl.find('.thCodeStandardCode').attr('style', 'display:none');
 
             var parentID = $li.find('.hdnParentID').val();
             var filterExpression = "";
             if (parentID == "") {
                 if ($('#<%=hdnIsPerSchoolPeriodSection.ClientID %>').val() == '0')
-                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumSyllabusID = " + id + " AND ParentID IS NULL AND IsDeleted = 0";
+                    filterExpression = "SubjectCurriculumID = " + tacSubjectCurriculum.getValue() + " AND CurriculumSyllabusID = " + id + " AND ParentID IS NULL AND IsDeleted = 0";
                 else
-                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumSyllabusID = " + id + " AND CurriculumSchoolPeriodSectionID = " + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + " AND ParentID IS NULL AND IsDeleted = 0";
+                    filterExpression = "SubjectCurriculumID = " + tacSubjectCurriculum.getValue() + " AND CurriculumSyllabusID = " + id + " AND CurriculumSchoolPeriodSectionID = " + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + " AND ParentID IS NULL AND IsDeleted = 0";
             }
             else {
                 if ($('#<%=hdnIsPerSchoolPeriodSection.ClientID %>').val() == '0')
-                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumSyllabusID = " + id + " AND ParentID = " + parentID + " AND IsDeleted = 0";
+                    filterExpression = "SubjectCurriculumID = " + tacSubjectCurriculum.getValue() + " AND CurriculumSyllabusID = " + id + " AND ParentID = " + parentID + " AND IsDeleted = 0";
                 else
-                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumSyllabusID = " + id + " AND CurriculumSchoolPeriodSectionID = " + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + " AND ParentID = " + parentID + " AND IsDeleted = 0";
+                    filterExpression = "SubjectCurriculumID = " + tacSubjectCurriculum.getValue() + " AND CurriculumSyllabusID = " + id + " AND CurriculumSchoolPeriodSectionID = " + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + " AND ParentID = " + parentID + " AND IsDeleted = 0";
             }
             Methods.getListObject('GetvSubjectCurriculumSyllabusList', filterExpression, function (result) {
                 $("#tmplListSubjectCurriculumSyllabus").tmpl(result).appendTo($tbl);
@@ -207,6 +215,11 @@
                 if (isUsingCode == '0') {
                     $tbl.find('tr:gt(0)').each(function () {
                         $(this).find('.tdCode').attr('style', 'display:none');
+                    });
+                }
+                if (isUsingCodeStandardCode == '0') {
+                    $tbl.find('tr:gt(0)').each(function () {
+                        $(this).find('.tdCodeStandardCode').attr('style', 'display:none');
                     });
                 }
                 $tbl.find('tr:gt(0)').click(function (e) {
@@ -308,6 +321,7 @@
     <script id="tmplListSubjectCurriculumSyllabus" type="text/x-jquery-tmpl">
         <tr class="trSubjectCurriculumSyllabus">
             <td class="tdCode"><div>${SubjectCurriculumSyllabusCode}</div></td>
+            <td class="tdCodeStandardCode"><div>${CodeStandardCodeName}</div></td>
             <td class="tdName"><div>${SubjectCurriculumSyllabusName}</div></td>
             <td>
                 <div style='float:right;' class="divDetailDelete"></div>
@@ -337,6 +351,7 @@
         <table class="tblSubjectCurriculumSyllabus grdSelected" rules="all">
             <tr>
                 <th class="thCode" style="width: 80px">Kode</th>
+                <th class="thCodeStandardCode" style="width: 80px">Kode</th>
                 <th>Teks</th>
                 <th style="width: 80px"></th>
             </tr>

@@ -1029,6 +1029,16 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Subject Curriculum Syllabus-->
+  <searchdialog type="subjectcurriculumsyllabus" methodname="GetvSubjectCurriculumSyllabusList" keyfieldname="SubjectCurriculumSyllabusID" orderbyexpression="SubjectCurriculumSyllabusName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="SubjectCurriculumSyllabusName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="SubjectCurriculumSyllabusName" headertext="Nama" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Supplier Credit Note -->
   <searchdialog type="suppliercreditnote" methodname="GetvSupplierCreditNoteList" keyfieldname="CreditNoteNo" orderbyexpression="CreditNoteID DESC">
     <gridcolumns>

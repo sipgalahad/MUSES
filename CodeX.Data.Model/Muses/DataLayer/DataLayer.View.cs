@@ -4500,6 +4500,7 @@ namespace CodeX.Data.Model
         private Boolean _IsHeader;
         private String _GCCurriculumSyllabusType;
         private String _CurriculumSyllabusType;
+        private String _StandardCodeID;
         private Int32 _ReferenceID;
         private String _ReferenceName;
         private Boolean _IsDeleted;
@@ -4565,6 +4566,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumSyllabusType; }
             set { _CurriculumSyllabusType = value; }
+        }
+        [Column(Name = "StandardCodeID", DataType = "String")]
+        public String StandardCodeID
+        {
+            get { return _StandardCodeID; }
+            set { _StandardCodeID = value; }
         }
         [Column(Name = "ReferenceID", DataType = "Int32")]
         public Int32 ReferenceID
@@ -28703,10 +28710,13 @@ namespace CodeX.Data.Model
         private Int32 _SubjectCurriculumID;
         private Int32 _SubjectID;
         private Int32 _CurriculumSyllabusID;
+        private String _GCCurriculumSyllabusType;
         private Boolean _IsHeader;
         private String _SubjectCurriculumSyllabusCode;
         private String _SubjectCurriculumSyllabusName;
         private Int32 _ParentID;
+        private String _CodeStandardCodeID;
+        private String _CodeStandardCodeName;
         private Int32 _ReferenceID;
         private String _ReferenceName;
         private Int32 _CurriculumSchoolPeriodSectionID;
@@ -28737,6 +28747,12 @@ namespace CodeX.Data.Model
             get { return _CurriculumSyllabusID; }
             set { _CurriculumSyllabusID = value; }
         }
+        [Column(Name = "GCCurriculumSyllabusType", DataType = "String")]
+        public String GCCurriculumSyllabusType
+        {
+            get { return _GCCurriculumSyllabusType; }
+            set { _GCCurriculumSyllabusType = value; }
+        }
         [Column(Name = "IsHeader", DataType = "Boolean")]
         public Boolean IsHeader
         {
@@ -28760,6 +28776,18 @@ namespace CodeX.Data.Model
         {
             get { return _ParentID; }
             set { _ParentID = value; }
+        }
+        [Column(Name = "CodeStandardCodeID", DataType = "String")]
+        public String CodeStandardCodeID
+        {
+            get { return _CodeStandardCodeID; }
+            set { _CodeStandardCodeID = value; }
+        }
+        [Column(Name = "CodeStandardCodeName", DataType = "String")]
+        public String CodeStandardCodeName
+        {
+            get { return _CodeStandardCodeName; }
+            set { _CodeStandardCodeName = value; }
         }
         [Column(Name = "ReferenceID", DataType = "Int32")]
         public Int32 ReferenceID
