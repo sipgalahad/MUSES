@@ -81,7 +81,7 @@
                                         </td>
                                         <asp:Repeater ID="rptClassTask" runat="server" OnItemDataBound="rptClassTask_ItemDataBound">
                                             <ItemTemplate>
-                                                <td class="thCenter" style="width: 80px">
+                                                <td class="thCenter">
                                                     <div id="divClassTask" runat="server">✔</div>
                                                 </td>
                                             </ItemTemplate>

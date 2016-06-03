@@ -10,16 +10,25 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ClassTaskPerIndicatorDtViewCtl {
+    public partial class StudentMarkPerIndicatorDtViewCtl {
         
         /// <summary>
-        /// hdnSubjectIndicatorID control.
+        /// hdnStudentID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectIndicatorID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStudentID;
+        
+        /// <summary>
+        /// hdnCurriculumMarkTypeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumMarkTypeID;
         
         /// <summary>
         /// txtHeaderName control.
@@ -31,21 +40,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtHeaderName;
         
         /// <summary>
-        /// rptHeader control.
+        /// rptClassTaskHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeader;
+        protected global::System.Web.UI.WebControls.Repeater rptClassTaskHeader;
         
         /// <summary>
-        /// rptStudent control.
+        /// rptSubjectIndicator control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudent;
+        protected global::System.Web.UI.WebControls.Repeater rptSubjectIndicator;
     }
 }

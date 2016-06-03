@@ -12,107 +12,97 @@
     <script type="text/javascript">
         $(function () {
             setStudentImage();
-
-            var width = parseInt('<%=OnGetTableViewWidth() %>');
-            if (width < 1250)
-                width = 1250;
-            $('#tblView').width(width);
         });
 
-        $('.lblTask.lblLink').live('click', function () {
-            var id = $(this).parent().find('.hdnClassSubjectTaskID').val();
-            var url = ResolveUrl("~/Program/ClassMeeting/ClassTaskSummary/ClassTaskViewCtl.ascx");
-            openUserControlPopup(url, id, 'Detil Tugas', 800, 550);
+        $('.lblStudent.lblLink').live('click', function () {
+            var id = $(this).parent().find('.hdnStudentID').val() + '|' + cboLessonType.GetValue();
+            var url = ResolveUrl("~/Program/ClassMeeting/StudentMarkPerIndicatorInformation/StudentMarkPerIndicatorDtViewCtl.ascx");
+            openUserControlPopup(url, id, 'Detil Nilai', 800, 550);
         });
+
+        function onCboLessonTypeValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+
+        function onCbpViewEndCallback() {
+            hideLoadingPanel();
+            setStudentImage();
+        }
     </script>
-    <input type="hidden" id="hdnListSaveValue" runat="server" />
-    <input type="hidden" id="hdnListIndicatorName" runat="server" />
+    <style type="text/css">
+        .thSubjectIndicator .divSubjectIndicatorName        { display: none; }
+        .thSubjectIndicator:hover .divSubjectIndicatorName  { display: block; }
+        .thSubjectIndicator                                 { cursor: pointer; }
+    </style>
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
     <input type="hidden" id="hdnSubjectID" runat="server" />
-    <input type="hidden" id="hdnTableWidth" runat="server" />
-    <table cellspacing="0" cellpadding="0">
+    <table cellspacing="0">
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("KKM") %></td>
             <td><asp:TextBox ID="txtPassingGrade" runat="server" Width="100px" CssClass="number" ReadOnly="true" /></td>
         </tr>
+        <tr>
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Pelajaran")%></label></td>
+            <td>
+                <dxe:ASPxComboBox runat="server" ID="cboLessonType" ClientInstanceName="cboLessonType" Width="200px">
+                    <ClientSideEvents ValueChanged="function(s,e){ onCboLessonTypeValueChanged() }" />
+                </dxe:ASPxComboBox>
+            </td>
+        </tr>
     </table>
     <div style="width:1250px; overflow-x: auto;">
-        <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent" id="tblView">
-            <tr>
-                <th rowspan="3"><%=GetLabel("Siswa") %></th>
-                <asp:Repeater ID="rptHeader1" runat="server" OnItemDataBound="rptHeader1_ItemDataBound">
-                    <ItemTemplate>
-                        <th class="thCenter" id="thMarkType" runat="server"><%#Eval("CurriculumMarkTypeName")%><br /></th>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </tr>
-            <tr>
-                <asp:Repeater ID="rptHeader2" runat="server" OnItemDataBound="rptHeader2_ItemDataBound">
-                    <ItemTemplate>
-                        <asp:Repeater ID="rptHeader2Dt" runat="server" OnItemDataBound="rptHeader2Dt_ItemDataBound">
-                            <ItemTemplate>
-                                <th class="thCenter" id="thIndicator" runat="server">
-                                    <input type="hidden" class="hdnIndicatorName" value='<%#Eval("SubjectIndicatorName")%>' />
-                                    <%#Eval("SubjectIndicatorName")%>
-                                </th>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </tr>
-            <tr>
-                <asp:Repeater ID="rptHeader3" runat="server" OnItemDataBound="rptHeader3_ItemDataBound">
-                    <ItemTemplate>
-                        <asp:Repeater ID="rptHeader3Dt" runat="server" OnItemDataBound="rptHeader3Dt_ItemDataBound">
-                            <ItemTemplate>
-                                <asp:Repeater ID="rptHeader3Dt2" runat="server">
+        <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
+            ShowLoadingPanel="false" OnCallback="cbpView_Callback">
+            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                EndCallback="function(s,e){ onCbpViewEndCallback(); }" />
+            <PanelCollection>
+                <dx:PanelContent ID="PanelContent1" runat="server">
+                    <asp:Panel runat="server" ID="pnlView">
+                        <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent" id="tblView">
+                            <tr>
+                                <th><%=GetLabel("Siswa") %></th>
+                                <asp:Repeater ID="rptSubjectIndicatorHeader" runat="server">
                                     <ItemTemplate>
-                                        <th class="thCenter" style="width: 80px">
-                                            <input type="hidden" class="hdnClassSubjectTaskID" value='<%#Eval("ClassSubjectTaskID") %>' />
-                                            <label class="lblTask lblLink"><%#Eval("ClassTaskCode")%></label><br />
+                                        <th class="thCenter thSubjectIndicator" style="width:50px;"><%# Container.ItemIndex + 1 %>
+                                            <div style="width:100%; position: relative;">
+                                                <div class="divSubjectIndicatorName" style="position: absolute; right: 0; width: 150px; height: 30px; background-color: #FFF !important; border: 1px solid #AAA;"><%#Eval("SubjectIndicatorName") %></div>
+                                            </div>
                                         </th>
                                     </ItemTemplate>
                                 </asp:Repeater>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </tr>
-            <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
-                <ItemTemplate>
-                    <tr class="trStudent">
-                        <td class="keyField"><%#Eval("StudentID") %></td>
-                        <td>
-                            <table cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td style="width: 35px;">
-                                        <img class="imgStudentImage" src='<%#Eval("StudentImageUrl") %>' alt="" height="25px" width="20px" style="float:left;margin-right: 10px; display:none" />
-                                        <input type="hidden" value='<%# Eval("GCGender")%>' class="hdnStudentGender" />
-                                        <div class="gridCircle divStudentImage"></div>
-                                    </td>
-                                    <td>
-                                        <%#Eval("StudentName") %>
-                                    </td>
-                                </tr>
-                            </table>
-                            <input type="hidden" id="hdnAttendance" class="hdnAttendance" runat="server" value="" />
-                        </td>
-                        <asp:Repeater ID="rptStudentMarkType" runat="server" OnItemDataBound="rptStudentMarkType_ItemDataBound">
-                            <ItemTemplate>
-                                <asp:Repeater ID="rptStudentMark" runat="server" OnItemDataBound="rptStudentMark_ItemDataBound">
-                                    <ItemTemplate>
-                                        <asp:Repeater ID="rptStudentMarkDt" runat="server" OnItemDataBound="rptStudentMarkDt_ItemDataBound">
+                            </tr>
+                            <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
+                                <ItemTemplate>
+                                    <tr class="trStudent">
+                                        <td>
+                                            <table cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td style="width: 35px;">
+                                                        <img class="imgStudentImage" src='<%#Eval("StudentImageUrl") %>' alt="" height="25px" width="20px" style="float:left;margin-right: 10px; display:none" />
+                                                        <input type="hidden" value='<%# Eval("GCGender")%>' class="hdnStudentGender" />
+                                                        <div class="gridCircle divStudentImage"></div>
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" class="hdnStudentID" value='<%#Eval("StudentID") %>' />
+                                                        <label class="lblStudent lblLink"><%#Eval("StudentName") %></label>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <asp:Repeater ID="rptSubjectIndicator" runat="server" OnItemDataBound="rptSubjectIndicator_ItemDataBound">
                                             <ItemTemplate>
-                                                <td align="center" id="tdStudentMark" runat="server"></td>
+                                                <td class="thCenter" style="width: 80px">
+                                                    <div id="divStudentMark" runat="server"></div>
+                                                </td>
                                             </ItemTemplate>
                                         </asp:Repeater>
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </tr>
-                </ItemTemplate>
-            </asp:Repeater>
-        </table>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </table>
+                    </asp:Panel>
+                </dx:PanelContent>
+            </PanelCollection>
+        </dxcp:ASPxCallbackPanel>  
     </div>
 </asp:Content>

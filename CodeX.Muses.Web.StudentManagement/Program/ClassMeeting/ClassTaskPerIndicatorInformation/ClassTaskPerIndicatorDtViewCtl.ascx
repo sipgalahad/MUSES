@@ -18,6 +18,16 @@
 
 <input type="hidden" id="hdnSubjectIndicatorID" runat="server" value="" />
 <div style="overflow-y: scroll; height: 440px">
+    <table class="tblEntryContent" style="width:70%">
+        <colgroup>
+            <col style="width:160px"/>
+            <col/>
+        </colgroup>
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Indikator")%></label></td>
+            <td><asp:TextBox ID="txtHeaderName" ReadOnly="true" Width="100%" runat="server" /></td>
+        </tr>  
+    </table>
     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
         <tr>
             <th rowspan="2"><%=GetLabel("Siswa") %></th>

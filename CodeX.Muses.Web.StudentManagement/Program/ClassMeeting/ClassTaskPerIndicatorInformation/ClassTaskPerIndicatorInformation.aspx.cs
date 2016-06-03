@@ -30,12 +30,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             txtPassingGrade.Text = entityClassSubject.PassingGrade.ToString();
-            if (entityClassSubject.ParentID == 0) 
+            if (entityClassSubject.ParentID == 0)
                 hdnParentClassSubjectID.Value = entityClassSubject.ClassSubjectID.ToString();
             else
                 hdnParentClassSubjectID.Value = entityClassSubject.ParentID.ToString();
             hdnSubjectID.Value = entityClassSubject.SubjectID.ToString();
-            
+
             List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND CurriculumSubjectGroupID = {2} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, hdnSubjectID.Value, entityClassSubject.CurriculumSubjectGroupID));
             Methods.SetComboBoxField<vCurriculumSubjectMarkType>(cboLessonType, lstCurriculumMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
             cboLessonType.SelectedIndex = 0;
@@ -66,7 +66,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             rptSubjectIndicator.DataSource = lstIndicator;
             rptSubjectIndicator.DataBind();
-        
+
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
@@ -103,9 +103,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
                 else
                 {
-                    tdAverage.InnerHtml = lstStudentMark1.Average(p => p.Mark).ToString();
-                    tdMax.InnerHtml = lstStudentMark1.Max(p => p.Mark).ToString();
-                    tdMin.InnerHtml = lstStudentMark1.Min(p => p.Mark).ToString();
+                    tdAverage.InnerHtml = lstStudentMark1.Average(p => p.Mark).ToString("N");
+                    tdMax.InnerHtml = lstStudentMark1.Max(p => p.Mark).ToString("N");
+                    tdMin.InnerHtml = lstStudentMark1.Min(p => p.Mark).ToString("N");
                 }
             }
         }
@@ -117,7 +117,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 vClassSubjectTask subjectTask = (vClassSubjectTask)e.Item.DataItem;
                 vClassSubjectTaskIndicator indicator = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassSubjectTaskIndicator;
 
-                if(lstClassSubjectTaskIndicator.Count(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID && p.SubjectIndicatorID == indicator.SubjectIndicatorID) == 0)
+                if (lstClassSubjectTaskIndicator.Count(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID && p.SubjectIndicatorID == indicator.SubjectIndicatorID) == 0)
                 {
                     HtmlGenericControl divClassTask = (HtmlGenericControl)e.Item.FindControl("divClassTask");
                     divClassTask.Style.Add("display", "none");

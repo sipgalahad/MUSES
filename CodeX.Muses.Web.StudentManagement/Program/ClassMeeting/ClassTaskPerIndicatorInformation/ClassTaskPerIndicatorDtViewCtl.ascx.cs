@@ -19,6 +19,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         public override void InitializeDataControl(string param)
         {
             hdnSubjectIndicatorID.Value = param;
+
+            SubjectCurriculumSyllabus entity = BusinessLayer.GetSubjectCurriculumSyllabus(Convert.ToInt32(hdnSubjectIndicatorID.Value));
+            txtHeaderName.Text = entity.SubjectCurriculumSyllabusName;
+
             lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0 AND ClassSubjectTaskID IN (SELECT ClassSubjectTaskID FROM ClassSubjectTaskIndicator WHERE SubjectIndicatorID = {1})", AppSession.ClassSubject.ClassSubjectID, hdnSubjectIndicatorID.Value));
             rptHeader.DataSource = lstClassTask;
             rptHeader.DataBind();
