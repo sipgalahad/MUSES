@@ -240,6 +240,7 @@ namespace CodeX.Common
         {
             public const string INDICATOR = "MS033^001";
             public const string STANDARD_CODE = "MS033^002";
+            public const string MAIN_COMPETENCY = "MS033^003";
             public const string OTHER = "MS034^999";
         }
 

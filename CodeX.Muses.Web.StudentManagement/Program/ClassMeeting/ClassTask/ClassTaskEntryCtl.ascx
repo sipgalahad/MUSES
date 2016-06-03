@@ -66,6 +66,8 @@
 
     window.onGetSubjectIndicatorFilterExpression = function () {
         var filterExpression = "<%=OnGetSubjectIndicatorFilterExpression() %>";
+        if (cboLessonType.GetValue() != "")
+            filterExpression += " AND (DisplayCurriculumMarkTypeID IS NULL OR DisplayCurriculumMarkTypeID = " + cboLessonType.GetValue() + ")";
         return filterExpression;
     }
 
@@ -234,6 +236,7 @@
 
 <input type="hidden" id="hdnClassMeetingID" runat="server" />
 <input type="hidden" id="hdnSubjectID" runat="server" />
+<input type="hidden" id="hdnCurriculumSubjectGroupID" runat="server" />
 <input type="hidden" id="hdnSubjectCurriculumID" runat="server" />
 <input type="hidden" id="hdnSubjectIndicatorSave" runat="server" />
 <input type="hidden" id="hdnID" runat="server" value="" />

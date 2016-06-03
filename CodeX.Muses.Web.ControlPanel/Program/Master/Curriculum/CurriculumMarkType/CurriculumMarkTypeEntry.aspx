@@ -15,6 +15,7 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtCurriculumMarkTypeCode.ClientID %>').val('');
                 $('#<%=txtCurriculumMarkTypeName.ClientID %>').val('');
+                $('#<%=txtShortName.ClientID %>').val('');
                 cboTaskMarkType.SetValue('');
                 cboFinalMarkType.SetValue('');
                 cboPredicateMarkType.SetValue('');
@@ -97,6 +98,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumMarkTypeID);
             $('#<%=txtCurriculumMarkTypeCode.ClientID %>').val(entity.CurriculumMarkTypeCode);
             $('#<%=txtCurriculumMarkTypeName.ClientID %>').val(entity.CurriculumMarkTypeName);
+            $('#<%=txtShortName.ClientID %>').val(entity.ShortName);
             cboStudentMarkGroup.SetValue(entity.GCStudentMarkGroup);
             cboTaskMarkType.SetValue(entity.TaskMarkTypeID);
             cboFinalMarkType.SetValue(entity.FinalMarkTypeID);
@@ -174,6 +176,10 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                                     <td><asp:TextBox ID="txtCurriculumMarkTypeName" runat="server" Width="200px" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Singkat")%></label></td>
+                                    <td><asp:TextBox ID="txtShortName" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Nilai")%></label></td>
@@ -267,6 +273,7 @@
                                         <input type="hidden" value="<%#Eval("CurriculumMarkTypeID") %>" bindingfield="CurriculumMarkTypeID" />
                                         <input type="hidden" value="<%#Eval("CurriculumMarkTypeCode") %>" bindingfield="CurriculumMarkTypeCode" />
                                         <input type="hidden" value="<%#Eval("CurriculumMarkTypeName") %>" bindingfield="CurriculumMarkTypeName" />
+                                        <input type="hidden" value="<%#Eval("ShortName") %>" bindingfield="ShortName" />
                                         <input type="hidden" value="<%#Eval("GCStudentMarkGroup") %>" bindingfield="GCStudentMarkGroup" />
                                         <input type="hidden" value="<%#Eval("TaskMarkTypeID") %>" bindingfield="TaskMarkTypeID" />
                                         <input type="hidden" value="<%#Eval("FinalMarkTypeID") %>" bindingfield="FinalMarkTypeID" />

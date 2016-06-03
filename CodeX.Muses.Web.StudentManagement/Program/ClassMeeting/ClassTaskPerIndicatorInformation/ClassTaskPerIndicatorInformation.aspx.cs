@@ -35,15 +35,30 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
                 hdnParentClassSubjectID.Value = entityClassSubject.ParentID.ToString();
             hdnSubjectID.Value = entityClassSubject.SubjectID.ToString();
+            
+            List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND CurriculumSubjectGroupID = {2} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, hdnSubjectID.Value, entityClassSubject.CurriculumSubjectGroupID));
+            Methods.SetComboBoxField<vCurriculumSubjectMarkType>(cboLessonType, lstCurriculumMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
+            cboLessonType.SelectedIndex = 0;
 
-            lstClassSubjectTaskIndicator = BusinessLayer.GetvClassSubjectTaskIndicatorList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
+            BindGridView();
+        }
+
+        private void BindGridView()
+        {
+            lstClassSubjectTaskIndicator = BusinessLayer.GetvClassSubjectTaskIndicatorList(string.Format("ClassSubjectID = {0} AND CurriculumMarkTypeID = {1} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID, cboLessonType.Value));
             List<vClassSubjectTaskIndicator> lstIndicator = (from p in lstClassSubjectTaskIndicator
-                            select new vClassSubjectTaskIndicator { SubjectIndicatorID = p.SubjectIndicatorID, SubjectIndicatorName = p.SubjectIndicatorName, CurriculumMarkTypeID = p.CurriculumMarkTypeID }).GroupBy(p => new { p.SubjectIndicatorID, p.SubjectIndicatorName, p.CurriculumMarkTypeID }).Select(p => p.First()).ToList();
+                                                             select new vClassSubjectTaskIndicator { SubjectIndicatorID = p.SubjectIndicatorID, SubjectIndicatorName = p.SubjectIndicatorName, CurriculumMarkTypeID = p.CurriculumMarkTypeID }).GroupBy(p => new { p.SubjectIndicatorID, p.SubjectIndicatorName, p.CurriculumMarkTypeID }).Select(p => p.First()).ToList();
 
-            string filterExpression = string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", AppSession.ClassSubject.PeriodSectionID, AppSession.ClassSubject.ClassSubjectID);
+            string filterExpression = string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1} AND CurriculumMarkTypeID = {2}", AppSession.ClassSubject.PeriodSectionID, AppSession.ClassSubject.ClassSubjectID, cboLessonType.Value);
             lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(filterExpression);
 
-            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
+            if (lstClassSubjectTask.Count > 0)
+            {
+                string lstClassTaskID = String.Join(",", lstClassSubjectTask.Select(p => p.ClassSubjectTaskID).ToList());
+                lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", lstClassTaskID));
+            }
+            else
+                lstStudentMark = new List<vClassStudentSubjectTaskMark>();
             thClassTask.ColSpan = lstClassSubjectTask.Count;
 
             rptClassTaskHeader.DataSource = lstClassSubjectTask;
@@ -51,6 +66,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             rptSubjectIndicator.DataSource = lstIndicator;
             rptSubjectIndicator.DataBind();
+        
+        }
+
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridView();
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)

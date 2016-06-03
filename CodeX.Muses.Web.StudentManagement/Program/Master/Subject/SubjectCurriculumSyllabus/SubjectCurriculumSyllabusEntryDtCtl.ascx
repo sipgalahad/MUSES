@@ -56,6 +56,7 @@
 </script>
 <div>
     <input type="hidden" id="hdnSubjectCurriculumID" value="" runat="server" />
+    <input type="hidden" id="hdnCurriculumID" value="" runat="server" />
     <input type="hidden" id="hdnCurriculumSyllabusID" value="" runat="server" />
     <input type="hidden" id="hdnSubjectCurriculumSyllabusID" value="" runat="server" />
     <input type="hidden" id="hdnParentID" value="" runat="server" />
@@ -91,6 +92,10 @@
                             <tr id="trCodeStandardCode" runat="server">
                                 <td class="tdLabel"><label class="lblMandatory" id="lblStandardCode" runat="server"></label></td>
                                 <td><dxe:ASPxComboBox ID="cboStandardCode" ClientInstanceName="cboStandardCode" runat="server" Width="200px"  /></td>
+                            </tr>
+                            <tr id="trMainCompetency" runat="server">
+                                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kompetensi Inti") %></label></td>
+                                <td><dxe:ASPxComboBox ID="cboMainCompetency" ClientInstanceName="cboMainCompetency" runat="server" Width="200px"  /></td>
                             </tr>
                             <tr>
                                 <td style="padding-top:5px; vertical-align: top" class="tdLabel"><label class="lblMandatory"><%=GetLabel("Teks")%></label></td>

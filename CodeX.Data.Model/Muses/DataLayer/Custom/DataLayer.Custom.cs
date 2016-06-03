@@ -103,6 +103,10 @@ namespace CodeX.Data.Model
         {
             get { return _GCCurriculumSyllabusType == Constant.CurriculumSyllabusType.STANDARD_CODE; }
         }
+        public Boolean IsUsingCurriculumMarkTypeShortName
+        {
+            get { return _GCCurriculumSyllabusType == Constant.CurriculumSyllabusType.MAIN_COMPETENCY; }
+        }
     }
     #endregion
     #region DailyScheduleTypeDt

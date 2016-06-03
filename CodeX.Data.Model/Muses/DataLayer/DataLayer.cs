@@ -6019,6 +6019,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumID;
         private String _CurriculumMarkTypeCode;
         private String _CurriculumMarkTypeName;
+        private String _ShortName;
         private String _GCStudentMarkGroup;
         private Int32? _TaskMarkTypeID;
         private Int32? _FinalMarkTypeID;
@@ -6056,6 +6057,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeName; }
             set { _CurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "ShortName", DataType = "String", IsNullable = true)]
+        public String ShortName
+        {
+            get { return _ShortName; }
+            set { _ShortName = value; }
         }
         [Column(Name = "GCStudentMarkGroup", DataType = "String")]
         public String GCStudentMarkGroup
@@ -31906,6 +31913,7 @@ namespace CodeX.Data.Model
         private String _SubjectCurriculumSyllabusName;
         private Int32? _ParentID;
         private String _CodeStandardCodeID;
+        private Int32? _CurriculumMarkTypeID;
         private Int32? _ReferenceID;
         private Int32? _CurriculumSchoolPeriodSectionID;
         private String _Remarks;
@@ -31956,6 +31964,12 @@ namespace CodeX.Data.Model
         {
             get { return _CodeStandardCodeID; }
             set { _CodeStandardCodeID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
         }
         [Column(Name = "ReferenceID", DataType = "Int32", IsNullable = true)]
         public Int32? ReferenceID

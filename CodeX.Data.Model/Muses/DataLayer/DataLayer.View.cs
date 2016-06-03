@@ -3766,6 +3766,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumID;
         private String _CurriculumMarkTypeCode;
         private String _CurriculumMarkTypeName;
+        private String _ShortName;
         private String _GCStudentMarkGroup;
         private String _StudentMarkGroup;
         private String _ListGCClassStudyType;
@@ -3810,6 +3811,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeName; }
             set { _CurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "ShortName", DataType = "String")]
+        public String ShortName
+        {
+            get { return _ShortName; }
+            set { _ShortName = value; }
         }
         [Column(Name = "GCStudentMarkGroup", DataType = "String")]
         public String GCStudentMarkGroup
@@ -4403,6 +4410,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumMarkTypeID;
         private Int32 _CurriculumID;
         private String _CurriculumMarkTypeName;
+        private Int32 _CurriculumSubjectGroupID;
         private Int32 _TaskMarkTypeID;
         private String _TaskMarkTypeName;
         private String _TaskGCMarkType;
@@ -4449,6 +4457,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeName; }
             set { _CurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32")]
+        public Int32 CurriculumSubjectGroupID
+        {
+            get { return _CurriculumSubjectGroupID; }
+            set { _CurriculumSubjectGroupID = value; }
         }
         [Column(Name = "TaskMarkTypeID", DataType = "Int32")]
         public Int32 TaskMarkTypeID
@@ -28780,6 +28794,12 @@ namespace CodeX.Data.Model
         private Int32 _ParentID;
         private String _CodeStandardCodeID;
         private String _CodeStandardCodeName;
+        private Int32 _CurriculumMarkTypeID;
+        private String _CurriculumMarkTypeName;
+        private String _CurriculumMarkTypeShortName;
+        private Int32 _DisplayCurriculumMarkTypeID;
+        private String _DisplayCurriculumMarkTypeName;
+        private String _DisplayCurriculumMarkTypeShortName;
         private Int32 _ReferenceID;
         private String _ReferenceName;
         private Int32 _CurriculumSchoolPeriodSectionID;
@@ -28851,6 +28871,42 @@ namespace CodeX.Data.Model
         {
             get { return _CodeStandardCodeName; }
             set { _CodeStandardCodeName = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeName", DataType = "String")]
+        public String CurriculumMarkTypeName
+        {
+            get { return _CurriculumMarkTypeName; }
+            set { _CurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeShortName", DataType = "String")]
+        public String CurriculumMarkTypeShortName
+        {
+            get { return _CurriculumMarkTypeShortName; }
+            set { _CurriculumMarkTypeShortName = value; }
+        }
+        [Column(Name = "DisplayCurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 DisplayCurriculumMarkTypeID
+        {
+            get { return _DisplayCurriculumMarkTypeID; }
+            set { _DisplayCurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "DisplayCurriculumMarkTypeName", DataType = "String")]
+        public String DisplayCurriculumMarkTypeName
+        {
+            get { return _DisplayCurriculumMarkTypeName; }
+            set { _DisplayCurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "DisplayCurriculumMarkTypeShortName", DataType = "String")]
+        public String DisplayCurriculumMarkTypeShortName
+        {
+            get { return _DisplayCurriculumMarkTypeShortName; }
+            set { _DisplayCurriculumMarkTypeShortName = value; }
         }
         [Column(Name = "ReferenceID", DataType = "Int32")]
         public Int32 ReferenceID

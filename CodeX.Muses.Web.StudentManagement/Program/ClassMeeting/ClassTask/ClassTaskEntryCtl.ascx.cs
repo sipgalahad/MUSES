@@ -23,6 +23,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             vClassMeeting classMeeting = BusinessLayer.GetvClassMeetingList(string.Format("ClassMeetingID = {0}", AppSession.ClassSubject.ClassMeetingID)).FirstOrDefault();
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+            hdnCurriculumSubjectGroupID.Value = classSubject.CurriculumSubjectGroupID.ToString();
             hdnSubjectCurriculumID.Value = classSubject.SubjectCurriculumID.ToString();
             hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
             hdnSubjectID.Value = classSubject.SubjectID.ToString();
@@ -45,7 +46,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected void SetControlProperties()
         {
-            List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, hdnSubjectID.Value));
+            List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND CurriculumSubjectGroupID = {2} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, hdnSubjectID.Value, hdnCurriculumSubjectGroupID.Value));
             Methods.SetComboBoxField<vCurriculumSubjectMarkType>(cboLessonType, lstCurriculumMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
             cboLessonType.SelectedIndex = 0;
         }

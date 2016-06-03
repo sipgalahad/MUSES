@@ -24,6 +24,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnParentID.Value = temp[3];
             hdnIsPerSchoolPeriodSection.Value = temp[4];
             hdnCurriculumSchoolPeriodSectionID.Value = temp[5];
+            hdnCurriculumID.Value = temp[6];
 
             if (hdnIsPerSchoolPeriodSection.Value == "1")
                 txtSchoolPeriodSectionName.Text = BusinessLayer.GetCurriculumSchoolPeriodSection(Convert.ToInt32(hdnCurriculumSchoolPeriodSectionID.Value)).CurriculumSchoolPeriodSectionName;
@@ -50,11 +51,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             else
                 trCodeStandardCode.Style.Add("display", "none");
+            if (entityDt.GCCurriculumSyllabusType == Constant.CurriculumSyllabusType.MAIN_COMPETENCY)
+            {
+                List<CurriculumMarkType> lstMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsDeleted = 0 ORDER BY ShortName", hdnCurriculumID.Value));
+                Methods.SetComboBoxField<CurriculumMarkType>(cboMainCompetency, lstMarkType, "ShortName", "CurriculumMarkTypeID");
+            }
+            else
+                trMainCompetency.Style.Add("display", "none");
             hdnIsUsingCode.Value = entityDt.IsUsingCode ? "1" : "0";
 
             if (temp[0] == "edit")
             {
-                hdnSubjectCurriculumSyllabusID.Value = temp[6];
+                hdnSubjectCurriculumSyllabusID.Value = temp[7];
                 hdnIsAdd.Value = "0";
 
                 SubjectCurriculumSyllabus entity = BusinessLayer.GetSubjectCurriculumSyllabus(Convert.ToInt32(hdnSubjectCurriculumSyllabusID.Value));
@@ -73,6 +81,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtSubjectCurriculumSyllabusName, new ControlEntrySetting(true, true, true), "mpEntryPopup");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpEntryPopup");
             Helper.SetControlEntrySetting(cboStandardCode, new ControlEntrySetting(true, true, true), "mpEntryPopup");
+            Helper.SetControlEntrySetting(cboMainCompetency, new ControlEntrySetting(true, true, true), "mpEntryPopup");
         }
 
         protected void cbpEntryPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
@@ -109,6 +118,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             entity.SubjectCurriculumSyllabusCode = txtSubjectCurriculumSyllabusCode.Text;
             entity.SubjectCurriculumSyllabusName = txtSubjectCurriculumSyllabusName.Text;
+            if (cboMainCompetency.Value != null && cboMainCompetency.Value.ToString() != "")
+                entity.CurriculumMarkTypeID = Convert.ToInt32(cboMainCompetency.Value);
+            else
+                entity.CurriculumMarkTypeID = null;
             if (cboReferenceID.Value != null && cboReferenceID.Value.ToString() != "")
                 entity.ReferenceID = Convert.ToInt32(cboReferenceID.Value);
             else

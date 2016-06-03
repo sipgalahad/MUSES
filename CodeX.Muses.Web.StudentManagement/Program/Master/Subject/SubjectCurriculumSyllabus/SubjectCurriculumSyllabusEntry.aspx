@@ -31,7 +31,7 @@
             var curriculumDtID = $li.find('.cboCurriculumSyllabusID option:selected').val();
             var subjectCurriculumID = tacSubjectCurriculum.getValue();
 
-            var id = 'add|' + subjectCurriculumID + '|' + curriculumDtID + '|' + parentID + '|' + $('#<%=hdnIsPerSchoolPeriodSection.ClientID %>').val() + '|' + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val();
+            var id = 'add|' + subjectCurriculumID + '|' + curriculumDtID + '|' + parentID + '|' + $('#<%=hdnIsPerSchoolPeriodSection.ClientID %>').val() + '|' + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + '|' + $('#<%=hdnCurriculumID.ClientID %>').val();
             var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculumSyllabus/SubjectCurriculumSyllabusEntryDtCtl.ascx");
             openUserControlPopup(url, id, 'Entry Data', 700, 400);
         });
@@ -45,7 +45,7 @@
             var subjectCurriculumID = tacSubjectCurriculum.getValue();
 
             $row = $(this).closest('tr');
-            var id = 'edit|' + subjectCurriculumID + '|' + curriculumDtID + '|' + parentID + '|' + $('#<%=hdnIsPerSchoolPeriodSection.ClientID %>').val() + '|' + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + '|' + $row.find('.hdnSubjectCurriculumSyllabusID').val();
+            var id = 'edit|' + subjectCurriculumID + '|' + curriculumDtID + '|' + parentID + '|' + $('#<%=hdnIsPerSchoolPeriodSection.ClientID %>').val() + '|' + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + '|' + $('#<%=hdnCurriculumID.ClientID %>').val() + '|' + $row.find('.hdnSubjectCurriculumSyllabusID').val();
             var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculumSyllabus/SubjectCurriculumSyllabusEntryDtCtl.ascx");
             openUserControlPopup(url, id, 'Entry Data', 700, 400);
         });
@@ -153,12 +153,12 @@
             Methods.getListObject('GetCurriculumSyllabusList', filterExpression, function (result) {
                 for (var i = 0; i < result.length; ++i) {
                     var isUsingCode = '1';
-                    var isUsingCodeStandardCode = '1';
+                    var isUsingCurriculumMarkTypeShortName = '1';
                     if (!result[i].IsUsingCode)
                         isUsingCode = '0';
-                    if (!result[i].IsUsingCodeStandardCode)
-                        isUsingCodeStandardCode = '0';
-                    $option = $("<option value='" + result[i].CurriculumSyllabusID + "' isusingcodestandardcode='" + isUsingCodeStandardCode + "' isusingcode='" + isUsingCode + "'>" + result[i].CurriculumSyllabusName + "</option>");
+                    if (!result[i].IsUsingCurriculumMarkTypeShortName)
+                        isUsingCurriculumMarkTypeShortName = '0';
+                    $option = $("<option value='" + result[i].CurriculumSyllabusID + "' isusingcurriculummarktypeshortname='" + isUsingCurriculumMarkTypeShortName + "' isusingcode='" + isUsingCode + "'>" + result[i].CurriculumSyllabusName + "</option>");
                     $panel.find('.cboCurriculumSyllabusID').append($option);
                 }
                 $panel.find('.cboCurriculumSyllabusID').change(function () {
@@ -179,7 +179,7 @@
             $opt = $li.find('.cboCurriculumSyllabusID option:selected');
             var id = $opt.val();
             var isUsingCode = $opt.attr('isusingcode');
-            var isUsingCodeStandardCode = $opt.attr('isusingcodestandardcode');
+            var isUsingCurriculumMarkTypeShortName = $opt.attr('isusingcurriculummarktypeshortname');
 
             $tbl = $li.find('.tblSubjectCurriculumSyllabus');
             $tbl.find('tr:gt(0)').each(function () {
@@ -190,10 +190,10 @@
                 $tbl.find('.thCode').attr('style', 'width: 80px');
             else
                 $tbl.find('.thCode').attr('style', 'display:none');
-            if(isUsingCodeStandardCode == '1')
-                $tbl.find('.thCodeStandardCode').attr('style', 'width: 80px');
+            if(isUsingCurriculumMarkTypeShortName == '1')
+                $tbl.find('.thCurriculumMarkTypeShortName').attr('style', 'width: 120px');
             else
-                $tbl.find('.thCodeStandardCode').attr('style', 'display:none');
+                $tbl.find('.thCurriculumMarkTypeShortName').attr('style', 'display:none');
 
             var parentID = $li.find('.hdnParentID').val();
             var filterExpression = "";
@@ -217,9 +217,9 @@
                         $(this).find('.tdCode').attr('style', 'display:none');
                     });
                 }
-                if (isUsingCodeStandardCode == '0') {
+                if (isUsingCurriculumMarkTypeShortName == '0') {
                     $tbl.find('tr:gt(0)').each(function () {
-                        $(this).find('.tdCodeStandardCode').attr('style', 'display:none');
+                        $(this).find('.tdCurriculumMarkTypeShortName').attr('style', 'display:none');
                     });
                 }
                 $tbl.find('tr:gt(0)').click(function (e) {
@@ -321,7 +321,7 @@
     <script id="tmplListSubjectCurriculumSyllabus" type="text/x-jquery-tmpl">
         <tr class="trSubjectCurriculumSyllabus">
             <td class="tdCode"><div>${SubjectCurriculumSyllabusCode}</div></td>
-            <td class="tdCodeStandardCode"><div>${CodeStandardCodeName}</div></td>
+            <td class="tdCurriculumMarkTypeShortName"><div>${CurriculumMarkTypeShortName}</div></td>
             <td class="tdName"><div>${SubjectCurriculumSyllabusName}</div></td>
             <td>
                 <div style='float:right;' class="divDetailDelete"></div>
@@ -351,7 +351,7 @@
         <table class="tblSubjectCurriculumSyllabus grdSelected" rules="all">
             <tr>
                 <th class="thCode" style="width: 80px">Kode</th>
-                <th class="thCodeStandardCode" style="width: 80px">Kode</th>
+                <th class="thCurriculumMarkTypeShortName" style="width: 120px">Kode</th>
                 <th>Teks</th>
                 <th style="width: 80px"></th>
             </tr>
