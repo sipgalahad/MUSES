@@ -49,6 +49,24 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.TextBox txtCurriculumFinalMarkFormulaName;
         
         /// <summary>
+        /// cboFinalMarkSource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFinalMarkSource;
+        
+        /// <summary>
+        /// cboSummaryType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSummaryType;
+        
+        /// <summary>
         /// txtRemarks control.
         /// </summary>
         /// <remarks>

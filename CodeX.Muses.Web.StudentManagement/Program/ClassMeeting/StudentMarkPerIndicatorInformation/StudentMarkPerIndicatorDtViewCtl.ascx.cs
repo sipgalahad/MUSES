@@ -24,6 +24,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string[] temp = param.Split('|');
             hdnStudentID.Value = temp[0];
             hdnCurriculumMarkTypeID.Value = temp[1];
+            hdnSummaryType.Value = temp[2];
 
             Student entity = BusinessLayer.GetStudent(Convert.ToInt32(hdnStudentID.Value));
             txtHeaderName.Text = entity.StudentName;
@@ -43,20 +44,44 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
                 lstStudentMark = new List<vClassStudentSubjectTaskMark>();
 
+            if (hdnSummaryType.Value == Constant.FinalMarkSummaryType.AVERAGE)
+                thFinalMarkHeader.InnerHtml = "Nilai<br/>(Rata-Rata)";
+            else
+                thFinalMarkHeader.InnerHtml = "Nilai<br/>(Tertinggi)";
+
+            tdClassTask.ColSpan = lstClassSubjectTask.Count;
             rptClassTaskHeader.DataSource = lstClassSubjectTask;
             rptClassTaskHeader.DataBind();
 
             rptSubjectIndicator.DataSource = lstIndicator;
             rptSubjectIndicator.DataBind();
-        } 
+        }
 
+        decimal maxMark = -1;
+        decimal totalMark = -1;
+        decimal countMark = -1;
         protected void rptSubjectIndicator_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
+                maxMark = -1;
+                totalMark = 0;
+                countMark = 0;
+
                 Repeater rptClassTask = (Repeater)e.Item.FindControl("rptClassTask");
                 rptClassTask.DataSource = lstClassSubjectTask;
                 rptClassTask.DataBind();
+
+                HtmlTableCell tdFinalMark = (HtmlTableCell)e.Item.FindControl("tdFinalMark");
+                if (hdnSummaryType.Value == Constant.FinalMarkSummaryType.AVERAGE)
+                {
+                    if (countMark == 0)
+                        tdFinalMark.InnerHtml = "-";
+                    else
+                        tdFinalMark.InnerHtml = (totalMark / countMark).ToString("N");
+                }
+                else
+                    tdFinalMark.InnerHtml = maxMark.ToString("N");
             }
         }
 
@@ -72,7 +97,20 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     vClassStudentSubjectTaskMark studentMark1 = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID);
                     if (studentMark1 != null)
+                    {
+                        if (hdnSummaryType.Value == Constant.FinalMarkSummaryType.AVERAGE)
+                        {
+                            countMark++;
+                            totalMark += studentMark1.Mark;
+                        }
+                        else
+                        {
+                            if (studentMark1.Mark > maxMark)
+                                maxMark = studentMark1.Mark; 
+                        }
+
                         divClassTask.InnerHtml = studentMark1.Mark.ToString();
+                    }
                     else
                         divClassTask.InnerHtml = "-";
                 }

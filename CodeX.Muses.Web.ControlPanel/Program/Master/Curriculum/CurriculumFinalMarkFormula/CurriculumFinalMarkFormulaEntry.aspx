@@ -17,7 +17,8 @@
                 $('#<%=txtCurriculumFinalMarkFormulaName.ClientID %>').val('');
                 $('#<%=txtRemarks.ClientID %>').val('');
                 cboMarkType.SetEnabled(false);
-
+                cboFinalMarkSource.SetSelectedIndex(0);
+                onCboFinalMarkSourceValueChanged();
                 $('#entryDetailContainer').show();
             });
 
@@ -51,8 +52,10 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumFinalMarkFormulaID);
             $('#<%=txtCurriculumFinalMarkFormulaCode.ClientID %>').val(entity.CurriculumFinalMarkFormulaCode);
             $('#<%=txtCurriculumFinalMarkFormulaName.ClientID %>').val(entity.CurriculumFinalMarkFormulaName);
+            cboFinalMarkSource.SetValue(entity.GCFinalMarkSource);
+            cboSummaryType.SetValue(entity.GCSummaryType);
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
-
+            onCboFinalMarkSourceValueChanged();
             cboMarkType.SetEnabled(false);
             $('#entryDetailContainer').show();
         });
@@ -77,6 +80,13 @@
                 else
                     cbpView.PerformCallback('refresh');
             }
+        }
+
+        function onCboFinalMarkSourceValueChanged() {
+            if (cboFinalMarkSource.GetValue() == '<%=OnGetFinalMarkSourceIndicator() %>')
+                cboSummaryType.SetEnabled(true);
+            else
+                cboSummaryType.SetEnabled(false);
         }
 
         function onCboMarkTypeValueChanged() {
@@ -130,6 +140,18 @@
                                     <td><asp:TextBox ID="txtCurriculumFinalMarkFormulaName" runat="server" Width="250px" /></td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Sumber Penilaian")%></label></td>
+                                    <td>
+                                        <dxe:ASPxComboBox ID="cboFinalMarkSource" ClientInstanceName="cboFinalMarkSource" runat="server" Width="250px">
+                                            <ClientSideEvents ValueChanged="function(s,e){ onCboFinalMarkSourceValueChanged() }" />
+                                        </dxe:ASPxComboBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Summary Nilai")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboSummaryType" ClientInstanceName="cboSummaryType" runat="server" Width="250px" /></td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblMandatory"><%=GetLabel("Keterangan")%></label></td>
                                     <td><asp:TextBox ID="txtRemarks" runat="server" TextMode="MultiLine" Rows="2" Width="400px" /></td>
                                 </tr>
@@ -167,6 +189,8 @@
                                         <input type="hidden" value="<%#Eval("CurriculumFinalMarkFormulaID") %>" bindingfield="CurriculumFinalMarkFormulaID" />
                                         <input type="hidden" value="<%#Eval("CurriculumFinalMarkFormulaCode") %>" bindingfield="CurriculumFinalMarkFormulaCode" />
                                         <input type="hidden" value="<%#Eval("CurriculumFinalMarkFormulaName") %>" bindingfield="CurriculumFinalMarkFormulaName" />
+                                        <input type="hidden" value="<%#Eval("GCFinalMarkSource") %>" bindingfield="GCFinalMarkSource" />
+                                        <input type="hidden" value="<%#Eval("GCSummaryType") %>" bindingfield="GCSummaryType" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

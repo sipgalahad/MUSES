@@ -20,8 +20,18 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             return Constant.MenuCode.ControlPanel.CR_CURRICULUM_FINAL_MARK_FORMULA;
         }
+
+        protected string OnGetFinalMarkSourceIndicator()
+        {
+            return Constant.FinalMarkSource.INDICATOR;
+        }
+
         protected override void InitializeDataControl()
         {
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.FINAL_MARK_SOURCE, Constant.StandardCode.FINAL_MARK_SUMMARY_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboFinalMarkSource, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.FINAL_MARK_SOURCE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboSummaryType, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.FINAL_MARK_SUMMARY_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+
             List<CurriculumMarkType> lstMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID));
             Methods.SetComboBoxField<CurriculumMarkType>(cboMarkType, lstMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
             cboMarkType.SelectedIndex = 0;
@@ -30,6 +40,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             Helper.SetControlEntrySetting(txtCurriculumFinalMarkFormulaCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtCurriculumFinalMarkFormulaName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboFinalMarkSource, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboSummaryType, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
@@ -92,6 +104,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.CurriculumFinalMarkFormulaCode = txtCurriculumFinalMarkFormulaCode.Text;
             entity.CurriculumFinalMarkFormulaName = txtCurriculumFinalMarkFormulaName.Text;
+            entity.GCFinalMarkSource = cboFinalMarkSource.Value.ToString();
+            entity.GCSummaryType = cboSummaryType.Value.ToString();
             entity.Remarks = txtRemarks.Text;
         }
 

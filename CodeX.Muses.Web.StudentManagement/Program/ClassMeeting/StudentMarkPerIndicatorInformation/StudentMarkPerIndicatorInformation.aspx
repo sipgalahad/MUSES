@@ -15,7 +15,7 @@
         });
 
         $('.lblStudent.lblLink').live('click', function () {
-            var id = $(this).parent().find('.hdnStudentID').val() + '|' + cboLessonType.GetValue();
+            var id = $(this).parent().find('.hdnStudentID').val() + '|' + cboLessonType.GetValue() + '|' + $('#<%=hdnSummaryType.ClientID %>').val();
             var url = ResolveUrl("~/Program/ClassMeeting/StudentMarkPerIndicatorInformation/StudentMarkPerIndicatorDtViewCtl.ascx");
             openUserControlPopup(url, id, 'Detil Nilai', 800, 550);
         });
@@ -36,6 +36,7 @@
     </style>
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
     <input type="hidden" id="hdnSubjectID" runat="server" />
+    <input type="hidden" id="hdnSchoolPeriodID" runat="server" />
     <table cellspacing="0">
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("KKM") %></td>
@@ -58,6 +59,7 @@
             <PanelCollection>
                 <dx:PanelContent ID="PanelContent1" runat="server">
                     <asp:Panel runat="server" ID="pnlView">
+                        <input type="hidden" id="hdnSummaryType" runat="server" />
                         <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent" id="tblView">
                             <tr>
                                 <th><%=GetLabel("Siswa") %></th>

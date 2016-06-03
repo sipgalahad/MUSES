@@ -92,6 +92,8 @@ namespace CodeX.Common
             public const string RELATIONSHIP_WITH_FAMILY = "MS042";
             public const string URINATE_STATUS = "MS043";
             public const string STUDENT_TYPE = "MS044";
+            public const string FINAL_MARK_SOURCE = "MS045";
+            public const string FINAL_MARK_SUMMARY_TYPE = "MS046";
 
             public const string PROJECT_TASK_STATUS = "DT001";
             public const string PROJECT_TASK_PRIORITY = "DT002";
@@ -101,6 +103,17 @@ namespace CodeX.Common
             public const string PROJECT_FUNDING = "DT006";
             public const string BUDGET_TYPE = "DT007";
             public const string DUE_DATE_TYPE = "DT008";
+        }
+        public static class FinalMarkSummaryType
+        {
+            public const string AVERAGE = "MS046^001";
+            public const string MAX = "MS046^002";
+        }
+
+        public static class FinalMarkSource
+        {
+            public const string MARK_TYPE = "MS045^001";
+            public const string INDICATOR = "MS045^002";
         }
 
         public static class TeacherProfileMarkType 

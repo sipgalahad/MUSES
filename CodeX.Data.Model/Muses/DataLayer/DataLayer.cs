@@ -5786,6 +5786,8 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumMarkTypeID;
         private String _CurriculumFinalMarkFormulaCode;
         private String _CurriculumFinalMarkFormulaName;
+        private String _GCFinalMarkSource;
+        private String _GCSummaryType;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -5816,6 +5818,18 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumFinalMarkFormulaName; }
             set { _CurriculumFinalMarkFormulaName = value; }
+        }
+        [Column(Name = "GCFinalMarkSource", DataType = "String", IsNullable = true)]
+        public String GCFinalMarkSource
+        {
+            get { return _GCFinalMarkSource; }
+            set { _GCFinalMarkSource = value; }
+        }
+        [Column(Name = "GCSummaryType", DataType = "String", IsNullable = true)]
+        public String GCSummaryType
+        {
+            get { return _GCSummaryType; }
+            set { _GCSummaryType = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

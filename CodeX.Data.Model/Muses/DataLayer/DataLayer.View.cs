@@ -15779,6 +15779,8 @@ namespace CodeX.Data.Model
         private String _CurriculumMarkTypeName;
         private Int32 _CurriculumFinalMarkFormulaID;
         private String _CurriculumFinalMarkFormulaName;
+        private String _GCFinalMarkSource;
+        private String _GCSummaryType;
 
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
@@ -15809,6 +15811,18 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumFinalMarkFormulaName; }
             set { _CurriculumFinalMarkFormulaName = value; }
+        }
+        [Column(Name = "GCFinalMarkSource", DataType = "String")]
+        public String GCFinalMarkSource
+        {
+            get { return _GCFinalMarkSource; }
+            set { _GCFinalMarkSource = value; }
+        }
+        [Column(Name = "GCSummaryType", DataType = "String")]
+        public String GCSummaryType
+        {
+            get { return _GCSummaryType; }
+            set { _GCSummaryType = value; }
         }
     }
     #endregion

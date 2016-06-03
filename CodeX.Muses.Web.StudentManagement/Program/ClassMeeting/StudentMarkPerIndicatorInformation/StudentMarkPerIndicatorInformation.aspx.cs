@@ -34,6 +34,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
                 hdnParentClassSubjectID.Value = entityClassSubject.ParentID.ToString();
             hdnSubjectID.Value = entityClassSubject.SubjectID.ToString();
+            hdnSchoolPeriodID.Value = entityClassSubject.SchoolPeriodID.ToString();
 
             List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND CurriculumSubjectGroupID = {2} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, hdnSubjectID.Value, entityClassSubject.CurriculumSubjectGroupID));
             Methods.SetComboBoxField<vCurriculumSubjectMarkType>(cboLessonType, lstCurriculumMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
@@ -44,6 +45,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void BindGridView()
         {
+            vPeriodFinalMarkFormula entityFormula = BusinessLayer.GetvPeriodFinalMarkFormulaList(string.Format("SchoolPeriodID = {0} AND CurriculumMarkTypeID = {1}", hdnSchoolPeriodID.Value, cboLessonType.Value)).FirstOrDefault();
+            hdnSummaryType.Value = Constant.FinalMarkSummaryType.AVERAGE;
+            if (entityFormula != null)
+            {
+                if (entityFormula.GCFinalMarkSource == Constant.FinalMarkSource.INDICATOR)
+                    hdnSummaryType.Value = entityFormula.GCSummaryType;
+            }
+
             lstClassSubjectTaskIndicator = BusinessLayer.GetvClassSubjectTaskIndicatorList(string.Format("ClassSubjectID = {0} AND CurriculumMarkTypeID = {1} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID, cboLessonType.Value));
             lstIndicator = (from p in lstClassSubjectTaskIndicator
                             select new vClassSubjectTaskIndicator { SubjectIndicatorID = p.SubjectIndicatorID, SubjectIndicatorName = p.SubjectIndicatorName, CurriculumMarkTypeID = p.CurriculumMarkTypeID }).GroupBy(p => new { p.SubjectIndicatorID, p.SubjectIndicatorName, p.CurriculumMarkTypeID }).Select(p => p.First()).ToList();
@@ -101,7 +110,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 HtmlGenericControl divStudentMark = (HtmlGenericControl)e.Item.FindControl("divStudentMark");
                 if (lstStudentMark1.Count > 0)
                 {
-                    divStudentMark.InnerHtml = lstStudentMark1.Average(p => p.Mark).ToString("N");
+                    if (hdnSummaryType.Value == Constant.FinalMarkSummaryType.AVERAGE)
+                        divStudentMark.InnerHtml = lstStudentMark1.Average(p => p.Mark).ToString("N");
+                    else
+                        divStudentMark.InnerHtml = lstStudentMark1.Max(p => p.Mark).ToString("N");
                 }
                 else
                     divStudentMark.InnerHtml = "-";
