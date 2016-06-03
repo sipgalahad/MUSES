@@ -122,6 +122,8 @@
     <Content Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx" />
     <Content Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx" />
     <Content Include="Program\ClassMeeting\ClassMeeting\SubjectCurriculumMeetingPlanDtCtl.ascx" />
+    <Content Include="Program\ClassMeeting\ClassTaskPerIndicatorInformation\ClassTaskPerIndicatorInformation.aspx" />
+    <Content Include="Program\ClassMeeting\ClassTaskPerIndicatorInformation\ClassTaskPerIndicatorDtViewCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskViewCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
@@ -626,6 +628,20 @@
     </Compile>
     <Compile Include="Program\ClassMeeting\ClassMeeting\SubjectCurriculumMeetingPlanDtCtl.ascx.designer.cs">
       <DependentUpon>SubjectCurriculumMeetingPlanDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskPerIndicatorInformation\ClassTaskPerIndicatorInformation.aspx.cs">
+      <DependentUpon>ClassTaskPerIndicatorInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskPerIndicatorInformation\ClassTaskPerIndicatorInformation.aspx.designer.cs">
+      <DependentUpon>ClassTaskPerIndicatorInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskPerIndicatorInformation\ClassTaskPerIndicatorDtViewCtl.ascx.cs">
+      <DependentUpon>ClassTaskPerIndicatorDtViewCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskPerIndicatorInformation\ClassTaskPerIndicatorDtViewCtl.ascx.designer.cs">
+      <DependentUpon>ClassTaskPerIndicatorDtViewCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskViewCtl.ascx.cs">
       <DependentUpon>ClassTaskViewCtl.ascx</DependentUpon>
