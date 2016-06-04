@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPClassSubjectPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="StudentMarkPerIndicatorInformation.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.StudentMarkPerIndicatorInformation" %>
+    CodeBehind="StudentNoteInformation.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.StudentNoteInformation" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -14,13 +14,16 @@
             setStudentImage();
         });
 
-        $('.lblStudent.lblLink').live('click', function () {
-            var id = $(this).parent().find('.hdnStudentID').val() + '|' + cboLessonType.GetValue() + '|' + $('#<%=hdnSummaryType.ClientID %>').val();
-            var url = ResolveUrl("~/Program/ClassMeeting/StudentMarkPerIndicatorInformation/StudentMarkPerIndicatorDtViewCtl.ascx");
-            openUserControlPopup(url, id, 'Detil Nilai', 800, 550);
+        $('.lblNoteRate.lblLink').live('click', function () {
+            var category = cboNoteCategory.GetValue();
+            if (category == null)
+                category = '';
+            var id = $(this).closest('tr').find('.hdnStudentID').val() + '|' + category + '|' + $(this).parent().find('.hdnNoteRate').val();
+            var url = ResolveUrl("~/Program/ClassMeeting/StudentNoteInformation/StudentNoteViewDtCtl.ascx");
+            openUserControlPopup(url, id, 'Detil Catatan', 800, 550);
         });
 
-        function onCboLessonTypeValueChanged() {
+        function onCboNoteCategoryValueChanged() {
             cbpView.PerformCallback('refresh');
         }
 
@@ -29,11 +32,6 @@
             setStudentImage();
         }
     </script>
-    <style type="text/css">
-        .thSubjectIndicator .divSubjectIndicatorName        { display: none; }
-        .thSubjectIndicator:hover .divSubjectIndicatorName  { display: block; }
-        .thSubjectIndicator                                 { cursor: pointer; }
-    </style>
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
     <input type="hidden" id="hdnSubjectID" runat="server" />
     <input type="hidden" id="hdnSchoolPeriodID" runat="server" />
@@ -43,10 +41,10 @@
             <td><asp:TextBox ID="txtPassingGrade" runat="server" Width="100px" CssClass="number" ReadOnly="true" /></td>
         </tr>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Pelajaran")%></label></td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kategori")%></label></td>
             <td>
-                <dxe:ASPxComboBox runat="server" ID="cboLessonType" ClientInstanceName="cboLessonType" Width="200px">
-                    <ClientSideEvents ValueChanged="function(s,e){ onCboLessonTypeValueChanged() }" />
+                <dxe:ASPxComboBox runat="server" ID="cboNoteCategory" ClientInstanceName="cboNoteCategory" Width="200px">
+                    <ClientSideEvents ValueChanged="function(s,e){ onCboNoteCategoryValueChanged() }" />
                 </dxe:ASPxComboBox>
             </td>
         </tr>
@@ -59,17 +57,12 @@
             <PanelCollection>
                 <dx:PanelContent ID="PanelContent1" runat="server">
                     <asp:Panel runat="server" ID="pnlView">
-                        <input type="hidden" id="hdnSummaryType" runat="server" />
                         <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent" id="tblView">
                             <tr>
                                 <th><%=GetLabel("Siswa") %></th>
-                                <asp:Repeater ID="rptSubjectIndicatorHeader" runat="server">
+                                <asp:Repeater ID="rptNoteRateHeader" runat="server">
                                     <ItemTemplate>
-                                        <th class="thCenter thSubjectIndicator" style="width:60px;"><%# Container.ItemIndex + 1 %>
-                                            <div style="width:100%; position: relative;">
-                                                <div class="divSubjectIndicatorName" style="position: absolute; right: 0; width: 150px; height: 30px; background-color: #FFF !important; border: 1px solid #AAA;"><%#Eval("SubjectIndicatorName") %></div>
-                                            </div>
-                                        </th>
+                                        <th class="thCenter" style="width:60px;"><%#Eval("TagProperty") %></th>
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </tr>
@@ -86,15 +79,16 @@
                                                     </td>
                                                     <td>
                                                         <input type="hidden" class="hdnStudentID" value='<%#Eval("StudentID") %>' />
-                                                        <label class="lblStudent lblLink"><%#Eval("StudentName") %></label>
+                                                        <label><%#Eval("StudentName") %></label>
                                                     </td>
                                                 </tr>
                                             </table>
                                         </td>
-                                        <asp:Repeater ID="rptSubjectIndicator" runat="server" OnItemDataBound="rptSubjectIndicator_ItemDataBound">
+                                        <asp:Repeater ID="rptNoteRate" runat="server" OnItemDataBound="rptNoteRate_ItemDataBound">
                                             <ItemTemplate>
                                                 <td class="thCenter">
-                                                    <div id="divStudentMark" runat="server"></div>
+                                                    <input type="hidden" class="hdnNoteRate" value='<%#Eval("StandardCodeID") %>' />
+                                                    <label id="divStudentNoteRateCount" runat="server" class="lblNoteRate lblLink"></label>
                                                 </td>
                                             </ItemTemplate>
                                         </asp:Repeater>

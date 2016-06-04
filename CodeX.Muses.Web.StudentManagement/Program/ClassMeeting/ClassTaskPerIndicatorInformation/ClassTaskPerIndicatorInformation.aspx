@@ -37,7 +37,7 @@
             <td><asp:TextBox ID="txtPassingGrade" runat="server" Width="100px" CssClass="number" ReadOnly="true" /></td>
         </tr>
         <tr>
-            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Pelajaran")%></label></td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Pelajaran")%></label></td>
             <td>
                 <dxe:ASPxComboBox runat="server" ID="cboLessonType" ClientInstanceName="cboLessonType" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e){ onCboLessonTypeValueChanged() }" />
