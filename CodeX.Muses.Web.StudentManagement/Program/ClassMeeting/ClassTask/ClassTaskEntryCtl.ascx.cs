@@ -61,8 +61,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(txtTaskDate, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtStartTime, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.TIME_NOW));
-            SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(txtEndTime, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
+            SetControlEntrySetting(txtEndTime, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.TIME_NOW));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
         }
 

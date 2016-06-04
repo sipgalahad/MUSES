@@ -22,6 +22,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.MenuCode.StudentManagement.CS_PERSONALITY_MARK;
         }
 
+        List<vStudentNote> lstStudentNote = null;
+        List<StandardCode> lstNoteRate = null;
         protected override void InitializeDataControl()
         {
             List<vClassSubject> lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND ParentID IS NULL", AppSession.ClassStudent.SchoolClassID, Constant.ClassStudyType.PERSONALITY));
@@ -33,6 +35,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 lstMark = new List<ClassStudentSubjectMark>();
             grdView.DataSource = lstSubject;
             grdView.DataBind();
+
+            BindGridView();
         }
 
         List<ClassStudentSubjectMark> lstMark = null;
@@ -46,6 +50,54 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 if (studentMark != null)
                     txtMarkDescription.Text = studentMark.DescriptionMark;
             }
+        }
+
+        private void BindGridView()
+        {
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.STUDENT_NOTE_CATEGORY, Constant.StandardCode.STUDENT_NOTE_RATE));
+            lstNoteRate = lstSc.Where(p => p.ParentID == Constant.StandardCode.STUDENT_NOTE_RATE).ToList();
+            List<StandardCode> lstNoteCategory = lstSc.Where(p => p.ParentID == Constant.StandardCode.STUDENT_NOTE_CATEGORY).ToList();
+
+            string filterExpression = string.Format("StudentID = {0} AND PeriodSectionID = {1} AND IsDeleted = 0", AppSession.ClassStudent.StudentID, AppSession.ClassStudent.PeriodSectionID);
+            lstStudentNote = BusinessLayer.GetvStudentNoteList(filterExpression);
+
+            rptNoteRateHeader.DataSource = lstNoteRate;
+            rptNoteRateHeader.DataBind();
+
+            rptNoteCategory.DataSource = lstNoteCategory;
+            rptNoteCategory.DataBind();
+        }
+
+        protected void rptNoteCategory_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                Repeater rptNoteRate = (Repeater)e.Item.FindControl("rptNoteRate");
+                rptNoteRate.DataSource = lstNoteRate;
+                rptNoteRate.DataBind();
+            }
+        }
+
+        protected void rptNoteRate_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                StandardCode noteRate = (StandardCode)e.Item.DataItem;
+                StandardCode noteCategory = ((RepeaterItem)e.Item.Parent.Parent).DataItem as StandardCode;
+
+                List<vStudentNote> lstStudentNote1 = lstStudentNote.Where(p => p.GCNoteCategory == noteCategory.StandardCodeID && p.GCNoteRate == noteRate.StandardCodeID).ToList();
+
+                HtmlGenericControl divStudentNoteRateCount = (HtmlGenericControl)e.Item.FindControl("divStudentNoteRateCount");
+                if (lstStudentNote1.Count > 0)
+                    divStudentNoteRateCount.InnerHtml = lstStudentNote1.Count.ToString();
+                else
+                    divStudentNoteRateCount.InnerHtml = "-";
+            }
+        }
+
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridView();
         }
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)

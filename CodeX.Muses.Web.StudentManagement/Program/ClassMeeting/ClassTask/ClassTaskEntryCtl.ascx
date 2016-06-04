@@ -268,7 +268,7 @@
                 </cdx:CodeXAutoCompleteTextBox> 
             </td>
         </tr>
-        <tr>
+        <tr style="display: none">
             <td class="tdLabel"><label><%=GetLabel("% Bobot Nilai")%></label></td>
             <td><asp:TextBox ID="txtFinalMarkPercentage" CssClass="number" Width="80px" runat="server" /></td>
         </tr>

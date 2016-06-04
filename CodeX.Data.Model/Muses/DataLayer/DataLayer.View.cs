@@ -28146,6 +28146,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentNoteID;
         private Int32 _ClassSubjectID;
+        private String _SubjectName;
         private Int32 _PeriodSectionID;
         private Int32 _ClassMeetingID;
         private Int32 _StudentID;
@@ -28158,6 +28159,8 @@ namespace CodeX.Data.Model
         private String _NoteTime;
         private String _Remarks;
         private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private String _CreatedByName;
 
         [Column(Name = "StudentNoteID", DataType = "Int32")]
         public Int32 StudentNoteID
@@ -28170,6 +28173,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
         }
         [Column(Name = "PeriodSectionID", DataType = "Int32")]
         public Int32 PeriodSectionID
@@ -28242,6 +28251,18 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedByName", DataType = "String")]
+        public String CreatedByName
+        {
+            get { return _CreatedByName; }
+            set { _CreatedByName = value; }
         }
     }
     #endregion

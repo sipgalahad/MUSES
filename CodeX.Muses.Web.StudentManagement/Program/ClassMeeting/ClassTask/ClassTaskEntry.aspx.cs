@@ -69,7 +69,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 pageCount = Helper.GetPageCount(rowCount, RowCountPerPage);
             }
 
-            List<vClassSubjectTask> lstEntity = BusinessLayer.GetvClassSubjectTaskList(filterExpression, RowCountPerPage, pageIndex, "TaskDate DESC");
+            List<vClassSubjectTask> lstEntity = BusinessLayer.GetvClassSubjectTaskList(filterExpression, RowCountPerPage, pageIndex, "TaskDate DESC, StartTime DESC");
             rptMeetingView.DataSource = lstEntity;
             rptMeetingView.DataBind();
         }

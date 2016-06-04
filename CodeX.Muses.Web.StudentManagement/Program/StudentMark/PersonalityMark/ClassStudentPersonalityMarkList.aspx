@@ -31,24 +31,76 @@
                 onCustomButtonClick('save');
             });
         });
+
+        $('.lblNoteRate.lblLink').live('click', function () {
+            var id = $(this).closest('tr').find('.hdnNoteCategory').val() + '|' + $(this).parent().find('.hdnNoteRate').val();
+            var url = ResolveUrl("~/Program/StudentMark/PersonalityMark/ClassStudentNoteViewDtCtl.ascx");
+            openUserControlPopup(url, id, 'Detil Catatan', 1100, 550);
+        });
+
+        function onCbpViewEndCallback() {
+            hideLoadingPanel();
+        }
     </script>
     <input type="hidden" id="hdnSaveValue" runat="server" />
     <input type="hidden" id="hdnLstClassSubjectID" runat="server" />
-    <div style="height:440px; overflow-y:auto">
-        <input type="hidden" id="hdnID" value="" runat="server" />  
-         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected grdBorder" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
-            <Columns>
-                <asp:BoundField DataField="ClassSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                <asp:BoundField DataField="SubjectName" HeaderText="Aspek" ItemStyle-CssClass="tdSubjectName" />
-                <asp:TemplateField HeaderStyle-Width="700px" HeaderStyle-CssClass="thCenter" HeaderText="Keterangan" ItemStyle-HorizontalAlign="Center">
-                    <ItemTemplate>
-                        <asp:TextBox ID="txtMarkDescription" Width="100%" runat="server" CssClass="txtMarkDescription" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <EmptyDataTemplate>
-                <%=GetLabel("No Data To Display")%>
-            </EmptyDataTemplate>
-        </asp:GridView>
+    <input type="hidden" id="hdnID" value="" runat="server" />  
+    <asp:GridView ID="grdView" runat="server" CssClass="grdSelected grdBorder" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
+    <Columns>
+        <asp:BoundField DataField="ClassSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+        <asp:BoundField DataField="SubjectName" HeaderText="Aspek" ItemStyle-CssClass="tdSubjectName" />
+        <asp:TemplateField HeaderStyle-Width="700px" HeaderStyle-CssClass="thCenter" HeaderText="Keterangan" ItemStyle-HorizontalAlign="Center">
+            <ItemTemplate>
+                <asp:TextBox ID="txtMarkDescription" Width="100%" runat="server" CssClass="txtMarkDescription" />
+            </ItemTemplate>
+        </asp:TemplateField>
+    </Columns>
+    <EmptyDataTemplate>
+        <%=GetLabel("No Data To Display")%>
+    </EmptyDataTemplate>
+</asp:GridView>
+
+    <br />
+    <h4><%=GetLabel("Catatan Individu") %></h4>
+    <div style="width:1250px; overflow-x: auto;">
+        <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
+            ShowLoadingPanel="false" OnCallback="cbpView_Callback">
+            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                EndCallback="function(s,e){ onCbpViewEndCallback(); }" />
+            <PanelCollection>
+                <dx:PanelContent ID="PanelContent1" runat="server">
+                    <asp:Panel runat="server" ID="pnlView">
+                        <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent" id="tblView">
+                            <tr>
+                                <th><%=GetLabel("Kategori") %></th>
+                                <asp:Repeater ID="rptNoteRateHeader" runat="server">
+                                    <ItemTemplate>
+                                        <th class="thCenter" style="width:60px;"><%#Eval("TagProperty") %></th>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </tr>
+                            <asp:Repeater ID="rptNoteCategory" runat="server" OnItemDataBound="rptNoteCategory_ItemDataBound">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td>
+                                            <label><%#Eval("StandardCodeName") %></label>
+                                            <input type="hidden" class="hdnNoteCategory" value='<%#Eval("StandardCodeID") %>' />
+                                        </td>
+                                        <asp:Repeater ID="rptNoteRate" runat="server" OnItemDataBound="rptNoteRate_ItemDataBound">
+                                            <ItemTemplate>
+                                                <td class="thCenter">
+                                                    <input type="hidden" class="hdnNoteRate" value='<%#Eval("StandardCodeID") %>' />
+                                                    <label id="divStudentNoteRateCount" runat="server" class="lblNoteRate lblLink"></label>
+                                                </td>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </table>
+                    </asp:Panel>
+                </dx:PanelContent>
+            </PanelCollection>
+        </dxcp:ASPxCallbackPanel>  
     </div>
 </asp:Content>
