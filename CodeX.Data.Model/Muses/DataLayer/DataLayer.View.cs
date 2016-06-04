@@ -28139,6 +28139,112 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentNote
+    [Serializable]
+    [Table(Name = "vStudentNote")]
+    public class vStudentNote
+    {
+        private Int32 _StudentNoteID;
+        private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
+        private Int32 _ClassMeetingID;
+        private Int32 _StudentID;
+        private String _GCNoteCategory;
+        private String _NoteCategory;
+        private String _GCNoteRate;
+        private String _NoteRate;
+        private String _NoteRateInitial;
+        private DateTime _NoteDate;
+        private String _NoteTime;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "StudentNoteID", DataType = "Int32")]
+        public Int32 StudentNoteID
+        {
+            get { return _StudentNoteID; }
+            set { _StudentNoteID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "ClassMeetingID", DataType = "Int32")]
+        public Int32 ClassMeetingID
+        {
+            get { return _ClassMeetingID; }
+            set { _ClassMeetingID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "GCNoteCategory", DataType = "String")]
+        public String GCNoteCategory
+        {
+            get { return _GCNoteCategory; }
+            set { _GCNoteCategory = value; }
+        }
+        [Column(Name = "NoteCategory", DataType = "String")]
+        public String NoteCategory
+        {
+            get { return _NoteCategory; }
+            set { _NoteCategory = value; }
+        }
+        [Column(Name = "GCNoteRate", DataType = "String")]
+        public String GCNoteRate
+        {
+            get { return _GCNoteRate; }
+            set { _GCNoteRate = value; }
+        }
+        [Column(Name = "NoteRate", DataType = "String")]
+        public String NoteRate
+        {
+            get { return _NoteRate; }
+            set { _NoteRate = value; }
+        }
+        [Column(Name = "NoteRateInitial", DataType = "String")]
+        public String NoteRateInitial
+        {
+            get { return _NoteRateInitial; }
+            set { _NoteRateInitial = value; }
+        }
+        [Column(Name = "NoteDate", DataType = "DateTime")]
+        public DateTime NoteDate
+        {
+            get { return _NoteDate; }
+            set { _NoteDate = value; }
+        }
+        [Column(Name = "NoteTime", DataType = "String")]
+        public String NoteTime
+        {
+            get { return _NoteTime; }
+            set { _NoteTime = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vStudentPastStudy
     [Serializable]
     [Table(Name = "vStudentPastStudy")]

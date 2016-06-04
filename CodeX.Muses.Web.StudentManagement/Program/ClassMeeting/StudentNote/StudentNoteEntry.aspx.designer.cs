@@ -13,15 +13,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class StudentNoteEntry {
         
         /// <summary>
-        /// btnSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnSave;
-        
-        /// <summary>
         /// hdnListSaveValue control.
         /// </summary>
         /// <remarks>
@@ -31,13 +22,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
         
         /// <summary>
-        /// cbpMeetingDetail control.
+        /// cbpView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpMeetingDetail;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
         
         /// <summary>
         /// PanelContent1 control.

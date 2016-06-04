@@ -30854,6 +30854,8 @@ namespace CodeX.Data.Model
         private Int32 _PeriodSectionID;
         private Int32? _ClassMeetingID;
         private Int32 _StudentID;
+        private String _GCNoteCategory;
+        private String _GCNoteRate;
         private DateTime _NoteDate;
         private String _NoteTime;
         private String _Remarks;
@@ -30892,6 +30894,18 @@ namespace CodeX.Data.Model
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "GCNoteCategory", DataType = "String", IsNullable = true)]
+        public String GCNoteCategory
+        {
+            get { return _GCNoteCategory; }
+            set { _GCNoteCategory = value; }
+        }
+        [Column(Name = "GCNoteRate", DataType = "String", IsNullable = true)]
+        public String GCNoteRate
+        {
+            get { return _GCNoteRate; }
+            set { _GCNoteRate = value; }
         }
         [Column(Name = "NoteDate", DataType = "DateTime")]
         public DateTime NoteDate

@@ -8,63 +8,35 @@
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
-</asp:Content>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
-            $('#<%=btnSave.ClientID %>').click(function () {
-                var result = '';
-                $('.grdStudent tr.trStudent').each(function () {
-                    var studentID = $(this).find('.keyField').html();
-                    var note = $(this).find('.txtStudentNote').val();
-                    if (result != '')
-                        result += '|';
-                    result += studentID + ',' + note;
-                });
-                $('#<%=hdnListSaveValue.ClientID %>').val(result);
-                onCustomButtonClick('save');
-            });
-
             setStudentImage();
         });
 
         $('.lblStudent').live('click', function () {
             var id = $(this).closest('table').parent().closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/ClassMeeting/StudentNote/StudentNoteViewDtCtl.ascx");
-            openUserControlPopup(url, id, 'Riwayat Catatan Individu', 800, 450);  
+            var url = ResolveUrl("~/Program/ClassMeeting/StudentNote/StudentNoteEntryDtCtl.ascx");
+            openUserControlPopup(url, id, 'Detil Catatan Individu', 900, 550);  
         });
 
-        function onCbpMeetingDetailEndCallback(s) {
+        function onCbpViewEndCallback(s) {
             setStudentImage();
             hideLoadingPanel();
         }
 
-        function onAfterSaveAddRecordEntryPopup() {
-            cbpView.PerformCallback('refresh');
-        }
-
-        function onAfterSaveEditRecordEntryPopup() {
+        function onAfterPopupControlClosing() {
             cbpView.PerformCallback('refresh');
         }
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <style type="text/css">
-        #ulMeetingViewList .divMeetingDate        { float: left; width: 66px; margin: 3px 10px 0 0; background-color: #6BBD46; padding: 3px 10px; font-size: 20px; color: White; vertical-align: middle; text-align: center; }
-        #ulMeetingViewList li                          { padding: 5px 3px; cursor: pointer; list-style-type:none; margin-bottom: 1px; }
-        #ulMeetingViewList li.selected                 { background-color: #D5D5D5; }
-        #ulMeetingViewList li:hover                    { background-color: #BCBCBC; }
-        #ulMeetingViewList                             { margin: 0; padding: 0; }
-        #ulMeetingViewList .tdMeetingDetail       { padding-left: 5px; }
-    
         h4                                                  { color: #013EDD; }
     </style>     
-    <dxcp:ASPxCallbackPanel ID="cbpMeetingDetail" runat="server" Width="100%" ClientInstanceName="cbpMeetingDetail"
-        ShowLoadingPanel="false" OnCallback="cbpMeetingDetail_Callback">
+    <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
+        ShowLoadingPanel="false" OnCallback="cbpView_Callback">
         <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-            EndCallback="function(s,e) { onCbpMeetingDetailEndCallback(s); }" />
+            EndCallback="function(s,e) { onCbpViewEndCallback(s); }" />
         <PanelCollection>
             <dx:PanelContent ID="PanelContent1" runat="server">
                 <div style="height: 415px; overflow-y: scroll; overflow-x: hidden; font-size: 12px;">
@@ -72,7 +44,7 @@
                         <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
                             <tr>
                                 <th><%=GetLabel("Siswa") %></th>
-                                <th class="thCenter" style="width:300px"><%=GetLabel("Catatan") %></th>
+                                <th class="thCenter" style="width:700px"><%=GetLabel("Catatan") %></th>
                             </tr>
                             <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
                                 <ItemTemplate>
@@ -93,7 +65,7 @@
                                             </table>
                                         </td>
                                         <td align="center">
-                                            <asp:TextBox ID="txtStudentNote" runat="server" CssClass="txtStudentNote" Text="" Width="95%" />
+                                            <asp:TextBox ID="txtStudentNote" runat="server" CssClass="txtStudentNote" ReadOnly="true" Text="" Width="95%" />
                                         </td>
                                     </tr>
                                 </ItemTemplate>

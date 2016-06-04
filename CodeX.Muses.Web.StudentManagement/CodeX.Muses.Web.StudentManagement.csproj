@@ -150,7 +150,7 @@
     <Content Include="Program\Master\Subject\SubjectList.aspx" />
     <Content Include="Program\Master\Subject\SubjectPageLauncher.aspx" />
     <Content Include="Program\StudentDailyAttendance\StudentDailyAttendanceEntry.aspx" />
-    <Content Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx" />
+    <Content Include="Program\ClassMeeting\StudentNote\StudentNoteEntryDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteEntry.aspx" />
     <Content Include="Program\GradePromotion\GradePromotionEntry.aspx" />
     <Content Include="Program\Master\Scholarship\ScholarshipEntry.aspx" />
@@ -826,12 +826,12 @@
     <Compile Include="Program\StudentDailyAttendance\StudentDailyAttendanceEntry.aspx.designer.cs">
       <DependentUpon>StudentDailyAttendanceEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx.cs">
-      <DependentUpon>StudentNoteViewDtCtl.ascx</DependentUpon>
+    <Compile Include="Program\ClassMeeting\StudentNote\StudentNoteEntryDtCtl.ascx.cs">
+      <DependentUpon>StudentNoteEntryDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx.designer.cs">
-      <DependentUpon>StudentNoteViewDtCtl.ascx</DependentUpon>
+    <Compile Include="Program\ClassMeeting\StudentNote\StudentNoteEntryDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentNoteEntryDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ClassMeeting\StudentNote\StudentNoteEntry.aspx.cs">
       <DependentUpon>StudentNoteEntry.aspx</DependentUpon>
