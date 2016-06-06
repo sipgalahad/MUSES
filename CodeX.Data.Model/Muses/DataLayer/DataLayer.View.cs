@@ -1783,6 +1783,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassMeetingID;
         private Int32 _ClassSubjectID;
         private Int32 _PeriodSectionID;
+        private Int32 _PeriodClassTypeSubjectID;
         private DateTime _MeetingDate;
         private String _StartTime;
         private String _EndTime;
@@ -1816,6 +1817,12 @@ namespace CodeX.Data.Model
         {
             get { return _PeriodSectionID; }
             set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "PeriodClassTypeSubjectID", DataType = "Int32")]
+        public Int32 PeriodClassTypeSubjectID
+        {
+            get { return _PeriodClassTypeSubjectID; }
+            set { _PeriodClassTypeSubjectID = value; }
         }
         [Column(Name = "MeetingDate", DataType = "DateTime")]
         public DateTime MeetingDate
@@ -2001,6 +2008,7 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private String _SubjectName;
         private String _GCClassStudyType;
+        private Int32 _PeriodClassTypeSubjectID;
         private Int16 _DayNumber;
         private Int16 _HoursIndex;
         private String _StartTime;
@@ -2060,6 +2068,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCClassStudyType; }
             set { _GCClassStudyType = value; }
+        }
+        [Column(Name = "PeriodClassTypeSubjectID", DataType = "Int32")]
+        public Int32 PeriodClassTypeSubjectID
+        {
+            get { return _PeriodClassTypeSubjectID; }
+            set { _PeriodClassTypeSubjectID = value; }
         }
         [Column(Name = "DayNumber", DataType = "Int16")]
         public Int16 DayNumber
@@ -4578,6 +4592,7 @@ namespace CodeX.Data.Model
         private String _GCCurriculumSyllabusType;
         private String _CurriculumSyllabusType;
         private String _StandardCodeID;
+        private String _StandardCodeName;
         private Int32 _ReferenceID;
         private String _ReferenceName;
         private Boolean _IsDeleted;
@@ -4649,6 +4664,12 @@ namespace CodeX.Data.Model
         {
             get { return _StandardCodeID; }
             set { _StandardCodeID = value; }
+        }
+        [Column(Name = "StandardCodeName", DataType = "String")]
+        public String StandardCodeName
+        {
+            get { return _StandardCodeName; }
+            set { _StandardCodeName = value; }
         }
         [Column(Name = "ReferenceID", DataType = "Int32")]
         public Int32 ReferenceID

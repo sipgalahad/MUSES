@@ -350,6 +350,8 @@
     <input type="hidden" id="hdnClassMeetingID" runat="server" />
     <input type="hidden" id="hdnSubjectCurriculumID" runat="server" />
     <input type="hidden" id="hdnSubjectIndicatorSave" runat="server" />
+    <input type="hidden" id="hdnPeriodClassTypeSubjectID" runat="server" />
+    <input type="hidden" id="hdnIsPeriodClassTypeSubjectIndicatorExists" runat="server" />
     <table style="width:100%" id="tblEntry">
         <colgroup>
             <col style="width:130px"/>

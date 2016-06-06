@@ -267,6 +267,14 @@
         function onCbpViewEndCallback() {
             hideLoadingPanel();
         }
+
+        $('.lblIndicator.lblLink').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var id = entity.PeriodClassTypeSubjectID + '|' + entity.SubjectCurriculumID;
+            var url = ResolveUrl("~/Program/TeacherPage/PeriodClassTypeSubjectIndicatorEntryDtCtl.ascx");
+            openUserControlPopup(url, id, 'Indicator', 600, 550);
+        });
     </script>
     <input type="hidden" id="hdnSaveValue" runat="server" value="" />
     <input type="hidden" value="" id="hdnCurriculumID" runat="server" />
@@ -389,7 +397,11 @@
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
                                 <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Jenis Pelajaran" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="TeacherName" HeaderText="Guru" HeaderStyle-Width="280px" />
-                                <asp:BoundField DataField="SubjectCurriculumName" HeaderText="Jenis Kurikulum" HeaderStyle-Width="200px" />
+                                <asp:TemplateField HeaderText="Jenis Kurikulum" HeaderStyle-Width="200px">
+                                    <ItemTemplate>
+                                        <label class="lblLink lblIndicator" style='<%#Eval("SubjectCurriculumID").ToString() == "0" ? "display:none" : "" %>'><%#Eval("SubjectCurriculumName")%></label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jam Pertemuan" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:BoundField DataField="PassingGrade" HeaderText="KKM" HeaderStyle-Width="80px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">

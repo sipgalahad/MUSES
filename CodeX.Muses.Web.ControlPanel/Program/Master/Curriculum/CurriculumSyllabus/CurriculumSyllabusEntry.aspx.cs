@@ -21,6 +21,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             return Constant.MenuCode.ControlPanel.CR_CURRICULUM_SYLLABUS;
         }
 
+        protected string OnGetCurriculumSyllabusTypeStandardCode()
+        {
+            return Constant.CurriculumSyllabusType.STANDARD_CODE;
+        }
+
         protected string OnGetParentFilterExpression()
         {
             return string.Format("CurriculumID = {0} AND IsHeader = 1 AND IsDeleted = 0", AppSession.CurriculumID);
@@ -41,6 +46,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             Helper.SetControlEntrySetting(txtCurriculumSyllabusName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtDisplayOrder, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboCurriculumSyllabusType, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(tacStandardCode, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -102,6 +108,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.CurriculumSyllabusName = txtCurriculumSyllabusName.Text;
             entity.GCCurriculumSyllabusType = cboCurriculumSyllabusType.Value.ToString();
+            entity.StandardCodeID = tacStandardCode.Value;
             if (tacParent.Value != "0" && tacParent.Value != "")
                 entity.ParentID = Convert.ToInt32(tacParent.Value);
             else

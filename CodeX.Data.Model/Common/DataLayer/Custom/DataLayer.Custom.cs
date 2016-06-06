@@ -13,7 +13,9 @@ namespace CodeX.Data.Model
         {
             get
             {
-                return _StandardCodeID.Split('^')[1];
+                if (_StandardCodeID.Contains('^'))
+                    return _StandardCodeID.Split('^')[1];
+                return _StandardCodeID;
             }
         }
     }

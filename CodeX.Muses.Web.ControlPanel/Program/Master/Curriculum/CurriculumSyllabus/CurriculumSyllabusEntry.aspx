@@ -22,6 +22,10 @@
                 tacParent.setText('');
                 tacReference.setValue('');
                 tacReference.setText('');
+                tacStandardCode.setValue('');
+                tacStandardCode.setText('');
+                onCboCurriculumSyllabusTypeValueChanged();
+
                 $('#<%=chkIsHeader.ClientID %>').prop('checked', false);
                 $('#<%=chkIsUsingCode.ClientID %>').prop('checked', false); 
                 $('#entryDetailContainer').show();
@@ -35,7 +39,34 @@
                 if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
             });
-        });
+        }); 
+        
+        //#region StandardCode
+        function onGetStandardCodeFilterExpression() {
+            var filterExpression = "IsHeader = 1 AND IsActive = 1 AND IsDeleted = 0";
+            return filterExpression;
+        }
+
+        function onTacStandardCodeButtonSearchClick() {
+            openSearchDialog('standardcodeheader', onGetStandardCodeFilterExpression(), function (value) {
+                var filterExpression = onGetStandardCodeFilterExpression() + " AND StandardCodeID = '" + value + "'";
+                Methods.getObject('GetStandardCodeList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacStandardCode.setValue(result.StandardCodeID);
+                        tacStandardCode.setText(result.StandardCodeName);
+                    }
+                    else {
+                        tacStandardCode.setValue('');
+                        tacStandardCode.setText('');
+                    }
+                });
+            });
+
+        }
+
+        function onTacStandardCodeValueChanged() {
+        }
+        //#endregion
 
         //#region Parent
         function onGetParentFilterExpression() {
@@ -115,8 +146,11 @@
             tacParent.setText(entity.ParentName);
             tacReference.setValue(entity.ReferenceID);
             tacReference.setText(entity.ReferenceName);
+            tacStandardCode.setValue(entity.StandardCodeID);
+            tacStandardCode.setText(entity.StandardCodeName);
             $('#<%=chkIsHeader.ClientID %>').prop('checked', entity.IsHeader == 'True');
-            $('#<%=chkIsUsingCode.ClientID %>').prop('checked', entity.IsIsUsingCode == 'True'); 
+            $('#<%=chkIsUsingCode.ClientID %>').prop('checked', entity.IsIsUsingCode == 'True');
+            onCboCurriculumSyllabusTypeValueChanged();
 
             $('#entryDetailContainer').show();
         });
@@ -142,6 +176,16 @@
                     cbpView.PerformCallback('refresh');
             }
         }
+
+        function onCboCurriculumSyllabusTypeValueChanged() {
+            if (cboCurriculumSyllabusType.GetValue() == '<%=OnGetCurriculumSyllabusTypeStandardCode() %>')
+                $('#trStandardCode').removeAttr('style');
+            else {
+                $('#trStandardCode').attr('style', 'display:none');
+                tacStandardCode.setValue('');
+                tacStandardCode.setText('');
+            }
+        }
     </script>
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
@@ -164,7 +208,21 @@
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe")%></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboCurriculumSyllabusType" ClientInstanceName="cboCurriculumSyllabusType" runat="server" Width="200px" /></td>
+                                    <td>
+                                        <dxe:ASPxComboBox ID="cboCurriculumSyllabusType" ClientInstanceName="cboCurriculumSyllabusType" runat="server" Width="200px">
+                                            <ClientSideEvents ValueChanged="function(s,e) { onCboCurriculumSyllabusTypeValueChanged(); }" />
+                                        </dxe:ASPxComboBox>
+                                    </td>
+                                </tr>
+                                <tr id="trStandardCode">
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode Standard Code")%></label></td>
+                                    <td>
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacStandardCode" ClientInstanceName="tacStandardCode" MethodName="GetCurriculumSyllabusList" GetFilterExpressionFunction="onGetStandardCodeFilterExpression"
+                                            SearchFields="StandardCodeName" TextField="StandardCodeName" ValueField="CurriculumSyllabusID" SearchText="${StandardCodeName}" OrderByExpression="StandardCodeName">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacStandardCodeButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacStandardCodeValueChanged(); }" />
+                                        </cdx:CodeXAutoCompleteTextBox>   
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kode Induk")%></label></td>
@@ -240,6 +298,8 @@
                                         <input type="hidden" value="<%#Eval("CurriculumSyllabusName") %>" bindingfield="CurriculumSyllabusName" />
                                         <input type="hidden" value="<%#Eval("ParentID") %>" bindingfield="ParentID" />
                                         <input type="hidden" value="<%#Eval("ParentName") %>" bindingfield="ParentName" />
+                                        <input type="hidden" value="<%#Eval("StandardCodeID") %>" bindingfield="StandardCodeID" />
+                                        <input type="hidden" value="<%#Eval("StandardCodeName") %>" bindingfield="StandardCodeName" />
                                         <input type="hidden" value="<%#Eval("ReferenceID") %>" bindingfield="ReferenceID" />
                                         <input type="hidden" value="<%#Eval("ReferenceName") %>" bindingfield="ReferenceName" />
                                         <input type="hidden" value="<%#Eval("GCCurriculumSyllabusType") %>" bindingfield="GCCurriculumSyllabusType" />

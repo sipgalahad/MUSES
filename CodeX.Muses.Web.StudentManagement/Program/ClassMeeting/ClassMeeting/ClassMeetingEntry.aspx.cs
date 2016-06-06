@@ -26,7 +26,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected string OnGetSubjectIndicatorFilterExpression()
         {
-            return string.Format("SubjectCurriculumID = {0} AND GCCurriculumSyllabusType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumSyllabusType.INDICATOR);
+            string filterExpression = string.Format("SubjectCurriculumID = {0} AND GCCurriculumSyllabusType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumSyllabusType.INDICATOR);
+            if (hdnIsPeriodClassTypeSubjectIndicatorExists.Value == "1")
+                filterExpression += string.Format(" AND SubjectCurriculumSyllabusID IN (SELECT SubjectIndicatorID FROM PeriodClassTypeSubjectIndicator WHERE PeriodClassTypeSubjectID = {0} AND GCPeriodSection = '{1}')", hdnPeriodClassTypeSubjectID.Value, AppSession.ClassSubject.GCPeriodSection);
+            return filterExpression;
         }
         protected string OnGetSubjectIndicatorMeetingPlanFilterExpression()
         {
@@ -58,6 +61,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     tacTeacher.Text = entity.TeacherName;
                     tacAssistantTeacher.Value = entity.AssistantTeacherID.ToString();
                     tacAssistantTeacher.Text = entity.AssistantTeacherName;
+                    hdnPeriodClassTypeSubjectID.Value = entity.PeriodClassTypeSubjectID.ToString();
+
+                    if (BusinessLayer.GetPeriodClassTypeSubjectIndicatorRowCount(String.Format("PeriodClassTypeSubjectID = {0}", entity.PeriodClassTypeSubjectID)) > 0)
+                        hdnIsPeriodClassTypeSubjectIndicatorExists.Value = "1";
+                    else
+                        hdnIsPeriodClassTypeSubjectIndicatorExists.Value = "0";
                 }
                 else
                 {
@@ -70,6 +79,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     tacTeacher.Text = entity.TeacherName;
                     tacAssistantTeacher.Value = entity.AssistantTeacherID.ToString();
                     tacAssistantTeacher.Text = entity.AssistantTeacherName;
+                    hdnPeriodClassTypeSubjectID.Value = entity.PeriodClassTypeSubjectID.ToString();
+
+                    if (BusinessLayer.GetPeriodClassTypeSubjectIndicatorRowCount(String.Format("PeriodClassTypeSubjectID = {0}", entity.PeriodClassTypeSubjectID)) > 0)
+                        hdnIsPeriodClassTypeSubjectIndicatorExists.Value = "1";
+                    else
+                        hdnIsPeriodClassTypeSubjectIndicatorExists.Value = "0";
                 }
                 //if (AppSession.UserLogin.EmployeeID != null && AppSession.UserLogin.EmployeeID != 0)
                 //{
@@ -95,6 +110,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacAssistantTeacher.Text = entity.AssistantTeacherName;
                 txtRemarks.Text = entity.Remarks;
                 txtNextMeetingRemarks.Text = entity.NextMeetingRemarks;
+                hdnPeriodClassTypeSubjectID.Value = entity.PeriodClassTypeSubjectID.ToString();
+
+                if (BusinessLayer.GetPeriodClassTypeSubjectIndicatorRowCount(String.Format("PeriodClassTypeSubjectID = {0}", entity.PeriodClassTypeSubjectID)) > 0)
+                    hdnIsPeriodClassTypeSubjectIndicatorExists.Value = "1";
+                else
+                    hdnIsPeriodClassTypeSubjectIndicatorExists.Value = "0";
                 if (entity.SubjectCurriculumMeetingPlanID != 0)
                 {
                     tacSubjectCurriculumMeetingPlan.Value = entity.SubjectCurriculumMeetingPlanID.ToString();
