@@ -17,7 +17,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         protected string OnGetSubjectIndicatorFilterExpression()
         {
-            return string.Format("SubjectCurriculumID = {0} AND GCCurriculumSyllabusType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumSyllabusType.INDICATOR);
+            string filterExpression = string.Format("SubjectCurriculumID = {0} AND GCCurriculumSyllabusType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumSyllabusType.INDICATOR);
+            if (hdnIsPeriodClassTypeSubjectIndicatorExists.Value == "1")
+                filterExpression += string.Format(" AND SubjectCurriculumSyllabusID IN (SELECT SubjectIndicatorID FROM PeriodClassTypeSubjectIndicator WHERE PeriodClassTypeSubjectID = {0} AND GCPeriodSection = '{1}')", hdnPeriodClassTypeSubjectID.Value, AppSession.ClassSubject.GCPeriodSection);
+            return filterExpression;
         }
         public override void InitializeDataControl(string param)
         {
@@ -27,6 +30,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnSubjectCurriculumID.Value = classSubject.SubjectCurriculumID.ToString();
             hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
             hdnSubjectID.Value = classSubject.SubjectID.ToString();
+            hdnPeriodClassTypeSubjectID.Value = classSubject.PeriodClassTypeSubjectID.ToString();
+
+            if (BusinessLayer.GetPeriodClassTypeSubjectIndicatorRowCount(String.Format("PeriodClassTypeSubjectID = {0}", classSubject.PeriodClassTypeSubjectID)) > 0)
+                hdnIsPeriodClassTypeSubjectIndicatorExists.Value = "1";
+            else
+                hdnIsPeriodClassTypeSubjectIndicatorExists.Value = "0";
+
             if (param != "")
             {
                 IsAdd = false;

@@ -25,6 +25,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 classSubject.IsMarkEntry = true;
                 vPeriodSection entityPeriodSection = BusinessLayer.GetvPeriodSectionList(string.Format("PeriodSectionID = {0}", classSubject.PeriodSectionID)).FirstOrDefault();
                 classSubject.CurriculumID = entityPeriodSection.CurriculumID;
+                classSubject.GCPeriodSection = entityPeriodSection.GCPeriodSection;
+
                 AppSession.ClassSubject = classSubject;
 
                 string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.TEACHER_CLASS_SUBJECT_PAGE);
@@ -46,6 +48,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 classSubject.IsMarkEntry = false;
                 vPeriodSection entityPeriodSection = BusinessLayer.GetvPeriodSectionList(string.Format("PeriodSectionID = {0}", classSubject.PeriodSectionID)).FirstOrDefault();
                 classSubject.CurriculumID = entityPeriodSection.CurriculumID;
+                classSubject.GCPeriodSection = entityPeriodSection.GCPeriodSection;
                 AppSession.ClassSubject = classSubject;
 
                 string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.CLASS_MEETING_PAGE);

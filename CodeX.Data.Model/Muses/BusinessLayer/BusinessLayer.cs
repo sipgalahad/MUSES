@@ -8925,6 +8925,85 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PeriodClassTypeSubjectIndicator
+        public static PeriodClassTypeSubjectIndicator GetPeriodClassTypeSubjectIndicator(Int32 PeriodClassTypeSubjectID, Int32 SubjectIndicatorID)
+        {
+            return new PeriodClassTypeSubjectIndicatorDao().Get(PeriodClassTypeSubjectID, SubjectIndicatorID);
+        }
+        public static int InsertPeriodClassTypeSubjectIndicator(PeriodClassTypeSubjectIndicator record)
+        {
+            return new PeriodClassTypeSubjectIndicatorDao().Insert(record);
+        }
+        public static int UpdatePeriodClassTypeSubjectIndicator(PeriodClassTypeSubjectIndicator record)
+        {
+            return new PeriodClassTypeSubjectIndicatorDao().Update(record);
+        }
+        public static int DeletePeriodClassTypeSubjectIndicator(Int32 PeriodClassTypeSubjectID, Int32 SubjectIndicatorID)
+        {
+            return new PeriodClassTypeSubjectIndicatorDao().Delete(PeriodClassTypeSubjectID, SubjectIndicatorID);
+        }
+        public static List<PeriodClassTypeSubjectIndicator> GetPeriodClassTypeSubjectIndicatorList(string filterExpression)
+        {
+            List<PeriodClassTypeSubjectIndicator> result = new List<PeriodClassTypeSubjectIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodClassTypeSubjectIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodClassTypeSubjectIndicator)helper.IDataReaderToObject(reader, new PeriodClassTypeSubjectIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<PeriodClassTypeSubjectIndicator> GetPeriodClassTypeSubjectIndicatorList(string filterExpression, IDbContext ctx)
+        {
+            List<PeriodClassTypeSubjectIndicator> result = new List<PeriodClassTypeSubjectIndicator>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodClassTypeSubjectIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodClassTypeSubjectIndicator)helper.IDataReaderToObject(reader, new PeriodClassTypeSubjectIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public static Int32 GetPeriodClassTypeSubjectIndicatorRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodClassTypeSubjectIndicator));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PeriodFinalMarkFormula
         public static PeriodFinalMarkFormula GetPeriodFinalMarkFormula(Int32 SchoolPeriodID, Int32 CurriculumMarkTypeID)
         {

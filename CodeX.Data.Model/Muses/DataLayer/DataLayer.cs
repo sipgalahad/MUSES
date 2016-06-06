@@ -18264,6 +18264,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region PeriodClassTypeSubjectIndicator
+    [Serializable]
+    [Table(Name = "PeriodClassTypeSubjectIndicator")]
+    public class PeriodClassTypeSubjectIndicator : DbDataModel
+    {
+        private Int32 _PeriodClassTypeSubjectID;
+        private Int32 _SubjectIndicatorID;
+        private String _GCPeriodSection;
+
+        [Column(Name = "PeriodClassTypeSubjectID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodClassTypeSubjectID
+        {
+            get { return _PeriodClassTypeSubjectID; }
+            set { _PeriodClassTypeSubjectID = value; }
+        }
+        [Column(Name = "SubjectIndicatorID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SubjectIndicatorID
+        {
+            get { return _SubjectIndicatorID; }
+            set { _SubjectIndicatorID = value; }
+        }
+        [Column(Name = "GCPeriodSection", DataType = "String")]
+        public String GCPeriodSection
+        {
+            get { return _GCPeriodSection; }
+            set { _GCPeriodSection = value; }
+        }
+    }
+
+    public class PeriodClassTypeSubjectIndicatorDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PeriodClassTypeSubjectIndicator));
+        private bool _isAuditLog = false;
+        private const string p_PeriodClassTypeSubjectID = "@p_PeriodClassTypeSubjectID";
+        private const string p_SubjectIndicatorID = "@p_SubjectIndicatorID";
+        public PeriodClassTypeSubjectIndicatorDao() { }
+        public PeriodClassTypeSubjectIndicatorDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PeriodClassTypeSubjectIndicator Get(Int32 PeriodClassTypeSubjectID, Int32 SubjectIndicatorID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PeriodClassTypeSubjectID, PeriodClassTypeSubjectID);
+            _ctx.Add(p_SubjectIndicatorID, SubjectIndicatorID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PeriodClassTypeSubjectIndicator)_helper.DataRowToObject(row, new PeriodClassTypeSubjectIndicator());
+        }
+        public int Insert(PeriodClassTypeSubjectIndicator record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PeriodClassTypeSubjectIndicator record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PeriodClassTypeSubjectID, Int32 SubjectIndicatorID)
+        {
+            PeriodClassTypeSubjectIndicator record;
+            if (_ctx.Transaction == null)
+                record = new PeriodClassTypeSubjectIndicatorDao().Get(PeriodClassTypeSubjectID, SubjectIndicatorID);
+            else
+                record = Get(PeriodClassTypeSubjectID, SubjectIndicatorID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PeriodFinalMarkFormula
     [Serializable]
     [Table(Name = "PeriodFinalMarkFormula")]

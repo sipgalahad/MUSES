@@ -236,6 +236,8 @@
 
 <input type="hidden" id="hdnClassMeetingID" runat="server" />
 <input type="hidden" id="hdnSubjectID" runat="server" />
+<input type="hidden" id="hdnPeriodClassTypeSubjectID" runat="server" />
+<input type="hidden" id="hdnIsPeriodClassTypeSubjectIndicatorExists" runat="server" />
 <input type="hidden" id="hdnCurriculumSubjectGroupID" runat="server" />
 <input type="hidden" id="hdnSubjectCurriculumID" runat="server" />
 <input type="hidden" id="hdnSubjectIndicatorSave" runat="server" />

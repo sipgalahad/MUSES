@@ -124,6 +124,14 @@
                 openWindowPopup(url, 'Subject', '1300', '650');
             }
         });
+
+        $('.lblIndicator.lblLink').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var id = entity.PeriodClassTypeSubjectID + '|' + entity.SubjectCurriculumID;
+            var url = ResolveUrl("~/Program/TeacherPage/PeriodClassTypeSubjectIndicatorEntryDtCtl.ascx");
+            openUserControlPopup(url, id, 'Indicator', 600, 550);
+        });
     </script>
     <input type="hidden" value="" id="hdnCurriculumID" runat="server" />   
     <input type="hidden" value="" id="hdnGCSchoolType" runat="server" />    
@@ -212,12 +220,17 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="CurriculumClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="280px" />
+                                <asp:BoundField DataField="CurriculumClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="220px" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
                                 <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Jenis Pelajaran" HeaderStyle-Width="200px" />                                
                                 <asp:TemplateField HeaderStyle-Width="200px" HeaderText="Jenis Kurikulum">
                                     <ItemTemplate>
                                         <label class="lblLink lblSubjectCurriculumID"><%#Eval("SubjectCurriculumName")%></label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderStyle-Width="80px" HeaderText="Indikator">
+                                    <ItemTemplate>
+                                        <label class="lblLink lblIndicator" style='<%#Eval("SubjectCurriculumID").ToString() == "0" ? "display:none" : "" %>'><%=GetLabel("Indikator")%></label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jam Pertemuan" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />

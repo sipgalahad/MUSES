@@ -110,6 +110,7 @@ namespace CodeX.Web.Common
                             entity.ClassMeetingID = Convert.ToInt32(temp[3]);
                             entity.CurriculumID = Convert.ToInt32(temp[4]);
                             entity.IsMarkEntry = temp[5] == "1";
+                            entity.GCPeriodSection = temp[6];
                             HttpContext.Current.Session["_ClassSubject"] = entity;
                             return entity;
                         }
@@ -123,7 +124,7 @@ namespace CodeX.Web.Common
                 if (HttpContext.Current.Request.Cookies["Muses"] != null)
                 {
                     HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
-                    myCookie.Values["_ClassSubject"] = string.Format("{0}|{1}|{2}|{3}|{4}|{5}", value.PeriodSectionID, value.ClassSubjectID, value.ClassScheduleID, value.ClassMeetingID, value.CurriculumID, value.IsMarkEntry ? "1" : "0");
+                    myCookie.Values["_ClassSubject"] = string.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}", value.PeriodSectionID, value.ClassSubjectID, value.ClassScheduleID, value.ClassMeetingID, value.CurriculumID, value.IsMarkEntry ? "1" : "0", value.GCPeriodSection);
                     HttpContext.Current.Response.Cookies.Add(myCookie);
                 }
 

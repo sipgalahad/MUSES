@@ -250,6 +250,7 @@
     <Content Include="Program\TeacherAbsence\TeacherAbsenceEntry.aspx" />
     <Content Include="Program\TeacherAbsence\TeacherAbsenceList.aspx" />
     <Content Include="Program\TeacherMarkGroup\TeacherMarkGroupEntry.aspx" />
+    <Content Include="Program\TeacherPage\PeriodClassTypeSubjectIndicatorEntryDtCtl.ascx" />
     <Content Include="Program\TeacherPage\TeacherPeriodClassTypeSubjectEntry.aspx" />
     <Content Include="Program\TeacherPage\TeacherClassList.aspx" />
     <Content Include="Program\TeacherPage\TeacherWeeklyScheduleList.aspx" />
@@ -1528,6 +1529,13 @@
     </Compile>
     <Compile Include="Program\TeacherMarkGroup\TeacherMarkGroupEntry.aspx.designer.cs">
       <DependentUpon>TeacherMarkGroupEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\TeacherPage\PeriodClassTypeSubjectIndicatorEntryDtCtl.ascx.cs">
+      <DependentUpon>PeriodClassTypeSubjectIndicatorEntryDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\TeacherPage\PeriodClassTypeSubjectIndicatorEntryDtCtl.ascx.designer.cs">
+      <DependentUpon>PeriodClassTypeSubjectIndicatorEntryDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\TeacherPage\TeacherPeriodClassTypeSubjectEntry.aspx.cs">
       <DependentUpon>TeacherPeriodClassTypeSubjectEntry.aspx</DependentUpon>
