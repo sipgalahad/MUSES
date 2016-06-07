@@ -211,6 +211,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         classSubject.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
                         classSubject.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
                         classSubject.CurriculumID = AppSession.ClassSubject.CurriculumID;
+                        classSubject.GCPeriodSection = AppSession.ClassSubject.GCPeriodSection;
                         classSubject.ClassMeetingID = entity.ClassMeetingID;
 
                         AppSession.ClassSubject = classSubject;

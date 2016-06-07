@@ -90,6 +90,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
             {
                 hdnSubjectCurriculumSyllabusID.Value = "0";
+                chkIsAllowTask.Checked = true;
             }
 
             Helper.SetControlEntrySetting(txtSubjectCurriculumSyllabusCode, new ControlEntrySetting(true, true, true), "mpEntryPopup");
