@@ -195,7 +195,7 @@
 
 <script id="tmplEntityDt" type="text/x-jquery-tmpl">
     <tr class="trSubjectIndicatorDt">
-        <td class="tdLabel"><%=GetLabel("Indikator") %></td>
+        <td class="tdLabel"><%=GetLabel("IPK") %></td>
         <td>
             <table cellpadding="0" cellspacing="0">
                 <tr>
@@ -317,11 +317,11 @@
             <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
         </tr>
         <tr>
-            <td colspan="2"><h4><%=GetLabel("Indikator") %></h4></td>
+            <td colspan="2"><h4><%=GetLabel("IPK")%></h4></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td><span class="divAdd" id="divEntryDtAdd"><%=GetLabel("Tambah Indikator")%></span><br /></td>
+            <td><span class="divAdd" id="divEntryDtAdd"><%=GetLabel("Tambah IPK")%></span><br /></td>
         </tr>
         <tr id="trSaveEntryPopup">
         </tr>

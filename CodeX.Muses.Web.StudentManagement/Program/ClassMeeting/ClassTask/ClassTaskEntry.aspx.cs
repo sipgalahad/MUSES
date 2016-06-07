@@ -50,7 +50,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtPassingGrade.Text = entity.PassingGrade.ToString();
             hdnSchoolClassID.Value = entity.SchoolClassID.ToString();
 
-            List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, entity.SubjectID));
+            List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND CurriculumSubjectGroupID = {2} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, entity.SubjectID, entity.CurriculumSubjectGroupID));
             lstCurriculumMarkType.Insert(0, new vCurriculumSubjectMarkType { CurriculumMarkTypeID = 0, CurriculumMarkTypeName = " -- Semua -- " });
             Methods.SetComboBoxField<vCurriculumSubjectMarkType>(cboFilterTaskType, lstCurriculumMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
             cboFilterTaskType.SelectedIndex = 0;

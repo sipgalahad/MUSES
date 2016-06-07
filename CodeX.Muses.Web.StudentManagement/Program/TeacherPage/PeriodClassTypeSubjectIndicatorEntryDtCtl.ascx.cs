@@ -40,7 +40,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             lstIndicator = BusinessLayer.GetPeriodClassTypeSubjectIndicatorList(string.Format("PeriodClassTypeSubjectID = {0}", hdnPeriodClassTypeSubjectID.Value));
 
-            string filterExpression = string.Format("SubjectCurriculumID = {0} AND GCCurriculumSyllabusType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumSyllabusType.INDICATOR);
+            string filterExpression = string.Format("SubjectCurriculumID = {0} AND GCCurriculumSyllabusType = '{1}' AND IsAllowTask = 1 AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumSyllabusType.INDICATOR);
             List<vSubjectCurriculumSyllabus> lstEntity = BusinessLayer.GetvSubjectCurriculumSyllabusList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();

@@ -26,7 +26,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected string OnGetSubjectIndicatorFilterExpression()
         {
-            string filterExpression = string.Format("SubjectCurriculumID = {0} AND GCCurriculumSyllabusType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumSyllabusType.INDICATOR);
+            string filterExpression = string.Format("SubjectCurriculumID = {0} AND GCCurriculumSyllabusType = '{1}' AND IsAllowTask = 1 AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumSyllabusType.INDICATOR);
             if (hdnIsPeriodClassTypeSubjectIndicatorExists.Value == "1")
                 filterExpression += string.Format(" AND SubjectCurriculumSyllabusID IN (SELECT SubjectIndicatorID FROM PeriodClassTypeSubjectIndicator WHERE PeriodClassTypeSubjectID = {0} AND GCPeriodSection = '{1}')", hdnPeriodClassTypeSubjectID.Value, AppSession.ClassSubject.GCPeriodSection);
             return filterExpression;

@@ -105,6 +105,10 @@
                                 <td class="tdLabel"><label class="lblMandatory" id="lblReference" runat="server"></label></td>
                                 <td><dxe:ASPxComboBox ID="cboReferenceID" ClientInstanceName="cboReferenceID" runat="server" Width="200px"  /></td>
                             </tr>
+                            <tr id="trIsAllowTask" runat="server">
+                                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Include Dalam Tugas") %></label></td>
+                                <td><asp:CheckBox ID="chkIsAllowTask" runat="server" /></td>
+                            </tr>
                             <tr>
                                 <td style="padding-top:5px; vertical-align: top" class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan")%></label></td>
                                 <td><asp:TextBox ID="txtRemarks" runat="server" Width="450px" TextMode="MultiLine" Rows="5" /></td>

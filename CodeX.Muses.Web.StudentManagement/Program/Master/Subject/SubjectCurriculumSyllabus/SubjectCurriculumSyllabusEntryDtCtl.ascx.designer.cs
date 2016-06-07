@@ -220,6 +220,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboReferenceID;
         
         /// <summary>
+        /// trIsAllowTask control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trIsAllowTask;
+        
+        /// <summary>
+        /// chkIsAllowTask control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsAllowTask;
+        
+        /// <summary>
         /// txtRemarks control.
         /// </summary>
         /// <remarks>

@@ -32015,6 +32015,7 @@ namespace CodeX.Data.Model
         private Int32? _CurriculumMarkTypeID;
         private Int32? _ReferenceID;
         private Int32? _CurriculumSchoolPeriodSectionID;
+        private Boolean _IsAllowTask;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -32081,6 +32082,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumSchoolPeriodSectionID; }
             set { _CurriculumSchoolPeriodSectionID = value; }
+        }
+        [Column(Name = "IsAllowTask", DataType = "Boolean")]
+        public Boolean IsAllowTask
+        {
+            get { return _IsAllowTask; }
+            set { _IsAllowTask = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

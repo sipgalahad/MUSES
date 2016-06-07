@@ -130,7 +130,7 @@
             var entity = rowToObject($row);
             var id = entity.PeriodClassTypeSubjectID + '|' + entity.SubjectCurriculumID;
             var url = ResolveUrl("~/Program/TeacherPage/PeriodClassTypeSubjectIndicatorEntryDtCtl.ascx");
-            openUserControlPopup(url, id, 'Indicator', 600, 550);
+            openUserControlPopup(url, id, 'IPK', 600, 550);
         });
     </script>
     <input type="hidden" value="" id="hdnCurriculumID" runat="server" />   
@@ -228,9 +228,9 @@
                                         <label class="lblLink lblSubjectCurriculumID"><%#Eval("SubjectCurriculumName")%></label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderStyle-Width="80px" HeaderText="Indikator">
+                                <asp:TemplateField HeaderStyle-Width="80px" HeaderText="IPK">
                                     <ItemTemplate>
-                                        <label class="lblLink lblIndicator" style='<%#Eval("SubjectCurriculumID").ToString() == "0" ? "display:none" : "" %>'><%=GetLabel("Indikator")%></label>
+                                        <label class="lblLink lblIndicator" style='<%#Eval("SubjectCurriculumID").ToString() == "0" ? "display:none" : "" %>'><%=GetLabel("IPK")%></label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jam Pertemuan" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />

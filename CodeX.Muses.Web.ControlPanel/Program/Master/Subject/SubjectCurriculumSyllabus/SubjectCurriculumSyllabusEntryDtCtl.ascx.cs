@@ -50,7 +50,20 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 Methods.SetComboBoxField<StandardCode>(cboStandardCode, lstSc.Where(p => p.ParentID != "").ToList(), "StandardCodeName", "StandardCodeID");
             }
             else
-                trCodeStandardCode.Style.Add("display", "none");
+            {
+                if (entityDt.GCCurriculumSyllabusType != Constant.CurriculumSyllabusType.INDICATOR)
+                {
+                    trCodeStandardCode.Style.Add("display", "none");
+                    trIsAllowTask.Style.Add("display", "none");
+                }
+                else
+                {
+                    List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_INDICATOR_TYPE));
+                    lblStandardCode.InnerHtml = "Klasifikasi";
+                    Methods.SetComboBoxField<StandardCode>(cboStandardCode, lstSc, "StandardCodeName", "StandardCodeID");
+                }
+            }
+
             if (entityDt.GCCurriculumSyllabusType == Constant.CurriculumSyllabusType.MAIN_COMPETENCY)
             {
                 List<CurriculumMarkType> lstMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsDeleted = 0 ORDER BY ShortName", hdnCurriculumID.Value));
@@ -71,6 +84,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 txtRemarks.Text = entity.Remarks;
                 cboReferenceID.Value = entity.ReferenceID.ToString();
                 cboStandardCode.Value = entity.CodeStandardCodeID;
+                cboMainCompetency.Value = entity.CurriculumMarkTypeID.ToString();
+                chkIsAllowTask.Checked = entity.IsAllowTask;
             }
             else
             {
@@ -130,6 +145,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.CodeStandardCodeID = cboStandardCode.Value.ToString();
             else
                 entity.CodeStandardCodeID = null;
+            entity.IsAllowTask = chkIsAllowTask.Checked;
             entity.Remarks = txtRemarks.Text;
         }
 
