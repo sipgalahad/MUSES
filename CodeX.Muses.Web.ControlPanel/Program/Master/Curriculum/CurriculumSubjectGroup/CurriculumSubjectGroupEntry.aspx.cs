@@ -27,6 +27,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             Helper.SetControlEntrySetting(txtCurriculumSubjectGroupCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtCurriculumSubjectGroupName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtInitial, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -88,6 +89,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.CurriculumSubjectGroupCode = txtCurriculumSubjectGroupCode.Text;
             entity.CurriculumSubjectGroupName = txtCurriculumSubjectGroupName.Text;
+            entity.Initial = txtInitial.Text;
             entity.Remarks = txtRemarks.Text;
         }
 

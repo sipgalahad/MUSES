@@ -30,10 +30,12 @@
                 if (result != null) {
                     tacTaskType.setValue(result.CurriculumMarkTypeDtID);
                     tacTaskType.setText(result.CurriculumMarkTypeDtName);
+                    $('#<%=hdnCurriculumMarkTypeDtInitial.ClientID %>').val(result.Initial);
                 }
                 else {
                     tacTaskType.setValue('');
                     tacTaskType.setText('');
+                    $('#<%=hdnCurriculumMarkTypeDtInitial.ClientID %>').val('');
                 }
             });
         });
@@ -41,6 +43,18 @@
     }
 
     function onTacTaskTypeValueChanged() {
+        var taskTypeID = tacTaskType.getValue();
+        if (taskTypeID != "") {
+            var filterExpression = "CurriculumMarkTypeDtID = " + taskTypeID;
+            Methods.getObject('GetCurriculumMarkTypeDtList', filterExpression, function (result) {
+                if (result != null) 
+                    $('#<%=hdnCurriculumMarkTypeDtInitial.ClientID %>').val(result.Initial);
+                else 
+                    $('#<%=hdnCurriculumMarkTypeDtInitial.ClientID %>').val('');
+            });
+        }
+        else
+            $('#<%=hdnCurriculumMarkTypeDtInitial.ClientID %>').val('');
     }
     //#endregion
 
@@ -241,6 +255,10 @@
 <input type="hidden" id="hdnCurriculumSubjectGroupID" runat="server" />
 <input type="hidden" id="hdnSubjectCurriculumID" runat="server" />
 <input type="hidden" id="hdnSubjectIndicatorSave" runat="server" />
+<input type="hidden" id="hdnSchoolClassInitial" runat="server" />
+<input type="hidden" id="hdnSubjectInitial" runat="server" />
+<input type="hidden" id="hdnSubjectGroupInitial" runat="server" />
+<input type="hidden" id="hdnCurriculumMarkTypeDtInitial" runat="server" />
 <input type="hidden" id="hdnID" runat="server" value="" />
 <div>
     <table>

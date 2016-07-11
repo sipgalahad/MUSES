@@ -153,7 +153,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         StudentFeeComp entity = lstStudentFeeComp.FirstOrDefault(p => p.StudentID == studentID && p.StudentFeeCompTypeID == studentFeeCompTypeID);
                         if (entity != null)
                         {
-                            entity.TotalAmount = totalAmount;
+                            entity.StudentAmount = entity.TotalAmount = totalAmount;
                             entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                             entityStudentFeeCompDao.Update(entity);
                         }
@@ -161,9 +161,9 @@ namespace CodeX.Muses.Web.Finance.Program
                         {
                             entity = new StudentFeeComp();
                             entity.SchoolPeriodID = SchoolPeriodID;
-                            entity.StudentID = studentID;
+                            entity.StudentID = studentID;                            
                             entity.StudentFeeCompTypeID = studentFeeCompTypeID;
-                            entity.TotalAmount = totalAmount;
+                            entity.StudentAmount = entity.TotalAmount = totalAmount;
                             entity.CreatedBy = AppSession.UserLogin.UserID;
                             entityStudentFeeCompDao.Insert(entity);
                         }

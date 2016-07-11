@@ -31,6 +31,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
             hdnSubjectID.Value = classSubject.SubjectID.ToString();
             hdnPeriodClassTypeSubjectID.Value = classSubject.PeriodClassTypeSubjectID.ToString();
+            hdnSchoolClassInitial.Value = classSubject.SchoolClassInitial;
+            hdnSubjectInitial.Value = classSubject.SubjectInitial;
+            hdnSubjectGroupInitial.Value = classSubject.CurriculumSubjectGroupInitial;
 
             if (BusinessLayer.GetPeriodClassTypeSubjectIndicatorRowCount(String.Format("PeriodClassTypeSubjectID = {0}", classSubject.PeriodClassTypeSubjectID)) > 0)
                 hdnIsPeriodClassTypeSubjectIndicatorExists.Value = "1";
@@ -63,7 +66,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(txtClassTaskCode, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtClassTaskCode, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtTopic, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboLessonType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(tacTaskType, new ControlEntrySetting(true, true, true));
@@ -95,7 +98,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void ControlToEntity(ClassSubjectTask entity)
         {
-            entity.ClassTaskCode = txtClassTaskCode.Text;
             entity.Topic = txtTopic.Text;
             entity.CurriculumMarkTypeID = Convert.ToInt32(cboLessonType.Value);
             entity.CurriculumMarkTypeDtID = Convert.ToInt32(hdnTaskTypeID.Value);
@@ -118,6 +120,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 ClassSubjectTask entity = new ClassSubjectTask();
                 ControlToEntity(entity);
+                entity.ClassTaskCode = string.Format("{0}-{1}-{2}-{3}", hdnSchoolClassInitial.Value, hdnSubjectInitial.Value, hdnSubjectGroupInitial.Value, hdnCurriculumMarkTypeDtInitial.Value);
+                string maxCode = BusinessLayer.GetClassSubjectTaskMaxCode(ctx, string.Format("ClassTaskCode LIKE '{0}%'", entity.ClassTaskCode));
+                int ctr = 1;
+                if (maxCode != "")
+                    ctr = Convert.ToInt32(maxCode.Substring(maxCode.Length - 3)) + 1;
+                entity.ClassTaskCode = string.Format("{0}{1}", entity.ClassTaskCode, ctr.ToString().PadLeft(3, '0'));
                 entity.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
                 entity.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;

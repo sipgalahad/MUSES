@@ -2294,10 +2294,12 @@ namespace CodeX.Data.Model
         private Int32 _PeriodSectionID;
         private Int32 _SchoolClassID;
         private String _SchoolClassName;
+        private String _SchoolClassInitial;
         private Int32 _PeriodClassTypeSubjectID;
         private Int32 _SubjectID;
         private String _SubjectCode;
         private String _SubjectName;
+        private String _SubjectInitial;
         private String _SubjectGCClassStudyType;
         private Int16 _NoMeetingHoursInWeek;
         private Int32 _ParentID;
@@ -2314,6 +2316,7 @@ namespace CodeX.Data.Model
         private String _GCClassStudyType;
         private Int32 _CurriculumSubjectGroupID;
         private String _CurriculumSubjectGroupName;
+        private String _CurriculumSubjectGroupInitial;
         private Boolean _IsDeleted;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32")]
@@ -2346,6 +2349,12 @@ namespace CodeX.Data.Model
             get { return _SchoolClassName; }
             set { _SchoolClassName = value; }
         }
+        [Column(Name = "SchoolClassInitial", DataType = "String")]
+        public String SchoolClassInitial
+        {
+            get { return _SchoolClassInitial; }
+            set { _SchoolClassInitial = value; }
+        }
         [Column(Name = "PeriodClassTypeSubjectID", DataType = "Int32")]
         public Int32 PeriodClassTypeSubjectID
         {
@@ -2369,6 +2378,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
+        }
+        [Column(Name = "SubjectInitial", DataType = "String")]
+        public String SubjectInitial
+        {
+            get { return _SubjectInitial; }
+            set { _SubjectInitial = value; }
         }
         [Column(Name = "SubjectGCClassStudyType", DataType = "String")]
         public String SubjectGCClassStudyType
@@ -2465,6 +2480,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumSubjectGroupName; }
             set { _CurriculumSubjectGroupName = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupInitial", DataType = "String")]
+        public String CurriculumSubjectGroupInitial
+        {
+            get { return _CurriculumSubjectGroupInitial; }
+            set { _CurriculumSubjectGroupInitial = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -3509,6 +3530,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumClassTypeID;
         private String _CurriculumClassTypeCode;
         private String _CurriculumClassTypeName;
+        private String _Initial;
         private Int32 _CurriculumID;
         private Int32 _ClassTypeID;
         private String _GCClassStudyType;
@@ -3537,6 +3559,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumClassTypeName; }
             set { _CurriculumClassTypeName = value; }
+        }
+        [Column(Name = "Initial", DataType = "String")]
+        public String Initial
+        {
+            get { return _Initial; }
+            set { _Initial = value; }
         }
         [Column(Name = "CurriculumID", DataType = "Int32")]
         public Int32 CurriculumID

@@ -23,6 +23,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             BindGridView();
 
             Helper.SetControlEntrySetting(txtCurriculumMarkTypeDtName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtInitial, new ControlEntrySetting(true, true, true), "mpTrxPopup");
         }
 
         private void BindGridView()
@@ -76,6 +77,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void ControlToEntity(CurriculumMarkTypeDt entity)
         {
             entity.CurriculumMarkTypeDtName = txtCurriculumMarkTypeDtName.Text;
+            entity.Initial = txtInitial.Text;
             entity.IsExam = chkIsExam.Checked;
         }
 

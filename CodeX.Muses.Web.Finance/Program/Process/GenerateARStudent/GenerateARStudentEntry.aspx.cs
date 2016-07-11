@@ -101,7 +101,7 @@ namespace CodeX.Muses.Web.Finance.Program
             if (lstEntity.Count > 0)
             {
                 string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
-                lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("StudentID IN ({0}) AND DueDate LIKE '{1}-{2}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}' AND StudentFeeDtID IS NOT NULL) AND IsPaid = 0", lstStudentID, cboYear.Value, cboMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID));
+                lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("StudentID IN ({0}) AND DueDate LIKE '{1}-{2}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}' AND StudentFeeDtID IS NOT NULL) AND IsDeleted = 0 AND IsPaid = 0", lstStudentID, cboYear.Value, cboMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID));
             }
             else
                 lstStudentFeeDt = new List<vStudentFeeDt>();

@@ -102,16 +102,71 @@
             }, 0);
         }
 
-        function onCboSchoolPeriodValueChanged(s) {
+        function onCboSiteValueChanged() {
+            var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND <%=OnGetSchoolPeriodNowFilterExpression() %>";
+            Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
+                if (result != null) {
+                    tacSchoolPeriod.setValue(result.SchoolPeriodID);
+                    tacSchoolPeriod.setText(result.SchoolPeriodName);
+                }
+                else {
+                    tacSchoolPeriod.setValue('');
+                    tacSchoolPeriod.setText('');
+                }
+                onTacSchoolPeriodValueChanged();
+                var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND <%=OnGetSchoolPeriodNextFilterExpression() %>";
+                Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacNextSchoolPeriod.setValue(result.SchoolPeriodID);
+                        tacNextSchoolPeriod.setText(result.SchoolPeriodName);
+                    }
+                    else {
+                        tacNextSchoolPeriod.setValue('');
+                        tacNextSchoolPeriod.setText('');
+                    }
+                    onTacNextSchoolPeriodValueChanged();
+                });
+            });
+        }
+
+        //#region School Period
+        function onGetSchoolPeriodFilterExpression() {
+            var filterExpression = "SiteID = '" + cboSite.GetValue() + "'";
+            return filterExpression;
+        }
+
+        function onTacSchoolPeriodButtonSearchClick() {
+            openSearchDialog('schoolperiod', onGetSchoolPeriodFilterExpression(), function (value) {
+                var filterExpression = onGetSchoolPeriodFilterExpression() + " AND SchoolPeriodCode = '" + value + "'";
+                Methods.getObject('GetvSchoolPeriodList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacSchoolPeriod.setValue(result.SchoolPeriodID);
+                        tacSchoolPeriod.setText(result.SchoolPeriodName);
+                    }
+                    else {
+                        tacSchoolPeriod.setValue('');
+                        tacSchoolPeriod.setText('');
+                    }
+                    onTacSchoolPeriodValueChanged();
+                });
+            });
+
+        }
+
+        function onTacSchoolPeriodValueChanged() {
             tacSchoolClass.setValue('');
             tacSchoolClass.setText('');
             cbpSubject.PerformCallback('refresh');
         }
+        //#endregion
 
         //#region Class
         function onGetClassFilterExpression() {
-            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeRegular() %>' AND IsDeleted = 0";
-            return filterExpression;
+            if (tacSchoolPeriod.getValue() != "") {
+                var filterExpression = "SchoolPeriodID = " + tacSchoolPeriod.getValue() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeRegular() %>' AND IsDeleted = 0";
+                return filterExpression;
+            }
+            return "1 = 0";
         }
 
         function onTacClassButtonSearchClick() {
@@ -161,6 +216,29 @@
             setTimeout(function () {
                 cbpSubject.PerformCallback('refresh');
             }, 100);
+        }
+        //#endregion
+
+        //#region Next School Period
+        function onTacNextSchoolPeriodButtonSearchClick() {
+            openSearchDialog('schoolperiod', onGetSchoolPeriodFilterExpression(), function (value) {
+                var filterExpression = onGetSchoolPeriodFilterExpression() + " AND SchoolPeriodCode = '" + value + "'";
+                Methods.getObject('GetvSchoolPeriodList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacNextSchoolPeriod.setValue(result.SchoolPeriodID);
+                        tacNextSchoolPeriod.setText(result.SchoolPeriodName);
+                    }
+                    else {
+                        tacNextSchoolPeriod.setValue('');
+                        tacNextSchoolPeriod.setText('');
+                    }
+                    onTacNextSchoolPeriodValueChanged();
+                });
+            });
+
+        }
+
+        function onTacNextSchoolPeriodValueChanged() {
         }
         //#endregion
 
@@ -217,14 +295,23 @@
     <input type="hidden" runat="server" id="hdnSelectedValue" />
     <input type="hidden" runat="server" id="hdnLstStudentID" />
     <input type="hidden" runat="server" id="hdnLstSubjectID" />
-    <input type="hidden" runat="server" id="hdnNextSchoolPeriod" />
     <table>
         <tr>
-            <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran") %></td>
+            <td class="tdLabel" style="width:150px;"><%=GetLabel("Site") %></td>
             <td>
-                <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
-                    <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolPeriodValueChanged(s); }" />
+                <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
+                    <ClientSideEvents Init="function(s,e){ onCboSiteValueChanged(); }"  ValueChanged="function(s,e){ onCboSiteValueChanged() }" />
                 </dxe:ASPxComboBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="tdLabel"><%=GetLabel("Tahun Ajaran") %></td>
+            <td>
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSchoolPeriod" ClientInstanceName="tacSchoolPeriod" MethodName="GetvSchoolClassList" GetFilterExpressionFunction="onGetSchoolPeriodFilterExpression"
+                    SearchFields="SchoolPeriodName,SchoolPeriodCode" TextField="SchoolPeriodName" ValueField="SchoolPeriodID" SearchText="${SchoolPeriodName} (<b>${SchoolPeriodCode}</b>)" OrderByExpression="SchoolPeriodName">
+                    <ClientSideEvents ButtonSearchClick="function(){ onTacSchoolPeriodButtonSearchClick(); }"
+                        ValueChanged="function(){ onTacSchoolPeriodValueChanged(); }" />
+                </cdx:CodeXAutoCompleteTextBox>
             </td>
         </tr>
         <tr>
@@ -240,6 +327,16 @@
                     <ClientSideEvents ButtonSearchClick="function(){ onTacClassButtonSearchClick(); }"
                         ValueChanged="function(){ onTacClassValueChanged(); }" />
                 </cdx:CodeXAutoCompleteTextBox>   
+            </td>
+        </tr>
+        <tr>
+            <td class="tdLabel"><%=GetLabel("Tahun Ajaran Berikutnya") %></td>
+            <td>
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacNextSchoolPeriod" ClientInstanceName="tacNextSchoolPeriod" MethodName="GetvSchoolClassList" GetFilterExpressionFunction="onGetSchoolPeriodFilterExpression"
+                    SearchFields="SchoolPeriodName,SchoolPeriodCode" TextField="SchoolPeriodName" ValueField="SchoolPeriodID" SearchText="${SchoolPeriodName} (<b>${SchoolPeriodCode}</b>)" OrderByExpression="SchoolPeriodName">
+                    <ClientSideEvents ButtonSearchClick="function(){ onTacNextSchoolPeriodButtonSearchClick(); }"
+                        ValueChanged="function(){ onTacNextSchoolPeriodValueChanged(); }" />
+                </cdx:CodeXAutoCompleteTextBox>
             </td>
         </tr>
         <tr>

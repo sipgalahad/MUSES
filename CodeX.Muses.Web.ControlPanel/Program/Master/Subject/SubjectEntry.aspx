@@ -26,6 +26,10 @@
                         <td><asp:TextBox ID="txtSubjectName" Width="300px" runat="server" /></td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Inisial")%></label></td>
+                        <td><asp:TextBox ID="txtInitial" Width="100px" runat="server" /></td>
+                    </tr>
+                    <tr>
                         <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
                         <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
                     </tr>

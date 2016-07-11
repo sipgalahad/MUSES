@@ -15,6 +15,7 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtCurriculumClassTypeCode.ClientID %>').val('');
                 $('#<%=txtCurriculumClassTypeName.ClientID %>').val('');
+                $('#<%=txtInitial.ClientID %>').val('');
                 cboClassType.SetValue(''); 
                 cboGrade.SetValue('');
                 cboMajor.SetValue('');
@@ -51,6 +52,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumClassTypeID);
             $('#<%=txtCurriculumClassTypeCode.ClientID %>').val(entity.CurriculumClassTypeCode);
             $('#<%=txtCurriculumClassTypeName.ClientID %>').val(entity.CurriculumClassTypeName);
+            $('#<%=txtInitial.ClientID %>').val(entity.Initial);
             cboClassType.SetValue(entity.ClassTypeID);
             cboGrade.SetValue(entity.GCGrade);
             cboMajor.SetValue(entity.CurriculumMajorID);
@@ -139,6 +141,10 @@
                                     <td><asp:TextBox ID="txtCurriculumClassTypeName" Width="300px" runat="server" /></td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Inisial")%></label></td>
+                                    <td><asp:TextBox ID="txtInitial" Width="300px" runat="server" /></td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Kelas")%></label></td>
                                     <td>
                                         <dxe:ASPxComboBox runat="server" ID="cboClassType" ClientInstanceName="cboClassType" Width="200px">
@@ -188,6 +194,7 @@
                                         <input type="hidden" value="<%#Eval("CurriculumClassTypeID") %>" bindingfield="CurriculumClassTypeID" />
                                         <input type="hidden" value="<%#Eval("CurriculumClassTypeCode") %>" bindingfield="CurriculumClassTypeCode" />
                                         <input type="hidden" value="<%#Eval("CurriculumClassTypeName") %>" bindingfield="CurriculumClassTypeName" />
+                                        <input type="hidden" value="<%#Eval("Initial") %>" bindingfield="Initial" />
                                         <input type="hidden" value="<%#Eval("ClassTypeID") %>" bindingfield="ClassTypeID" />
                                         <input type="hidden" value="<%#Eval("GCGrade") %>" bindingfield="GCGrade" />
                                         <input type="hidden" value="<%#Eval("CurriculumMajorID") %>" bindingfield="CurriculumMajorID" />

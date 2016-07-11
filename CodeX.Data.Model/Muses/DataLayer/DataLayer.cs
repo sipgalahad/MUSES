@@ -5396,6 +5396,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumClassTypeID;
         private String _CurriculumClassTypeCode;
         private String _CurriculumClassTypeName;
+        private String _Initial;
         private Int32 _CurriculumID;
         private Int32 _ClassTypeID;
         private String _GCClassStudyType;
@@ -5424,6 +5425,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumClassTypeName; }
             set { _CurriculumClassTypeName = value; }
+        }
+        [Column(Name = "Initial", DataType = "String", IsNullable = true)]
+        public String Initial
+        {
+            get { return _Initial; }
+            set { _Initial = value; }
         }
         [Column(Name = "CurriculumID", DataType = "Int32")]
         public Int32 CurriculumID
@@ -6272,6 +6279,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumMarkTypeDtID;
         private Int32 _CurriculumMarkTypeID;
         private String _CurriculumMarkTypeDtName;
+        private String _Initial;
         private Boolean _IsExam;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -6296,6 +6304,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeDtName; }
             set { _CurriculumMarkTypeDtName = value; }
+        }
+        [Column(Name = "Initial", DataType = "String", IsNullable = true)]
+        public String Initial
+        {
+            get { return _Initial; }
+            set { _Initial = value; }
         }
         [Column(Name = "IsExam", DataType = "Boolean")]
         public Boolean IsExam
@@ -6817,6 +6831,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumID;
         private String _CurriculumSubjectGroupCode;
         private String _CurriculumSubjectGroupName;
+        private String _Initial;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -6847,6 +6862,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumSubjectGroupName; }
             set { _CurriculumSubjectGroupName = value; }
+        }
+        [Column(Name = "Initial", DataType = "String", IsNullable = true)]
+        public String Initial
+        {
+            get { return _Initial; }
+            set { _Initial = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -31422,6 +31443,7 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private String _SubjectCode;
         private String _SubjectName;
+        private String _Initial;
         private String _GCClassStudyType;
         private String _Remarks;
         private Boolean _IsDeleted;
@@ -31447,6 +31469,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
+        }
+        [Column(Name = "Initial", DataType = "String", IsNullable = true)]
+        public String Initial
+        {
+            get { return _Initial; }
+            set { _Initial = value; }
         }
         [Column(Name = "GCClassStudyType", DataType = "String")]
         public String GCClassStudyType

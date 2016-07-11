@@ -13,6 +13,7 @@
         $('#divTransactionAddPopup').click(function () {
             $('#<%=hdnEntryID.ClientID %>').val('');
             $('#<%=txtCurriculumMarkTypeDtName.ClientID %>').val('');
+            $('#<%=txtInitial.ClientID %>').val('');
             $('#<%=chkIsExam.ClientID %>').prop('checked', false);
 
             $('#entryDetailContainerPopup').show();
@@ -47,6 +48,7 @@
         var entity = rowToObject($row);
         $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumMarkTypeDtID);
         $('#<%=txtCurriculumMarkTypeDtName.ClientID %>').val(entity.CurriculumMarkTypeDtName);
+        $('#<%=txtInitial.ClientID %>').val(entity.Initial);
         $('#<%=chkIsExam.ClientID %>').prop('checked', entity.IsExam == 'True');
 
         $('#entryDetailContainerPopup').show();
@@ -107,6 +109,10 @@
                         <td><asp:TextBox runat="server" ID="txtCurriculumMarkTypeDtName" Width="300px" /></td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Inisial") %></label></td>
+                        <td><asp:TextBox runat="server" ID="txtInitial" Width="100px" /></td>
+                    </tr>
+                    <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Ujian") %></label></td>
                         <td><asp:CheckBox runat="server" ID="chkIsExam" /></td>
                     </tr>
@@ -138,6 +144,7 @@
                                     <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                     <input type="hidden" value="<%#Eval("CurriculumMarkTypeDtID") %>" bindingfield="CurriculumMarkTypeDtID" />
                                     <input type="hidden" value="<%#Eval("CurriculumMarkTypeDtName") %>" bindingfield="CurriculumMarkTypeDtName" />
+                                    <input type="hidden" value="<%#Eval("Initial") %>" bindingfield="Initial" />
                                     <input type="hidden" value="<%#Eval("IsExam") %>" bindingfield="IsExam" />
                                 </ItemTemplate>
                             </asp:TemplateField>

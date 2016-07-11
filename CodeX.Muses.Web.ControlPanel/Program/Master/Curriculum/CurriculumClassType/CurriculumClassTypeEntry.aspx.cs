@@ -40,6 +40,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             Helper.SetControlEntrySetting(txtCurriculumClassTypeCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtCurriculumClassTypeName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtInitial, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboClassType, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true), "mpTrx");
         }
@@ -103,6 +104,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.CurriculumClassTypeCode = txtCurriculumClassTypeCode.Text;
             entity.CurriculumClassTypeName = txtCurriculumClassTypeName.Text;
+            entity.Initial = txtInitial.Text;
             entity.ClassTypeID = Convert.ToInt32(cboClassType.Value);
             if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
             {

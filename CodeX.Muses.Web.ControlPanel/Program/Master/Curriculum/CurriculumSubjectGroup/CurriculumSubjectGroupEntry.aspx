@@ -17,6 +17,7 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtCurriculumSubjectGroupCode.ClientID %>').val('');
                 $('#<%=txtCurriculumSubjectGroupName.ClientID %>').val('');
+                $('#<%=txtInitial.ClientID %>').val('');
                 $('#<%=txtRemarks.ClientID %>').val(''); 
                 $('#entryDetailContainer').show();
             });
@@ -50,6 +51,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumSubjectGroupID);
             $('#<%=txtCurriculumSubjectGroupCode.ClientID %>').val(entity.CurriculumSubjectGroupCode);
             $('#<%=txtCurriculumSubjectGroupName.ClientID %>').val(entity.CurriculumSubjectGroupName);
+            $('#<%=txtInitial.ClientID %>').val(entity.Initial);
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks); 
 
             $('#entryDetailContainer').show();
@@ -101,6 +103,10 @@
                                     <td><asp:TextBox ID="txtCurriculumSubjectGroupName" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Inisial")%></label></td>
+                                    <td><asp:TextBox ID="txtInitial" runat="server" Width="200px" /></td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan")%></label></td>
                                     <td><asp:TextBox ID="txtRemarks" runat="server" Width="400px" TextMode="MultiLine" Rows="2" /></td>
                                 </tr>
@@ -137,6 +143,7 @@
                                         <input type="hidden" value="<%#Eval("CurriculumSubjectGroupID") %>" bindingfield="CurriculumSubjectGroupID" />
                                         <input type="hidden" value="<%#Eval("CurriculumSubjectGroupCode") %>" bindingfield="CurriculumSubjectGroupCode" />
                                         <input type="hidden" value="<%#Eval("CurriculumSubjectGroupName") %>" bindingfield="CurriculumSubjectGroupName" />
+                                        <input type="hidden" value="<%#Eval("Initial") %>" bindingfield="Initial" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

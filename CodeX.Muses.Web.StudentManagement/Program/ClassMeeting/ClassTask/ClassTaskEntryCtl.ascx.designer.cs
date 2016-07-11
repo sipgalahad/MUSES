@@ -76,6 +76,42 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectIndicatorSave;
         
         /// <summary>
+        /// hdnSchoolClassInitial control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSchoolClassInitial;
+        
+        /// <summary>
+        /// hdnSubjectInitial control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectInitial;
+        
+        /// <summary>
+        /// hdnSubjectGroupInitial control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectGroupInitial;
+        
+        /// <summary>
+        /// hdnCurriculumMarkTypeDtInitial control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumMarkTypeDtInitial;
+        
+        /// <summary>
         /// hdnID control.
         /// </summary>
         /// <remarks>

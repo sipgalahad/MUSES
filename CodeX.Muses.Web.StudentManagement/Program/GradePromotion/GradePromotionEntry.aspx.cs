@@ -26,6 +26,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.MenuCode.StudentManagement.GRADE_PROMOTION;
         }
 
+        protected string OnGetSchoolPeriodNowFilterExpression()
+        {
+            return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
+        }
+
+        protected string OnGetSchoolPeriodNextFilterExpression()
+        {
+            return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.AddYears(1).ToString("yyyyMMdd"));
+        }
+
         protected string OnGetClassStudyTypeRegular()
         {
             return Constant.ClassStudyType.REGULAR;
@@ -38,19 +48,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
-            Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
-            if (selectedSchoolPeriod == null)
-                cboSchoolPeriod.SelectedIndex = 0;
-            else
-                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
-
-            SchoolPeriod nextSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now.AddYears(1) && p.EndDate >= DateTime.Now.AddYears(1));
-            if (nextSchoolPeriod != null)
-                hdnNextSchoolPeriod.Value = nextSchoolPeriod.SchoolPeriodID.ToString();
-            else
-                hdnNextSchoolPeriod.Value = cboSchoolPeriod.Value.ToString();
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
 
             //BindGridView();
         }
@@ -80,7 +80,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 TableWidth += 850;
 
-                SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(Convert.ToInt32(cboSchoolPeriod.Value));
+                SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(Convert.ToInt32(tacSchoolPeriod.Value));
 
                 if (hdnLstSubjectID.Value != "")
                 {
@@ -93,7 +93,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     lstSubject = new List<vClassSubject>();
                     lstSubjectMarkType = new List<vCurriculumSubjectMarkType>();
                 }
-                lstPeriodSection = BusinessLayer.GetvPeriodSectionList(string.Format("SchoolPeriodID = {0} AND GCPeriodSectionStatus != '{1}'", cboSchoolPeriod.Value, Constant.SchoolPeriodStatus.VOID));
+                lstPeriodSection = BusinessLayer.GetvPeriodSectionList(string.Format("SchoolPeriodID = {0} AND GCPeriodSectionStatus != '{1}'", tacSchoolPeriod.Value, Constant.SchoolPeriodStatus.VOID));
                 rptColHeaderLevel1.DataSource = lstSubject;
                 rptColHeaderLevel1.DataBind();
                 rptColHeaderLevel2.DataSource = lstSubject;
@@ -107,7 +107,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             
 
             string filterExpression = GetFilterExpression();
-            lstPeriodClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCGrade = '{1}' AND IsDeleted = 0", hdnNextSchoolPeriod.Value, hdnNextGCGrade.Value));
+            if (tacNextSchoolPeriod.Value != "")
+                lstPeriodClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCGrade = '{1}' AND IsDeleted = 0", tacNextSchoolPeriod.Value, hdnNextGCGrade.Value));
+            else
+                lstPeriodClassType = new List<vPeriodClassType>();
 
             List<vClassStudent> lstEntity = BusinessLayer.GetvClassStudentList(String.Format("{0} AND GCClassStudentStatus = '{1}'", filterExpression, Constant.ClassStudentStatus.OPEN));
 
@@ -322,7 +325,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected void cbpSubject_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND IsDeleted = 0", tacSchoolClass.Value, Constant.ClassStudyType.REGULAR));
+            if (tacSchoolClass.Value != "")
+                lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND IsDeleted = 0", tacSchoolClass.Value, Constant.ClassStudyType.REGULAR));
+            else
+                lstSubject = new List<vClassSubject>();
             
             ASPxCallbackPanel cbpSubject = (ASPxCallbackPanel)ddeSubject.FindControl("cbpSubject");
             GridView grdSubject = (GridView)cbpSubject.FindControl("grdSubject");

@@ -53,6 +53,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             SetControlEntrySetting(txtSubjectCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtSubjectName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtInitial, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
         }
 
@@ -64,6 +65,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             txtSubjectCode.Text = entity.SubjectCode;
             txtSubjectName.Text = entity.SubjectName;
+            txtInitial.Text = entity.Initial;
             txtRemarks.Text = entity.Remarks;
         }
 
@@ -71,6 +73,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.SubjectCode = txtSubjectCode.Text;
             entity.SubjectName = txtSubjectName.Text;
+            entity.Initial = txtInitial.Text;
             entity.GCClassStudyType = hdnGCClassStudyType.Value;
             entity.Remarks = txtRemarks.Text;
         }

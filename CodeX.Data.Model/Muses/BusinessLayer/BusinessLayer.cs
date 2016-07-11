@@ -2033,6 +2033,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static String GetClassSubjectTaskMaxCode(IDbContext ctx, string filterExpression)
+        {
+            String result = "";
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubjectTask));
+                ctx.CommandText = helper.SelectMaxColumn("ClassTaskCode", filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                if (row != null)
+                    result = row.ItemArray.GetValue(0).ToString();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region ClassSubjectTaskIndicator
         public static ClassSubjectTaskIndicator GetClassSubjectTaskIndicator(Int32 ClassSubjectTaskIndicatorID)
