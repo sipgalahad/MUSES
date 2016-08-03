@@ -150,6 +150,65 @@
         <div style="text-align:center;">
             <h1 style="font-size: 9pt; font-weight: bold; line-height: 25px;">CAPAIAN HASIL BELAJAR</h1>
         </div>
+        <br />
+        <div>
+            <h1 style="font-size: 9pt; font-weight: bold; line-height: 25px;">A. SIKAP</h1>
+        </div>
+        <table style="font-size:9pt">
+            <asp:Repeater ID="rptPersonality" runat="server" OnItemDataBound="rptPersonality_ItemDataBound">
+                <ItemTemplate>
+                    <tr style="height:6px; line-height:6px;">
+                        <td></td>
+                        <td colspan="29">
+                            <h1 style="font-size: 9pt; font-weight: bold; line-height: 25px;"><%#Container.ItemIndex + 1%>. <%#Eval("SubjectName") %></h1>
+                            <br />
+                            <table border="1" style="width: 100%">
+                                <tr style="height:15px; line-height: 10px;">
+                                    <td align="center" colspan="2">Predikat</td>
+                                    <td align="center" colspan="8">Deskripsi</td>
+                                </tr>
+                                <tr style="height:5px; line-height: 15px;">
+                                    <td align="center" colspan="2" style="vertical-align: top;"><div id="divPredicate" runat="server"></div><br /><br /><br /><br /><br /><br /><br /></td>
+                                    <td align="left" colspan="8" valign="top"><div id="divRemarks" runat="server"></div></td>
+                                </tr>
+                            </table>
+                            <br />
+                        </td>
+                    </tr>
+                </ItemTemplate>
+            </asp:Repeater>
+        </table>
+
+        
+
+        <div>\p</div>
+
+        <table style="font-size:9pt">
+            <tr style="height:6px; line-height:6px;">
+                <td colspan="5">Nama Sekolah</td><td>:</td><td colspan="8" id="tdHeaderSchoolName2" runat="server"></td><td></td>
+                <td colspan="5">Kelas</td><td>:</td><td colspan="8" id="tdHeaderSchoolClassName2" runat="server"></td>
+            </tr>
+            <tr style="height:6px; line-height:6px;">
+                <td colspan="5">Alamat Sekolah</td><td>:</td><td colspan="8" id="tdHeaderSchoolAddress2" runat="server"></td><td></td>
+                <td colspan="5">Semester</td><td>:</td><td colspan="8" id="td1" runat="server"></td>
+            </tr>
+            <tr style="height:6px; line-height:6px;">
+                <td colspan="5"></td><td></td><td colspan="8" id="tdHeaderSchoolAddressLine22" runat="server"></td><td></td>
+                <td colspan="5">Tahun Pelajaran</td><td>:</td><td colspan="8" id="tdHeaderSchoolPeriod2" runat="server"></td>
+            </tr>
+            <tr style="height:6px; line-height:6px;">
+                <td colspan="5">Nama</td><td>:</td><td colspan="8" id="tdHeaderStudentName2" runat="server"></td><td></td>
+                <td colspan="5"></td><td></td><td colspan="8"></td>
+            </tr>
+            <tr style="height:6px; line-height:6px;">
+                <td colspan="5">NIS / NISN</td><td>:</td><td colspan="8" id="tdHeaderStudentCode2" runat="server"></td><td></td>
+                <td colspan="5"></td><td></td><td colspan="8"></td>
+            </tr>
+        </table>
+        <br />
+        <div>
+            <h1 style="font-size: 9pt; font-weight: bold; line-height: 25px;">B. Pengetahuan dan Keterampilan</h1>
+        </div>
     </div>
     </form>
 </body>

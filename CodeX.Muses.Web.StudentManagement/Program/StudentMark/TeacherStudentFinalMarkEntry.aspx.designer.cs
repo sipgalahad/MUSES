@@ -67,6 +67,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSchoolPeriod;
         
         /// <summary>
+        /// hdnPeriodSectionID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPeriodSectionID;
+        
+        /// <summary>
         /// tacPeriodSection control.
         /// </summary>
         /// <remarks>

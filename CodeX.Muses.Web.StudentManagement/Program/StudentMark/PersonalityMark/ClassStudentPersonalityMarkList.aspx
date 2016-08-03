@@ -24,7 +24,7 @@
                         lstClassSubjectID += ',';
                     }
                     lstClassSubjectID += $(this).find('.keyField').html();
-                    result += $(this).find('.keyField').html() + ';' + $(this).find('.txtMarkDescription').val();
+                    result += $(this).find('.keyField').html() + ';' + $(this).find('.ddlMark').val() + ';' + $(this).find('.txtMarkDescription').val();
                 });
                 $('#<%=hdnSaveValue.ClientID %>').val(result);
                 $('#<%=hdnLstClassSubjectID.ClientID %>').val(lstClassSubjectID);
@@ -44,11 +44,18 @@
     </script>
     <input type="hidden" id="hdnSaveValue" runat="server" />
     <input type="hidden" id="hdnLstClassSubjectID" runat="server" />
+    <input type="hidden" id="hdnCurriculumMarkTypeID" runat="server" />
+    <input type="hidden" id="hdnMarkTypeID" runat="server" />
     <input type="hidden" id="hdnID" value="" runat="server" />  
     <asp:GridView ID="grdView" runat="server" CssClass="grdSelected grdBorder" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
     <Columns>
         <asp:BoundField DataField="ClassSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
         <asp:BoundField DataField="SubjectName" HeaderText="Aspek" ItemStyle-CssClass="tdSubjectName" />
+        <asp:TemplateField HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" HeaderText="Predikat" ItemStyle-HorizontalAlign="Center">
+            <ItemTemplate>
+                <asp:DropDownList ID="ddlMark" Width="100%" runat="server" CssClass="ddlMark" />
+            </ItemTemplate>
+        </asp:TemplateField>
         <asp:TemplateField HeaderStyle-Width="700px" HeaderStyle-CssClass="thCenter" HeaderText="Keterangan" ItemStyle-HorizontalAlign="Center">
             <ItemTemplate>
                 <asp:TextBox ID="txtMarkDescription" Width="100%" runat="server" CssClass="txtMarkDescription" />

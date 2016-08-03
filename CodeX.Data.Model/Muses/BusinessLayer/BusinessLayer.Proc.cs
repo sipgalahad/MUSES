@@ -1495,8 +1495,9 @@ namespace CodeX.Data.Model
             param.SqlDbType = SqlDbType.VarChar;
             param.Size = 1000;
             param.Direction = ParameterDirection.Output;
-
             ctx.Command.Parameters.Add(param);
+            ctx.Command.CommandTimeout = 1000;
+
             try
             {
                 DaoBase.ExecuteNonQuery(ctx);

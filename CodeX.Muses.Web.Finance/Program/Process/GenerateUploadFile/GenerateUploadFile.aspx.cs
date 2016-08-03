@@ -172,10 +172,13 @@ namespace CodeX.Muses.Web.Finance.Program
                             if (entityARBalance != null)
                                 depositAmount = entityARBalance.DepositAmount;
 
-                            foreach (vStudentFeeComp obj in sfctList.Where(x => x.ProspectiveStudentID  == ps.ProspectiveStudentID))
+                            List<vStudentFeeCompType> lstStudentFeeCompType = (from p in sfctList.Where(x => x.ProspectiveStudentID == ps.ProspectiveStudentID)
+                                                                               select new vStudentFeeCompType { StudentFeeCompTypeID = p.StudentFeeCompTypeID, StudentFeeCompTypeName = p.ShortName }).GroupBy(p => p.StudentFeeCompTypeID).Select(p => p.First()).ToList();
+
+                            foreach (vStudentFeeCompType obj in lstStudentFeeCompType)
                             {
                                 List<vARInvoiceDt> lstvARInvoiceDt1 = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
-                                string ShortName = obj.ShortName;
+                                string ShortName = obj.StudentFeeCompTypeName;
                                 if (lstvARInvoiceDt1.Count > 0)
                                 {
                                     decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount - x.PaymentAmount));
@@ -240,7 +243,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             if (entityARBalance != null)
                                 depositAmount = entityARBalance.DepositAmount;
                             List<vStudentFeeCompType> lstStudentFeeCompType = (from p in sfctList.Where(x => x.StudentID == s.StudentID)
-                                              select new vStudentFeeCompType { StudentFeeCompTypeID = p.StudentFeeCompTypeID, StudentFeeCompTypeName = p.ShortName }).GroupBy(p => p.StudentFeeCompTypeID).Select(p => p.First()).ToList();
+                                                                               select new vStudentFeeCompType { StudentFeeCompTypeID = p.StudentFeeCompTypeID, StudentFeeCompTypeName = p.ShortName }).GroupBy(p => p.StudentFeeCompTypeID).Select(p => p.First()).ToList();
 
                             foreach (vStudentFeeCompType obj in lstStudentFeeCompType)
                             {

@@ -53,6 +53,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 if (lstPeriodSection.Count > 0)
                 {
                     PeriodSection periodSection = lstPeriodSection.FirstOrDefault();
+                    hdnPeriodSectionID.Value = periodSection.PeriodSectionID.ToString();
                     tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
                     tacPeriodSection.Text = periodSection.PeriodSectionName;
                 }
@@ -134,7 +135,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             // Read in the contents of the Receipt.htm HTML template file
 
-            string url = CurrentDomain() + ResolveUrl(string.Format("~/Report/VID_RCI/StudentManagement/BRapor2013.aspx?id={0}", hdnStudentID.Value));
+            string url = CurrentDomain() + ResolveUrl(string.Format("~/Report/VID_RCI/StudentManagement/BRapor2013.aspx?id={0}|{1}|{2}", hdnStudentID.Value, hdnClassID.Value, hdnPeriodSectionID.Value));
 
             HttpWebRequest webrequest = (HttpWebRequest)HttpWebRequest.Create(url);
             webrequest.Method = "GET";

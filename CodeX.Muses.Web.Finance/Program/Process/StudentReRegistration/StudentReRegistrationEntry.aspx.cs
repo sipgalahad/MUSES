@@ -71,7 +71,7 @@ namespace CodeX.Muses.Web.Finance.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("PeriodClassTypeID = {0}", tacPeriodClassType.Value);
+            filterExpression += string.Format("PeriodClassTypeID = {0} AND GCStudentStatus = '{1}'", tacPeriodClassType.Value, Constant.StudentStatus.ACTIVE);
             if (cboStudentType.Value != null && cboStudentType.Value.ToString() != "")
                 filterExpression += string.Format(" AND GCStudentType = '{0}'", cboStudentType.Value);
             return filterExpression;
@@ -82,8 +82,8 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             string filterExpression = GetFilterExpression();
             List<vStudentCustom> lstEntity = BusinessLayer.GetvStudentCustomList(String.Format("{0} AND IsGenerateStudentFeeNextPeriod = 0", filterExpression));
-            
-            if (lstEntity.Count > 0)
+
+            if (lstEntity.Count > 0 && tacNextSchoolPeriod.Value != "")
             {
                 string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
                 lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(String.Format("StudentID IN ({0}) AND SchoolPeriodID IN ({1},{2})", lstStudentID, tacSchoolPeriod.Value, tacNextSchoolPeriod.Value));

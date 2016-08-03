@@ -168,8 +168,9 @@ namespace CodeX.Muses.Web.Finance.Program
                 #region Build Text File
                 String txt = string.Empty;
                 String format = "";
-                SchoolPeriod Period = schoolPeriodDao.Get(Convert.ToInt32(hdnSchoolPeriod.Value));
-                List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", hdnSchoolPeriod.Value));
+                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}') AND SiteID = '{2}'", Helper.GetDatePickerValue(Request.Form[txtStartDate.UniqueID]), Helper.GetDatePickerValue(Request.Form[txtEndDate.UniqueID]), prospectiveStudent.SiteID), ctx)[0];
+                List<StudentFeeCompType> sfctList = (from p in lstStudentFeeDt
+                                                     select new StudentFeeCompType { StudentFeeCompTypeID = p.StudentFeeCompTypeID, ShortName = p.StudentFeeCompTypeShortName }).GroupBy(p => p.StudentFeeCompTypeID).Select(p => p.First()).OrderBy(p => p.StudentFeeCompTypeID).ToList();
                 
                 if (bank.GCBankExportDataType.ToString() == Constant.BankExportDataType.MANDIRI)
                 {
@@ -194,7 +195,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
                     int count = 1;
                     decimal depositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
-                    foreach (vAdmissionFeeComp obj in sfctList)
+                    foreach (StudentFeeCompType obj in sfctList)
                     {
                         List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
                         string ShortName = obj.ShortName;
@@ -293,7 +294,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         StudentName = prospectiveStudent.ProspectiveStudentName;
 
                         decimal depositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
-                        foreach (vAdmissionFeeComp obj in sfctList)
+                        foreach (StudentFeeCompType obj in sfctList)
                         {
                             List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
                             string ShortName = obj.ShortName;

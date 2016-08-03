@@ -128,6 +128,7 @@
         }
 
         function onTacPeriodSectionValueChanged() {
+            $('#<%=hdnPeriodSectionID.ClientID %>').val(tacPeriodSection.getValue());
         }
         //#endregion
     </script>
@@ -155,6 +156,7 @@
         <tr>
             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Semester")%></label></td>
             <td>
+                <input type="hidden" value="" id="hdnPeriodSectionID" runat="server" />
                 <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacPeriodSection" ClientInstanceName="tacPeriodSection" MethodName="GetPeriodSectionList" GetFilterExpressionFunction="onGetPeriodSectionFilterExpression"
                     SearchFields="PeriodSectionName,PeriodSectionCode" TextField="PeriodSectionName" ValueField="PeriodSectionID" SearchText="${PeriodSectionName} (<b>${PeriodSectionCode}</b>)" OrderByExpression="PeriodSectionName">
                     <ClientSideEvents ButtonSearchClick="function(){ onTacPeriodSectionButtonSearchClick(); }"

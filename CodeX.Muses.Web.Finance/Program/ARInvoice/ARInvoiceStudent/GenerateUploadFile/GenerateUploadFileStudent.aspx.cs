@@ -168,7 +168,9 @@ namespace CodeX.Muses.Web.Finance.Program
                 String format = "";
                 //SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)), ctx)[0];
                 SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}') AND SiteID = '{2}'", Helper.GetDatePickerValue(Request.Form[txtStartDate.UniqueID]), Helper.GetDatePickerValue(Request.Form[txtEndDate.UniqueID]), student.SiteID), ctx)[0];
-                List<vStudentFeeComp> sfctList = BusinessLayer.GetvStudentFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0 AND StudentID = {1}", Period.SchoolPeriodID, student.StudentID), ctx);
+                
+                List<StudentFeeCompType> sfctList = (from p in lstStudentFeeDt
+                                                     select new StudentFeeCompType { StudentFeeCompTypeID = p.StudentFeeCompTypeID, ShortName = p.StudentFeeCompTypeShortName }).GroupBy(p => p.StudentFeeCompTypeID).Select(p => p.First()).OrderBy(p => p.StudentFeeCompTypeID).ToList();
                 
                 if (bank.GCBankExportDataType == Constant.BankExportDataType.MANDIRI)
                 {
@@ -201,7 +203,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     
                     int count = 1;
                     decimal depositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
-                    foreach (vStudentFeeComp obj in sfctList)
+                    foreach (StudentFeeCompType obj in sfctList)
                     {
                         List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
                         string ShortName = obj.ShortName;
@@ -307,7 +309,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         StudentName = student.StudentName;
                         
                         decimal depositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
-                        foreach (vStudentFeeComp obj in sfctList)
+                        foreach (StudentFeeCompType obj in sfctList)
                         {
                             List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
                             string ShortName = obj.ShortName;

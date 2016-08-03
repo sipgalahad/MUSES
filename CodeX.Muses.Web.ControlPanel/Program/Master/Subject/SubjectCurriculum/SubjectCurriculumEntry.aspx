@@ -46,7 +46,7 @@
                 if (result) {
                     var entity = rowToObject($row);
                     $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectCurriculumID);
-                    cbpProcessPopup.PerformCallback('delete');
+                    cbpProcess.PerformCallback('delete');
                 }
             });
         });

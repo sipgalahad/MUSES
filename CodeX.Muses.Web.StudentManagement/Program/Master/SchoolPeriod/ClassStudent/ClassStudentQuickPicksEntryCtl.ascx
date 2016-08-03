@@ -177,7 +177,11 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="StudentName" HeaderText="Nama" ItemStyle-CssClass="tdStudentName" />
-                                        <asp:BoundField DataField="SchoolClassName" HeaderText="Kelas" HeaderStyle-Width="150px" />
+                                        <asp:TemplateField HeaderText="Kelas" HeaderStyle-Width="150px">
+                                            <ItemTemplate>
+                                                <div id="divSchoolClassName" runat="server"></div>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>

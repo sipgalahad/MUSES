@@ -2371,6 +2371,13 @@ namespace CodeX.Data.Model
                 return "";
             }
         }
+        public Decimal TransactionAmountMinusTotalDiscountAmount
+        {
+            get
+            {
+                return _TransactionAmount - _TotalDiscountAmount;
+            }
+        }
         public Decimal LineAmountWithoutPenalty
         {
             get

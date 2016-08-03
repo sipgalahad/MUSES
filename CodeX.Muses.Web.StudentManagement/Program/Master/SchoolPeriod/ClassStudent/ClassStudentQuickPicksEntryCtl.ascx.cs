@@ -10,6 +10,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Web.Common;
 using CodeX.Common;
 using CodeX.Data.Core.Dal;
+using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -49,18 +50,29 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             lstSelectedMember = hdnSelectedMember.Value.Split(',');
             List<vStudent> lstEntity = BusinessLayer.GetvStudentList(filterExpression, 10, pageIndex, "StudentName ASC");
+            string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
+            if (lstStudentID != "")
+                lstClassStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolPeriodID = {0} AND StudentID IN ({1})", AppSession.SchoolPeriodID, lstStudentID));
+            else
+                lstClassStudent = new List<vClassStudent>();
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
 
+        List<vClassStudent> lstClassStudent = null;
         protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 vStudent entity = e.Row.DataItem as vStudent;
                 CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
+                HtmlGenericControl divSchoolClassName = e.Row.FindControl("divSchoolClassName") as HtmlGenericControl;
                 if (lstSelectedMember.Contains(entity.StudentID.ToString()))
                     chkIsSelected.Checked = true;
+
+                vClassStudent classStudent = lstClassStudent.FirstOrDefault(p => p.StudentID == entity.StudentID);
+                if (classStudent != null)
+                    divSchoolClassName.InnerHtml = classStudent.SchoolClassName;
             }
         }
 
@@ -97,18 +109,28 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             try
             {
                 int SchoolClassID = Convert.ToInt32(hdnSchoolClassID.Value);
-                foreach (String studentID in lstSelectedMember)
-                {
-                    ClassStudent entity = new ClassStudent();
-                    entity.SchoolClassID = SchoolClassID;
-                    entity.StudentID = Convert.ToInt32(studentID);
-                    entity.GCClassStudentStatus = Constant.ClassStudentStatus.OPEN;
-                    entityDao.Insert(entity);
 
-                    Student student = entityStudentDao.Get(entity.StudentID);
-                    student.SchoolClassID = entity.SchoolClassID;
-                    student.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityStudentDao.Update(student);
+                if (hdnSelectedMember.Value != "")
+                {
+                    List<ClassStudent> lstClassStudent = BusinessLayer.GetClassStudentList(string.Format("SchoolClassID IN (SELECT SchoolClassID FROM vSchoolClass WHERE SchoolPeriodID = {0}) AND StudentID IN ({1})", AppSession.SchoolPeriodID, hdnSelectedMember.Value), ctx);
+                    foreach (ClassStudent classStudent in lstClassStudent)
+                    {
+                        entityDao.Delete(classStudent.SchoolClassID, classStudent.StudentID);
+                    }
+
+                    foreach (String studentID in lstSelectedMember)
+                    {
+                        ClassStudent entity = new ClassStudent();
+                        entity.SchoolClassID = SchoolClassID;
+                        entity.StudentID = Convert.ToInt32(studentID);
+                        entity.GCClassStudentStatus = Constant.ClassStudentStatus.OPEN;
+                        entityDao.Insert(entity);
+
+                        Student student = entityStudentDao.Get(entity.StudentID);
+                        student.SchoolClassID = entity.SchoolClassID;
+                        student.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityStudentDao.Update(student);
+                    }
                 }
                 ctx.CommitTransaction();
                 result = true;

@@ -24,9 +24,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         List<vStudentNote> lstStudentNote = null;
         List<StandardCode> lstNoteRate = null;
+        List<MarkTypeDt> lstOption = null;
         protected override void InitializeDataControl()
         {
             List<vClassSubject> lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND ParentID IS NULL", AppSession.ClassStudent.SchoolClassID, Constant.ClassStudyType.PERSONALITY));
+            vSchoolClass sc = BusinessLayer.GetvSchoolClassList(string.Format("SchoolClassID = {0}", AppSession.ClassStudent.SchoolClassID)).FirstOrDefault();
+
+            CurriculumMarkType entityMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND GCStudentMarkGroup = '{1}' AND IsDeleted = 0", sc.CurriculumID, Constant.StudentMarkGroup.AFFECTIVE)).FirstOrDefault();
+            hdnMarkTypeID.Value = entityMarkType.PredicateMarkTypeID.ToString();
+            hdnCurriculumMarkTypeID.Value = entityMarkType.CurriculumMarkTypeID.ToString();
+
+            lstOption = BusinessLayer.GetMarkTypeDtList(string.Format("MarkTypeID = {0} AND IsDeleted = 0", hdnMarkTypeID.Value));
+            lstOption.Insert(0, new MarkTypeDt { MarkTypeDtID = 0, MarkTypeDtName = "" });
 
             string lstClassSubjectID = string.Join(",", lstSubject.Select(p => p.ClassSubjectID).ToList());
             if (lstClassSubjectID != "")
@@ -47,8 +56,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 vClassSubject entity = (vClassSubject)e.Row.DataItem;
                 ClassStudentSubjectMark studentMark = lstMark.FirstOrDefault(p => p.ClassSubjectID == entity.ClassSubjectID);
                 TextBox txtMarkDescription = (TextBox)e.Row.FindControl("txtMarkDescription");
+                DropDownList ddlMark = (DropDownList)e.Row.FindControl("ddlMark");
+                Methods.SetComboBoxField<MarkTypeDt>(ddlMark, lstOption, "MarkTypeDtName", "MarkTypeDtID");
+
                 if (studentMark != null)
+                {
                     txtMarkDescription.Text = studentMark.DescriptionMark;
+                    ddlMark.SelectedValue = studentMark.PredicateMarkTypeDtID.ToString();
+                }
             }
         }
 
@@ -122,12 +137,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entity.ClassSubjectID = ClassSubjectID;
                             entity.PeriodSectionID = AppSession.ClassStudent.PeriodSectionID;
                             entity.StudentID = AppSession.ClassStudent.StudentID;
-                            entity.DescriptionMark = temp[1];
+                            entity.CurriculumMarkTypeID = Convert.ToInt32(hdnCurriculumMarkTypeID.Value);
+                            if (temp[1] != "0")
+                                entity.PredicateMarkTypeDtID = Convert.ToInt32(temp[1]);
+                            else
+                                entity.PredicateMarkTypeDtID = null;
+                            entity.DescriptionMark = temp[2];
                             entityDao.Insert(entity);
                         }
                         else
                         {
-                            entity.DescriptionMark = temp[1];
+                            if (temp[1] != "0")
+                                entity.PredicateMarkTypeDtID = Convert.ToInt32(temp[1]);
+                            else
+                                entity.PredicateMarkTypeDtID = null;
+                            entity.DescriptionMark = temp[2];
                             entityDao.Update(entity);
                         }
                     }

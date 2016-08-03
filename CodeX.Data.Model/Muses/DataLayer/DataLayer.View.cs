@@ -27876,6 +27876,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentFeeCompID;
         private Int32 _StudentFeeCompTypeID;
         private String _StudentFeeCompTypeName;
+        private String _StudentFeeCompTypeShortName;
         private String _GCAdmissionPaymentPeriod;
         private Int32 _TransactionMonth;
         private Int32 _TransactionYear;
@@ -27978,6 +27979,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentFeeCompTypeName; }
             set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeShortName", DataType = "String")]
+        public String StudentFeeCompTypeShortName
+        {
+            get { return _StudentFeeCompTypeShortName; }
+            set { _StudentFeeCompTypeShortName = value; }
         }
         [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
         public String GCAdmissionPaymentPeriod
