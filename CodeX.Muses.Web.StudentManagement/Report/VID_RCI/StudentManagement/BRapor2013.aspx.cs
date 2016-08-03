@@ -63,6 +63,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report.VID_RCI.StudentManagement
 
             List<vClassSubject> lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND IsDeleted = 0", ClassID));
             List<vClassSubject> lstSubjectPersonality = lstSubject.Where(p => p.SubjectGCClassStudyType == Constant.ClassStudyType.PERSONALITY).ToList();
+            lstSubjectRegular = lstSubject.Where(p => p.SubjectGCClassStudyType == Constant.ClassStudyType.REGULAR).ToList();
 
             string lstClassSubjectID = string.Join(",", lstSubject.Select(p => p.ClassSubjectID).ToList());
             if (lstClassSubjectID != "")
@@ -72,8 +73,14 @@ namespace CodeX.Muses.Web.StudentManagement.Report.VID_RCI.StudentManagement
 
             rptPersonality.DataSource = lstSubjectPersonality;
             rptPersonality.DataBind();
+
+            List<CurriculumSubjectGroup> lstGroup = (from p in lstSubjectRegular
+                                                     select new CurriculumSubjectGroup { CurriculumSubjectGroupID = p.CurriculumSubjectGroupID, CurriculumSubjectGroupName = p.CurriculumSubjectGroupName }).GroupBy(p => new { p.CurriculumSubjectGroupID }).Select(p => p.First()).OrderBy(p => p.CurriculumSubjectGroupID).ToList();
+            rptSubjectRegularGroup.DataSource = lstGroup;
+            rptSubjectRegularGroup.DataBind();
         }
 
+        List<vClassSubject> lstSubjectRegular = null;
         List<vClassStudentSubjectMark> lstMark = null;
         protected void rptPersonality_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
@@ -89,6 +96,17 @@ namespace CodeX.Muses.Web.StudentManagement.Report.VID_RCI.StudentManagement
                     divPredicate.InnerHtml = entityMark.PredicateMarkTypeDtName;
                     divRemarks.InnerHtml = entityMark.DescriptionMark;
                 }
+            }
+        }
+        protected void rptSubjectRegularGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                CurriculumSubjectGroup entity = (CurriculumSubjectGroup)e.Item.DataItem;
+                
+                Repeater rptSubjectRegular = (Repeater)e.Item.FindControl("rptSubjectRegular");
+                rptSubjectRegular.DataSource = lstSubjectRegular.Where(p => p.CurriculumSubjectGroupID == entity.CurriculumSubjectGroupID).ToList();
+                rptSubjectRegular.DataBind();
             }
         }
     }

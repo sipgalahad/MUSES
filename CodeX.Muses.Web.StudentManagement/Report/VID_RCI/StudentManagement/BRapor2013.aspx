@@ -205,9 +205,85 @@
                 <td colspan="5"></td><td></td><td colspan="8"></td>
             </tr>
         </table>
-        <br />
         <div>
-            <h1 style="font-size: 9pt; font-weight: bold; line-height: 25px;">B. Pengetahuan dan Keterampilan</h1>
+            <h1 style="font-size: 9pt; font-weight: bold; line-height: 25px;">B. Pengetahuan dan Keterampilan</h1><br />
+            <table border="1" cellpadding="0" cellspacing="0" style="font-size:7pt;width: 100%">
+                <tr style="height:10px; line-height: 10px;">
+                    <td align="center" colspan="2" style="font-weight: bold;" >No</td>
+                    <td align="center" colspan="22" style="font-weight: bold;">MATA PELAJARAN</td>
+                    <td align="center" colspan="6" style="font-weight: bold;" >KKM</td>
+                    <td align="center" colspan="12" style="font-weight: bold;">
+                        <table border="1" style="width: 100%">
+                            <tr>
+                                <td align="center" style="font-weight: bold;">Pengetahuan<br /></td>
+                            </tr>
+                        </table>
+                        <table border="1" style="width: 100%">
+                            <tr>
+                                <td align="center" style="font-weight: bold;">Angka<br /></td>
+                                <td align="center" style="font-weight: bold;">Predikat<br /></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td align="center" colspan="12">
+                        <table border="1" style="width: 100%">
+                            <tr>
+                                <td align="center" style="font-weight: bold;">Keterampilan<br /></td>
+                            </tr>
+                        </table>
+                        <table border="1" style="width: 100%">
+                            <tr>
+                                <td align="center" style="font-weight: bold;">Angka<br /></td>
+                                <td align="center" style="font-weight: bold;">Predikat<br /></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <asp:Repeater ID="rptSubjectRegularGroup" runat="server" OnItemDataBound="rptSubjectRegularGroup_ItemDataBound">
+                <ItemTemplate>
+                    <table border="1" cellpadding="0" cellspacing="0" style="font-size:7pt;width: 100%">
+                        <tr>
+                            <td><table border="0"><tr style="height:15px; line-height: 15px;"><td colspan="1"></td><td colspan="100" style="font-weight: bold;"><%#Eval("CurriculumSubjectGroupName")%></td></tr></table></td>
+                        </tr>
+                    </table>    
+                    <asp:Repeater ID="rptSubjectRegular" runat="server">
+                        <ItemTemplate>
+                            <table border="1" cellpadding="0" cellspacing="0" style="font-size:7pt;width: 100%">
+                                <tr style="height:0px; line-height: 13px;">
+                                    <td colspan="2" align="center"><%# Container.ItemIndex + 1%><br /><br /></td>
+                                    <td colspan="22"><table border="0"><tr><td colspan="1"></td><td colspan="50"><%#Eval("SubjectName") %><br /><br /></td></tr></table></td>
+                                    <td align="center" colspan="6" ><%#Eval("PassingGrade") %><br /><br /></td>
+                                    <td align="center" colspan="6" >KKM<br /><br /></td>
+                                    <td align="center" colspan="6" >KKM<br /><br /></td>
+                                    <td align="center" colspan="6" >KKM<br /><br /></td>
+                                    <td align="center" colspan="6" >KKM<br /><br /></td>
+                                </tr>
+                            </table>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </ItemTemplate>
+            </asp:Repeater>
+            <h1 style="font-size: 8pt; font-weight: bold; line-height: 20px;">Tabel interval predikat berdasarkan KKM</h1><br />
+            <table border="1" style="width: 100%;font-size:8pt">
+                <tr>
+                    <td align="center" style="font-weight: bold;">Predikat<br /></td>
+                </tr>
+            </table>
+            <table border="1" style="width: 100%; font-size:8pt">
+                <tr>
+                    <td align="center" style="font-weight: bold;">A = Sangat Baik<br /></td>
+                    <td align="center" style="font-weight: bold;">B = Baik<br /></td>
+                    <td align="center" style="font-weight: bold;">C = Cukup<br /></td>
+                    <td align="center" style="font-weight: bold;">D = Kurang<br /></td>
+                </tr>
+                <tr>
+                    <td align="center" style="font-weight: bold;">>= 85<br /></td>
+                    <td align="center" style="font-weight: bold;">75 - 84<br /></td>
+                    <td align="center" style="font-weight: bold;">60 - 74<br /></td>
+                    <td align="center" style="font-weight: bold;">&lt;&nbsp;60<br /></td>
+                </tr>
+            </table>
         </div>
     </div>
     </form>
