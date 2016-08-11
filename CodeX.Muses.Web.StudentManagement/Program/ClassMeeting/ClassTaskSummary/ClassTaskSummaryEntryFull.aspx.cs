@@ -18,7 +18,7 @@ using System.Text.RegularExpressions;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class ClassTaskSummaryEntry : BasePageTrx
+    public partial class ClassTaskSummaryEntryFull : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
@@ -222,7 +222,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     if (entity.TaskGCMarkType == Constant.SubjectMarkType.NUMBER)
                     {
-                        colSpan += taskCount.Count;
+                        colSpan += taskCount.Count + 2;
                         tableWidth += 2 * 60;
                     }
                     else
@@ -260,6 +260,17 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vCurriculumSubjectMarkType entity = (vCurriculumSubjectMarkType)e.Item.DataItem;
 
+                vPeriodClassTypeSubjectFinalMarkFormulaCustom entityFormulaHd = lstFinalMarkFormulaHd.FirstOrDefault(p => p.CurriculumMarkTypeID == entity.CurriculumMarkTypeID);
+                if (entityFormulaHd != null)
+                {
+                    Repeater rptHeaderMarkType2Dt = (Repeater)e.Item.FindControl("rptHeaderMarkType2Dt");
+                    List<vCurriculumFinalMarkFormulaDt> lstFormulaDt = lstFinalMarkFormulaDt.Where(p => p.CurriculumFinalMarkFormulaID == entityFormulaHd.CurriculumFinalMarkFormulaID).OrderBy(p => p.DisplayOrder).ToList();
+                    rptHeaderMarkType2Dt.DataSource = lstFormulaDt;
+                    rptHeaderMarkType2Dt.DataBind();
+
+                    HtmlGenericControl spnTotalPercentage = (HtmlGenericControl)e.Item.FindControl("spnTotalPercentage");
+                    spnTotalPercentage.InnerHtml = lstFormulaDt.Sum(p => p.FinalMarkPercentage).ToString();
+                }
                 if (!entity.IsAllowTask || entity.TaskGCMarkType != Constant.SubjectMarkType.NUMBER)
                 {
                     HtmlTableCell thFinalReadonlyMark = (HtmlTableCell)e.Item.FindControl("thFinalReadonlyMark");
@@ -311,29 +322,45 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 vPeriodClassTypeSubjectFinalMarkFormulaCustom entityFormulaHd = lstFinalMarkFormulaHd.FirstOrDefault(p => p.CurriculumMarkTypeID == entity.CurriculumMarkTypeID);
                 if (entityFormulaHd != null)
                 {
-                    Repeater rptHeaderMarkType3Dt2 = (Repeater)e.Item.FindControl("rptHeaderMarkType3Dt2");
-                    List<vClassSubjectTask> lstTask = lstClassTask.ToList();
-                    rptHeaderMarkType3Dt2.DataSource = lstTask.OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
-                    rptHeaderMarkType3Dt2.DataBind();
+                    Repeater rptHeaderMarkType3Dt1 = (Repeater)e.Item.FindControl("rptHeaderMarkType3Dt1");
+                    List<vCurriculumFinalMarkFormulaDt> lstFormulaDt = lstFinalMarkFormulaDt.Where(p => p.CurriculumFinalMarkFormulaID == entityFormulaHd.CurriculumFinalMarkFormulaID).OrderBy(p => p.DisplayOrder).ToList();
+                    rptHeaderMarkType3Dt1.DataSource = lstFormulaDt;
+                    rptHeaderMarkType3Dt1.DataBind();
+                    //HtmlGenericControl spnTotalTheoryPercentage = (HtmlGenericControl)e.Item.FindControl("spnTotalTheoryPercentage");
+                    //spnTotalTheoryPercentage.InnerHtml = lstFormulaDt.Sum(p => p.FinalMarkPercentage).ToString();
+                }
+            }
+        }
 
-                    if (lstTask.Count > 0)
-                    {
-                        if (entity.TaskGCMarkType != Constant.SubjectMarkType.NUMBER)
-                        {
-                            HtmlTableCell thAverageMark = (HtmlTableCell)e.Item.FindControl("thAverageMark");
-                            HtmlTableCell thFinalMark = (HtmlTableCell)e.Item.FindControl("thFinalMark");
-                            thAverageMark.Style.Add("display", "none");
-                            thFinalMark.Style.Add("display", "none");
-                        }
-                        lstTaskCount.Add(new CTaskCount { CurriculumMarkTypeID = entity.CurriculumMarkTypeID, CurriculumFinalMarkFormulaDtID = 1, Count = lstTask.Count });
-                    }
-                    else
+        protected void rptHeaderMarkType3Dt1_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vCurriculumFinalMarkFormulaDt entityGroup = (vCurriculumFinalMarkFormulaDt)e.Item.DataItem;
+                vCurriculumSubjectMarkType markType = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vCurriculumSubjectMarkType;
+                string[] lstMarkTypeID = entityGroup.ListMarkTypeID.Split(',');
+                Repeater rptHeaderMarkType3Dt2 = (Repeater)e.Item.FindControl("rptHeaderMarkType3Dt2");
+                List<vClassSubjectTask> lstTask = lstClassTask.Where(p => lstMarkTypeID.Contains(p.CurriculumMarkTypeDtID.ToString())).ToList();
+                rptHeaderMarkType3Dt2.DataSource = lstTask.OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
+                rptHeaderMarkType3Dt2.DataBind();
+
+                if (lstTask.Count > 0)
+                {
+                    if (markType.TaskGCMarkType != Constant.SubjectMarkType.NUMBER)
                     {
                         HtmlTableCell thAverageMark = (HtmlTableCell)e.Item.FindControl("thAverageMark");
                         HtmlTableCell thFinalMark = (HtmlTableCell)e.Item.FindControl("thFinalMark");
                         thAverageMark.Style.Add("display", "none");
                         thFinalMark.Style.Add("display", "none");
                     }
+                    lstTaskCount.Add(new CTaskCount { CurriculumMarkTypeID = markType.CurriculumMarkTypeID, CurriculumFinalMarkFormulaDtID = entityGroup.CurriculumFinalMarkFormulaDtID, Count = lstTask.Count });
+                }
+                else
+                {
+                    HtmlTableCell thAverageMark = (HtmlTableCell)e.Item.FindControl("thAverageMark");
+                    HtmlTableCell thFinalMark = (HtmlTableCell)e.Item.FindControl("thFinalMark");
+                    thAverageMark.Style.Add("display", "none");
+                    thFinalMark.Style.Add("display", "none");
                 }
             }
         }
@@ -343,7 +370,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vClassSubjectTask entity = (vClassSubjectTask)e.Item.DataItem;
-                vCurriculumSubjectMarkType markType = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vCurriculumSubjectMarkType;
+                vCurriculumSubjectMarkType markType = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).DataItem as vCurriculumSubjectMarkType;
 
                 HtmlTableCell thTaskCode = (HtmlTableCell)e.Item.FindControl("thTaskCode");
                 int width = 0;
@@ -473,10 +500,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 vPeriodClassTypeSubjectFinalMarkFormulaCustom entityFormulaHd = lstFinalMarkFormulaHd.FirstOrDefault(p => p.CurriculumMarkTypeID == entity.CurriculumMarkTypeID);
                 if (entityFormulaHd != null)
                 {
-                    Repeater rptStudentMark = (Repeater)e.Item.FindControl("rptStudentMark");
-                    List<vClassSubjectTask> lstTask = lstClassTask.ToList();
-                    rptStudentMark.DataSource = lstTask.OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
-                    rptStudentMark.DataBind();
+                    Repeater rptStudentMarkGroup = (Repeater)e.Item.FindControl("rptStudentMarkGroup");
+                    List<vCurriculumFinalMarkFormulaDt> lstFormulaDt = lstFinalMarkFormulaDt.Where(p => p.CurriculumFinalMarkFormulaID == entityFormulaHd.CurriculumFinalMarkFormulaID).OrderBy(p => p.DisplayOrder).ToList();
+                    List<vCurriculumFinalMarkFormulaDt> lstFormulaDt1 = new List<vCurriculumFinalMarkFormulaDt>();
+                    foreach (CTaskCount taskCount in lstTaskCount)
+                    {
+                        vCurriculumFinalMarkFormulaDt entityFormulaDt = lstFormulaDt.FirstOrDefault(p => p.CurriculumFinalMarkFormulaDtID == taskCount.CurriculumFinalMarkFormulaDtID);
+                        if (entityFormulaDt != null)
+                            lstFormulaDt1.Add(entityFormulaDt);
+                    }
+
+                    rptStudentMarkGroup.DataSource = lstFormulaDt1;
+                    rptStudentMarkGroup.DataBind();
                     //HtmlGenericControl spnTotalTheoryPercentage = (HtmlGenericControl)e.Item.FindControl("spnTotalTheoryPercentage");
                     //spnTotalTheoryPercentage.InnerHtml = lstFormulaDt.Sum(p => p.FinalMarkPercentage).ToString();
                 }
@@ -499,6 +534,35 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Repeater rptStudentMark = (Repeater)e.Item.FindControl("rptStudentMark");
                 string[] lstMarkTypeID = entityGroup.ListMarkTypeID.Split(',');
                 
+                List<vClassSubjectTask> lstTask = lstClassTask.Where(p => lstMarkTypeID.Contains(p.CurriculumMarkTypeDtID.ToString())).ToList();
+                rptStudentMark.DataSource = lstTask.OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
+                rptStudentMark.DataBind();
+
+                TextBox txtFinalStudentMarkGroup = (TextBox)e.Item.FindControl("txtFinalStudentMarkGroup");
+                txtFinalStudentMarkGroup.Attributes.Add("formulapercentage", entityGroup.FinalMarkPercentage.ToString());
+                txtFinalStudentMarkGroup.Attributes.Add("formuladtid", entityGroup.CurriculumFinalMarkFormulaDtID.ToString());
+                txtFinalStudentMarkGroup.Attributes.Add("curriculummarktypeid", markType.CurriculumMarkTypeID.ToString());
+                ClassStudentSubjectTaskGroupMark entityMark = lstStudentGroupMark.FirstOrDefault(p => p.CurriculumFinalMarkFormulaDtID == entityGroup.CurriculumFinalMarkFormulaDtID && p.StudentID == student.StudentID);
+                if (entityMark != null)
+                    txtFinalStudentMarkGroup.Text = entityMark.Mark.ToString();
+
+                if (lstTask.Count > 0)
+                {
+                    if (markType.TaskGCMarkType != Constant.SubjectMarkType.NUMBER)
+                    {
+                        HtmlTableCell tdAverageStudentMarkGroup = (HtmlTableCell)e.Item.FindControl("tdAverageStudentMarkGroup");
+                        HtmlTableCell tdFinalStudentMarkGroup = (HtmlTableCell)e.Item.FindControl("tdFinalStudentMarkGroup");
+                        tdAverageStudentMarkGroup.Style.Add("display", "none");
+                        tdFinalStudentMarkGroup.Style.Add("display", "none");
+                    }
+                }
+                else
+                {
+                    HtmlTableCell tdAverageStudentMarkGroup = (HtmlTableCell)e.Item.FindControl("tdAverageStudentMarkGroup");
+                    HtmlTableCell tdFinalStudentMarkGroup = (HtmlTableCell)e.Item.FindControl("tdFinalStudentMarkGroup");
+                    tdAverageStudentMarkGroup.Style.Add("display", "none");
+                    tdFinalStudentMarkGroup.Style.Add("display", "none");
+                }
             }
         }
 
@@ -507,19 +571,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vClassSubjectTask subjectTask = (vClassSubjectTask)e.Item.DataItem;
-                vCurriculumSubjectMarkType markType = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vCurriculumSubjectMarkType;
-                vClassStudent student = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).DataItem as vClassStudent;
+                vCurriculumFinalMarkFormulaDt entityFormula = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vCurriculumFinalMarkFormulaDt;
+                vCurriculumSubjectMarkType markType = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).DataItem as vCurriculumSubjectMarkType;
+                vClassStudent student = ((RepeaterItem)((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).Parent.Parent).DataItem as vClassStudent;
 
                 TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
                 ASPxComboBox cboStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboStudentMarkOption");
                 TextBox txtStudentMarkDescription = (TextBox)e.Item.FindControl("txtStudentMarkDescription");
                 vClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID && p.StudentID == student.StudentID);
 
-                int markTypeIndex = ((RepeaterItem)e.Item.Parent.Parent).ItemIndex;
-                int studentIndex = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).ItemIndex;
-                cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}{1}{2}", studentIndex.ToString("D2"), markTypeIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
-                txtStudentMark.Attributes.Add("positiontag", string.Format("{0}{1}{2}", studentIndex.ToString("D2"), markTypeIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2")));
-                txtStudentMark.Attributes.Add("formuladtid", "1");
+                int parentIndex = ((RepeaterItem)e.Item.Parent.Parent).ItemIndex;
+                int markTypeIndex = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).ItemIndex;
+                int studentIndex = ((RepeaterItem)((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).Parent.Parent).ItemIndex;
+                cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}{1}{2}{3}", studentIndex.ToString("D2"), markTypeIndex.ToString("D2"), parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
+                txtStudentMark.Attributes.Add("positiontag", string.Format("{0}{1}{2}{3}", studentIndex.ToString("D2"), markTypeIndex.ToString("D2"), parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2")));
+                txtStudentMark.Attributes.Add("formuladtid", entityFormula.CurriculumFinalMarkFormulaDtID.ToString());
                 HtmlGenericControl divMark = (HtmlGenericControl)e.Item.FindControl("divMark");
                 switch (markType.TaskGCMarkType)
                 {
@@ -881,6 +947,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ClassSubjectTaskDao entityDtDao = new ClassSubjectTaskDao(ctx);
                 ClassStudentSubjectTaskMarkDao entityStudentSubjectTaskMarkDao = new ClassStudentSubjectTaskMarkDao(ctx);
                 ClassStudentSubjectMarkDao entityStudentSubjectMarkDao = new ClassStudentSubjectMarkDao(ctx);
+                ClassStudentSubjectTaskGroupMarkDao entityStudentSubjectTaskGroupMarkDao = new ClassStudentSubjectTaskGroupMarkDao(ctx);
                 try
                 {
                     string[] lstSaveValue = hdnListSaveHeaderValue.Value.Split('|');
@@ -891,6 +958,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     {
                         string[] temp = saveValue.Split(',');
                         int ClassSubjectTaskID = Convert.ToInt32(temp[0]);
+                        ClassSubjectTask entityDt = lstClassTask.FirstOrDefault(p => p.ClassSubjectTaskID == ClassSubjectTaskID);
+                        short FinalMarkPercentage = Convert.ToInt16(temp[1]);
+                        if (FinalMarkPercentage != entityDt.FinalMarkPercentage)
+                        {
+                            entityDt.FinalMarkPercentage = FinalMarkPercentage;
+                            entityDtDao.Update(entityDt);
+                        }
                         lstClassSubjectTaskID.Add(ClassSubjectTaskID);
                     }
 
@@ -905,6 +979,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     }
 
                     List<ClassStudentSubjectTaskMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", string.Join(",", lstClassSubjectTaskID.Select(p => p).ToList())), ctx);
+                    List<ClassStudentSubjectTaskGroupMark> lstStudentGroupMark = BusinessLayer.GetClassStudentSubjectTaskGroupMarkList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1}", AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID), ctx);
                     List<ClassStudentSubjectMark> lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", AppSession.ClassSubject.PeriodSectionID, hdnParentClassSubjectID.Value), ctx);
                     lstSaveValue = hdnListSaveValue.Value.Split('|');
                     int ClassSubjectID = Convert.ToInt32(hdnParentClassSubjectID.Value);
@@ -1076,6 +1151,41 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                     }
                                 }
                                 ctr++;
+                            }
+                        }
+
+                        string[] lstSaveValue3 = temp[2].Split(',');
+                        foreach (String saveValue2 in lstSaveValue3)
+                        {
+                            string[] temp2 = saveValue2.Split(')');
+                            int CurriculumFinalMarkFormulaDtID = Convert.ToInt32(temp2[0]);
+                            ClassStudentSubjectTaskGroupMark studentMark = lstStudentGroupMark.FirstOrDefault(p => p.CurriculumFinalMarkFormulaDtID == CurriculumFinalMarkFormulaDtID && p.StudentID == studentID);
+
+                            Decimal mark = -1;
+                            if (temp2[1] != "-" && temp2[1] != "")
+                                mark = Convert.ToDecimal(temp2[1]);
+                            if (studentMark == null)
+                            {
+                                if (mark > -1)
+                                {
+                                    studentMark = new ClassStudentSubjectTaskGroupMark();
+                                    studentMark.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
+                                    studentMark.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
+                                    studentMark.StudentID = studentID;
+                                    studentMark.CurriculumFinalMarkFormulaDtID = CurriculumFinalMarkFormulaDtID;
+                                    studentMark.Mark = mark;
+                                    entityStudentSubjectTaskGroupMarkDao.Insert(studentMark);
+                                }
+                            }
+                            else if (studentMark.Mark != mark)
+                            {
+                                if (mark > -1)
+                                {
+                                    studentMark.Mark = mark;
+                                    entityStudentSubjectTaskGroupMarkDao.Update(studentMark);
+                                }
+                                else
+                                    entityStudentSubjectTaskGroupMarkDao.Delete(AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID, CurriculumFinalMarkFormulaDtID, studentID);
                             }
                         }
                     }

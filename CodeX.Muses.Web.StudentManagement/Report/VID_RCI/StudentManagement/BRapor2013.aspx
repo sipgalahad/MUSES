@@ -131,7 +131,7 @@
             </tr>
             <tr style="height:6px; line-height:6px;">
                 <td colspan="5">Alamat Sekolah</td><td>:</td><td colspan="8" id="tdHeaderSchoolAddress1" runat="server"></td><td></td>
-                <td colspan="5">Semester</td><td>:</td><td colspan="8" id="td" runat="server"></td>
+                <td colspan="5">Semester</td><td>:</td><td colspan="8" id="tdHeaderPeriodSection1" runat="server"></td>
             </tr>
             <tr style="height:6px; line-height:6px;">
                 <td colspan="5"></td><td></td><td colspan="8" id="tdHeaderSchoolAddressLine21" runat="server"></td><td></td>
@@ -190,7 +190,7 @@
             </tr>
             <tr style="height:6px; line-height:6px;">
                 <td colspan="5">Alamat Sekolah</td><td>:</td><td colspan="8" id="tdHeaderSchoolAddress2" runat="server"></td><td></td>
-                <td colspan="5">Semester</td><td>:</td><td colspan="8" id="td1" runat="server"></td>
+                <td colspan="5">Semester</td><td>:</td><td colspan="8" id="tdHeaderPeriodSection2" runat="server"></td>
             </tr>
             <tr style="height:6px; line-height:6px;">
                 <td colspan="5"></td><td></td><td colspan="8" id="tdHeaderSchoolAddressLine22" runat="server"></td><td></td>
@@ -213,12 +213,12 @@
                     <td align="center" colspan="22" style="font-weight: bold;">MATA PELAJARAN</td>
                     <td align="center" colspan="6" style="font-weight: bold;" >KKM</td>
                     <td align="center" colspan="12" style="font-weight: bold;">
-                        <table border="1" style="width: 100%">
+                        <table border="1" cellpadding="2" style="width: 100%">
                             <tr>
                                 <td align="center" style="font-weight: bold;">Pengetahuan<br /></td>
                             </tr>
                         </table>
-                        <table border="1" style="width: 100%">
+                        <table border="1" cellpadding="2" style="width: 100%">
                             <tr>
                                 <td align="center" style="font-weight: bold;">Angka<br /></td>
                                 <td align="center" style="font-weight: bold;">Predikat<br /></td>
@@ -226,12 +226,12 @@
                         </table>
                     </td>
                     <td align="center" colspan="12">
-                        <table border="1" style="width: 100%">
+                        <table border="1" cellpadding="2" style="width: 100%">
                             <tr>
                                 <td align="center" style="font-weight: bold;">Keterampilan<br /></td>
                             </tr>
                         </table>
-                        <table border="1" style="width: 100%">
+                        <table border="1" cellpadding="2" style="width: 100%">
                             <tr>
                                 <td align="center" style="font-weight: bold;">Angka<br /></td>
                                 <td align="center" style="font-weight: bold;">Predikat<br /></td>
@@ -242,22 +242,22 @@
             </table>
             <asp:Repeater ID="rptSubjectRegularGroup" runat="server" OnItemDataBound="rptSubjectRegularGroup_ItemDataBound">
                 <ItemTemplate>
-                    <table border="1" cellpadding="0" cellspacing="0" style="font-size:7pt;width: 100%">
+                    <table border="1" cellpadding="2" cellspacing="0" style="font-size:7pt;width: 100%">
                         <tr>
-                            <td><table border="0"><tr style="height:15px; line-height: 15px;"><td colspan="1"></td><td colspan="100" style="font-weight: bold;"><%#Eval("CurriculumSubjectGroupName")%></td></tr></table></td>
+                            <td><table border="0"><tr style="height:10px; line-height: 10px;"><td colspan="1"></td><td colspan="100" style="font-weight: bold;"><div style="margin-bottom: 100px;"><%#Eval("CurriculumSubjectGroupName")%></div></td></tr></table></td>
                         </tr>
                     </table>    
                     <asp:Repeater ID="rptSubjectRegular" runat="server">
                         <ItemTemplate>
-                            <table border="1" cellpadding="0" cellspacing="0" style="font-size:7pt;width: 100%">
-                                <tr style="height:0px; line-height: 13px;">
-                                    <td colspan="2" align="center"><%# Container.ItemIndex + 1%><br /><br /></td>
-                                    <td colspan="22"><table border="0"><tr><td colspan="1"></td><td colspan="50"><%#Eval("SubjectName") %><br /><br /></td></tr></table></td>
-                                    <td align="center" colspan="6" ><%#Eval("PassingGrade") %><br /><br /></td>
-                                    <td align="center" colspan="6" >KKM<br /><br /></td>
-                                    <td align="center" colspan="6" >KKM<br /><br /></td>
-                                    <td align="center" colspan="6" >KKM<br /><br /></td>
-                                    <td align="center" colspan="6" >KKM<br /><br /></td>
+                            <table border="1" cellpadding="2" cellspacing="0" style="font-size:7pt;width: 100%">
+                                <tr style="height:0px;">
+                                    <td colspan="2" align="center" style="min-height: 100px;" height="10"><%# Container.ItemIndex + 1%><br /></td>
+                                    <td colspan="22"><table border="0"><tr><td colspan="1"></td><td colspan="50"><%#Eval("SubjectName") %><br /></td></tr></table></td>
+                                    <td align="center" colspan="6" ><%#Eval("PassingGrade") %><br /></td>
+                                    <td align="center" colspan="6" >KKM<br /></td>
+                                    <td align="center" colspan="6" >KKM<br /></td>
+                                    <td align="center" colspan="6" >KKM<br /></td>
+                                    <td align="center" colspan="6" >KKM<br /></td>
                                 </tr>
                             </table>
                         </ItemTemplate>

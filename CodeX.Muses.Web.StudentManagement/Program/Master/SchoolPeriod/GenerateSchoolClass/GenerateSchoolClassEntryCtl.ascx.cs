@@ -76,7 +76,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     SchoolClass entityDt = new SchoolClass();
                     entityDt.PeriodClassTypeID = PeriodClassTypeID;
-                    entityDt.SchoolClassCode = lstSchoolClassCode[ct];
+                    entityDt.Initial = entityDt.SchoolClassCode = lstSchoolClassCode[ct];
                     entityDt.SchoolClassName = lstSchoolClassName[ct];
                     entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
                     entityDt.TeacherID = Convert.ToInt32(lstTeacherID[ct]);

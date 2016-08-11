@@ -24,8 +24,7 @@
             <asp:Repeater ID="rptHeader" runat="server">
                 <ItemTemplate>
                     <th class="thCenter" style="width:90px">
-                        <%#Eval("ClassTaskCode")%><br />
-                        (<%#Eval("FinalMarkPercentage")%>%)
+                        <%#Eval("cfClassTaskCode")%>
                     </th>
                 </ItemTemplate>
             </asp:Repeater>

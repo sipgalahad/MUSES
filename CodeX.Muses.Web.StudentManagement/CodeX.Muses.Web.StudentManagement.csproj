@@ -43,8 +43,9 @@
     <Reference Include="DevExpress.XtraReports.v11.1.Extensions, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v11.1.Service, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v11.1.Web, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="itextsharp">
-      <HintPath>..\..\..\_library\itextsharp.dll</HintPath>
+    <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -125,6 +126,7 @@
     <Content Include="Program\ClassMeeting\ClassTaskPerIndicatorInformation\ClassTaskPerIndicatorInformation.aspx" />
     <Content Include="Program\ClassMeeting\ClassTaskPerIndicatorInformation\ClassTaskPerIndicatorDtViewCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskViewCtl.ascx" />
+    <Content Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntryFull.aspx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx" />
@@ -654,6 +656,13 @@
     </Compile>
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskViewCtl.ascx.designer.cs">
       <DependentUpon>ClassTaskViewCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntryFull.aspx.cs">
+      <DependentUpon>ClassTaskSummaryEntryFull.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntryFull.aspx.designer.cs">
+      <DependentUpon>ClassTaskSummaryEntryFull.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx.cs">
       <DependentUpon>StudentRemedialMarkViewDtCtl.ascx</DependentUpon>

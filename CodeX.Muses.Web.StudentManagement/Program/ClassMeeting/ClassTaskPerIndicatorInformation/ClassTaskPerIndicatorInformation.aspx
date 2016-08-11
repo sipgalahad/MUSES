@@ -64,7 +64,7 @@
                                     <ItemTemplate>
                                         <th class="thCenter" style="width: 80px">
                                             <input type="hidden" class="hdnClassSubjectTaskID" value='<%#Eval("ClassSubjectTaskID") %>' />
-                                            <label class="lblTask lblLink"><%#Eval("ClassTaskCode")%></label><br />
+                                            <label class="lblTask lblLink"><%#Eval("cfClassTaskCode")%></label><br />
                                         </th>
                                     </ItemTemplate>
                                 </asp:Repeater>

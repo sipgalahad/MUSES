@@ -33,6 +33,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report.VID_RCI.StudentManagement
             String PeriodSectionID = temp[2];
             vStudent st = BusinessLayer.GetvStudentList(String.Format("StudentID = {0}", StudentID))[0];
 
+            PeriodSection ps = BusinessLayer.GetPeriodSection(Convert.ToInt32(PeriodSectionID));
+
             vSite site = BusinessLayer.GetvSiteList(String.Format("SiteID = '{0}'", st.SiteID))[0];
             tdSchoolName.InnerHtml = site.SiteName;
             tdSchoolAddress.InnerHtml = String.Format("{0}<br/>Kode Pos : {1} Telepon : {2}", site.StreetName, site.ZipCode, site.PhoneNo1);
@@ -44,19 +46,21 @@ namespace CodeX.Muses.Web.StudentManagement.Report.VID_RCI.StudentManagement
             divStudentName.InnerHtml = st.StudentName;
             divStudentNIS.InnerHtml = string.Format("{0} / {1}", st.StudentCode, st.NationalStudentNo);
 
-            tdHeaderSchoolName1.InnerHtml = site.SiteName;
-            tdHeaderSchoolClassName1.InnerHtml = st.SchoolClassName;
             tdHeaderSchoolAddress1.InnerHtml = "";
 
-            vSchoolClass sc = BusinessLayer.GetvSchoolClassList(string.Format("SchoolClassID = {0}", st.SchoolClassID)).FirstOrDefault();
+            vSchoolClass sc = BusinessLayer.GetvSchoolClassList(string.Format("SchoolClassID = {0}", ClassID)).FirstOrDefault();
+            tdHeaderSchoolClassName1.InnerHtml = st.SchoolClassName;
+            tdHeaderSchoolName1.InnerHtml = site.SiteName; 
             tdHeaderSchoolPeriod1.InnerHtml = sc.SchoolPeriodName;
+            tdHeaderPeriodSection1.InnerHtml = ps.PeriodSectionName;
             tdHeaderSchoolAddress1.InnerHtml = site.StreetName;
             tdHeaderStudentName1.InnerHtml = st.StudentName;
             tdHeaderStudentCode1.InnerHtml = String.Format("{0} / {1}", st.StudentCode, st.NationalStudentNo);
-            //tdHeaderSchoolPeriod1.InnerHtml = sc.PeriodSectionName;
 
-
+            tdHeaderSchoolClassName2.InnerHtml = sc.SchoolClassName;
+            tdHeaderSchoolName2.InnerHtml = site.SiteName;
             tdHeaderSchoolPeriod2.InnerHtml = sc.SchoolPeriodName;
+            tdHeaderPeriodSection2.InnerHtml = ps.PeriodSectionName;
             tdHeaderSchoolAddress2.InnerHtml = site.StreetName;
             tdHeaderStudentName2.InnerHtml = st.StudentName;
             tdHeaderStudentCode2.InnerHtml = String.Format("{0} / {1}", st.StudentCode, st.NationalStudentNo);

@@ -26994,6 +26994,7 @@ namespace CodeX.Data.Model
         private Int32 _SchoolClassID;
         private String _SchoolClassCode;
         private String _SchoolClassName;
+        private String _Initial;
         private Int32 _PeriodClassTypeID;
         private Int32? _RoomID;
         private Int32? _TeacherID;
@@ -27021,6 +27022,12 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolClassName; }
             set { _SchoolClassName = value; }
+        }
+        [Column(Name = "Initial", DataType = "String", IsNullable = true)]
+        public String Initial
+        {
+            get { return _Initial; }
+            set { _Initial = value; }
         }
         [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
         public Int32 PeriodClassTypeID

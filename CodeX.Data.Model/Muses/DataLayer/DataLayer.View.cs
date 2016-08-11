@@ -2930,7 +2930,7 @@ namespace CodeX.Data.Model
     #region vClassSubjectTask
     [Serializable]
     [Table(Name = "vClassSubjectTask")]
-    public class vClassSubjectTask
+    public partial class vClassSubjectTask
     {
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;
