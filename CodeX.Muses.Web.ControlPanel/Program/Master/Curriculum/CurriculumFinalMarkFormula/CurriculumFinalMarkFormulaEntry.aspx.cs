@@ -106,6 +106,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.CurriculumFinalMarkFormulaName = txtCurriculumFinalMarkFormulaName.Text;
             entity.GCFinalMarkSource = cboFinalMarkSource.Value.ToString();
             entity.GCSummaryType = cboSummaryType.Value.ToString();
+            entity.IsTotalAverageAllMark = chkIsTotalAverageAllMark.Checked;
             entity.Remarks = txtRemarks.Text;
         }
 

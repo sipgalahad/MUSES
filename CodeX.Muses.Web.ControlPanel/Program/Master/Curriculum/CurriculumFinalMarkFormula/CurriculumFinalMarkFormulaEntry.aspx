@@ -15,6 +15,7 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtCurriculumFinalMarkFormulaCode.ClientID %>').val('');
                 $('#<%=txtCurriculumFinalMarkFormulaName.ClientID %>').val('');
+                $('#<%=chkIsTotalAverageAllMark.ClientID %>').prop('checked', false); 
                 $('#<%=txtRemarks.ClientID %>').val('');
                 cboMarkType.SetEnabled(false);
                 cboFinalMarkSource.SetSelectedIndex(0);
@@ -52,6 +53,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumFinalMarkFormulaID);
             $('#<%=txtCurriculumFinalMarkFormulaCode.ClientID %>').val(entity.CurriculumFinalMarkFormulaCode);
             $('#<%=txtCurriculumFinalMarkFormulaName.ClientID %>').val(entity.CurriculumFinalMarkFormulaName);
+            $('#<%=chkIsTotalAverageAllMark.ClientID %>').prop('checked', entity.IsTotalAverageAllMark); 
             cboFinalMarkSource.SetValue(entity.GCFinalMarkSource);
             cboSummaryType.SetValue(entity.GCSummaryType);
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
@@ -152,6 +154,10 @@
                                     <td><dxe:ASPxComboBox ID="cboSummaryType" ClientInstanceName="cboSummaryType" runat="server" Width="250px" /></td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nilai Akhir Rata-Rata")%></label></td>
+                                    <td><asp:CheckBox ID="chkIsTotalAverageAllMark" runat="server" /></td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblMandatory"><%=GetLabel("Keterangan")%></label></td>
                                     <td><asp:TextBox ID="txtRemarks" runat="server" TextMode="MultiLine" Rows="2" Width="400px" /></td>
                                 </tr>
@@ -191,6 +197,7 @@
                                         <input type="hidden" value="<%#Eval("CurriculumFinalMarkFormulaName") %>" bindingfield="CurriculumFinalMarkFormulaName" />
                                         <input type="hidden" value="<%#Eval("GCFinalMarkSource") %>" bindingfield="GCFinalMarkSource" />
                                         <input type="hidden" value="<%#Eval("GCSummaryType") %>" bindingfield="GCSummaryType" />
+                                        <input type="hidden" value="<%#Eval("IsTotalAverageAllMark") %>" bindingfield="IsTotalAverageAllMark" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

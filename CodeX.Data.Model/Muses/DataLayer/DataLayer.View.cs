@@ -2311,6 +2311,9 @@ namespace CodeX.Data.Model
         private String _AssistantTeacherName;
         private Int32 _RoomID;
         private String _RoomName;
+        private Int32 _ClassRoomID;
+        private String _ClassRoomName;
+        private Boolean _IsMovingClass;
         private Int16 _PassingGrade;
         private Int32 _SubjectCurriculumID;
         private String _GCClassStudyType;
@@ -2450,6 +2453,24 @@ namespace CodeX.Data.Model
         {
             get { return _RoomName; }
             set { _RoomName = value; }
+        }
+        [Column(Name = "ClassRoomID", DataType = "Int32")]
+        public Int32 ClassRoomID
+        {
+            get { return _ClassRoomID; }
+            set { _ClassRoomID = value; }
+        }
+        [Column(Name = "ClassRoomName", DataType = "String")]
+        public String ClassRoomName
+        {
+            get { return _ClassRoomName; }
+            set { _ClassRoomName = value; }
+        }
+        [Column(Name = "IsMovingClass", DataType = "Boolean")]
+        public Boolean IsMovingClass
+        {
+            get { return _IsMovingClass; }
+            set { _IsMovingClass = value; }
         }
         [Column(Name = "PassingGrade", DataType = "Int16")]
         public Int16 PassingGrade

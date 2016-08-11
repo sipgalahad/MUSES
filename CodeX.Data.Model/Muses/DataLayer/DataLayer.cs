@@ -5277,6 +5277,7 @@ namespace CodeX.Data.Model
         private String _CurriculumCode;
         private String _CurriculumName;
         private String _GCSchoolType;
+        private Boolean _IsMovingClass;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -5307,6 +5308,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCSchoolType; }
             set { _GCSchoolType = value; }
+        }
+        [Column(Name = "IsMovingClass", DataType = "Boolean")]
+        public Boolean IsMovingClass
+        {
+            get { return _IsMovingClass; }
+            set { _IsMovingClass = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -5795,6 +5802,7 @@ namespace CodeX.Data.Model
         private String _CurriculumFinalMarkFormulaName;
         private String _GCFinalMarkSource;
         private String _GCSummaryType;
+        private Boolean _IsTotalAverageAllMark;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -5837,6 +5845,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCSummaryType; }
             set { _GCSummaryType = value; }
+        }
+        [Column(Name = "IsTotalAverageAllMark", DataType = "Boolean")]
+        public Boolean IsTotalAverageAllMark
+        {
+            get { return _IsTotalAverageAllMark; }
+            set { _IsTotalAverageAllMark = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
