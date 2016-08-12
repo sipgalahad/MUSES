@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.StudentManagement.Report
 {
-    public partial class BRaporSemesterRpt : BaseCustomReportCtl
+    public partial class BRaporSemesterSMA2006Rpt : BaseCustomReportCtl
     {
         private Int32 SchoolPeriodID = 0;
         private Int32 PeriodSectionID = 0;
@@ -30,18 +30,14 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         List<ClassStudentMark> lstClassStudentMark = null;
         List<vClassSubject> lstClassSubject = null;
         String lstClassSubjectID = "";
-        vSchoolClass sc = null;
 
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
-
-        vSite site = null;
+        
         public override void Bind(string filterExpression, string[] param)
         {
-            site = BusinessLayer.GetvSiteList(String.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
-
             #region Initialization
             List<Int32> lstStudentID = new List<Int32>();
             SchoolPeriodID = Convert.ToInt32(param[0]);
@@ -70,10 +66,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             lstClassSubjectID = String.Join(",", lstClassSubject.Select(x => x.ClassSubjectID));
             lstOrganizationHd = BusinessLayer.GetOrganizationHdList(string.Format("SchoolPeriodID = {0} AND IsAllStudentAsMember = 1 AND IsDeleted = 0", SchoolPeriodID));
 
-            lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(String.Format("ClassSubjectID IN ({0})", lstClassSubjectID));
             HeadMaster = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.HEADMASTER).ParameterValue;
 
-            sc = BusinessLayer.GetvSchoolClassList(String.Format("SchoolClassID = {0}", SchoolClassID))[0];
             rptStudent.DataSource = lstStudentID;
             rptStudent.DataBind();
             #endregion
@@ -90,9 +84,19 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 HtmlTableCell tdNIS = e.Item.FindControl("tdNIS") as HtmlTableCell;
                 HtmlTableCell tdClass = e.Item.FindControl("tdClass") as HtmlTableCell;
                 HtmlTableCell tdSchoolPeriod = e.Item.FindControl("tdSchoolPeriod") as HtmlTableCell;
-                HtmlTableCell tdSemester = e.Item.FindControl("tdSemester") as HtmlTableCell;
                 HtmlTableCell tdSchoolName = e.Item.FindControl("tdSchoolName") as HtmlTableCell;
-                HtmlTableCell tdSchoolAddress = e.Item.FindControl("tdSchoolAddress") as HtmlTableCell;
+
+                HtmlTableCell tdStudentName1 = e.Item.FindControl("tdStudentName1") as HtmlTableCell;
+                HtmlTableCell tdNIS1 = e.Item.FindControl("tdNIS1") as HtmlTableCell;
+                HtmlTableCell tdClass1 = e.Item.FindControl("tdClass1") as HtmlTableCell;
+                HtmlTableCell tdSchoolPeriod1 = e.Item.FindControl("tdSchoolPeriod1") as HtmlTableCell;
+                HtmlTableCell tdSchoolName1 = e.Item.FindControl("tdSchoolName1") as HtmlTableCell;
+
+                HtmlTableCell tdStudentName2 = e.Item.FindControl("tdStudentName2") as HtmlTableCell;
+                HtmlTableCell tdNIS2 = e.Item.FindControl("tdNIS2") as HtmlTableCell;
+                HtmlTableCell tdClass2 = e.Item.FindControl("tdClass2") as HtmlTableCell;
+                HtmlTableCell tdSchoolPeriod2 = e.Item.FindControl("tdSchoolPeriod2") as HtmlTableCell;
+                HtmlTableCell tdSchoolName2 = e.Item.FindControl("tdSchoolName2") as HtmlTableCell;
 
                 HtmlTableCell tdSick = e.Item.FindControl("tdSick") as HtmlTableCell;
                 HtmlTableCell tdPermit = e.Item.FindControl("tdPermit") as HtmlTableCell;
@@ -114,18 +118,18 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
 
                 vClassStudent student = lstClassStudent.FirstOrDefault(x => x.StudentID == StudentID && x.GCClassStudyType == Constant.ClassStudyType.REGULAR);
-                tdStudentName.InnerHtml = student.StudentName;
-                tdNIS.InnerHtml = string.Format("{0} / {1}", student.StudentCode, student.NationalStudentNo);
+                tdStudentName2.InnerHtml = tdStudentName1.InnerHtml = tdStudentName.InnerHtml = student.StudentName;
+                tdNIS2.InnerHtml = tdNIS1.InnerHtml = tdNIS.InnerHtml = student.StudentCode;
                 PeriodSection ps = BusinessLayer.GetPeriodSection(PeriodSectionID);
-                tdClass.InnerHtml = String.Format("{0}", student.SchoolClassName);
-                tdSemester.InnerHtml = ps.PeriodSectionName;
-                tdSchoolPeriod.InnerHtml = student.SchoolPeriodName;
-                                
-                tdSchoolName.InnerHtml = site.SiteName;
-                tdSchoolAddress.InnerHtml = site.StreetName.Split(',')[0];
+                tdClass2.InnerHtml = tdClass1.InnerHtml = tdClass.InnerHtml = String.Format("{0} / {1}", student.SchoolClassName, ps.PeriodSectionName);
+                tdSchoolPeriod2.InnerHtml = tdSchoolPeriod1.InnerHtml = tdSchoolPeriod.InnerHtml = student.SchoolPeriodName;
+
+                vSite site = BusinessLayer.GetvSiteList(String.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
+                tdSchoolName2.InnerHtml = tdSchoolName1.InnerHtml = tdSchoolName.InnerHtml = site.SiteName;
 
                 if (lstClassSubjectID != "")
                 {
+                    lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(String.Format("ClassSubjectID IN ({0})", lstClassSubjectID));
                     lstNilai = BusinessLayer.GetvClassStudentSubjectMarkList(String.Format("StudentID = {0}", StudentID)).ToList();
 
                     rptSubject.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.REGULAR);
@@ -159,21 +163,22 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 List<ClassStudentAttendance> csa = BusinessLayer.GetClassStudentAttendanceList(String.Format("SchoolClassID = {0} AND PeriodSectionID = {1} AND StudentID = {2}", SchoolClassID, PeriodSectionID, StudentID));
                 if (csa.Count > 0)
                 {
-                    tdSick.InnerHtml = String.Format("{0}", csa.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.SAKIT).Sum(p => p.TotalAttendanceStatus));
-                    tdPermit.InnerHtml = String.Format("{0}", csa.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.IZIN).Sum(p => p.TotalAttendanceStatus));
-                    tdAlpha.InnerHtml = String.Format("{0}", csa.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.ALPA).Sum(p => p.TotalAttendanceStatus));
+                    tdSick.InnerHtml = String.Format("{0} hari", csa.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.SAKIT).Sum(p => p.TotalAttendanceStatus));
+                    tdPermit.InnerHtml = String.Format("{0} hari", csa.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.IZIN).Sum(p => p.TotalAttendanceStatus));
+                    tdAlpha.InnerHtml = String.Format("{0} hari", csa.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.ALPA).Sum(p => p.TotalAttendanceStatus));
                 }
                 else
                 {
                     List<ClassStudentDailyAttendance> csda = BusinessLayer.GetClassStudentDailyAttendanceList(String.Format("SchoolClassID = {0} AND PeriodSectionID = {1} AND StudentID = {2}", SchoolClassID, PeriodSectionID, StudentID));
-                    tdSick.InnerHtml = String.Format("{0}", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.SAKIT).Count());
-                    tdPermit.InnerHtml = String.Format("{0}", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.IZIN).Count());
-                    tdAlpha.InnerHtml = String.Format("{0}", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.ALPA).Count());
+                    tdSick.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.SAKIT).Count());
+                    tdPermit.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.IZIN).Count());
+                    tdAlpha.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.ALPA).Count());
                 }
                 
                 String text = divPageFooter.InnerHtml;
                 text = text.Replace("{Date.Now}", DateTime.Now.ToString(Constant.FormatString.DATE_REPORT_FORMAT));
                 text = text.Replace("{City}", site.City);
+                vSchoolClass sc = BusinessLayer.GetvSchoolClassList(String.Format("SchoolClassID = {0}", SchoolClassID))[0];
                 text = text.Replace("{WaliKelas}", sc.TeacherName);
                 text = text.Replace("{Headmaster}", HeadMaster);
                 divPageFooter.InnerHtml = text;
@@ -214,7 +219,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 vClassStudentSubjectMark mark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.AFFECTIVE);
                 HtmlTableCell tdPersonalityScore = e.Item.FindControl("tdPersonalityScore") as HtmlTableCell;
                 if (mark != null)
-                    tdPersonalityScore.InnerHtml = mark.PredicateMarkTypeDtName;
+                    tdPersonalityScore.InnerHtml = mark.DescriptionMark;
                 else
                     tdPersonalityScore.InnerHtml = "";
             }
@@ -229,27 +234,39 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 List<vClassStudentSubjectMark> lstMark = lstNilai.Where(x => x.ClassSubjectID == entity.ClassSubjectID).ToList();
                 HtmlTableCell tdTheory = e.Item.FindControl("tdTheory") as HtmlTableCell;
                 HtmlTableCell tdTxtTheory = e.Item.FindControl("tdTxtTheory") as HtmlTableCell;
+                HtmlTableCell tdPractice = e.Item.FindControl("tdPractice") as HtmlTableCell;
+                HtmlTableCell tdTxtPractice = e.Item.FindControl("tdTxtPractice") as HtmlTableCell;
                 HtmlTableCell tdFinalScore = e.Item.FindControl("tdFinalScore") as HtmlTableCell;
-                HtmlTableCell tdTxtDescription = e.Item.FindControl("tdTxtDescription") as HtmlTableCell;
+                HtmlTableCell tdAffective = e.Item.FindControl("tdAffective") as HtmlTableCell;
 
                 vClassStudentSubjectMark theoryMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.THEORY);
                 if (theoryMark != null && theoryMark.Mark > 0)
                 {
                     tdTheory.InnerHtml = theoryMark.Mark.ToString("N");
                     tdTxtTheory.InnerHtml = Function.NumberInWordsForScore(theoryMark.Mark);
-                    if (theoryMark.Mark > entity.PassingGrade)
-                        tdTxtDescription.InnerHtml = "Terlampaui";
-                    else if (theoryMark.Mark == entity.PassingGrade)
-                        tdTxtDescription.InnerHtml = "Tercapai";
-                    else
-                        tdTxtDescription.InnerHtml = "Tidak Tercapai";
                 }
                 else
                 {
                     tdTheory.InnerHtml = "-";
                     tdTxtTheory.InnerHtml = "-";
-                    tdTxtDescription.InnerHtml = "-";
                 }
+                vClassStudentSubjectMark practiceMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.PRACTICE);
+                if (practiceMark != null && practiceMark.Mark > 0)
+                {
+                    tdPractice.InnerHtml = practiceMark.Mark.ToString("N");
+                    tdTxtPractice.InnerHtml = Function.NumberInWordsForScore(practiceMark.Mark);
+                }
+                else
+                {
+                    tdPractice.InnerHtml = "-";
+                    tdTxtPractice.InnerHtml = "-";
+                }
+
+                vClassStudentSubjectMark affectiveMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.AFFECTIVE);
+                if (affectiveMark != null)
+                    tdAffective.InnerHtml = affectiveMark.MarkTypeDtName;
+                else
+                    tdAffective.InnerHtml = "-";
             }
         }
     }

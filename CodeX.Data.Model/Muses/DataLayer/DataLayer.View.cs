@@ -2157,10 +2157,12 @@ namespace CodeX.Data.Model
         private String _Grade;
         private String _GCMajor;
         private String _Major;
+        private Int32 _SchoolPeriodID;
         private String _SchoolPeriodName;
         private String _PeriodSectionName;
         private Int32 _StudentID;
         private String _StudentCode;
+        private String _NationalStudentNo;
         private String _StudentName;
         private String _PreferredName;
         private String _GCGender;
@@ -2222,6 +2224,12 @@ namespace CodeX.Data.Model
             get { return _Major; }
             set { _Major = value; }
         }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
         [Column(Name = "SchoolPeriodName", DataType = "String")]
         public String SchoolPeriodName
         {
@@ -2245,6 +2253,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentCode; }
             set { _StudentCode = value; }
+        }
+        [Column(Name = "NationalStudentNo", DataType = "String")]
+        public String NationalStudentNo
+        {
+            get { return _NationalStudentNo; }
+            set { _NationalStudentNo = value; }
         }
         [Column(Name = "StudentName", DataType = "String")]
         public String StudentName
