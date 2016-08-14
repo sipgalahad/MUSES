@@ -4251,6 +4251,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCurriculumReport
+    [Serializable]
+    [Table(Name = "vCurriculumReport")]
+    public class vCurriculumReport
+    {
+        private Int32 _CurriculumReportID;
+        private Int32 _CurriculumID;
+        private Int32 _ReportID;
+        private String _ReportCode;
+        private String _ReportName;
+        private String _ReportUrl;
+        private String _GCReportType;
+        private Int16 _DisplayOrder;
+        private String _Remarks;
+
+        [Column(Name = "CurriculumReportID", DataType = "Int32")]
+        public Int32 CurriculumReportID
+        {
+            get { return _CurriculumReportID; }
+            set { _CurriculumReportID = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+        [Column(Name = "ReportID", DataType = "Int32")]
+        public Int32 ReportID
+        {
+            get { return _ReportID; }
+            set { _ReportID = value; }
+        }
+        [Column(Name = "ReportCode", DataType = "String")]
+        public String ReportCode
+        {
+            get { return _ReportCode; }
+            set { _ReportCode = value; }
+        }
+        [Column(Name = "ReportName", DataType = "String")]
+        public String ReportName
+        {
+            get { return _ReportName; }
+            set { _ReportName = value; }
+        }
+        [Column(Name = "ReportUrl", DataType = "String")]
+        public String ReportUrl
+        {
+            get { return _ReportUrl; }
+            set { _ReportUrl = value; }
+        }
+        [Column(Name = "GCReportType", DataType = "String")]
+        public String GCReportType
+        {
+            get { return _GCReportType; }
+            set { _GCReportType = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
     #region vCurriculumSubject
     [Serializable]
     [Table(Name = "vCurriculumSubject")]

@@ -1700,6 +1700,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vCurriculumReport
+        public static List<vCurriculumReport> GetvCurriculumReportList(string filterExpression)
+        {
+            List<vCurriculumReport> result = new List<vCurriculumReport>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumReport));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumReport)helper.IDataReaderToObject(reader, new vCurriculumReport()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vCurriculumSubject
         public static List<vCurriculumSubject> GetvCurriculumSubjectList(string filterExpression)
         {

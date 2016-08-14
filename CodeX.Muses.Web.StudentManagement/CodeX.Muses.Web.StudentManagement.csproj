@@ -173,6 +173,7 @@
     <Content Include="Program\Master\SchoolPeriod\PeriodClassTypeExtracurricular\PeriodClassTypeExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\TeacherSchedule\TeacherScheduleEntry.aspx" />
     <Content Include="Program\SchoolPeriodClosing\SchoolPeriodClosingEntry.aspx" />
+    <Content Include="Program\StudentMark\StudentMarkReportDtCtl.ascx" />
     <Content Include="Program\StudentMark\ClassStudentPageLauncher.aspx" />
     <Content Include="Program\StudentMark\ClassStudentNote\ClassStudentNoteEntry.aspx" />
     <Content Include="Program\StudentMark\PersonalityMark\ClassStudentNoteViewDtCtl.ascx" />
@@ -261,12 +262,13 @@
     <Content Include="Report\VID_RCI\StudentManagement\BBukuIndukRpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BRapor2013.aspx" />
     <Content Include="Report\VID_RCI\StudentManagement\BSuratPenentuanPembayaranRpt.ascx" />
-    <Content Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterRpt.ascx" />
-    <Content Include="Report\VID_RCI\StudentManagement\BRaporSemesterRpt.ascx" />
+    <Content Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterSMP2006Rpt.ascx" />
+    <Content Include="Report\VID_RCI\StudentManagement\BRaporSemesterGanjilSMP2006Rpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BRaporSemester2013Rpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BProfilGuruRpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BProfilGuru1Rpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BRaporSemesterSMA2006Rpt.ascx" />
+    <Content Include="Report\VID_RCI\StudentManagement\BRaporSemesterGenapSMP2006Rpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\Receipt.htm" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -987,6 +989,13 @@
     <Compile Include="Program\SchoolPeriodClosing\SchoolPeriodClosingEntry.aspx.designer.cs">
       <DependentUpon>SchoolPeriodClosingEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\StudentMark\StudentMarkReportDtCtl.ascx.cs">
+      <DependentUpon>StudentMarkReportDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\StudentMarkReportDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentMarkReportDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\StudentMark\ClassStudentPageLauncher.aspx.cs">
       <DependentUpon>ClassStudentPageLauncher.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1604,19 +1613,19 @@
     <Compile Include="Report\VID_RCI\StudentManagement\BSuratPenentuanPembayaranRpt.ascx.designer.cs">
       <DependentUpon>BSuratPenentuanPembayaranRpt.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterRpt.ascx.cs">
-      <DependentUpon>BRaporMidSemesterRpt.ascx</DependentUpon>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterSMP2006Rpt.ascx.cs">
+      <DependentUpon>BRaporMidSemesterSMP2006Rpt.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterRpt.ascx.designer.cs">
-      <DependentUpon>BRaporMidSemesterRpt.ascx</DependentUpon>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterSMP2006Rpt.ascx.designer.cs">
+      <DependentUpon>BRaporMidSemesterSMP2006Rpt.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Report\VID_RCI\StudentManagement\BRaporSemesterRpt.ascx.cs">
-      <DependentUpon>BRaporSemesterRpt.ascx</DependentUpon>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRaporSemesterGanjilSMP2006Rpt.ascx.cs">
+      <DependentUpon>BRaporSemesterGanjilSMP2006Rpt.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Report\VID_RCI\StudentManagement\BRaporSemesterRpt.ascx.designer.cs">
-      <DependentUpon>BRaporSemesterRpt.ascx</DependentUpon>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRaporSemesterGanjilSMP2006Rpt.ascx.designer.cs">
+      <DependentUpon>BRaporSemesterGanjilSMP2006Rpt.ascx</DependentUpon>
     </Compile>
     <Compile Include="Report\VID_RCI\StudentManagement\BRaporSemester2013Rpt.ascx.cs">
       <DependentUpon>BRaporSemester2013Rpt.ascx</DependentUpon>
@@ -1645,6 +1654,13 @@
     </Compile>
     <Compile Include="Report\VID_RCI\StudentManagement\BRaporSemesterSMA2006Rpt.ascx.designer.cs">
       <DependentUpon>BRaporSemesterSMA2006Rpt.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRaporSemesterGenapSMP2006Rpt.ascx.cs">
+      <DependentUpon>BRaporSemesterGenapSMP2006Rpt.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRaporSemesterGenapSMP2006Rpt.ascx.designer.cs">
+      <DependentUpon>BRaporSemesterGenapSMP2006Rpt.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

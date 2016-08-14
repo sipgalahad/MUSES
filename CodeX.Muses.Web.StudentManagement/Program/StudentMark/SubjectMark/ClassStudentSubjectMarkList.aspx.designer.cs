@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class ClassStudentSubjectMarkList {
         
         /// <summary>
+        /// btnMPEntryPrint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnMPEntryPrint;
+        
+        /// <summary>
         /// hdnID control.
         /// </summary>
         /// <remarks>
@@ -20,6 +29,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
+        
+        /// <summary>
+        /// hdnCurriculumID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumID;
         
         /// <summary>
         /// thMark control.

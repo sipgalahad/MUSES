@@ -30,6 +30,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             vSchoolClass entitySchoolClass = BusinessLayer.GetvSchoolClassList(String.Format("SchoolClassID = {0}", AppSession.ClassStudent.SchoolClassID)).FirstOrDefault();
 
+            hdnCurriculumID.Value = entitySchoolClass.CurriculumID.ToString();
             lstCurriculumMarkType = BusinessLayer.GetvCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsDeleted = 0", entitySchoolClass.CurriculumID));
             lstCurriculumMarkTypeDesc = lstCurriculumMarkType.Where(p => p.IsShowCompetencyDescription).ToList();
             rptHeader2Desc.DataSource = lstCurriculumMarkTypeDesc;

@@ -243,10 +243,10 @@
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BSuratPenentuanPembayaran.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Data\report\VID_RCI\studentmanagement\BRaporMidSemester.xml">
+    <Content Include="App_Data\report\VID_RCI\studentmanagement\BRaporMidSemesterSMP2006.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Data\report\VID_RCI\studentmanagement\BRaporSemester.xml">
+    <Content Include="App_Data\report\VID_RCI\studentmanagement\BRaporSemesterGanjilSMP2006.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BRaporSemester2013.xml">
@@ -256,6 +256,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Data\report\VID_RCI\finance\LPenerimaanBankMandiri.xml" />
+    <Content Include="App_Data\report\VID_RCI\studentmanagement\BRaporSemesterGenapSMP2006.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\right_panel\SM.xml">
       <SubType>Designer</SubType>
     </Content>

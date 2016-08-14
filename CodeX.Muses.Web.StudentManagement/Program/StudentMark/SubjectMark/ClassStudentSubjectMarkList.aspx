@@ -8,8 +8,19 @@
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomQuickMenu" runat="server">
+    <li id="btnMPEntryPrint" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/print.png")%>' alt="" /><br style="clear:both"/> <div><%=GetLabel("Print")%></div></li>
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
+        $(function () {
+            $('#<%=btnMPEntryPrint.ClientID %>').click(function () {
+                var id = $('#<%=hdnCurriculumID.ClientID %>').val();
+                var url = ResolveUrl("~/Program/StudentMark/StudentMarkReportDtCtl.ascx");
+                openUserControlPopup(url, id, 'Detil Nilai', 500, 400);                
+            });
+        });
         function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
             if (reportCode == "SM-00002" || reportCode == "SM-00003" || reportCode == "SM-00004") {
                 filterExpression.text = "<%=GetFilterExpression() %>";
@@ -18,7 +29,8 @@
         }
     </script>
     <div style="height:440px; overflow-y:auto">
-        <input type="hidden" id="hdnID" value="" runat="server" />          
+        <input type="hidden" id="hdnID" value="" runat="server" />        
+        <input type="hidden" id="hdnCurriculumID" value="" runat="server" />          
         <table rules="all" class="grdBorder grdSelected">
             <thead>
                 <tr>

@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Report {
     
     
-    public partial class BRaporMidSemesterRpt {
+    public partial class BRaporMidSemesterSMP2006Rpt {
         
         /// <summary>
         /// divReportHeader control.

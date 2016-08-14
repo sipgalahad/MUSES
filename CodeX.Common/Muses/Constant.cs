@@ -174,6 +174,11 @@ namespace CodeX.Common
             public const string OTHER = "MS032^999";
         }
 
+        public static class CurriculumReportType
+        {
+            public const string RAPOR = "MS050^001";
+        }
+
         public static class SchoolTypeName 
         { 
             public const string TK = "MS010^001";

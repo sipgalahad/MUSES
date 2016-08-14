@@ -26,3 +26,7 @@
     <asp:ContentPlaceHolder ID="plhPopupListGridView" runat="server">        
     </asp:ContentPlaceHolder>
 </asp:Content>
+<asp:Content ID="Content7" ContentPlaceHolderID="plhCustomQuickMenu" runat="server"> 
+    <asp:ContentPlaceHolder ID="plhCustomQuickMenu" runat="server">        
+    </asp:ContentPlaceHolder>
+</asp:Content>
