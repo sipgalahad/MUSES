@@ -257,7 +257,7 @@
                 .divCustomFooter    { position: absolute; left: 0.7cm; right: 0.7cm; }
             }
             .page   { position: relative; }
-            .pageContent        { height:<%=paperPageContent %>; overflow-y: hidden; white-space: nowrap; }
+            .pageContent        { height:<%=paperPageContent %>; overflow-y: hidden; }
             #toolbarArea { background-color: #E0E0E0;  border: 1px #ADADAD solid; border-radius: 3px; width: 400px; position: relative; padding: 5px 5px; }
             #toolbarArea, #toolbarArea *  { font-family: Segoe UI; font-size: 9pt; }
             p

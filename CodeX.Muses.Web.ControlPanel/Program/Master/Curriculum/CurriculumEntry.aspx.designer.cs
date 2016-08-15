@@ -58,6 +58,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.CheckBox chkIsMovingClass;
         
         /// <summary>
+        /// chkIsUseMidSemeterRapor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsUseMidSemeterRapor;
+        
+        /// <summary>
         /// txtRemarks control.
         /// </summary>
         /// <remarks>

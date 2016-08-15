@@ -3973,6 +3973,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int32 _PeriodSectionID;
         private String _ClassTaskCode;
+        private Int32? _ExamScheduleID;
         private Int32 _CurriculumMarkTypeID;
         private Int32 _CurriculumMarkTypeDtID;
         private Int16 _FinalMarkPercentage;
@@ -3982,6 +3983,7 @@ namespace CodeX.Data.Model
         private String _StartTime;
         private String _EndTime;
         private String _Topic;
+        private Boolean _IsIncludeInMidSemesterRapor;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -4012,6 +4014,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassTaskCode; }
             set { _ClassTaskCode = value; }
+        }
+        [Column(Name = "ExamScheduleID", DataType = "Int32", IsNullable = true)]
+        public Int32? ExamScheduleID
+        {
+            get { return _ExamScheduleID; }
+            set { _ExamScheduleID = value; }
         }
         [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
         public Int32 CurriculumMarkTypeID
@@ -4066,6 +4074,12 @@ namespace CodeX.Data.Model
         {
             get { return _Topic; }
             set { _Topic = value; }
+        }
+        [Column(Name = "IsIncludeInMidSemesterRapor", DataType = "Boolean")]
+        public Boolean IsIncludeInMidSemesterRapor
+        {
+            get { return _IsIncludeInMidSemesterRapor; }
+            set { _IsIncludeInMidSemesterRapor = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
@@ -5278,6 +5292,7 @@ namespace CodeX.Data.Model
         private String _CurriculumName;
         private String _GCSchoolType;
         private Boolean _IsMovingClass;
+        private Boolean _IsUseMidSemeterRapor;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -5314,6 +5329,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsMovingClass; }
             set { _IsMovingClass = value; }
+        }
+        [Column(Name = "IsUseMidSemeterRapor", DataType = "Boolean")]
+        public Boolean IsUseMidSemeterRapor
+        {
+            get { return _IsUseMidSemeterRapor; }
+            set { _IsUseMidSemeterRapor = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -6553,6 +6574,218 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region CurriculumReportDt
+    [Serializable]
+    [Table(Name = "CurriculumReportDt")]
+    public class CurriculumReportDt : DbDataModel
+    {
+        private Int32 _CurriculumReportDtID;
+        private Int32 _CurriculumReportID;
+        private String _CurriculumReportDtName;
+        private Int16 _DisplayOrder;
+        private Boolean _IsHeader;
+        private Int32? _ParentID;
+        private Int16 _PassingGrade;
+        private Boolean _IsTotalAverageAllMark;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "CurriculumReportDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 CurriculumReportDtID
+        {
+            get { return _CurriculumReportDtID; }
+            set { _CurriculumReportDtID = value; }
+        }
+        [Column(Name = "CurriculumReportID", DataType = "Int32")]
+        public Int32 CurriculumReportID
+        {
+            get { return _CurriculumReportID; }
+            set { _CurriculumReportID = value; }
+        }
+        [Column(Name = "CurriculumReportDtName", DataType = "String")]
+        public String CurriculumReportDtName
+        {
+            get { return _CurriculumReportDtName; }
+            set { _CurriculumReportDtName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "PassingGrade", DataType = "Int16")]
+        public Int16 PassingGrade
+        {
+            get { return _PassingGrade; }
+            set { _PassingGrade = value; }
+        }
+        [Column(Name = "IsTotalAverageAllMark", DataType = "Boolean")]
+        public Boolean IsTotalAverageAllMark
+        {
+            get { return _IsTotalAverageAllMark; }
+            set { _IsTotalAverageAllMark = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class CurriculumReportDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(CurriculumReportDt));
+        private bool _isAuditLog = false;
+        private const string p_CurriculumReportDtID = "@p_CurriculumReportDtID";
+        public CurriculumReportDtDao() { }
+        public CurriculumReportDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public CurriculumReportDt Get(Int32 CurriculumReportDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_CurriculumReportDtID, CurriculumReportDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (CurriculumReportDt)_helper.DataRowToObject(row, new CurriculumReportDt());
+        }
+        public int Insert(CurriculumReportDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(CurriculumReportDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 CurriculumReportDtID)
+        {
+            CurriculumReportDt record;
+            if (_ctx.Transaction == null)
+                record = new CurriculumReportDtDao().Get(CurriculumReportDtID);
+            else
+                record = Get(CurriculumReportDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region CurriculumReportDtSubject
+    [Serializable]
+    [Table(Name = "CurriculumReportDtSubject")]
+    public class CurriculumReportDtSubject : DbDataModel
+    {
+        private Int32 _CurriculumReportDtID;
+        private Int32 _CurriculumSubjectID;
+        private Decimal _FinalMarkPercentage;
+
+        [Column(Name = "CurriculumReportDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CurriculumReportDtID
+        {
+            get { return _CurriculumReportDtID; }
+            set { _CurriculumReportDtID = value; }
+        }
+        [Column(Name = "CurriculumSubjectID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CurriculumSubjectID
+        {
+            get { return _CurriculumSubjectID; }
+            set { _CurriculumSubjectID = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Decimal")]
+        public Decimal FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+    }
+
+    public class CurriculumReportDtSubjectDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(CurriculumReportDtSubject));
+        private bool _isAuditLog = false;
+        private const string p_CurriculumReportDtID = "@p_CurriculumReportDtID";
+        private const string p_CurriculumSubjectID = "@p_CurriculumSubjectID";
+        public CurriculumReportDtSubjectDao() { }
+        public CurriculumReportDtSubjectDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public CurriculumReportDtSubject Get(Int32 CurriculumReportDtID, Int32 CurriculumSubjectID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_CurriculumReportDtID, CurriculumReportDtID);
+            _ctx.Add(p_CurriculumSubjectID, CurriculumSubjectID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (CurriculumReportDtSubject)_helper.DataRowToObject(row, new CurriculumReportDtSubject());
+        }
+        public int Insert(CurriculumReportDtSubject record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(CurriculumReportDtSubject record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 CurriculumReportDtID, Int32 CurriculumSubjectID)
+        {
+            CurriculumReportDtSubject record;
+            if (_ctx.Transaction == null)
+                record = new CurriculumReportDtSubjectDao().Get(CurriculumReportDtID, CurriculumSubjectID);
+            else
+                record = Get(CurriculumReportDtID, CurriculumSubjectID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region CurriculumSchoolPeriodSection
     [Serializable]
     [Table(Name = "CurriculumSchoolPeriodSection")]
@@ -6667,7 +6900,9 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumSubjectID;
         private Int32 _CurriculumID;
         private Int32 _SubjectID;
+        private String _CurriculumSubjectName;
         private Int32? _CurriculumSubjectGroupID;
+        private Int16 _DisplayOrder;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -6692,11 +6927,23 @@ namespace CodeX.Data.Model
             get { return _SubjectID; }
             set { _SubjectID = value; }
         }
+        [Column(Name = "CurriculumSubjectName", DataType = "String", IsNullable = true)]
+        public String CurriculumSubjectName
+        {
+            get { return _CurriculumSubjectName; }
+            set { _CurriculumSubjectName = value; }
+        }
         [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32", IsNullable = true)]
         public Int32? CurriculumSubjectGroupID
         {
             get { return _CurriculumSubjectGroupID; }
             set { _CurriculumSubjectGroupID = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

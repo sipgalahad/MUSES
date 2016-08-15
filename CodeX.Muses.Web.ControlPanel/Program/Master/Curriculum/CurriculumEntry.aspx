@@ -35,6 +35,10 @@ CodeBehind="CurriculumEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Prog
                         <td><asp:CheckBox ID="chkIsMovingClass" runat="server" /></td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Rapor Mid Semester")%></label></td>
+                        <td><asp:CheckBox ID="chkIsUseMidSemeterRapor" runat="server" /></td>
+                    </tr>
+                    <tr>
                         <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblMandatory"><%=GetLabel("Keterangan") %></label></td>
                         <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
                     </tr>

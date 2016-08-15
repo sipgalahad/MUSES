@@ -20,7 +20,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         private Int32 StudentID = 0;
 
         private string HeadMaster = "";
-        
+
         List<vClassSubjectTask> lstClassSubjectTask = null;
         List<vClassStudentSubjectMark> lstNilai = null;
         List<OrganizationHd> lstOrganizationHd = new List<OrganizationHd>();
@@ -37,10 +37,14 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
         }
 
+        List<CurriculumReportDt> lstCurriculumReportDt = null;
+        List<CurriculumReportDtSubject> lstCurriculumReportDtSubject = null;
         vSite site = null;
         public override void Bind(string filterExpression, string[] param)
         {
             site = BusinessLayer.GetvSiteList(String.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
+            lstCurriculumReportDt = BusinessLayer.GetCurriculumReportDtList(string.Format("CurriculumReportID = 1 ORDER BY DisplayOrder"));
+            lstCurriculumReportDtSubject = BusinessLayer.GetCurriculumReportDtSubjectList(string.Format("CurriculumReportDtID IN ({0})", string.Join(",", lstCurriculumReportDt.Select(p => p.CurriculumReportDtID).ToList())));
 
             #region Initialization
             List<Int32> lstStudentID = new List<Int32>();
@@ -55,8 +59,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 lstOrganizationDtStudent.AddRange(BusinessLayer.GetvOrganizationDtStudentList(String.Format("SchoolPeriodID = {0} AND StudentID = {1}", SchoolPeriodID, param[3])));
                 lstClassStudent = BusinessLayer.GetvClassStudentList(String.Format("StudentID = {0} OR (GCClassStudyType = '{1}' AND StudentID = {0})", param[3], Constant.ClassStudyType.EXTRACURRICULAR));
                 lstClassStudentMark = BusinessLayer.GetClassStudentMarkList(string.Format("SchoolClassID = {0} AND PeriodSectionID = {1} AND StudentID = {2}", SchoolClassID, PeriodSectionID, param[3]));
-            } 
-            else 
+            }
+            else
             {
                 lstClassStudent = BusinessLayer.GetvClassStudentList(String.Format("SchoolClassID = {0} OR GCClassStudyType = '{1}'", SchoolClassID, Constant.ClassStudyType.EXTRACURRICULAR));
                 lstStudentID.AddRange(lstClassStudent.GroupBy(s => s.StudentID).Select(x => x.Key));
@@ -84,7 +88,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
             {
                 StudentID = (Int32)e.Item.DataItem;
-                
+
                 #region initialization
                 HtmlTableCell tdStudentName = e.Item.FindControl("tdStudentName") as HtmlTableCell;
                 HtmlTableCell tdNIS = e.Item.FindControl("tdNIS") as HtmlTableCell;
@@ -98,13 +102,13 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 HtmlTableCell tdPermit = e.Item.FindControl("tdPermit") as HtmlTableCell;
                 HtmlTableCell tdAlpha = e.Item.FindControl("tdAlpha") as HtmlTableCell;
                 HtmlTableCell tdHeaderHasil = e.Item.FindControl("tdHeaderHasil") as HtmlTableCell;
-                
+
                 Repeater rptSubject = e.Item.FindControl("rptSubject") as Repeater;
                 Repeater rptSubjectKompetnsi = e.Item.FindControl("rptSubjectKompetnsi") as Repeater;
                 Repeater rptPersonality = e.Item.FindControl("rptPersonality") as Repeater;
                 Repeater rptOrganization = e.Item.FindControl("rptOrganization") as Repeater;
                 Repeater rptEskul = e.Item.FindControl("rptEskul") as Repeater;
-                
+
                 HtmlTableCell tdStudentRemarks = e.Item.FindControl("tdStudentRemarks") as HtmlTableCell;
                 #endregion
 
@@ -120,7 +124,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 tdClass.InnerHtml = String.Format("{0}", student.SchoolClassName);
                 tdSemester.InnerHtml = ps.PeriodSectionName;
                 tdSchoolPeriod.InnerHtml = student.SchoolPeriodName;
-                                
+
                 tdSchoolName.InnerHtml = site.SiteName;
                 tdSchoolAddress.InnerHtml = site.StreetName.Split(',')[0];
 
@@ -128,7 +132,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 {
                     lstNilai = BusinessLayer.GetvClassStudentSubjectMarkList(String.Format("StudentID = {0}", StudentID)).ToList();
 
-                    rptSubject.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.REGULAR);
+                    rptSubject.DataSource = lstCurriculumReportDt.Where(p => p.ParentID == null).ToList();
                     rptSubject.DataBind();
 
                     rptSubjectKompetnsi.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.REGULAR);
@@ -170,7 +174,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     tdPermit.InnerHtml = String.Format("{0}", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.IZIN).Count());
                     tdAlpha.InnerHtml = String.Format("{0}", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.ALPA).Count());
                 }
-                
+
                 String text = divPageFooter.InnerHtml;
                 text = text.Replace("{Date.Now}", DateTime.Now.ToString(Constant.FormatString.DATE_REPORT_FORMAT));
                 text = text.Replace("{City}", site.City);
@@ -220,26 +224,79 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             }
         }
 
-        protected void rptSubject_ItemDataBound(object sender, RepeaterItemEventArgs e) 
+        protected void rptSubject_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
             {
-                vClassSubject entity = e.Item.DataItem as vClassSubject;
+                CurriculumReportDt entity = e.Item.DataItem as CurriculumReportDt;
 
-                List<vClassStudentSubjectMark> lstMark = lstNilai.Where(x => x.ClassSubjectID == entity.ClassSubjectID).ToList();
+                List<CurriculumReportDt> lstChildDt = lstCurriculumReportDt.Where(x => x.ParentID == entity.CurriculumReportDtID).OrderBy(p => p.DisplayOrder).ToList();
+                if (lstChildDt.Count > 0)
+                {
+                    HtmlTableCell tdItemIndex = e.Item.FindControl("tdItemIndex") as HtmlTableCell;
+                    tdItemIndex.RowSpan = lstChildDt.Count;
+
+                    CurriculumReportDt childDt = lstChildDt.FirstOrDefault();
+                    HtmlGenericControl divSubjectDt = e.Item.FindControl("divSubjectDt") as HtmlGenericControl;
+                    divSubjectDt.InnerHtml = childDt.CurriculumReportDtName;
+
+                    Repeater rptSubject2 = e.Item.FindControl("rptSubject2") as Repeater;
+                    lstChildDt.Remove(childDt);
+                    rptSubject2.DataSource = lstChildDt;
+                    rptSubject2.DataBind();
+                }
+
                 HtmlTableCell tdTheory = e.Item.FindControl("tdTheory") as HtmlTableCell;
                 HtmlTableCell tdTxtTheory = e.Item.FindControl("tdTxtTheory") as HtmlTableCell;
                 HtmlTableCell tdFinalScore = e.Item.FindControl("tdFinalScore") as HtmlTableCell;
                 HtmlTableCell tdTxtDescription = e.Item.FindControl("tdTxtDescription") as HtmlTableCell;
 
-                vClassStudentSubjectMark theoryMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.THEORY);
-                if (theoryMark != null && theoryMark.Mark > 0)
+
+                decimal mark = 0;
+                decimal countMark = 0;
+                bool isMarkExists = false;
+                List<CurriculumReportDtSubject> lstSubject = lstCurriculumReportDtSubject.Where(x => x.CurriculumReportDtID == entity.CurriculumReportDtID).ToList();
+                foreach (CurriculumReportDtSubject subject in lstSubject)
                 {
-                    tdTheory.InnerHtml = theoryMark.Mark.ToString("N");
-                    tdTxtTheory.InnerHtml = Function.NumberInWordsForScore(theoryMark.Mark);
-                    if (theoryMark.Mark > entity.PassingGrade)
+                    vClassSubject entitySubject = lstClassSubject.FirstOrDefault(p => p.CurriculumSubjectID == subject.CurriculumSubjectID);
+                    if (entitySubject != null)
+                    {
+                        List<vClassStudentSubjectMark> lstMark = lstNilai.Where(x => x.ClassSubjectID == entitySubject.ClassSubjectID).ToList();
+                        vClassStudentSubjectMark theoryMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.THEORY);
+                        if (theoryMark != null && theoryMark.Mark > 0)
+                        {
+                            isMarkExists = true;
+                            if (entity.IsTotalAverageAllMark)
+                            {
+                                mark += theoryMark.Mark;
+                                countMark++;
+                            }
+                            else
+                                mark += theoryMark.Mark * subject.FinalMarkPercentage / 100;
+                        }
+                        else
+                        {
+                            tdTheory.InnerHtml = "-";
+                            tdTxtTheory.InnerHtml = "-";
+                            tdTxtDescription.InnerHtml = "-";
+                        }
+                    }
+                }
+
+                if (entity.IsTotalAverageAllMark)
+                {
+                    if (countMark > 0)
+                        mark = mark / countMark;
+                    else
+                        mark = 0;
+                }
+                if (isMarkExists)
+                {
+                    tdTheory.InnerHtml = mark.ToString("N");
+                    tdTxtTheory.InnerHtml = Function.NumberInWordsForScore(mark);
+                    if (mark > entity.PassingGrade)
                         tdTxtDescription.InnerHtml = "Terlampaui";
-                    else if (theoryMark.Mark == entity.PassingGrade)
+                    else if (mark == entity.PassingGrade)
                         tdTxtDescription.InnerHtml = "Tercapai";
                     else
                         tdTxtDescription.InnerHtml = "Tidak Tercapai";

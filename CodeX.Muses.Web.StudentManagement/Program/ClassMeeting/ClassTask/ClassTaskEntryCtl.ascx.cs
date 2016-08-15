@@ -34,6 +34,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnSchoolClassInitial.Value = classSubject.SchoolClassInitial;
             hdnSubjectInitial.Value = classSubject.SubjectInitial;
             hdnSubjectGroupInitial.Value = classSubject.CurriculumSubjectGroupInitial;
+            if (!classSubject.IsUseMidSemeterRapor)
+                trIsIncludeInMidSemeterRapor.Style.Add("display", "none");
 
             if (BusinessLayer.GetPeriodClassTypeSubjectIndicatorRowCount(String.Format("PeriodClassTypeSubjectID = {0}", classSubject.PeriodClassTypeSubjectID)) > 0)
                 hdnIsPeriodClassTypeSubjectIndicatorExists.Value = "1";
@@ -77,6 +79,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtEndTime, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.TIME_NOW));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(chkIsIncludeInMidSemesterRapor, new ControlEntrySetting(true, true, false));
         }
 
         private void EntityToControl(vClassSubjectTask entity)
@@ -94,6 +97,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtStartTime.Text = entity.StartTime;
             txtEndTime.Text = entity.EndTime;
             txtRemarks.Text = entity.Remarks;
+            chkIsIncludeInMidSemesterRapor.Checked = entity.IsIncludeInMidSemesterRapor;
         }
 
         private void ControlToEntity(ClassSubjectTask entity)
@@ -108,6 +112,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.StartTime = txtStartTime.Text;
             entity.EndTime = txtEndTime.Text;
             entity.Remarks = txtRemarks.Text;
+            entity.IsIncludeInMidSemesterRapor = chkIsIncludeInMidSemesterRapor.Checked;
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)

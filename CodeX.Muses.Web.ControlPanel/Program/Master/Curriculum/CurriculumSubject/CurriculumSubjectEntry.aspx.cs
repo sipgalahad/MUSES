@@ -60,6 +60,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             Helper.SetControlEntrySetting(cboCurriculumSubjectGroup, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtCurriculumSubjectName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtDisplayOrder, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         protected void rptClassType_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -92,7 +94,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, hdnGCClassStudyType.Value);
+            string filterExpression = string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0 ORDER BY DisplayOrder", AppSession.CurriculumID, hdnGCClassStudyType.Value);
             grdView.DataSource = BusinessLayer.GetvCurriculumSubjectList(filterExpression);
             grdView.DataBind();
         }
@@ -143,6 +145,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.SubjectID = Convert.ToInt32(tacSubject.Value);
             entity.CurriculumSubjectGroupID = Convert.ToInt32(cboCurriculumSubjectGroup.Value);
+            entity.CurriculumSubjectName = txtCurriculumSubjectName.Text;
+            entity.DisplayOrder = Convert.ToInt16(txtDisplayOrder.Text);
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

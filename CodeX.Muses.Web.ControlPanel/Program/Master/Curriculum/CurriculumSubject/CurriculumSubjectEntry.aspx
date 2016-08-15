@@ -17,6 +17,8 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 tacSubject.setValue('');
                 tacSubject.setText('');
+                $('#<%=txtCurriculumSubjectName.ClientID %>').val('');
+                $('#<%=txtDisplayOrder.ClientID %>').val(''); 
                 cboCurriculumSubjectGroup.SetSelectedIndex(0);
 
                 $('#<%=hdnLstClassTypeID.ClientID %>').val('');
@@ -63,6 +65,8 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumSubjectID);
             tacSubject.setValue(entity.SubjectID);
             tacSubject.setText(entity.SubjectName);
+            $('#<%=txtCurriculumSubjectName.ClientID %>').val(entity.CurriculumSubjectName);
+            $('#<%=txtDisplayOrder.ClientID %>').val(entity.DisplayOrder); 
             cboCurriculumSubjectGroup.SetValue(entity.CurriculumSubjectGroupID);
 
             $('.chkClassType input:checked').each(function () {
@@ -109,10 +113,12 @@
                     if (result != null) {
                         tacSubject.setValue(result.SubjectID);
                         tacSubject.setText(result.SubjectName);
+                        $('#<%=txtCurriculumSubjectName.ClientID %>').val(result.SubjectName);
                     }
                     else {
                         tacSubject.setValue('');
                         tacSubject.setText('');
+                        $('#<%=txtCurriculumSubjectName.ClientID %>').val('');
                     }
                 });
             });
@@ -215,6 +221,10 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Pelajaran")%></label></td>
+                                    <td colspan="3"><asp:TextBox runat="server" ID="txtCurriculumSubjectName" Width="200px" /></td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kelompok Pelajaran")%></label></td>
                                     <td colspan="3"><dxe:ASPxComboBox runat="server" ID="cboCurriculumSubjectGroup" ClientInstanceName="cboCurriculumSubjectGroup" Width="200px" /></td>
                                 </tr>
@@ -250,6 +260,10 @@
                                         </dxe:ASPxDropDownEdit>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Urutan Tampil")%></label></td>
+                                    <td colspan="3"><asp:TextBox runat="server" ID="txtDisplayOrder" CssClass="number" Width="80px" /></td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -283,6 +297,8 @@
                                         <input type="hidden" value="<%#Eval("CurriculumSubjectID") %>" bindingfield="CurriculumSubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
+                                        <input type="hidden" value="<%#Eval("CurriculumSubjectName") %>" bindingfield="CurriculumSubjectName" />
+                                        <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
                                         <input type="hidden" value="<%#Eval("CurriculumSubjectGroupID") %>" bindingfield="CurriculumSubjectGroupID" />
                                         <input type="hidden" value="<%#Eval("ListCurriculumClassTypeID") %>" bindingfield="ListCurriculumClassTypeID" />
                                         <input type="hidden" value="<%#Eval("ListCurriculumClassTypeName") %>" bindingfield="ListCurriculumClassTypeName" />

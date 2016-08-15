@@ -229,6 +229,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtEndTime;
         
         /// <summary>
+        /// trIsIncludeInMidSemeterRapor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trIsIncludeInMidSemeterRapor;
+        
+        /// <summary>
+        /// chkIsIncludeInMidSemesterRapor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsIncludeInMidSemesterRapor;
+        
+        /// <summary>
         /// txtRemarks control.
         /// </summary>
         /// <remarks>

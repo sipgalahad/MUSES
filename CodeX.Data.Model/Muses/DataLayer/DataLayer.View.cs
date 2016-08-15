@@ -2310,9 +2310,11 @@ namespace CodeX.Data.Model
         private String _SchoolClassName;
         private String _SchoolClassInitial;
         private Int32 _PeriodClassTypeSubjectID;
+        private Int32 _CurriculumSubjectID;
         private Int32 _SubjectID;
         private String _SubjectCode;
         private String _SubjectName;
+        private Int16 _DisplayOrder;
         private String _SubjectInitial;
         private String _SubjectGCClassStudyType;
         private Int16 _NoMeetingHoursInWeek;
@@ -2328,6 +2330,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassRoomID;
         private String _ClassRoomName;
         private Boolean _IsMovingClass;
+        private Boolean _IsUseMidSemeterRapor;
         private Int16 _PassingGrade;
         private Int32 _SubjectCurriculumID;
         private String _GCClassStudyType;
@@ -2378,6 +2381,12 @@ namespace CodeX.Data.Model
             get { return _PeriodClassTypeSubjectID; }
             set { _PeriodClassTypeSubjectID = value; }
         }
+        [Column(Name = "CurriculumSubjectID", DataType = "Int32")]
+        public Int32 CurriculumSubjectID
+        {
+            get { return _CurriculumSubjectID; }
+            set { _CurriculumSubjectID = value; }
+        }
         [Column(Name = "SubjectID", DataType = "Int32")]
         public Int32 SubjectID
         {
@@ -2395,6 +2404,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
         }
         [Column(Name = "SubjectInitial", DataType = "String")]
         public String SubjectInitial
@@ -2485,6 +2500,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsMovingClass; }
             set { _IsMovingClass = value; }
+        }
+        [Column(Name = "IsUseMidSemeterRapor", DataType = "Boolean")]
+        public Boolean IsUseMidSemeterRapor
+        {
+            get { return _IsUseMidSemeterRapor; }
+            set { _IsUseMidSemeterRapor = value; }
         }
         [Column(Name = "PassingGrade", DataType = "Int16")]
         public Int16 PassingGrade
@@ -2988,6 +3009,7 @@ namespace CodeX.Data.Model
         private String _StartTime;
         private String _EndTime;
         private String _Topic;
+        private Boolean _IsIncludeInMidSemesterRapor;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -3116,6 +3138,12 @@ namespace CodeX.Data.Model
         {
             get { return _Topic; }
             set { _Topic = value; }
+        }
+        [Column(Name = "IsIncludeInMidSemesterRapor", DataType = "Boolean")]
+        public Boolean IsIncludeInMidSemesterRapor
+        {
+            get { return _IsIncludeInMidSemesterRapor; }
+            set { _IsIncludeInMidSemesterRapor = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -4330,7 +4358,9 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumSubjectID;
         private Int32 _CurriculumID;
         private Int32 _SubjectID;
+        private String _CurriculumSubjectName;
         private String _SubjectName;
+        private Int16 _DisplayOrder;
         private Int32 _CurriculumSubjectGroupID;
         private String _CurriculumSubjectGroupCode;
         private String _CurriculumSubjectGroupName;
@@ -4359,11 +4389,23 @@ namespace CodeX.Data.Model
             get { return _SubjectID; }
             set { _SubjectID = value; }
         }
+        [Column(Name = "CurriculumSubjectName", DataType = "String")]
+        public String CurriculumSubjectName
+        {
+            get { return _CurriculumSubjectName; }
+            set { _CurriculumSubjectName = value; }
+        }
         [Column(Name = "SubjectName", DataType = "String")]
         public String SubjectName
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
         }
         [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32")]
         public Int32 CurriculumSubjectGroupID

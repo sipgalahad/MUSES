@@ -330,6 +330,10 @@
                 </table>   
             </td>
         </tr>
+        <tr id="trIsIncludeInMidSemeterRapor" runat="server">
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Masuk Dalam Rapor Mid Semester")%></label></td>
+            <td><asp:CheckBox ID="chkIsIncludeInMidSemesterRapor" runat="server" /></td>
+        </tr>
         <tr>
             <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
             <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>

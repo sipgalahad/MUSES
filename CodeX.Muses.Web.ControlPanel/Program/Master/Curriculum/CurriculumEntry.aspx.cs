@@ -44,6 +44,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtCurriculumCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtCurriculumName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(chkIsMovingClass, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(chkIsUseMidSemeterRapor, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, true));
         }
 
@@ -52,6 +53,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtCurriculumCode.Text = entity.CurriculumCode;
             txtCurriculumName.Text = entity.CurriculumName;
             chkIsMovingClass.Checked = entity.IsMovingClass;
+            chkIsUseMidSemeterRapor.Checked = entity.IsUseMidSemeterRapor;
             txtRemarks.Text = entity.Remarks;
         }
 
@@ -60,6 +62,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.CurriculumCode = txtCurriculumCode.Text;
             entity.CurriculumName = txtCurriculumName.Text;
             entity.IsMovingClass = chkIsMovingClass.Checked;
+            entity.IsUseMidSemeterRapor = chkIsUseMidSemeterRapor.Checked;
             entity.Remarks = txtRemarks.Text;
 
         }

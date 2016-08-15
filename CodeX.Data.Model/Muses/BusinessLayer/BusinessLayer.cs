@@ -3373,6 +3373,86 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region CurriculumReportDt
+        public static CurriculumReportDt GetCurriculumReportDt(Int32 CurriculumReportDtID)
+        {
+            return new CurriculumReportDtDao().Get(CurriculumReportDtID);
+        }
+        public static int InsertCurriculumReportDt(CurriculumReportDt record)
+        {
+            return new CurriculumReportDtDao().Insert(record);
+        }
+        public static int UpdateCurriculumReportDt(CurriculumReportDt record)
+        {
+            return new CurriculumReportDtDao().Update(record);
+        }
+        public static int DeleteCurriculumReportDt(Int32 CurriculumReportDtID)
+        {
+            return new CurriculumReportDtDao().Delete(CurriculumReportDtID);
+        }
+        public static List<CurriculumReportDt> GetCurriculumReportDtList(string filterExpression)
+        {
+            List<CurriculumReportDt> result = new List<CurriculumReportDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumReportDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumReportDt)helper.IDataReaderToObject(reader, new CurriculumReportDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumReportDtSubject
+        public static CurriculumReportDtSubject GetCurriculumReportDtSubject(Int32 CurriculumReportDtID, Int32 CurriculumSubjectID)
+        {
+            return new CurriculumReportDtSubjectDao().Get(CurriculumReportDtID, CurriculumSubjectID);
+        }
+        public static int InsertCurriculumReportDtSubject(CurriculumReportDtSubject record)
+        {
+            return new CurriculumReportDtSubjectDao().Insert(record);
+        }
+        public static int UpdateCurriculumReportDtSubject(CurriculumReportDtSubject record)
+        {
+            return new CurriculumReportDtSubjectDao().Update(record);
+        }
+        public static int DeleteCurriculumReportDtSubject(Int32 CurriculumReportDtID, Int32 CurriculumSubjectID)
+        {
+            return new CurriculumReportDtSubjectDao().Delete(CurriculumReportDtID, CurriculumSubjectID);
+        }
+        public static List<CurriculumReportDtSubject> GetCurriculumReportDtSubjectList(string filterExpression)
+        {
+            List<CurriculumReportDtSubject> result = new List<CurriculumReportDtSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumReportDtSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumReportDtSubject)helper.IDataReaderToObject(reader, new CurriculumReportDtSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region CurriculumSchoolPeriodSection
         public static CurriculumSchoolPeriodSection GetCurriculumSchoolPeriodSection(Int32 CurriculumSchoolPeriodSectionID)
         {

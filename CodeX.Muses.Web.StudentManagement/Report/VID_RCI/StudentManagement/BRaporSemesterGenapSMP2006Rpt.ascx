@@ -101,13 +101,31 @@
                                         <asp:Repeater runat="server" ID="rptSubject" OnItemDataBound="rptSubject_ItemDataBound">
                                             <ItemTemplate>
                                                 <tr>
-                                                    <td align="center"><%# Container.ItemIndex + 1 %></td>
-                                                    <td><%#:Eval("SubjectName") %></td>
+                                                    <td align="center" id="tdItemIndex" runat="server"><%# Container.ItemIndex + 1 %></td>
+                                                    <td>
+                                                        <%#:Eval("CurriculumReportDtName") %>
+                                                        <div id="divSubjectDt" runat="server"></div>
+                                                    </td>
                                                     <td align="center"><b style="font-weight: bold;"><%#:Eval("PassingGrade","{0:N0}") %></b></td>
                                                     <td align="center" runat="server" id="tdTheory"></td>
                                                     <td align="center" runat="server" id="tdTxtTheory"></td>
                                                     <td align="center" runat="server" id="tdTxtDescription"></td>
                                                 </tr>
+                                                
+                                                <asp:Repeater runat="server" ID="rptSubject2" OnItemDataBound="rptSubject_ItemDataBound">
+                                                    <ItemTemplate>
+                                                        <tr>
+                                                            <td>
+                                                                <%#:Eval("CurriculumReportDtName") %>
+                                                                <div id="divSubjectDt" runat="server"></div>
+                                                            </td>
+                                                            <td align="center"><b style="font-weight: bold;"><%#:Eval("PassingGrade","{0:N0}") %></b></td>
+                                                            <td align="center" runat="server" id="tdTheory"></td>
+                                                            <td align="center" runat="server" id="tdTxtTheory"></td>
+                                                            <td align="center" runat="server" id="tdTxtDescription"></td>
+                                                        </tr>
+                                                    </ItemTemplate>
+                                                </asp:Repeater>
                                             </ItemTemplate>
                                         </asp:Repeater>
                                     </table>
@@ -379,23 +397,34 @@
             <col />
         </colgroup>
         <tr>
+            <td align="center">Mengetahui</td>
             <td>&nbsp;</td>
-            <td colspan="2" align="center">{City}, {Date.Now}</td>
-        </tr>
+            <td align="center">Keputusan :</td>
+        </tr> 
         <tr>
             <td align="center">Orang Tua/Wali</td>
             <td align="center">Wali Kelas</td>
-            <td align="center">Kepala Sekolah</td>
+            <td align="center">Berdasarkan hasil belajar yang dicapai pada</td>
         </tr>
         <tr>
-            <td align="center">Peserta Didik</td>
+            <td align="center"></td>
             <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td align="center">Semester 1 dan 2, Siswa ditetapkan</td>
         </tr>
-        <tr style="height:100px; vertical-align:bottom;">
+        <tr>
+            <td align="center"></td>
+            <td>&nbsp;</td>
+            <td align="center" style="font-style: italic; font-weight: bold">Naik Kelas VIII</td>
+        </tr>
+        <tr>
+            <td align="center"></td>
+            <td>&nbsp;</td>
+            <td align="center">{City}, {Date.Now}</td>
+        </tr>
+        <tr style="height:80px; vertical-align:bottom;">
             <td align="center">.....................................</td>
-            <td align="center">{WaliKelas}</td>
-            <td align="center">{Headmaster}</td>
+            <td align="center" style="font-weight: bold">{WaliKelas}</td>
+            <td align="center" style="font-weight: bold">{Headmaster}</td>
         </tr>
     </table>
 </div>
