@@ -6,7 +6,7 @@
          h4         { margin-bottom: 0px; font-size: 1.1em }
     </style>
     <div style="text-align:center">
-        <h1>LAPORAN HASIL BELAJAR PESERTA DIDIK</h1>
+        <h1 style="font-weight: bold;">LAPORAN HASIL BELAJAR PESERTA DIDIK</h1>
     </div>
 </div>
 

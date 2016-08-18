@@ -27,6 +27,27 @@
             }
         }
 
+        $('.txtStudentMark').live('keydown', function (e) {
+            $tr = $(this).closest('tr');
+            var rowIndex = $('.trDetail').index($tr);
+
+            var idxTxt = $tr.find('.txtStudentMark').index($(this));
+
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 40) { //down
+                if (rowIndex < $('.trDetail').length - 1) {
+                    rowIndex++;
+                    $('.trDetail:eq(' + rowIndex + ')').find('.txtStudentMark:eq(' + idxTxt + ')').focus();
+                }
+            }
+            else if (code == 38) { //up
+                if (rowIndex > 0) {
+                    rowIndex--;
+                    $('.trDetail:eq(' + rowIndex + ')').find('.txtStudentMark:eq(' + idxTxt + ')').focus();
+                }
+            }
+        });
+
         $(function () {
             $('#btnUploadFile').click(function () {
                 cbpProcess.PerformCallback('upload');
