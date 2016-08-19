@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class StudentMarkPerIndicatorEntry {
+    public partial class StudentMarkPerIndicatorEntry2 {
         
         /// <summary>
         /// btnSave control.
@@ -22,6 +22,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnSave;
         
         /// <summary>
+        /// hdnListSaveValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
+        
+        /// <summary>
+        /// hdnListIndicatorName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListIndicatorName;
+        
+        /// <summary>
         /// hdnParentClassSubjectID control.
         /// </summary>
         /// <remarks>
@@ -29,6 +47,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParentClassSubjectID;
+        
+        /// <summary>
+        /// hdnLstMarkTypeDt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstMarkTypeDt;
         
         /// <summary>
         /// hdnSubjectID control.
@@ -40,22 +67,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectID;
         
         /// <summary>
-        /// hdnSchoolPeriodID control.
+        /// hdnTableWidth control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSchoolPeriodID;
-        
-        /// <summary>
-        /// hdnListSaveValue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTableWidth;
         
         /// <summary>
         /// txtPassingGrade control.
@@ -67,58 +85,31 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtPassingGrade;
         
         /// <summary>
-        /// cboLessonType control.
+        /// rptHeader1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboLessonType;
+        protected global::System.Web.UI.WebControls.Repeater rptHeader1;
         
         /// <summary>
-        /// cbpView control.
+        /// rptHeader2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.WebControls.Repeater rptHeader2;
         
         /// <summary>
-        /// PanelContent1 control.
+        /// rptHeader3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
-        
-        /// <summary>
-        /// pnlView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
-        
-        /// <summary>
-        /// hdnSummaryType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSummaryType;
-        
-        /// <summary>
-        /// rptSubjectIndicatorHeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptSubjectIndicatorHeader;
+        protected global::System.Web.UI.WebControls.Repeater rptHeader3;
         
         /// <summary>
         /// rptStudent control.

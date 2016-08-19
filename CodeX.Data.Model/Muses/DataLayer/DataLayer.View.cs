@@ -3171,6 +3171,8 @@ namespace CodeX.Data.Model
         private String _GCMarkType;
         private Int32 _SubjectIndicatorID;
         private Int32 _CurriculumMarkTypeID;
+        private String _CodeStandardCodeID;
+        private String _CodeStandardCodeName;
         private String _SubjectIndicatorName;
         private Boolean _IsDeleted;
 
@@ -3215,6 +3217,18 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeID; }
             set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CodeStandardCodeID", DataType = "String")]
+        public String CodeStandardCodeID
+        {
+            get { return _CodeStandardCodeID; }
+            set { _CodeStandardCodeID = value; }
+        }
+        [Column(Name = "CodeStandardCodeName", DataType = "String")]
+        public String CodeStandardCodeName
+        {
+            get { return _CodeStandardCodeName; }
+            set { _CodeStandardCodeName = value; }
         }
         [Column(Name = "SubjectIndicatorName", DataType = "String")]
         public String SubjectIndicatorName
