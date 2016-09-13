@@ -278,7 +278,7 @@
             <td><dxe:ASPxComboBox runat="server" ID="cboLessonType" ClientInstanceName="cboLessonType" Width="200px" /></td>
         </tr>
         <tr>
-            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Tugas")%></label></td>
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Komponen Nilai")%></label></td>
             <td>
                 <input type="hidden" id="hdnTaskTypeID" runat="server" />
                 <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTaskType" ClientInstanceName="tacTaskType" MethodName="GetCurriculumMarkTypeDtList" GetFilterExpressionFunction="onGetCurriculumMarkTypeDtFilterExpression"

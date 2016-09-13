@@ -35,7 +35,7 @@
             <td><dxe:ASPxComboBox runat="server" ID="cboLessonType" ClientEnabled="false" ClientInstanceName="cboLessonType" Width="200px" /></td>
         </tr>
         <tr>
-            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Tugas")%></label></td>
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Komponen Nilai")%></label></td>
             <td><asp:TextBox ID="txtTaskType" ReadOnly="true" Width="200px" runat="server" /></td>
         </tr>
         <tr>

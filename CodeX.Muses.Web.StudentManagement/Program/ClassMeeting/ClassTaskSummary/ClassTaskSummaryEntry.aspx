@@ -249,7 +249,7 @@
             });
             var val = 0;
             if (ctr > 0)
-                val = total / ctr;
+                val = Math.round(total / ctr);
             $tr.find('.txtTotalStudentMark').val(val);
             if (!isOnLoad || $tr.find('.txtFinalStudentMark').val() == '-') {
                 $tr.find('.txtFinalStudentMark').val(val);

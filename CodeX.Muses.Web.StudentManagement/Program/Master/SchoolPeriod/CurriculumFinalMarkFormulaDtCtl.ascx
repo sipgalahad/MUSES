@@ -15,7 +15,7 @@
     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
         <Columns>
             <asp:BoundField DataField="CurriculumFinalMarkFormulaDtName" HeaderText="Nama" />
-            <asp:BoundField DataField="ListMarkTypeName" HeaderText="Tipe Tugas" HeaderStyle-Width="500px" />
+            <asp:BoundField DataField="ListMarkTypeName" HeaderText="Komponen Nilai" HeaderStyle-Width="500px" />
             <asp:BoundField DataField="FinalMarkPercentage" HeaderText="[%] Bobot Nilai Akhir" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="150px" />
         </Columns>
         <EmptyDataTemplate>

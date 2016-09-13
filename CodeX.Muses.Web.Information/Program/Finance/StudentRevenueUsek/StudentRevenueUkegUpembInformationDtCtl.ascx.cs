@@ -46,7 +46,7 @@ namespace CodeX.Muses.Web.Information.Program
         public override Control OnGetExportControl(ref bool isShowTitle, ref string fileName)
         {
             isShowTitle = false;
-            fileName = string.Format("{0}_{1}_{2}", Request.Form[txtHeaderText.UniqueID], Request.Form[txtHeaderText2.UniqueID]);
+            fileName = string.Format("{0}_{1}", Request.Form[txtHeaderText.UniqueID], Request.Form[txtHeaderText2.UniqueID]);
             List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(string.Format("SchoolPeriodID = {0} AND StudentFeeCompTypeID = {1} AND StudentIsDeleted = 0 AND IsDeleted = 0 ORDER BY VirtualAccountNo", Request.Form[hdnSchoolPeriodID.UniqueID], Request.Form[hdnStudentFeeCompTypeID.UniqueID]));
             grdPopupView.DataSource = lstEntity;
             grdPopupView.DataBind();

@@ -111,13 +111,18 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     List<String> lstDataHeader = new List<String>();
                     if (temp.Count() > 0)
                         MaxUlangan = temp.Max(x => x.Count);
+                    else
+                        MaxUlangan = 0;
                     for (int i = 0; i < MaxUlangan; i++)
                     {
                         lstDataHeader.Add(String.Format("{0}", i + 1));
                     }
                     //lstDataHeader.Add("Rata-Rata");
                     //tdUlangan.ColSpan = MaxUlangan + 1;
-                    tdHeaderUlangan.ColSpan = MaxUlangan;
+                    if (MaxUlangan > 0)
+                        tdHeaderUlangan.ColSpan = MaxUlangan;
+                    else
+                        tdHeaderUlangan.Style.Add("display", "none");
 
                     rptUlanganHeader.DataSource = lstDataHeader;
                     rptUlanganHeader.DataBind();
@@ -129,7 +134,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     if (temp.Count() > 0)
                         MaxTugas = temp.Max(x => x.Count);
                     else
-                        MaxTugas = 1;
+                        MaxTugas = 0;
                     lstDataHeader.Clear();
                     for (int i = 0; i < MaxTugas; i++)
                     {
@@ -137,7 +142,10 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     }
                     //lstDataHeader.Add("Rata-Rata");
                     //tdTugas.ColSpan = MaxTugas + 1;
-                    tdHeaderTugas.ColSpan = MaxTugas;
+                    if (MaxTugas > 0)
+                        tdHeaderTugas.ColSpan = MaxTugas;
+                    else
+                        tdHeaderTugas.Style.Add("display", "none");
 
                     rptTugasHeader.DataSource = lstDataHeader;
                     rptTugasHeader.DataBind();

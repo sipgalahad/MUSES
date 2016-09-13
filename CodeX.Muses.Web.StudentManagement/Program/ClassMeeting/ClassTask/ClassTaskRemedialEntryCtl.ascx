@@ -109,9 +109,11 @@
         if ($('.chkIsSetPassingGrade input').is(':checked')) {
             var passingGrade = parseFloat($('#<%=txtPassingGrade.ClientID %>').val());
             var value = parseFloat($(this).val());
-            if (value > passingGrade) {
+            var finalMark = parseFloat($(this).closest('tr').find('.txtFinalMark').val());
+            if (value > passingGrade) 
                 $(this).closest('tr').find('.txtFinalMark').val(passingGrade);
-            }
+            else if (finalMark < value)
+                $(this).closest('tr').find('.txtFinalMark').val(value);
         }
     });
 
@@ -121,16 +123,20 @@
             var passingGrade = parseFloat($('#<%=txtPassingGrade.ClientID %>').val());
             $('.trRemedialDt').each(function () {
                 var isSetPassingGrade = false;
+                var maxValue = parseFloat($(this).find('.txtOriginalMark').val());
                 $(this).find('.txtMark').each(function () {
                     if ($(this).val() != '-') {
                         var value = parseFloat($(this).val());
-                        if (value > passingGrade)
+                        if (value >= passingGrade)
                             isSetPassingGrade = true;
+                        if (value > maxValue)
+                            maxValue = value;
                     }
                 });
-                if (isSetPassingGrade) {
+                if (isSetPassingGrade)
                     $(this).find('.txtFinalMark').val(passingGrade);
-                }
+                else
+                    $(this).find('.txtFinalMark').val(maxValue);
             });
         }
     });

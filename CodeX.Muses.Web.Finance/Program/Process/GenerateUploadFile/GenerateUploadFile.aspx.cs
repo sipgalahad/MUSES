@@ -90,7 +90,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
                 List<SiteParameter> lstSiteParameter = BusinessLayer.GetSiteParameterList(String.Format("SiteID = '{0}' AND ParameterCode = '{1}'", Request.Form[hdnSiteID.UniqueID], Constant.SiteParameter.SCHOOL_TYPE), ctx);
                 List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
-                List<vARInvoiceDt> lstvInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("DueDate <= '{0}' AND GCTransactionStatus IN ('{1}','{2}','{3}') AND SiteID = '{4}'", Helper.GetDatePickerValue(Request.Form[txtEndDate.UniqueID]), Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED, Request.Form[hdnSiteID.UniqueID]), ctx);
+                List<vARInvoiceDt> lstvInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("DueDate <= '{0}' AND GCTransactionStatus IN ('{1}','{2}','{3}') AND SiteID = '{4}' AND IsDeleted = 0", Helper.GetDatePickerValue(Request.Form[txtEndDate.UniqueID]), Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED, Request.Form[hdnSiteID.UniqueID]), ctx);
 
                 String lstARInvoiceDtID = String.Join(",", lstvInvoiceDt.Select(p => p.ARInvoiceDtID).ToList());
                 String lstARInvoiceID = String.Join(",", lstvInvoiceDt.Select(p => p.ARInvoiceID).ToList());

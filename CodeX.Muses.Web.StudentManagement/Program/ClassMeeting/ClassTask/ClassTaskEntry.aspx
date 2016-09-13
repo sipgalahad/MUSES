@@ -186,7 +186,7 @@
             <td><asp:TextBox ID="txtPassingGrade" runat="server" Width="100px" CssClass="number" ReadOnly="true" /></td>
         </tr>
         <tr>
-            <td class="tdLabel"><%=GetLabel("Tipe Tugas") %></td>
+            <td class="tdLabel"><%=GetLabel("Komponen Nilai") %></td>
             <td>
                 <dxe:ASPxComboBox ID="cboFilterTaskType" ClientInstanceName="cboFilterTaskType" runat="server" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e){ onCboFilterTaskTypeValueChanged(); }" />
