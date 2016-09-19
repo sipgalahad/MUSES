@@ -2015,6 +2015,9 @@ namespace CodeX.Data.Model
         private String _EndTime;
         private Int32 _RoomID;
         private String _RoomName;
+        private Int32 _ClassRoomID;
+        private String _ClassRoomName;
+        private Boolean _IsMovingClass;
         private Int32 _TeacherID;
         private String _TeacherName;
         private Int32 _AssistantTeacherID;
@@ -2110,6 +2113,24 @@ namespace CodeX.Data.Model
         {
             get { return _RoomName; }
             set { _RoomName = value; }
+        }
+        [Column(Name = "ClassRoomID", DataType = "Int32")]
+        public Int32 ClassRoomID
+        {
+            get { return _ClassRoomID; }
+            set { _ClassRoomID = value; }
+        }
+        [Column(Name = "ClassRoomName", DataType = "String")]
+        public String ClassRoomName
+        {
+            get { return _ClassRoomName; }
+            set { _ClassRoomName = value; }
+        }
+        [Column(Name = "IsMovingClass", DataType = "Boolean")]
+        public Boolean IsMovingClass
+        {
+            get { return _IsMovingClass; }
+            set { _IsMovingClass = value; }
         }
         [Column(Name = "TeacherID", DataType = "Int32")]
         public Int32 TeacherID

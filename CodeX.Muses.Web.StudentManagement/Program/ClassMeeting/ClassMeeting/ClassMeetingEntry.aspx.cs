@@ -55,8 +55,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     vClassSchedule entity = BusinessLayer.GetvClassScheduleList(string.Format("ClassScheduleID = {0}", AppSession.ClassSubject.ClassScheduleID)).FirstOrDefault();
                     txtStartTime.Text = entity.StartTime;
                     txtEndTime.Text = entity.EndTime;
-                    tacRoom.Value = entity.RoomID.ToString();
-                    tacRoom.Text = entity.RoomName;
+                    if (entity.IsMovingClass)
+                    {
+                        tacRoom.Value = entity.RoomID.ToString();
+                        tacRoom.Text = entity.RoomName;
+                    }
+                    else
+                    {
+                        tacRoom.Value = entity.ClassRoomID.ToString();
+                        tacRoom.Text = entity.ClassRoomName;
+                    }
                     tacTeacher.Value = entity.TeacherID.ToString();
                     tacTeacher.Text = entity.TeacherName;
                     tacAssistantTeacher.Value = entity.AssistantTeacherID.ToString();
