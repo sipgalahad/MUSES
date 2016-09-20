@@ -45,17 +45,20 @@
             var result = '';
             var lstStudentID = '';
             var lstRemedialID = '';
+            $('.hdnClassSubjectTaskRemedialID').each(function () {
+                if (lstRemedialID != '')
+                    lstRemedialID += ',';
+                lstRemedialID += $(this).val();
+            });
+
             $('.trRemedialDt').each(function () {
                 var temp = '';
                 $(this).find('.txtMark').each(function () {
                     if ($(this).val() != '-') {
-                        if (temp != '') {
+                        if (temp != '')
                             temp += '^';
-                            lstRemedialID += ',';
-                        }
                         var remedialID = $(this).attr('ClassSubjectTaskRemedialID');
                         temp += $(this).attr('ClassSubjectTaskRemedialID') + ',' + $(this).val();
-                        lstRemedialID += remedialID;
                     }
                 });
                 if (temp != '') {
@@ -71,7 +74,7 @@
             $('#<%=hdnSaveValue.ClientID %>').val(result);
             $('#<%=hdnListStudentID.ClientID %>').val(lstStudentID);
             $('#<%=hdnListRemedialID.ClientID %>').val(lstRemedialID);
-            
+
             cbpProcessPopup.PerformCallback('savemark');
         });
     });
@@ -279,7 +282,7 @@
                                     <th class="thCenter" style="width:80px">
                                         <div class="divDetailDelete" style="float:right;"></div>
                                         <label class="lblLink lblRemedialDisplayOrder" style="margin-right: -15px;">R<%#Eval("DisplayOrder") %></label>
-                                        <input type="hidden" value="<%#Eval("ClassSubjectTaskRemedialID") %>" bindingfield="ClassSubjectTaskRemedialID" />
+                                        <input type="hidden" value="<%#Eval("ClassSubjectTaskRemedialID") %>" class="hdnClassSubjectTaskRemedialID" bindingfield="ClassSubjectTaskRemedialID" />
                                         <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
                                         <input type="hidden" value="<%#Eval("TaskDate", "{0:dd-MM-yyyy}") %>" bindingfield="TaskDate" />
                                         <input type="hidden" value="<%#Eval("StartDate", "{0:dd-MM-yyyy}") %>" bindingfield="StartDate" />
@@ -292,7 +295,7 @@
                             </asp:Repeater>
                             <th class="thCenter" style="width:80px">
                                 <%=GetLabel("Nilai Akhir") %><br />
-                                <asp:CheckBox ID="chkIsSetPassingGrade" CssClass="chkIsSetPassingGrade" runat="server" /> <%=GetLabel("= KKM") %>
+                                <asp:CheckBox ID="chkIsSetPassingGrade" CssClass="chkIsSetPassingGrade" Checked="true" runat="server" /> <%=GetLabel("= KKM") %>
                             </th>
                         </tr>
                         <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">

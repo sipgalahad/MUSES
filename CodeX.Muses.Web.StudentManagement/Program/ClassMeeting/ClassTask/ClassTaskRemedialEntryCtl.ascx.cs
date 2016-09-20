@@ -270,10 +270,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entityRemedialMarkDao.Insert(entityRemedialMark);
                         }
                     }
-                    foreach (ClassStudentSubjectTaskRemedialMark entityRemedialMark in lstStudentRemedialMark)
-                    {
-                        entityRemedialMarkDao.Delete(entityRemedialMark.ClassSubjectTaskRemedialID, entityRemedialMark.StudentID);
-                    }
+                }
+                foreach (ClassStudentSubjectTaskRemedialMark entityRemedialMark in lstStudentRemedialMark)
+                {
+                    entityRemedialMarkDao.Delete(entityRemedialMark.ClassSubjectTaskRemedialID, entityRemedialMark.StudentID);
                 }
 
                 ctx.CommitTransaction();
