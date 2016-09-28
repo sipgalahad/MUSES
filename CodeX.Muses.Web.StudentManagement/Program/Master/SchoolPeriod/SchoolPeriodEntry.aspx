@@ -55,6 +55,21 @@
             cboGradePromotionFormula.PerformCallback();
         }
 
+        function onCboCopySchoolPeriodChanged() {
+            if (cboCopySchoolPeriod.GetValue() != "") {
+                var filterExpression = "SchoolPeriodID = " + cboCopySchoolPeriod.GetValue();
+                Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
+                    if (result != null) {
+                        cboCurriculum.SetValue(result.CurriculumID);
+                        cboDailySchedulePackage.SetValue(result.DailySchedulePackageID);
+                        cboExamSchedulePackage.SetValue(result.ExamSchedulePackageID);
+                        cboGradePromotionFormula.SetValue(result.GradePromotionFormulaID);
+                        onCboCurriculumValueChanged();
+                    }
+                });
+            }
+        }
+
         function onBeforeSaveRecord() {
             var result = '';
             $('.hdnCurriculumMarkTypeID').each(function () {
@@ -109,6 +124,14 @@
                     <tr>
                         <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
                         <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
+                    </tr>
+                    <tr id="trCopySchoolPeriod" runat="server">
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Copy Tahun Ajaran")%></label></td>
+                        <td>
+                            <dxe:ASPxComboBox runat="server" ID="cboCopySchoolPeriod" ClientInstanceName="cboCopySchoolPeriod" Width="300px">
+                                <ClientSideEvents ValueChanged="function(s,e){ onCboCopySchoolPeriodChanged() }" />
+                            </dxe:ASPxComboBox>
+                        </td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kurikulum")%></label></td>

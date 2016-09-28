@@ -33,6 +33,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 hdnSiteID.Value = entity.SiteID;
                 EntityToControl(entity);
                 BindCboGradePromotionFormula();
+                trCopySchoolPeriod.Style.Add("display", "none");
             }
             else
             {
@@ -42,6 +43,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 IsAdd = true;
             }
             txtSchoolPeriodCode.Focus();
+        }
+
+        public override void OnAddRecord()
+        {
+            trCopySchoolPeriod.Style.Remove("display");
         }
 
         protected void cboGradePromotionFormula_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
@@ -58,6 +64,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void SetControlProperties()
         {
+            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", hdnSiteID.Value, Constant.SchoolPeriodStatus.VOID));
+            lstSchoolPeriod.Insert(0, new SchoolPeriod { SchoolPeriodID = 0, SchoolPeriodName = "" });
+            Methods.SetComboBoxField<SchoolPeriod>(cboCopySchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
+            cboCopySchoolPeriod.SelectedIndex = 0;
+
             List<Curriculum> lstCurriculum = BusinessLayer.GetCurriculumList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<Curriculum>(cboCurriculum, lstCurriculum, "CurriculumName", "CurriculumID");
             cboCurriculum.SelectedIndex = 0;
@@ -207,6 +218,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     else
                         entityFinalMark.CurriculumFinalMarkFormulaID = null;
                     entityFinalMarkDao.Insert(entityFinalMark);
+                }
+
+                if (cboCopySchoolPeriod.Value != null && cboCopySchoolPeriod.Value.ToString() != "0")
+                {
+                    BusinessLayer.GenerateCopySchoolPeriod(entity.SchoolPeriodID, Convert.ToInt32(cboCopySchoolPeriod.Value), AppSession.UserLogin.UserID, ctx);
                 }
 
                 retval = entity.SchoolPeriodID.ToString();
