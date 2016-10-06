@@ -61,7 +61,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         public void BindGridView()
         {
-            List<vStudentFeeStatusPerClassSummary> lstEntity = BusinessLayer.GetvStudentFeeStatusPerClassSummaryList(string.Format("TransactionMonth = {0} AND TransactionYear = {1} AND SiteID = '{2}' ORDER BY SchoolClassCode", cboMonth.Value, cboYear.Value, cboSite.Value));
+            List<vStudentFeeStatusPerClassSummary> lstEntity = BusinessLayer.GetvStudentFeeStatusPerClassSummaryList(string.Format("TransactionMonth = {0} AND TransactionYear = {1} AND SiteID = '{2}' AND SchoolPeriodID = {3} ORDER BY SchoolClassCode", cboMonth.Value, cboYear.Value, cboSite.Value, tacSchoolPeriod.Value));
             rptView.DataSource = lstEntity;
             rptView.DataBind();
 
@@ -88,7 +88,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         public override Control OnGetExportControl()
         {
-            List<vStudentFeeStatusPerClassSummary> lstEntity = BusinessLayer.GetvStudentFeeStatusPerClassSummaryList(string.Format("TransactionMonth = {0} AND TransactionYear = {1} AND SiteID = '{2}' ORDER BY SchoolClassCode", Request.Form[hdnSelectedMonth.UniqueID], Request.Form[hdnSelectedYear.UniqueID], Request.Form[hdnSiteID.UniqueID]));
+            List<vStudentFeeStatusPerClassSummary> lstEntity = BusinessLayer.GetvStudentFeeStatusPerClassSummaryList(string.Format("TransactionMonth = {0} AND TransactionYear = {1} AND SiteID = '{2}' AND SchoolPeriodID = {3} ORDER BY SchoolClassCode", Request.Form[hdnSelectedMonth.UniqueID], Request.Form[hdnSelectedYear.UniqueID], Request.Form[hdnSiteID.UniqueID], Request.Form[hdnSchoolPeriodID.UniqueID]));
             rptView.DataSource = lstEntity;
             rptView.DataBind();
 

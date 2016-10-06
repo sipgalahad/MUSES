@@ -13,10 +13,39 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
+        //#region School Period
+        function onGetSchoolPeriodFilterExpression() {
+            var filterExpression = "SiteID = '" + cboSite.GetValue() + "'";
+            return filterExpression;
+        }
+
+        function onTacSchoolPeriodButtonSearchClick() {
+            openSearchDialog('schoolperiod', onGetSchoolPeriodFilterExpression(), function (value) {
+                var filterExpression = onGetSchoolPeriodFilterExpression() + " AND SchoolPeriodCode = '" + value + "'";
+                Methods.getObject('GetvSchoolPeriodList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacSchoolPeriod.setValue(result.SchoolPeriodID);
+                        tacSchoolPeriod.setText(result.SchoolPeriodName); 
+                    }
+                    else {
+                        tacSchoolPeriod.setValue('');
+                        tacSchoolPeriod.setText(''); 
+                    }
+                    onTacSchoolPeriodValueChanged();
+                });
+            });
+
+        }
+
+        function onTacSchoolPeriodValueChanged() {
+        }
+        //#endregion
+
         $(function () {
             $('#btnRefresh').click(function () {
                 $('#<%=hdnSiteName.ClientID %>').val(cboSite.GetText());
                 $('#<%=hdnSiteID.ClientID %>').val(cboSite.GetValue());
+                $('#<%=hdnSchoolPeriodID.ClientID %>').val(tacSchoolPeriod.getValue()); 
                 $('#<%=hdnSelectedYear.ClientID %>').val(cboYear.GetValue());
                 $('#<%=hdnSelectedMonth.ClientID %>').val(cboMonth.GetValue());
 
@@ -55,6 +84,7 @@
     </script>
     <input type="hidden" id="hdnSiteID" runat="server" />
     <input type="hidden" id="hdnSiteName" runat="server" />
+    <input type="hidden" id="hdnSchoolPeriodID" runat="server" />
     <input type="hidden" id="hdnSelectedYear" runat="server" />
     <input type="hidden" id="hdnSelectedMonth" runat="server" />
     <input type="hidden" id="hdnExportControl" runat="server" />
@@ -66,6 +96,16 @@
             <tr>
                 <td class="tdLabel"><%=GetLabel("Site") %></td>
                 <td colspan="2"><dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px" /></td>
+            </tr>
+            <tr>
+                <td class="tdLabel"><%=GetLabel("Tahun Ajaran") %></td>
+                <td colspan="2">
+                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSchoolPeriod" ClientInstanceName="tacSchoolPeriod" MethodName="GetvSchoolClassList" GetFilterExpressionFunction="onGetSchoolPeriodFilterExpression"
+                        SearchFields="SchoolPeriodName,SchoolPeriodCode" TextField="SchoolPeriodName" ValueField="SchoolPeriodID" SearchText="${SchoolPeriodName} (<b>${SchoolPeriodCode}</b>)" OrderByExpression="SchoolPeriodName">
+                        <ClientSideEvents ButtonSearchClick="function(){ onTacSchoolPeriodButtonSearchClick(); }"
+                            ValueChanged="function(){ onTacSchoolPeriodValueChanged(); }" />
+                    </cdx:CodeXAutoCompleteTextBox>
+                </td>
             </tr>
             <tr>
                 <td class="tdLabel"><%=GetLabel("Periode")%></td>
