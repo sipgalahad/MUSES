@@ -11796,6 +11796,150 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RenumerationComp
+        public static RenumerationComp GetRenumerationComp(Int32 RenumerationCompID)
+        {
+            return new RenumerationCompDao().Get(RenumerationCompID);
+        }
+        public static int InsertRenumerationComp(RenumerationComp record)
+        {
+            return new RenumerationCompDao().Insert(record);
+        }
+        public static int UpdateRenumerationComp(RenumerationComp record)
+        {
+            return new RenumerationCompDao().Update(record);
+        }
+        public static int DeleteRenumerationComp(Int32 RenumerationCompID)
+        {
+            return new RenumerationCompDao().Delete(RenumerationCompID);
+        }
+        public static List<RenumerationComp> GetRenumerationCompList(string filterExpression)
+        {
+            List<RenumerationComp> result = new List<RenumerationComp>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RenumerationComp));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RenumerationComp)helper.IDataReaderToObject(reader, new RenumerationComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region RenumerationHd
+        public static RenumerationHd GetRenumeration(Int32 RenumerationID)
+        {
+            return new RenumerationHdDao().Get(RenumerationID);
+        }
+        public static int InsertRenumeration(RenumerationHd record)
+        {
+            return new RenumerationHdDao().Insert(record);
+        }
+        public static int UpdateRenumeration(RenumerationHd record)
+        {   
+            return new RenumerationHdDao().Update(record);
+        }
+        public static int DeleteRenumeration(Int32 RenumerationHdID)
+        {
+            return new RenumerationHdDao().Delete(RenumerationHdID);
+        }
+        public static List<RenumerationHd> GetRenumerationHdList(string filterExpression) 
+        {
+            List<RenumerationHd> result = new List<RenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RenumerationHd)helper.IDataReaderToObject(reader, new RenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RenumerationHd> GetRenumerationHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<RenumerationHd> result = new List<RenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RenumerationHd)helper.IDataReaderToObject(reader, new RenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRenumerationHdCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RenumerationHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRenumerationHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RenumerationHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "RenumerationID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region RestrictionDt
         public static RestrictionDt GetRestrictionDt(Int32 RestrictionID, String TransactionCode)
         {

@@ -518,6 +518,9 @@ namespace CodeX.Common
                 public const string MARKUP_MARGIN = "CP010409";
                 public const string STUDENT_FEE_COMP = "CP010410";
 
+                public const string RENUMERATION_COMP = "CP010501";
+                public const string RENUMERATION = "CP010502";
+
                 public const string HOLIDAY = "CP010901";
 
                 public const string SITE_INFORMATION = "CP020101";
