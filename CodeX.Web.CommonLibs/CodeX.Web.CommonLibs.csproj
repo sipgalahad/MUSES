@@ -379,6 +379,7 @@
     <Content Include="Images\Module\accounting.png" />
     <Content Include="Images\Module\asset_management.png" />
     <Content Include="Images\Module\control_panel.png" />
+    <Content Include="Images\Module\human_resource.png" />
     <Content Include="Images\Module\finance.png" />
     <Content Include="Images\Module\inventory_management.png" />
     <Content Include="Images\Module\student_management.png" />
