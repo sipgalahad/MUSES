@@ -500,6 +500,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+	<!-- #Region Organization Department -->
+	<searchdialog type="OrganizationDepartment" methodname="GetvOrganizationDepartmentList" keyfieldname="OrganizationDepartmentCode" orderbyexpression="OrganizationDepartmentName ASC">
+		<gridcolumns>
+			<gridcolumn datafield="OrganizationDepartmentCode" headertext="Kode" width="50px" />
+			<gridcolumn datafield="OrganizationDepartmentName" headertext="Nama" width="300px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="OrganizationDepartmentName" headertext="Nama" description="" />
+			<intellisensetext datafield="OrganizationDepartmentCode" headertext="Kode" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
   <!-- #Region Period Admission -->
   <searchdialog type="periodadmission" methodname="GetPeriodAdmissionList" keyfieldname="PeriodAdmissionID" orderbyexpression="PeriodAdmissionName ASC">
     <gridcolumns>

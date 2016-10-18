@@ -13662,6 +13662,445 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region HRDailyScheduleHd
+    [Serializable]
+    [Table(Name = "HRDailyScheduleHd")]
+    public class HRDailyScheduleHd : DbDataModel
+    {
+        private Int32 _DailyScheduleID;
+        private String _DailyScheduleCode;
+        private String _DailyScheduleName;
+        private Int16 _NoOfWorkHours;
+        private String _FromHour;
+        private String _ToHour;
+        private String _StartGraceTimeArrive;
+        private String _EndGraceTimeArrive;
+        private String _StartGraceTimeDepart;
+        private String _ToGraceTimeDepart;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "DailyScheduleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 DailyScheduleID
+        {
+            get { return _DailyScheduleID; }
+            set { _DailyScheduleID = value; }
+        }
+        [Column(Name = "DailyScheduleCode", DataType = "String")]
+        public String DailyScheduleCode
+        {
+            get { return _DailyScheduleCode; }
+            set { _DailyScheduleCode = value; }
+        }
+        [Column(Name = "DailyScheduleName", DataType = "String")]
+        public String DailyScheduleName
+        {
+            get { return _DailyScheduleName; }
+            set { _DailyScheduleName = value; }
+        }
+        [Column(Name = "NoOfWorkHours", DataType = "Int16")]
+        public Int16 NoOfWorkHours
+        {
+            get { return _NoOfWorkHours; }
+            set { _NoOfWorkHours = value; }
+        }
+        [Column(Name = "FromHour", DataType = "String")]
+        public String FromHour
+        {
+            get { return _FromHour; }
+            set { _FromHour = value; }
+        }
+        [Column(Name = "ToHour", DataType = "String")]
+        public String ToHour
+        {
+            get { return _ToHour; }
+            set { _ToHour = value; }
+        }
+        [Column(Name = "StartGraceTimeArrive", DataType = "String")]
+        public String StartGraceTimeArrive
+        {
+            get { return _StartGraceTimeArrive; }
+            set { _StartGraceTimeArrive = value; }
+        }
+        [Column(Name = "EndGraceTimeArrive", DataType = "String")]
+        public String EndGraceTimeArrive
+        {
+            get { return _EndGraceTimeArrive; }
+            set { _EndGraceTimeArrive = value; }
+        }
+        [Column(Name = "StartGraceTimeDepart", DataType = "String")]
+        public String StartGraceTimeDepart
+        {
+            get { return _StartGraceTimeDepart; }
+            set { _StartGraceTimeDepart = value; }
+        }
+        [Column(Name = "ToGraceTimeDepart", DataType = "String")]
+        public String ToGraceTimeDepart
+        {
+            get { return _ToGraceTimeDepart; }
+            set { _ToGraceTimeDepart = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class HRDailyScheduleHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(HRDailyScheduleHd));
+        private bool _isAuditLog = false;
+        private const string p_DailyScheduleID = "@p_DailyScheduleID";
+        public HRDailyScheduleHdDao() { }
+        public HRDailyScheduleHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public HRDailyScheduleHd Get(Int32 DailyScheduleID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_DailyScheduleID, DailyScheduleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (HRDailyScheduleHd)_helper.DataRowToObject(row, new HRDailyScheduleHd());
+        }
+        public int Insert(HRDailyScheduleHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(HRDailyScheduleHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 DailyScheduleID)
+        {
+            HRDailyScheduleHd record;
+            if (_ctx.Transaction == null)
+                record = new HRDailyScheduleHdDao().Get(DailyScheduleID);
+            else
+                record = Get(DailyScheduleID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+
+    #region HRDailyScheduleDt
+    [Serializable]
+    [Table(Name = "HRDailyScheduleDt")]
+    public class HRDailyScheduleDt : DbDataModel
+    {
+        private Int32 _DailyScheduleDtID;
+        private Int32 _DailyScheduleID;
+        private String _FromHour;
+        private String _ToHour;
+        private String _GCDailyScheduleType;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "DailyScheduleDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 DailyScheduleDtID
+        {
+            get { return _DailyScheduleDtID; }
+            set { _DailyScheduleDtID = value; }
+        }
+        [Column(Name = "DailyScheduleID", DataType = "Int32")]
+        public Int32 DailyScheduleID
+        {
+            get { return _DailyScheduleID; }
+            set { _DailyScheduleID = value; }
+        }
+        [Column(Name = "FromHour", DataType = "String")]
+        public String FromHour
+        {
+            get { return _FromHour; }
+            set { _FromHour = value; }
+        }
+        [Column(Name = "ToHour", DataType = "String")]
+        public String ToHour
+        {
+            get { return _ToHour; }
+            set { _ToHour = value; }
+        }
+        [Column(Name = "GCDailyScheduleType", DataType = "String")]
+        public String GCDailyScheduleType
+        {
+            get { return _GCDailyScheduleType; }
+            set { _GCDailyScheduleType = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class HRDailyScheduleDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(HRDailyScheduleDt));
+        private bool _isAuditLog = false;
+        private const string p_DailyScheduleDtID = "@p_DailyScheduleDtID";
+        public HRDailyScheduleDtDao() { }
+        public HRDailyScheduleDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public HRDailyScheduleDt Get(Int32 DailyScheduleDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_DailyScheduleDtID, DailyScheduleDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (HRDailyScheduleDt)_helper.DataRowToObject(row, new HRDailyScheduleDt());
+        }
+        public int Insert(HRDailyScheduleDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(HRDailyScheduleDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 DailyScheduleDtID)
+        {
+            HRDailyScheduleDt record;
+            if (_ctx.Transaction == null)
+                record = new HRDailyScheduleDtDao().Get(DailyScheduleDtID);
+            else
+                record = Get(DailyScheduleDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+
+    #endregion
+    #region HRWeeklySchedule
+    [Serializable]
+    [Table(Name = "HRWeeklySchedule")]
+    public class HRWeeklySchedule : DbDataModel
+    {
+        private Int32 _WeeklyScheduleID;
+        private String _WeeklyScheduleCode;
+        private String _WeeklyScheduleName;
+        private Int32? _DailyScheduleID1;
+        private Int32? _DailyScheduleID2;
+        private Int32? _DailyScheduleID3;
+        private Int32? _DailyScheduleID4;
+        private Int32? _DailyScheduleID5;
+        private Int32? _DailyScheduleID6;
+        private Int32? _DailyScheduleID7;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "WeeklyScheduleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 WeeklyScheduleID
+        {
+            get { return _WeeklyScheduleID; }
+            set { _WeeklyScheduleID = value; }
+        }
+        [Column(Name = "WeeklyScheduleCode", DataType = "String")]
+        public String WeeklyScheduleCode
+        {
+            get { return _WeeklyScheduleCode; }
+            set { _WeeklyScheduleCode = value; }
+        }
+        [Column(Name = "WeeklyScheduleName", DataType = "String")]
+        public String WeeklyScheduleName
+        {
+            get { return _WeeklyScheduleName; }
+            set { _WeeklyScheduleName = value; }
+        }
+        [Column(Name = "DailyScheduleID1", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleID1
+        {
+            get { return _DailyScheduleID1; }
+            set { _DailyScheduleID1 = value; }
+        }
+        [Column(Name = "DailyScheduleID2", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleID2
+        {
+            get { return _DailyScheduleID2; }
+            set { _DailyScheduleID2 = value; }
+        }
+        [Column(Name = "DailyScheduleID3", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleID3
+        {
+            get { return _DailyScheduleID3; }
+            set { _DailyScheduleID3 = value; }
+        }
+        [Column(Name = "DailyScheduleID4", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleID4
+        {
+            get { return _DailyScheduleID4; }
+            set { _DailyScheduleID4 = value; }
+        }
+        [Column(Name = "DailyScheduleID5", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleID5
+        {
+            get { return _DailyScheduleID5; }
+            set { _DailyScheduleID5 = value; }
+        }
+        [Column(Name = "DailyScheduleID6", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleID6
+        {
+            get { return _DailyScheduleID6; }
+            set { _DailyScheduleID6 = value; }
+        }
+        [Column(Name = "DailyScheduleID7", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleID7
+        {
+            get { return _DailyScheduleID7; }
+            set { _DailyScheduleID7 = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class HRWeeklyScheduleDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(HRWeeklySchedule));
+        private bool _isAuditLog = false;
+        private const string p_WeeklyScheduleID = "@p_WeeklyScheduleID";
+        public HRWeeklyScheduleDao() { }
+        public HRWeeklyScheduleDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public HRWeeklySchedule Get(Int32 WeeklyScheduleID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_WeeklyScheduleID, WeeklyScheduleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (HRWeeklySchedule)_helper.DataRowToObject(row, new HRWeeklySchedule());
+        }
+        public int Insert(HRWeeklySchedule record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(HRWeeklySchedule record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 WeeklyScheduleID)
+        {
+            HRWeeklySchedule record;
+            if (_ctx.Transaction == null)
+                record = new HRWeeklyScheduleDao().Get(WeeklyScheduleID);
+            else
+                record = Get(WeeklyScheduleID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ItemAlternateUnit
     [Serializable]
     [Table(Name = "ItemAlternateUnit")]
@@ -17656,6 +18095,134 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region OrganizationDepartment
+    [Serializable]
+    [Table(Name = "OrganizationDepartment")]
+    public class OrganizationDepartment : DbDataModel
+    {
+        private Int32 _OrganizationDepartmentID;
+        private String _OrganizationDepartmentCode;
+        private String _OrganizationDepartmentName;
+        private Int32? _ParentID;
+        private Boolean _IsHeader;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "OrganizationDepartmentID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 OrganizationDepartmentID
+        {
+            get { return _OrganizationDepartmentID; }
+            set { _OrganizationDepartmentID = value; }
+        }
+        [Column(Name = "OrganizationDepartmentCode", DataType = "String")]
+        public String OrganizationDepartmentCode
+        {
+            get { return _OrganizationDepartmentCode; }
+            set { _OrganizationDepartmentCode = value; }
+        }
+        [Column(Name = "OrganizationDepartmentName", DataType = "String")]
+        public String OrganizationDepartmentName
+        {
+            get { return _OrganizationDepartmentName; }
+            set { _OrganizationDepartmentName = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class OrganizationDepartmentDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(OrganizationDepartment));
+        private bool _isAuditLog = false;
+        private const string p_OrganizationDepartmentID = "@p_OrganizationDepartmentID";
+        public OrganizationDepartmentDao() { }
+        public OrganizationDepartmentDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public OrganizationDepartment Get(Int32 OrganizationDepartmentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_OrganizationDepartmentID, OrganizationDepartmentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (OrganizationDepartment)_helper.DataRowToObject(row, new OrganizationDepartment());
+        }
+        public int Insert(OrganizationDepartment record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(OrganizationDepartment record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 OrganizationDepartmentID)
+        {
+            OrganizationDepartment record;
+            if (_ctx.Transaction == null)
+                record = new OrganizationDepartmentDao().Get(OrganizationDepartmentID);
+            else
+                record = Get(OrganizationDepartmentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+   
     #region OrganizationDt
     [Serializable]
     [Table(Name = "OrganizationDt")]

@@ -3784,6 +3784,94 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vHRDailyScheduleDt
+        public static List<vHRDailyScheduleDt> GetvHRDailyScheduleDtList(string filterExpression)
+        {
+            List<vHRDailyScheduleDt> result = new List<vHRDailyScheduleDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRDailyScheduleDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vHRDailyScheduleDt)helper.IDataReaderToObject(reader, new vHRDailyScheduleDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vHRDailyScheduleDt> GetvHRDailyScheduleDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vHRDailyScheduleDt> result = new List<vHRDailyScheduleDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRDailyScheduleDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vHRDailyScheduleDt)helper.IDataReaderToObject(reader, new vHRDailyScheduleDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvHRDailyScheduleDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRDailyScheduleDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvHRDailyScheduleDtRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRDailyScheduleDt));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "DailyScheduleDtID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vInterfaceJournalSettingDtCustom
         public static List<vInterfaceJournalSettingDtCustom> GetvInterfaceJournalSettingDtCustomList(string filterExpression)
         {
@@ -5679,6 +5767,94 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(vMarkTypeHd));
                 ctx.CommandText = helper.GetRowIndex(filterExpression, "MarkTypeID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vOrganizationDepartment
+        public static List<vOrganizationDepartment> GetvOrganizationDepartmentList(string filterExpression)
+        {
+            List<vOrganizationDepartment> result = new List<vOrganizationDepartment>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vOrganizationDepartment));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vOrganizationDepartment)helper.IDataReaderToObject(reader, new vOrganizationDepartment()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vOrganizationDepartment> GetvOrganizationDepartmentList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vOrganizationDepartment> result = new List<vOrganizationDepartment>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vOrganizationDepartment));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vOrganizationDepartment)helper.IDataReaderToObject(reader, new vOrganizationDepartment()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvOrganizationDepartmentRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vOrganizationDepartment));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvOrganizationDepartmentRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vOrganizationDepartment));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "OrganizationDepartmentID", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }

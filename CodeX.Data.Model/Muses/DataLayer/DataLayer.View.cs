@@ -11209,6 +11209,63 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vHRDailyScheduleDt
+    [Serializable]
+    [Table(Name = "vHRDailyScheduleDt")]
+    public class vHRDailyScheduleDt
+    {
+        private Int32 _DailyScheduleDtID;
+        private Int32 _DailyScheduleID;
+        private String _FromHour;
+        private String _ToHour;
+        private String _GCDailyScheduleType;
+        private String _DailyScheduleType;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "DailyScheduleDtID", DataType = "Int32")]
+        public Int32 DailyScheduleDtID
+        {
+            get { return _DailyScheduleDtID; }
+            set { _DailyScheduleDtID = value; }
+        }
+        [Column(Name = "DailyScheduleID", DataType = "Int32")]
+        public Int32 DailyScheduleID
+        {
+            get { return _DailyScheduleID; }
+            set { _DailyScheduleID = value; }
+        }
+        [Column(Name = "FromHour", DataType = "String")]
+        public String FromHour
+        {
+            get { return _FromHour; }
+            set { _FromHour = value; }
+        }
+        [Column(Name = "ToHour", DataType = "String")]
+        public String ToHour
+        {
+            get { return _ToHour; }
+            set { _ToHour = value; }
+        }
+        [Column(Name = "GCDailyScheduleType", DataType = "String")]
+        public String GCDailyScheduleType
+        {
+            get { return _GCDailyScheduleType; }
+            set { _GCDailyScheduleType = value; }
+        }
+        [Column(Name = "DailyScheduleType", DataType = "String")]
+        public String DailyScheduleType
+        {
+            get { return _DailyScheduleType; }
+            set { _DailyScheduleType = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vInterfaceJournalSettingDtCustom
     [Serializable]
     [Table(Name = "vInterfaceJournalSettingDtCustom")]
@@ -15339,6 +15396,91 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vOrganizationDepartment
+    [Serializable]
+    [Table(Name = "vOrganizationDepartment")]
+    public class vOrganizationDepartment
+    {
+        private Int32 _OrganizationDepartmentID;
+        private String _OrganizationDepartmentCode;
+        private String _OrganizationDepartmentName;
+        private Int32 _ParentID;
+        private String _ParentCode;
+        private String _ParentName;
+        private Boolean _IsHeader;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _Level;
+        private String _DisplayPath;
+
+        [Column(Name = "OrganizationDepartmentID", DataType = "Int32")]
+        public Int32 OrganizationDepartmentID
+        {
+            get { return _OrganizationDepartmentID; }
+            set { _OrganizationDepartmentID = value; }
+        }
+        [Column(Name = "OrganizationDepartmentCode", DataType = "String")]
+        public String OrganizationDepartmentCode
+        {
+            get { return _OrganizationDepartmentCode; }
+            set { _OrganizationDepartmentCode = value; }
+        }
+        [Column(Name = "OrganizationDepartmentName", DataType = "String")]
+        public String OrganizationDepartmentName
+        {
+            get { return _OrganizationDepartmentName; }
+            set { _OrganizationDepartmentName = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "ParentCode", DataType = "String")]
+        public String ParentCode
+        {
+            get { return _ParentCode; }
+            set { _ParentCode = value; }
+        }
+        [Column(Name = "ParentName", DataType = "String")]
+        public String ParentName
+        {
+            get { return _ParentName; }
+            set { _ParentName = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "DisplayPath", DataType = "String")]
+        public String DisplayPath
+        {
+            get { return _DisplayPath; }
+            set { _DisplayPath = value; }
         }
     }
     #endregion

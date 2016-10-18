@@ -6697,6 +6697,254 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region HRDailyScheduleHd
+        public static HRDailyScheduleHd GetHRDailyScheduleHd(Int32 DailyScheduleID)
+        {
+            return new HRDailyScheduleHdDao().Get(DailyScheduleID);
+        }
+        public static int InsertHRDailyScheduleHd(HRDailyScheduleHd record)
+        {
+            return new HRDailyScheduleHdDao().Insert(record);
+        }
+        public static int UpdateHRDailyScheduleHd(HRDailyScheduleHd record)
+        {
+            return new HRDailyScheduleHdDao().Update(record);
+        }
+        public static int DeleteHRDailyScheduleHd(Int32 DailyScheduleID)
+        {
+            return new HRDailyScheduleHdDao().Delete(DailyScheduleID);
+        }
+        public static List<HRDailyScheduleHd> GetHRDailyScheduleHdList(string filterExpression)
+        {
+            List<HRDailyScheduleHd> result = new List<HRDailyScheduleHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRDailyScheduleHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((HRDailyScheduleHd)helper.IDataReaderToObject(reader, new HRDailyScheduleHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<HRDailyScheduleHd> GetHRDailyScheduleHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<HRDailyScheduleHd> result = new List<HRDailyScheduleHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRDailyScheduleHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((HRDailyScheduleHd)helper.IDataReaderToObject(reader, new HRDailyScheduleHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetHRDailyScheduleHdCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRDailyScheduleHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetHRDailyScheduleHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRDailyScheduleHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "DailyScheduleID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region HRDailyScheduleDt
+        public static HRDailyScheduleDt GetHRDailyScheduleDt(Int32 DailyScheduleDtID)
+        {
+            return new HRDailyScheduleDtDao().Get(DailyScheduleDtID);
+        }
+        public static int InsertHRDailyScheduleDt(HRDailyScheduleDt record)
+        {
+            return new HRDailyScheduleDtDao().Insert(record);
+        }
+        public static int UpdateHRDailyScheduleDt(HRDailyScheduleDt record)
+        {
+            return new HRDailyScheduleDtDao().Update(record);
+        }
+        public static int DeleteHRDailyScheduleDt(Int32 DailyScheduleDtID)
+        {
+            return new HRDailyScheduleDtDao().Delete(DailyScheduleDtID);
+        }
+        public static List<HRDailyScheduleDt> GetHRDailyScheduleDtList(string filterExpression)
+        {
+            List<HRDailyScheduleDt> result = new List<HRDailyScheduleDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRDailyScheduleDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((HRDailyScheduleDt)helper.IDataReaderToObject(reader, new HRDailyScheduleDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region HRWeeklySchedule
+        public static HRWeeklySchedule GetHRWeeklySchedule(Int32 WeeklyScheduleID)
+        {
+            return new HRWeeklyScheduleDao().Get(WeeklyScheduleID);
+        }
+        public static int InsertHRWeeklySchedule(HRWeeklySchedule record)
+        {
+            return new HRWeeklyScheduleDao().Insert(record);
+        }
+        public static int UpdateHRWeeklySchedule(HRWeeklySchedule record)
+        {
+            return new HRWeeklyScheduleDao().Update(record);
+        }
+        public static int DeleteHRWeeklySchedule(Int32 WeeklyScheduleID)
+        {
+            return new HRWeeklyScheduleDao().Delete(WeeklyScheduleID);
+        }
+        public static List<HRWeeklySchedule> GetHRWeeklyScheduleList(string filterExpression)
+        {
+            List<HRWeeklySchedule> result = new List<HRWeeklySchedule>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRWeeklySchedule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((HRWeeklySchedule)helper.IDataReaderToObject(reader, new HRWeeklySchedule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<HRWeeklySchedule> GetHRWeeklyScheduleList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<HRWeeklySchedule> result = new List<HRWeeklySchedule>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRWeeklySchedule));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((HRWeeklySchedule)helper.IDataReaderToObject(reader, new HRWeeklySchedule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetHRWeeklyScheduleCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRWeeklySchedule));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetHRWeeklyScheduleRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRWeeklySchedule));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "WeeklyScheduleID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ItemAlternateUnit
         public static ItemAlternateUnit GetItemAlternateUnit(Int32 ID)
         {
@@ -8583,6 +8831,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region OrganizationDepartment
+        public static OrganizationDepartment GetOrganizationDepartment(Int32 OrganizationDepartmentID)
+        {
+            return new OrganizationDepartmentDao().Get(OrganizationDepartmentID);
+        }
+        public static int InsertOrganizationDepartment(OrganizationDepartment record)
+        {
+            return new OrganizationDepartmentDao().Insert(record);
+        }
+        public static int UpdateOrganizationDepartment(OrganizationDepartment record)
+        {
+            return new OrganizationDepartmentDao().Update(record);
+        }
+        public static int DeleteOrganizationDepartment(Int32 OrganizationDepartmentID)
+        {
+            return new OrganizationDepartmentDao().Delete(OrganizationDepartmentID);
+        }
+        public static List<OrganizationDepartment> GetOrganizationDepartmentList(string filterExpression)
+        {
+            List<OrganizationDepartment> result = new List<OrganizationDepartment>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationDepartment));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OrganizationDepartment)helper.IDataReaderToObject(reader, new OrganizationDepartment()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }
