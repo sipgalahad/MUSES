@@ -520,6 +520,9 @@ namespace CodeX.Common
 
                 public const string RENUMERATION_COMP = "CP010501";
                 public const string RENUMERATION = "CP010502";
+                public const string HR_DAILY_SCHEDULE = "CP010503";
+                public const string HR_WEEKLY_SCHEDULE = "CP010504";
+                public const string ORGANIZATION_DEPARTMENT = "CP010505";
 
                 public const string HOLIDAY = "CP010901";
 

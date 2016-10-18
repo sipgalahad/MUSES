@@ -125,6 +125,7 @@ namespace CodeX.Common
             public const string REORDER_TYPE = "X310";
             public const string DISTRIBUTION_TYPE = "X311";
             public const string RENUMERATION_COMP_TYPE = "X314";
+            public const string HR_DAILY_SCHEDULE_TYPE = "X320";
         }
 
         public static class PaymentMethod

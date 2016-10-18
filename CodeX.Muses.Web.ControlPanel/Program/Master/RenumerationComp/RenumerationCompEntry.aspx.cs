@@ -27,6 +27,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
                 RenumerationComp entity = BusinessLayer.GetRenumerationComp(Convert.ToInt32(ID));
+                SetControlProperties();
                 EntityToControl(entity);
             }
             else
@@ -57,7 +58,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             txtRenumerationCompCode.Text = entity.RenumerationCompCode;
             txtRenumerationCompName.Text = entity.RenumerationCompName;
-            cboRenumerationCompType.Value = entity.GCRenumerationCompType;
+            cboRenumerationCompType.Value = entity.GCRenumerationCompType.ToString();
             txtRemarks.Text = entity.Remarks;
       
         }
@@ -111,6 +112,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 result = false;
                 errMessage = ex.Message;
@@ -134,6 +136,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
