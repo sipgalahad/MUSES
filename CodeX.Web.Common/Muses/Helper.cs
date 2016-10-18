@@ -41,6 +41,7 @@ namespace CodeX.Web.Common
                 case "finance": result = "FN"; break;
                 case "inventory": result = "IM"; break;
                 case "projectmanagement": result = "PM"; break;
+                case "humanresource": result = "HR"; break;
                 default: result = "SM"; break;
             }
             return result;
