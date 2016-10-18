@@ -124,8 +124,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 Bank entity = new Bank();
                 ControlToEntity(entity);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                entityDao.Insert(entity);
-                retval = BusinessLayer.GetBankMaxID(ctx).ToString();
+                retval = entityDao.Insert(entity).ToString();
                 ctx.CommitTransaction();
                 result = true;
             }

@@ -124,6 +124,7 @@ namespace CodeX.Common
             public const string PURCHASE_METHOD = "X309";
             public const string REORDER_TYPE = "X310";
             public const string DISTRIBUTION_TYPE = "X311";
+            public const string RENUMERATION_COMP_TYPE = "X314";
         }
 
         public static class PaymentMethod
