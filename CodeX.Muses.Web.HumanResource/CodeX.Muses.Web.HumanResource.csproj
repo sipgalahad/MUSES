@@ -1,0 +1,445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{89085334-7B9A-40F4-95FE-F353C586E36F}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeX.Muses.Web.HumanResource</RootNamespace>
+    <AssemblyName>CodeX.Muses.Web.HumanResource</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\ChangePasswordCtl.ascx">
+      <Link>SharedLibs\Controls\ChangePasswordCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx">
+      <Link>SharedLibs\Controls\GeneralCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MasterCodingCtl.ascx">
+      <Link>SharedLibs\Controls\MasterCodingCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MatrixCtl.ascx">
+      <Link>SharedLibs\Controls\MatrixCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MatrixWithParameterCtl.ascx">
+      <Link>SharedLibs\Controls\MatrixWithParameterCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx">
+      <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx">
+      <Link>SharedLibs\Controls\MPListPopupCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\PopupInfoCtl.ascx">
+      <Link>SharedLibs\Controls\PopupInfoCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx">
+      <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx">
+      <Link>SharedLibs\ErrorPage.aspx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Program\Main.aspx">
+      <Link>SharedLibs\Program\Main.aspx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx">
+      <Link>SharedLibs\Program\RemoteLogon.aspx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Program\ReportPage.aspx">
+      <Link>SharedLibs\Program\ReportPage.aspx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx">
+      <Link>SharedLibs\Program\ReportViewer.aspx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx">
+      <Link>SharedLibs\Service\MethodService.asmx</Link>
+    </Content>
+    <Content Include="Global.asax" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\ChangePasswordCtl.ascx.cs">
+      <Link>SharedLibs\Controls\ChangePasswordCtl.ascx.cs</Link>
+      <DependentUpon>ChangePasswordCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\ChangePasswordCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\ChangePasswordCtl.ascx.designer.cs</Link>
+      <DependentUpon>ChangePasswordCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx.cs">
+      <Link>SharedLibs\Controls\GeneralCtl.ascx.cs</Link>
+      <DependentUpon>GeneralCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\GeneralCtl.ascx.designer.cs</Link>
+      <DependentUpon>GeneralCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MasterCodingCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MasterCodingCtl.ascx.cs</Link>
+      <DependentUpon>MasterCodingCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MasterCodingCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MasterCodingCtl.ascx.designer.cs</Link>
+      <DependentUpon>MasterCodingCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MatrixCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MatrixCtl.ascx.cs</Link>
+      <DependentUpon>MatrixCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MatrixCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MatrixCtl.ascx.designer.cs</Link>
+      <DependentUpon>MatrixCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MatrixWithParameterCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MatrixWithParameterCtl.ascx.cs</Link>
+      <DependentUpon>MatrixWithParameterCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MatrixWithParameterCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MatrixWithParameterCtl.ascx.designer.cs</Link>
+      <DependentUpon>MatrixWithParameterCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx.cs</Link>
+      <DependentUpon>MPEntryPopupCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx.designer.cs</Link>
+      <DependentUpon>MPEntryPopupCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MPListPopupCtl.ascx.cs</Link>
+      <DependentUpon>MPListPopupCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MPListPopupCtl.ascx.designer.cs</Link>
+      <DependentUpon>MPListPopupCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupInfoCtl.ascx.cs">
+      <Link>SharedLibs\Controls\PopupInfoCtl.ascx.cs</Link>
+      <DependentUpon>PopupInfoCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupInfoCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\PopupInfoCtl.ascx.designer.cs</Link>
+      <DependentUpon>PopupInfoCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.cs">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx.cs</Link>
+      <DependentUpon>PopupPrintCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx.designer.cs</Link>
+      <DependentUpon>PopupPrintCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx.cs">
+      <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx.cs</Link>
+      <DependentUpon>SetLoginAttributeCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx.designer.cs</Link>
+      <DependentUpon>SetLoginAttributeCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.cs">
+      <Link>SharedLibs\ErrorPage.aspx.cs</Link>
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.designer.cs">
+      <Link>SharedLibs\ErrorPage.aspx.designer.cs</Link>
+      <DependentUpon>ErrorPage.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBase.Master.cs">
+      <Link>SharedLibs\MasterPage\MPBase.Master.cs</Link>
+      <DependentUpon>MPBase.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBase.Master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPBase.Master.designer.cs</Link>
+      <DependentUpon>MPBase.Master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseContent.master.cs">
+      <Link>SharedLibs\MasterPage\MPBaseContent.master.cs</Link>
+      <DependentUpon>MPBaseContent.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseContent.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPBaseContent.master.designer.cs</Link>
+      <DependentUpon>MPBaseContent.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPage.master.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPage.master.cs</Link>
+      <DependentUpon>MPBaseDetailPage.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPage.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPage.master.designer.cs</Link>
+      <DependentUpon>MPBaseDetailPage.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master.cs</Link>
+      <DependentUpon>MPBaseDetailPageTrx.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master.designer.cs</Link>
+      <DependentUpon>MPBaseDetailPageTrx.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master.cs">
+      <Link>SharedLibs\MasterPage\MPEntry.master.cs</Link>
+      <DependentUpon>MPEntry.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPEntry.master.designer.cs</Link>
+      <DependentUpon>MPEntry.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master.cs">
+      <Link>SharedLibs\MasterPage\MPFrame.master.cs</Link>
+      <DependentUpon>MPFrame.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPFrame.master.designer.cs</Link>
+      <DependentUpon>MPFrame.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master.cs">
+      <Link>SharedLibs\MasterPage\MPList.master.cs</Link>
+      <DependentUpon>MPList.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPList.master.designer.cs</Link>
+      <DependentUpon>MPList.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPMain.master.cs">
+      <Link>SharedLibs\MasterPage\MPMain.master.cs</Link>
+      <DependentUpon>MPMain.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPMain.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPMain.master.designer.cs</Link>
+      <DependentUpon>MPMain.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master.cs">
+      <Link>SharedLibs\MasterPage\MPTrx.master.cs</Link>
+      <DependentUpon>MPTrx.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPTrx.master.designer.cs</Link>
+      <DependentUpon>MPTrx.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\Main.aspx.cs">
+      <Link>SharedLibs\Program\Main.aspx.cs</Link>
+      <DependentUpon>Main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\Main.aspx.designer.cs">
+      <Link>SharedLibs\Program\Main.aspx.designer.cs</Link>
+      <DependentUpon>Main.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx.cs">
+      <Link>SharedLibs\Program\RemoteLogon.aspx.cs</Link>
+      <DependentUpon>RemoteLogon.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx.designer.cs">
+      <Link>SharedLibs\Program\RemoteLogon.aspx.designer.cs</Link>
+      <DependentUpon>RemoteLogon.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportPage.aspx.cs">
+      <Link>SharedLibs\Program\ReportPage.aspx.cs</Link>
+      <DependentUpon>ReportPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportPage.aspx.designer.cs">
+      <Link>SharedLibs\Program\ReportPage.aspx.designer.cs</Link>
+      <DependentUpon>ReportPage.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.cs">
+      <Link>SharedLibs\Program\ReportViewer.aspx.cs</Link>
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.designer.cs">
+      <Link>SharedLibs\Program\ReportViewer.aspx.designer.cs</Link>
+      <DependentUpon>ReportViewer.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx.cs">
+      <Link>SharedLibs\Service\MethodService.asmx.cs</Link>
+      <DependentUpon>MethodService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Program\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeX.Common\CodeX.Common.csproj">
+      <Project>{E33A9234-868D-432F-BE4A-F18087209BCF}</Project>
+      <Name>CodeX.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeX.Data.Core\CodeX.Data.Core.csproj">
+      <Project>{CAC7A3D3-E6BB-4C97-B728-B87D395EB688}</Project>
+      <Name>CodeX.Data.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeX.Data.Model\CodeX.Data.Model.csproj">
+      <Project>{E8019F76-DE58-43A7-984C-A1272D62EA45}</Project>
+      <Name>CodeX.Data.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeX.Report\CodeX.Report.csproj">
+      <Project>{0C8A80FC-005D-4002-8906-903A0AD20B88}</Project>
+      <Name>CodeX.Report</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeX.Web.Common\CodeX.Web.Common.csproj">
+      <Project>{12E5AAFD-04A7-4D8F-8840-C8CB4E0B23DC}</Project>
+      <Name>CodeX.Web.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeX.Web.CustomControl\CodeX.Web.CustomControl.csproj">
+      <Project>{A61E72CD-A2CE-42EF-BBD5-9657CC3C8E9E}</Project>
+      <Name>CodeX.Web.CustomControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBase.Master">
+      <Link>SharedLibs\MasterPage\MPBase.Master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseContent.master">
+      <Link>SharedLibs\MasterPage\MPBaseContent.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPage.master">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPage.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master">
+      <Link>SharedLibs\MasterPage\MPEntry.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master">
+      <Link>SharedLibs\MasterPage\MPFrame.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master">
+      <Link>SharedLibs\MasterPage\MPList.master</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPMain.master">
+      <Link>SharedLibs\MasterPage\MPMain.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master">
+      <Link>SharedLibs\MasterPage\MPTrx.master</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\AppSetting.config">
+      <Link>AppSetting.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\ConnectionString.config">
+      <Link>ConnectionString.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3355</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/research/Muses/HumanResource</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>COPY "$(TargetDir)*.config" "$(ProjectDir)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
