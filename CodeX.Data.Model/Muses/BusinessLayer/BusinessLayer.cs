@@ -8875,6 +8875,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region OrganizationPosition
+        public static OrganizationPosition GetOrganizationPosition(Int32 OrganizationPositionID)
+        {
+            return new OrganizationPositionDao().Get(OrganizationPositionID);
+        }
+        public static int InsertOrganizationPosition(OrganizationPosition record)
+        {
+            return new OrganizationPositionDao().Insert(record);
+        }
+        public static int UpdateOrganizationPosition(OrganizationPosition record)
+        {
+            return new OrganizationPositionDao().Update(record);
+        }
+        public static int DeleteOrganizationPosition(Int32 OrganizationPositionID)
+        {
+            return new OrganizationPositionDao().Delete(OrganizationPositionID);
+        }
+        public static List<OrganizationPosition> GetOrganizationPositionList(string filterExpression)
+        {
+            List<OrganizationPosition> result = new List<OrganizationPosition>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationPosition));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OrganizationPosition)helper.IDataReaderToObject(reader, new OrganizationPosition()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region OrganizationDt
         public static OrganizationDt GetOrganizationDt(Int32 OrganizationDtID)
         {
@@ -12214,6 +12254,110 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(RenumerationHd));
                 ctx.CommandText = helper.GetRowIndex(filterExpression, "RenumerationID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region RenumerationCompFormulaHd
+        public static RenumerationCompFormulaHd GetRenumerationCompFormulaHd(Int32 FormulaID)
+        {
+            return new RenumerationCompFormulaHdDao().Get(FormulaID);
+        }
+        public static int InsertRenumerationCompFormulaHd(RenumerationCompFormulaHd record)
+        {
+            return new RenumerationCompFormulaHdDao().Insert(record);
+        }
+        public static int UpdateRenumerationCompFormulaHd(RenumerationCompFormulaHd record)
+        {
+            return new RenumerationCompFormulaHdDao().Update(record);
+        }
+        public static int DeleteRenumerationCompFormulaHd(Int32 FormulaID)
+        {
+            return new RenumerationCompFormulaHdDao().Delete(FormulaID);
+        }
+        public static List<RenumerationCompFormulaHd> GetRenumerationCompFormulaHdList(string filterExpression)
+        {
+            List<RenumerationCompFormulaHd> result = new List<RenumerationCompFormulaHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RenumerationCompFormulaHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RenumerationCompFormulaHd)helper.IDataReaderToObject(reader, new RenumerationCompFormulaHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RenumerationCompFormulaHd> GetRenumerationCompFormulaHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<RenumerationCompFormulaHd> result = new List<RenumerationCompFormulaHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RenumerationCompFormulaHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RenumerationCompFormulaHd)helper.IDataReaderToObject(reader, new RenumerationCompFormulaHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRenumerationCompFormulaHdCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RenumerationCompFormulaHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRenumerationCompFormulaHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RenumerationCompFormulaHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "FormulaID", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
@@ -17470,6 +17614,135 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(Term));
                 ctx.CommandText = helper.SelectMaxColumn("TermID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransRenumerationDt
+        public static TransRenumerationDt GetTransRenumerationDt(Int32 TransactionDtID)
+        {
+            return new TransRenumerationDtDao().Get(TransactionDtID);
+        }
+        public static int InsertTransRenumerationDt(TransRenumerationDt record)
+        {
+            return new TransRenumerationDtDao().Insert(record);
+        }
+        public static int UpdateTransRenumerationDt(TransRenumerationDt record)
+        {
+            return new TransRenumerationDtDao().Update(record);
+        }
+        public static int DeleteTransRenumerationDt(Int32 TransactionDtID)
+        {
+            return new TransRenumerationDtDao().Delete(TransactionDtID);
+        }
+        public static List<TransRenumerationDt> GetTransRenumerationDtList(string filterExpression)
+        {
+            List<TransRenumerationDt> result = new List<TransRenumerationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransRenumerationDt)helper.IDataReaderToObject(reader, new TransRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransRenumerationDt> GetTransRenumerationDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TransRenumerationDt> result = new List<TransRenumerationDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransRenumerationDt)helper.IDataReaderToObject(reader, new TransRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransTransRenumerationDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransRenumerationHd
+        public static TransRenumerationHd GetTransRenumerationHd(Int32 TransactionID)
+        {
+            return new TransRenumerationHdDao().Get(TransactionID);
+        }
+        public static int InsertTransRenumerationHd(TransRenumerationHd record)
+        {
+            return new TransRenumerationHdDao().Insert(record);
+        }
+        public static int UpdateTransRenumerationHd(TransRenumerationHd record)
+        {
+            return new TransRenumerationHdDao().Update(record);
+        }
+        public static int DeleteTransRenumerationHd(Int32 TransactionID)
+        {
+            return new TransRenumerationHdDao().Delete(TransactionID);
+        }
+        public static List<TransRenumerationHd> GetTransRenumerationHdList(string filterExpression)
+        {
+            List<TransRenumerationHd> result = new List<TransRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransRenumerationHd)helper.IDataReaderToObject(reader, new TransRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransRenumerationHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
