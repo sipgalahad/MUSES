@@ -3025,6 +3025,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;
+        private String _SubjectName;
         private Int32 _SchoolClassID;
         private Int32 _PeriodSectionID;
         private String _ClassTaskCode;
@@ -3060,6 +3061,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
         }
         [Column(Name = "SchoolClassID", DataType = "Int32")]
         public Int32 SchoolClassID

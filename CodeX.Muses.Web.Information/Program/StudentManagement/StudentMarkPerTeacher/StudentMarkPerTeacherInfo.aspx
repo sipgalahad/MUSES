@@ -92,6 +92,14 @@
              cbpView.PerformCallback('refresh');
          }
          //#endregion
+
+         $('.lblBelowPassingGradeCount').live('click', function () {
+             $tr = $(this).closest('tr');
+             var itemID = tacTeacher.getValue() + '|' + $tr.find('.keyField').html();
+
+             var url = ResolveUrl("~/Program/StudentManagement/StudentMarkPerTeacher/StudentMarkPerTeacherInfoDtCtl.ascx");
+             openUserControlPopup(url, itemID, 'Detail Informasi', 1200, 550);
+         });
     </script>
     <table>
         <colgroup>
@@ -146,7 +154,7 @@
                                 </asp:TemplateField> 
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderText="< KKM" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
                                     <ItemTemplate>
-                                        <div id="divBelowPassingGradeCount" runat="server"></div>
+                                        <label class="lblLink lblBelowPassingGradeCount"><div id="divBelowPassingGradeCount" runat="server"></div></label>
                                     </ItemTemplate>
                                 </asp:TemplateField> 
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Jmlh Siswa" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">

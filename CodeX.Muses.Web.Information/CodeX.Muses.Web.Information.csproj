@@ -124,6 +124,8 @@
     <Content Include="Program\RemoteLogon.aspx" />
     <Content Include="Program\StudentManagement\ClassScheduleInfo.aspx" />
     <Content Include="Program\StudentManagement\StudentMarkPerClass\StudentMarkPerClassInfo.aspx" />
+    <Content Include="Program\StudentManagement\StudentMarkPerClass\StudentMarkPerClassInfoDtCtl.ascx" />
+    <Content Include="Program\StudentManagement\StudentMarkPerTeacher\StudentMarkPerTeacherInfoDtCtl.ascx" />
     <Content Include="Program\StudentManagement\StudentMarkPerTeacher\StudentMarkPerTeacherInfo.aspx" />
     <Content Include="Program\StudentManagement\StudentStatisticInfo.aspx" />
     <Content Include="Program\StudentManagement\ExtracurricularScheduleInfo.aspx" />
@@ -522,6 +524,20 @@
     </Compile>
     <Compile Include="Program\StudentManagement\StudentMarkPerClass\StudentMarkPerClassInfo.aspx.designer.cs">
       <DependentUpon>StudentMarkPerClassInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentManagement\StudentMarkPerClass\StudentMarkPerClassInfoDtCtl.ascx.cs">
+      <DependentUpon>StudentMarkPerClassInfoDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentManagement\StudentMarkPerClass\StudentMarkPerClassInfoDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentMarkPerClassInfoDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentManagement\StudentMarkPerTeacher\StudentMarkPerTeacherInfoDtCtl.ascx.cs">
+      <DependentUpon>StudentMarkPerTeacherInfoDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentManagement\StudentMarkPerTeacher\StudentMarkPerTeacherInfoDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentMarkPerTeacherInfoDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentManagement\StudentMarkPerTeacher\StudentMarkPerTeacherInfo.aspx.cs">
       <DependentUpon>StudentMarkPerTeacherInfo.aspx</DependentUpon>
