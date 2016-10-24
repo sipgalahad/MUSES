@@ -104,8 +104,14 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+<<<<<<< HEAD
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+=======
     <Content Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntry.aspx" />
     <Content Include="Web.config" />
+>>>>>>> a68bd186ab32b6f531598346a912575d5e81cd06
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
