@@ -2877,6 +2877,8 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;
         private Int32 _StudentID;
+        private Int16 _PassingGrade;
+        private Int32 _SchoolClassID;
         private Boolean _IsRemedial;
         private Decimal _Mark;
         private Int32 _MarkTypeDtID;
@@ -2900,6 +2902,18 @@ namespace CodeX.Data.Model
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "PassingGrade", DataType = "Int16")]
+        public Int16 PassingGrade
+        {
+            get { return _PassingGrade; }
+            set { _PassingGrade = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
         }
         [Column(Name = "IsRemedial", DataType = "Boolean")]
         public Boolean IsRemedial
@@ -3011,6 +3025,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;
+        private Int32 _SchoolClassID;
         private Int32 _PeriodSectionID;
         private String _ClassTaskCode;
         private Int32 _CurriculumMarkTypeID;
@@ -3045,6 +3060,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
         }
         [Column(Name = "PeriodSectionID", DataType = "Int32")]
         public Int32 PeriodSectionID
@@ -32181,6 +32202,7 @@ namespace CodeX.Data.Model
         private String _CurriculumSubjectGroupName;
         private Int32 _SubjectID;
         private String _SubjectName;
+        private Int16 _PassingGrade;
         private Int16 _NoMeetingHoursInWeek;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32")]
@@ -32248,6 +32270,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
+        }
+        [Column(Name = "PassingGrade", DataType = "Int16")]
+        public Int16 PassingGrade
+        {
+            get { return _PassingGrade; }
+            set { _PassingGrade = value; }
         }
         [Column(Name = "NoMeetingHoursInWeek", DataType = "Int16")]
         public Int16 NoMeetingHoursInWeek
