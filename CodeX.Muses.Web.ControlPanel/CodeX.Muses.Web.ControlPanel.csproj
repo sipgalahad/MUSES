@@ -176,8 +176,11 @@
     <Content Include="Program\Master\CustomerContract\CustomerContractMemberEntryCtl.ascx" />
     <Content Include="Program\Master\Customer\CustomerEntry.aspx" />
     <Content Include="Program\Master\Customer\CustomerList.aspx" />
+    <Content Include="Program\Master\OrganizationStructure\OrganizationStructureEntryCtl.ascx" />
     <Content Include="Program\Master\OrganizationStructure\OrganizationStructureList.aspx" />
     <Content Include="Program\Master\OrganizationStructure\OrganizationStructureCompEntry.aspx" />
+    <Content Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaList.aspx" />
+    <Content Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaEntry.aspx" />
     <Content Include="Program\Master\RenumerationComp\RenumerationCompList.aspx" />
     <Content Include="Program\Master\RenumerationComp\RenumerationCompEntry.aspx" />
     <Content Include="Program\Master\Renumeration\RenumerationEntry.aspx" />
@@ -259,7 +262,7 @@
     <Content Include="Program\Master\TeacherMarkTypeGroup\TeacherMarkTypeGroupList.aspx" />
     <Content Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx" />
     <Content Include="Program\Master\Teacher\TeacherEntry.aspx" />
-    <Content Include="Program\Master\Teacher\TeacherList.aspx" />
+    <Content Include="SharedLibs\TeacherList.aspx" />
     <Content Include="Program\Master\Term\TermEntry.aspx" />
     <Content Include="Program\Master\Term\TermList.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx" />
@@ -985,6 +988,13 @@
     <Compile Include="Program\Master\Customer\CustomerList.aspx.designer.cs">
       <DependentUpon>CustomerList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\OrganizationStructure\OrganizationStructureEntryCtl.ascx.cs">
+      <DependentUpon>OrganizationStructureEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\OrganizationStructure\OrganizationStructureEntryCtl.ascx.designer.cs">
+      <DependentUpon>OrganizationStructureEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\OrganizationStructure\OrganizationStructureList.aspx.cs">
       <DependentUpon>OrganizationStructureList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -998,6 +1008,20 @@
     </Compile>
     <Compile Include="Program\Master\OrganizationStructure\OrganizationStructureCompEntry.aspx.designer.cs">
       <DependentUpon>OrganizationStructureCompEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaList.aspx.cs">
+      <DependentUpon>RenumerationCompFormulaList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaList.aspx.designer.cs">
+      <DependentUpon>RenumerationCompFormulaList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaEntry.aspx.cs">
+      <DependentUpon>RenumerationCompFormulaEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaEntry.aspx.designer.cs">
+      <DependentUpon>RenumerationCompFormulaEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\RenumerationComp\RenumerationCompList.aspx.cs">
       <DependentUpon>RenumerationCompList.aspx</DependentUpon>
@@ -1566,11 +1590,11 @@
     <Compile Include="Program\Master\Teacher\TeacherEntry.aspx.designer.cs">
       <DependentUpon>TeacherEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\Teacher\TeacherList.aspx.cs">
+    <Compile Include="SharedLibs\TeacherList.aspx.cs">
       <DependentUpon>TeacherList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\Teacher\TeacherList.aspx.designer.cs">
+    <Compile Include="SharedLibs\TeacherList.aspx.designer.cs">
       <DependentUpon>TeacherList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Term\TermEntry.aspx.cs">

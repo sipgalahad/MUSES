@@ -23,8 +23,10 @@
         });
 
         $('#btnSavePopup').click(function (evt) {
-            if (IsValid(evt, 'fsTrxPopup', 'mpTrxPopup'))
+//            alert('test');
+            if (IsValid(evt, 'fsTrxPopup', 'mpTrxPopup')) 
                 cbpProcessPopup.PerformCallback('save');
+            
         });
     });
 
@@ -109,11 +111,7 @@
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Jadwal")%></label></td>
-                        <td>
-                            <dxe:ASPxComboBox runat="server" ID="cboDailyScheduleType" ClientInstanceName="cboDailyScheduleType" Width="200px">
-                                
-                            </dxe:ASPxComboBox>
-                        </td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboDailyScheduleType" ClientInstanceName="cboDailyScheduleType" Width="200px" /></td>
                     </tr>
                     <tr>
                         <td> 

@@ -63,7 +63,7 @@ CodeBehind="OrganizationStructureCompEntry.aspx.cs" Inherits="CodeX.Muses.Web.Co
                         <td><asp:TextBox ID="txtOrganizationDepartmentName" Width="300px" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblNormal" id="lblParent"><%=GetLabel("Parent")%></label></td>
+                         <td class="tdLabel"><label class="lblNormal" id="lblParent"><%=GetLabel("Parent")%></label></td>
                          <td>
                             <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacOrganizationDepartmentParentID" ClientInstanceName="tacOrganizationDepartmentParentID" MethodName="GetvOrganizationDepartmentList" GetFilterExpressionFunction="onGetOrganizationDepartmentFilterExpression"
                                 SearchFields="OrganizationDepartmentName,OrganizationDepartmentCode" TextField="OrganizationDepartmentName" ValueField="OrganizationDepartmentID" SearchText="${OrganizationDepartmentName} (<b>${OrganizationDepartmentCode}</b>)" OrderByExpression="OrganizationDepartmentName">

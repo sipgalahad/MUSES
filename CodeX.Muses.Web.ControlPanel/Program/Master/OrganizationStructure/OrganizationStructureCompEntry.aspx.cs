@@ -26,7 +26,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
-                //OrganizationDepartment entity = BusinessLayer.GetOrganizationDepartment(Convert.ToInt32(ID));
                 vOrganizationDepartment entity = BusinessLayer.GetvOrganizationDepartmentList(string.Format("OrganizationDepartmentID = {0}", ID))[0];
                 EntityToControl(entity);
             }

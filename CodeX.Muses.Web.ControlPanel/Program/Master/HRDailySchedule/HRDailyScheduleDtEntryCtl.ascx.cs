@@ -84,10 +84,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.FromHour = txtFromHour.Text;
             entity.ToHour = txtToHour.Text;
             entity.GCDailyScheduleType = cboDailyScheduleType.Value.ToString();
-            //if (entity.GCDailyScheduleType == Constant.SchoolDailyScheduleType.KBM)
-            //    entity.HoursIndex = Convert.ToInt16(txtHoursIndex.Text);
-            //else
-            //    entity.HoursIndex = 0;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

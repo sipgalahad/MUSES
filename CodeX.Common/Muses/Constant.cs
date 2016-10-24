@@ -523,6 +523,7 @@ namespace CodeX.Common
                 public const string HR_DAILY_SCHEDULE = "CP010503";
                 public const string HR_WEEKLY_SCHEDULE = "CP010504";
                 public const string ORGANIZATION_DEPARTMENT = "CP010505";
+                public const string RENUMERATION_COMP_FORMULA = "CP010506";
 
                 public const string HOLIDAY = "CP010901";
 
@@ -635,6 +636,13 @@ namespace CodeX.Common
                 public const string AR_INVOICE_CUSTOMER_PROCESS = "FN99030101";
                 public const string AR_INVOICE_CUSTOMER_EDIT = "FN99030102";
                 public const string AR_INVOICE_CUSTOMER_RECEIVE = "FN99030103";
+            }
+            #endregion
+
+            #region
+            public static class HumanResources
+            {
+                public const string UPDATE_RENUMERATION = "HR010100";
             }
             #endregion
 
@@ -964,6 +972,10 @@ namespace CodeX.Common
             public const string PROPOSED_BUDGET = "8101";
             public const string BUDGET_REQUEST = "8102";
             public const string BUDGET_REALIZATION = "8103";
+
+            public const string RENUMERATION = "8201";
+            public const string POSITION_RENUMERATION = "8202";
+            public const string EMPLOYEE_POSITION = "8203";
 
             public const string TEACHER_PROFILE = "9101";
         }

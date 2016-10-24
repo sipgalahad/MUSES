@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="OrganizationStructureList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.OrganizationStructureList" %>
+    CodeBehind="RenumerationCompFormulaList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.RenumerationCompFormulaList" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -60,11 +60,6 @@
         }
         //#endregion
 
-        $('.lnkDetail a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/Master/OrganizationStructure/OrganizationStructureEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Department Position', 600, 500);
-        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -78,20 +73,10 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="OrganizationDepartmentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:TemplateField HeaderStyle-Width="150px" >
-                                    <HeaderTemplate>
-                                        <div style="padding-left:3px">
-                                            <%=GetLabel("Kode")%>
-                                        </div>
-                                    </HeaderTemplate>
-                                    <ItemTemplate>
-                                        <div style='margin-left:<%# Eval("Level") %>0px;'><%# Eval("OrganizationDepartmentCode")%></div>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:BoundField DataField="OrganizationDepartmentName" HeaderText="Nama" />
+                                <asp:BoundField DataField="FormulaID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="FormulaCode" HeaderText="Kode" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="FormulaName" HeaderText="Nama" HeaderStyle-Width="250px"/>
                                 <asp:BoundField DataField="Remarks" HeaderText="Remarks" HeaderStyle-Width="250px" />
-                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>
