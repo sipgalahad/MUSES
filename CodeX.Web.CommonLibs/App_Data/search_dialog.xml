@@ -512,6 +512,18 @@
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
+	<!-- #Region Organization Position -->
+	<searchdialog type="OrganizationPosition" methodname="GetvOrganizationPositionList" keyfieldname="OrganizationPositionID" orderbyexpression="OrganizationPositionName ASC">
+		<gridcolumns>
+			<gridcolumn datafield="OrganizationPositionName" headertext="Nama" width="50px" />
+			<gridcolumn datafield="Positionlevel" headertext="Level" width="300px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="OrganizationPositionName" headertext="Nama" description="" />
+			<intellisensetext datafield="Positionlevel" headertext="Level" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
   <!-- #Region Period Admission -->
   <searchdialog type="periodadmission" methodname="GetPeriodAdmissionList" keyfieldname="PeriodAdmissionID" orderbyexpression="PeriodAdmissionName ASC">
     <gridcolumns>
@@ -1144,7 +1156,30 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
-  
+	<!-- #Region Trans Renumeration -->
+	<searchdialog type="transrenumerationhd" methodname="GetvTransRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+		<gridcolumns>
+			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+			<gridcolumn datafield="RenumerationName" headertext="Renumeration Name" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+			<intellisensetext datafield="RenumerationName" headertext="Renumeration Name" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
+	<!-- #Region Trans Renumeration -->
+	<searchdialog type="transpositionrenumerationhd" methodname="GetvTransPositionRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+		<gridcolumns>
+			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+			<gridcolumn datafield="RenumerationName" headertext="Renumeration Name" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+			<intellisensetext datafield="RenumerationName" headertext="Renumeration Name" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
   <!-- #Region User-->
   <searchdialog type="user" methodname="GetvUserList" keyfieldname="UserID">
     <gridcolums>

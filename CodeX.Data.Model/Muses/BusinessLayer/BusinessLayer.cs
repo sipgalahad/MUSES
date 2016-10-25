@@ -17624,6 +17624,135 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TransPositionRenumerationDt
+        public static TransPositionRenumerationDt GetTransPositionRenumerationDt(Int32 TransactionID, Int32 OrganizationPositionID)
+        {
+            return new TransPositionRenumerationDtDao().Get(TransactionID, OrganizationPositionID);
+        }
+        public static int InsertTransPositionRenumerationDt(TransPositionRenumerationDt record)
+        {
+            return new TransPositionRenumerationDtDao().Insert(record);
+        }
+        public static int UpdateTransPositionRenumerationDt(TransPositionRenumerationDt record)
+        {
+            return new TransPositionRenumerationDtDao().Update(record);
+        }
+        public static int DeleteTransPositionRenumerationDt(Int32 TransactionID, Int32 OrganizationPositionID)
+        {
+            return new TransPositionRenumerationDtDao().Delete(TransactionID, OrganizationPositionID);
+        }
+        public static List<TransPositionRenumerationDt> GetTransPositionRenumerationDtList(string filterExpression)
+        {
+            List<TransPositionRenumerationDt> result = new List<TransPositionRenumerationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransPositionRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransPositionRenumerationDt)helper.IDataReaderToObject(reader, new TransPositionRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransPositionRenumerationDt> GetTransPositionRenumerationDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TransPositionRenumerationDt> result = new List<TransPositionRenumerationDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransPositionRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransPositionRenumerationDt)helper.IDataReaderToObject(reader, new TransPositionRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransTransRenumerationDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransPositionRenumerationDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransPositionRenumerationHd
+        public static TransPositionRenumerationHd GetTransPositionRenumerationHd(Int32 TransactionID)
+        {
+            return new TransPositionRenumerationHdDao().Get(TransactionID);
+        }
+        public static int InsertTransPositionRenumerationHd(TransPositionRenumerationHd record)
+        {
+            return new TransPositionRenumerationHdDao().Insert(record);
+        }
+        public static int UpdateTransPositionRenumerationHd(TransPositionRenumerationHd record)
+        {
+            return new TransPositionRenumerationHdDao().Update(record);
+        }
+        public static int DeleteTransPositionRenumerationHd(Int32 TransactionID)
+        {
+            return new TransPositionRenumerationHdDao().Delete(TransactionID);
+        }
+        public static List<TransPositionRenumerationHd> GetTransPositionRenumerationHdList(string filterExpression)
+        {
+            List<TransPositionRenumerationHd> result = new List<TransPositionRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransPositionRenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransPositionRenumerationHd)helper.IDataReaderToObject(reader, new TransPositionRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransPositionRenumerationHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransPositionRenumerationHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region TransRenumerationDt
         public static TransRenumerationDt GetTransRenumerationDt(Int32 TransactionDtID)
         {
@@ -17680,7 +17809,7 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-        public static Int32 GetTransTransRenumerationDtMaxID(IDbContext ctx)
+        public static Int32 GetTransRenumerationDtMaxID(IDbContext ctx)
         {
             Int32 result = 0;
             try

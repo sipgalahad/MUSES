@@ -643,6 +643,8 @@ namespace CodeX.Common
             public static class HumanResources
             {
                 public const string UPDATE_RENUMERATION = "HR010100";
+                public const string UPDATE_EMPLOYEE_POSITION = "HR010200";
+                public const string UPDATE_RENUMERATION_POSITION = "HR010300";
             }
             #endregion
 

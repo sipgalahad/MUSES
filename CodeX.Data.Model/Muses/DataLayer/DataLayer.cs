@@ -37137,6 +37137,197 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region TransPositionRenumerationDt
+    [Serializable]
+    [Table(Name = "TransPositionRenumerationDt")]
+    public class TransPositionRenumerationDt : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private Int32 _OrganizationPositionID;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "OrganizationPositionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 OrganizationPositionID
+        {
+            get { return _OrganizationPositionID; }
+            set { _OrganizationPositionID = value; }
+        }
+    }
+
+    public class TransPositionRenumerationDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransPositionRenumerationDt));
+        private bool _isAuditLog = false;
+        private const string p_OrganizationPositionID = "@p_OrganizationPositionID";
+        private const string p_TransactionID = "@p_TransactionID";
+        public TransPositionRenumerationDtDao() { }
+        public TransPositionRenumerationDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransPositionRenumerationDt Get(Int32 TransactionID, Int32 OrganizationPositionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_OrganizationPositionID, OrganizationPositionID);
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransPositionRenumerationDt)_helper.DataRowToObject(row, new TransPositionRenumerationDt());
+        }
+        public int Insert(TransPositionRenumerationDt record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransPositionRenumerationDt record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID, Int32 OrganizationPositionID)
+        {
+            TransPositionRenumerationDt record;
+            if (_ctx.Transaction == null)
+                record = new TransPositionRenumerationDtDao().Get(TransactionID, OrganizationPositionID);
+            else
+                record = Get(TransactionID, OrganizationPositionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransPositionRenumerationHd
+    [Serializable]
+    [Table(Name = "TransPositionRenumerationHd")]
+    public class TransPositionRenumerationHd : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private Int32 _RenumerationID;
+        private DateTime _StartEffectiveDate;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "RenumerationID", DataType = "Int32")]
+        public Int32 RenumerationID
+        {
+            get { return _RenumerationID; }
+            set { _RenumerationID = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TransPositionRenumerationHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransPositionRenumerationHd));
+        private bool _isAuditLog = false;
+        private const string p_TransactionID = "@p_TransactionID";
+        public TransPositionRenumerationHdDao() { }
+        public TransPositionRenumerationHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransPositionRenumerationHd Get(Int32 TransactionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransPositionRenumerationHd)_helper.DataRowToObject(row, new TransPositionRenumerationHd());
+        }
+        public int Insert(TransPositionRenumerationHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransPositionRenumerationHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID)
+        {
+            TransPositionRenumerationHd record;
+            if (_ctx.Transaction == null)
+                record = new TransPositionRenumerationHdDao().Get(TransactionID);
+            else
+                record = Get(TransactionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region TransRenumerationDt
     [Serializable]
     [Table(Name = "TransRenumerationDt")]

@@ -14,14 +14,14 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.Inventory.Program
 {
-    public partial class UpdateRenumerationEntry : BasePageTrx
+    public partial class UpdateRenumerationPositionEntry : BasePageTrx
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
 
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.HumanResources.UPDATE_RENUMERATION;
+            return Constant.MenuCode.HumanResources.UPDATE_RENUMERATION_POSITION;
         }
 
         #region Html Getter
@@ -46,23 +46,15 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlProperties();
             hdnIsEditable.Value = "1";
 
-
             BindGridView(1, true, ref PageCount, ref RowCount);
 
-            Helper.SetControlEntrySetting(cboRenumerationCompID, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(txtAmount, new ControlEntrySetting(true, true, true), "mpTrx");
-            
+            Helper.SetControlEntrySetting(tacOrganizationPositionID, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         protected override void SetControlProperties()
         {
             List<RenumerationHd> listRenumerationHd = BusinessLayer.GetRenumerationHdList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<RenumerationHd>(cboRenumerationID, listRenumerationHd,"RenumerationName", "RenumerationID");
-
-
-            List<vRenumerationComp> listvRenumerationComp = BusinessLayer.GetvRenumerationCompList(string.Format("IsDeleted = 0"));
-            Methods.SetComboBoxField<vRenumerationComp>(cboRenumerationCompID, listvRenumerationComp, "RenumerationCompName", "RenumerationCompID");
-
         }
 
         protected override void OnControlEntrySetting()
@@ -85,37 +77,35 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected string IsEditable()
         {
             return hdnIsEditable.Value;
-            
         }
 
         protected string GetFilterExpression()
         {
             string filterExpression = String.Format("");
             return filterExpression;
-            
         }
         public override int OnGetRowCount()
         {
             string filterExpression = GetFilterExpression();
-            return BusinessLayer.GetvTransRenumerationHdRowCount(filterExpression);
+            return BusinessLayer.GetvTransPositionRenumerationHdRowCount(filterExpression);
         }
 
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
             string filterExpression = GetFilterExpression();
-            vTransRenumerationHd entity = BusinessLayer.GetvTransRenumerationHd(filterExpression, PageIndex, "TransactionID DESC");
+            vTransPositionRenumerationHd entity = BusinessLayer.GetvTransPositionRenumerationHd(filterExpression, PageIndex, "TransactionID DESC");
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
         }
 
         protected override void OnLoadEntity(string keyValue, ref int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
             string filterExpression = GetFilterExpression();
-            PageIndex = BusinessLayer.GetvTransRenumerationHdRowIndex(filterExpression, keyValue, "TransactionID DESC");
-            vTransRenumerationHd entity = BusinessLayer.GetvTransRenumerationHd(filterExpression, PageIndex, "TransactionID DESC");
+            PageIndex = BusinessLayer.GetvTransPositionRenumerationHdRowIndex(filterExpression, keyValue, "TransactionID DESC");
+            vTransPositionRenumerationHd entity = BusinessLayer.GetvTransPositionRenumerationHd(filterExpression, PageIndex, "TransactionID DESC");
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
         }
 
-        private void EntityToControl(vTransRenumerationHd entity, ref bool isShowWatermark, ref string watermarkText)
+        private void EntityToControl(vTransPositionRenumerationHd entity, ref bool isShowWatermark, ref string watermarkText)
         {
             if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN)
             {
@@ -146,38 +136,38 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             string filterExpression = "1 = 0";
             if (hdnTransactionID.Value != "")
-                filterExpression = string.Format("TransactionID = {0} AND IsDeleted  = 0", hdnTransactionID.Value);
+                filterExpression = string.Format("TransactionID = {0}", hdnTransactionID.Value);
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvTransRenumerationDtRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvTransPositionRenumerationDtRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vTransRenumerationDt> lstEntity = BusinessLayer.GetvTransRenumerationDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "RenumerationCompName ASC");
+            List<vTransPositionRenumerationDt> lstEntity = BusinessLayer.GetvTransPositionRenumerationDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "OrganizationPositionName ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
         #endregion
 
         #region Save Header
-        public void SaveTransRenumerationHd(IDbContext ctx, ref int TransactionID)
+        public void SaveTransPositionRenumerationHd(IDbContext ctx, ref int TransactionID)
         {
-            TransRenumerationHdDao entityHdDao = new TransRenumerationHdDao(ctx);
+            TransPositionRenumerationHdDao entityHdDao = new TransPositionRenumerationHdDao(ctx);
             if (hdnTransactionID.Value == "0")
             {
-                TransRenumerationHd entityHd = new TransRenumerationHd();
+                TransPositionRenumerationHd entityHd = new TransPositionRenumerationHd();
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                 entityHd.StartEffectiveDate = Helper.GetDatePickerValue(Request.Form[txtStartEffectiveDate.UniqueID]);
                 entityHd.RenumerationID = Convert.ToInt32(cboRenumerationID.Value);
                 entityHd.Remarks = txtRemarks.Text;
-                entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.RENUMERATION, entityHd.TransactionDate, ctx);
+                entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.POSITION_RENUMERATION, entityHd.TransactionDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
 
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
                 entityHd.CreatedBy = AppSession.UserLogin.UserID;
                 entityHdDao.Insert(entityHd);
-                TransactionID = BusinessLayer.GetTransRenumerationHdMaxID(ctx);
+                TransactionID = BusinessLayer.GetTransPositionRenumerationHdMaxID(ctx);
             }
             else
             {
@@ -192,7 +182,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 int OrderID = 0;
-                SaveTransRenumerationHd(ctx, ref OrderID);
+                SaveTransPositionRenumerationHd(ctx, ref OrderID);
                 retval = OrderID.ToString();
                 ctx.CommitTransaction();
             }
@@ -214,13 +204,13 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             try
             {
-                TransRenumerationHd entityHd = BusinessLayer.GetTransRenumerationHd(Convert.ToInt32(hdnTransactionID.Value));
+                TransPositionRenumerationHd entityHd = BusinessLayer.GetTransPositionRenumerationHd(Convert.ToInt32(hdnTransactionID.Value));
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                 entityHd.StartEffectiveDate = Helper.GetDatePickerValue(Request.Form[txtStartEffectiveDate.UniqueID]);
                 entityHd.RenumerationID = Convert.ToInt32(cboRenumerationID.Value);
                 entityHd.Remarks = txtRemarks.Text;
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateTransRenumerationHd(entityHd);
+                BusinessLayer.UpdateTransPositionRenumerationHd(entityHd);
                 return true;
             }
             catch (Exception ex)
@@ -236,23 +226,15 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            TransRenumerationHdDao transRenumerationHdDao = new TransRenumerationHdDao(ctx);
-            TransRenumerationDtDao transRenumerationDtDao = new TransRenumerationDtDao(ctx);
+            TransPositionRenumerationHdDao transPositionRenumerationHdDao = new TransPositionRenumerationHdDao(ctx);
             try
             {
-                TransRenumerationHd transRenumerationHd = transRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                transRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                transRenumerationHd.Remarks = txtRemarks.Text;
-                transRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                transRenumerationHdDao.Update(transRenumerationHd);
+                TransPositionRenumerationHd transPositionRenumerationHd = transPositionRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                transPositionRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                transPositionRenumerationHd.Remarks = txtRemarks.Text;
+                transPositionRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                transPositionRenumerationHdDao.Update(transPositionRenumerationHd);
 
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND isDeleted = 0", hdnTransactionID.Value);
-                List<TransRenumerationDt> lstTransRenumerationDt = BusinessLayer.GetTransRenumerationDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (TransRenumerationDt transRenumerationDt in lstTransRenumerationDt)
-                {
-                    transRenumerationDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    transRenumerationDtDao.Update(transRenumerationDt);
-                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -274,22 +256,15 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            TransRenumerationHdDao transRenumerationHdDao = new TransRenumerationHdDao(ctx);
-            TransRenumerationDtDao transRenumerationDtDao = new TransRenumerationDtDao(ctx);
+            TransPositionRenumerationHdDao transPositionRenumerationHdDao = new TransPositionRenumerationHdDao(ctx);
+            
             try
             {
-                TransRenumerationHd transRenumerationHd = transRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                transRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
-                transRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                transRenumerationHdDao.Update(transRenumerationHd);
+                TransPositionRenumerationHd transPositionRenumerationHd = transPositionRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                transPositionRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                transPositionRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                transPositionRenumerationHdDao.Update(transPositionRenumerationHd);
 
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND IsDeleted = 0", hdnTransactionID.Value);
-                List<TransRenumerationDt> lstItemTransRenumerationDt = BusinessLayer.GetTransRenumerationDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (TransRenumerationDt transRenumerationDt in lstItemTransRenumerationDt)
-                {
-                    transRenumerationDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    transRenumerationDtDao.Update(transRenumerationDt);
-                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -304,29 +279,21 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ctx.Close();
             }
             return result;
-
         }
 
         protected override bool OnReopenRecord(ref string errMessage)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            TransRenumerationHdDao transRenumerationHdDao = new TransRenumerationHdDao(ctx);
-            TransRenumerationDtDao transRenumerationDtDao = new TransRenumerationDtDao(ctx);
+            TransPositionRenumerationHdDao transPositionRenumerationHdDao = new TransPositionRenumerationHdDao(ctx);
+            
             try
             {
-                TransRenumerationHd transRenumerationHd = transRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                transRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                transRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                transRenumerationHdDao.Update(transRenumerationHd);
+                TransPositionRenumerationHd transPositionRenumerationHd = transPositionRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                transPositionRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                transPositionRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                transPositionRenumerationHdDao.Update(transPositionRenumerationHd);
 
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND ISsDeleted = 0", hdnTransactionID.Value);
-                List<TransRenumerationDt> lstTransRenumerationDt = BusinessLayer.GetTransRenumerationDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (TransRenumerationDt transRenumerationDt in lstTransRenumerationDt)
-                {
-                    transRenumerationDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    transRenumerationDtDao.Update(transRenumerationDt);
-                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -348,22 +315,15 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            TransRenumerationHdDao transRenumerationHdDao = new TransRenumerationHdDao(ctx);
-            TransRenumerationDtDao transRenumerationDtDao = new TransRenumerationDtDao(ctx);
+            TransPositionRenumerationHdDao transPositionRenumerationHdDao = new TransPositionRenumerationHdDao(ctx);
+            
             try
             {
-                TransRenumerationHd transRenumerationHd = transRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                transRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                transRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                transRenumerationHdDao.Update(transRenumerationHd);
+                TransPositionRenumerationHd transPositionRenumerationHd = transPositionRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                transPositionRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                transPositionRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                transPositionRenumerationHdDao.Update(transPositionRenumerationHd);
 
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND isDeleted = 0", hdnTransactionID.Value);
-                List<TransRenumerationDt> lstTransRenumerationDt = BusinessLayer.GetTransRenumerationDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (TransRenumerationDt transRenumerationDt in lstTransRenumerationDt)
-                {
-                    transRenumerationDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    transRenumerationDtDao.Update(transRenumerationDt);
-                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -378,7 +338,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ctx.Close();
             }
             return result;
-
+            
         }
 
         #endregion
@@ -393,21 +353,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             result = param[0] + "|";
             if (param[0] == "save")
             {
-                if (hdnEntryID.Value.ToString() != "")
-                {
-                    adjustmentID = Convert.ToInt32(hdnTransactionID.Value);
-                    if (OnSaveEditRecordEntityDt(ref errMessage))
-                        result += "success";
-                    else
-                        result += string.Format("fail|{0}", errMessage);
-                }
+                if (OnSaveAddRecordEntityDt(ref errMessage, ref adjustmentID))
+                    result += "success";
                 else
-                {
-                    if (OnSaveAddRecordEntityDt(ref errMessage, ref adjustmentID))
-                        result += "success";
-                    else
-                        result += string.Format("fail|{0}", errMessage);
-                }
+                    result += string.Format("fail|{0}", errMessage);
             }
             else if (param[0] == "delete")
             {
@@ -423,26 +372,22 @@ namespace CodeX.Muses.Web.Inventory.Program
             panel.JSProperties["cpTransactionID"] = adjustmentID.ToString();
         }
 
-        private void ControlToEntity(TransRenumerationDt entityDt)
+        private void ControlToEntity(TransPositionRenumerationDt entityDt)
         {
-            entityDt.RenumerationCompID = Convert.ToInt32(cboRenumerationCompID.Value);
-            entityDt.Amount = Convert.ToDecimal(txtAmount.Text);
-            entityDt.IsAllowChange = chkIsAllowChange.Checked;
-            entityDt.IsUseFormula = chkIsUseFormula.Checked;
+            entityDt.OrganizationPositionID = Convert.ToInt32(tacOrganizationPositionID.Value);
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int TransactionID)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            TransRenumerationDtDao entityDtDao = new TransRenumerationDtDao(ctx);
+            TransPositionRenumerationDtDao entityDtDao = new TransPositionRenumerationDtDao(ctx);
             try
             {
-                SaveTransRenumerationHd(ctx, ref TransactionID);
-                TransRenumerationDt entityDt = new TransRenumerationDt();
+                SaveTransPositionRenumerationHd(ctx, ref TransactionID);
+                TransPositionRenumerationDt entityDt = new TransPositionRenumerationDt();
                 ControlToEntity(entityDt);
                 entityDt.TransactionID = TransactionID;
-                entityDt.CreatedBy = AppSession.UserLogin.UserID;
                 entityDtDao.Insert(entityDt);
                 ctx.CommitTransaction();
             }
@@ -460,69 +405,24 @@ namespace CodeX.Muses.Web.Inventory.Program
             return result;
         }
 
-        private bool OnSaveEditRecordEntityDt(ref string errMessage)
-        {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            TransRenumerationDtDao entityDtDao = new TransRenumerationDtDao(ctx);
-            try
-            {
-                TransRenumerationDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                ControlToEntity(entityDt);
-                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDtDao.Update(entityDt);
-                ctx.CommitTransaction();
-            }
-            catch (Exception ex)
-            {
-                Helper.InsertErrorLog(ex);
-                result = false;
-                errMessage = ex.Message;
-                ctx.RollBackTransaction();
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
 
         private bool OnDeleteEntityDt(ref string errMessage, int ID)
         {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            TransRenumerationDtDao entityDtDao = new TransRenumerationDtDao(ctx);
             try
             {
-                TransRenumerationDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDt.IsDeleted = true;
-                entityDtDao.Update(entityDt);
-                ctx.CommitTransaction();
+                BusinessLayer.DeleteTransPositionRenumerationDt(Convert.ToInt32(hdnTransactionID.Value), Convert.ToInt32(hdnEntryID.Value));
+                return true;
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
-                ctx.RollBackTransaction();
                 errMessage = ex.Message;
-                result = false;
+                return false;
             }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-
         }
         #endregion
 
         #region Callback
-        protected void cboRenumerationCompID_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
-        {
-            List<vRenumerationComp> lst = BusinessLayer.GetvRenumerationCompList(string.Format("isDeleted =  0"));
-            Methods.SetComboBoxField<vRenumerationComp>(cboRenumerationCompID, lst, "RenumerationCompName", "RenumerationCompID");
-        }
-
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             int pageCount = 1;

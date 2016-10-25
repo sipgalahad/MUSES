@@ -105,6 +105,7 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntry.aspx" />
+    <Content Include="Program\Master\UpdateRenumeration\UpdateRenumerationPositionEntry.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -344,6 +345,13 @@
     </Compile>
     <Compile Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntry.aspx.designer.cs">
       <DependentUpon>UpdateRenumerationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\UpdateRenumeration\UpdateRenumerationPositionEntry.aspx.cs">
+      <DependentUpon>UpdateRenumerationPositionEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateRenumeration\UpdateRenumerationPositionEntry.aspx.designer.cs">
+      <DependentUpon>UpdateRenumerationPositionEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
