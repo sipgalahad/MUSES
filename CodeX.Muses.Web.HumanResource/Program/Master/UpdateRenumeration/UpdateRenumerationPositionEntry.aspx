@@ -58,7 +58,8 @@
             $('#divTransactionAdd').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
                     editedLineAmount = 0;
-
+                    tacOrganizationPositionID.setValue('');
+                    tacOrganizationPositionID.setText('');
                     $('#entryDetailContainer').show();
                 }
             });
@@ -71,8 +72,6 @@
                 if (IsValid(evt, 'fsTrx', 'mpTrx')) {
                     cbpProcess.PerformCallback('save');
                 }
-                tacOrganizationPositionID.setValue('');
-                tacOrganizationPositionID.setText('');
             });
 
             var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());

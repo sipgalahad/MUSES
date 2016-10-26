@@ -59,10 +59,10 @@
                     editedLineAmount = 0;
 
                     $('#<%=hdnEntryID.ClientID %>').val('');
-                    $('#<%=txtAmount.ClientID %>').val('');
+                    $('#<%=txtAmount.ClientID %>').val('0').trigger('changeValue');
                     $('#<%=chkIsAllowChange.ClientID %>').prop('checked', false);
                     $('#<%=chkIsUseFormula.ClientID %>').prop('checked', false);
-                    cboRenumerationCompID.SetValue();
+                    cboRenumerationCompID.SetValue('');
 
                     $('#entryDetailContainer').show();
                 }
@@ -104,25 +104,14 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
             $('#<%=hdnEntryID.ClientID %>').val(entity.TransactionDtID);
-            $('#<%=txtAmount.ClientID %>').val(entity.Amount);
+            $('#<%=txtAmount.ClientID %>').val(entity.Amount).trigger('changeValue');
             $('#<%=chkIsAllowChange.ClientID %>').prop('checked', entity.IsAllowChange == 'True');
-            alert(entity.IsAllowChange);
+            
             $('#<%=chkIsUseFormula.ClientID %>').prop('checked', entity.IsUseFormula == 'True');
             cboRenumerationCompID.SetValue(entity.RenumerationCompID);
             $('#entryDetailContainer').show();
         });
 
-        //#endregion
-
-        
-
-        function getItemUnitName(baseValue) {
-            var value = cboItemUnit.GetValue();
-            cboItemUnit.SetValue(baseValue + '|1');
-            var text = cboItemUnit.GetText().split(' (')[0];
-            cboItemUnit.SetValue(value);
-            return text;
-        }
         //#endregion
 
         //#region Paging
@@ -248,7 +237,6 @@
                 <td colspan="2">
                     <div class="divTransactionEntry">
                         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
-                        <span id="divQuickPicks" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Quick Picks")%></span>
                         <br />
                         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                             <fieldset id="fsTrx" style="margin: 0">
@@ -264,18 +252,12 @@
                                                     <col style="width: 150px" />
                                                 </colgroup>
                                                 <tr>
-                                                    <td class="tdLabel">
-                                                        <label class="lblMandatory"><%=GetLabel("Komp. Renumerasi")%></label>
-                                                    </td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Komp. Renumerasi")%></label></td>
                                                     <td><dxe:ASPxComboBox runat="server" ID="cboRenumerationCompID" ClientInstanceName="cboRenumerationCompID" Width="300px" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="tdLabel">
-                                                        <label class="lblMandatory"><%=GetLabel("Amount")%></label>
-                                                    </td>
-                                                    <td>
-                                                        <asp:TextBox ID="txtAmount" CssClass="txtCurrency" min="0" Width="120px" runat="server" />
-                                                    </td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Amount")%></label></td>
+                                                    <td><asp:TextBox ID="txtAmount" CssClass="txtCurrency" Width="120px" runat="server" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel"></td>
@@ -312,11 +294,11 @@
                                         <Columns>
                                             <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="RenumerationCompName" HeaderText="Nama" />
-                                            <asp:BoundField DataField="Amount" HeaderStyle-CssClass="thRight" HeaderText="Amount" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="Amount" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderText="Amount" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
-                                                    <div style='float:right;<%#IsEditable().ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
-                                                    <div style='float:right;margin-right:10px;<%#IsEditable().ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                                    <div style='float:right;<%=IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailDelete"></div>
+                                                    <div style='float:right;margin-right:10px;<%#IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                                     <input type="hidden" value="<%#Eval("TransactionDtID") %>" bindingfield="TransactionDtID" />
                                                     <input type="hidden" value="<%#Eval("RenumerationCompID") %>" bindingfield="RenumerationCompID" />
                                                     <input type="hidden" value="<%#Eval("RenumerationCompName") %>" bindingfield="RenumerationCompName" />
