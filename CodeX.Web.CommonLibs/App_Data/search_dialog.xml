@@ -224,18 +224,6 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
-	<!-- #Region Employee Trans -->
-	<searchdialog type="employeetrans" methodname="GetEmployeeList" keyfieldname="EmployeeID" orderbyexpression="FullName ASC">
-		<gridcolumns>
-			<gridcolumn datafield="EmployeeCode" headertext="Kode" width="50px" />
-			<gridcolumn datafield="FullName" headertext="Nama" width="300px" />
-		</gridcolumns>
-		<intellisensetexts>
-			<intellisensetext datafield="FullName" headertext="Nama" description="" />
-			<intellisensetext datafield="EmployeeCode" headertext="Kode" description="" />
-		</intellisensetexts>
-	</searchdialog>
-	<!-- #EndRegion -->
   <!-- #Region FA Depreciation Method -->
   <searchdialog type="fadepreciationmethod" methodname="GetFADepreciationMethodList" keyfieldname="MethodCode" orderbyexpression="MethodCode ASC">
     <gridcolumns>

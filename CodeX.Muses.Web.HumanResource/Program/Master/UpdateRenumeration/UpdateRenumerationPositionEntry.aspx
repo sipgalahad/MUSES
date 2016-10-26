@@ -58,11 +58,7 @@
             $('#divTransactionAdd').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
                     editedLineAmount = 0;
-                    $('#lblPosition').click(function () {
-                        openSearchDialog('OrganizationPosition', 'IsDeleted = 0', function (value) {
-                            alert(value);
-                        });
-                    });
+
                     $('#entryDetailContainer').show();
                 }
             });
@@ -72,8 +68,11 @@
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx'))
+                if (IsValid(evt, 'fsTrx', 'mpTrx')) {
                     cbpProcess.PerformCallback('save');
+                }
+                tacOrganizationPositionID.setValue('');
+                tacOrganizationPositionID.setText('');
             });
 
             var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
@@ -251,7 +250,6 @@
                 <td colspan="2">
                     <div class="divTransactionEntry">
                         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
-                        <span id="divQuickPicks" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Quick Picks")%></span>
                         <br />
                         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                             <fieldset id="fsTrx" style="margin: 0">

@@ -68,14 +68,15 @@
             });
 
             $('#btnCancel').click(function () {
-                tacEmployeeID.setValue('');
-                tacEmployeeID.setText('');
                 $('#entryDetailContainer').hide();
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx'))
+                if (IsValid(evt, 'fsTrx', 'mpTrx')) {
                     cbpProcess.PerformCallback('save');
+                }
+                tacEmployeeID.setValue('');
+                tacEmployeeID.setText('');
             });
 
             var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
@@ -179,7 +180,7 @@
             }
         }
 
-        //#region Organization Position
+        //#region Employee
         function onGetEmployeeFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
             var filterExpression = "IsDeleted = 0 AND EmployeeID NOT IN (SELECT EmployeeID FROM TransEmployeePositionDt where TransactionID = " + TransactionID + ")";
@@ -187,8 +188,8 @@
         }
 
         function onTacEmployeeIDSearchClick() {
-            openSearchDialog('employeetrans', onGetEmployeeFilterExpression(), function (value) {
-                var filterExpression = onGetEmployeeFilterExpression() + " AND EmployeeID = '" + value + "'";
+            openSearchDialog('employee', onGetEmployeeFilterExpression(), function (value) {
+                var filterExpression = onGetEmployeeFilterExpression() + " AND EmployeeCode = '" + value + "'";
                 Methods.getObject('GetEmployeeList', filterExpression, function (result) {
                     if (result != null) {
                         tacEmployeeID.setValue(result.EmployeeID);
@@ -253,7 +254,6 @@
                 <td colspan="2">
                     <div class="divTransactionEntry">
                         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
-                        <span id="divQuickPicks" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Quick Picks")%></span>
                         <br />
                         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                             <fieldset id="fsTrx" style="margin: 0">
