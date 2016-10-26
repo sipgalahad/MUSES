@@ -17624,6 +17624,135 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TransEmployeePositionDt
+        public static TransEmployeePositionDt GetTransEmployeePositionDt(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new TransEmployeePositionDtDao().Get(TransactionID, EmployeeID);
+        }
+        public static int InsertTransEmployeePositionDt(TransEmployeePositionDt record)
+        {
+            return new TransEmployeePositionDtDao().Insert(record);
+        }
+        public static int UpdateTransEmployeePositionDt(TransEmployeePositionDt record)
+        {
+            return new TransEmployeePositionDtDao().Update(record);
+        }
+        public static int DeleteTransEmployeePositionDt(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new TransEmployeePositionDtDao().Delete(TransactionID, EmployeeID);
+        }
+        public static List<TransEmployeePositionDt> GetTransEmployeePositionDtList(string filterExpression)
+        {
+            List<TransEmployeePositionDt> result = new List<TransEmployeePositionDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeePositionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeePositionDt)helper.IDataReaderToObject(reader, new TransEmployeePositionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransEmployeePositionDt> GetTransEmployeePositionDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeePositionDt> result = new List<TransEmployeePositionDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeePositionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeePositionDt)helper.IDataReaderToObject(reader, new TransEmployeePositionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeePositionDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeePositionDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeePositionHd
+        public static TransEmployeePositionHd GetTransEmployeePositionHd(Int32 TransactionID)
+        {
+            return new TransEmployeePositionHdDao().Get(TransactionID);
+        }
+        public static int InsertTransEmployeePositionHd(TransEmployeePositionHd record)
+        {
+            return new TransEmployeePositionHdDao().Insert(record);
+        }
+        public static int UpdateTransEmployeePositionHd(TransEmployeePositionHd record)
+        {
+            return new TransEmployeePositionHdDao().Update(record);
+        }
+        public static int DeleteTransEmployeePositionHd(Int32 TransactionID)
+        {
+            return new TransEmployeePositionHdDao().Delete(TransactionID);
+        }
+        public static List<TransEmployeePositionHd> GetTransEmployeePositionHdList(string filterExpression)
+        {
+            List<TransEmployeePositionHd> result = new List<TransEmployeePositionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeePositionHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeePositionHd)helper.IDataReaderToObject(reader, new TransEmployeePositionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeePositionHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeePositionHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region TransPositionRenumerationDt
         public static TransPositionRenumerationDt GetTransPositionRenumerationDt(Int32 TransactionID, Int32 OrganizationPositionID)
         {

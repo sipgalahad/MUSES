@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPTrx.master" AutoEventWireup="true" 
-    CodeBehind="UpdateRenumerationEntry.aspx.cs" Inherits="CodeX.Muses.Web.Inventory.Program.UpdateRenumerationEntry" %>
+    CodeBehind="UpdateRenumerationEmployeeEntry.aspx.cs" Inherits="CodeX.Muses.Web.Inventory.Program.UpdateRenumerationEmployeeEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -7,6 +7,8 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+    <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhHeader" runat="server">
     <input type="hidden" id="hdnRowCountPerPage" runat="server" value="" />
@@ -28,18 +30,17 @@
             setDatePicker('<%=txtStartEffectiveDate.ClientID %>');
             $('#<%=txtStartEffectiveDate.ClientID %>').datepicker('option', 'minDate', '0');
             setDatePicker('<%=txtTransactionDate.ClientID %>');
-            $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'minDate', '0');
+            $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'maxDate', '0');
 
-            
 
             //#region Transaction No
-            function onGetRenumerationPositionFilterExpression() {
+            function onGetEmployeePositionFilterExpression() {
                 var filterExpression = "<%=GetFilterExpression() %>";
                 return filterExpression;
             }
 
-            $('#lblTransactionNo.lblLink').click(function () { 
-                openSearchDialog('transrenumerationhd', onGetRenumerationPositionFilterExpression(), function (value) {
+            $('#lblTransactionNo.lblLink').click(function () {
+                openSearchDialog('transemployeepositionhd', onGetEmployeePositionFilterExpression(), function (value) {
                     $('#<%=txtTransactionNo.ClientID %>').val(value);
                     onTxtTransactionNoChanged(value);
                 });
@@ -57,19 +58,18 @@
             $('#divTransactionAdd').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
                     editedLineAmount = 0;
-
-                    $('#<%=hdnEntryID.ClientID %>').val('');
-                    $('#<%=txtAmount.ClientID %>').val('');
-                    $('#<%=chkIsAllowChange.ClientID %>').prop('checked', false);
-                    $('#<%=chkIsUseFormula.ClientID %>').prop('checked', false);
-                    cboRenumerationCompID.SetValue();
-
+                    $('#lblEmployee').click(function () {
+                        openSearchDialog('Employee', 'IsDeleted = 0', function (value) {
+                            alert(value);
+                        });
+                    });
                     $('#entryDetailContainer').show();
                 }
             });
 
-
             $('#btnCancel').click(function () {
+                tacEmployeeID.setValue('');
+                tacEmployeeID.setText('');
                 $('#entryDetailContainer').hide();
             });
 
@@ -88,42 +88,19 @@
             });
         }
 
-        //#region Edit & Delete
+        //#region  Delete
         $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
             $row = $(this).closest('tr');
             showToastConfirmation('Are You Sure Want To Delete?', function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.TransactionDtID);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.EmployeeID);
                     cbpProcess.PerformCallback('delete');
                 }
             });
         });
 
-        $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
-            $row = $(this).closest('tr');
-            var entity = rowToObject($row);
-            $('#<%=hdnEntryID.ClientID %>').val(entity.TransactionDtID);
-            $('#<%=txtAmount.ClientID %>').val(entity.Amount);
-            $('#<%=chkIsAllowChange.ClientID %>').prop('checked', entity.IsAllowChange == 'True');
-            alert(entity.IsAllowChange);
-            $('#<%=chkIsUseFormula.ClientID %>').prop('checked', entity.IsUseFormula == 'True');
-            cboRenumerationCompID.SetValue(entity.RenumerationCompID);
-            $('#entryDetailContainer').show();
-        });
 
-        //#endregion
-
-        
-
-        function getItemUnitName(baseValue) {
-            var value = cboItemUnit.GetValue();
-            cboItemUnit.SetValue(baseValue + '|1');
-            var text = cboItemUnit.GetText().split(' (')[0];
-            cboItemUnit.SetValue(value);
-            return text;
-        }
-        //#endregion
 
         //#region Paging
         function onCbpViewEndCallback(s) {
@@ -148,7 +125,7 @@
             if ($('#<%=hdnTransactionID.ClientID %>').val() == '0') {
                 $('#<%=hdnTransactionID.ClientID %>').val(TransactionID);
                 var filterExpression = 'TransactionID = ' + TransactionID;
-                Methods.getObject('GetTransRenumerationHdList', filterExpression, function (result) {
+                Methods.getObject('GetTransEmployeePositionHdList', filterExpression, function (result) {
                     $('#<%=txtTransactionNo.ClientID %>').val(result.TransactionNo);
                     cbpView.PerformCallback('refresh');
                 });
@@ -201,6 +178,34 @@
                 return false;
             }
         }
+
+        //#region Organization Position
+        function onGetEmployeeFilterExpression() {
+            var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
+            var filterExpression = "IsDeleted = 0 AND EmployeeID NOT IN (SELECT EmployeeID FROM TransEmployeePositionDt where TransactionID = " + TransactionID + ")";
+            return filterExpression;
+        }
+
+        function onTacEmployeeIDSearchClick() {
+            openSearchDialog('employeetrans', onGetEmployeeFilterExpression(), function (value) {
+                var filterExpression = onGetEmployeeFilterExpression() + " AND EmployeeID = '" + value + "'";
+                Methods.getObject('GetEmployeeList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacEmployeeID.setValue(result.EmployeeID);
+                        tacEmployeeID.setText(result.FullName);
+                    }
+                    else {
+                        tacEmployeeID.setValue('');
+                        tacEmployeeID.setText('');
+                    }
+                });
+            });
+
+        }
+
+        function onTacEmployeeIDValueChanged() {
+        }
+        //#endregion
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
@@ -226,7 +231,7 @@
                             <td><asp:TextBox ID="txtTransactionNo" Width="150px"  runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><%=GetLabel("Tanggal Dimasukkan")%></td>
+                            <td class="tdLabel"><%=GetLabel("Tanggal Transaksi")%></td>
                             <td><asp:TextBox ID="txtTransactionDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
@@ -234,8 +239,8 @@
                             <td><asp:TextBox ID="txtStartEffectiveDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Renumerasi")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboRenumerationID" ClientInstanceName="cboRenumerationID" Width="50%" runat="server" /></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Posisi")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboPositionID" ClientInstanceName="cbPositionID" Width="50%" runat="server" /></td>
                         </tr>
                        <tr>
                             <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>
@@ -264,28 +269,15 @@
                                                     <col style="width: 150px" />
                                                 </colgroup>
                                                 <tr>
-                                                    <td class="tdLabel">
-                                                        <label class="lblMandatory"><%=GetLabel("Komp. Renumerasi")%></label>
-                                                    </td>
-                                                    <td><dxe:ASPxComboBox runat="server" ID="cboRenumerationCompID" ClientInstanceName="cboRenumerationCompID" Width="300px" /></td>
+                                                <td class="tdLabel"><label class="lblMandatory" id="lblEmployee"><%=GetLabel("Karyawan")%></label></td>
+                                                 <td>
+                                                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacEmployeeID" ClientInstanceName="tacEmployeeID" MethodName="GetvEmployeeList" GetFilterExpressionFunction="onGetEmployeeFilterExpression"
+                                                        SearchFields="EmployeeName,EmployeeID" TextField="EmployeeName" ValueField="EmployeeID" SearchText="${EmployeeName} (<b>${EmployeeCode}</b>)" OrderByExpression="EmployeeName">
+                                                        <ClientSideEvents ButtonSearchClick="function(){ onTacEmployeeIDSearchClick(); }"
+                                                            ValueChanged="function(){ onTacEmployeeIDValueChanged(); }" />
+                                                    </cdx:CodeXAutoCompleteTextBox>   
+                                                </td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="tdLabel">
-                                                        <label class="lblMandatory"><%=GetLabel("Amount")%></label>
-                                                    </td>
-                                                    <td>
-                                                        <asp:TextBox ID="txtAmount" CssClass="txtCurrency" min="0" Width="120px" runat="server" />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="tdLabel"></td>
-                                                    <td><asp:Checkbox runat="server" ID="chkIsAllowChange" Text="Is Allow Changed"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="tdLabel"></td>
-                                                    <td><asp:CheckBox runat="server" ID="chkIsUseFormula" Text="Is Use Formula"/></td>
-                                                </tr>
-                                                
                                             </table>
                                         </td>
                                     </tr>
@@ -310,19 +302,14 @@
                                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                                         AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
-                                            <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                            <asp:BoundField DataField="RenumerationCompName" HeaderText="Nama" />
-                                            <asp:BoundField DataField="Amount" HeaderStyle-CssClass="thRight" HeaderText="Amount" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="EmployeeName" HeaderText="Nama" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <div style='float:right;<%#IsEditable().ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
-                                                    <div style='float:right;margin-right:10px;<%#IsEditable().ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                                    <input type="hidden" value="<%#Eval("TransactionDtID") %>" bindingfield="TransactionDtID" />
-                                                    <input type="hidden" value="<%#Eval("RenumerationCompID") %>" bindingfield="RenumerationCompID" />
-                                                    <input type="hidden" value="<%#Eval("RenumerationCompName") %>" bindingfield="RenumerationCompName" />
-                                                    <input type="hidden" value="<%#Eval("Amount") %>" bindingfield="Amount" />
-                                                    <input type="hidden" value="<%#Eval("IsAllowChange") %>" bindingfield="IsAllowChange" />
-                                                    <input type="hidden" value="<%#Eval("IsUseFormula") %>" bindingfield="IsUseFormula" />
+                                                    <input type="hidden" value="<%#Eval("EmployeeID") %>" bindingfield="EmployeeID" />
+                                                    <input type="hidden" value="<%#Eval("EmployeeName") %>" bindingfield="EmployeeName" />
+                                                    <input type="hidden" value="<%#Eval("EmployeeCode") %>" bindingfield="EmployeeCode" />
+                                                    <input type="hidden" value="<%#Eval("TransactionID") %>" bindingfield="TransactionID" />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>

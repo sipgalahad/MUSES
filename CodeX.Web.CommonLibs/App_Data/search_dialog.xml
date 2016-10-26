@@ -224,6 +224,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+	<!-- #Region Employee Trans -->
+	<searchdialog type="employeetrans" methodname="GetEmployeeList" keyfieldname="EmployeeID" orderbyexpression="FullName ASC">
+		<gridcolumns>
+			<gridcolumn datafield="EmployeeCode" headertext="Kode" width="50px" />
+			<gridcolumn datafield="FullName" headertext="Nama" width="300px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="FullName" headertext="Nama" description="" />
+			<intellisensetext datafield="EmployeeCode" headertext="Kode" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
   <!-- #Region FA Depreciation Method -->
   <searchdialog type="fadepreciationmethod" methodname="GetFADepreciationMethodList" keyfieldname="MethodCode" orderbyexpression="MethodCode ASC">
     <gridcolumns>
@@ -1156,6 +1168,19 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+	
+	<!-- #Region Trans Employee Position-->
+	<searchdialog type="transemployeepositionhd" methodname="vTransEmployeePositionHd" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+		<gridcolumns>
+			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+			<gridcolumn datafield="OrganizationPositionName" headertext="Posisi" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+			<intellisensetext datafield="RenumerationNOrganizationPositionNameame" headertext="Posisi" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
 	<!-- #Region Trans Renumeration -->
 	<searchdialog type="transrenumerationhd" methodname="GetvTransRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
 		<gridcolumns>
@@ -1168,7 +1193,7 @@
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
-	<!-- #Region Trans Renumeration -->
+	<!-- #Region Trans Renumeration Position-->
 	<searchdialog type="transpositionrenumerationhd" methodname="GetvTransPositionRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
 		<gridcolumns>
 			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
