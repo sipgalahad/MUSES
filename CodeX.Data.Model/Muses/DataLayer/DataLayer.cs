@@ -37773,6 +37773,281 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region TransRenumerationCompFormulaHd
+    [Serializable]
+    [Table(Name = "TransRenumerationCompFormulaHd")]
+    public class TransRenumerationCompFormulaHd : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private Int32 _FormulaID;
+        private DateTime _StartEffectiveDate;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "FormulaID", DataType = "Int32")]
+        public Int32 FormulaID
+        {
+            get { return _FormulaID; }
+            set { _FormulaID = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TransRenumerationCompFormulaHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransRenumerationCompFormulaHd));
+        private bool _isAuditLog = false;
+        private const string p_TransactionID = "@p_TransactionID";
+        public TransRenumerationCompFormulaHdDao() { }
+        public TransRenumerationCompFormulaHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransRenumerationCompFormulaHd Get(Int32 TransactionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransRenumerationCompFormulaHd)_helper.DataRowToObject(row, new TransRenumerationCompFormulaHd());
+        }
+        public int Insert(TransRenumerationCompFormulaHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransRenumerationCompFormulaHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID)
+        {
+            TransRenumerationCompFormulaHd record;
+            if (_ctx.Transaction == null)
+                record = new TransRenumerationCompFormulaHdDao().Get(TransactionID);
+            else
+                record = Get(TransactionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransRenumerationCompFormulaDt
+    [Serializable]
+    [Table(Name = "TransRenumerationCompFormulaDt")]
+    public class TransRenumerationCompFormulaDt : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private Int32 _TransactionID;
+        private String _GCBaseTariffType;
+        private Int16 _EveryNHour;
+        private Int32? _FromRenumerationCompID;
+        private Decimal _BaseTariff;
+        private Boolean _IsTariffFlat;
+        private Int16 _BaseTariffMultiplyBy;
+        private Int16 _MaxNHour;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "GCBaseTariffType", DataType = "String")]
+        public String GCBaseTariffType
+        {
+            get { return _GCBaseTariffType; }
+            set { _GCBaseTariffType = value; }
+        }
+        [Column(Name = "EveryNHour", DataType = "Int16")]
+        public Int16 EveryNHour
+        {
+            get { return _EveryNHour; }
+            set { _EveryNHour = value; }
+        }
+        [Column(Name = "FromRenumerationCompID", DataType = "Int32", IsNullable = true)]
+        public Int32? FromRenumerationCompID
+        {
+            get { return _FromRenumerationCompID; }
+            set { _FromRenumerationCompID = value; }
+        }
+        [Column(Name = "BaseTariff", DataType = "Decimal")]
+        public Decimal BaseTariff
+        {
+            get { return _BaseTariff; }
+            set { _BaseTariff = value; }
+        }
+        [Column(Name = "IsTariffFlat", DataType = "Boolean")]
+        public Boolean IsTariffFlat
+        {
+            get { return _IsTariffFlat; }
+            set { _IsTariffFlat = value; }
+        }
+        [Column(Name = "BaseTariffMultiplyBy", DataType = "Int16")]
+        public Int16 BaseTariffMultiplyBy
+        {
+            get { return _BaseTariffMultiplyBy; }
+            set { _BaseTariffMultiplyBy = value; }
+        }
+        [Column(Name = "MaxNHour", DataType = "Int16")]
+        public Int16 MaxNHour
+        {
+            get { return _MaxNHour; }
+            set { _MaxNHour = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TransRenumerationCompFormulaDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransRenumerationCompFormulaDt));
+        private bool _isAuditLog = false;
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public TransRenumerationCompFormulaDtDao() { }
+        public TransRenumerationCompFormulaDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransRenumerationCompFormulaDt Get(Int32 TransactionDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransRenumerationCompFormulaDt)_helper.DataRowToObject(row, new TransRenumerationCompFormulaDt());
+        }
+        public int Insert(TransRenumerationCompFormulaDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransRenumerationCompFormulaDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID)
+        {
+            TransRenumerationCompFormulaDt record;
+            if (_ctx.Transaction == null)
+                record = new TransRenumerationCompFormulaDtDao().Get(TransactionDtID);
+            else
+                record = Get(TransactionDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region TransTeacherProfileDt
     [Serializable]
     [Table(Name = "TransTeacherProfileDt")]

@@ -128,6 +128,7 @@ namespace CodeX.Common
             public const string POSITION_LEVEL = "X315";
             public const string POSITION_TYPE = "X316";
             public const string SCHEDULE_TYPE = "X317";
+            public const string RENUMERATION_FORMULA_BASE_TARIFF_TYPE = "X319";
             public const string HR_DAILY_SCHEDULE_TYPE = "X320";
         }
 

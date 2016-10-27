@@ -771,6 +771,17 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+	<!-- #Region Renumeration Comp-->
+	<searchdialog type="renumerationcomp" methodname="GetvRenumerationCompList" keyfieldname="RenumerationCompCode" orderbyexpression="RenumerationCompName ASC">
+		<gridcolumns>
+			<gridcolumn datafield="RenumerationCompCode" headertext="Kode" width="100px" />
+			<gridcolumn datafield="RenumerationCompName" headertext="Nama" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="RenumerationCompCode" headertext="Kode" description="" />
+			<intellisensetext datafield="RenumerationCompName" headertext="Nama" description="" />
+		</intellisensetexts>
+	</searchdialog>
   <!-- #Region Report Master -->
   <searchdialog type="reportmaster" methodname="GetvReportMasterList" keyfieldname="ReportCode" istreeview="1">
     <gridcolumns>
@@ -1169,6 +1180,7 @@
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
+	
 	<!-- #Region Trans Renumeration -->
 	<searchdialog type="transrenumerationhd" methodname="GetvTransRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
 		<gridcolumns>
@@ -1181,6 +1193,19 @@
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
+
+	<!-- #Region Trans Renumeration Comp Formula-->
+	<searchdialog type="transrenumerationcompformulahd" methodname="GetvTransRenumerationCompFormulaHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+		<gridcolumns>
+			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+			<gridcolumn datafield="FormulaName" headertext="Formula Name" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+			<intellisensetext datafield="FormulaName" headertext="Formula Name" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	
 	<!-- #Region Trans Renumeration Position-->
 	<searchdialog type="transpositionrenumerationhd" methodname="GetvTransPositionRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
 		<gridcolumns>
