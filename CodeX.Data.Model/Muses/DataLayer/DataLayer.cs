@@ -37912,7 +37912,7 @@ namespace CodeX.Data.Model
         private Int32? _FromRenumerationCompID;
         private Decimal _BaseTariff;
         private Boolean _IsTariffFlat;
-        private Int16 _BaseTariffMultiplyBy;
+        private Decimal _BaseTariffMultiplyBy;
         private Int16 _MaxNHour;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -37962,8 +37962,8 @@ namespace CodeX.Data.Model
             get { return _IsTariffFlat; }
             set { _IsTariffFlat = value; }
         }
-        [Column(Name = "BaseTariffMultiplyBy", DataType = "Int16")]
-        public Int16 BaseTariffMultiplyBy
+        [Column(Name = "BaseTariffMultiplyBy", DataType = "Decimal")]
+        public Decimal BaseTariffMultiplyBy
         {
             get { return _BaseTariffMultiplyBy; }
             set { _BaseTariffMultiplyBy = value; }
@@ -38043,6 +38043,86 @@ namespace CodeX.Data.Model
                 record = new TransRenumerationCompFormulaDtDao().Get(TransactionDtID);
             else
                 record = Get(TransactionDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransRenumerationCompFormulaDtHour
+    [Serializable]
+    [Table(Name = "TransRenumerationCompFormulaDtHour")]
+    public class TransRenumerationCompFormulaDtHour : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private Int16 _FromHoursIndex;
+        private Int16 _ToHoursIndex;
+        private Int16 _MultiplyBy;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "FromHoursIndex", DataType = "Int16", IsPrimaryKey = true)]
+        public Int16 FromHoursIndex
+        {
+            get { return _FromHoursIndex; }
+            set { _FromHoursIndex = value; }
+        }
+        [Column(Name = "ToHoursIndex", DataType = "Int16", IsPrimaryKey = true)]
+        public Int16 ToHoursIndex
+        {
+            get { return _ToHoursIndex; }
+            set { _ToHoursIndex = value; }
+        }
+        [Column(Name = "MultiplyBy", DataType = "Int16")]
+        public Int16 MultiplyBy
+        {
+            get { return _MultiplyBy; }
+            set { _MultiplyBy = value; }
+        }
+    }
+
+    public class TransRenumerationCompFormulaDtHourDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransRenumerationCompFormulaDtHour));
+        private bool _isAuditLog = false;
+        private const string p_FromHoursIndex = "@p_FromHoursIndex";
+        private const string p_ToHoursIndex = "@p_ToHoursIndex";
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public TransRenumerationCompFormulaDtHourDao() { }
+        public TransRenumerationCompFormulaDtHourDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransRenumerationCompFormulaDtHour Get(Int32 TransactionDtID, Int16 FromHoursIndex, Int16 ToHoursIndex)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FromHoursIndex, FromHoursIndex);
+            _ctx.Add(p_ToHoursIndex, ToHoursIndex);
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransRenumerationCompFormulaDtHour)_helper.DataRowToObject(row, new TransRenumerationCompFormulaDtHour());
+        }
+        public int Insert(TransRenumerationCompFormulaDtHour record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransRenumerationCompFormulaDtHour record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID, Int16 FromHoursIndex, Int16 ToHoursIndex)
+        {
+            TransRenumerationCompFormulaDtHour record;
+            if (_ctx.Transaction == null)
+                record = new TransRenumerationCompFormulaDtHourDao().Get(TransactionDtID, FromHoursIndex, ToHoursIndex);
+            else
+                record = Get(TransactionDtID, FromHoursIndex, ToHoursIndex);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

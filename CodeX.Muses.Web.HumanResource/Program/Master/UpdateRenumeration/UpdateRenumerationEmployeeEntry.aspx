@@ -139,10 +139,8 @@
             hideLoadingPanel();
             var param = s.cpResult.split('|');
             if (param[0] == 'save') {
-                if (param[1] == 'fail') {
+                if (param[1] == 'fail') 
                     showToast('Save Failed', 'Error Message : ' + param[2]);
-                    $('#divTransactionAdd').click();
-                }
                 else {
                     onAfterSaveRecordDtSuccess(s.cpTransactionID);
                     $('#divTransactionAdd').click();

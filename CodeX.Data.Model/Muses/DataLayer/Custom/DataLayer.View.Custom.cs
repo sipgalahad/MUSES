@@ -2705,7 +2705,20 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-
+    #region vTransRenumerationCompFormulaDt
+    public partial class vTransRenumerationCompFormulaDt
+    {
+        public string cfBaseTariffType
+        {
+            get
+            {
+                if (_GCBaseTariffType == Constant.RenumerationFormulaBaseTariffType.FIX_AMOUNT)
+                    return _BaseTariffType;
+                return string.Format("{0} ({1})", _BaseTariffType, _FromRenumerationCompName);
+            }
+        }
+    }
+    #endregion
     #region Project Management
     #region vActivityHistory
     public partial class vActivityHistory

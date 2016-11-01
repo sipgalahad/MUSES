@@ -18140,6 +18140,79 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TransRenumerationCompFormulaDtHour
+        public static TransRenumerationCompFormulaDtHour GetTransRenumerationCompFormulaDtHour(Int32 TransactionDtID, Int16 FromHoursIndex, Int16 ToHoursIndex)
+        {
+            return new TransRenumerationCompFormulaDtHourDao().Get(TransactionDtID, FromHoursIndex, ToHoursIndex);
+        }
+        public static int InsertTransRenumerationCompFormulaDtHour(TransRenumerationCompFormulaDtHour record)
+        {
+            return new TransRenumerationCompFormulaDtHourDao().Insert(record);
+        }
+        public static int UpdateTransRenumerationCompFormulaDtHour(TransRenumerationCompFormulaDtHour record)
+        {
+            return new TransRenumerationCompFormulaDtHourDao().Update(record);
+        }
+        public static int DeleteTransRenumerationCompFormulaDtHour(Int32 TransactionDtID, Int16 FromHoursIndex, Int16 ToHoursIndex)
+        {
+            return new TransRenumerationCompFormulaDtHourDao().Delete(TransactionDtID, FromHoursIndex, ToHoursIndex);
+        }
+        public static List<TransRenumerationCompFormulaDtHour> GetTransRenumerationCompFormulaDtHourList(string filterExpression)
+        {
+            List<TransRenumerationCompFormulaDtHour> result = new List<TransRenumerationCompFormulaDtHour>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationCompFormulaDtHour));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransRenumerationCompFormulaDtHour)helper.IDataReaderToObject(reader, new TransRenumerationCompFormulaDtHour()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransRenumerationCompFormulaDtHour> GetTransRenumerationCompFormulaDtHourList(string filterExpression, IDbContext ctx)
+        {
+            List<TransRenumerationCompFormulaDtHour> result = new List<TransRenumerationCompFormulaDtHour>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationCompFormulaDtHour));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransRenumerationCompFormulaDtHour)helper.IDataReaderToObject(reader, new TransRenumerationCompFormulaDtHour()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransRenumerationCompFormulaDtHourMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationCompFormulaDtHour));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region TransTeacherProfileDt
         public static TransTeacherProfileDt GetTransTeacherProfileDt(Int32 ID)
         {

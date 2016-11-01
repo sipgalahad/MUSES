@@ -132,6 +132,12 @@ namespace CodeX.Common
             public const string HR_DAILY_SCHEDULE_TYPE = "X320";
         }
 
+        public static class RenumerationFormulaBaseTariffType
+        {
+            public const string RENUMERATION_COMP = "X319^001";
+            public const string FIX_AMOUNT = "X319^002";
+        }
+
         public static class PaymentMethod
         {
             public const string CASH = "X035^001";

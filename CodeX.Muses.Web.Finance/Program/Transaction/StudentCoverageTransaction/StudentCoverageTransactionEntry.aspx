@@ -101,6 +101,9 @@
                         if (result != "")
                             result += ',';
                         result += $(this).find('.hdnAutoCompleteValue').val();
+                        //if (result != "")
+                        //    result += '|';
+                        //result += $(this).find('.txtFromhour').val() + ';' + $(this).find('.hdnAutoCompleteValue').val() + ';' + $(this).find('.hdnAutoCompleteValue').val();
                     });
                     $('#<%=hdnStudentSave.ClientID %>').val(result);
                     cbpProcess.PerformCallback('save');

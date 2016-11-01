@@ -33528,7 +33528,7 @@ namespace CodeX.Data.Model
     #region vTransRenumerationCompFormulaDt
     [Serializable]
     [Table(Name = "vTransRenumerationCompFormulaDt")]
-    public class vTransRenumerationCompFormulaDt
+    public partial class vTransRenumerationCompFormulaDt
     {
         private Int32 _TransactionDtID;
         private Int32 _TransactionID;
@@ -33540,7 +33540,7 @@ namespace CodeX.Data.Model
         private String _FromRenumerationCompCode;
         private String _FromRenumerationCompName;
         private Boolean _IsTariffFlat;
-        private Int16 _BaseTariffMultiplyBy;
+        private Decimal _BaseTariffMultiplyBy;
         private Int16 _MaxNHour;
         private Boolean _IsDeleted;
 
@@ -33604,8 +33604,8 @@ namespace CodeX.Data.Model
             get { return _IsTariffFlat; }
             set { _IsTariffFlat = value; }
         }
-        [Column(Name = "BaseTariffMultiplyBy", DataType = "Int16")]
-        public Int16 BaseTariffMultiplyBy
+        [Column(Name = "BaseTariffMultiplyBy", DataType = "Decimal")]
+        public Decimal BaseTariffMultiplyBy
         {
             get { return _BaseTariffMultiplyBy; }
             set { _BaseTariffMultiplyBy = value; }

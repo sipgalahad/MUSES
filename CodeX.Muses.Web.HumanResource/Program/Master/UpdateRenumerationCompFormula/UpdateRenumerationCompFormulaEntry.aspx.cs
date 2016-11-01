@@ -25,17 +25,9 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
 
         #region Html Getter
-        protected string OnGetFilterExpressionLocation()
+        protected string OnGetRenumerationCompFormulaBaseTariffTypeFromComponent()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_CONSUMPTION);
-        }
-        protected string OnGetFilterExpressionItemProduct()
-        {
-            return string.Format("IsDeleted = 0");
-        }
-        protected string OnGetFilterExpressionServiceUnit()
-        {
-            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            return Constant.RenumerationFormulaBaseTariffType.RENUMERATION_COMP;
         }
         #endregion
 
@@ -50,8 +42,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             BindGridView(1, true, ref PageCount, ref RowCount);
 
             Helper.SetControlEntrySetting(cboGCBaseTariffType, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(tacRenumerationCompID, new ControlEntrySetting(true, true, false), "mpTrx");
-            Helper.SetControlEntrySetting(txtBaseNilai, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacRenumerationCompID, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtBaseNilai, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtTariffMultipleBy, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtMaxJam, new ControlEntrySetting(true, true, true), "mpTrx");
             
@@ -427,12 +419,21 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         private void ControlToEntity(TransRenumerationCompFormulaDt entityDt)
         {
-            entityDt.FromRenumerationCompID = Convert.ToInt32(tacRenumerationCompID.Value);
             entityDt.GCBaseTariffType = cboGCBaseTariffType.Value.ToString();
             entityDt.IsTariffFlat = chkIsTariffFlat.Checked;
-            entityDt.BaseTariff = Convert.ToDecimal(txtBaseNilai.Text);
+
+            if (entityDt.GCBaseTariffType == Constant.RenumerationFormulaBaseTariffType.RENUMERATION_COMP)
+            {
+                entityDt.FromRenumerationCompID = Convert.ToInt32(tacRenumerationCompID.Value);
+                entityDt.BaseTariff = 0;
+            }
+            else
+            {
+                entityDt.BaseTariff = Convert.ToDecimal(txtBaseNilai.Text);
+                entityDt.FromRenumerationCompID = null;
+            }
             entityDt.MaxNHour = Convert.ToInt16(txtMaxJam.Text);
-            entityDt.BaseTariffMultiplyBy = Convert.ToInt16(txtTariffMultipleBy.Text);
+            entityDt.BaseTariffMultiplyBy = Convert.ToDecimal(txtTariffMultipleBy.Text);
 
         }
 
@@ -441,6 +442,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             TransRenumerationCompFormulaDtDao entityDtDao = new TransRenumerationCompFormulaDtDao(ctx);
+            TransRenumerationCompFormulaDtHourDao entityDtHourDao = new TransRenumerationCompFormulaDtHourDao(ctx);
             try
             {
                 SaveTransRenumerationCompFormulaHd(ctx, ref TransactionID);
@@ -448,7 +450,22 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ControlToEntity(entityDt);
                 entityDt.TransactionID = TransactionID;
                 entityDt.CreatedBy = AppSession.UserLogin.UserID;
-                entityDtDao.Insert(entityDt);
+                entityDt.TransactionDtID = entityDtDao.Insert(entityDt);
+
+                if (hdnDtHourSave.Value != "")
+                {
+                    string[] lstSaveEntityDt = hdnDtHourSave.Value.Split('|');
+                    foreach (string saveEntityDt in lstSaveEntityDt)
+                    {
+                        TransRenumerationCompFormulaDtHour entityDtHour = new TransRenumerationCompFormulaDtHour();
+                        string[] temp = saveEntityDt.Split(';');
+                        entityDtHour.FromHoursIndex = Convert.ToInt16(temp[0]);
+                        entityDtHour.ToHoursIndex = Convert.ToInt16(temp[1]);
+                        entityDtHour.MultiplyBy = Convert.ToInt16(temp[2]);
+                        entityDtHour.TransactionDtID = Convert.ToInt32(entityDt.TransactionDtID);
+                        entityDtHourDao.Insert(entityDtHour);
+                    }
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -470,12 +487,50 @@ namespace CodeX.Muses.Web.Inventory.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             TransRenumerationCompFormulaDtDao entityDtDao = new TransRenumerationCompFormulaDtDao(ctx);
+            TransRenumerationCompFormulaDtHourDao entityDtHourDao = new TransRenumerationCompFormulaDtHourDao(ctx);
             try
             {
                 TransRenumerationCompFormulaDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entityDt);
                 entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDtDao.Update(entityDt);
+
+                Int32 TransactionDtID = Convert.ToInt32(hdnTransactionDtID.Value);
+                string[] lstSaveEntityDt = hdnDtHourSave.Value.Split('|');
+                List<TransRenumerationCompFormulaDtHour> lstEntityDt = BusinessLayer.GetTransRenumerationCompFormulaDtHourList(string.Format("TransactionDtID = {0}", TransactionDtID), ctx);
+
+                foreach (string saveEntityDt in lstSaveEntityDt)
+                {
+                    string[] temp = saveEntityDt.Split(';');
+
+                    short fromHoursIndex = Convert.ToInt16(temp[0]);
+                    short toHoursIndex = Convert.ToInt16(temp[1]);
+                    short multiplyBy = Convert.ToInt16(temp[2]);
+                    TransRenumerationCompFormulaDtHour entityDtHour = lstEntityDt.FirstOrDefault(p => p.FromHoursIndex == fromHoursIndex && p.ToHoursIndex == toHoursIndex);
+                    if (entityDtHour == null)
+                    {
+                        entityDtHour = new TransRenumerationCompFormulaDtHour();
+                        entityDtHour.TransactionDtID = entityDt.TransactionDtID;
+                        entityDtHour.FromHoursIndex = fromHoursIndex;
+                        entityDtHour.ToHoursIndex = fromHoursIndex;
+                        entityDtHour.MultiplyBy = multiplyBy;
+                        entityDtHourDao.Insert(entityDtHour);
+                    }
+                    else
+                    {
+                        if (entityDtHour.MultiplyBy != multiplyBy)
+                        {
+                            entityDtHour.MultiplyBy = multiplyBy;
+                            entityDtHourDao.Update(entityDtHour);
+                        }
+                        lstEntityDt.Remove(entityDtHour);
+                    }
+                }
+
+                foreach (TransRenumerationCompFormulaDtHour entity in lstEntityDt)
+                {
+                    entityDtHourDao.Delete(entity.TransactionDtID, entity.FromHoursIndex, entity.ToHoursIndex);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

@@ -27,6 +27,21 @@
                 $('#divQuickPicks').hide();
             }
 
+            $('#<%=chkIsTariffFlat.ClientID %>').change(function () {
+                if (!this.checked) {
+                    $('#tblDetails').show();
+                    $('#divEntryDtAdd').show();
+                }
+                else {
+                    $('#tblDetails').hide();
+                    $('#divEntryDtAdd').hide();
+                    $('.trHourDt').each(function (){
+                       $tr = $(this).closest('tr');
+                       $tr.remove();
+                    });
+                }
+            });
+
             setDatePicker('<%=txtStartEffectiveDate.ClientID %>');
             $('#<%=txtStartEffectiveDate.ClientID %>').datepicker('option', 'minDate', '0');
             setDatePicker('<%=txtTransactionDate.ClientID %>');
@@ -64,22 +79,47 @@
                     $('#<%=txtBaseNilai.ClientID %>').val('0').trigger('changeValue'); ;
                     tacRenumerationCompID.setValue('');
                     tacRenumerationCompID.setText('');
-                    cboGCBaseTariffType.SetValue('');
+                    cboGCBaseTariffType.SetSelectedIndex(0);
                     $('#<%=chkIsTariffFlat.ClientID %>').prop('checked', false);
                     $('#<%=txtTariffMultipleBy.ClientID %>').val('');
                     $('#<%=txtMaxJam.ClientID %>').val('');
+                    onCboGCBaseTariffTypeValueChanged();
+
+                    $('#<%=chkIsTariffFlat.ClientID %>').change();
                     $('#entryDetailContainer').show();
+
+                    $('#divEntryDtAdd').hide();
                 }
             });
 
+            $('#divEntryDtAdd').click(function () {
+                $newTr = $('#tmplEntityDt').html();
+                $newTr = $($newTr);
+                $newTr.insertBefore($('#trSaveEntryPopup'));
+            });
+
+            $('.divDeleteEntryDt').live('click', function () {
+                $tr = $(this).closest('tr');
+                $tr.remove();
+            });
 
             $('#btnCancel').click(function () {
                 $('#entryDetailContainer').hide();
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx'))
+                if (IsValid(evt, 'fsTrx', 'mpTrx')) {
+                    var result = '';
+                    if (!$('#<%=chkIsTariffFlat.ClientID %>').is(':checked')) {
+                        $('.trHourDt').each(function () {
+                            if (result != "")
+                                result += '|';
+                            result += $(this).find('.txtFrom').val() + ';' + $(this).find('.txtTo').val() + ';' + $(this).find('.txtMaxHour').val();
+                        });
+                    }
+                    $('#<%=hdnDtHourSave.ClientID %>').val(result);
                     cbpProcess.PerformCallback('save');
+                }
             });
 
             var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
@@ -106,7 +146,11 @@
 
         $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
             $row = $(this).closest('tr');
+            $('#tblDetails').show();
+            $('#divEntryDtAdd').show();
             var entity = rowToObject($row);
+            var filterExpression = "TransactionDtID = " + entity.TransactionDtID;
+            $('#<%=hdnTransactionDtID.ClientID %>').val(entity.TransactionDtID);
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.TransactionDtID);
             $('#<%=txtBaseNilai.ClientID %>').val(entity.BaseTariffMultipleBy);
@@ -117,6 +161,26 @@
             tacRenumerationCompID.setValue(entity.FromRenumerationCompID);
             tacRenumerationCompID.setText(entity.FromRenumerationCompName);
             cboGCBaseTariffType.SetValue(entity.GCBaseTariffType);
+            onCboGCBaseTariffTypeValueChanged();
+
+            $('.trHourDt').each(function () {
+                $tr = $(this).closest('tr');
+                $tr.remove();
+            });
+
+            Methods.getListObject('GetTransRenumerationCompFormulaDtHourList', filterExpression, function (result) {
+                if (result != null) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#divEntryDtAdd').click();
+
+                        $tr = $('.trHourDt').last();
+                        $tr.find('.txtFrom').val(result[i].FromHoursIndex);
+                        $tr.find('.txtTo').val(result[i].ToHoursIndex);
+                        $tr.find('.txtMaxHour').val(result[i].MultiplyBy);
+                    }
+                }
+            });
+            $('#<%=chkIsTariffFlat.ClientID %>').change();
             $('#entryDetailContainer').show();
         });
 
@@ -163,13 +227,18 @@
             hideLoadingPanel();
             var param = s.cpResult.split('|');
             if (param[0] == 'save') {
-                if (param[1] == 'fail') {
+                if (param[1] == 'fail') 
                     showToast('Save Failed', 'Error Message : ' + param[2]);
-                    $('#divTransactionAdd').click();
-                }
                 else {
                     onAfterSaveRecordDtSuccess(s.cpTransactionID);
                     $('#divTransactionAdd').click();
+                    
+                    $('#tblDetails').hide();
+                    $('#divEntryDtAdd').hide();
+                    $('.trHourDt').each(function (){
+                       $tr = $(this).closest('tr');
+                       $tr.remove();
+                    });
                     cbpView.PerformCallback('refresh');
                 }
             }
@@ -202,7 +271,8 @@
         //#region Comp Renumeration
         function onGetRenumerationCompFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
-            var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransRenumerationCompFormulaDt where TransactionID = " + TransactionID + ")";
+            var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT FromRenumerationCompID FROM TransRenumerationCompFormulaDt WHERE TransactionID = " + TransactionID + " AND FromRenumerationCompID IS NOT NULL AND IsDeleted = 0)";
+            alert(filterExpression);
             return filterExpression;
         }
 
@@ -226,12 +296,38 @@
         function onTacRenumerationCompIDValueChanged() {
         }
         //#endregion
-    </script>    
+
+        function onCboGCBaseTariffTypeValueChanged() {
+            var GCBaseTariffType = cboGCBaseTariffType.GetValue();
+            if (GCBaseTariffType == '<%=OnGetRenumerationCompFormulaBaseTariffTypeFromComponent() %>') {
+                $('#trRenumerationComp').attr('style', 'display:none');
+                $('#trRenumerationComp').removeAttr('style');
+                $('#trBaseNilai').attr('style', 'display:none');
+            }
+            else {
+                $('#trBaseNilai').attr('style', 'display:none');
+                $('#trBaseNilai').removeAttr('style');
+                $('#trRenumerationComp').attr('style', 'display:none');
+             }
+        }
+
+    </script>  
+    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
+    <input type="hidden" value="" id="hdnTransactionDtID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
+    <input type="hidden" value="" id="hdnDtHourSave" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
+    <script id="tmplEntityDt" type="text/x-jquery-tmpl">
+        <tr class="trHourDt">
+            <td><input type="text" class="txtFrom number" style="width:100%" /></td>
+            <td><input type="text" class="txtTo number" style="width:100%" /></td>
+            <td><input type="text" class="txtMaxHour number" style="width:100%" /></td>
+            <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
+        </tr>
+    </script>
 
     <div style="height: 550px; overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
@@ -283,15 +379,19 @@
                                     </colgroup>
                                     <tr>
                                         <td valign="top">
-                                            <table style="width: 100%">
+                                            <table style="width: 100%; border:1px">
                                                 <colgroup>
                                                     <col style="width: 150px" />
                                                 </colgroup>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Sumber Data")%></label></td>
-                                                    <td><dxe:ASPxComboBox runat="server" ID="cboGCBaseTariffType" ClientInstanceName="cboGCBaseTariffType" Width="300px" /></td>
+                                                    <td>
+                                                        <dxe:ASPxComboBox runat="server" ID="cboGCBaseTariffType" ClientInstanceName="cboGCBaseTariffType" Width="300px">
+                                                            <ClientSideEvents ValueChanged="function(s,e){ onCboGCBaseTariffTypeValueChanged() }" />
+                                                        </dxe:ASPxComboBox>
+                                                    </td>
                                                 </tr>
-                                                <tr>
+                                                <tr  id="trRenumerationComp" style="display: none;">
                                                     <td class="tdLabel"><label class="lblMandatory" id="lblEmployee"><%=GetLabel("Komp. Renumerasi")%></label></td>
                                                     <td>
                                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacRenumerationCompID" ClientInstanceName="tacRenumerationCompID" MethodName="GetvEmployeeList" GetFilterExpressionFunction="onGetRenumerationCompFilterExpression"
@@ -301,7 +401,7 @@
                                                         </cdx:CodeXAutoCompleteTextBox>   
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr id="trBaseNilai" style="display: none;">
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Base Nilai")%></label></td>
                                                     <td><asp:TextBox ID="txtBaseNilai" CssClass="txtCurrency" Width="120px" runat="server" /></td>
                                                 </tr>
@@ -317,14 +417,42 @@
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Max. Jam")%></label></td>
                                                     <td><asp:TextBox ID="txtMaxJam" CssClass="number" Width="80px" runat="server" /></td>
                                                 </tr>
-                                                
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td colspan="2"><span class="divAdd" id="divEntryDtAdd"><%=GetLabel("Tambah Member")%></span><br /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>
+                                                        <table id="tblDetails" cellpadding="0" cellspacing="4">
+                                                            <colgroup>
+                                                                <col style="width: 80px" />
+                                                                <col style="width: 80px" />
+                                                                <col style="width: 80px" />
+                                                                <col style="width: 10px" />
+                                                            </colgroup>
+                                                            <tr>
+                                                                <th><%=GetLabel("From Hour")%></th>
+                                                                <th><%=GetLabel("To Hour")%></th>
+                                                                <th><%=GetLabel("Pengali")%></th>
+                                                                <th></th>
+                                                            </tr>
+                                                            <tr id="trSaveEntryPopup">
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                                      </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> 
+                                                        <input type="button" id="btnSave" class="btnWhite" value='<%=GetLabel("Commit") %>'/>
+                                                        <input type="button" id="btnCancel" class="btnWhite" value='<%=GetLabel("Cancel") %>'/>
+                                                    </td>
+                                                </tr>
                                             </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> 
-                                            <input type="button" id="btnSave" class="btnWhite" value='<%=GetLabel("Commit") %>'/>
-                                            <input type="button" id="btnCancel" class="btnWhite" value='<%=GetLabel("Cancel") %>'/>
                                         </td>
                                     </tr>
                                 </table>
@@ -343,8 +471,7 @@
                                         AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
                                             <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                            <asp:BoundField DataField="FromRenumerationCompName" HeaderText="Nama" />
-                                            <asp:BoundField DataField="BaseTariffType" HeaderText="Tipe" HeaderStyle-Width="200px" />
+                                            <asp:BoundField DataField="cfBaseTariffType" HeaderText="Tipe" />
                                             <asp:CheckBoxField DataField="IsTariffFlat" HeaderText="Tarif Flat" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="200px"/>
                                             <asp:BoundField DataField="BaseTariff" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderText="Base Tariff" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
