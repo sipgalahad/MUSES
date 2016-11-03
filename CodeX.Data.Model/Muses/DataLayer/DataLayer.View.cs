@@ -33525,6 +33525,56 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTransRenumerationDtFormula
+    [Serializable]
+    [Table(Name = "vTransRenumerationDtFormula")]
+    public class vTransRenumerationDtFormula
+    {
+        private Int32 _TransactionDtID;
+        private String _GCDayType;
+        private String _DayType;
+        private Int32 _FormulaID;
+        private String _FormulaCode;
+        private String _FormulaName;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32")]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "GCDayType", DataType = "String")]
+        public String GCDayType
+        {
+            get { return _GCDayType; }
+            set { _GCDayType = value; }
+        }
+        [Column(Name = "DayType", DataType = "String")]
+        public String DayType
+        {
+            get { return _DayType; }
+            set { _DayType = value; }
+        }
+        [Column(Name = "FormulaID", DataType = "Int32")]
+        public Int32 FormulaID
+        {
+            get { return _FormulaID; }
+            set { _FormulaID = value; }
+        }
+        [Column(Name = "FormulaCode", DataType = "String")]
+        public String FormulaCode
+        {
+            get { return _FormulaCode; }
+            set { _FormulaCode = value; }
+        }
+        [Column(Name = "FormulaName", DataType = "String")]
+        public String FormulaName
+        {
+            get { return _FormulaName; }
+            set { _FormulaName = value; }
+        }
+    }
+    #endregion
     #region vTransRenumerationCompFormulaDt
     [Serializable]
     [Table(Name = "vTransRenumerationCompFormulaDt")]

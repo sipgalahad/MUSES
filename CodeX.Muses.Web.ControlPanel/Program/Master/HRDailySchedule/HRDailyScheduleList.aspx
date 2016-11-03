@@ -86,7 +86,7 @@
                                 <asp:BoundField DataField="FromHour" HeaderText="Jam Masuk" HeaderStyle-Width="80px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center"/>
                                 <asp:BoundField DataField="ToHour" HeaderText="Jam Pulang" HeaderStyle-Width="80px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center"/>
                                 <asp:BoundField DataField="Remarks" HeaderText="Remarks" />
-                                 <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

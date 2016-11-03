@@ -114,7 +114,7 @@
                         $('.trHourDt').each(function () {
                             if (result != "")
                                 result += '|';
-                            result += $(this).find('.txtFrom').val() + ';' + $(this).find('.txtTo').val() + ';' + $(this).find('.txtMaxHour').val();
+                            result += $(this).find('.txtFrom').val() + ';' + $(this).find('.txtTo').val() + ';' + $(this).find('.txtPengali').val();
                         });
                     }
                     $('#<%=hdnDtHourSave.ClientID %>').val(result);
@@ -176,7 +176,7 @@
                         $tr = $('.trHourDt').last();
                         $tr.find('.txtFrom').val(result[i].FromHoursIndex);
                         $tr.find('.txtTo').val(result[i].ToHoursIndex);
-                        $tr.find('.txtMaxHour').val(result[i].MultiplyBy);
+                        $tr.find('.txtPengali').val(result[i].MultiplyBy);
                     }
                 }
             });
@@ -324,7 +324,7 @@
         <tr class="trHourDt">
             <td><input type="text" class="txtFrom number" style="width:100%" /></td>
             <td><input type="text" class="txtTo number" style="width:100%" /></td>
-            <td><input type="text" class="txtMaxHour number" style="width:100%" /></td>
+            <td><input type="text" class="txtPengali number" style="width:100%" /></td>
             <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
         </tr>
     </script>
@@ -407,7 +407,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel"></td>
-                                                    <td><asp:Checkbox runat="server" ID="chkIsTariffFlat" Text="Default Flat"/></td>
+                                                    <td><asp:Checkbox runat="server" ID="chkIsTariffFlat" Text="Flat"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Pengali")%></label></td>

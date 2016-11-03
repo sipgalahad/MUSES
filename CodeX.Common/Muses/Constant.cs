@@ -106,6 +106,9 @@ namespace CodeX.Common
             public const string PROJECT_FUNDING = "DT006";
             public const string BUDGET_TYPE = "DT007";
             public const string DUE_DATE_TYPE = "DT008";
+
+            public const string RENUMERATION_COMP_DAY_TYPE = "X321";
+
         }
         public static class FinalMarkSummaryType
         {
@@ -639,7 +642,7 @@ namespace CodeX.Common
             }
             #endregion
 
-            #region
+            #region Human Resources
             public static class HumanResources
             {
                 public const string UPDATE_RENUMERATION = "HR010100";

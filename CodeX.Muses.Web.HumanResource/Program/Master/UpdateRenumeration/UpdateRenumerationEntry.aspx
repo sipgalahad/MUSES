@@ -30,7 +30,14 @@
             setDatePicker('<%=txtTransactionDate.ClientID %>');
             $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'minDate', '0');
 
-            
+
+
+            $('#<%=chkIsUseFormula.ClientID %>').change(function () {
+                if (this.checked) {
+                    $('#<%=txtAmount.ClientID %>').val('0').trigger('changeValue');
+                    $('#<%=txtAmount.ClientID %>').attr('readonly', true);
+                }
+            });
 
             //#region Transaction No
             function onGetRenumerationPositionFilterExpression() {
@@ -155,10 +162,8 @@
             hideLoadingPanel();
             var param = s.cpResult.split('|');
             if (param[0] == 'save') {
-                if (param[1] == 'fail') {
+                if (param[1] == 'fail') 
                     showToast('Save Failed', 'Error Message : ' + param[2]);
-                    $('#divTransactionAdd').click();
-                }
                 else {
                     onAfterSaveRecordDtSuccess(s.cpTransactionID);
                     $('#divTransactionAdd').click();
@@ -190,9 +195,16 @@
                 return false;
             }
         }
+
+        $('.lnkDetail a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/UpdateRenumeration/UpdateRenumerationEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Renumeration Formula', 600, 500);
+        });
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
+    <input type="hidden" value="" id="hdnTransactionDtID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
@@ -257,7 +269,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Amount")%></label></td>
-                                                    <td><asp:TextBox ID="txtAmount" CssClass="txtCurrency" Width="120px" runat="server" /></td>
+                                                    <td><asp:TextBox ID="txtAmount" CssClass="txtCurrency" Width="120px" runat="server" readonly="true"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel"></td>
@@ -265,7 +277,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel"></td>
-                                                    <td><asp:CheckBox runat="server" ID="chkIsUseFormula" Text="Is Use Formula"/></td>
+                                                    <td><asp:CheckBox runat="server" ID="chkIsUseFormula" Text="Is Use Formula" /></td>
                                                 </tr>
                                                 
                                             </table>
@@ -295,6 +307,11 @@
                                             <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="RenumerationCompName" HeaderText="Nama" />
                                             <asp:BoundField DataField="Amount" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderText="Amount" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                                            <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkDetail" HeaderText="Formula" HeaderStyle-Width="80px">
+                                                <ItemTemplate>
+                                                    <a <%# Eval("IsUseFormula").ToString() == "False" ? "style='display:none'" : ""%>>Detil</a>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <div style='float:right;<%=IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailDelete"></div>

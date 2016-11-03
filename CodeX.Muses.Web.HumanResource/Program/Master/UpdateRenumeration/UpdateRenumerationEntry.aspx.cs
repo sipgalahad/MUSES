@@ -426,10 +426,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void ControlToEntity(TransRenumerationDt entityDt)
         {
             entityDt.RenumerationCompID = Convert.ToInt32(cboRenumerationCompID.Value);
-            entityDt.Amount = Convert.ToDecimal(txtAmount.Text);
+            entityDt.Amount = Convert.ToDecimal(Request.Form[txtAmount.UniqueID]);
             entityDt.IsAllowChange = chkIsAllowChange.Checked;
             entityDt.IsUseFormula = chkIsUseFormula.Checked;
         }
+
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int TransactionID)
         {

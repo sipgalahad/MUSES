@@ -107,7 +107,7 @@
     <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntry.aspx" />
     <Content Include="Program\Master\UpdateRenumerationCompFormula\UpdateRenumerationCompFormulaEntry.aspx" />
     <Content Include="Program\Master\UpdateRenumerationPosition\UpdateRenumerationPositionEntry.aspx" />
-    <Content Include="Program\Master\UpdateRenumeration\UpdateRenumerationEmployeeEntry.aspx" />
+    <Content Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntryCtl.ascx" />
     <Content Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntry.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -363,12 +363,12 @@
     <Compile Include="Program\Master\UpdateRenumerationPosition\UpdateRenumerationPositionEntry.aspx.designer.cs">
       <DependentUpon>UpdateRenumerationPositionEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\UpdateRenumeration\UpdateRenumerationEmployeeEntry.aspx.cs">
-      <DependentUpon>UpdateRenumerationEmployeeEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntryCtl.ascx.cs">
+      <DependentUpon>UpdateRenumerationEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\UpdateRenumeration\UpdateRenumerationEmployeeEntry.aspx.designer.cs">
-      <DependentUpon>UpdateRenumerationEmployeeEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntryCtl.ascx.designer.cs">
+      <DependentUpon>UpdateRenumerationEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntry.aspx.cs">
       <DependentUpon>UpdateRenumerationEntry.aspx</DependentUpon>

@@ -782,6 +782,20 @@
 			<intellisensetext datafield="RenumerationCompName" headertext="Nama" description="" />
 		</intellisensetexts>
 	</searchdialog>
+	<!-- #EndRegion -->
+	
+	<!-- #Region Renumeration Comp Formula Hd-->
+	<searchdialog type="renumerationcompformulahd" methodname="GetRenumerationCompFormulaHdList" keyfieldname="FormulaCode" orderbyexpression="FormulaCode ASC">
+		<gridcolumns>
+			<gridcolumn datafield="FormulaCode" headertext="Kode" width="100px" />
+			<gridcolumn datafield="FormulaName" headertext="Nama" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="FormulaCode" headertext="Kode" description="" />
+			<intellisensetext datafield="FormulaName" headertext="Nama" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
   <!-- #Region Report Master -->
   <searchdialog type="reportmaster" methodname="GetvReportMasterList" keyfieldname="ReportCode" istreeview="1">
     <gridcolumns>

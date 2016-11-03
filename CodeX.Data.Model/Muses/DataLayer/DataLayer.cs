@@ -37773,6 +37773,150 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region TransRenumerationDtFormula
+    [Serializable]
+    [Table(Name = "TransRenumerationDtFormula")]
+    public class TransRenumerationDtFormula : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private String _GCDayType;
+        private Int32 _FormulaID;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "GCDayType", DataType = "String", IsPrimaryKey = true)]
+        public String GCDayType
+        {
+            get { return _GCDayType; }
+            set { _GCDayType = value; }
+        }
+        [Column(Name = "FormulaID", DataType = "Int32")]
+        public Int32 FormulaID
+        {
+            get { return _FormulaID; }
+            set { _FormulaID = value; }
+        }
+    }
+
+    public class TransRenumerationDtFormulaDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransRenumerationDtFormula));
+        private bool _isAuditLog = false;
+        private const string p_GCDayType = "@p_GCDayType";
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public TransRenumerationDtFormulaDao() { }
+        public TransRenumerationDtFormulaDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransRenumerationDtFormula Get(Int32 TransactionDtID, String GCDayType)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCDayType, GCDayType);
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransRenumerationDtFormula)_helper.DataRowToObject(row, new TransRenumerationDtFormula());
+        }
+        public int Insert(TransRenumerationDtFormula record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransRenumerationDtFormula record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID, String GCDayType)
+        {
+            TransRenumerationDtFormula record;
+            if (_ctx.Transaction == null)
+                record = new TransRenumerationDtFormulaDao().Get(TransactionDtID, GCDayType);
+            else
+                record = Get(TransactionDtID, GCDayType);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransRenumerationDtFormulaDayType
+    [Serializable]
+    [Table(Name = "TransRenumerationDtFormulaDayType")]
+    public class TransRenumerationDtFormulaDayType : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private Int16 _DisplayOrder;
+        private String _GCDayType;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16", IsPrimaryKey = true)]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "GCDayType", DataType = "String", IsPrimaryKey = true)]
+        public String GCDayType
+        {
+            get { return _GCDayType; }
+            set { _GCDayType = value; }
+        }
+    }
+
+    public class TransRenumerationDtFormulaDayTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransRenumerationDtFormulaDayType));
+        private bool _isAuditLog = false;
+        private const string p_DisplayOrder = "@p_DisplayOrder";
+        private const string p_GCDayType = "@p_GCDayType";
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public TransRenumerationDtFormulaDayTypeDao() { }
+        public TransRenumerationDtFormulaDayTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransRenumerationDtFormulaDayType Get(Int32 TransactionDtID, Int16 DisplayOrder, String GCDayType)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_DisplayOrder, DisplayOrder);
+            _ctx.Add(p_GCDayType, GCDayType);
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransRenumerationDtFormulaDayType)_helper.DataRowToObject(row, new TransRenumerationDtFormulaDayType());
+        }
+        public int Insert(TransRenumerationDtFormulaDayType record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransRenumerationDtFormulaDayType record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID, Int16 DisplayOrder, String GCDayType)
+        {
+            TransRenumerationDtFormulaDayType record;
+            if (_ctx.Transaction == null)
+                record = new TransRenumerationDtFormulaDayTypeDao().Get(TransactionDtID, DisplayOrder, GCDayType);
+            else
+                record = Get(TransactionDtID, DisplayOrder, GCDayType);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region TransRenumerationCompFormulaHd
     [Serializable]
     [Table(Name = "TransRenumerationCompFormulaHd")]

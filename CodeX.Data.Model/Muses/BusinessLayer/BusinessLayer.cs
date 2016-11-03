@@ -18011,6 +18011,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TransRenumerationDtFormula
+        public static TransRenumerationDtFormula GetTransRenumerationDtFormula(Int32 TransactionDtID, String GCDayType)
+        {
+            return new TransRenumerationDtFormulaDao().Get(TransactionDtID, GCDayType);
+        }
+        public static int InsertTransRenumerationDtFormula(TransRenumerationDtFormula record)
+        {
+            return new TransRenumerationDtFormulaDao().Insert(record);
+        }
+        public static int UpdateTransRenumerationDtFormula(TransRenumerationDtFormula record)
+        {
+            return new TransRenumerationDtFormulaDao().Update(record);
+        }
+        public static int DeleteTransRenumerationDtFormula(Int32 TransactionDtID, String GCDayType)
+        {
+            return new TransRenumerationDtFormulaDao().Delete(TransactionDtID, GCDayType);
+        }
+        public static List<TransRenumerationDtFormula> GetTransRenumerationDtFormulaList(string filterExpression)
+        {
+            List<TransRenumerationDtFormula> result = new List<TransRenumerationDtFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationDtFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransRenumerationDtFormula)helper.IDataReaderToObject(reader, new TransRenumerationDtFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region TransRenumerationCompFormulaHd
         public static TransRenumerationCompFormulaHd GetTransRenumerationCompFormulaHd(Int32 TransactionID)
         {
