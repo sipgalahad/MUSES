@@ -19,7 +19,7 @@ namespace CodeX.Muses.Web.Finance.MasterPage
             hdnTitleText.Value = entity.StudentName;
             imgPatientImage.Src = entity.StudentImageUrl;
             imgPatientImage.Attributes.Add("gender", entity.GCGender);
-            divStudentCode.InnerHtml = entity.StudentCode;
+            divStudentCode.InnerHtml = entity.VirtualAccountNo;
             divDateOfBirth.InnerHtml = entity.DateOfBirth.ToString("dd/MM/yyyy");
             divPhoneNo.InnerHtml = entity.cfPhoneNo;
             divAddress.InnerHtml = entity.HomeAddress;
