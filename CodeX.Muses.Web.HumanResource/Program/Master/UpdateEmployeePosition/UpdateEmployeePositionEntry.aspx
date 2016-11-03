@@ -18,6 +18,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function onLoad() {
+            $('#ulTabEmployeePosition li').click(function () {
+                $('#ulTabEmployeePosition li.selected').removeAttr('class');
+                $('.containerTransDt').filter(':visible').hide();
+                $contentID = $(this).attr('contentid');
+                $('#' + $contentID).show();
+                $(this).addClass('selected');
+                lastContentID = $contentID;
+            });
+
             if ($('#<%=hdnIsEditable.ClientID %>').val() == '1') {
                 $('#divTransactionAdd').show();
                 $('#divQuickPicks').show();
@@ -90,7 +99,7 @@
             showToastConfirmation('Are You Sure Want To Delete?', function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.EmployeeID);
+                    tacEmployeeID.setValue(entity.EmployeeID);
                     cbpProcess.PerformCallback('delete');
                 }
             });
@@ -233,8 +242,8 @@
                             <td><asp:TextBox ID="txtStartEffectiveDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Posisi")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboPositionID" ClientInstanceName="cbPositionID" Width="50%" runat="server" /></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Posisi")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboPositionID" ClientInstanceName="cboPositionID" Width="50%" runat="server" /></td>
                         </tr>
                        <tr>
                             <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>
@@ -245,79 +254,117 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <div class="divTransactionEntry">
-                        <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
-                        <br />
-                        <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
-                            <fieldset id="fsTrx" style="margin: 0">
-                                <input type="hidden" value="" id="hdnEntryID" runat="server" />
-                                <table style="width: 100%">
-                                    <colgroup>
-                                        <col style="width: 50%" />
-                                    </colgroup>
-                                    <tr>
-                                        <td valign="top">
-                                            <table style="width: 100%">
-                                                <colgroup>
-                                                    <col style="width: 150px" />
-                                                </colgroup>
-                                                <tr>
-                                                <td class="tdLabel"><label class="lblMandatory" id="lblEmployee"><%=GetLabel("Karyawan")%></label></td>
-                                                 <td>
-                                                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacEmployeeID" ClientInstanceName="tacEmployeeID" MethodName="GetvEmployeeList" GetFilterExpressionFunction="onGetEmployeeFilterExpression"
-                                                        SearchFields="EmployeeName,EmployeeID" TextField="EmployeeName" ValueField="EmployeeID" SearchText="${EmployeeName} (<b>${EmployeeCode}</b>)" OrderByExpression="EmployeeName">
-                                                        <ClientSideEvents ButtonSearchClick="function(){ onTacEmployeeIDSearchClick(); }"
-                                                            ValueChanged="function(){ onTacEmployeeIDValueChanged(); }" />
-                                                    </cdx:CodeXAutoCompleteTextBox>   
-                                                </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> 
-                                            <input type="button" id="btnSave" class="btnWhite" value='<%=GetLabel("Commit") %>'/>
-                                            <input type="button" id="btnCancel" class="btnWhite" value='<%=GetLabel("Cancel") %>'/>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </fieldset>
+                    <div class="containerUlTabPage">
+                        <ul class="ulTabPage" id="ulTabEmployeePosition">
+                            <li class="selected" contentid="containerEmployee"><%=GetLabel("Karyawan") %></li>
+                            <li contentid="containerRenumeration"><%=GetLabel("Detil Renumerasi") %></li>
+                        </ul>
+                    </div>
+                    <div id="containerEmployee" class="containerTransDt">    
+                        <div class="divTransactionEntry">
+                            <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
+                            <br />
+                            <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
+                                <fieldset id="fsTrx" style="margin: 0">
+                                    <table style="width: 100%">
+                                        <colgroup>
+                                            <col style="width: 50%" />
+                                        </colgroup>
+                                        <tr>
+                                            <td valign="top">
+                                                <table style="width: 100%">
+                                                    <colgroup>
+                                                        <col style="width: 150px" />
+                                                    </colgroup>
+                                                    <tr>
+                                                        <td class="tdLabel"><label class="lblMandatory" id="lblEmployee"><%=GetLabel("Karyawan")%></label></td>
+                                                        <td>
+                                                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacEmployeeID" ClientInstanceName="tacEmployeeID" MethodName="GetvEmployeeList" GetFilterExpressionFunction="onGetEmployeeFilterExpression"
+                                                                SearchFields="EmployeeName,EmployeeID" TextField="EmployeeName" ValueField="EmployeeID" SearchText="${EmployeeName} (<b>${EmployeeCode}</b>)" OrderByExpression="EmployeeName">
+                                                                <ClientSideEvents ButtonSearchClick="function(){ onTacEmployeeIDSearchClick(); }"
+                                                                    ValueChanged="function(){ onTacEmployeeIDValueChanged(); }" />
+                                                            </cdx:CodeXAutoCompleteTextBox>   
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> 
+                                                <input type="button" id="btnSave" class="btnWhite" value='<%=GetLabel("Commit") %>'/>
+                                                <input type="button" id="btnCancel" class="btnWhite" value='<%=GetLabel("Cancel") %>'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
+                            ShowLoadingPanel="false" OnCallback="cbpView_Callback">
+                            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
+                                EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
+                            <PanelCollection>
+                                <dx:PanelContent ID="PanelContent1" runat="server">
+                                    <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
+                                        position: relative;">
+                                        <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
+                                            AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                            <Columns>
+                                                <asp:BoundField DataField="EmployeeName" HeaderText="Nama" />
+                                                <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
+                                                    <ItemTemplate>
+                                                        <div style='float:right;<%#IsEditable().ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
+                                                        <input type="hidden" value="<%#Eval("EmployeeID") %>" bindingfield="EmployeeID" />
+                                                        <input type="hidden" value="<%#Eval("EmployeeName") %>" bindingfield="EmployeeName" />
+                                                        <input type="hidden" value="<%#Eval("EmployeeCode") %>" bindingfield="EmployeeCode" />
+                                                        <input type="hidden" value="<%#Eval("TransactionID") %>" bindingfield="TransactionID" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                            <EmptyDataTemplate>
+                                                <%=GetLabel("No Data To Display")%>
+                                            </EmptyDataTemplate>
+                                        </asp:GridView>
+                                    </asp:Panel>
+                                </dx:PanelContent>
+                            </PanelCollection>
+                        </dxcp:ASPxCallbackPanel>
+                        <div class="containerPaging">
+                            <div class="divInformationNumEntries" id="informationNumEntries"></div>
+                            <div class="wrapperPaging">
+                                <div id="paging">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
-                        ShowLoadingPanel="false" OnCallback="cbpView_Callback">
-                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
-                            EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
-                        <PanelCollection>
-                            <dx:PanelContent ID="PanelContent1" runat="server">
-                                <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
-                                    position: relative;">
-                                    <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
-                                        AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
-                                        <Columns>
-                                            <asp:BoundField DataField="EmployeeName" HeaderText="Nama" />
-                                            <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
-                                                <ItemTemplate>
-                                                    <div style='float:right;<%#IsEditable().ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
-                                                    <input type="hidden" value="<%#Eval("EmployeeID") %>" bindingfield="EmployeeID" />
-                                                    <input type="hidden" value="<%#Eval("EmployeeName") %>" bindingfield="EmployeeName" />
-                                                    <input type="hidden" value="<%#Eval("EmployeeCode") %>" bindingfield="EmployeeCode" />
-                                                    <input type="hidden" value="<%#Eval("TransactionID") %>" bindingfield="TransactionID" />
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                        </Columns>
-                                        <EmptyDataTemplate>
-                                            <%=GetLabel("No Data To Display")%>
-                                        </EmptyDataTemplate>
-                                    </asp:GridView>
-                                </asp:Panel>
-                            </dx:PanelContent>
-                        </PanelCollection>
-                    </dxcp:ASPxCallbackPanel>
-                    <div class="containerPaging">
-                        <div class="divInformationNumEntries" id="informationNumEntries"></div>
-                        <div class="wrapperPaging">
-                            <div id="paging">
+                    <div id="containerRenumeration" style="display:none" class="containerTransDt">  
+                        <div class="divTransactionEntry">
+                            <span id="divTransactionAdd2" class="divAdd"><%=GetLabel("Tambah Data")%></span>
+                            <br />
+                            <div id="entryDetailContainer2" class="entryDetailContainer" style="display: none">                                
+                                <fieldset id="fsTrx2" style="margin: 0">
+                                    <input type="hidden" value="" id="hdnEntryID" runat="server" />
+                                    <table style="width: 100%">
+                                        <colgroup>
+                                            <col style="width: 50%" />
+                                        </colgroup>
+                                        <tr>
+                                            <td valign="top">
+                                                <table style="width: 100%">
+                                                    <colgroup>
+                                                        <col style="width: 150px" />
+                                                    </colgroup>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> 
+                                                <input type="button" id="btnSave2" class="btnWhite" value='<%=GetLabel("Commit") %>'/>
+                                                <input type="button" id="btnCancel2" class="btnWhite" value='<%=GetLabel("Cancel") %>'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </fieldset>
                             </div>
                         </div>
                     </div>

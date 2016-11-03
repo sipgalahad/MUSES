@@ -21,15 +21,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         public override void InitializeDataControl(string param)
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.POSITION_LEVEL, Constant.StandardCode.POSITION_TYPE, Constant.StandardCode.SCHEDULE_TYPE));
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.POSITION_LEVEL, Constant.StandardCode.POSITION_TYPE, Constant.StandardCode.SCHEDULE_TYPE));
+            lstSc.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
             Methods.SetComboBoxField<StandardCode>(cboGCPositionLevel, lstSc.Where(p => p.ParentID == Constant.StandardCode.POSITION_LEVEL).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<StandardCode>(cboGCPositionType, lstSc.Where(p => p.ParentID == Constant.StandardCode.POSITION_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboGCPositionType, lstSc.Where(p => p.ParentID == Constant.StandardCode.POSITION_TYPE || p.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboGCScheduleType, lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHEDULE_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
             
-
             List<HRWeeklySchedule> lstWs = BusinessLayer.GetHRWeeklyScheduleList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<HRWeeklySchedule>(cboWeeklyScheduleID, lstWs, "WeeklyScheduleName", "WeeklyScheduleID");
-
 
             hdnID.Value = param;
             OrganizationDepartment entity = BusinessLayer.GetOrganizationDepartment(Convert.ToInt32(hdnID.Value));
@@ -39,9 +38,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             Helper.SetControlEntrySetting(txtOrganizationPositionName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(cboGCPositionLevel, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(cboGCPositionType, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(cboGCScheduleType, new ControlEntrySetting(true, true, false), "mpTrxPopup");
-            Helper.SetControlEntrySetting(cboWeeklyScheduleID, new ControlEntrySetting(true, true, false), "mpTrxPopup");
+            Helper.SetControlEntrySetting(cboGCScheduleType, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(cboWeeklyScheduleID, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(tacOrganizationPositionEmployee, new ControlEntrySetting(true, true, false), "mpTrxPopup");
             Helper.SetControlEntrySetting(chkIsSchedule, new ControlEntrySetting(true, true, false), "mpTrxPopup");
   
@@ -98,21 +96,20 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.OrganizationPositionName = txtOrganizationPositionName.Text;
             entity.GCPositionLevel = cboGCPositionLevel.Value.ToString();
-            //entity.GCScheduleType = cboGCScheduleType.Value.ToString();
-            entity.GCPositionType = cboGCPositionType.Value.ToString();
-            if (cboGCScheduleType.Value.ToString() != "0" || cboGCScheduleType.Value.ToString() != null)
-                entity.GCScheduleType = cboGCScheduleType.Value.ToString();
+            entity.GCScheduleType = cboGCScheduleType.Value.ToString();
+            if (cboGCPositionType.Value != null && cboGCPositionType.Value.ToString() != "")
+                entity.GCPositionType = cboGCPositionType.Value.ToString();
             else
-                entity.GCScheduleType = null;
-            if (hdnPICEmployeeID.Value == "0" || hdnPICEmployeeID.Value == null)
+                entity.GCPositionType = null;
+            if (hdnPICEmployeeID.Value == "0" || hdnPICEmployeeID.Value == "")
                 entity.PICEmployeeID = null;
             else
                 entity.PICEmployeeID = Convert.ToInt32(hdnPICEmployeeID.Value);
-            if (cboWeeklyScheduleID.Value.ToString() != "0" || cboWeeklyScheduleID.Value.ToString() != null)
+            if (entity.GCScheduleType == Constant.EmployeeScheduleType.FIXED)
                 entity.WeeklyScheduleID = Convert.ToInt32(cboWeeklyScheduleID.Value);
             else
                 entity.WeeklyScheduleID = null;
-            //entity.WeeklyScheduleID = Convert.ToInt32(cboWeeklyScheduleID.Value);
+            
             entity.IsScheduleAllowChanged = chkIsSchedule.Checked;
         }
 
@@ -129,6 +126,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -146,6 +144,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -163,6 +162,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
