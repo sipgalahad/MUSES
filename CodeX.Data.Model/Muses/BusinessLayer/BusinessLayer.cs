@@ -12165,23 +12165,23 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region RenumerationHd
-        public static RenumerationHd GetRenumeration(Int32 RenumerationID)
+        public static RenumerationHd GetRenumerationHd(Int32 RenumerationID)
         {
             return new RenumerationHdDao().Get(RenumerationID);
         }
-        public static int InsertRenumeration(RenumerationHd record)
+        public static int InsertRenumerationHd(RenumerationHd record)
         {
             return new RenumerationHdDao().Insert(record);
         }
-        public static int UpdateRenumeration(RenumerationHd record)
-        {   
+        public static int UpdateRenumerationHd(RenumerationHd record)
+        {
             return new RenumerationHdDao().Update(record);
         }
-        public static int DeleteRenumeration(Int32 RenumerationHdID)
+        public static int DeleteRenumerationHd(Int32 RenumerationID)
         {
-            return new RenumerationHdDao().Delete(RenumerationHdID);
+            return new RenumerationHdDao().Delete(RenumerationID);
         }
-        public static List<RenumerationHd> GetRenumerationHdList(string filterExpression) 
+        public static List<RenumerationHd> GetRenumerationHdList(string filterExpression)
         {
             List<RenumerationHd> result = new List<RenumerationHd>();
             IDbContext ctx = DbFactory.Configure();

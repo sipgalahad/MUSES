@@ -35,8 +35,10 @@
             $('#<%=chkIsUseFormula.ClientID %>').change(function () {
                 if (this.checked) {
                     $('#<%=txtAmount.ClientID %>').val('0').trigger('changeValue');
-                    $('#<%=txtAmount.ClientID %>').attr('readonly', true);
+                    $('#<%=txtAmount.ClientID %>').attr('readonly', 'readonly');
                 }
+                else
+                    $('#<%=txtAmount.ClientID %>').removeAttr('readonly');
             });
 
             //#region Transaction No
@@ -71,6 +73,7 @@
                     $('#<%=chkIsUseFormula.ClientID %>').prop('checked', false);
                     cboRenumerationCompID.SetValue('');
 
+                    $('#<%=chkIsUseFormula.ClientID %>').change();
                     $('#entryDetailContainer').show();
                 }
             });
@@ -116,6 +119,7 @@
             
             $('#<%=chkIsUseFormula.ClientID %>').prop('checked', entity.IsUseFormula == 'True');
             cboRenumerationCompID.SetValue(entity.RenumerationCompID);
+            $('#<%=chkIsUseFormula.ClientID %>').change();
             $('#entryDetailContainer').show();
         });
 
@@ -201,6 +205,20 @@
             var url = ResolveUrl("~/Program/Master/UpdateRenumeration/UpdateRenumerationEntryCtl.ascx");
             openUserControlPopup(url, id, 'Renumeration Formula', 600, 500);
         });
+
+        $('#btnRenumerationID').live('click', function () {
+            //alert("");
+            var id = cboRenumerationID.GetValue();
+            //alert(id);
+            if (id != null && id != '' ) {
+                var url = ResolveUrl("~/CodeX.Muses.Web.ControlPanel/Program/Master/Renumeration/RenumerationCtl.ascx");
+                openUserControlPopup(url, id, 'Details Renumeration', 600, 500);
+            }
+        });
+
+        $('#btnRenumerationID').click(function () {
+            alert("a");
+        });
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
@@ -237,6 +255,7 @@
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Renumerasi")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboRenumerationID" ClientInstanceName="cboRenumerationID" Width="50%" runat="server" /></td>
+                            <td><input type="button" id="btnRenumerationID" class="btnMore" value="..." /></td>
                         </tr>
                        <tr>
                             <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>

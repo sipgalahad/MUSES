@@ -24887,66 +24887,80 @@ namespace CodeX.Data.Model
     [Serializable]
     [Table(Name = "RenumerationHd")]
     public class RenumerationHd : DbDataModel
-    { 
+    {
         private Int32 _RenumerationID;
         private String _RenumerationCode;
         private String _RenumerationName;
+        private DateTime _LastProcessedDate;
+        private Int32? _CurrentTransactionID;
         private String _Remarks;
         private Boolean _IsDeleted;
-        private Int32 _CreatedBy;
+        private Int32? _CreatedBy;
         private DateTime _CreatedDate;
-        private Int32 _LastUpdatedBy;
+        private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
 
         [Column(Name = "RenumerationID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 RenumerationID 
+        public Int32 RenumerationID
         {
-            get {return _RenumerationID ;}
+            get { return _RenumerationID; }
             set { _RenumerationID = value; }
         }
         [Column(Name = "RenumerationCode", DataType = "String")]
-        public String RenumerationCode 
+        public String RenumerationCode
         {
-            get {return _RenumerationCode;}
+            get { return _RenumerationCode; }
             set { _RenumerationCode = value; }
         }
         [Column(Name = "RenumerationName", DataType = "String")]
-        public String RenumerationName 
+        public String RenumerationName
         {
-            get {return _RenumerationName;}
+            get { return _RenumerationName; }
             set { _RenumerationName = value; }
         }
-        [Column(Name = "Remarks", DataType = "String")]
-        public String Remarks 
+        [Column(Name = "LastProcessedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastProcessedDate
         {
-            get {return _Remarks;}
+            get { return _LastProcessedDate; }
+            set { _LastProcessedDate = value; }
+        }
+        [Column(Name = "CurrentTransactionID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurrentTransactionID
+        {
+            get { return _CurrentTransactionID; }
+            set { _CurrentTransactionID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
             set { _Remarks = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted 
+        public Boolean IsDeleted
         {
-            get { return _IsDeleted;}
-            set { _IsDeleted = value;}
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
-        [Column(Name = "CreatedBy", DataType = "Int32")]
-        public Int32 CreatedBy 
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
         {
             get { return _CreatedBy; }
             set { _CreatedBy = value; }
         }
-        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
         public DateTime CreatedDate
         {
             get { return _CreatedDate; }
             set { _CreatedDate = value; }
         }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32")]
-        public Int32 LastUpdatedBy
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
         {
             get { return _LastUpdatedBy; }
             set { _LastUpdatedBy = value; }
         }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime")]
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
         public DateTime LastUpdatedDate
         {
             get { return _LastUpdatedDate; }

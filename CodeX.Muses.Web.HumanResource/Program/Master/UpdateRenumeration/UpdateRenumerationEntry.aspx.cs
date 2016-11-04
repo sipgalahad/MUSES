@@ -237,7 +237,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             TransRenumerationHdDao transRenumerationHdDao = new TransRenumerationHdDao(ctx);
-            TransRenumerationDtDao transRenumerationDtDao = new TransRenumerationDtDao(ctx);
+            RenumerationHdDao renumerationHdDao = new RenumerationHdDao(ctx);
+            //TransRenumerationDtDao transRenumerationDtDao = new TransRenumerationDtDao(ctx);
             try
             {
                 TransRenumerationHd transRenumerationHd = transRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
@@ -246,13 +247,14 @@ namespace CodeX.Muses.Web.Inventory.Program
                 transRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 transRenumerationHdDao.Update(transRenumerationHd);
 
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND isDeleted = 0", hdnTransactionID.Value);
-                List<TransRenumerationDt> lstTransRenumerationDt = BusinessLayer.GetTransRenumerationDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (TransRenumerationDt transRenumerationDt in lstTransRenumerationDt)
+                if (String.Compare(transRenumerationHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
                 {
-                    transRenumerationDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    transRenumerationDtDao.Update(transRenumerationDt);
+                    RenumerationHd renumerationHd = renumerationHdDao.Get(transRenumerationHd.RenumerationID);
+                    renumerationHd.CurrentTransactionID = Convert.ToInt32(hdnTransactionID.Value);
+                    renumerationHd.LastProcessedDate = DateTime.Now;
+                    renumerationHdDao.Update(renumerationHd);
                 }
+               
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -316,17 +318,18 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 TransRenumerationHd transRenumerationHd = transRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                transRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                transRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                transRenumerationHdDao.Update(transRenumerationHd);
-
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND ISsDeleted = 0", hdnTransactionID.Value);
-                List<TransRenumerationDt> lstTransRenumerationDt = BusinessLayer.GetTransRenumerationDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (TransRenumerationDt transRenumerationDt in lstTransRenumerationDt)
+                if (String.Compare(transRenumerationHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <=0)
                 {
-                    transRenumerationDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    transRenumerationDtDao.Update(transRenumerationDt);
+                    result = false;
+                    errMessage = "Transaksi Sudah Diproses, Tidak Dapat Diubah";
                 }
+                else 
+                {
+                    transRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    transRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    transRenumerationHdDao.Update(transRenumerationHd);
+                }
+                
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
