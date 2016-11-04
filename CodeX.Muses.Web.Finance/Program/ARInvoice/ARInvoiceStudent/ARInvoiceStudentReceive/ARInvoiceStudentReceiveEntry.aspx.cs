@@ -325,7 +325,11 @@ namespace CodeX.Muses.Web.Finance.Program
                     List<ARInvoiceHd> lstARInvoiceHD = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", hdnListInvoiceID.Value), ctx);
                     List<ARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetARInvoiceDtList(string.Format("ARInvoiceID IN ({0})", hdnListInvoiceID.Value), ctx);
                     String lstStudentFeeDtID = String.Join(",", lstARInvoiceDt.Where(p => p.StudentFeeDtID != null).Select(x => x.StudentFeeDtID).ToList());
-                    List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", lstStudentFeeDtID), ctx);
+                    List<StudentFeeDt> lstStudentFeeDt = null;
+                    if (lstStudentFeeDtID != "")
+                        lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", lstStudentFeeDtID), ctx);
+                    else
+                        lstStudentFeeDt = new List<StudentFeeDt>();
                     decimal totalPaymentAmount = entityReceivingHd.TotalReceivingAmount;
                     foreach (ARInvoiceHd ARInvoiceHdobj in lstARInvoiceHD)
                     {
