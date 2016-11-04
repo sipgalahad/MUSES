@@ -107,10 +107,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                RenumerationHd entity = BusinessLayer.GetRenumeration(Convert.ToInt32(hdnID.Value));
+                RenumerationHd entity = BusinessLayer.GetRenumerationHd(Convert.ToInt32(hdnID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateRenumeration(entity);
+                BusinessLayer.UpdateRenumerationHd(entity);
                 return true;
             }
             return false;

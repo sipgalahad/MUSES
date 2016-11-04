@@ -59,7 +59,11 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
-
+        $('.lnkDetail a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/Renumeration/RenumerationCtl.ascx");
+            openUserControlPopup(url, id, 'Details Renumeration', 600, 500);
+        });
    </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -77,6 +81,7 @@
                                 <asp:BoundField DataField="RenumerationCode" HeaderText="Renumeration Code" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="RenumerationName" HeaderText="Renumeration Name" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Remarks" HeaderStyle-Width="250px" />
+                                <asp:HyperLinkField HeaderText="Detail" Text="Detail" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

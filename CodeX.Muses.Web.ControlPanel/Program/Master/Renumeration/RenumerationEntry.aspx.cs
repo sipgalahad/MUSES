@@ -26,7 +26,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
-                RenumerationHd entity = BusinessLayer.GetRenumeration(Convert.ToInt32(ID));
+                RenumerationHd entity = BusinessLayer.GetRenumerationHd(Convert.ToInt32(ID));
                 EntityToControl(entity);
             }
             else
@@ -117,10 +117,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                RenumerationHd entity = BusinessLayer.GetRenumeration(Convert.ToInt32(hdnID.Value));
+                RenumerationHd entity = BusinessLayer.GetRenumerationHd(Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateRenumeration(entity);
+                BusinessLayer.UpdateRenumerationHd(entity);
                 return true;
             }
             catch (Exception ex)

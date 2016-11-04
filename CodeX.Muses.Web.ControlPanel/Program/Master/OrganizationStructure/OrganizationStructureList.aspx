@@ -91,7 +91,7 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="OrganizationDepartmentName" HeaderText="Nama" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Remarks" HeaderStyle-Width="250px" />
-                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Detail" Text="Position" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

@@ -185,6 +185,7 @@
     <Content Include="Program\Master\RenumerationComp\RenumerationCompEntry.aspx" />
     <Content Include="Program\Master\Renumeration\RenumerationEntry.aspx" />
     <Content Include="Program\Master\Renumeration\RenumerationList.aspx" />
+    <Content Include="Program\Master\Renumeration\RenumerationCtl.ascx" />
     <Content Include="Program\Master\Room\RoomSiteEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolType\ClassType\ClassTypeEntry.aspx" />
     <Content Include="Program\Master\SchoolType\ClassTypeExtracurricular\ClassTypeExtracurricularEntry.aspx" />
@@ -1050,6 +1051,13 @@
     </Compile>
     <Compile Include="Program\Master\Renumeration\RenumerationList.aspx.designer.cs">
       <DependentUpon>RenumerationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Renumeration\RenumerationCtl.ascx.cs">
+      <DependentUpon>RenumerationCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Renumeration\RenumerationCtl.ascx.designer.cs">
+      <DependentUpon>RenumerationCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Room\RoomSiteEntryCtl.ascx.cs">
       <DependentUpon>RoomSiteEntryCtl.ascx</DependentUpon>
