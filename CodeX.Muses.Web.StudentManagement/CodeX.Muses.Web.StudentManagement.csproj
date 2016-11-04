@@ -140,6 +140,7 @@
     <Content Include="Program\ClassMeeting\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanInformationDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformation.aspx" />
     <Content Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformationDtCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\PeriodGrade\PeriodGradeEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\CurriculumFinalMarkFormulaDtCtl.ascx" />
     <Content Include="Program\Master\Student\StudentDropOutEntryCtl.ascx" />
     <Content Include="Program\Master\Student\StudentFamily\StudentTrusteeEntry.aspx" />
@@ -758,6 +759,13 @@
     </Compile>
     <Compile Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformationDtCtl.ascx.designer.cs">
       <DependentUpon>SubjectCurriculumSyllabusInformationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodGrade\PeriodGradeEntry.aspx.cs">
+      <DependentUpon>PeriodGradeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodGrade\PeriodGradeEntry.aspx.designer.cs">
+      <DependentUpon>PeriodGradeEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\CurriculumFinalMarkFormulaDtCtl.ascx.cs">
       <DependentUpon>CurriculumFinalMarkFormulaDtCtl.ascx</DependentUpon>

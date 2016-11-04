@@ -9486,6 +9486,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PeriodGrade
+        public static PeriodGrade GetPeriodGrade(Int32 SchoolPeriodID, String GCGrade)
+        {
+            return new PeriodGradeDao().Get(SchoolPeriodID, GCGrade);
+        }
+        public static int InsertPeriodGrade(PeriodGrade record)
+        {
+            return new PeriodGradeDao().Insert(record);
+        }
+        public static int UpdatePeriodGrade(PeriodGrade record)
+        {
+            return new PeriodGradeDao().Update(record);
+        }
+        public static int DeletePeriodGrade(Int32 SchoolPeriodID, String GCGrade)
+        {
+            return new PeriodGradeDao().Delete(SchoolPeriodID, GCGrade);
+        }
+        public static List<PeriodGrade> GetPeriodGradeList(string filterExpression)
+        {
+            List<PeriodGrade> result = new List<PeriodGrade>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodGrade));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodGrade)helper.IDataReaderToObject(reader, new PeriodGrade()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PeriodSchedule
         public static PeriodSchedule GetPeriodSchedule(Int32 PeriodScheduleID)
         {

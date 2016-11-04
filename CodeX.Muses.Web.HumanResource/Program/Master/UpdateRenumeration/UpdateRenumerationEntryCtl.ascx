@@ -67,7 +67,6 @@
     }
 
     //#region DtFormula
-
     function onGetDtFormulaFilterExpression() {
         var filterExpression = "<%=OnGetFormulaFilterExpression() %>";
         return filterExpression;

@@ -28,9 +28,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 IsAdd = false;
                 String ID = param[1];
                 hdnID.Value = ID;
-                SetControlProperties();
                 SchoolPeriod entity = BusinessLayer.GetSchoolPeriod(Convert.ToInt32(ID));
                 hdnSiteID.Value = entity.SiteID;
+                SetControlProperties();
                 EntityToControl(entity);
                 BindCboGradePromotionFormula();
                 trCopySchoolPeriod.Style.Add("display", "none");
@@ -64,12 +64,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void SetControlProperties()
         {
+            hdnGCSchoolType.Value = BusinessLayer.GetSiteParameter(hdnSiteID.Value, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
+
             List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", hdnSiteID.Value, Constant.SchoolPeriodStatus.VOID));
             lstSchoolPeriod.Insert(0, new SchoolPeriod { SchoolPeriodID = 0, SchoolPeriodName = "" });
             Methods.SetComboBoxField<SchoolPeriod>(cboCopySchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
             cboCopySchoolPeriod.SelectedIndex = 0;
 
-            List<Curriculum> lstCurriculum = BusinessLayer.GetCurriculumList(string.Format("IsDeleted = 0"));
+            List<Curriculum> lstCurriculum = BusinessLayer.GetCurriculumList(string.Format("GCSchoolType = '{0}' AND IsDeleted = 0", hdnGCSchoolType.Value));
             Methods.SetComboBoxField<Curriculum>(cboCurriculum, lstCurriculum, "CurriculumName", "CurriculumID");
             cboCurriculum.SelectedIndex = 0;
 
