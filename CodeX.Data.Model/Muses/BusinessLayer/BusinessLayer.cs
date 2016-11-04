@@ -13600,6 +13600,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<SchoolClass> GetSchoolClassList(string filterExpression, IDbContext ctx)
+        {
+            List<SchoolClass> result = new List<SchoolClass>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolClass));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolClass)helper.IDataReaderToObject(reader, new SchoolClass()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetSchoolClassRowCount(string filterExpression)
         {
             Int32 result = 0;

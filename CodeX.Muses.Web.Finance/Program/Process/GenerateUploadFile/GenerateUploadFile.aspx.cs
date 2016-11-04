@@ -120,7 +120,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 if (lstProspectiveStudentID != "")
                 {
                     filterExpressionARBalance = String.Format("ProspectiveStudentID IN ({0}) AND IsDeleted = 0", lstProspectiveStudentID);
-                    lstProspectiveStudent = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0})", lstProspectiveStudentID));
+                    lstProspectiveStudent = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0})", lstProspectiveStudentID), ctx);
                 }
 
                 String lstStudentID = String.Join(",", lstvInvoiceDt.GroupBy(x => x.StudentID).Where(x => x.Key != 0).Select(x => x.Key));
@@ -131,10 +131,10 @@ namespace CodeX.Muses.Web.Finance.Program
                     if (filterExpressionARBalance != "")
                         filterExpressionARBalance += " AND ";
                     filterExpressionARBalance = String.Format("StudentID IN ({0})", lstStudentID);
-                    lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0}) AND IsDeleted = 0", lstStudentID));
+                    lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0}) AND IsDeleted = 0", lstStudentID), ctx);
                     String lstSchooClassID = String.Join(",", lstStudent.Where(p => p.SchoolClassID != null).GroupBy(x => x.SchoolClassID).Where(x => x.Key != 0).Select(x => x.Key));
                     if (lstSchooClassID != "")
-                        lstSchoolClass = BusinessLayer.GetSchoolClassList(String.Format("SchoolClassID IN ({0})", lstSchooClassID));
+                        lstSchoolClass = BusinessLayer.GetSchoolClassList(String.Format("SchoolClassID IN ({0})", lstSchooClassID), ctx);
                 }
 
                 List<ARBalance> lstARBalance = BusinessLayer.GetARBalanceList(filterExpressionARBalance, ctx);

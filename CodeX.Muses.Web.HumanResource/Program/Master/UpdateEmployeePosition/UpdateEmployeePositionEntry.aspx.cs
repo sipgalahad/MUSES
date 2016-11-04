@@ -410,7 +410,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             try
             {
-                BusinessLayer.DeleteTransEmployeePositionDt(Convert.ToInt32(hdnTransactionID.Value), Convert.ToInt32(hdnEntryID.Value));
+                BusinessLayer.DeleteTransEmployeePositionDt(Convert.ToInt32(hdnTransactionID.Value), Convert.ToInt32(tacEmployeeID.Value));
                 return true;
             }
             catch (Exception ex)

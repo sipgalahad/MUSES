@@ -25,7 +25,7 @@
     <li style="width: 190px">
         <center>
             <div class="containerTile"><div id="divStudentCode" runat="server"></div></div>
-            <h6 style="background-color: #E1B700;"><%=GetLabel("Kode")%></h6>
+            <h6 style="background-color: #E1B700;"><%=GetLabel("Virtual Account")%></h6>
         </center>
     </li>
     <li style="width: 190px">

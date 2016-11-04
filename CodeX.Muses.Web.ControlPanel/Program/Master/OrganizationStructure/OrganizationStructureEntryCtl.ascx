@@ -150,7 +150,7 @@
                         <td><dxe:ASPxComboBox runat="server" ID="cboGCPositionLevel" ClientInstanceName="cboGCPositionLevel" Width="200px"></dxe:ASPxComboBox></td>
                     </tr>
                      <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe")%></label></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe")%></label></td>
                         <td><dxe:ASPxComboBox runat="server" ID="cboGCPositionType" ClientInstanceName="cboGCPositionType" Width="200px"></dxe:ASPxComboBox></td>
                     </tr>
                      <tr>
@@ -165,7 +165,7 @@
                         </td>
                     </tr>
                      <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe Jadwal")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jadwal")%></label></td>
                         <td><dxe:ASPxComboBox runat="server" ID="cboGCScheduleType" ClientInstanceName="cboGCScheduleType" Width="200px"></dxe:ASPxComboBox></td>
                     </tr>
                      <tr>
