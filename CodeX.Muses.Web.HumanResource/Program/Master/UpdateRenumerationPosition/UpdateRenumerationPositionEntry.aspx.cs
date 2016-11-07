@@ -227,6 +227,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             TransPositionRenumerationHdDao transPositionRenumerationHdDao = new TransPositionRenumerationHdDao(ctx);
+            OrganizationPositionDao organizationPositionDao = new OrganizationPositionDao(ctx);
             try
             {
                 TransPositionRenumerationHd transPositionRenumerationHd = transPositionRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
@@ -234,6 +235,17 @@ namespace CodeX.Muses.Web.Inventory.Program
                 transPositionRenumerationHd.Remarks = txtRemarks.Text;
                 transPositionRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 transPositionRenumerationHdDao.Update(transPositionRenumerationHd);
+
+                if (String.Compare(transPositionRenumerationHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
+                {
+                    List<OrganizationPosition> lstOrganization = BusinessLayer.GetOrganizationPositionList(String.Format("OrganizationPositionID IN (SELECT OrganizationPositionID FROM TransPositionRenumerationDt WHERE TransactionID = {0})", hdnTransactionID.Value), ctx);
+                    foreach (OrganizationPosition organizationPosition in lstOrganization)
+                    {
+                        organizationPosition.CurrentTransactionID = Convert.ToInt32(hdnTransactionID.Value);
+                        organizationPosition.LastProcessedDate = DateTime.Now;
+                        organizationPositionDao.Update(organizationPosition);
+                    }
+                }
 
                 ctx.CommitTransaction();
             }
@@ -290,9 +302,18 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 TransPositionRenumerationHd transPositionRenumerationHd = transPositionRenumerationHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                transPositionRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                transPositionRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                transPositionRenumerationHdDao.Update(transPositionRenumerationHd);
+                if (String.Compare(transPositionRenumerationHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
+                {
+                    result = false;
+                    errMessage = "Transaksi Sudah Diproses, Tidak Dapat Diubah";
+                }
+                else 
+                {
+                    transPositionRenumerationHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    transPositionRenumerationHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    transPositionRenumerationHdDao.Update(transPositionRenumerationHd);
+                }
+
 
                 ctx.CommitTransaction();
             }

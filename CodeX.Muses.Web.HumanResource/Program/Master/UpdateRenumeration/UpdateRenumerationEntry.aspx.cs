@@ -49,7 +49,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             BindGridView(1, true, ref PageCount, ref RowCount);
 
-            Helper.SetControlEntrySetting(cboRenumerationCompID, new ControlEntrySetting(true, true, true), "mpTrx");
+            //Helper.SetControlEntrySetting(cboRenumerationCompID, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtAmount, new ControlEntrySetting(true, true, true), "mpTrx");
             
         }
@@ -60,8 +60,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             Methods.SetComboBoxField<RenumerationHd>(cboRenumerationID, listRenumerationHd,"RenumerationName", "RenumerationID");
 
 
-            List<vRenumerationComp> listvRenumerationComp = BusinessLayer.GetvRenumerationCompList(string.Format("IsDeleted = 0"));
-            Methods.SetComboBoxField<vRenumerationComp>(cboRenumerationCompID, listvRenumerationComp, "RenumerationCompName", "RenumerationCompID");
+            //List<vRenumerationComp> listvRenumerationComp = BusinessLayer.GetvRenumerationCompList(string.Format("IsDeleted = 0"));
+            //Methods.SetComboBoxField<vRenumerationComp>(cboRenumerationCompID, listvRenumerationComp, "RenumerationCompName", "RenumerationCompID");
 
         }
 
@@ -428,7 +428,8 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         private void ControlToEntity(TransRenumerationDt entityDt)
         {
-            entityDt.RenumerationCompID = Convert.ToInt32(cboRenumerationCompID.Value);
+            //entityDt.RenumerationCompID = Convert.ToInt32(cboRenumerationCompID.Value);
+            entityDt.RenumerationCompID = Convert.ToInt32(tacRenumerationCompID.Value);
             entityDt.Amount = Convert.ToDecimal(Request.Form[txtAmount.UniqueID]);
             entityDt.IsAllowChange = chkIsAllowChange.Checked;
             entityDt.IsUseFormula = chkIsUseFormula.Checked;
@@ -521,11 +522,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         #endregion
 
         #region Callback
-        protected void cboRenumerationCompID_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
-        {
-            List<vRenumerationComp> lst = BusinessLayer.GetvRenumerationCompList(string.Format("isDeleted =  0"));
-            Methods.SetComboBoxField<vRenumerationComp>(cboRenumerationCompID, lst, "RenumerationCompName", "RenumerationCompID");
-        }
+        //protected void cboRenumerationCompID_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        //{
+        //    List<vRenumerationComp> lst = BusinessLayer.GetvRenumerationCompList(string.Format("isDeleted =  0"));
+        //    Methods.SetComboBoxField<vRenumerationComp>(cboRenumerationCompID, lst, "RenumerationCompName", "RenumerationCompID");
+        //}
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {

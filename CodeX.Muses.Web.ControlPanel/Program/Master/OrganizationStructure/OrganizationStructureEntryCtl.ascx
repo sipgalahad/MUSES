@@ -109,12 +109,23 @@
                 }
             });
         });
-
     }
 
     function onTacOrganizationPositionEmployeeValueChanged() {
     }
     //#endregion
+
+    function onCboGCScheduleTypeValueChanged() {
+        var GCScheduleType = cboGCScheduleType.GetValue();
+        if (GCScheduleType == '<%=OnGetGCScheduleTypeFromComponent() %>') {
+            $('#trWeeklyScheduleID').attr('style', 'display:none');
+            $('#trWeeklyScheduleID').removeAttr('style');
+        }
+        else {
+            $('#trWeeklyScheduleID').attr('style', 'display:none');
+            cboWeeklyScheduleID.SetValue('');
+        }
+    }
 </script>
 
 <div style="height:440px; overflow-y:auto">
@@ -166,9 +177,13 @@
                     </tr>
                      <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jadwal")%></label></td>
-                        <td><dxe:ASPxComboBox runat="server" ID="cboGCScheduleType" ClientInstanceName="cboGCScheduleType" Width="200px"></dxe:ASPxComboBox></td>
+                        <td>
+                            <dxe:ASPxComboBox runat="server" ID="cboGCScheduleType" ClientInstanceName="cboGCScheduleType" Width="200px">
+                                <ClientSideEvents ValueChanged="function(s,e){ onCboGCScheduleTypeValueChanged() }" />
+                            </dxe:ASPxComboBox>
+                        </td>
                     </tr>
-                     <tr>
+                     <tr id="trWeeklyScheduleID" style="display: none;">
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jadwal Mingguan")%></label></td>
                         <td><dxe:ASPxComboBox runat="server" ID="cboWeeklyScheduleID" ClientInstanceName="cboWeeklyScheduleID" Width="200px"></dxe:ASPxComboBox></td>
                     </tr>

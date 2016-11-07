@@ -7,6 +7,8 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhHeader" runat="server">
     <input type="hidden" id="hdnRowCountPerPage" runat="server" value="" />
@@ -71,13 +73,22 @@
                     $('#<%=txtAmount.ClientID %>').val('0').trigger('changeValue');
                     $('#<%=chkIsAllowChange.ClientID %>').prop('checked', false);
                     $('#<%=chkIsUseFormula.ClientID %>').prop('checked', false);
-                    cboRenumerationCompID.SetValue('');
-
+                    //cboRenumerationCompID.SetValue('');
+                    tacRenumerationCompID.setValue('');
+                    tacRenumerationCompID.setText('');
                     $('#<%=chkIsUseFormula.ClientID %>').change();
                     $('#entryDetailContainer').show();
                 }
             });
 
+            $('#btnRenumerationID').click(function () {
+                var renumerationID = cboRenumerationID.GetValue();
+                if (renumerationID != null && renumerationID != '') {
+                    var id = renumerationID;
+                    var url = ResolveUrl("~/Program/Master/UpdateRenumeration/RenumerationDtCtl.ascx");
+                    openUserControlPopup(url, id, 'Details Renumeration', 600, 500);
+                }
+            });
 
             $('#btnCancel').click(function () {
                 $('#entryDetailContainer').hide();
@@ -118,7 +129,9 @@
             $('#<%=chkIsAllowChange.ClientID %>').prop('checked', entity.IsAllowChange == 'True');
             
             $('#<%=chkIsUseFormula.ClientID %>').prop('checked', entity.IsUseFormula == 'True');
-            cboRenumerationCompID.SetValue(entity.RenumerationCompID);
+            //cboRenumerationCompID.SetValue(entity.RenumerationCompID);
+            tacRenumerationCompID.setValue(entity.RenumerationCompID);
+            tacRenumerationCompID.setText(entity.RenumerationCompName);
             $('#<%=chkIsUseFormula.ClientID %>').change();
             $('#entryDetailContainer').show();
         });
@@ -206,19 +219,30 @@
             openUserControlPopup(url, id, 'Renumeration Formula', 600, 500);
         });
 
-        $('#btnRenumerationID').live('click', function () {
-            //alert("");
-            var id = cboRenumerationID.GetValue();
-            //alert(id);
-            if (id != null && id != '' ) {
-                var url = ResolveUrl("~/CodeX.Muses.Web.ControlPanel/Program/Master/Renumeration/RenumerationCtl.ascx");
-                openUserControlPopup(url, id, 'Details Renumeration', 600, 500);
-            }
-        });
+        function onGetRenumerationCompFilterExpression() {
+            var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
+            var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransRenumerationDt where TransactionID = " + TransactionID + ")";
+            return filterExpression;
+        }
 
-        $('#btnRenumerationID').click(function () {
-            alert("a");
-        });
+        function ontacRenumerationCompIDSearchClick() {
+            openSearchDialog('renumerationcompid', onGetRenumerationCompFilterExpression(), function (value) {
+                var filterExpression = onGetRenumerationCompFilterExpression() + " AND RenumerationCompID = '" + value + "'";
+                Methods.getObject('GetvRenumerationCompList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacRenumerationCompID.setValue(result.RenumerationCompID);
+                        tacRenumerationCompID.setText(result.RenumerationCompName);
+                    }
+                    else {
+                        tacRenumerationCompID.setValue('');
+                        tacRenumerationCompID.setText('');
+                    }
+                });
+            });
+        }
+
+        function ontacRenumerationCompIDValueChanged() {
+        }
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
@@ -254,8 +278,15 @@
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Renumerasi")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboRenumerationID" ClientInstanceName="cboRenumerationID" Width="50%" runat="server" /></td>
-                            <td><input type="button" id="btnRenumerationID" class="btnMore" value="..." /></td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td><dxe:ASPxComboBox ID="cboRenumerationID" ClientInstanceName="cboRenumerationID" Width="200px" runat="server" /></td>
+                                        <td style="width:5px;"></td>
+                                        <td><input type="button" id="btnRenumerationID" class="btnMore" value="..." /></td>
+                                    </tr>
+                                </table>                                
+                            </td>
                         </tr>
                        <tr>
                             <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>
@@ -282,9 +313,19 @@
                                                 <colgroup>
                                                     <col style="width: 150px" />
                                                 </colgroup>
-                                                <tr>
+                                               <%-- <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Komp. Renumerasi")%></label></td>
                                                     <td><dxe:ASPxComboBox runat="server" ID="cboRenumerationCompID" ClientInstanceName="cboRenumerationCompID" Width="300px" /></td>
+                                                </tr>--%>
+                                                <tr>
+                                                <td class="tdLabel"><label class="lblMandatory" id="lblPosition"><%=GetLabel("Komp. Renumerasi")%></label></td>
+                                                    <td>
+                                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacRenumerationCompID" ClientInstanceName="tacRenumerationCompID" MethodName="GetvRenumerationCompList" GetFilterExpressionFunction="onGetRenumerationCompFilterExpression"
+                                                            SearchFields="RenumerationCompName,RenumerationCompID" TextField="RenumerationCompName" ValueField="RenumerationCompID" SearchText="${RenumerationCompName} (<b>${RenumerationCompType}</b>)" OrderByExpression="RenumerationCompName">
+                                                            <ClientSideEvents ButtonSearchClick="function(){ ontacRenumerationCompIDSearchClick(); }"
+                                                                ValueChanged="function(){ ontacRenumerationCompIDValueChanged(); }" />
+                                                        </cdx:CodeXAutoCompleteTextBox>   
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Amount")%></label></td>

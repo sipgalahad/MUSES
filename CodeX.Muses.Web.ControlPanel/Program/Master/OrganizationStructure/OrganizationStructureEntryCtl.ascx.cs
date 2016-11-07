@@ -19,6 +19,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             return string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsDeleted = 0", AppSession.UserLogin.SiteID);
         }
 
+        #region Html Getter
+        protected string OnGetGCScheduleTypeFromComponent()
+        {
+            return Constant.RenumerationSheduleType.FIXED;
+        }
+        #endregion
+
         public override void InitializeDataControl(string param)
         {
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.POSITION_LEVEL, Constant.StandardCode.POSITION_TYPE, Constant.StandardCode.SCHEDULE_TYPE));

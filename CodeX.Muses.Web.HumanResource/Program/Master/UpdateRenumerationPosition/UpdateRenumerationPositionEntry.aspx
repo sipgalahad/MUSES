@@ -32,6 +32,15 @@
             setDatePicker('<%=txtTransactionDate.ClientID %>');
             $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'maxDate', '0');
 
+            $('#btnRenumerationID').click(function () {
+                var renumerationID = cboRenumerationID.GetValue();
+                if (renumerationID != null && renumerationID != '') {
+                    var id = renumerationID + "|" + $('#<%=txtStartEffectiveDate.ClientID %>').val();
+                    var url = ResolveUrl("~/Program/Master/UpdateRenumeration/RenumerationDtCtl.ascx");
+                    openUserControlPopup(url, id, 'Details Renumeration', 600, 500);
+                }
+            });
+
 
             //#region Transaction No
             function onGetItemConsumptionFilterExpression() {
@@ -112,7 +121,6 @@
                     cbpView.PerformCallback('changepage|' + page);
                     setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
-
             }
         }
         //#endregion
@@ -196,12 +204,13 @@
                     }
                 });
             });
-
         }
 
         function onTacOrganizationPositionIDValueChanged() {
         }
         //#endregion
+
+        
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
@@ -231,17 +240,25 @@
                             <td><asp:TextBox ID="txtTransactionDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><%=GetLabel("Tanggal Dimulai")%></td>
+                            <td class="tdLabel"><%=GetLabel("Tanggal Berlaku")%></td>
                             <td><asp:TextBox ID="txtStartEffectiveDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Renumerasi")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboRenumerationID" ClientInstanceName="cboRenumerationID" Width="50%" runat="server" /></td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td><dxe:ASPxComboBox ID="cboRenumerationID" ClientInstanceName="cboRenumerationID" Width="200px" runat="server" /></td>
+                                        <td style="width:5px;"></td>
+                                        <td><input type="button" id="btnRenumerationID" class="btnMore" value="..." /></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                        <tr>
                             <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>
                             <td><asp:TextBox ID="txtRemarks" Width="300px" TextMode="MultiLine" Rows="2" runat="server" /></td>
-                        </tr>
+                       </tr>
                     </table>
                 </td>
             </tr>

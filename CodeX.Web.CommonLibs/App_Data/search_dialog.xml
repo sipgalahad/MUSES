@@ -783,6 +783,19 @@
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
+
+	<!-- #Region Renumeration Comp By ID-->
+	<searchdialog type="renumerationcompid" methodname="GetvRenumerationCompList" keyfieldname="RenumerationCompID" orderbyexpression="RenumerationCompName ASC">
+		<gridcolumns>
+			<gridcolumn datafield="RenumerationCompType" headertext="Tipe" width="100px" />
+			<gridcolumn datafield="RenumerationCompName" headertext="Nama" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="RenumerationCompType" headertext="Tipe" description="" />
+			<intellisensetext datafield="RenumerationCompName" headertext="Nama" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
 	
 	<!-- #Region Renumeration Comp Formula Hd-->
 	<searchdialog type="renumerationcompformulahd" methodname="GetRenumerationCompFormulaHdList" keyfieldname="FormulaCode" orderbyexpression="FormulaCode ASC">

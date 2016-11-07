@@ -138,6 +138,12 @@ namespace CodeX.Common
             public const string SHIFT = "X317^002";
         }
 
+        public static class RenumerationSheduleType
+        {
+            public const string FIXED = "X317^001";
+            public const string SHIFT = "X317^002";
+        }
+
         public static class RenumerationFormulaBaseTariffType
         {
             public const string RENUMERATION_COMP = "X319^001";

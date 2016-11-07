@@ -18234,6 +18234,8 @@ namespace CodeX.Data.Model
         private String _GCPositionType;
         private Int32? _PICEmployeeID;
         private Int32? _RenumerationID;
+        private Int32? _CurrentTransactionID;
+        private DateTime _LastProcessedDate;
         private String _GCScheduleType;
         private Int32? _WeeklyScheduleID;
         private Boolean _IsScheduleAllowChanged;
@@ -18284,6 +18286,18 @@ namespace CodeX.Data.Model
         {
             get { return _RenumerationID; }
             set { _RenumerationID = value; }
+        }
+        [Column(Name = "CurrentTransactionID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurrentTransactionID
+        {
+            get { return _CurrentTransactionID; }
+            set { _CurrentTransactionID = value; }
+        }
+        [Column(Name = "LastProcessedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastProcessedDate
+        {
+            get { return _LastProcessedDate; }
+            set { _LastProcessedDate = value; }
         }
         [Column(Name = "GCScheduleType", DataType = "String")]
         public String GCScheduleType
@@ -24772,6 +24786,8 @@ namespace CodeX.Data.Model
         private String _FormulaCode;
         private String _FormulaName;
         private Int32 _RenumerationCompID;
+        private Int32? _CurrentTransactionID;
+        private DateTime _LastProcessedDate;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -24802,6 +24818,18 @@ namespace CodeX.Data.Model
         {
             get { return _RenumerationCompID; }
             set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "CurrentTransactionID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurrentTransactionID
+        {
+            get { return _CurrentTransactionID; }
+            set { _CurrentTransactionID = value; }
+        }
+        [Column(Name = "LastProcessedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastProcessedDate
+        {
+            get { return _LastProcessedDate; }
+            set { _LastProcessedDate = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

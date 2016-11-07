@@ -231,7 +231,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             TransRenumerationCompFormulaHdDao transRenumerationCompFormulaHdDao = new TransRenumerationCompFormulaHdDao(ctx);
-            TransRenumerationCompFormulaDtDao transRenumerationCompFormulaDtDao = new TransRenumerationCompFormulaDtDao(ctx);
+            RenumerationCompFormulaHdDao renumerationCompFormulaHdDao = new RenumerationCompFormulaHdDao(ctx);
+            //TransRenumerationCompFormulaDtDao transRenumerationCompFormulaDtDao = new TransRenumerationCompFormulaDtDao(ctx);
             try
             {
                 TransRenumerationCompFormulaHd transRenumerationCompFormulaHd = transRenumerationCompFormulaHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
@@ -240,13 +241,22 @@ namespace CodeX.Muses.Web.Inventory.Program
                 transRenumerationCompFormulaHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 transRenumerationCompFormulaHdDao.Update(transRenumerationCompFormulaHd);
 
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND isDeleted = 0", hdnTransactionID.Value);
-                List<TransRenumerationCompFormulaDt> lstTransRenumerationCompFormulaDt = BusinessLayer.GetTransRenumerationCompFormulaDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (TransRenumerationCompFormulaDt transRenumerationCompFormulaDt in lstTransRenumerationCompFormulaDt)
+                //string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND isDeleted = 0", hdnTransactionID.Value);
+                //List<TransRenumerationCompFormulaDt> lstTransRenumerationCompFormulaDt = BusinessLayer.GetTransRenumerationCompFormulaDtList(filterExpressionPurchaseOrderHd, ctx);
+                //foreach (TransRenumerationCompFormulaDt transRenumerationCompFormulaDt in lstTransRenumerationCompFormulaDt)
+                //{
+                //    transRenumerationCompFormulaDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                //    transRenumerationCompFormulaDtDao.Update(transRenumerationCompFormulaDt);
+                //}
+
+                if (String.Compare(transRenumerationCompFormulaHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
                 {
-                    transRenumerationCompFormulaDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    transRenumerationCompFormulaDtDao.Update(transRenumerationCompFormulaDt);
+                    RenumerationCompFormulaHd renumerationCompFormulaHd = renumerationCompFormulaHdDao.Get(transRenumerationCompFormulaHd.FormulaID);
+                    renumerationCompFormulaHd.CurrentTransactionID = Convert.ToInt32(hdnTransactionID.Value);
+                    renumerationCompFormulaHd.LastProcessedDate = DateTime.Now;
+                    renumerationCompFormulaHdDao.Update(renumerationCompFormulaHd);
                 }
+
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -306,21 +316,29 @@ namespace CodeX.Muses.Web.Inventory.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             TransRenumerationCompFormulaHdDao transRenumerationCompFormulaHdDao = new TransRenumerationCompFormulaHdDao(ctx);
-            TransRenumerationCompFormulaDtDao transRenumerationCompFormulaDtDao = new TransRenumerationCompFormulaDtDao(ctx);
+            //TransRenumerationCompFormulaDtDao transRenumerationCompFormulaDtDao = new TransRenumerationCompFormulaDtDao(ctx);
+            
             try
             {
                 TransRenumerationCompFormulaHd transRenumerationCompFormulaHd = transRenumerationCompFormulaHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                transRenumerationCompFormulaHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                transRenumerationCompFormulaHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                transRenumerationCompFormulaHdDao.Update(transRenumerationCompFormulaHd);
-
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND ISsDeleted = 0", hdnTransactionID.Value);
-                List<TransRenumerationCompFormulaDt> lstTransRenumerationCompFormulaDt = BusinessLayer.GetTransRenumerationCompFormulaDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (TransRenumerationCompFormulaDt transRenumerationCompFormulaDt in lstTransRenumerationCompFormulaDt)
+                if (String.Compare(transRenumerationCompFormulaHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
                 {
-                    transRenumerationCompFormulaDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    transRenumerationCompFormulaDtDao.Update(transRenumerationCompFormulaDt);
+                    result = false;
+                    errMessage = "Transaksi Sudah Diproses, Tidak Dapat Diubah";
                 }
+                else
+                {
+                    transRenumerationCompFormulaHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    transRenumerationCompFormulaHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    transRenumerationCompFormulaHdDao.Update(transRenumerationCompFormulaHd);
+                }
+                //string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND ISsDeleted = 0", hdnTransactionID.Value);
+                //List<TransRenumerationCompFormulaDt> lstTransRenumerationCompFormulaDt = BusinessLayer.GetTransRenumerationCompFormulaDtList(filterExpressionPurchaseOrderHd, ctx);
+                //foreach (TransRenumerationCompFormulaDt transRenumerationCompFormulaDt in lstTransRenumerationCompFormulaDt)
+                //{
+                //    transRenumerationCompFormulaDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                //    transRenumerationCompFormulaDtDao.Update(transRenumerationCompFormulaDt);
+                //}
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

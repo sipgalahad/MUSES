@@ -24,20 +24,6 @@ namespace CodeX.Muses.Web.Inventory.Program
             return Constant.MenuCode.HumanResources.UPDATE_EMPLOYEE_POSITION;
         }
 
-        #region Html Getter
-        protected string OnGetFilterExpressionLocation()
-        {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_CONSUMPTION);
-        }
-        protected string OnGetFilterExpressionItemProduct()
-        {
-            return string.Format("IsDeleted = 0");
-        }
-        protected string OnGetFilterExpressionServiceUnit()
-        {
-            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
-        }
-        #endregion
 
         protected override void InitializeDataControl()
         {
