@@ -20,11 +20,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             return string.Format("IsDeleted = 0");
         }
 
-        protected string OnGetEmployeeFilterExpression()
-        {
-            return string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsDeleted = 0", AppSession.UserLogin.SiteID);
-        }
-
+       
         public override void InitializeDataControl(string param)
         {
             hdnID.Value = param;
@@ -34,18 +30,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             BindGridView();
 
-            //Helper.SetControlEntrySetting(txtOrganizationPositionName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            //Helper.SetControlEntrySetting(cboGCPositionLevel, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            //Helper.SetControlEntrySetting(cboGCPositionType, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            //Helper.SetControlEntrySetting(cboGCScheduleType, new ControlEntrySetting(true, true, false), "mpTrxPopup");
-            //Helper.SetControlEntrySetting(cboWeeklyScheduleID, new ControlEntrySetting(true, true, false), "mpTrxPopup");
-            //Helper.SetControlEntrySetting(tacOrganizationPositionEmployee, new ControlEntrySetting(true, true, false), "mpTrxPopup");
-
             Helper.SetControlEntrySetting(tacFormulaID, new ControlEntrySetting(true, true, false), "mpTrxPopup");
-
-            //Helper.SetControlEntrySetting(chkIsSchedule, new ControlEntrySetting(true, true, false), "mpTrxPopup");
-  
-        }
+          }
 
         private void BindGridView()
         {

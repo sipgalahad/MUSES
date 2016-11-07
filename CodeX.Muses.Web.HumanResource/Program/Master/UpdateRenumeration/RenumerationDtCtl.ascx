@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="RenumerationCtl.ascx.cs"
-    Inherits="CodeX.Muses.Web.Information.Program.RenumerationCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="RenumerationDtCtl.ascx.cs"
+    Inherits="CodeX.Muses.Web.Information.Program.RenumerationDtCtl" %>
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -10,10 +10,7 @@
 <script type="text/javascript" id="dxss_serviceunithealthcareentryctl">
 </script>
 <input type="hidden" id="hdnID" runat="server" />
-<input type="hidden" id="hdnItemID" runat="server" />
-<input type="hidden" id="hdnLocationID" runat="server" />
-<input type="hidden" id="hdnDateFrom" runat="server" />
-<input type="hidden" id="hdnDateTo" runat="server" />
+<input type="hidden" id="hdnStartEffectiveDate" runat="server" />
 
 <table class="tblContentArea">
     <tr>

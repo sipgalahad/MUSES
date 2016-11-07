@@ -105,8 +105,10 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntry.aspx" />
+    <Content Include="Program\Master\UpdateRenumerationCompFormula\RenumerationCompFormulaDtCtl.ascx" />
     <Content Include="Program\Master\UpdateRenumerationCompFormula\UpdateRenumerationCompFormulaEntry.aspx" />
     <Content Include="Program\Master\UpdateRenumerationPosition\UpdateRenumerationPositionEntry.aspx" />
+    <Content Include="Program\Master\UpdateRenumeration\RenumerationDtCtl.ascx" />
     <Content Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntryCtl.ascx" />
     <Content Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntry.aspx" />
     <Content Include="Web.config" />
@@ -349,6 +351,13 @@
     <Compile Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntry.aspx.designer.cs">
       <DependentUpon>UpdateEmployeePositionEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\UpdateRenumerationCompFormula\RenumerationCompFormulaDtCtl.ascx.cs">
+      <DependentUpon>RenumerationCompFormulaDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateRenumerationCompFormula\RenumerationCompFormulaDtCtl.ascx.designer.cs">
+      <DependentUpon>RenumerationCompFormulaDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\UpdateRenumerationCompFormula\UpdateRenumerationCompFormulaEntry.aspx.cs">
       <DependentUpon>UpdateRenumerationCompFormulaEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -362,6 +371,13 @@
     </Compile>
     <Compile Include="Program\Master\UpdateRenumerationPosition\UpdateRenumerationPositionEntry.aspx.designer.cs">
       <DependentUpon>UpdateRenumerationPositionEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\UpdateRenumeration\RenumerationDtCtl.ascx.cs">
+      <DependentUpon>RenumerationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateRenumeration\RenumerationDtCtl.ascx.designer.cs">
+      <DependentUpon>RenumerationDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntryCtl.ascx.cs">
       <DependentUpon>UpdateRenumerationEntryCtl.ascx</DependentUpon>

@@ -47,7 +47,14 @@
             setDatePicker('<%=txtTransactionDate.ClientID %>');
             $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'minDate', '0');
 
-            
+            $('#btnFormulaID').click(function () {
+                var formulaID = cboFormulaID.GetValue();
+                if (formulaID != null && formulaID != '') {
+                    var id = formulaID;
+                    var url = ResolveUrl("~/Program/Master/UpdateRenumerationCompFormula/RenumerationCompFormulaDtCtl.ascx");
+                    openUserControlPopup(url, id, 'Details Formula', 600, 500);
+                }
+            });
 
             //#region Transaction No
             function onGetRenumerationPositionFilterExpression() {
@@ -272,7 +279,7 @@
         function onGetRenumerationCompFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
             var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT FromRenumerationCompID FROM TransRenumerationCompFormulaDt WHERE TransactionID = " + TransactionID + " AND FromRenumerationCompID IS NOT NULL AND IsDeleted = 0)";
-            alert(filterExpression);
+            //alert(filterExpression);
             return filterExpression;
         }
 
@@ -356,7 +363,15 @@
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Formula")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboFormulaID" ClientInstanceName="cboFormulaID" Width="50%" runat="server" /></td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td><dxe:ASPxComboBox ID="cboFormulaID" ClientInstanceName="cboFormulaID" Width="200px" runat="server" /></td>
+                                        <td style="width:5px;"></td>
+                                        <td><input type="button" id="btnFormulaID" class="btnMore" value="..." /></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                        <tr>
                             <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>

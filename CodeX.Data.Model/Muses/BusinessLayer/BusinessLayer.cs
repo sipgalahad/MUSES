@@ -8914,6 +8914,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<OrganizationPosition> GetOrganizationPositionList(string filterExpression, IDbContext ctx)
+        {
+            List<OrganizationPosition> result = new List<OrganizationPosition>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationPosition));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OrganizationPosition)helper.IDataReaderToObject(reader, new OrganizationPosition()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region OrganizationDt
         public static OrganizationDt GetOrganizationDt(Int32 OrganizationDtID)
@@ -18037,6 +18054,28 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(TransRenumerationHd));
                 ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransRenumerationHd)helper.IDataReaderToObject(reader, new TransRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransRenumerationHd> GetTransRenumerationHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<TransRenumerationHd> result = new List<TransRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((TransRenumerationHd)helper.IDataReaderToObject(reader, new TransRenumerationHd()));
