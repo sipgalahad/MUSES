@@ -846,10 +846,11 @@ namespace CodeX.Common
                 public const string SP_ADMISSION_FEE_RULE = "SM99010204";
                 public const string SP_ADMISSION_PAYMENT = "SM99010205";
                 public const string SP_ADMISSION_SCHOLARSHIP = "SM99010206";
-                public const string SP_SCHOOL_PERIOD_CLASS_TYPE = "SM99010301";
-                public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT = "SM99010302";
-                public const string SP_GENERATE_SCHOOL_CLASS = "SM99010303";
-                public const string SP_SCHOOL_PERIOD_CLASS_TYPE_PERSONALITY = "SM99010304";
+                public const string SP_SCHOOL_PERIOD_GRADE = "SM99010301";
+                public const string SP_SCHOOL_PERIOD_CLASS_TYPE = "SM99010302";
+                public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT = "SM99010303";
+                public const string SP_GENERATE_SCHOOL_CLASS = "SM99010304";
+                public const string SP_SCHOOL_PERIOD_CLASS_TYPE_PERSONALITY = "SM99010305";
                 public const string SP_SCHOOL_CLASS = "SM99010401";
                 public const string SP_CLASS_SUBJECT = "SM99010402";
                 public const string SP_CLASS_SCHEDULE = "SM99010403";

@@ -16376,6 +16376,56 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPeriodGrade
+    [Serializable]
+    [Table(Name = "vPeriodGrade")]
+    public class vPeriodGrade
+    {
+        private Int32 _SchoolPeriodID;
+        private String _GCGrade;
+        private String _Grade;
+        private Int32 _CurriculumID;
+        private String _CurriculumCode;
+        private String _CurriculumName;
+
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "Grade", DataType = "String")]
+        public String Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+        [Column(Name = "CurriculumCode", DataType = "String")]
+        public String CurriculumCode
+        {
+            get { return _CurriculumCode; }
+            set { _CurriculumCode = value; }
+        }
+        [Column(Name = "CurriculumName", DataType = "String")]
+        public String CurriculumName
+        {
+            get { return _CurriculumName; }
+            set { _CurriculumName = value; }
+        }
+    }
+    #endregion
     #region vPeriodSchedule
     [Serializable]
     [Table(Name = "vPeriodSchedule")]

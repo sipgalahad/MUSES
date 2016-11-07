@@ -94,6 +94,7 @@
     <input type="hidden" id="hdnSiteID" runat="server" value="" />
     <input type="hidden" id="hdnID" runat="server" value="" />
     <input type="hidden" id="hdnSaveValue" runat="server" value="" />
+    <input type="hidden" id="hdnGCSchoolType" runat="server" value="" />
     <table class="tblContentArea">
         <colgroup>
             <col style="width:50%"/>

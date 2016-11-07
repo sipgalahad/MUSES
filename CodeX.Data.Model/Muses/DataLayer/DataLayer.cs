@@ -19423,6 +19423,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region PeriodGrade
+    [Serializable]
+    [Table(Name = "PeriodGrade")]
+    public class PeriodGrade : DbDataModel
+    {
+        private Int32 _SchoolPeriodID;
+        private String _GCGrade;
+        private Int32 _CurriculumID;
+
+        [Column(Name = "SchoolPeriodID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String", IsPrimaryKey = true)]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+    }
+
+    public class PeriodGradeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PeriodGrade));
+        private bool _isAuditLog = false;
+        private const string p_GCGrade = "@p_GCGrade";
+        private const string p_SchoolPeriodID = "@p_SchoolPeriodID";
+        public PeriodGradeDao() { }
+        public PeriodGradeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PeriodGrade Get(Int32 SchoolPeriodID, String GCGrade)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCGrade, GCGrade);
+            _ctx.Add(p_SchoolPeriodID, SchoolPeriodID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PeriodGrade)_helper.DataRowToObject(row, new PeriodGrade());
+        }
+        public int Insert(PeriodGrade record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PeriodGrade record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SchoolPeriodID, String GCGrade)
+        {
+            PeriodGrade record;
+            if (_ctx.Transaction == null)
+                record = new PeriodGradeDao().Get(SchoolPeriodID, GCGrade);
+            else
+                record = Get(SchoolPeriodID, GCGrade);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PeriodSchedule
     [Serializable]
     [Table(Name = "PeriodSchedule")]
