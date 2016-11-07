@@ -24,8 +24,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected override void InitializeDataControl()
         {
             SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
-            List<CurriculumClassType> lstClassType = BusinessLayer.GetCurriculumClassTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", entitySchoolPeriod.CurriculumID, Constant.ClassStudyType.REGULAR));
-            Methods.SetComboBoxField<CurriculumClassType>(cboClassType, lstClassType, "CurriculumClassTypeName", "CurriculumClassTypeID");
+            List<vPeriodGradeClassType> lstClassType = BusinessLayer.GetvPeriodGradeClassTypeList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", entitySchoolPeriod.SchoolPeriodID, Constant.ClassStudyType.REGULAR));
+            Methods.SetComboBoxField<vPeriodGradeClassType>(cboClassType, lstClassType, "CurriculumClassTypeName", "CurriculumClassTypeID");
             cboClassType.SelectedIndex = 0;
 
             List<vCurriculumMarkTypeClassStudyType> lstMarkType = BusinessLayer.GetvCurriculumMarkTypeClassStudyTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsAllowTask = 1 AND IsDeleted = 0", entitySchoolPeriod.CurriculumID, Constant.ClassStudyType.REGULAR));

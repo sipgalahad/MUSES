@@ -866,11 +866,15 @@ namespace CodeX.Data.Model
     {
         private Int32 _ARReceivingID;
         private Int32 _ARInvoiceID;
+        private Int32 _BusinessPartnerID;
+        private Int32 _StudentID;
+        private String _SiteID;
         private Int32 _ARInvoiceDtID;
         private DateTime _ReceivingDate;
         private Int32 _StudentFeeCompTypeID;
         private Decimal _TransactionAmount;
         private Decimal _PenaltyAmount;
+        private String _GCTransactionStatus;
         private Decimal _ReceivingAmount;
 
         [Column(Name = "ARReceivingID", DataType = "Int32")]
@@ -884,6 +888,24 @@ namespace CodeX.Data.Model
         {
             get { return _ARInvoiceID; }
             set { _ARInvoiceID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
         }
         [Column(Name = "ARInvoiceDtID", DataType = "Int32")]
         public Int32 ARInvoiceDtID
@@ -914,6 +936,12 @@ namespace CodeX.Data.Model
         {
             get { return _PenaltyAmount; }
             set { _PenaltyAmount = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
         }
         [Column(Name = "ReceivingAmount", DataType = "Decimal")]
         public Decimal ReceivingAmount
@@ -16423,6 +16451,84 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumName; }
             set { _CurriculumName = value; }
+        }
+    }
+    #endregion
+    #region vPeriodGradeClassType
+    [Serializable]
+    [Table(Name = "vPeriodGradeClassType")]
+    public class vPeriodGradeClassType
+    {
+        private Int32 _SchoolPeriodID;
+        private String _GCGrade;
+        private String _Grade;
+        private Int32 _CurriculumID;
+        private String _CurriculumCode;
+        private String _CurriculumName;
+        private Int32 _CurriculumClassTypeID;
+        private String _CurriculumClassTypeCode;
+        private String _CurriculumClassTypeName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "Grade", DataType = "String")]
+        public String Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+        [Column(Name = "CurriculumCode", DataType = "String")]
+        public String CurriculumCode
+        {
+            get { return _CurriculumCode; }
+            set { _CurriculumCode = value; }
+        }
+        [Column(Name = "CurriculumName", DataType = "String")]
+        public String CurriculumName
+        {
+            get { return _CurriculumName; }
+            set { _CurriculumName = value; }
+        }
+        [Column(Name = "CurriculumClassTypeID", DataType = "Int32")]
+        public Int32 CurriculumClassTypeID
+        {
+            get { return _CurriculumClassTypeID; }
+            set { _CurriculumClassTypeID = value; }
+        }
+        [Column(Name = "CurriculumClassTypeCode", DataType = "String")]
+        public String CurriculumClassTypeCode
+        {
+            get { return _CurriculumClassTypeCode; }
+            set { _CurriculumClassTypeCode = value; }
+        }
+        [Column(Name = "CurriculumClassTypeName", DataType = "String")]
+        public String CurriculumClassTypeName
+        {
+            get { return _CurriculumClassTypeName; }
+            set { _CurriculumClassTypeName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion
