@@ -776,27 +776,15 @@
 		<gridcolumns>
 			<gridcolumn datafield="RenumerationCompCode" headertext="Kode" width="100px" />
 			<gridcolumn datafield="RenumerationCompName" headertext="Nama" width="120px" />
+      <gridcolumn datafield="RenumerationCompType" headertext="Tipe" width="100px" />
 		</gridcolumns>
 		<intellisensetexts>
 			<intellisensetext datafield="RenumerationCompCode" headertext="Kode" description="" />
 			<intellisensetext datafield="RenumerationCompName" headertext="Nama" description="" />
+      <intellisensetext datafield="RenumerationCompType" headertext="Nama" description="" />
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
-
-	<!-- #Region Renumeration Comp By ID-->
-	<searchdialog type="renumerationcompid" methodname="GetvRenumerationCompList" keyfieldname="RenumerationCompID" orderbyexpression="RenumerationCompName ASC">
-		<gridcolumns>
-			<gridcolumn datafield="RenumerationCompType" headertext="Tipe" width="100px" />
-			<gridcolumn datafield="RenumerationCompName" headertext="Nama" width="120px" />
-		</gridcolumns>
-		<intellisensetexts>
-			<intellisensetext datafield="RenumerationCompType" headertext="Tipe" description="" />
-			<intellisensetext datafield="RenumerationCompName" headertext="Nama" description="" />
-		</intellisensetexts>
-	</searchdialog>
-	<!-- #EndRegion -->
-	
 	<!-- #Region Renumeration Comp Formula Hd-->
 	<searchdialog type="renumerationcompformulahd" methodname="GetRenumerationCompFormulaHdList" keyfieldname="FormulaCode" orderbyexpression="FormulaCode ASC">
 		<gridcolumns>
@@ -1180,6 +1168,54 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+	<!-- #Region Trans Employee Position-->
+	<searchdialog type="transemployeepositionhd" methodname="vTransEmployeePositionHd" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+		<gridcolumns>
+			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+			<gridcolumn datafield="OrganizationPositionName" headertext="Posisi" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+			<intellisensetext datafield="RenumerationNOrganizationPositionNameame" headertext="Posisi" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
+	<!-- #Region Trans Renumeration -->
+	<searchdialog type="transrenumerationhd" methodname="GetvTransRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+		<gridcolumns>
+			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+			<gridcolumn datafield="RenumerationName" headertext="Renumeration Name" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+			<intellisensetext datafield="RenumerationName" headertext="Renumeration Name" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
+	<!-- #Region Trans Renumeration Comp Formula-->
+	<searchdialog type="transrenumerationcompformulahd" methodname="GetvTransRenumerationCompFormulaHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+		<gridcolumns>
+			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+			<gridcolumn datafield="FormulaName" headertext="Formula Name" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+			<intellisensetext datafield="FormulaName" headertext="Formula Name" description="" />
+		</intellisensetexts>
+	</searchdialog>
+  <!-- #EndRegion -->
+	<!-- #Region Trans Renumeration Position-->
+	<searchdialog type="transpositionrenumerationhd" methodname="GetvTransPositionRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+		<gridcolumns>
+			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+			<gridcolumn datafield="RenumerationName" headertext="Renumeration Name" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+			<intellisensetext datafield="RenumerationName" headertext="Renumeration Name" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
   <!-- #Region Trans Teacher Profile -->
   <searchdialog type="transteacherprofilehd" methodname="GetvTransTeacherProfileHdList" keyfieldname="TransactionNo">
     <gridcolumns>
@@ -1194,57 +1230,6 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
-	
-	<!-- #Region Trans Employee Position-->
-	<searchdialog type="transemployeepositionhd" methodname="vTransEmployeePositionHd" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
-		<gridcolumns>
-			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
-			<gridcolumn datafield="OrganizationPositionName" headertext="Posisi" width="120px" />
-		</gridcolumns>
-		<intellisensetexts>
-			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
-			<intellisensetext datafield="RenumerationNOrganizationPositionNameame" headertext="Posisi" description="" />
-		</intellisensetexts>
-	</searchdialog>
-	<!-- #EndRegion -->
-	
-	<!-- #Region Trans Renumeration -->
-	<searchdialog type="transrenumerationhd" methodname="GetvTransRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
-		<gridcolumns>
-			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
-			<gridcolumn datafield="RenumerationName" headertext="Renumeration Name" width="120px" />
-		</gridcolumns>
-		<intellisensetexts>
-			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
-			<intellisensetext datafield="RenumerationName" headertext="Renumeration Name" description="" />
-		</intellisensetexts>
-	</searchdialog>
-	<!-- #EndRegion -->
-
-	<!-- #Region Trans Renumeration Comp Formula-->
-	<searchdialog type="transrenumerationcompformulahd" methodname="GetvTransRenumerationCompFormulaHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
-		<gridcolumns>
-			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
-			<gridcolumn datafield="FormulaName" headertext="Formula Name" width="120px" />
-		</gridcolumns>
-		<intellisensetexts>
-			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
-			<intellisensetext datafield="FormulaName" headertext="Formula Name" description="" />
-		</intellisensetexts>
-	</searchdialog>
-	
-	<!-- #Region Trans Renumeration Position-->
-	<searchdialog type="transpositionrenumerationhd" methodname="GetvTransPositionRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
-		<gridcolumns>
-			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
-			<gridcolumn datafield="RenumerationName" headertext="Renumeration Name" width="120px" />
-		</gridcolumns>
-		<intellisensetexts>
-			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
-			<intellisensetext datafield="RenumerationName" headertext="Renumeration Name" description="" />
-		</intellisensetexts>
-	</searchdialog>
-	<!-- #EndRegion -->
   <!-- #Region User-->
   <searchdialog type="user" methodname="GetvUserList" keyfieldname="UserID">
     <gridcolums>
