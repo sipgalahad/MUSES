@@ -105,6 +105,7 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntry.aspx" />
+    <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntryCtl.ascx" />
     <Content Include="Program\Master\UpdateRenumerationCompFormula\RenumerationCompFormulaDtCtl.ascx" />
     <Content Include="Program\Master\UpdateRenumerationCompFormula\UpdateRenumerationCompFormulaEntry.aspx" />
     <Content Include="Program\Master\UpdateRenumerationPosition\UpdateRenumerationPositionEntry.aspx" />
@@ -350,6 +351,13 @@
     </Compile>
     <Compile Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntry.aspx.designer.cs">
       <DependentUpon>UpdateEmployeePositionEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntryCtl.ascx.cs">
+      <DependentUpon>UpdateEmployeePositionEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntryCtl.ascx.designer.cs">
+      <DependentUpon>UpdateEmployeePositionEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\UpdateRenumerationCompFormula\RenumerationCompFormulaDtCtl.ascx.cs">
       <DependentUpon>RenumerationCompFormulaDtCtl.ascx</DependentUpon>

@@ -18107,6 +18107,119 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TransEmployeePositionRenumeration
+        public static TransEmployeePositionRenumeration GetTransEmployeePositionRenumeration(Int32 TransactionDtID)
+        {
+            return new TransEmployeePositionRenumerationDao().Get(TransactionDtID);
+        }
+        public static int InsertTransEmployeePositionRenumeration(TransEmployeePositionRenumeration record)
+        {
+            return new TransEmployeePositionRenumerationDao().Insert(record);
+        }
+        public static int UpdateTransEmployeePositionRenumeration(TransEmployeePositionRenumeration record)
+        {
+            return new TransEmployeePositionRenumerationDao().Update(record);
+        }
+        public static int DeleteTransEmployeePositionRenumeration(Int32 TransactionDtID)
+        {
+            return new TransEmployeePositionRenumerationDao().Delete(TransactionDtID);
+        }
+        public static List<TransEmployeePositionRenumeration> GetTransEmployeePositionRenumerationList(string filterExpression)
+        {
+            List<TransEmployeePositionRenumeration> result = new List<TransEmployeePositionRenumeration>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeePositionRenumeration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeePositionRenumeration)helper.IDataReaderToObject(reader, new TransEmployeePositionRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransEmployeePositionRenumeration> GetTransEmployeePositionRenumerationList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeePositionRenumeration> result = new List<TransEmployeePositionRenumeration>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeePositionRenumeration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeePositionRenumeration)helper.IDataReaderToObject(reader, new TransEmployeePositionRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeePositionRenumerationMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeePositionRenumeration));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeePositionRenumerationFormula
+        public static TransEmployeePositionRenumerationFormula GetTransEmployeePositionRenumerationFormula(Int32 TransactionDtID, String GCDayType)
+        {
+            return new TransEmployeePositionRenumerationFormulaDao().Get(TransactionDtID, GCDayType);
+        }
+        public static int InsertTransEmployeePositionRenumerationFormula(TransEmployeePositionRenumerationFormula record)
+        {
+            return new TransEmployeePositionRenumerationFormulaDao().Insert(record);
+        }
+        public static int UpdateTransEmployeePositionRenumerationFormula(TransEmployeePositionRenumerationFormula record)
+        {
+            return new TransEmployeePositionRenumerationFormulaDao().Update(record);
+        }
+        public static int DeleteTransEmployeePositionRenumerationFormula(Int32 TransactionDtID, String GCDayType)
+        {
+            return new TransEmployeePositionRenumerationFormulaDao().Delete(TransactionDtID, GCDayType);
+        }
+        public static List<TransEmployeePositionRenumerationFormula> GetTransEmployeePositionRenumerationFormulaList(string filterExpression)
+        {
+            List<TransEmployeePositionRenumerationFormula> result = new List<TransEmployeePositionRenumerationFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeePositionRenumerationFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeePositionRenumerationFormula)helper.IDataReaderToObject(reader, new TransEmployeePositionRenumerationFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region TransRenumerationDtFormula
         public static TransRenumerationDtFormula GetTransRenumerationDtFormula(Int32 TransactionDtID, String GCDayType)
         {

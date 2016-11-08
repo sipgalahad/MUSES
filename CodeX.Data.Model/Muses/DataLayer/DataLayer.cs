@@ -37441,6 +37441,197 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region TransEmployeePositionRenumeration
+    [Serializable]
+    [Table(Name = "TransEmployeePositionRenumeration")]
+    public class TransEmployeePositionRenumeration : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private Int32 _TransactionID;
+        private Int32 _RenumerationCompID;
+        private Decimal _Amount;
+        private Boolean _IsUseFormula;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "RenumerationCompID", DataType = "Int32")]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "Amount", DataType = "Decimal")]
+        public Decimal Amount
+        {
+            get { return _Amount; }
+            set { _Amount = value; }
+        }
+        [Column(Name = "IsUseFormula", DataType = "Boolean")]
+        public Boolean IsUseFormula
+        {
+            get { return _IsUseFormula; }
+            set { _IsUseFormula = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TransEmployeePositionRenumerationDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransEmployeePositionRenumeration));
+        private bool _isAuditLog = false;
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public TransEmployeePositionRenumerationDao() { }
+        public TransEmployeePositionRenumerationDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransEmployeePositionRenumeration Get(Int32 TransactionDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransEmployeePositionRenumeration)_helper.DataRowToObject(row, new TransEmployeePositionRenumeration());
+        }
+        public int Insert(TransEmployeePositionRenumeration record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransEmployeePositionRenumeration record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID)
+        {
+            TransEmployeePositionRenumeration record;
+            if (_ctx.Transaction == null)
+                record = new TransEmployeePositionRenumerationDao().Get(TransactionDtID);
+            else
+                record = Get(TransactionDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransEmployeePositionRenumerationFormula
+    [Serializable]
+    [Table(Name = "TransEmployeePositionRenumerationFormula")]
+    public class TransEmployeePositionRenumerationFormula : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private String _GCDayType;
+        private Int32 _FormulaID;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "GCDayType", DataType = "String", IsPrimaryKey = true)]
+        public String GCDayType
+        {
+            get { return _GCDayType; }
+            set { _GCDayType = value; }
+        }
+        [Column(Name = "FormulaID", DataType = "Int32")]
+        public Int32 FormulaID
+        {
+            get { return _FormulaID; }
+            set { _FormulaID = value; }
+        }
+    }
+
+    public class TransEmployeePositionRenumerationFormulaDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransEmployeePositionRenumerationFormula));
+        private bool _isAuditLog = false;
+        private const string p_GCDayType = "@p_GCDayType";
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public TransEmployeePositionRenumerationFormulaDao() { }
+        public TransEmployeePositionRenumerationFormulaDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransEmployeePositionRenumerationFormula Get(Int32 TransactionDtID, String GCDayType)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCDayType, GCDayType);
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransEmployeePositionRenumerationFormula)_helper.DataRowToObject(row, new TransEmployeePositionRenumerationFormula());
+        }
+        public int Insert(TransEmployeePositionRenumerationFormula record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransEmployeePositionRenumerationFormula record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID, String GCDayType)
+        {
+            TransEmployeePositionRenumerationFormula record;
+            if (_ctx.Transaction == null)
+                record = new TransEmployeePositionRenumerationFormulaDao().Get(TransactionDtID, GCDayType);
+            else
+                record = Get(TransactionDtID, GCDayType);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region TransPositionRenumerationDt
     [Serializable]
     [Table(Name = "TransPositionRenumerationDt")]

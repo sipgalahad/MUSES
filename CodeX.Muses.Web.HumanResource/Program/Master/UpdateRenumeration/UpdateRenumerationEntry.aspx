@@ -318,7 +318,7 @@
                                                     <td><dxe:ASPxComboBox runat="server" ID="cboRenumerationCompID" ClientInstanceName="cboRenumerationCompID" Width="300px" /></td>
                                                 </tr>--%>
                                                 <tr>
-                                                <td class="tdLabel"><label class="lblMandatory" id="lblPosition"><%=GetLabel("Komp. Renumerasi")%></label></td>
+                                                    <td class="tdLabel"><label class="lblMandatory" id="lblPosition"><%=GetLabel("Komp. Renumerasi")%></label></td>
                                                     <td>
                                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacRenumerationCompID" ClientInstanceName="tacRenumerationCompID" MethodName="GetvRenumerationCompList" GetFilterExpressionFunction="onGetRenumerationCompFilterExpression"
                                                             SearchFields="RenumerationCompName,RenumerationCompID" TextField="RenumerationCompName" ValueField="RenumerationCompID" SearchText="${RenumerationCompName} (<b>${RenumerationCompType}</b>)" OrderByExpression="RenumerationCompName">
