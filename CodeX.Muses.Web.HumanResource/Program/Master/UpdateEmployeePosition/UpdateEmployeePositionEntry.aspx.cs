@@ -21,6 +21,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected int PageCount2 = 1;
         protected int RowCount2 = 1;
 
+        protected string OnGetTransactionStatusApproved()
+        {
+            return Constant.TransactionStatus.APPROVED;
+        }
+
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.HumanResources.UPDATE_EMPLOYEE_POSITION;

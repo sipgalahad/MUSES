@@ -232,18 +232,33 @@
                     if (result != null) {
                         tacRenumerationCompID.setValue(result.RenumerationCompID);
                         tacRenumerationCompID.setText(result.RenumerationCompName);
-                        $('#<%=txtRenumerationCompType.ClientID %>').val(result.RenumerationCompType);
                     }
                     else {
                         tacRenumerationCompID.setValue('');
                         tacRenumerationCompID.setText('');
-                        $('#<%=txtRenumerationCompType.ClientID %>').val('');
                     }
+                    entityToControlRenumerationComp(result);
                 });
             });
         }
 
         function ontacRenumerationCompIDValueChanged() {
+            var id = tacRenumerationCompID.getValue();
+            if (id != '') {
+                var filterExpression = "RenumerationCompID = '" + id + "'";
+                Methods.getObject('GetvRenumerationCompList', filterExpression, function (result) {
+                    entityToControlRenumerationComp(result);                    
+                });
+            }
+            else
+                $('#<%=txtRenumerationCompType.ClientID %>').val('');
+        }
+
+        function entityToControlRenumerationComp(result) {
+            if (result != null)
+                $('#<%=txtRenumerationCompType.ClientID %>').val(result.RenumerationCompType);
+            else
+                $('#<%=txtRenumerationCompType.ClientID %>').val('');
         }
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />

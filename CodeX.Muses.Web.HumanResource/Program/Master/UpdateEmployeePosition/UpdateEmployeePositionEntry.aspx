@@ -42,6 +42,14 @@
             setDatePicker('<%=txtTransactionDate.ClientID %>');
             $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'maxDate', '0');
 
+            $('#btnRenumerationID').click(function () {
+                var PositionID = cboPositionID.GetValue();
+                if (PositionID != null && PositionID != '') {
+                    var id = "ep|" + $('#<%=hdnTransRenumerationID.ClientID %>').val() + "|" + PositionID;
+                    var url = ResolveUrl("~/Program/Master/UpdateRenumeration/RenumerationDtCtl.ascx");
+                    openUserControlPopup(url, id, 'Details Renumeration', 600, 500);
+                }
+            });
 
             $('.lnkDetail a').live('click', function () {
                 var id = $(this).closest('tr').find('.keyField').html();
@@ -134,6 +142,8 @@
                     cbpProcess2.PerformCallback('save');
             });
 
+            getCurrentTransRenumerationID();
+
             var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
             var rowCount = parseInt($('#<%=hdnRowCount.ClientID %>').val());
             var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
@@ -151,6 +161,28 @@
                 cbpView2.PerformCallback('changepage|' + page);
                 setNumEntriesText($('#informationNumEntries2'), rowCount2, page, rowCountPerPage2);
             });
+
+            $('#<%=txtStartEffectiveDate.ClientID %>').change(function () {
+                getCurrentTransRenumerationID();
+            });
+        }
+
+        function onCboPositionIDValueChanged() {
+            getCurrentTransRenumerationID();
+        }
+
+        function getCurrentTransRenumerationID() {
+            if (cboPositionID.GetValue() != null) {
+                var filterExpression = "StartEffectiveDate <= '" + Methods.dateToYMD(Methods.getDatePickerDate($('#<%=txtStartEffectiveDate.ClientID %>').val())) + "' AND OrganizationPositionID = " + cboPositionID.GetValue() + " AND GCTransactionStatus = '<%=OnGetTransactionStatusApproved() %>' ORDER BY StartEffectiveDate DESC";
+                Methods.getObject('GetvTransPositionRenumerationDtList', filterExpression, function (result) {
+                    if (result != null)
+                        $('#<%=hdnTransRenumerationID.ClientID %>').val(result.TransactionID);
+                    else
+                        $('#<%=hdnTransRenumerationID.ClientID %>').val('');
+                });
+            }
+            else
+                $('#<%=hdnTransRenumerationID.ClientID %>').val('');
         }
 
         //#region  Delete
@@ -343,13 +375,16 @@
         //#region Renumeration Comp
         function onGetRenumerationCompFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
-            var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeePositionRenumeration where TransactionID = " + TransactionID + ")";
+            var TransRenumerationID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
+            var filterExpression = "1 = 0";
+            if (TransRenumerationID != '')
+                filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeePositionRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 1 AND IsDeleted = 0)";
             return filterExpression;
         }
 
         function ontacRenumerationCompIDSearchClick() {
-            openSearchDialog('renumerationcompid', onGetRenumerationCompFilterExpression(), function (value) {
-                var filterExpression = onGetRenumerationCompFilterExpression() + " AND RenumerationCompID = '" + value + "'";
+            openSearchDialog('renumerationcomp', onGetRenumerationCompFilterExpression(), function (value) {
+                var filterExpression = onGetRenumerationCompFilterExpression() + " AND RenumerationCompCode = '" + value + "'";
                 Methods.getObject('GetvRenumerationCompList', filterExpression, function (result) {
                     if (result != null) {
                         tacRenumerationCompID.setValue(result.RenumerationCompID);
@@ -374,6 +409,7 @@
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount2" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
+    <input type="hidden" value="" id="hdnTransRenumerationID" runat="server" />
 
     <div style="height: 550px; overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
@@ -402,7 +438,19 @@
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Posisi")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboPositionID" ClientInstanceName="cboPositionID" Width="50%" runat="server" /></td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <dxe:ASPxComboBox ID="cboPositionID" ClientInstanceName="cboPositionID" Width="200px" runat="server">
+                                                <ClientSideEvents ValueChanged="function(s,e) { onCboPositionIDValueChanged() }" />
+                                            </dxe:ASPxComboBox>
+                                        </td>
+                                        <td style="width:5px;"></td>
+                                        <td><input type="button" id="btnRenumerationID" class="btnMore" value="..." /></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                        <tr>
                             <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>

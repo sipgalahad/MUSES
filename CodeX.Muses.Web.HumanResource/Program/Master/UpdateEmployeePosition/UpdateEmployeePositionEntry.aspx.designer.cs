@@ -103,6 +103,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsEditable;
         
         /// <summary>
+        /// hdnTransRenumerationID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTransRenumerationID;
+        
+        /// <summary>
         /// txtTransactionNo control.
         /// </summary>
         /// <remarks>
