@@ -263,7 +263,7 @@
     <Content Include="Program\Master\TeacherMarkTypeGroup\TeacherMarkTypeGroupList.aspx" />
     <Content Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx" />
     <Content Include="Program\Master\Teacher\TeacherEntry.aspx" />
-    <Content Include="SharedLibs\TeacherList.aspx" />
+    <Content Include="Program\Master\Teacher\TeacherList.aspx" />
     <Content Include="Program\Master\Term\TermEntry.aspx" />
     <Content Include="Program\Master\Term\TermList.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx" />
@@ -1598,11 +1598,11 @@
     <Compile Include="Program\Master\Teacher\TeacherEntry.aspx.designer.cs">
       <DependentUpon>TeacherEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SharedLibs\TeacherList.aspx.cs">
+    <Compile Include="Program\Master\Teacher\TeacherList.aspx.cs">
       <DependentUpon>TeacherList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SharedLibs\TeacherList.aspx.designer.cs">
+    <Compile Include="Program\Master\Teacher\TeacherList.aspx.designer.cs">
       <DependentUpon>TeacherList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Term\TermEntry.aspx.cs">
