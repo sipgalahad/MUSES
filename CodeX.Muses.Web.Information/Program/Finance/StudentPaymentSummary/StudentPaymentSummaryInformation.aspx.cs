@@ -56,6 +56,7 @@ namespace CodeX.Muses.Web.Information.Program
         }
 
         List<vARReceivingHd> lstARReceivingHd = null;
+        List<vARInvoiceReceiving> lstARInvoiceReceivingPSE = null;
         List<vARReceivingDt> lstEntityDt = null;
         List<vARInvoiceReceiving> lstARInvoiceReceiving = null;
         #region Bind Grid View
@@ -73,6 +74,8 @@ namespace CodeX.Muses.Web.Information.Program
 
             string filterExpression = string.Format("SiteID = '{0}' AND MONTH(ReceivingDate) = {1} AND YEAR(ReceivingDate) = {2} AND GCTransactionStatus != '{3}' AND BusinessPartnerID IS NULL", cboSite.Value, cboMonth.Value, cboYear.Value, Constant.TransactionStatus.VOID);
             lstARReceivingHd = BusinessLayer.GetvARReceivingHdList(filterExpression);
+            filterExpression = string.Format("SiteID = '{0}' AND MONTH(ReceivingDate) = {1} AND YEAR(ReceivingDate) = {2} AND GCTransactionStatus != '{3}' AND BusinessPartnerID IS NOT NULL", cboSite.Value, cboMonth.Value, cboYear.Value, Constant.TransactionStatus.VOID);
+            lstARInvoiceReceivingPSE = BusinessLayer.GetvARInvoiceReceivingList(filterExpression);
 
             if (lstARReceivingHd.Count > 0)
             {
@@ -108,15 +111,17 @@ namespace CodeX.Muses.Web.Information.Program
                 List<vARReceivingHd> lstARReceivingHd1 = lstARReceivingHd.Where(p => p.ReceivingDate == dt).ToList();
                 List<vARReceivingDt> lstARReceivingDt = lstEntityDt.Where(p => p.ReceivingDate == dt).ToList();
                 List<vARInvoiceReceiving> lstARInvoiceReceiving1 = lstARInvoiceReceiving.Where(p => p.ReceivingDate == dt).ToList();
+                List<vARInvoiceReceiving> lstARInvoiceReceivingPSE1 = lstARInvoiceReceivingPSE.Where(p => p.ReceivingDate == dt).ToList();
+
 
                 HtmlGenericControl divPemb = e.Item.FindControl("divPemb") as HtmlGenericControl;
                 HtmlGenericControl divSek = e.Item.FindControl("divUsek") as HtmlGenericControl;
                 HtmlGenericControl divKeg = e.Item.FindControl("divKeg") as HtmlGenericControl;
                 HtmlGenericControl divDenda = e.Item.FindControl("divDenda") as HtmlGenericControl;
                 HtmlGenericControl divTotal = e.Item.FindControl("divTotal") as HtmlGenericControl;
-                decimal pemb = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.ReceivingAmount);
-                decimal usek = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.ReceivingAmount - p.cfPenaltyAmount);
-                decimal keg = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.ReceivingAmount);
+                decimal pemb = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.ReceivingAmount) + lstARInvoiceReceivingPSE1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.ReceivingAmount);
+                decimal usek = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.ReceivingAmount - p.cfPenaltyAmount) + lstARInvoiceReceivingPSE1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.ReceivingAmount);
+                decimal keg = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.ReceivingAmount) + lstARInvoiceReceivingPSE1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.ReceivingAmount);
                 decimal denda = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.cfPenaltyAmount);
 
                 usek -= lstARReceivingDt.Sum(p => p.PaymentAmount);

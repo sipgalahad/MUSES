@@ -37,13 +37,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<vPeriodClassType>(cboClassType, lstClassType, "CurriculumClassTypeName", "PeriodClassTypeID");
             cboClassType.SelectedIndex = 0;
 
-            List<CurriculumSubjectGroup> lstSubjectGroup = BusinessLayer.GetCurriculumSubjectGroupList(string.Format("CurriculumID = {0} AND IsDeleted = 0", entitySchoolPeriod.CurriculumID));
-            Methods.SetComboBoxField<CurriculumSubjectGroup>(cboCurriculumSubjectGroup, lstSubjectGroup, "CurriculumSubjectGroupName", "CurriculumSubjectGroupID");
-
             BindGridView();
 
             Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(cboCurriculumSubjectGroup, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtCurriculumSubjectGroup, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(tacSubjectCurriculum, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtNoMeetingHoursInWeek, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -132,7 +129,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void ControlToEntity(PeriodClassTypeSubject entity)
         {
             entity.SubjectID = Convert.ToInt32(tacSubject.Value);
-            entity.CurriculumSubjectGroupID = Convert.ToInt32(cboCurriculumSubjectGroup.Value);
+            entity.CurriculumSubjectGroupID = Convert.ToInt32(hdnCurriculumSubjectGroupID.Value);
             if (tacSubjectCurriculum.Value != "" && tacSubjectCurriculum.Value != "0")
                 entity.SubjectCurriculumID = Convert.ToInt32(tacSubjectCurriculum.Value);
             else

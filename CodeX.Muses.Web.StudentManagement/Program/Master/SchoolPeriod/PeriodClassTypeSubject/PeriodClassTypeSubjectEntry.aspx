@@ -23,7 +23,8 @@
                 tacTeacher.setText('');
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val('');
                 $('#<%=txtPassingGrade.ClientID %>').val('0');
-                cboCurriculumSubjectGroup.SetValue('');
+                $('#<%=hdnCurriculumSubjectGroupID.ClientID %>').val('');
+                $('#<%=txtCurriculumSubjectGroup.ClientID %>').val(''); 
 
                 tacSubject.setEnabled(true);
                 tacTeacher.setEnabled(true);
@@ -84,7 +85,8 @@
             tacSubjectCurriculum.setText(entity.SubjectCurriculumName);
             tacTeacher.setValue(entity.TeacherID);
             tacTeacher.setText(entity.TeacherName);
-            cboCurriculumSubjectGroup.SetValue(entity.CurriculumSubjectGroupID);
+            $('#<%=hdnCurriculumSubjectGroupID.ClientID %>').val(entity.CurriculumSubjectGroupID);
+            $('#<%=txtCurriculumSubjectGroup.ClientID %>').val(entity.CurriculumSubjectGroupName); 
             $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
             $('#<%=txtPassingGrade.ClientID %>').val(entity.PassingGrade);
             if (entity.IsEditable == 'False') 
@@ -164,11 +166,14 @@
                     if (result != null) {
                         tacSubject.setValue(result.SubjectID);
                         tacSubject.setText(result.SubjectName);
-                        cboCurriculumSubjectGroup.SetValue(result.CurriculumSubjectGroupID);
+                        $('#<%=hdnCurriculumSubjectGroupID.ClientID %>').val(result.CurriculumSubjectGroupID);
+                        $('#<%=txtCurriculumSubjectGroup.ClientID %>').val(result.CurriculumSubjectGroupName); 
                     }
                     else {
                         tacSubject.setValue('');
                         tacSubject.setText('');
+                        $('#<%=hdnCurriculumSubjectGroupID.ClientID %>').val('');
+                        $('#<%=txtCurriculumSubjectGroup.ClientID %>').val(''); 
                     }
                 });
             });
@@ -321,7 +326,10 @@
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kelompok Pelajaran")%></label></td>
-                                    <td colspan="3"><dxe:ASPxComboBox runat="server" ClientEnabled="false" ID="cboCurriculumSubjectGroup" ClientInstanceName="cboCurriculumSubjectGroup" Width="200px" /></td>
+                                    <td colspan="3">
+                                        <input type="hidden" id="hdnCurriculumSubjectGroupID" value="" runat="server" />
+                                        <asp:TextBox runat="server" ID="txtCurriculumSubjectGroup" ReadOnly="true" Width="200px" />
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Guru")%></label></td>
@@ -416,6 +424,7 @@
                                         <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
                                         <input type="hidden" value="<%#Eval("CurriculumSubjectGroupID") %>" bindingfield="CurriculumSubjectGroupID" />
+                                        <input type="hidden" value="<%#Eval("CurriculumSubjectGroupName") %>" bindingfield="CurriculumSubjectGroupName" />
                                         <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />
                                         <input type="hidden" value="<%#Eval("PassingGrade") %>" bindingfield="PassingGrade" />
                                         <input type="hidden" value="<%#Eval("IsEditable") %>" bindingfield="IsEditable" />

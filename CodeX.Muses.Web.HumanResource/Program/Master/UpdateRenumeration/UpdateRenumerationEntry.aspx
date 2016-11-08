@@ -73,7 +73,7 @@
                     $('#<%=txtAmount.ClientID %>').val('0').trigger('changeValue');
                     $('#<%=chkIsAllowChange.ClientID %>').prop('checked', false);
                     $('#<%=chkIsUseFormula.ClientID %>').prop('checked', false);
-                    //cboRenumerationCompID.SetValue('');
+                    $('#<%=txtRenumerationCompType.ClientID %>').val('');
                     tacRenumerationCompID.setValue('');
                     tacRenumerationCompID.setText('');
                     $('#<%=chkIsUseFormula.ClientID %>').change();
@@ -125,11 +125,11 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
             $('#<%=hdnEntryID.ClientID %>').val(entity.TransactionDtID);
+            $('#<%=txtRenumerationCompType.ClientID %>').val(entity.RenumerationCompType);
             $('#<%=txtAmount.ClientID %>').val(entity.Amount).trigger('changeValue');
             $('#<%=chkIsAllowChange.ClientID %>').prop('checked', entity.IsAllowChange == 'True');
             
             $('#<%=chkIsUseFormula.ClientID %>').prop('checked', entity.IsUseFormula == 'True');
-            //cboRenumerationCompID.SetValue(entity.RenumerationCompID);
             tacRenumerationCompID.setValue(entity.RenumerationCompID);
             tacRenumerationCompID.setText(entity.RenumerationCompName);
             $('#<%=chkIsUseFormula.ClientID %>').change();
@@ -226,16 +226,18 @@
         }
 
         function ontacRenumerationCompIDSearchClick() {
-            openSearchDialog('renumerationcompid', onGetRenumerationCompFilterExpression(), function (value) {
-                var filterExpression = onGetRenumerationCompFilterExpression() + " AND RenumerationCompID = '" + value + "'";
+            openSearchDialog('renumerationcomp', onGetRenumerationCompFilterExpression(), function (value) {
+                var filterExpression = onGetRenumerationCompFilterExpression() + " AND RenumerationCompCode = '" + value + "'";
                 Methods.getObject('GetvRenumerationCompList', filterExpression, function (result) {
                     if (result != null) {
                         tacRenumerationCompID.setValue(result.RenumerationCompID);
                         tacRenumerationCompID.setText(result.RenumerationCompName);
+                        $('#<%=txtRenumerationCompType.ClientID %>').val(result.RenumerationCompType);
                     }
                     else {
                         tacRenumerationCompID.setValue('');
                         tacRenumerationCompID.setText('');
+                        $('#<%=txtRenumerationCompType.ClientID %>').val('');
                     }
                 });
             });
@@ -313,10 +315,6 @@
                                                 <colgroup>
                                                     <col style="width: 150px" />
                                                 </colgroup>
-                                               <%-- <tr>
-                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Komp. Renumerasi")%></label></td>
-                                                    <td><dxe:ASPxComboBox runat="server" ID="cboRenumerationCompID" ClientInstanceName="cboRenumerationCompID" Width="300px" /></td>
-                                                </tr>--%>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory" id="lblPosition"><%=GetLabel("Komp. Renumerasi")%></label></td>
                                                     <td>
@@ -328,8 +326,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pembayaran")%></label></td>
+                                                    <td><asp:TextBox ID="txtRenumerationCompType" ReadOnly="true" Width="200px" runat="server" /></td>
+                                                </tr>
+                                                <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Amount")%></label></td>
-                                                    <td><asp:TextBox ID="txtAmount" CssClass="txtCurrency" Width="120px" runat="server" readonly="true"/></td>
+                                                    <td><asp:TextBox ID="txtAmount" CssClass="txtCurrency" Width="120px" runat="server" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel"></td>
@@ -365,7 +367,8 @@
                                         AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
                                             <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                            <asp:BoundField DataField="RenumerationCompName" HeaderText="Nama" />
+                                            <asp:BoundField DataField="RenumerationCompName" HeaderText="Komp Renumerasi" />
+                                            <asp:BoundField DataField="RenumerationCompType" HeaderText="Tipe Pembayaran" HeaderStyle-Width="150px" />
                                             <asp:BoundField DataField="Amount" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderText="Amount" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkDetail" HeaderText="Formula" HeaderStyle-Width="80px">
                                                 <ItemTemplate>
@@ -379,6 +382,7 @@
                                                     <input type="hidden" value="<%#Eval("TransactionDtID") %>" bindingfield="TransactionDtID" />
                                                     <input type="hidden" value="<%#Eval("RenumerationCompID") %>" bindingfield="RenumerationCompID" />
                                                     <input type="hidden" value="<%#Eval("RenumerationCompName") %>" bindingfield="RenumerationCompName" />
+                                                    <input type="hidden" value="<%#Eval("RenumerationCompType") %>" bindingfield="RenumerationCompType" />
                                                     <input type="hidden" value="<%#Eval("Amount") %>" bindingfield="Amount" />
                                                     <input type="hidden" value="<%#Eval("IsAllowChange") %>" bindingfield="IsAllowChange" />
                                                     <input type="hidden" value="<%#Eval("IsUseFormula") %>" bindingfield="IsUseFormula" />

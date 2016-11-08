@@ -39,8 +39,8 @@
                                 <asp:GridView ID="grdPopupView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
                                         <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:BoundField DataField="RenumerationCompName" HeaderText="Tipe Komponen" ItemStyle-HorizontalAlign="Left" HeaderStyle-CssClass="thLeft" HeaderStyle-Width="110px"  />
-                                        <asp:BoundField DataField="RenumerationCompType" HeaderText="Tipe Renumerasi" ItemStyle-HorizontalAlign="Left" HeaderStyle-CssClass="thLeft" HeaderStyle-Width="70px" />
+                                        <asp:BoundField DataField="RenumerationCompName" HeaderText="Komponen" ItemStyle-HorizontalAlign="Left" HeaderStyle-CssClass="thLeft" />
+                                        <asp:BoundField DataField="RenumerationCompType" HeaderText="Tipe Pembayaran" ItemStyle-HorizontalAlign="Left" HeaderStyle-CssClass="thLeft" HeaderStyle-Width="150px" />
                                         <asp:BoundField DataField="Amount" HeaderText="Amount" DataFormatString="{0:N}" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="70px" />
                                     </Columns>
                                     <EmptyDataTemplate>
