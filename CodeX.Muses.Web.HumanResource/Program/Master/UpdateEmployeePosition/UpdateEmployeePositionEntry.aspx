@@ -12,6 +12,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhHeader" runat="server">
     <input type="hidden" id="hdnRowCountPerPage" runat="server" value="" />
+    <input type="hidden" id="hdnRowCountPerPage2" runat="server" value="" />
     <input type="hidden" id="hdnRecordFilterExpression" runat="server" />
 </asp:Content>
 
@@ -41,6 +42,21 @@
             setDatePicker('<%=txtTransactionDate.ClientID %>');
             $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'maxDate', '0');
 
+            $('#btnRenumerationID').click(function () {
+                var PositionID = cboPositionID.GetValue();
+                if (PositionID != null && PositionID != '') {
+                    var id = "ep|" + $('#<%=hdnTransRenumerationID.ClientID %>').val() + "|" + PositionID;
+                    var url = ResolveUrl("~/Program/Master/UpdateRenumeration/RenumerationDtCtl.ascx");
+                    openUserControlPopup(url, id, 'Details Renumeration', 600, 500);
+                }
+            });
+
+            $('.lnkDetail a').live('click', function () {
+                var id = $(this).closest('tr').find('.keyField').html();
+                //alert(id);
+                var url = ResolveUrl("~/Program/Master/UpdateEmployeePosition/UpdateEmployeePositionEntryCtl.ascx");
+                openUserControlPopup(url, id, 'Renumeration Formula', 600, 500);
+            });
 
             //#region Transaction No
             function onGetEmployeePositionFilterExpression() {
@@ -73,6 +89,40 @@
                 }
             });
 
+            $('#divTransactionAdd2').click(function (evt) {
+                if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
+                    editedLineAmount = 0;
+
+                    $('#<%=hdnEntryID.ClientID %>').val('');
+                    $('#<%=txtAmount.ClientID %>').val('0').trigger('changeValue');
+                    
+                    $('#<%=chkIsUseFormula.ClientID %>').prop('checked', false);
+                    //cboRenumerationCompID.SetValue('');
+                    tacRenumerationCompID.setValue('');
+                    tacRenumerationCompID.setText('');
+                    $('#<%=chkIsUseFormula.ClientID %>').change();
+                    $('#entryDetailContainer2').show();
+                }
+            });
+
+//            $('#divTransactionAdd2').click(function (evt) {
+//                if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
+//                    editedLineAmount = 0;
+//                    tacEmployeeID.setValue('');
+//                    tacEmployeeID.setText('');
+//                    $('#entryDetailContainer2').show();
+//                }
+//            });
+
+            $('#<%=chkIsUseFormula.ClientID %>').change(function () {
+                if (this.checked) {
+                    $('#<%=txtAmount.ClientID %>').val('0').trigger('changeValue');
+                    $('#<%=txtAmount.ClientID %>').attr('readonly', 'readonly');
+                }
+                else
+                    $('#<%=txtAmount.ClientID %>').removeAttr('readonly');
+            });
+
             $('#btnCancel').click(function () {
                 $('#entryDetailContainer').hide();
             });
@@ -83,6 +133,17 @@
                 }
             });
 
+            $('#btnCancel2').click(function () {
+                $('#entryDetailContainer2').hide();
+            });
+
+            $('#btnSave2').click(function (evt) {
+                if (IsValid(evt, 'fsTrx2', 'mpTrx'))
+                    cbpProcess2.PerformCallback('save');
+            });
+
+            getCurrentTransRenumerationID();
+
             var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
             var rowCount = parseInt($('#<%=hdnRowCount.ClientID %>').val());
             var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
@@ -91,6 +152,37 @@
                 cbpView.PerformCallback('changepage|' + page);
                 setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
             });
+
+            var pageCount2 = parseInt($('#<%=hdnPageCount2.ClientID %>').val());
+            var rowCount2 = parseInt($('#<%=hdnRowCount2.ClientID %>').val());
+            var rowCountPerPage2 = parseInt($('#<%=hdnRowCountPerPage2.ClientID %>').val());
+            setNumEntriesText($('#informationNumEntries2'), rowCount2, 1, rowCountPerPage2);
+            setPaging($("#paging2"), pageCount2, function (page) {
+                cbpView2.PerformCallback('changepage|' + page);
+                setNumEntriesText($('#informationNumEntries2'), rowCount2, page, rowCountPerPage2);
+            });
+
+            $('#<%=txtStartEffectiveDate.ClientID %>').change(function () {
+                getCurrentTransRenumerationID();
+            });
+        }
+
+        function onCboPositionIDValueChanged() {
+            getCurrentTransRenumerationID();
+        }
+
+        function getCurrentTransRenumerationID() {
+            if (cboPositionID.GetValue() != null) {
+                var filterExpression = "StartEffectiveDate <= '" + Methods.dateToYMD(Methods.getDatePickerDate($('#<%=txtStartEffectiveDate.ClientID %>').val())) + "' AND OrganizationPositionID = " + cboPositionID.GetValue() + " AND GCTransactionStatus = '<%=OnGetTransactionStatusApproved() %>' ORDER BY StartEffectiveDate DESC";
+                Methods.getObject('GetvTransPositionRenumerationDtList', filterExpression, function (result) {
+                    if (result != null)
+                        $('#<%=hdnTransRenumerationID.ClientID %>').val(result.TransactionID);
+                    else
+                        $('#<%=hdnTransRenumerationID.ClientID %>').val('');
+                });
+            }
+            else
+                $('#<%=hdnTransRenumerationID.ClientID %>').val('');
         }
 
         //#region  Delete
@@ -105,7 +197,34 @@
             });
         });
 
+        //#region detil2 Edit & Delete
+        $('#<%=grdView2.ClientID %> .divDetailDelete').live('click', function () {
+            $row = $(this).closest('tr');
+            showToastConfirmation('Are You Sure Want To Delete?', function (result) {
+                if (result) {
+                    var entity = rowToObject($row);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.TransactionDtID);
+                    cbpProcess2.PerformCallback('delete');
+                }
+            });
+        });
 
+        $('#<%=grdView2.ClientID %> .divDetailEdit').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            $('#<%=hdnEntryID.ClientID %>').val(entity.TransactionDtID);
+            $('#<%=txtAmount.ClientID %>').val(entity.Amount).trigger('changeValue');
+//            $('#</%=chkIsAllowChange.ClientID %>').prop('checked', entity.IsAllowChange == 'True');
+
+            $('#<%=chkIsUseFormula.ClientID %>').prop('checked', entity.IsUseFormula == 'True');
+            //cboRenumerationCompID.SetValue(entity.RenumerationCompID);
+            tacRenumerationCompID.setValue(entity.RenumerationCompID);
+            tacRenumerationCompID.setText(entity.RenumerationCompName);
+            $('#<%=chkIsUseFormula.ClientID %>').change();
+            $('#entryDetailContainer2').show();
+        });
+
+        //#endregion
 
         //#region Paging
         function onCbpViewEndCallback(s) {
@@ -124,8 +243,26 @@
 
             }
         }
+
+        function onCbpViewEndCallback2(s) {
+            hideLoadingPanel();
+            var param = s.cpResult2.split('|');
+            if (param[0] == 'refresh') {
+                var pageCount2 = parseInt(param[1]);
+                var rowCount2 = parseInt(param[2]);
+
+                var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
+                setNumEntriesText($('#informationNumEntries2'), rowCount2, 1, rowCountPerPage2);
+                setPaging($("#paging2"), pageCount2, function (page) {
+                    cbpView2.PerformCallback('changepage|' + page);
+                    setNumEntriesText($('#informationNumEntries2'), rowCount2, page, rowCountPerPage2);
+                });
+
+            }
+        }
         //#endregion
 
+        //#region details
         function onAfterSaveRecordDtSuccess(TransactionID) {
             if ($('#<%=hdnTransactionID.ClientID %>').val() == '0') {
                 $('#<%=hdnTransactionID.ClientID %>').val(TransactionID);
@@ -163,6 +300,31 @@
                     cbpView.PerformCallback('refresh');
             }
         }
+        //#endregion
+
+        //#region details2
+       
+        function onCbpProcesEndCallback2(s) {
+            hideLoadingPanel();
+            var param = s.cpResult2.split('|');
+            if (param[0] == 'save') {
+                if (param[1] == 'fail')
+                    showToast('Save Failed', 'Error Message : ' + param[2]);
+                else {
+                    onAfterSaveRecordDtSuccess(s.cpTransactionID2);
+                    $('#divTransactionAdd2').click();
+                    cbpView2.PerformCallback('refresh');
+                }
+            }
+            else if (param[0] == 'delete') {
+                if (param[1] == 'fail')
+                    showToast('Delete Failed', 'Error Message : ' + param[2]);
+                else
+                    cbpView2.PerformCallback('refresh');
+            }
+        }
+        //#endregion
+
 
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
@@ -209,12 +371,45 @@
         function onTacEmployeeIDValueChanged() {
         }
         //#endregion
+
+        //#region Renumeration Comp
+        function onGetRenumerationCompFilterExpression() {
+            var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
+            var TransRenumerationID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
+            var filterExpression = "1 = 0";
+            if (TransRenumerationID != '')
+                filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeePositionRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 1 AND IsDeleted = 0)";
+            return filterExpression;
+        }
+
+        function ontacRenumerationCompIDSearchClick() {
+            openSearchDialog('renumerationcomp', onGetRenumerationCompFilterExpression(), function (value) {
+                var filterExpression = onGetRenumerationCompFilterExpression() + " AND RenumerationCompCode = '" + value + "'";
+                Methods.getObject('GetvRenumerationCompList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacRenumerationCompID.setValue(result.RenumerationCompID);
+                        tacRenumerationCompID.setText(result.RenumerationCompName);
+                    }
+                    else {
+                        tacRenumerationCompID.setValue('');
+                        tacRenumerationCompID.setText('');
+                    }
+                });
+            });
+        }
+
+        function ontacRenumerationCompIDValueChanged() {
+        }
+        //#endregion
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
+    <input type="hidden" value="" id="hdnPageCount2" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
+    <input type="hidden" value="" id="hdnRowCount2" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
+    <input type="hidden" value="" id="hdnTransRenumerationID" runat="server" />
 
     <div style="height: 550px; overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
@@ -243,7 +438,19 @@
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Posisi")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboPositionID" ClientInstanceName="cboPositionID" Width="50%" runat="server" /></td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <dxe:ASPxComboBox ID="cboPositionID" ClientInstanceName="cboPositionID" Width="200px" runat="server">
+                                                <ClientSideEvents ValueChanged="function(s,e) { onCboPositionIDValueChanged() }" />
+                                            </dxe:ASPxComboBox>
+                                        </td>
+                                        <td style="width:5px;"></td>
+                                        <td><input type="button" id="btnRenumerationID" class="btnMore" value="..." /></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                        <tr>
                             <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>
@@ -354,6 +561,24 @@
                                                     <colgroup>
                                                         <col style="width: 150px" />
                                                     </colgroup>
+                                                    <tr>
+                                                    <td class="tdLabel"><label class="lblMandatory" id="lblPosition"><%=GetLabel("Komp. Renumerasi")%></label></td>
+                                                    <td>
+                                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacRenumerationCompID" ClientInstanceName="tacRenumerationCompID" MethodName="GetvRenumerationCompList" GetFilterExpressionFunction="onGetRenumerationCompFilterExpression"
+                                                            SearchFields="RenumerationCompName,RenumerationCompID" TextField="RenumerationCompName" ValueField="RenumerationCompID" SearchText="${RenumerationCompName} (<b>${RenumerationCompType}</b>)" OrderByExpression="RenumerationCompName">
+                                                            <ClientSideEvents ButtonSearchClick="function(){ ontacRenumerationCompIDSearchClick(); }"
+                                                                ValueChanged="function(){ ontacRenumerationCompIDValueChanged(); }" />
+                                                        </cdx:CodeXAutoCompleteTextBox>   
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Amount")%></label></td>
+                                                    <td><asp:TextBox ID="txtAmount" CssClass="txtCurrency" Width="120px" runat="server" readonly="false"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="tdLabel"></td>
+                                                    <td><asp:CheckBox runat="server" ID="chkIsUseFormula" Text="Is Use Formula" /></td>
+                                                </tr>
                                                 </table>
                                             </td>
                                         </tr>
@@ -367,6 +592,52 @@
                                 </fieldset>
                             </div>
                         </div>
+                        <dxcp:ASPxCallbackPanel ID="cbpView2" runat="server" Width="100%" ClientInstanceName="cbpView2"
+                        ShowLoadingPanel="false" OnCallback="cbpView2_Callback">
+                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
+                            EndCallback="function(s,e){ onCbpViewEndCallback2(s); }" />
+                            <PanelCollection>
+                                <dx:PanelContent ID="PanelContent2" runat="server">
+                                    <asp:Panel runat="server" ID="pnlView2" Style="width: 100%; margin-left: auto; margin-right: auto;
+                                        position: relative;">
+                                        <asp:GridView ID="grdView2" runat="server" CssClass="tblTransactionEntryResult"
+                                            AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                            <Columns>
+                                                <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                <asp:BoundField DataField="RenumerationCompName" HeaderText="Nama" />
+                                                <asp:BoundField DataField="Amount" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderText="Amount" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkDetail" HeaderText="Formula" HeaderStyle-Width="80px">
+                                                    <ItemTemplate>
+                                                        <a <%# Eval("IsUseFormula").ToString() == "False" ? "style='display:none'" : ""%>>Detil</a>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
+                                                    <ItemTemplate>
+                                                        <div style='float:right;<%=IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailDelete"></div>
+                                                        <div style='float:right;margin-right:10px;<%#IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                                        <input type="hidden" value="<%#Eval("TransactionDtID") %>" bindingfield="TransactionDtID" />
+                                                        <input type="hidden" value="<%#Eval("RenumerationCompID") %>" bindingfield="RenumerationCompID" />
+                                                        <input type="hidden" value="<%#Eval("RenumerationCompName") %>" bindingfield="RenumerationCompName" />
+                                                        <input type="hidden" value="<%#Eval("Amount") %>" bindingfield="Amount" />
+                                                        <input type="hidden" value="<%#Eval("IsUseFormula") %>" bindingfield="IsUseFormula" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                            <EmptyDataTemplate>
+                                                <%=GetLabel("No Data To Display")%>
+                                            </EmptyDataTemplate>
+                                        </asp:GridView>
+                                    </asp:Panel>
+                                </dx:PanelContent>
+                            </PanelCollection>
+                        </dxcp:ASPxCallbackPanel>
+                        <div class="containerPaging">
+                            <div class="divInformationNumEntries" id="informationNumEntries2"></div>
+                            <div class="wrapperPaging">
+                                <div id="paging2">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -375,5 +646,9 @@
     <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
         ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
         <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
+    </dxcp:ASPxCallbackPanel>
+    <dxcp:ASPxCallbackPanel ID="cbpProcess2" runat="server" Width="100%" ClientInstanceName="cbpProcess2"
+        ShowLoadingPanel="false" OnCallback="cbpProcess2_Callback">
+        <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback2(s); }" />
     </dxcp:ASPxCallbackPanel>
 </asp:Content>

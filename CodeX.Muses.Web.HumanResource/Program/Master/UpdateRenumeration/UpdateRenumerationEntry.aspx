@@ -232,18 +232,33 @@
                     if (result != null) {
                         tacRenumerationCompID.setValue(result.RenumerationCompID);
                         tacRenumerationCompID.setText(result.RenumerationCompName);
-                        $('#<%=txtRenumerationCompType.ClientID %>').val(result.RenumerationCompType);
                     }
                     else {
                         tacRenumerationCompID.setValue('');
                         tacRenumerationCompID.setText('');
-                        $('#<%=txtRenumerationCompType.ClientID %>').val('');
                     }
+                    entityToControlRenumerationComp(result);
                 });
             });
         }
 
         function ontacRenumerationCompIDValueChanged() {
+            var id = tacRenumerationCompID.getValue();
+            if (id != '') {
+                var filterExpression = "RenumerationCompID = '" + id + "'";
+                Methods.getObject('GetvRenumerationCompList', filterExpression, function (result) {
+                    entityToControlRenumerationComp(result);                    
+                });
+            }
+            else
+                $('#<%=txtRenumerationCompType.ClientID %>').val('');
+        }
+
+        function entityToControlRenumerationComp(result) {
+            if (result != null)
+                $('#<%=txtRenumerationCompType.ClientID %>').val(result.RenumerationCompType);
+            else
+                $('#<%=txtRenumerationCompType.ClientID %>').val('');
         }
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
@@ -316,7 +331,7 @@
                                                     <col style="width: 150px" />
                                                 </colgroup>
                                                 <tr>
-                                                <td class="tdLabel"><label class="lblMandatory" id="lblPosition"><%=GetLabel("Komp. Renumerasi")%></label></td>
+                                                    <td class="tdLabel"><label class="lblMandatory" id="lblPosition"><%=GetLabel("Komp. Renumerasi")%></label></td>
                                                     <td>
                                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacRenumerationCompID" ClientInstanceName="tacRenumerationCompID" MethodName="GetvRenumerationCompList" GetFilterExpressionFunction="onGetRenumerationCompFilterExpression"
                                                             SearchFields="RenumerationCompName,RenumerationCompID" TextField="RenumerationCompName" ValueField="RenumerationCompID" SearchText="${RenumerationCompName} (<b>${RenumerationCompType}</b>)" OrderByExpression="RenumerationCompName">

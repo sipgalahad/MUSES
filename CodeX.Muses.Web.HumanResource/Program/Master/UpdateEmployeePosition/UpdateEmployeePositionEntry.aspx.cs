@@ -18,6 +18,13 @@ namespace CodeX.Muses.Web.Inventory.Program
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
+        protected int PageCount2 = 1;
+        protected int RowCount2 = 1;
+
+        protected string OnGetTransactionStatusApproved()
+        {
+            return Constant.TransactionStatus.APPROVED;
+        }
 
         public override string OnGetMenuCode()
         {
@@ -28,13 +35,16 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override void InitializeDataControl()
         {
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
+            hdnRowCountPerPage2.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
 
             SetControlProperties();
             hdnIsEditable.Value = "1";
 
             BindGridView(1, true, ref PageCount, ref RowCount);
+            BindGridView2(1, true, ref PageCount2, ref RowCount2);
 
             Helper.SetControlEntrySetting(tacEmployeeID, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtAmount, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         protected override void SetControlProperties()
@@ -57,6 +67,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         public override void OnAddRecord()
         {
             hdnPageCount.Value = "0";
+            hdnPageCount2.Value = "0";
             hdnIsEditable.Value = "1";
         }
 
@@ -114,8 +125,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtRemarks.Text = entity.Remarks;
 
             BindGridView(1, true, ref PageCount, ref RowCount);
+            BindGridView2(1, true, ref PageCount2, ref RowCount2);
             hdnPageCount.Value = PageCount.ToString();
             hdnRowCount.Value = RowCount.ToString();
+            hdnPageCount2.Value = PageCount2.ToString();
+            hdnRowCount2.Value = RowCount2.ToString();
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
@@ -132,6 +146,22 @@ namespace CodeX.Muses.Web.Inventory.Program
             List<vTransEmployeePositionDt> lstEntity = BusinessLayer.GetvTransEmployeePositionDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "EmployeeName ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
+        }
+
+        private void BindGridView2(int pageIndex, bool isCountPageCount, ref int pageCount2, ref int rowCount2)
+        {
+            string filterExpression = "1 = 0";
+            if (hdnTransactionID.Value != "")
+                filterExpression = string.Format("TransactionID = {0} AND IsDeleted = 0", hdnTransactionID.Value);
+            if (isCountPageCount)
+            {
+                rowCount2 = BusinessLayer.GetvTransEmployeePositionRenumerationRowCount(filterExpression);
+                pageCount2 = Helper.GetPageCount(rowCount2, Constant.GridViewPageSize.GRID_MASTER);
+            }
+
+            List<vTransEmployeePositionRenumeration> lstEntity2 = BusinessLayer.GetvTransEmployeePositionRenumerationList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "RenumerationCompName ASC");
+            grdView2.DataSource = lstEntity2;
+            grdView2.DataBind();
         }
         #endregion
 
@@ -408,6 +438,141 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
         #endregion
 
+        #region Process Detail2
+        protected void cbpProcess2_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string result = "";
+            string errMessage = "";
+            int adjustmentID = 0;
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
+            if (param[0] == "save")
+            {
+                if (hdnEntryID.Value.ToString() != "")
+                {
+                    adjustmentID = Convert.ToInt32(hdnTransactionID.Value);
+                    if (OnSaveEditRecordEntityDt2(ref errMessage))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+                else
+                {
+                    if (OnSaveAddRecordEntityDt2(ref errMessage, ref adjustmentID))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+            }
+            else if (param[0] == "delete")
+            {
+                adjustmentID = Convert.ToInt32(hdnTransactionID.Value);
+                if (OnDeleteEntityDt2(ref errMessage, adjustmentID))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult2"] = result;
+            panel.JSProperties["cpTransactionID2"] = adjustmentID.ToString();
+        }
+
+        private void ControlToEntity2(TransEmployeePositionRenumeration entityDt)
+        {
+            //entityDt.RenumerationCompID = Convert.ToInt32(cboRenumerationCompID.Value);
+            entityDt.RenumerationCompID = Convert.ToInt32(tacRenumerationCompID.Value);
+            entityDt.Amount = Convert.ToDecimal(Request.Form[txtAmount.UniqueID]);
+            //entityDt.IsAllowChange = chkIsAllowChange.Checked;
+            entityDt.IsUseFormula = chkIsUseFormula.Checked;
+        }
+
+
+        private bool OnSaveAddRecordEntityDt2(ref string errMessage, ref int TransactionID)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            TransEmployeePositionRenumerationDao entityDtDao = new TransEmployeePositionRenumerationDao(ctx);
+            try
+            {
+                SaveTransEmployeePositionHd(ctx, ref TransactionID);
+                TransEmployeePositionRenumeration entityDt = new TransEmployeePositionRenumeration();
+                ControlToEntity2(entityDt);
+                entityDt.TransactionID = TransactionID;
+                entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                entityDtDao.Insert(entityDt);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                result = false;
+                errMessage = ex.Message;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnSaveEditRecordEntityDt2(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            TransEmployeePositionRenumerationDao entityDtDao = new TransEmployeePositionRenumerationDao(ctx);
+            try
+            {
+                TransEmployeePositionRenumeration entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                ControlToEntity2(entityDt);
+                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityDtDao.Update(entityDt);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                result = false;
+                errMessage = ex.Message;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnDeleteEntityDt2(ref string errMessage, int ID)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            TransEmployeePositionRenumerationDao entityDtDao = new TransEmployeePositionRenumerationDao(ctx);
+            try
+            {
+                TransEmployeePositionRenumeration entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityDt.IsDeleted = true;
+                entityDtDao.Update(entityDt);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+
+        }
+        #endregion
+
         #region Callback
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
@@ -431,6 +596,30 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
+        }
+
+        protected void cbpView2_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            int pageCount = 1;
+            int rowCount = 1;
+            string result = "";
+            if (e.Parameter != null && e.Parameter != "")
+            {
+                string[] param = e.Parameter.Split('|');
+                if (param[0] == "changepage")
+                {
+                    BindGridView2(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
+                    result = "changepage";
+                }
+                else // refresh
+                {
+                    BindGridView2(1, true, ref pageCount, ref rowCount);
+                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
+                }
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult2"] = result;
         }
         #endregion
     }

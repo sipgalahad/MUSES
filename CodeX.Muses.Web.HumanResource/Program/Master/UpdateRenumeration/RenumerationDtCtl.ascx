@@ -20,9 +20,13 @@
                     <col style="width:160px"/>
                     <col/>
                 </colgroup>
+                <tr id="trOrganizationPosition" runat="server" style="display:none"> 
+                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Posisi")%></label></td>
+                    <td><asp:TextBox ID="txtorganizationPosition" ReadOnly="true" Width="100%" runat="server" /></td>
+                </tr>  
                 <tr>
                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Renumerasi")%></label></td>
-                    <td><asp:TextBox ID="txtHeader" ReadOnly="true" Width="100%" runat="server" /></td>
+                    <td><asp:TextBox ID="txtHeader" ReadOnly="true" Width="100%" runat="server"/></td>
                 </tr>  
             </table>
 
@@ -38,6 +42,7 @@
                                         <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:BoundField DataField="RenumerationCompName" HeaderText="Komponen" ItemStyle-HorizontalAlign="Left" HeaderStyle-CssClass="thLeft" />
                                         <asp:BoundField DataField="RenumerationCompType" HeaderText="Tipe Pembayaran" ItemStyle-HorizontalAlign="Left" HeaderStyle-CssClass="thLeft" HeaderStyle-Width="150px" />
+                                        <asp:CheckBoxField DataField="IsAllowChange" HeaderText="Is Allow Change" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px"/>
                                         <asp:BoundField DataField="Amount" HeaderText="Amount" DataFormatString="{0:N}" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="70px" />
                                     </Columns>
                                     <EmptyDataTemplate>

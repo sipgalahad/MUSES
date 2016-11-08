@@ -32,6 +32,26 @@ namespace CodeX.Muses.Web.Information.Program
                     hdnID.Value = "0";
                 BindGridView();
             }
+            else if (lstParam[0] == "ep")
+            {
+                OrganizationPosition op = BusinessLayer.GetOrganizationPosition(Convert.ToInt32(lstParam[2]));
+                trOrganizationPosition.Style.Remove("display");
+                txtorganizationPosition.Text = op.OrganizationPositionName;
+
+                if (lstParam[1] != "")
+                {
+                    TransRenumerationHd entityTransHd = BusinessLayer.GetTransRenumerationHd(Convert.ToInt32(lstParam[1]));
+                    RenumerationHd entityHd = BusinessLayer.GetRenumerationHd(entityTransHd.RenumerationID);
+                    hdnID.Value = entityTransHd.TransactionID.ToString();
+                    txtHeader.Text = String.Format("{0} - {1}", entityHd.RenumerationName, entityHd.RenumerationCode);
+                }
+                else
+                {
+                    hdnID.Value = "0";
+                    txtHeader.Text = "";
+                }
+                BindGridView();
+            }
             else
             {
                 hdnStartEffectiveDate.Value = lstParam[1];
@@ -45,6 +65,7 @@ namespace CodeX.Muses.Web.Information.Program
                     hdnID.Value = "0";
                 BindGridView();
             }
+            
         }
 
         private void BindGridView()
