@@ -137,6 +137,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
             entity.NoMeetingHoursInWeek = Convert.ToInt16(txtNoMeetingHoursInWeek.Text);
             entity.PassingGrade = Convert.ToInt16(txtPassingGrade.Text);
+            entity.IsClassTeacher = chkIsClassTeacher.Checked;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

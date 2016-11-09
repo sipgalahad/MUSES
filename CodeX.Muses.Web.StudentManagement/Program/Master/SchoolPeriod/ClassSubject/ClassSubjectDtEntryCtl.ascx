@@ -197,7 +197,7 @@
         return false;
     }
 </script>
-<div style="padding:10px;">
+<div style="padding:10px; max-height: 400px; overflow-y: auto;">
     <script id="tmplSelectedTestItem" type="text/x-jquery-tmpl">
         <tr class="trSelectedItem">
             <td align="center">

@@ -19078,6 +19078,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodClassTypeID;
         private Int32 _SubjectID;
         private Int32? _TeacherID;
+        private Boolean _IsClassTeacher;
         private Int16 _NoMeetingHoursInWeek;
         private Int16 _PassingGrade;
         private Int32? _SubjectCurriculumID;
@@ -19111,6 +19112,12 @@ namespace CodeX.Data.Model
         {
             get { return _TeacherID; }
             set { _TeacherID = value; }
+        }
+        [Column(Name = "IsClassTeacher", DataType = "Boolean")]
+        public Boolean IsClassTeacher
+        {
+            get { return _IsClassTeacher; }
+            set { _IsClassTeacher = value; }
         }
         [Column(Name = "NoMeetingHoursInWeek", DataType = "Int16")]
         public Int16 NoMeetingHoursInWeek
