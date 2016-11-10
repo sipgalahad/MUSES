@@ -1168,6 +1168,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+	<!-- #Region Template Employee -->
+	<searchdialog type="templateemployee" methodname="GetTemplateEmployeeGroupHdList" keyfieldname="TemplateCode" orderbyexpression="TemplateName ASC">
+		<gridcolumns>
+			<gridcolumn datafield="TemplateCode" headertext="Kode" width="50px" />
+			<gridcolumn datafield="TemplateName" headertext="Nama" width="300px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="TemplateName" headertext="Nama" description="" />
+			<intellisensetext datafield="TemplateCode" headertext="Kode" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
 	<!-- #Region Trans Employee Position-->
 	<searchdialog type="transemployeepositionhd" methodname="vTransEmployeePositionHd" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
 		<gridcolumns>

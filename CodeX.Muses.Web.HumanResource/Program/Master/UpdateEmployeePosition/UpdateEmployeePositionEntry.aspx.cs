@@ -243,6 +243,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             TransEmployeePositionHdDao transEmployeePositionHdDao = new TransEmployeePositionHdDao(ctx);
+            EmployeeDao employeeDao = new EmployeeDao(ctx);
             try
             {
                 TransEmployeePositionHd transEmployeePositionHd = transEmployeePositionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
@@ -250,6 +251,18 @@ namespace CodeX.Muses.Web.Inventory.Program
                 transEmployeePositionHd.Remarks = txtRemarks.Text;
                 transEmployeePositionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 transEmployeePositionHdDao.Update(transEmployeePositionHd);
+
+                if (String.Compare(transEmployeePositionHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
+                {
+                    List<Employee> lstEmpl = BusinessLayer.GetEmployeeList(String.Format("EmployeeID IN (SELECT EmployeeID FROM TransEmployeePositionDt WHERE TransactionID = {0})", hdnTransactionID.Value), ctx);
+                    foreach (Employee employee in lstEmpl)
+                    {
+                        employee.CurrentTransPositionID = Convert.ToInt32(hdnTransactionID.Value);
+                        employee.LastProcessPositionDate = DateTime.Now;
+                        employeeDao.Update(employee);
+                    }
+                }
+
 
                 ctx.CommitTransaction();
             }
@@ -306,10 +319,18 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 TransEmployeePositionHd transEmployeePositionHd = transEmployeePositionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                transEmployeePositionHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                transEmployeePositionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                transEmployeePositionHdDao.Update(transEmployeePositionHd);
 
+                if (String.Compare(transEmployeePositionHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
+                {
+                    result = false;
+                    errMessage = "Transaksi Sudah Diproses, Tidak Dapat Diubah";
+                }
+                else
+                {
+                    transEmployeePositionHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    transEmployeePositionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    transEmployeePositionHdDao.Update(transEmployeePositionHd);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

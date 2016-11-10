@@ -462,6 +462,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td></td>
                                                     <td> 
                                                         <input type="button" id="btnSave" class="btnWhite" value='<%=GetLabel("Commit") %>'/>
                                                         <input type="button" id="btnCancel" class="btnWhite" value='<%=GetLabel("Cancel") %>'/>

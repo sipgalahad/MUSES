@@ -97,7 +97,8 @@
 
             $('#divTemplatePicks').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
-                    showLoadingPanel();
+                    //showLoadingPanel();
+                    id = "0";
                     var url = ResolveUrl('~/Program/Master/HRScheduleGroup/TemplateEmployeeGroupPicksCtl.ascx');
                     var transactionID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
                     openUserControlPopup(url, id, 'Template Picks', 1000, 600);
@@ -430,6 +431,7 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td></td>
                                             <td> 
                                                 <input type="button" id="btnSave" class="btnWhite" value='<%=GetLabel("Commit") %>'/>
                                                 <input type="button" id="btnCancel" class="btnWhite" value='<%=GetLabel("Cancel") %>'/>

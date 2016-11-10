@@ -4906,6 +4906,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<Employee> GetEmployeeList(string filterExpression, IDbContext ctx)
+        {
+            List<Employee> result = new List<Employee>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Employee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Employee)helper.IDataReaderToObject(reader, new Employee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region EmployeeAttendanceSummary
         public static EmployeeAttendanceSummary GetEmployeeAttendanceSummary(Int32 AttendanceSummaryID)
@@ -6936,7 +6953,7 @@ namespace CodeX.Data.Model
             try
             {
                 DbHelper helper = new DbHelper(typeof(HRScheduleGroupEmployee));
-                ctx.CommandText = helper.SelectMaxColumn("ID");
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
@@ -7009,7 +7026,7 @@ namespace CodeX.Data.Model
             try
             {
                 DbHelper helper = new DbHelper(typeof(HRScheduleGroupHd));
-                ctx.CommandText = helper.SelectMaxColumn("ID");
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }

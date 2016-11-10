@@ -149,7 +149,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 filterExpression = string.Format("TransactionID = {0}", hdnTransactionID.Value);
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvTransEmployeePositionDtRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvHRScheduleGroupEmployeeRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
@@ -251,6 +251,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             HRScheduleGroupHdDao hrScheduleGroupHdDao = new HRScheduleGroupHdDao(ctx);
+            EmployeeDao employeeDao = new EmployeeDao(ctx);
             try
             {
                 HRScheduleGroupHd hrScheduleGroupHd = hrScheduleGroupHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
@@ -258,6 +259,17 @@ namespace CodeX.Muses.Web.Inventory.Program
                 hrScheduleGroupHd.Remarks = txtRemarks.Text;
                 hrScheduleGroupHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 hrScheduleGroupHdDao.Update(hrScheduleGroupHd);
+                //if approve
+                if (String.Compare(hrScheduleGroupHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
+                {
+                    List<Employee> lstEmpl = BusinessLayer.GetEmployeeList(String.Format("EmployeeID IN (SELECT EmployeeID FROM HRScheduleGroupEmployee WHERE TransactionID = {0})", hdnTransactionID.Value), ctx);
+                    foreach (Employee employee in lstEmpl)
+                    {
+                        employee.CurrentTransScheduleID = Convert.ToInt32(hdnTransactionID.Value);
+                        employee.LastProcessScheduleDate = DateTime.Now;
+                        employeeDao.Update(employee);
+                    }
+                }
 
                 ctx.CommitTransaction();
             }
@@ -314,10 +326,18 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 HRScheduleGroupHd hrScheduleGroupHd = hrScheduleGroupHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                hrScheduleGroupHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                hrScheduleGroupHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                hrScheduleGroupHdDao.Update(hrScheduleGroupHd);
-
+                //if reopen
+                if (String.Compare(hrScheduleGroupHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
+                {
+                    result = false;
+                    errMessage = "Transaksi Sudah Diproses, Tidak Dapat Diubah";
+                }
+                else
+                {
+                    hrScheduleGroupHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    hrScheduleGroupHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    hrScheduleGroupHdDao.Update(hrScheduleGroupHd);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
