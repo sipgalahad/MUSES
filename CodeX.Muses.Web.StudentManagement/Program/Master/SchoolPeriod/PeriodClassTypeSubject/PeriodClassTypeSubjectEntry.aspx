@@ -24,7 +24,8 @@
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val('');
                 $('#<%=txtPassingGrade.ClientID %>').val('0');
                 $('#<%=hdnCurriculumSubjectGroupID.ClientID %>').val('');
-                $('#<%=txtCurriculumSubjectGroup.ClientID %>').val(''); 
+                $('#<%=txtCurriculumSubjectGroup.ClientID %>').val('');
+                $('#<%=chkIsClassTeacher.ClientID %>').prop('checked', false); 
 
                 tacSubject.setEnabled(true);
                 tacTeacher.setEnabled(true);
@@ -89,6 +90,7 @@
             $('#<%=txtCurriculumSubjectGroup.ClientID %>').val(entity.CurriculumSubjectGroupName); 
             $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
             $('#<%=txtPassingGrade.ClientID %>').val(entity.PassingGrade);
+            $('#<%=chkIsClassTeacher.ClientID %>').prop('checked', entity.IsClassTeacher == 'True'); 
             if (entity.IsEditable == 'False') 
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').attr('readonly', 'readonly');
             else 
@@ -342,6 +344,10 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Diajar Wali Kelas")%></label></td>
+                                    <td colspan="3"><asp:CheckBox runat="server" ID="chkIsClassTeacher" /></td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Kurikulum")%></label></td>
                                     <td colspan="3">
                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacSubjectCurriculum" ClientInstanceName="tacSubjectCurriculum" MethodName="GetSubjectCurriculumList" GetFilterExpressionFunction="onGetSubjectCurriculumFilterExpression"
@@ -428,6 +434,7 @@
                                         <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />
                                         <input type="hidden" value="<%#Eval("PassingGrade") %>" bindingfield="PassingGrade" />
                                         <input type="hidden" value="<%#Eval("IsEditable") %>" bindingfield="IsEditable" />
+                                        <input type="hidden" value="<%#Eval("IsClassTeacher") %>" bindingfield="IsClassTeacher" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
