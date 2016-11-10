@@ -11322,6 +11322,177 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vHRScheduleGroupDate
+    [Serializable]
+    [Table(Name = "vHRScheduleGroupDate")]
+    public partial class vHRScheduleGroupDate
+    {
+        private Int32 _TransactionDtID;
+        private Int32 _TransactionID;
+        private String _GCDay;
+        private String _Day;
+        private DateTime _ScheduleDate;
+        private Int32 _DailyScheduleID;
+        private String _DailyScheduleCode;
+        private String _DailyScheduleName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32")]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "GCDay", DataType = "String")]
+        public String GCDay
+        {
+            get { return _GCDay; }
+            set { _GCDay = value; }
+        }
+        [Column(Name = "Day", DataType = "String")]
+        public String Day
+        {
+            get { return _Day; }
+            set { _Day = value; }
+        }
+        [Column(Name = "ScheduleDate", DataType = "DateTime")]
+        public DateTime ScheduleDate
+        {
+            get { return _ScheduleDate; }
+            set { _ScheduleDate = value; }
+        }
+        [Column(Name = "DailyScheduleID", DataType = "Int32")]
+        public Int32 DailyScheduleID
+        {
+            get { return _DailyScheduleID; }
+            set { _DailyScheduleID = value; }
+        }
+        [Column(Name = "DailyScheduleCode", DataType = "String")]
+        public String DailyScheduleCode
+        {
+            get { return _DailyScheduleCode; }
+            set { _DailyScheduleCode = value; }
+        }
+        [Column(Name = "DailyScheduleName", DataType = "String")]
+        public String DailyScheduleName
+        {
+            get { return _DailyScheduleName; }
+            set { _DailyScheduleName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vHRScheduleGroupEmployee
+    [Serializable]
+    [Table(Name = "vHRScheduleGroupEmployee")]
+    public class vHRScheduleGroupEmployee
+    {
+        private Int32 _TransactionID;
+        private Int32 _EmployeeID;
+        private String _EmployeeCode;
+        private String _EmployeeName;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "EmployeeCode", DataType = "String")]
+        public String EmployeeCode
+        {
+            get { return _EmployeeCode; }
+            set { _EmployeeCode = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+    }
+    #endregion
+    #region vHRScheduleGroupHd
+    [Serializable]
+    [Table(Name = "vHRScheduleGroupHd")]
+    public class vHRScheduleGroupHd
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private DateTime _StartEffectiveDate;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+    }
+    #endregion
     #region vInterfaceJournalSettingDtCustom
     [Serializable]
     [Table(Name = "vInterfaceJournalSettingDtCustom")]

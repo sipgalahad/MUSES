@@ -104,6 +104,7 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Program\Master\HRScheduleGroup\HRScheduleGroupEntry.aspx" />
     <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntry.aspx" />
     <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntryCtl.ascx" />
     <Content Include="Program\Master\UpdateRenumerationCompFormula\RenumerationCompFormulaDtCtl.ascx" />
@@ -344,6 +345,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\HRScheduleGroup\HRScheduleGroupEntry.aspx.cs">
+      <DependentUpon>HRScheduleGroupEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\HRScheduleGroup\HRScheduleGroupEntry.aspx.designer.cs">
+      <DependentUpon>HRScheduleGroupEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntry.aspx.cs">
       <DependentUpon>UpdateEmployeePositionEntry.aspx</DependentUpon>

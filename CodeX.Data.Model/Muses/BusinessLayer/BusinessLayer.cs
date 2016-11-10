@@ -6801,6 +6801,225 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region HRScheduleGroupDate
+        public static HRScheduleGroupDate GetHRScheduleGroupDate(Int32 TransactionDtID)
+        {
+            return new HRScheduleGroupDateDao().Get(TransactionDtID);
+        }
+        public static int InsertHRScheduleGroupDate(HRScheduleGroupDate record)
+        {
+            return new HRScheduleGroupDateDao().Insert(record);
+        }
+        public static int UpdateHRScheduleGroupDate(HRScheduleGroupDate record)
+        {
+            return new HRScheduleGroupDateDao().Update(record);
+        }
+        public static int DeleteHRScheduleGroupDate(Int32 TransactionDtID)
+        {
+            return new HRScheduleGroupDateDao().Delete(TransactionDtID);
+        }
+        public static List<HRScheduleGroupDate> GetHRScheduleGroupDateList(string filterExpression)
+        {
+            List<HRScheduleGroupDate> result = new List<HRScheduleGroupDate>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRScheduleGroupDate));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((HRScheduleGroupDate)helper.IDataReaderToObject(reader, new HRScheduleGroupDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<HRScheduleGroupDate> GetHRScheduleGroupDateList(string filterExpression, IDbContext ctx)
+        {
+            List<HRScheduleGroupDate> result = new List<HRScheduleGroupDate>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRScheduleGroupDate));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((HRScheduleGroupDate)helper.IDataReaderToObject(reader, new HRScheduleGroupDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetHRScheduleGroupDateMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRScheduleGroupDate));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region HRScheduleGroupEmployee
+        public static HRScheduleGroupEmployee GetHRScheduleGroupEmployee(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new HRScheduleGroupEmployeeDao().Get(TransactionID, EmployeeID);
+        }
+        public static int InsertHRScheduleGroupEmployee(HRScheduleGroupEmployee record)
+        {
+            return new HRScheduleGroupEmployeeDao().Insert(record);
+        }
+        public static int UpdateHRScheduleGroupEmployee(HRScheduleGroupEmployee record)
+        {
+            return new HRScheduleGroupEmployeeDao().Update(record);
+        }
+        public static int DeleteHRScheduleGroupEmployee(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new HRScheduleGroupEmployeeDao().Delete(TransactionID, EmployeeID);
+        }
+        public static List<HRScheduleGroupEmployee> GetHRScheduleGroupEmployeeList(string filterExpression)
+        {
+            List<HRScheduleGroupEmployee> result = new List<HRScheduleGroupEmployee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRScheduleGroupEmployee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((HRScheduleGroupEmployee)helper.IDataReaderToObject(reader, new HRScheduleGroupEmployee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<HRScheduleGroupEmployee> GetHRScheduleGroupEmployeeList(string filterExpression, IDbContext ctx)
+        {
+            List<HRScheduleGroupEmployee> result = new List<HRScheduleGroupEmployee>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRScheduleGroupEmployee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((HRScheduleGroupEmployee)helper.IDataReaderToObject(reader, new HRScheduleGroupEmployee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetHRScheduleGroupEmployeeMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRScheduleGroupEmployee));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region HRScheduleGroupHd
+        public static HRScheduleGroupHd GetHRScheduleGroupHd(Int32 TransactionID)
+        {
+            return new HRScheduleGroupHdDao().Get(TransactionID);
+        }
+        public static int InsertHRScheduleGroupHd(HRScheduleGroupHd record)
+        {
+            return new HRScheduleGroupHdDao().Insert(record);
+        }
+        public static int UpdateHRScheduleGroupHd(HRScheduleGroupHd record)
+        {
+            return new HRScheduleGroupHdDao().Update(record);
+        }
+        public static int DeleteHRScheduleGroupHd(Int32 TransactionID)
+        {
+            return new HRScheduleGroupHdDao().Delete(TransactionID);
+        }
+        public static List<HRScheduleGroupHd> GetHRScheduleGroupHdList(string filterExpression)
+        {
+            List<HRScheduleGroupHd> result = new List<HRScheduleGroupHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRScheduleGroupHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((HRScheduleGroupHd)helper.IDataReaderToObject(reader, new HRScheduleGroupHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<HRScheduleGroupHd> GetHRScheduleGroupHdList(string filterExpression, IDbContext ctx)
+        {
+            List<HRScheduleGroupHd> result = new List<HRScheduleGroupHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRScheduleGroupHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((HRScheduleGroupHd)helper.IDataReaderToObject(reader, new HRScheduleGroupHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetHRScheduleGroupHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(HRScheduleGroupHd));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region HRDailyScheduleDt
         public static HRDailyScheduleDt GetHRDailyScheduleDt(Int32 DailyScheduleDtID)
         {

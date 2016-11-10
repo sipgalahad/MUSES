@@ -649,6 +649,7 @@ namespace CodeX.Common
                 public const string UPDATE_EMPLOYEE_POSITION = "HR010200";
                 public const string UPDATE_RENUMERATION_POSITION = "HR010300";
                 public const string UPDATE_RENUMERATION_COMP_FORMULA = "HR010400";
+                public const string HR_SCHEDULE_GRUP_HD = "HR010500";
             }
             #endregion
 
@@ -984,6 +985,7 @@ namespace CodeX.Common
             public const string POSITION_RENUMERATION = "8202";
             public const string EMPLOYEE_POSITION = "8203";
             public const string RENUMERATION_COMP_FORMULA = "8204";
+            public const string HR_SCHEDULE_GRUP = "8205";
 
             public const string TEACHER_PROFILE = "9101";
         }

@@ -590,6 +590,29 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vHRScheduleGroupDate
+    public partial class vHRScheduleGroupDate
+    {
+        public String ScheduleDateInDatePickerFormat
+        {
+            get
+            {
+                if (_ScheduleDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _ScheduleDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+        public String ScheduleDateInString
+        {
+            get
+            {
+                if (_ScheduleDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _ScheduleDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region vItemAlternateUnitCustom
     public partial class vItemAlternateUnitCustom
     {

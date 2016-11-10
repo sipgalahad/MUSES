@@ -3872,6 +3872,252 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vHRScheduleGroupDate
+        public static List<vHRScheduleGroupDate> GetvHRScheduleGroupDateList(string filterExpression)
+        {
+            List<vHRScheduleGroupDate> result = new List<vHRScheduleGroupDate>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRScheduleGroupDate));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vHRScheduleGroupDate)helper.IDataReaderToObject(reader, new vHRScheduleGroupDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvHRScheduleGroupDateRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRScheduleGroupDate));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vHRScheduleGroupDate> GetvHRScheduleGroupDateList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vHRScheduleGroupDate> result = new List<vHRScheduleGroupDate>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRScheduleGroupDate));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vHRScheduleGroupDate)helper.IDataReaderToObject(reader, new vHRScheduleGroupDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vHRScheduleGroupEmployee
+        public static List<vHRScheduleGroupEmployee> GetvHRScheduleGroupEmployeeList(string filterExpression)
+        {
+            List<vHRScheduleGroupEmployee> result = new List<vHRScheduleGroupEmployee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRScheduleGroupEmployee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vHRScheduleGroupEmployee)helper.IDataReaderToObject(reader, new vHRScheduleGroupEmployee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvHRScheduleGroupEmployeeRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRScheduleGroupEmployee));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vHRScheduleGroupEmployee> GetvHRScheduleGroupEmployeeList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vHRScheduleGroupEmployee> result = new List<vHRScheduleGroupEmployee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRScheduleGroupEmployee));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vHRScheduleGroupEmployee)helper.IDataReaderToObject(reader, new vHRScheduleGroupEmployee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vHRScheduleGroupHd
+        public static List<vHRScheduleGroupHd> GetvHRScheduleGroupHdList(string filterExpression)
+        {
+            List<vHRScheduleGroupHd> result = new List<vHRScheduleGroupHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRScheduleGroupHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vHRScheduleGroupHd)helper.IDataReaderToObject(reader, new vHRScheduleGroupHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvHRScheduleGroupHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRScheduleGroupHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static vHRScheduleGroupHd GetvHRScheduleGroupHd(string filterExpression, int pageIndex, string orderByExpression = "")
+        {
+            List<vHRScheduleGroupHd> result = new List<vHRScheduleGroupHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRScheduleGroupHd));
+                ctx.CommandText = helper.SelectByPageIndex(filterExpression, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vHRScheduleGroupHd)helper.IDataReaderToObject(reader, new vHRScheduleGroupHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            if (result.Count > 0)
+                return result[0];
+            return null;
+        }
+        public static Int32 GetvHRScheduleGroupHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRScheduleGroupHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TransactionNo", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vHRScheduleGroupHd> GetvHRScheduleGroupHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vHRScheduleGroupHd> result = new List<vHRScheduleGroupHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vHRScheduleGroupHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vHRScheduleGroupHd)helper.IDataReaderToObject(reader, new vHRScheduleGroupHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vInterfaceJournalSettingDtCustom
         public static List<vInterfaceJournalSettingDtCustom> GetvInterfaceJournalSettingDtCustomList(string filterExpression)
         {
