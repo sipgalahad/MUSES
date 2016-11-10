@@ -264,6 +264,9 @@
     <Content Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx" />
     <Content Include="Program\Master\Teacher\TeacherEntry.aspx" />
     <Content Include="Program\Master\Teacher\TeacherList.aspx" />
+    <Content Include="Program\Master\TemplateEmployeeGroup\TemplateEmployeeGroupEntryCtl.ascx" />
+    <Content Include="Program\Master\TemplateEmployeeGroup\TemplateEmployeeGroupEntry.aspx" />
+    <Content Include="Program\Master\TemplateEmployeeGroup\TemplateEmployeeGroupList.aspx" />
     <Content Include="Program\Master\Term\TermEntry.aspx" />
     <Content Include="Program\Master\Term\TermList.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx" />
@@ -1604,6 +1607,27 @@
     </Compile>
     <Compile Include="Program\Master\Teacher\TeacherList.aspx.designer.cs">
       <DependentUpon>TeacherList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\TemplateEmployeeGroup\TemplateEmployeeGroupEntryCtl.ascx.cs">
+      <DependentUpon>TemplateEmployeeGroupEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\TemplateEmployeeGroup\TemplateEmployeeGroupEntryCtl.ascx.designer.cs">
+      <DependentUpon>TemplateEmployeeGroupEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\TemplateEmployeeGroup\TemplateEmployeeGroupEntry.aspx.cs">
+      <DependentUpon>TemplateEmployeeGroupEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\TemplateEmployeeGroup\TemplateEmployeeGroupEntry.aspx.designer.cs">
+      <DependentUpon>TemplateEmployeeGroupEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\TemplateEmployeeGroup\TemplateEmployeeGroupList.aspx.cs">
+      <DependentUpon>TemplateEmployeeGroupList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\TemplateEmployeeGroup\TemplateEmployeeGroupList.aspx.designer.cs">
+      <DependentUpon>TemplateEmployeeGroupList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Term\TermEntry.aspx.cs">
       <DependentUpon>TermEntry.aspx</DependentUpon>

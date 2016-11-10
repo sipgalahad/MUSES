@@ -527,6 +527,7 @@ namespace CodeX.Common
                 public const string HR_WEEKLY_SCHEDULE = "CP010504";
                 public const string ORGANIZATION_DEPARTMENT = "CP010505";
                 public const string RENUMERATION_COMP_FORMULA = "CP010506";
+                public const string TEMPLATE_EMPLOYEE_GROUP = "CP010507";
 
                 public const string HOLIDAY = "CP010901";
 

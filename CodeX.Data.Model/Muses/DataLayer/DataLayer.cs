@@ -37448,6 +37448,183 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region TemplateEmployeeGroupDt
+    [Serializable]
+    [Table(Name = "TemplateEmployeeGroupDt")]
+    public class TemplateEmployeeGroupDt : DbDataModel
+    {
+        private Int32 _TemplateID;
+        private Int32 _EmployeeID;
+
+        [Column(Name = "TemplateID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TemplateID
+        {
+            get { return _TemplateID; }
+            set { _TemplateID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+    }
+
+    public class TemplateEmployeeGroupDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TemplateEmployeeGroupDt));
+        private bool _isAuditLog = false;
+        private const string p_EmployeeID = "@p_EmployeeID";
+        private const string p_TemplateID = "@p_TemplateID";
+        public TemplateEmployeeGroupDtDao() { }
+        public TemplateEmployeeGroupDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TemplateEmployeeGroupDt Get(Int32 TemplateID, Int32 EmployeeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_EmployeeID, EmployeeID);
+            _ctx.Add(p_TemplateID, TemplateID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TemplateEmployeeGroupDt)_helper.DataRowToObject(row, new TemplateEmployeeGroupDt());
+        }
+        public int Insert(TemplateEmployeeGroupDt record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TemplateEmployeeGroupDt record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TemplateID, Int32 EmployeeID)
+        {
+            TemplateEmployeeGroupDt record;
+            if (_ctx.Transaction == null)
+                record = new TemplateEmployeeGroupDtDao().Get(TemplateID, EmployeeID);
+            else
+                record = Get(TemplateID, EmployeeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TemplateEmployeeGroupHd
+    [Serializable]
+    [Table(Name = "TemplateEmployeeGroupHd")]
+    public class TemplateEmployeeGroupHd : DbDataModel
+    {
+        private Int32 _TemplateID;
+        private String _TemplateCode;
+        private String _TemplateName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TemplateID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TemplateID
+        {
+            get { return _TemplateID; }
+            set { _TemplateID = value; }
+        }
+        [Column(Name = "TemplateCode", DataType = "String")]
+        public String TemplateCode
+        {
+            get { return _TemplateCode; }
+            set { _TemplateCode = value; }
+        }
+        [Column(Name = "TemplateName", DataType = "String")]
+        public String TemplateName
+        {
+            get { return _TemplateName; }
+            set { _TemplateName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TemplateEmployeeGroupHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TemplateEmployeeGroupHd));
+        private bool _isAuditLog = false;
+        private const string p_TemplateID = "@p_TemplateID";
+        public TemplateEmployeeGroupHdDao() { }
+        public TemplateEmployeeGroupHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TemplateEmployeeGroupHd Get(Int32 TemplateID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TemplateID, TemplateID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TemplateEmployeeGroupHd)_helper.DataRowToObject(row, new TemplateEmployeeGroupHd());
+        }
+        public int Insert(TemplateEmployeeGroupHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TemplateEmployeeGroupHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TemplateID)
+        {
+            TemplateEmployeeGroupHd record;
+            if (_ctx.Transaction == null)
+                record = new TemplateEmployeeGroupHdDao().Get(TemplateID);
+            else
+                record = Get(TemplateID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Term
     [Serializable]
     [Table(Name = "Term")]

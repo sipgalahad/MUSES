@@ -107,13 +107,13 @@
 
                     setDatePicker('<%=txtScheduleDate.ClientID %>');
                     $('#<%=txtScheduleDate.ClientID %>').datepicker('option', 'minDate', '0');
-                    
+
                     cboDailySchedule.SetSelectedIndex(0);
                     $('#entryDetailContainer2').show();
                 }
             });
 
- 
+
 
             $('#btnCancel').click(function () {
                 $('#entryDetailContainer').hide();
@@ -152,7 +152,7 @@
                 cbpView2.PerformCallback('changepage|' + page);
                 setNumEntriesText($('#informationNumEntries2'), rowCount2, page, rowCountPerPage2);
             });
-
+        }
         //#region  Delete
         $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
             $row = $(this).closest('tr');

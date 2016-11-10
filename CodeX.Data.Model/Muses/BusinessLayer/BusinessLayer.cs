@@ -17797,6 +17797,167 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TemplateEmployeeGroupDt
+        public static TemplateEmployeeGroupDt GetTemplateEmployeeGroupDt(Int32 TemplateID, Int32 EmployeeID)
+        {
+            return new TemplateEmployeeGroupDtDao().Get(TemplateID, EmployeeID);
+        }
+        public static int InsertTemplateEmployeeGroupDt(TemplateEmployeeGroupDt record)
+        {
+            return new TemplateEmployeeGroupDtDao().Insert(record);
+        }
+        public static int UpdateTemplateEmployeeGroupDt(TemplateEmployeeGroupDt record)
+        {
+            return new TemplateEmployeeGroupDtDao().Update(record);
+        }
+        public static int DeleteTemplateEmployeeGroupDt(Int32 TemplateID, Int32 EmployeeID)
+        {
+            return new TemplateEmployeeGroupDtDao().Delete(TemplateID, EmployeeID);
+        }
+        public static List<TemplateEmployeeGroupDt> GetTemplateEmployeeGroupDtList(string filterExpression)
+        {
+            List<TemplateEmployeeGroupDt> result = new List<TemplateEmployeeGroupDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TemplateEmployeeGroupDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TemplateEmployeeGroupDt)helper.IDataReaderToObject(reader, new TemplateEmployeeGroupDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TemplateEmployeeGroupDt> GetTemplateEmployeeGroupDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TemplateEmployeeGroupDt> result = new List<TemplateEmployeeGroupDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TemplateEmployeeGroupDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TemplateEmployeeGroupDt)helper.IDataReaderToObject(reader, new TemplateEmployeeGroupDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TemplateEmployeeGroupHd
+        public static TemplateEmployeeGroupHd GetTemplateEmployeeGroupHd(Int32 TemplateID)
+        {
+            return new TemplateEmployeeGroupHdDao().Get(TemplateID);
+        }
+        public static int InsertTemplateEmployeeGroupHd(TemplateEmployeeGroupHd record)
+        {
+            return new TemplateEmployeeGroupHdDao().Insert(record);
+        }
+        public static int UpdateTemplateEmployeeGroupHd(TemplateEmployeeGroupHd record)
+        {
+            return new TemplateEmployeeGroupHdDao().Update(record);
+        }
+        public static int DeleteTemplateEmployeeGroupHd(Int32 TemplateID)
+        {
+            return new TemplateEmployeeGroupHdDao().Delete(TemplateID);
+        }
+        public static List<TemplateEmployeeGroupHd> GetTemplateEmployeeGroupHdList(string filterExpression)
+        {
+            List<TemplateEmployeeGroupHd> result = new List<TemplateEmployeeGroupHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TemplateEmployeeGroupHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TemplateEmployeeGroupHd)helper.IDataReaderToObject(reader, new TemplateEmployeeGroupHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TemplateEmployeeGroupHd> GetTemplateEmployeeGroupHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<TemplateEmployeeGroupHd> result = new List<TemplateEmployeeGroupHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TemplateEmployeeGroupHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TemplateEmployeeGroupHd)helper.IDataReaderToObject(reader, new TemplateEmployeeGroupHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTemplateEmployeeGroupHdCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TemplateEmployeeGroupHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTemplateEmployeeGroupHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TemplateEmployeeGroupHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TemplateID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region Term
         public static Term GetTerm(Int32 TermID)
         {

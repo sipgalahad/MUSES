@@ -32232,6 +32232,42 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTemplateEmployeeGroupDt
+    [Serializable]
+    [Table(Name = "vTemplateEmployeeGroupDt")]
+    public class vTemplateEmployeeGroupDt
+    {
+        private Int32 _TemplateID;
+        private Int32 _EmployeeID;
+        private String _EmployeeCode;
+        private String _EmployeeName;
+
+        [Column(Name = "TemplateID", DataType = "Int32")]
+        public Int32 TemplateID
+        {
+            get { return _TemplateID; }
+            set { _TemplateID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "EmployeeCode", DataType = "String")]
+        public String EmployeeCode
+        {
+            get { return _EmployeeCode; }
+            set { _EmployeeCode = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+    }
+    #endregion
     #region vTeacher
     [Serializable]
     [Table(Name = "vTeacher")]

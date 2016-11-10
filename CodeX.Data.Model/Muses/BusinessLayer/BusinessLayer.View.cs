@@ -12894,6 +12894,73 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vTemplateEmployeeGroupDt
+        public static List<vTemplateEmployeeGroupDt> GetvTemplateEmployeeGroupDtList(string filterExpression)
+        {
+            List<vTemplateEmployeeGroupDt> result = new List<vTemplateEmployeeGroupDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTemplateEmployeeGroupDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTemplateEmployeeGroupDt)helper.IDataReaderToObject(reader, new vTemplateEmployeeGroupDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTemplateEmployeeGroupDt> GetvTemplateEmployeeGroupDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTemplateEmployeeGroupDt> result = new List<vTemplateEmployeeGroupDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTemplateEmployeeGroupDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTemplateEmployeeGroupDt)helper.IDataReaderToObject(reader, new vTemplateEmployeeGroupDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTemplateEmployeeGroupDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTemplateEmployeeGroupDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vTeacherAbsence
         public static List<vTeacherAbsence> GetvTeacherAbsenceList(string filterExpression)
         {
