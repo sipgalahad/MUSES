@@ -34,15 +34,18 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 SetControlProperties();
                 IsAdd = true;
             }
-            txtOrganizationDepartmentCode.Focus();
+            ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.ORGANIZATION_DEPARTMENT);
+            ctlEntityCode.SetControlVisibility(IsAdd);
+            ctlEntityCode.SetFocus();
         }
 
-      
-
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
+        }
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(txtOrganizationDepartmentCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtOrganizationDepartmentName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(tacOrganizationDepartmentParentID, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
@@ -51,7 +54,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void EntityToControl(vOrganizationDepartment entity)
         {
-            txtOrganizationDepartmentCode.Text = entity.OrganizationDepartmentCode;
+            ctlEntityCode.SetText(entity.OrganizationDepartmentCode);
             txtOrganizationDepartmentName.Text = entity.OrganizationDepartmentName;
             tacOrganizationDepartmentParentID.Value = entity.ParentID.ToString();
             tacOrganizationDepartmentParentID.Text = entity.ParentName.ToString();
@@ -59,9 +62,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             chkIsHeader.Checked = entity.IsHeader;
         }
 
-        private void ControlToEntity(OrganizationDepartment entity)
+        private void ControlToEntity(OrganizationDepartment entity, IDbContext ctx)
         {
-            entity.OrganizationDepartmentCode = txtOrganizationDepartmentCode.Text;
             entity.OrganizationDepartmentName = txtOrganizationDepartmentName.Text;
             if (tacOrganizationDepartmentParentID.Value == "" || tacOrganizationDepartmentParentID.Value == "0")
                 entity.ParentID = null;
@@ -69,31 +71,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.ParentID = Convert.ToInt32(tacOrganizationDepartmentParentID.Value);
             entity.Remarks = txtRemarks.Text;
             entity.IsHeader = chkIsHeader.Checked;
-        }
-
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("OrganizationDepartmentCode = '{0}'", txtOrganizationDepartmentCode.Text);
-            List<OrganizationDepartment> lst = BusinessLayer.GetOrganizationDepartmentList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Organization Structure With Code " + txtOrganizationDepartmentCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            string FilterExpression = string.Format("OrganizationDepartmentCode = '{0}' AND OrganizationDepartmentID != {1}", txtOrganizationDepartmentCode.Text, hdnID.Value);
-            List<OrganizationDepartment> lst = BusinessLayer.GetOrganizationDepartmentList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Organization Structure With Code " + txtOrganizationDepartmentCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
+            entity.OrganizationDepartmentCode = ctlEntityCode.GetCode(entity.OrganizationDepartmentName, ctx);
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -104,7 +82,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             try
             {
                 OrganizationDepartment entity = new OrganizationDepartment();
-                ControlToEntity(entity);
+                ControlToEntity(entity, ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 retval = entityDao.Insert(entity).ToString();
                 ctx.CommitTransaction();
@@ -126,20 +104,30 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
+            IDbContext ctx = DbFactory.Configure(true);
+            OrganizationDepartmentDao entityDao = new OrganizationDepartmentDao(ctx);
+            bool result = false;
             try
             {
-                OrganizationDepartment entity = BusinessLayer.GetOrganizationDepartment(Convert.ToInt32(hdnID.Value));
-                ControlToEntity(entity);
+                OrganizationDepartment entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                ControlToEntity(entity, ctx);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateOrganizationDepartment(entity);
-                return true;
+                entityDao.Update(entity);
+                ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
                 errMessage = ex.Message;
-                return false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

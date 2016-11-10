@@ -34,12 +34,18 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 SetControlProperties();
                 IsAdd = true;
             }
-            txtDailyScheduleCode.Focus();
+            ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.HR_DAILY_SCHEDULE);
+            ctlEntityCode.SetControlVisibility(IsAdd);
+            ctlEntityCode.SetFocus();
+        }
+
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
         }
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(txtDailyScheduleCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtDailyScheduleName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtNoOfWorkHours, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, true));
@@ -53,7 +59,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void EntityToControl(HRDailyScheduleHd entity)
         {
-            txtDailyScheduleCode.Text = entity.DailyScheduleCode;
+            ctlEntityCode.SetText(entity.DailyScheduleCode);
             txtDailyScheduleName.Text = entity.DailyScheduleName;
             txtNoOfWorkHours.Text = entity.NoOfWorkHours.ToString();
             txtRemarks.Text = entity.Remarks;
@@ -66,9 +72,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         }
 
-        private void ControlToEntity(HRDailyScheduleHd entity)
+        private void ControlToEntity(HRDailyScheduleHd entity, IDbContext ctx)
         {
-            entity.DailyScheduleCode = txtDailyScheduleCode.Text;
             entity.DailyScheduleName = txtDailyScheduleName.Text;
             entity.NoOfWorkHours= Convert.ToInt16(txtNoOfWorkHours.Text);
             entity.Remarks = txtRemarks.Text;   
@@ -78,32 +83,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.ToHour = txtToHour.Text;
             entity.StartGraceTimeDepart = txtStartGraceTimeDepart.Text;
             entity.ToGraceTimeDepart = txtStartGraceTimeDepart.Text;
-            
-        }
-
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("DailyScheduleCode = '{0}'", txtDailyScheduleCode.Text);
-            List<HRDailyScheduleHd> lst = BusinessLayer.GetHRDailyScheduleHdList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Daily Schedule With Code " + txtDailyScheduleCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            string FilterExpression = string.Format("DailyScheduleCode = '{0}' AND DailyScheduleID != {1}", txtDailyScheduleCode.Text, hdnID.Value);
-            List<HRDailyScheduleHd> lst = BusinessLayer.GetHRDailyScheduleHdList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Daily Schedule With Code " + txtDailyScheduleCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
+            entity.DailyScheduleCode = ctlEntityCode.GetCode(entity.DailyScheduleName, ctx);            
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -114,7 +94,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             try
             {
                 HRDailyScheduleHd entity = new HRDailyScheduleHd();
-                ControlToEntity(entity);
+                ControlToEntity(entity, ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 retval = entityDao.Insert(entity).ToString();
                 ctx.CommitTransaction();
@@ -136,20 +116,30 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
+            IDbContext ctx = DbFactory.Configure(true);
+            HRDailyScheduleHdDao entityDao = new HRDailyScheduleHdDao(ctx);
+            bool result = false;
             try
             {
-                HRDailyScheduleHd entity = BusinessLayer.GetHRDailyScheduleHd(Convert.ToInt32(hdnID.Value));
-                ControlToEntity(entity);
+                HRDailyScheduleHd entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                ControlToEntity(entity, ctx);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateHRDailyScheduleHd(entity);
-                return true;
+                entityDao.Update(entity);
+                ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
                 errMessage = ex.Message;
-                return false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

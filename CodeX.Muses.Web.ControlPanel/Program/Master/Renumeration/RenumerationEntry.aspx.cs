@@ -34,55 +34,34 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 SetControlProperties();
                 IsAdd = true;
             }
-            txtRenumerationCode.Focus();
+            ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.RENUMERATION);
+            ctlEntityCode.SetControlVisibility(IsAdd);
+            ctlEntityCode.SetFocus();
+        }
+
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
         }
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(txtRenumerationCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRenumerationName, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
-           
+            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));           
         }
 
         private void EntityToControl(RenumerationHd entity)
         {
-            txtRenumerationCode.Text = entity.RenumerationCode;
+            ctlEntityCode.SetText(entity.RenumerationCode);
             txtRenumerationName.Text = entity.RenumerationName;
             txtRemarks.Text = entity.Remarks;
-      
         }
 
-        private void ControlToEntity(RenumerationHd entity)
+        private void ControlToEntity(RenumerationHd entity, IDbContext ctx)
         {
-            entity.RenumerationCode = txtRenumerationCode.Text;
             entity.RenumerationName = txtRenumerationName.Text;
             entity.Remarks = txtRemarks.Text;
-        }
-
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("RenumerationCode = '{0}'", txtRenumerationCode.Text);
-            List<RenumerationHd> lst = BusinessLayer.GetRenumerationHdList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Renumeration With Code " + txtRenumerationCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            string FilterExpression = string.Format("RenumerationCode = '{0}' AND RenumerationID != {1}", txtRenumerationCode.Text, hdnID.Value);
-            List<RenumerationHd> lst = BusinessLayer.GetRenumerationHdList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Renumeration With Code " + txtRenumerationCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
+            entity.RenumerationCode = ctlEntityCode.GetCode(entity.RenumerationName, ctx);
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -93,7 +72,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             try
             {
                 RenumerationHd entity = new RenumerationHd();
-                ControlToEntity(entity);
+                ControlToEntity(entity, ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 retval = entityDao.Insert(entity).ToString();
                 ctx.CommitTransaction();
@@ -115,20 +94,30 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
+            IDbContext ctx = DbFactory.Configure(true);
+            RenumerationHdDao entityDao = new RenumerationHdDao(ctx);
+            bool result = false;
             try
             {
-                RenumerationHd entity = BusinessLayer.GetRenumerationHd(Convert.ToInt32(hdnID.Value));
-                ControlToEntity(entity);
+                RenumerationHd entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                ControlToEntity(entity, ctx);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateRenumerationHd(entity);
-                return true;
+                entityDao.Update(entity);
+                ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
                 errMessage = ex.Message;
-                return false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

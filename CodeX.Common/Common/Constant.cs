@@ -55,6 +55,13 @@ namespace CodeX.Common
             public const string ITEM = "XXX001";
             public const string SUPPLIER = "XXX002";
             public const string CUSTOMER = "XXX003";
+            public const string RENUMERATION_COMP = "XXXHR001";
+            public const string RENUMERATION = "XXXHR002";
+            public const string HR_DAILY_SCHEDULE = "XXXHR003";
+            public const string HR_WEEKLY_SCHEDULE = "XXXHR004";
+            public const string ORGANIZATION_DEPARTMENT = "XXXHR005";
+            public const string RENUMERATION_COMP_FORMULA = "XXXHR006";
+            public const string TEMPLATE_EMPLOYEE_GROUP = "XXXHR007";
         }
 
         #region Standard Code

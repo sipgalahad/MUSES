@@ -95,6 +95,15 @@
                 }
             });
 
+            $('#divTemplatePicks').click(function () {
+                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                    showLoadingPanel();
+                    var url = ResolveUrl('~/Program/Master/HRScheduleGroup/TemplateEmployeeGroupPicksCtl.ascx');
+                    var transactionID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
+                    openUserControlPopup(url, id, 'Template Picks', 1000, 600);
+                }
+            });
+
             $('#divTransactionAdd2').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
                     editedLineAmount = 0;
@@ -112,8 +121,6 @@
                     $('#entryDetailContainer2').show();
                 }
             });
-
-
 
             $('#btnCancel').click(function () {
                 $('#entryDetailContainer').hide();
@@ -133,7 +140,6 @@
                 if (IsValid(evt, 'fsTrx2', 'mpTrx'))
                     cbpProcess2.PerformCallback('save');
             });
-
 
             var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
             var rowCount = parseInt($('#<%=hdnRowCount.ClientID %>').val());
@@ -298,7 +304,6 @@
         }
         //#endregion
 
-
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
             var printStatus = $('#<%=hdnPrintStatus.ClientID %>').val();
@@ -344,8 +349,6 @@
         function onTacEmployeeIDValueChanged() {
         }
         //#endregion
-
-        
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
@@ -399,6 +402,7 @@
                     <div id="containerEmployee" class="containerTransDt">    
                         <div class="divTransactionEntry">
                             <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
+                            <span id="divTemplatePicks" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Template Picks")%></span>
                             <br />
                             <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                                 <fieldset id="fsTrx" style="margin: 0">

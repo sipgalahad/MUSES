@@ -35,7 +35,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 SetControlProperties();
                 IsAdd = true;
             }
-            txtRenumerationCompFormulaCode.Focus();
+            ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.RENUMERATION_COMP_FORMULA);
+            ctlEntityCode.SetControlVisibility(IsAdd);
+            ctlEntityCode.SetFocus();
+        }
+
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
         }
 
         protected override void SetControlProperties()
@@ -46,7 +53,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(txtRenumerationCompFormulaCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRenumerationCompFormulaName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboRenumerationCompID, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
@@ -55,44 +61,18 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void EntityToControl(RenumerationCompFormulaHd entity)
         {
-            txtRenumerationCompFormulaCode.Text = entity.FormulaCode;
+            ctlEntityCode.SetText(entity.FormulaCode);
             txtRenumerationCompFormulaName.Text = entity.FormulaName;
             cboRenumerationCompID.Value = entity.RenumerationCompID.ToString();
             txtRemarks.Text = entity.Remarks;
-      
         }
 
-        private void ControlToEntity(RenumerationCompFormulaHd entity)
+        private void ControlToEntity(RenumerationCompFormulaHd entity, IDbContext ctx)
         {
-            entity.FormulaCode = txtRenumerationCompFormulaCode.Text;
             entity.FormulaName = txtRenumerationCompFormulaName.Text;
             entity.RenumerationCompID = Convert.ToInt32(cboRenumerationCompID.Value);
             entity.Remarks = txtRemarks.Text;
-        }
-
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("FormulaCode = '{0}'", txtRenumerationCompFormulaCode.Text);
-            List<RenumerationCompFormulaHd> lst = BusinessLayer.GetRenumerationCompFormulaHdList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Renumeration With Code " + txtRenumerationCompFormulaCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            string FilterExpression = string.Format("FormulaCode = '{0}' AND FormulaID != {1}", txtRenumerationCompFormulaCode.Text, hdnID.Value);
-            List<RenumerationCompFormulaHd> lst = BusinessLayer.GetRenumerationCompFormulaHdList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Renumeration Component With Code " + txtRenumerationCompFormulaCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
+            entity.FormulaCode = ctlEntityCode.GetCode(entity.FormulaName, ctx);
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -103,7 +83,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             try
             {
                 RenumerationCompFormulaHd entity = new RenumerationCompFormulaHd();
-                ControlToEntity(entity);
+                ControlToEntity(entity, ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 retval = entityDao.Insert(entity).ToString();
                 ctx.CommitTransaction();
@@ -125,20 +105,30 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
+            IDbContext ctx = DbFactory.Configure(true);
+            RenumerationCompFormulaHdDao entityDao = new RenumerationCompFormulaHdDao(ctx);
+            bool result = false;
             try
             {
-                RenumerationCompFormulaHd entity = BusinessLayer.GetRenumerationCompFormulaHd(Convert.ToInt32(hdnID.Value));
-                ControlToEntity(entity);
+                RenumerationCompFormulaHd entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                ControlToEntity(entity, ctx);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateRenumerationCompFormulaHd(entity);
-                return true;
+                entityDao.Update(entity);
+                ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
                 errMessage = ex.Message;
-                return false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

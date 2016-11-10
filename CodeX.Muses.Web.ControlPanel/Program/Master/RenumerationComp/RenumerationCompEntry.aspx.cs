@@ -35,7 +35,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 SetControlProperties();
                 IsAdd = true;
             }
-            txtRenumerationCompCode.Focus();
+            ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.RENUMERATION_COMP);
+            ctlEntityCode.SetControlVisibility(IsAdd);
+            ctlEntityCode.SetFocus();
+        }
+
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
         }
 
         protected override void SetControlProperties()
@@ -44,10 +51,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             Methods.SetComboBoxField<StandardCode>(cboRenumerationCompType, lstSc, "StandardCodeName", "StandardCodeID");
         }
 
-
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(txtRenumerationCompCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRenumerationCompName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboRenumerationCompType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
@@ -56,44 +61,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void EntityToControl(RenumerationComp entity)
         {
-            txtRenumerationCompCode.Text = entity.RenumerationCompCode;
+            ctlEntityCode.SetText(entity.RenumerationCompCode);
             txtRenumerationCompName.Text = entity.RenumerationCompName;
             cboRenumerationCompType.Value = entity.GCRenumerationCompType.ToString();
             txtRemarks.Text = entity.Remarks;
       
         }
 
-        private void ControlToEntity(RenumerationComp entity)
+        private void ControlToEntity(RenumerationComp entity, IDbContext ctx)
         {
-            entity.RenumerationCompCode = txtRenumerationCompCode.Text;
             entity.RenumerationCompName = txtRenumerationCompName.Text;
             entity.GCRenumerationCompType = cboRenumerationCompType.Value.ToString();
             entity.Remarks = txtRemarks.Text;
-        }
-
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("RenumerationCompCode = '{0}'", txtRenumerationCompCode.Text);
-            List<RenumerationComp> lst = BusinessLayer.GetRenumerationCompList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Renumeration Component With Code " + txtRenumerationCompCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            string FilterExpression = string.Format("RenumerationCompCode = '{0}' AND RenumerationCompID != {1}", txtRenumerationCompCode.Text, hdnID.Value);
-            List<RenumerationComp> lst = BusinessLayer.GetRenumerationCompList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Renumeration Component With Code " + txtRenumerationCompCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
+            entity.RenumerationCompCode = ctlEntityCode.GetCode(entity.RenumerationCompName, ctx);
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -104,7 +84,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             try
             {
                 RenumerationComp entity = new RenumerationComp();
-                ControlToEntity(entity);
+                ControlToEntity(entity, ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 retval = entityDao.Insert(entity).ToString();
                 ctx.CommitTransaction();
@@ -126,20 +106,30 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
+            IDbContext ctx = DbFactory.Configure(true);
+            RenumerationCompDao entityDao = new RenumerationCompDao(ctx);
+            bool result = false;
             try
             {
-                RenumerationComp entity = BusinessLayer.GetRenumerationComp(Convert.ToInt32(hdnID.Value));
-                ControlToEntity(entity);
+                RenumerationComp entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                ControlToEntity(entity, ctx);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateRenumerationComp(entity);
-                return true;
+                entityDao.Update(entity);
+                ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
                 errMessage = ex.Message;
-                return false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

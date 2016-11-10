@@ -5,17 +5,10 @@ CodeBehind="OrganizationStructureCompEntry.aspx.cs" Inherits="CodeX.Muses.Web.Co
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
+<%@ Register Src="~/Libs/Controls/MasterCodingCtl.ascx" TagName="MasterCodingCtl" TagPrefix="uc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
-        $(function () {
-            $('#lblParent').click(function () {
-                openSearchDialog('OrganizationDepartment', 'IsDeleted = 0', function (value) {
-                    alert(value);
-                });
-            });
-        });
-
         //#region Organization Department
         function onGetOrganizationDepartmentFilterExpression() {
             var filterExpression = "IsHeader = 1 AND IsDeleted = 0";
@@ -56,7 +49,7 @@ CodeBehind="OrganizationStructureCompEntry.aspx.cs" Inherits="CodeX.Muses.Web.Co
                     </colgroup>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
-                        <td><asp:TextBox ID="txtOrganizationDepartmentCode" Width="100px" runat="server" /></td>
+                        <td><uc1:MasterCodingCtl ID="ctlEntityCode" runat="server" /> </td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>

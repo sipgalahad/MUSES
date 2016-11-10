@@ -35,7 +35,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 SetControlProperties();
                 IsAdd = true;
             }
-            txtWeeklyScheduleCode.Focus();
+            ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.HR_WEEKLY_SCHEDULE);
+            ctlEntityCode.SetControlVisibility(IsAdd);
+            ctlEntityCode.SetFocus();
+        }
+
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
         }
 
         protected override void SetControlProperties()
@@ -54,7 +61,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(txtWeeklyScheduleCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtWeeklyScheduleName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboWeeklyScheduleD1, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboWeeklyScheduleD2, new ControlEntrySetting(true, true, false));
@@ -67,7 +73,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void EntityToControl(HRWeeklySchedule entity)
         {
-            txtWeeklyScheduleCode.Text = entity.WeeklyScheduleCode;
+            ctlEntityCode.SetText(entity.WeeklyScheduleCode);
             txtWeeklyScheduleName.Text = entity.WeeklyScheduleName;
             cboWeeklyScheduleD1.Value = entity.DailyScheduleID1.ToString();
             cboWeeklyScheduleD2.Value = entity.DailyScheduleID2.ToString();
@@ -78,9 +84,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             cboWeeklyScheduleD7.Value = entity.DailyScheduleID7.ToString();
         }
 
-        private void ControlToEntity(HRWeeklySchedule entity)
+        private void ControlToEntity(HRWeeklySchedule entity, IDbContext ctx)
         {
-            entity.WeeklyScheduleCode = txtWeeklyScheduleCode.Text;
             entity.WeeklyScheduleName = txtWeeklyScheduleName.Text;
             if (cboWeeklyScheduleD1.Value != null && cboWeeklyScheduleD1.Value.ToString() != "0")
                 entity.DailyScheduleID1 = Convert.ToInt32(cboWeeklyScheduleD1.Value);
@@ -116,32 +121,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.DailyScheduleID7 = Convert.ToInt32(cboWeeklyScheduleD7.Value);
             else
                 entity.DailyScheduleID7 = null;
-
-        }
-
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("WeeklyScheduleCode = '{0}'", txtWeeklyScheduleCode.Text);
-            List<HRWeeklySchedule> lst = BusinessLayer.GetHRWeeklyScheduleList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Weekly Schedule With Code " + txtWeeklyScheduleCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            string FilterExpression = string.Format("WeeklyScheduleCode = '{0}' AND WeeklyScheduleID != {1}", txtWeeklyScheduleCode.Text, hdnID.Value);
-            List<HRWeeklySchedule> lst = BusinessLayer.GetHRWeeklyScheduleList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Weekly Schedule With Code " + txtWeeklyScheduleCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
+            entity.WeeklyScheduleCode = ctlEntityCode.GetCode(entity.WeeklyScheduleName, ctx);
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -152,7 +132,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             try
             {
                 HRWeeklySchedule entity = new HRWeeklySchedule();
-                ControlToEntity(entity);
+                ControlToEntity(entity, ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 retval = entityDao.Insert(entity).ToString();
                 ctx.CommitTransaction();
@@ -174,20 +154,30 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
+            IDbContext ctx = DbFactory.Configure(true);
+            HRWeeklyScheduleDao entityDao = new HRWeeklyScheduleDao(ctx);
+            bool result = false;
             try
             {
-                HRWeeklySchedule entity = BusinessLayer.GetHRWeeklySchedule(Convert.ToInt32(hdnID.Value));
-                ControlToEntity(entity);
+                HRWeeklySchedule entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                ControlToEntity(entity, ctx);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateHRWeeklySchedule(entity);
-                return true;
+                entityDao.Update(entity);
+                ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
                 errMessage = ex.Message;
-                return false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

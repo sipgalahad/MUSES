@@ -22,13 +22,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// txtRenumerationCode control.
+        /// ctlEntityCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRenumerationCode;
+        protected global::CodeX.Web.CommonLibs.Controls.MasterCodingCtl ctlEntityCode;
         
         /// <summary>
         /// txtRenumerationName control.

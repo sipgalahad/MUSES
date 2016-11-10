@@ -34,55 +34,34 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 SetControlProperties();
                 IsAdd = true;
             }
-            txtTemplateCode.Focus();
+            ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.TEMPLATE_EMPLOYEE_GROUP);
+            ctlEntityCode.SetControlVisibility(IsAdd);
+            ctlEntityCode.SetFocus();
+        }
+
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
         }
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(txtTemplateCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtTemplateName, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
-           
+            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));           
         }
 
         private void EntityToControl(TemplateEmployeeGroupHd entity)
         {
-            txtTemplateCode.Text = entity.TemplateCode;
+            ctlEntityCode.SetText(entity.TemplateCode);
             txtTemplateName.Text = entity.TemplateName;
             txtRemarks.Text = entity.Remarks;
-      
         }
 
-        private void ControlToEntity(TemplateEmployeeGroupHd entity)
+        private void ControlToEntity(TemplateEmployeeGroupHd entity, IDbContext ctx)
         {
-            entity.TemplateCode = txtTemplateCode.Text;
             entity.TemplateName = txtTemplateName.Text;
             entity.Remarks = txtRemarks.Text;
-        }
-
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("TemplateCode = '{0}'", txtTemplateCode.Text);
-            List<TemplateEmployeeGroupHd> lst = BusinessLayer.GetTemplateEmployeeGroupHdList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Template With Code " + txtTemplateCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            string FilterExpression = string.Format("TemplateCode = '{0}' AND TemplateID != {1}", txtTemplateCode.Text, hdnID.Value);
-            List<TemplateEmployeeGroupHd> lst = BusinessLayer.GetTemplateEmployeeGroupHdList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Template With Code " + txtTemplateCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
+            entity.TemplateCode = ctlEntityCode.GetCode(entity.TemplateName, ctx);
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -93,7 +72,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             try
             {
                 TemplateEmployeeGroupHd entity = new TemplateEmployeeGroupHd();
-                ControlToEntity(entity);
+                ControlToEntity(entity, ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 retval = entityDao.Insert(entity).ToString();
                 ctx.CommitTransaction();
@@ -115,20 +94,30 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
+            IDbContext ctx = DbFactory.Configure(true);
+            TemplateEmployeeGroupHdDao entityDao = new TemplateEmployeeGroupHdDao(ctx);
+            bool result = false;
             try
             {
-                TemplateEmployeeGroupHd entity = BusinessLayer.GetTemplateEmployeeGroupHd(Convert.ToInt32(hdnID.Value));
-                ControlToEntity(entity);
+                TemplateEmployeeGroupHd entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                ControlToEntity(entity, ctx);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateTemplateEmployeeGroupHd(entity);
-                return true;
+                entityDao.Update(entity);
+                ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
                 errMessage = ex.Message;
-                return false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }
