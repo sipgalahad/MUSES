@@ -9,6 +9,268 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region AbsenceProposalDate
+        public static AbsenceProposalDate GetAbsenceProposalDate(Int32 TransactionDtID)
+        {
+            return new AbsenceProposalDateDao().Get(TransactionDtID);
+        }
+        public static int InsertAbsenceProposalDate(AbsenceProposalDate record)
+        {
+            return new AbsenceProposalDateDao().Insert(record);
+        }
+        public static int UpdateAbsenceProposalDate(AbsenceProposalDate record)
+        {
+            return new AbsenceProposalDateDao().Update(record);
+        }
+        public static int DeleteAbsenceProposalDate(Int32 TransactionDtID)
+        {
+            return new AbsenceProposalDateDao().Delete(TransactionDtID);
+        }
+        public static List<AbsenceProposalDate> GetAbsenceProposalDateList(string filterExpression)
+        {
+            List<AbsenceProposalDate> result = new List<AbsenceProposalDate>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AbsenceProposalDate));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AbsenceProposalDate)helper.IDataReaderToObject(reader, new AbsenceProposalDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<AbsenceProposalDate> GetAbsenceProposalDateList(string filterExpression, IDbContext ctx)
+        {
+            List<AbsenceProposalDate> result = new List<AbsenceProposalDate>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AbsenceProposalDate));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AbsenceProposalDate)helper.IDataReaderToObject(reader, new AbsenceProposalDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetAbsenceProposalDateMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AbsenceProposalDate));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetAbsenceProposalDateRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AbsenceProposalDate));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<AbsenceProposalDate> GetAbsenceProposalDateList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<AbsenceProposalDate> result = new List<AbsenceProposalDate>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AbsenceProposalDate));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AbsenceProposalDate)helper.IDataReaderToObject(reader, new AbsenceProposalDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region AbsenceProposalEmployee
+        public static AbsenceProposalEmployee GetAbsenceProposalEmployee(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new AbsenceProposalEmployeeDao().Get(TransactionID, EmployeeID);
+        }
+        public static int InsertAbsenceProposalEmployee(AbsenceProposalEmployee record)
+        {
+            return new AbsenceProposalEmployeeDao().Insert(record);
+        }
+        public static int UpdateAbsenceProposalEmployee(AbsenceProposalEmployee record)
+        {
+            return new AbsenceProposalEmployeeDao().Update(record);
+        }
+        public static int DeleteAbsenceProposalEmployee(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new AbsenceProposalEmployeeDao().Delete(TransactionID, EmployeeID);
+        }
+        public static List<AbsenceProposalEmployee> GetAbsenceProposalEmployeeList(string filterExpression)
+        {
+            List<AbsenceProposalEmployee> result = new List<AbsenceProposalEmployee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AbsenceProposalEmployee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AbsenceProposalEmployee)helper.IDataReaderToObject(reader, new AbsenceProposalEmployee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<AbsenceProposalEmployee> GetAbsenceProposalEmployeeList(string filterExpression, IDbContext ctx)
+        {
+            List<AbsenceProposalEmployee> result = new List<AbsenceProposalEmployee>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AbsenceProposalEmployee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AbsenceProposalEmployee)helper.IDataReaderToObject(reader, new AbsenceProposalEmployee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetAbsenceProposalEmployeeMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AbsenceProposalEmployee));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region AbsenceProposalHd
+        public static AbsenceProposalHd GetAbsenceProposalHd(Int32 TransactionID)
+        {
+            return new AbsenceProposalHdDao().Get(TransactionID);
+        }
+        public static int InsertAbsenceProposalHd(AbsenceProposalHd record)
+        {
+            return new AbsenceProposalHdDao().Insert(record);
+        }
+        public static int UpdateAbsenceProposalHd(AbsenceProposalHd record)
+        {
+            return new AbsenceProposalHdDao().Update(record);
+        }
+        public static int DeleteAbsenceProposalHd(Int32 TransactionID)
+        {
+            return new AbsenceProposalHdDao().Delete(TransactionID);
+        }
+        public static List<AbsenceProposalHd> GetAbsenceProposalHdList(string filterExpression)
+        {
+            List<AbsenceProposalHd> result = new List<AbsenceProposalHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AbsenceProposalHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AbsenceProposalHd)helper.IDataReaderToObject(reader, new AbsenceProposalHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<AbsenceProposalHd> GetAbsenceProposalHdList(string filterExpression, IDbContext ctx)
+        {
+            List<AbsenceProposalHd> result = new List<AbsenceProposalHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AbsenceProposalHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AbsenceProposalHd)helper.IDataReaderToObject(reader, new AbsenceProposalHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetAbsenceProposalHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AbsenceProposalHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region AdmissionFeeComp
         public static AdmissionFeeComp GetAdmissionFeeComp(Int32 AdmissionFeeCompID)
         {
@@ -9317,6 +9579,268 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region OvertimeProposalDate
+        public static OvertimeProposalDate GetOvertimeProposalDate(Int32 TransactionDtID)
+        {
+            return new OvertimeProposalDateDao().Get(TransactionDtID);
+        }
+        public static int InsertOvertimeProposalDate(OvertimeProposalDate record)
+        {
+            return new OvertimeProposalDateDao().Insert(record);
+        }
+        public static int UpdateOvertimeProposalDate(OvertimeProposalDate record)
+        {
+            return new OvertimeProposalDateDao().Update(record);
+        }
+        public static int DeleteOvertimeProposalDate(Int32 TransactionDtID)
+        {
+            return new OvertimeProposalDateDao().Delete(TransactionDtID);
+        }
+        public static List<OvertimeProposalDate> GetOvertimeProposalDateList(string filterExpression)
+        {
+            List<OvertimeProposalDate> result = new List<OvertimeProposalDate>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OvertimeProposalDate));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OvertimeProposalDate)helper.IDataReaderToObject(reader, new OvertimeProposalDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<OvertimeProposalDate> GetOvertimeProposalDateList(string filterExpression, IDbContext ctx)
+        {
+            List<OvertimeProposalDate> result = new List<OvertimeProposalDate>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OvertimeProposalDate));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OvertimeProposalDate)helper.IDataReaderToObject(reader, new OvertimeProposalDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetOvertimeProposalDateMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OvertimeProposalDate));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetOvertimeProposalDateRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OvertimeProposalDate));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<OvertimeProposalDate> GetOvertimeProposalDateList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<OvertimeProposalDate> result = new List<OvertimeProposalDate>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OvertimeProposalDate));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OvertimeProposalDate)helper.IDataReaderToObject(reader, new OvertimeProposalDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region OvertimeProposalEmployee
+        public static OvertimeProposalEmployee GetOvertimeProposalEmployee(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new OvertimeProposalEmployeeDao().Get(TransactionID, EmployeeID);
+        }
+        public static int InsertOvertimeProposalEmployee(OvertimeProposalEmployee record)
+        {
+            return new OvertimeProposalEmployeeDao().Insert(record);
+        }
+        public static int UpdateOvertimeProposalEmployee(OvertimeProposalEmployee record)
+        {
+            return new OvertimeProposalEmployeeDao().Update(record);
+        }
+        public static int DeleteOvertimeProposalEmployee(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new OvertimeProposalEmployeeDao().Delete(TransactionID, EmployeeID);
+        }
+        public static List<OvertimeProposalEmployee> GetOvertimeProposalEmployeeList(string filterExpression)
+        {
+            List<OvertimeProposalEmployee> result = new List<OvertimeProposalEmployee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OvertimeProposalEmployee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OvertimeProposalEmployee)helper.IDataReaderToObject(reader, new OvertimeProposalEmployee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<OvertimeProposalEmployee> GetOvertimeProposalEmployeeList(string filterExpression, IDbContext ctx)
+        {
+            List<OvertimeProposalEmployee> result = new List<OvertimeProposalEmployee>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OvertimeProposalEmployee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OvertimeProposalEmployee)helper.IDataReaderToObject(reader, new OvertimeProposalEmployee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetOvertimeProposalEmployeeMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OvertimeProposalEmployee));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region OvertimeProposalHd
+        public static OvertimeProposalHd GetOvertimeProposalHd(Int32 TransactionID)
+        {
+            return new OvertimeProposalHdDao().Get(TransactionID);
+        }
+        public static int InsertOvertimeProposalHd(OvertimeProposalHd record)
+        {
+            return new OvertimeProposalHdDao().Insert(record);
+        }
+        public static int UpdateOvertimeProposalHd(OvertimeProposalHd record)
+        {
+            return new OvertimeProposalHdDao().Update(record);
+        }
+        public static int DeleteOvertimeProposalHd(Int32 TransactionID)
+        {
+            return new OvertimeProposalHdDao().Delete(TransactionID);
+        }
+        public static List<OvertimeProposalHd> GetOvertimeProposalHdList(string filterExpression)
+        {
+            List<OvertimeProposalHd> result = new List<OvertimeProposalHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OvertimeProposalHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OvertimeProposalHd)helper.IDataReaderToObject(reader, new OvertimeProposalHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<OvertimeProposalHd> GetOvertimeProposalHdList(string filterExpression, IDbContext ctx)
+        {
+            List<OvertimeProposalHd> result = new List<OvertimeProposalHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OvertimeProposalHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OvertimeProposalHd)helper.IDataReaderToObject(reader, new OvertimeProposalHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetOvertimeProposalHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OvertimeProposalHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

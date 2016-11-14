@@ -138,6 +138,9 @@ namespace CodeX.Common
             public const string SCHEDULE_TYPE = "X317";
             public const string RENUMERATION_FORMULA_BASE_TARIFF_TYPE = "X319";
             public const string HR_DAILY_SCHEDULE_TYPE = "X320";
+            public const string OVERTIME_REASON = "X322";
+            public const string ATTENDANCE_STATUS = "X323";
+            public const string ABSENCE = "X324";
         }
 
         public static class EmployeeScheduleType
