@@ -347,7 +347,7 @@
         //#region Employee
         function onGetEmployeeFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
-            var filterExpression = "IsDeleted = 0 AND EmployeeID NOT IN (SELECT EmployeeID FROM TransEmployeePositionDt where TransactionID = " + TransactionID + ")";
+            var filterExpression = "IsDeleted = 0 AND EmployeeID NOT IN (SELECT EmployeeID FROM TransEmployeePositionDt WHERE TransactionID = " + TransactionID + ")";
             return filterExpression;
         }
 

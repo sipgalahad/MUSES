@@ -266,7 +266,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     foreach (Employee employee in lstEmpl)
                     {
                         employee.CurrentTransScheduleID = Convert.ToInt32(hdnTransactionID.Value);
-                        employee.LastProcessScheduleDate = DateTime.Now;
+                        employee.LastProcessedScheduleDate = DateTime.Now;
                         employeeDao.Update(employee);
                     }
                 }

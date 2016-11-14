@@ -5185,6 +5185,28 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<Employee> GetEmployeeList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<Employee> result = new List<Employee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Employee));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Employee)helper.IDataReaderToObject(reader, new Employee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region EmployeeAttendanceSummary
         public static EmployeeAttendanceSummary GetEmployeeAttendanceSummary(Int32 AttendanceSummaryID)
