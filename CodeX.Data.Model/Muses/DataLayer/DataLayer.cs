@@ -9634,9 +9634,9 @@ namespace CodeX.Data.Model
         private String _PictureFileName;
         private String _GCEmployeeStatus;
         private Int32? _CurrentTransPositionID;
-        private DateTime _LastProcessPositionDate;
+        private DateTime _LastProcessedPositionDate;
         private Int32? _CurrentTransScheduleID;
-        private DateTime _LastProcessScheduleDate;
+        private DateTime _LastProcessedScheduleDate;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32 _CreatedBy;
@@ -9830,11 +9830,11 @@ namespace CodeX.Data.Model
             get { return _CurrentTransPositionID; }
             set { _CurrentTransPositionID = value; }
         }
-        [Column(Name = "LastProcessPositionDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastProcessPositionDate
+        [Column(Name = "LastProcessedPositionDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastProcessedPositionDate
         {
-            get { return _LastProcessPositionDate; }
-            set { _LastProcessPositionDate = value; }
+            get { return _LastProcessedPositionDate; }
+            set { _LastProcessedPositionDate = value; }
         }
         [Column(Name = "CurrentTransScheduleID", DataType = "Int32", IsNullable = true)]
         public Int32? CurrentTransScheduleID
@@ -9842,11 +9842,11 @@ namespace CodeX.Data.Model
             get { return _CurrentTransScheduleID; }
             set { _CurrentTransScheduleID = value; }
         }
-        [Column(Name = "LastProcessScheduleDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastProcessScheduleDate
+        [Column(Name = "LastProcessedScheduleDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastProcessedScheduleDate
         {
-            get { return _LastProcessScheduleDate; }
-            set { _LastProcessScheduleDate = value; }
+            get { return _LastProcessedScheduleDate; }
+            set { _LastProcessedScheduleDate = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
