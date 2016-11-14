@@ -33824,17 +33824,32 @@ namespace CodeX.Data.Model
     public class vTransPositionRenumerationDt
     {
         private Int32 _TransactionID;
+        private DateTime _StartEffectiveDate;
+        private Int32 _RenumerationID;
         private Int32 _OrganizationDepartmentID;
         private String _OrganizationDepartmentCode;
         private String _OrganizationDepartmentName;
         private Int32 _OrganizationPositionID;
         private String _OrganizationPositionName;
+        private String _GCTransactionStatus;
 
         [Column(Name = "TransactionID", DataType = "Int32")]
         public Int32 TransactionID
         {
             get { return _TransactionID; }
             set { _TransactionID = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "RenumerationID", DataType = "Int32")]
+        public Int32 RenumerationID
+        {
+            get { return _RenumerationID; }
+            set { _RenumerationID = value; }
         }
         [Column(Name = "OrganizationDepartmentID", DataType = "Int32")]
         public Int32 OrganizationDepartmentID
@@ -33865,6 +33880,12 @@ namespace CodeX.Data.Model
         {
             get { return _OrganizationPositionName; }
             set { _OrganizationPositionName = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
         }
     }
     #endregion

@@ -76,6 +76,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             return hdnIsEditable.Value;
         }
 
+        protected string GetFilterEmployeeExpression()
+        {
+            return string.Format("SiteID = '{0}' AND ", AppSession.UserLogin.SiteID);
+        }
+
         protected string GetFilterExpression()
         {
             string filterExpression = String.Format("");

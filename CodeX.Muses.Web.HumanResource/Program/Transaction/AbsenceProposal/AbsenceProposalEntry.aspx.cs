@@ -55,7 +55,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override void SetControlProperties()
         {
 
-            List<StandardCode> listScAt = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ATTENDANCE_STATUS));
+            List<StandardCode> listScAt = BusinessLayer.GetStandardCodeList(string.Format("StandardCodeID = '{0}' OR StandardCodeID = '{1}' AND IsActive = 1 AND IsDeleted = 0", Constant.Attendance.IZIN, Constant.Attendance.SAKIT));
             Methods.SetComboBoxField<StandardCode>(cboGCAttendanceStatus, listScAt, "StandardCodeName", "StandardCodeID");
 
             List<StandardCode> listScAr = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ABSENCE));
@@ -91,10 +91,16 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = String.Format("");
             return filterExpression;
         }
+
+        protected string GetFilterEmployeeExpression()
+        {
+            return string.Format("SiteID = '{0}' AND", AppSession.UserLogin.SiteID);
+        }
+
         public override int OnGetRowCount()
         {
             string filterExpression = GetFilterExpression();
-            return BusinessLayer.GetvOvertimeProposalHdRowCount(filterExpression);
+            return BusinessLayer.GetvAbsenceProposalHdRowCount(filterExpression);
         }
 
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
@@ -107,7 +113,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override void OnLoadEntity(string keyValue, ref int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
             string filterExpression = GetFilterExpression();
-            PageIndex = BusinessLayer.GetvOvertimeProposalHdRowIndex(filterExpression, keyValue, "TransactionID DESC");
+            PageIndex = BusinessLayer.GetvAbsenceProposalHdRowIndex(filterExpression, keyValue, "TransactionID DESC");
             vAbsenceProposalHd entity = BusinessLayer.GetvAbsenceProposalHd(filterExpression, PageIndex, "TransactionID DESC");
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
         }
@@ -496,8 +502,16 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityDt.StartDate = Helper.GetDatePickerValue(Request.Form[txtStartDate.UniqueID]);
             entityDt.EndDate = Helper.GetDatePickerValue(Request.Form[txtEndDate.UniqueID]);
             entityDt.IsFullDay = chkIsFullDay.Checked;
+            if (chkIsFullDay.Checked)
+            {
+                entityDt.StartTime = "";
+                entityDt.EndTime = "";
+            }
+            else { 
             entityDt.StartTime = txtStartTime.Text;
             entityDt.EndTime = txtEndTime.Text;
+            }
+            
             entityDt.TotalHours = Convert.ToDecimal(txtTotalHours.Text);
         }
 

@@ -175,8 +175,15 @@
             if (cboPositionID.GetValue() != null) {
                 var filterExpression = "StartEffectiveDate <= '" + Methods.dateToYMD(Methods.getDatePickerDate($('#<%=txtStartEffectiveDate.ClientID %>').val())) + "' AND OrganizationPositionID = " + cboPositionID.GetValue() + " AND GCTransactionStatus = '<%=OnGetTransactionStatusApproved() %>' ORDER BY StartEffectiveDate DESC";
                 Methods.getObject('GetvTransPositionRenumerationDtList', filterExpression, function (result) {
-                    if (result != null)
-                        $('#<%=hdnTransRenumerationID.ClientID %>').val(result.TransactionID);
+                    if (result != null) {
+                        var filterExpression = "RenumerationID = " + result.RenumerationID + " AND StartEffectiveDate <= '" + Methods.dateToYMD(Methods.getDatePickerDate($('#<%=txtStartEffectiveDate.ClientID %>').val())) + "' AND GCTransactionStatus = '<%=OnGetTransactionStatusApproved() %>' ORDER BY StartEffectiveDate DESC";
+                        Methods.getObject('GetTransRenumerationHdList', filterExpression, function (result) {
+                            if (result != null)
+                                $('#<%=hdnTransRenumerationID.ClientID %>').val(result.TransactionID);
+                            else
+                                $('#<%=hdnTransRenumerationID.ClientID %>').val('');
+                        });
+                    }
                     else
                         $('#<%=hdnTransRenumerationID.ClientID %>').val('');
                 });
@@ -377,8 +384,10 @@
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
             var TransRenumerationID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
             var filterExpression = "1 = 0";
-            if (TransRenumerationID != '')
-                filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeePositionRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 1 AND IsDeleted = 0)";
+            if (TransRenumerationID != '') {
+                filterExpression = "<%=GetFilterEmployeeExpression() %>"
+                filterExpression += " IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeePositionRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 1 AND IsDeleted = 0)";
+            }
             return filterExpression;
         }
 
@@ -514,6 +523,21 @@
                                 <dx:PanelContent ID="PanelContent1" runat="server">
                                     <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                                         position: relative;">
+                                        <%--<table>
+                                            <tr>
+                                                <th><%=GetLabel("Kode Karyawan") %></th>
+                                                <th><%=GetLabel("Nama Karyawan") %></th>
+                                            </tr>
+                                        <asp:Repeater ID="rptView" runat="server">
+                                            <ItemTemplate>
+                                                <tr>
+                                                    <td><%#Eval("EmployeeCode") %></td>
+                                                    <td><%#Eval("FullName") %></td>
+                                                </tr>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                        </table>--%>
+
                                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                             <Columns>

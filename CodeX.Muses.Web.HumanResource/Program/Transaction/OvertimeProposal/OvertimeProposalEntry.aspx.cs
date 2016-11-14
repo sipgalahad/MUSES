@@ -86,6 +86,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = String.Format("");
             return filterExpression;
         }
+
+        protected string GetFilterEmployeeExpression()
+        {
+            return string.Format("SiteID = '{0}' AND ", AppSession.UserLogin.SiteID);
+        }
+
         public override int OnGetRowCount()
         {
             string filterExpression = GetFilterExpression();
