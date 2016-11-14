@@ -275,6 +275,14 @@
                     });
                     if (typeof onLoad == 'function')
                         onLoad();
+
+                    $('.datepicker').each(function () {
+                        $(this).attr('placeholder', 'dd-MM-yyyy');
+                    });
+                    $('.time').each(function () {
+                        $(this).attr('placeholder', 'HH:mm');
+                    });
+
                     if (typeof onSetIsAddToolbar == 'function')
                         onSetIsAddToolbar(getIsAdd());
                 });
