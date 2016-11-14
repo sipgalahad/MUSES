@@ -651,6 +651,9 @@ namespace CodeX.Common
                 public const string UPDATE_RENUMERATION_POSITION = "HR010300";
                 public const string UPDATE_RENUMERATION_COMP_FORMULA = "HR010400";
                 public const string HR_SCHEDULE_GRUP_HD = "HR010500";
+
+                public const string OVERTIME_PROPOSAL = "HR020100";
+                public const string ABSENCE_PROPOSAL = "HR020200";
             }
             #endregion
 
@@ -987,6 +990,8 @@ namespace CodeX.Common
             public const string EMPLOYEE_POSITION = "8203";
             public const string RENUMERATION_COMP_FORMULA = "8204";
             public const string HR_SCHEDULE_GRUP = "8205";
+            public const string OVERTIME_PROPOSAL = "8206";
+            public const string ABSENCE_PROPOSAL = "8207";
 
             public const string TEACHER_PROFILE = "9101";
         }

@@ -6,6 +6,48 @@ using CodeX.Common;
 
 namespace CodeX.Data.Model
 {
+    #region AbsenceProposalDate
+    public partial class AbsenceProposalDate
+    {
+        public String StartDateInDatePickerFormat
+        {
+            get
+            {
+                if (_StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+        public String StartDateInString
+        {
+            get
+            {
+                if (_StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _StartDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public String EndDateInDatePickerFormat
+        {
+            get
+            {
+                if (_EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+        public String EndDateInString
+        {
+            get
+            {
+                if (_EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _EndDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+    }
+    #endregion
     #region AdmissionPaymentDt
     public partial class AdmissionPaymentDt
     {
@@ -183,6 +225,29 @@ namespace CodeX.Data.Model
             get
             {
                 return string.Format("{0}|{1}", _MarkTypeID, _GCMarkType);
+            }
+        }
+    }
+    #endregion
+    #region OvertimeProposalDate
+    public partial class OvertimeProposalDate
+    {
+        public String OvertimeDateInDatePickerFormat
+        {
+            get
+            {
+                if (_OvertimeDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _OvertimeDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+        public String OvertimeDateInString
+        {
+            get
+            {
+                if (_OvertimeDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _OvertimeDate.ToString(Constant.FormatString.DATE_FORMAT);
             }
         }
     }

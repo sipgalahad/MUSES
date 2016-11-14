@@ -7,6 +7,338 @@ using System.Data;
 
 namespace CodeX.Data.Model
 {
+    #region AbsenceProposalDate
+    [Serializable]
+    [Table(Name = "AbsenceProposalDate")]
+    public partial class AbsenceProposalDate : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private Int32 _TransactionID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Boolean _IsFullDay;
+        private String _StartTime;
+        private String _EndTime;
+        private Decimal _TotalHours;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "IsFullDay", DataType = "Boolean")]
+        public Boolean IsFullDay
+        {
+            get { return _IsFullDay; }
+            set { _IsFullDay = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "TotalHours", DataType = "Decimal")]
+        public Decimal TotalHours
+        {
+            get { return _TotalHours; }
+            set { _TotalHours = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class AbsenceProposalDateDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(AbsenceProposalDate));
+        private bool _isAuditLog = false;
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public AbsenceProposalDateDao() { }
+        public AbsenceProposalDateDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public AbsenceProposalDate Get(Int32 TransactionDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (AbsenceProposalDate)_helper.DataRowToObject(row, new AbsenceProposalDate());
+        }
+        public int Insert(AbsenceProposalDate record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(AbsenceProposalDate record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID)
+        {
+            AbsenceProposalDate record;
+            if (_ctx.Transaction == null)
+                record = new AbsenceProposalDateDao().Get(TransactionDtID);
+            else
+                record = Get(TransactionDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region AbsenceProposalEmployee
+    [Serializable]
+    [Table(Name = "AbsenceProposalEmployee")]
+    public class AbsenceProposalEmployee : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private Int32 _EmployeeID;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+    }
+
+    public class AbsenceProposalEmployeeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(AbsenceProposalEmployee));
+        private bool _isAuditLog = false;
+        private const string p_EmployeeID = "@p_EmployeeID";
+        private const string p_TransactionID = "@p_TransactionID";
+        public AbsenceProposalEmployeeDao() { }
+        public AbsenceProposalEmployeeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public AbsenceProposalEmployee Get(Int32 TransactionID, Int32 EmployeeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_EmployeeID, EmployeeID);
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (AbsenceProposalEmployee)_helper.DataRowToObject(row, new AbsenceProposalEmployee());
+        }
+        public int Insert(AbsenceProposalEmployee record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(AbsenceProposalEmployee record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID, Int32 EmployeeID)
+        {
+            AbsenceProposalEmployee record;
+            if (_ctx.Transaction == null)
+                record = new AbsenceProposalEmployeeDao().Get(TransactionID, EmployeeID);
+            else
+                record = Get(TransactionID, EmployeeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region AbsenceProposalHd
+    [Serializable]
+    [Table(Name = "AbsenceProposalHd")]
+    public class AbsenceProposalHd : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private String _GCAttendanceStatus;
+        private String _GCAbsenceReason;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "GCAttendanceStatus", DataType = "String")]
+        public String GCAttendanceStatus
+        {
+            get { return _GCAttendanceStatus; }
+            set { _GCAttendanceStatus = value; }
+        }
+        [Column(Name = "GCAbsenceReason", DataType = "String")]
+        public String GCAbsenceReason
+        {
+            get { return _GCAbsenceReason; }
+            set { _GCAbsenceReason = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class AbsenceProposalHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(AbsenceProposalHd));
+        private bool _isAuditLog = false;
+        private const string p_TransactionID = "@p_TransactionID";
+        public AbsenceProposalHdDao() { }
+        public AbsenceProposalHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public AbsenceProposalHd Get(Int32 TransactionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (AbsenceProposalHd)_helper.DataRowToObject(row, new AbsenceProposalHd());
+        }
+        public int Insert(AbsenceProposalHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(AbsenceProposalHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID)
+        {
+            AbsenceProposalHd record;
+            if (_ctx.Transaction == null)
+                record = new AbsenceProposalHdDao().Get(TransactionID);
+            else
+                record = Get(TransactionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region AdmissionFeeComp
     [Serializable]
     [Table(Name = "AdmissionFeeComp")]
@@ -19029,6 +19361,317 @@ namespace CodeX.Data.Model
                 record = new OrganizationHdDao().Get(OrganizationID);
             else
                 record = Get(OrganizationID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region OvertimeProposalDate
+    [Serializable]
+    [Table(Name = "OvertimeProposalDate")]
+    public partial class OvertimeProposalDate : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private Int32 _TransactionID;
+        private DateTime _OvertimeDate;
+        private String _StartTime;
+        private String _EndTime;
+        private Decimal _TotalHours;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "OvertimeDate", DataType = "DateTime")]
+        public DateTime OvertimeDate
+        {
+            get { return _OvertimeDate; }
+            set { _OvertimeDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "TotalHours", DataType = "Decimal")]
+        public Decimal TotalHours
+        {
+            get { return _TotalHours; }
+            set { _TotalHours = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class OvertimeProposalDateDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(OvertimeProposalDate));
+        private bool _isAuditLog = false;
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public OvertimeProposalDateDao() { }
+        public OvertimeProposalDateDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public OvertimeProposalDate Get(Int32 TransactionDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (OvertimeProposalDate)_helper.DataRowToObject(row, new OvertimeProposalDate());
+        }
+        public int Insert(OvertimeProposalDate record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(OvertimeProposalDate record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID)
+        {
+            OvertimeProposalDate record;
+            if (_ctx.Transaction == null)
+                record = new OvertimeProposalDateDao().Get(TransactionDtID);
+            else
+                record = Get(TransactionDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region OvertimeProposalEmployee
+    [Serializable]
+    [Table(Name = "OvertimeProposalEmployee")]
+    public class OvertimeProposalEmployee : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private Int32 _EmployeeID;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+    }
+
+    public class OvertimeProposalEmployeeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(OvertimeProposalEmployee));
+        private bool _isAuditLog = false;
+        private const string p_EmployeeID = "@p_EmployeeID";
+        private const string p_TransactionID = "@p_TransactionID";
+        public OvertimeProposalEmployeeDao() { }
+        public OvertimeProposalEmployeeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public OvertimeProposalEmployee Get(Int32 TransactionID, Int32 EmployeeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_EmployeeID, EmployeeID);
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (OvertimeProposalEmployee)_helper.DataRowToObject(row, new OvertimeProposalEmployee());
+        }
+        public int Insert(OvertimeProposalEmployee record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(OvertimeProposalEmployee record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID, Int32 EmployeeID)
+        {
+            OvertimeProposalEmployee record;
+            if (_ctx.Transaction == null)
+                record = new OvertimeProposalEmployeeDao().Get(TransactionID, EmployeeID);
+            else
+                record = Get(TransactionID, EmployeeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region OvertimeProposalHd
+    [Serializable]
+    [Table(Name = "OvertimeProposalHd")]
+    public class OvertimeProposalHd : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private String _GCOvertimeReason;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "GCOvertimeReason", DataType = "String")]
+        public String GCOvertimeReason
+        {
+            get { return _GCOvertimeReason; }
+            set { _GCOvertimeReason = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class OvertimeProposalHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(OvertimeProposalHd));
+        private bool _isAuditLog = false;
+        private const string p_TransactionID = "@p_TransactionID";
+        public OvertimeProposalHdDao() { }
+        public OvertimeProposalHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public OvertimeProposalHd Get(Int32 TransactionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (OvertimeProposalHd)_helper.DataRowToObject(row, new OvertimeProposalHd());
+        }
+        public int Insert(OvertimeProposalHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(OvertimeProposalHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID)
+        {
+            OvertimeProposalHd record;
+            if (_ctx.Transaction == null)
+                record = new OvertimeProposalHdDao().Get(TransactionID);
+            else
+                record = Get(TransactionID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

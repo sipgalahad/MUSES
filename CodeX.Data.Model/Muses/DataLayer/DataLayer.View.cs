@@ -6,6 +6,127 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Data.Model
 {
+    #region vAbsenceProposalEmployee
+    [Serializable]
+    [Table(Name = "vAbsenceProposalEmployee")]
+    public class vAbsenceProposalEmployee
+    {
+        private Int32 _TransactionID;
+        private Int32 _EmployeeID;
+        private String _EmployeeCode;
+        private String _EmployeeName;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "EmployeeCode", DataType = "String")]
+        public String EmployeeCode
+        {
+            get { return _EmployeeCode; }
+            set { _EmployeeCode = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+    }
+    #endregion
+    #region vAbsenceProposalHd
+    [Serializable]
+    [Table(Name = "vAbsenceProposalHd")]
+    public class vAbsenceProposalHd
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private String _GCAttendanceStatus;
+        private String _AttendanceStatus;
+        private String _GCAbsenceReason;
+        private String _AbsenceStatus;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "GCAttendanceStatus", DataType = "String")]
+        public String GCAttendanceStatus
+        {
+            get { return _GCAttendanceStatus; }
+            set { _GCAttendanceStatus = value; }
+        }
+        [Column(Name = "AttendanceStatus", DataType = "String")]
+        public String AttendanceStatus
+        {
+            get { return _AttendanceStatus; }
+            set { _AttendanceStatus = value; }
+        }
+        [Column(Name = "GCAbsenceReason", DataType = "String")]
+        public String GCAbsenceReason
+        {
+            get { return _GCAbsenceReason; }
+            set { _GCAbsenceReason = value; }
+        }
+        [Column(Name = "AbsenceStatus", DataType = "String")]
+        public String AbsenceStatus
+        {
+            get { return _AbsenceStatus; }
+            set { _AbsenceStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+    }
+    #endregion
     #region vAdmissionFeeComp
     [Serializable]
     [Table(Name = "vAdmissionFeeComp")]
@@ -15998,6 +16119,113 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vOvertimeProposalEmployee
+    [Serializable]
+    [Table(Name = "vOvertimeProposalEmployee")]
+    public class vOvertimeProposalEmployee
+    {
+        private Int32 _TransactionID;
+        private Int32 _EmployeeID;
+        private String _EmployeeCode;
+        private String _EmployeeName;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "EmployeeCode", DataType = "String")]
+        public String EmployeeCode
+        {
+            get { return _EmployeeCode; }
+            set { _EmployeeCode = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+    }
+    #endregion
+    #region vOvertimeProposalHd
+    [Serializable]
+    [Table(Name = "vOvertimeProposalHd")]
+    public class vOvertimeProposalHd
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private String _GCOvertimeReason;
+        private String _OvertimeStatus;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "GCOvertimeReason", DataType = "String")]
+        public String GCOvertimeReason
+        {
+            get { return _GCOvertimeReason; }
+            set { _GCOvertimeReason = value; }
+        }
+        [Column(Name = "OvertimeStatus", DataType = "String")]
+        public String OvertimeStatus
+        {
+            get { return _OvertimeStatus; }
+            set { _OvertimeStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
         }
     }
     #endregion

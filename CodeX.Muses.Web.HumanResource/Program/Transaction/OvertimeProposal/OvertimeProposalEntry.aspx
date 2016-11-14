@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPTrx.master" AutoEventWireup="true" 
-    CodeBehind="HRScheduleGroupEntry.aspx.cs" Inherits="CodeX.Muses.Web.Inventory.Program.HRScheduleGroupEntry" %>
+    CodeBehind="OvertimeProposalEntry.aspx.cs" Inherits="CodeX.Muses.Web.Inventory.Program.OvertimeProposalEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -9,6 +9,7 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
     <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
+
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhHeader" runat="server">
     <input type="hidden" id="hdnRowCountPerPage" runat="server" value="" />
@@ -37,8 +38,6 @@
                 $('#divQuickPicks').hide();
             }
 
-            setDatePicker('<%=txtStartEffectiveDate.ClientID %>');
-            $('#<%=txtStartEffectiveDate.ClientID %>').datepicker('option', 'minDate', '0');
             setDatePicker('<%=txtTransactionDate.ClientID %>');
             $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'maxDate', '0');
 
@@ -48,20 +47,6 @@
                 //alert(id);
                 var url = ResolveUrl("~/Program/Master/UpdateEmployeePosition/UpdateEmployeePositionEntryCtl.ascx");
                 openUserControlPopup(url, id, 'Renumeration Formula', 600, 500);
-            });
-
-            $("#<%=rblDate.ClientID %> input").change(function () {
-                var value = $(this).val();
-                if (value == 1) {
-                    $("#trDay").attr('style', 'display:none');
-                    $("#trDay").removeAttr('style');
-                    $("#trDate").attr('style', 'display:none');
-                }
-                else {
-                    $("#trDate").attr('style', 'display:none');
-                    $("#trDate").removeAttr('style');
-                    $("#trDay").attr('style', 'display:none');
-                }
             });
 
             //#region Transaction No
@@ -95,30 +80,28 @@
                 }
             });
 
-            $('#divTemplatePicks').click(function () {
-                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
-                    //showLoadingPanel();
-                    id = "0";
-                    var url = ResolveUrl('~/Program/Master/HRScheduleGroup/TemplateEmployeeGroupPicksCtl.ascx');
-                    var transactionID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
-                    openUserControlPopup(url, id, 'Template Picks', 1000, 600);
-                }
-            });
+//            $('#divTemplatePicks').click(function () {
+//                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+//                    //showLoadingPanel();
+//                    id = "0";
+//                    var url = ResolveUrl('~/Program/Master/HRScheduleGroup/TemplateEmployeeGroupPicksCtl.ascx');
+//                    var transactionID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
+//                    openUserControlPopup(url, id, 'Template Picks', 1000, 600);
+//                }
+//            });
 
             $('#divTransactionAdd2').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
                     editedLineAmount = 0;
 
                     $('#<%=hdnEntryID.ClientID %>').val('');
-                    $("#<%=rblDate.ClientID %> input").prop('checked', false);
-                    $input = $("#<%=rblDate.ClientID %> input[value=1]");
-                    $input.prop('checked', true);
-                    $input.change();
+                    
+                    $('#<%=txtStartTime.ClientID %>').val('');
+                    $('#<%=txtEndTime.ClientID %>').val('');
+                    $('#<%=txtTotalHours.ClientID %>').val('');
+                    setDatePicker('<%=txtOvertimeDate.ClientID %>');
+                    $('#<%=txtOvertimeDate.ClientID %>').datepicker('option', 'minDate', '0');
 
-                    setDatePicker('<%=txtScheduleDate.ClientID %>');
-                    $('#<%=txtScheduleDate.ClientID %>').datepicker('option', 'minDate', '0');
-
-                    cboDailySchedule.SetSelectedIndex(0);
                     $('#entryDetailContainer2').show();
                 }
             });
@@ -188,20 +171,12 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
             $('#<%=hdnEntryID.ClientID %>').val(entity.TransactionDtID);
-            setDatePicker('<%=txtScheduleDate.ClientID %>');
-            $('#<%=txtScheduleDate.ClientID %>').val(entity.ScheduleDateInDatePickerFormat);
-            cboGCDay.SetValue(entity.GCDay);
-            cboDailySchedule.SetValue(entity.DailyScheduleID);
+            setDatePicker('<%=txtOvertimeDate.ClientID %>');
+            $('#<%=txtOvertimeDate.ClientID %>').val(entity.OvertimeDateInDatePickerFormat);
+            $('#<%=txtStartTime.ClientID %>').val(entity.StartTime);
+            $('#<%=txtEndTime.ClientID %>').val(entity.EndTime);
+            $('#<%=txtTotalHours.ClientID %>').val(entity.TotalHours);
             
-            $input = null;
-            if (entity.GCDay != '') 
-                $input = $("#<%=rblDate.ClientID %> input[value=1]");
-            else 
-                $input = $("#<%=rblDate.ClientID %> input[value=2]");
-            $input.prop('checked', true);
-            $input.change();
-
-            cboDailySchedule.SetValue(entity.DailyScheduleID);
             $('#entryDetailContainer2').show();
         });
 
@@ -383,8 +358,16 @@
                             <td><asp:TextBox ID="txtTransactionDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><%=GetLabel("Tanggal Dimulai")%></td>
-                            <td><asp:TextBox ID="txtStartEffectiveDate" Width="120px" CssClass="datepicker" runat="server" /></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Alasan")%></label></td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td><dxe:ASPxComboBox ID="cboGCOvertimeReason" ClientInstanceName="cboGCOvertimeReason" Width="200px" runat="server" /></td>
+                                        <td style="width:5px;"></td>
+                                        <td><input type="button" id="btnFormulaID" class="btnMore" value="..." /></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                        <tr>
                             <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>
@@ -404,7 +387,7 @@
                     <div id="containerEmployee" class="containerTransDt">    
                         <div class="divTransactionEntry">
                             <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
-                            <span id="divTemplatePicks" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Template Picks")%></span>
+                            <%--<span id="divTemplatePicks" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Template Picks")%></span>--%>
                             <br />
                             <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                                 <fieldset id="fsTrx" style="margin: 0">
@@ -432,7 +415,6 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td></td>
                                             <td> 
                                                 <input type="button" id="btnSave" class="btnWhite" value='<%=GetLabel("Commit") %>'/>
                                                 <input type="button" id="btnCancel" class="btnWhite" value='<%=GetLabel("Cancel") %>'/>
@@ -498,26 +480,24 @@
                                                         <col style="width: 150px" />
                                                     </colgroup>
                                                     <tr>
-                                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jadwal")%></label></td>
-                                                        <td><dxe:ASPxComboBox runat="server" ID="cboDailySchedule" ClientInstanceName="cboDailySchedule" Width="300px"></dxe:ASPxComboBox></td>
+                                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal")%></label></td>
+                                                        <td><asp:TextBox ID="txtOvertimeDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                                                     </tr>
                                                     <tr>
-                                                        <td></td>
+                                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Waktu")%></label></td>
                                                         <td>
-                                                            <asp:RadioButtonList ID="rblDate" CssClass="rblDate" runat="server"
-                                                                RepeatDirection="Horizontal">
-                                                                <asp:ListItem Text="Hari" Value="1" />
-                                                                <asp:ListItem Text="Tanggal" Value="2" />
-                                                            </asp:RadioButtonList>
+                                                            <table cellpadding="0" cellspacing="0" >
+                                                                <tr>
+                                                                    <td><asp:TextBox CssClass="time" ID="txtStartTime" Width="80px" runat="server" placeholder="HH:mm"/></td>
+                                                                    <td align="center" style="width:10px;"><label ><%=GetLabel(" - ")%></label></td>
+                                                                    <td><asp:TextBox CssClass="time" ID="txtEndTime" Width="80px" runat="server" placeholder="HH:mm"/></td> 
+                                                                </tr>
+                                                            </table>
                                                         </td>
                                                     </tr>
-                                                    <tr id="trDay" style="display:none;">
-                                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Hari")%></label></td>
-                                                        <td><dxe:ASPxComboBox runat="server" ID="cboGCDay" ClientInstanceName="cboGCDay" Width="300px"></dxe:ASPxComboBox></td>
-                                                    </tr>
-                                                    <tr id="trDate" style="display:none;">
-                                                        <td class="tdLabel"><%=GetLabel("Tanggal")%></td>
-                                                        <td><asp:TextBox ID="txtScheduleDate" Width="120px" CssClass="datepicker" runat="server" /></td>
+                                                    <tr>
+                                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Total Jam")%></label></td>
+                                                        <td><asp:TextBox ID="txtTotalHours" CssClass="txtCurrency" Width="80px" runat="server" /></td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -544,17 +524,19 @@
                                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                             <Columns>
                                                 <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                                <asp:BoundField DataField="Day" HeaderText="Hari" HeaderStyle-Width="150px" />
-                                                <asp:BoundField DataField="ScheduleDateInString" HeaderText="Tanggal" HeaderStyle-Width="150px"/>
-                                                <asp:BoundField DataField="DailyScheduleName" HeaderText="Jadwal" />
+                                                <asp:BoundField DataField="OvertimeDateInDatePickerFormat" HeaderText="Tanggal" />
+                                                <asp:BoundField DataField="StartTime" HeaderText="Jam Mulai" HeaderStyle-Width="150px"/>
+                                                <asp:BoundField DataField="EndTime" HeaderText="Jam Berakhir" HeaderStyle-Width="150px" />
+                                                <asp:BoundField DataField="TotalHours" HeaderText="Total Jam" HeaderStyle-Width="150px" />
                                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <div style='float:right;<%=IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailDelete"></div>
                                                         <div style='float:right;margin-right:10px;<%#IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                                         <input type="hidden" value="<%#Eval("TransactionDtID") %>" bindingfield="TransactionDtID" />
-                                                        <input type="hidden" value="<%#Eval("GCDay") %>" bindingfield="GCDay" />
-                                                        <input type="hidden" value="<%#Eval("ScheduleDateInDatePickerFormat") %>" bindingfield="ScheduleDateInDatePickerFormat" />
-                                                        <input type="hidden" value="<%#Eval("DailyScheduleID") %>" bindingfield="DailyScheduleID" />
+                                                        <input type="hidden" value="<%#Eval("OvertimeDateInDatePickerFormat") %>" bindingfield="OvertimeDateInDatePickerFormat" />
+                                                        <input type="hidden" value="<%#Eval("StartTime") %>" bindingfield="StartTime" />
+                                                        <input type="hidden" value="<%#Eval("EndTime") %>" bindingfield="EndTime" />
+                                                        <input type="hidden" value="<%#Eval("TotalHours") %>" bindingfield="TotalHours" />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
