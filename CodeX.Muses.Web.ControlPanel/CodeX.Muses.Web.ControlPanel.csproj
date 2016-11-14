@@ -179,6 +179,7 @@
     <Content Include="Program\Master\OrganizationStructure\OrganizationStructureEntryCtl.ascx" />
     <Content Include="Program\Master\OrganizationStructure\OrganizationStructureList.aspx" />
     <Content Include="Program\Master\OrganizationStructure\OrganizationStructureCompEntry.aspx" />
+    <Content Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaDtCtl.ascx" />
     <Content Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaList.aspx" />
     <Content Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaEntry.aspx" />
     <Content Include="Program\Master\RenumerationComp\RenumerationCompList.aspx" />
@@ -1012,6 +1013,13 @@
     </Compile>
     <Compile Include="Program\Master\OrganizationStructure\OrganizationStructureCompEntry.aspx.designer.cs">
       <DependentUpon>OrganizationStructureCompEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaDtCtl.ascx.cs">
+      <DependentUpon>RenumerationCompFormulaDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaDtCtl.ascx.designer.cs">
+      <DependentUpon>RenumerationCompFormulaDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaList.aspx.cs">
       <DependentUpon>RenumerationCompFormulaList.aspx</DependentUpon>

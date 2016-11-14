@@ -489,7 +489,8 @@
                                             <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="cfBaseTariffType" HeaderText="Tipe" />
                                             <asp:CheckBoxField DataField="IsTariffFlat" HeaderText="Tarif Flat" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="200px"/>
-                                            <asp:BoundField DataField="BaseTariff" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderText="Base Tariff" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="BaseTariffMultiplyBy"  HeaderStyle-CssClass="thRight" HeaderText="Base Tariff" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="MaxNHour" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderText="Max. Jam" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <div style='float:right;<%=IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailDelete"></div>
