@@ -2736,7 +2736,8 @@ namespace CodeX.Data.Model
             get
             {
                 if (_GCBaseTariffType == Constant.RenumerationFormulaBaseTariffType.FIX_AMOUNT)
-                    return _BaseTariffType;
+                    //return _BaseTariffType;
+                    return string.Format("{0} ({1})", _BaseTariffType, _BaseTariff.ToString("N"));
                 return string.Format("{0} ({1})", _BaseTariffType, _FromRenumerationCompName);
             }
         }

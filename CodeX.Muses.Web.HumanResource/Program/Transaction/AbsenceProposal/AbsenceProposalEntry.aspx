@@ -512,9 +512,9 @@
                                                         <td>
                                                             <table cellpadding="0" cellspacing="0" >
                                                                 <tr>
-                                                                    <td><asp:TextBox CssClass="time" ID="txtStartTime" Width="80px" runat="server" placeholder="HH:mm"/></td>
+                                                                    <td><asp:TextBox CssClass="time" ID="txtStartTime" Width="80px" runat="server"/></td>
                                                                     <td align="center" style="width:10px;"><label ><%=GetLabel(" - ")%></label></td>
-                                                                    <td><asp:TextBox CssClass="time" ID="txtEndTime" Width="80px" runat="server" placeholder="HH:mm"/></td> 
+                                                                    <td><asp:TextBox CssClass="time" ID="txtEndTime" Width="80px" runat="server" /></td> 
                                                                 </tr>
                                                             </table>
                                                         </td>
