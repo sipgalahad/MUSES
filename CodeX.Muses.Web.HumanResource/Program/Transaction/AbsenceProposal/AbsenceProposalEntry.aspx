@@ -38,6 +38,15 @@
                 $('#divQuickPicks').hide();
             }
 
+            $('#<%=chkIsFullDay.ClientID %>').change(function () {
+                if (!this.checked) {
+                    $('#trWaktu').show();
+                }
+                else {
+                    $('#trWaktu').hide();
+                }
+            });
+
             setDatePicker('<%=txtTransactionDate.ClientID %>');
             $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'maxDate', '0');
 
@@ -96,7 +105,7 @@
                     editedLineAmount = 0;
 
                     $('#<%=hdnEntryID.ClientID %>').val('');
-                    $('#<%=chkIsFullDay.ClientID %>').prop('checked', false);
+                    $('#<%=chkIsFullDay.ClientID %>').prop('checked', true);
                     $('#<%=txtStartTime.ClientID %>').val('');
                     $('#<%=txtEndTime.ClientID %>').val('');
                     $('#<%=txtTotalHours.ClientID %>').val('');
@@ -104,6 +113,7 @@
                     $('#<%=txtStartDate.ClientID %>').datepicker('option', 'minDate', '0');
                     setDatePicker('<%=txtEndDate.ClientID %>');
                     $('#<%=txtEndDate.ClientID %>').datepicker('option', 'minDate', '0');
+                    $('#<%=chkIsFullDay.ClientID %>').change();
 
                     $('#entryDetailContainer2').show();
                 }
@@ -182,7 +192,7 @@
             $('#<%=txtStartTime.ClientID %>').val(entity.StartTime);
             $('#<%=txtEndTime.ClientID %>').val(entity.EndTime);
             $('#<%=txtTotalHours.ClientID %>').val(entity.TotalHours);
-           
+            $('#<%=chkIsFullDay.ClientID %>').change();
             $('#entryDetailContainer2').show();
         });
 
@@ -507,7 +517,7 @@
                                                         <td class="tdLabel"></td>
                                                         <td><asp:Checkbox runat="server" ID="chkIsFullDay" Text="Full Day"/></td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr id="trWaktu">
                                                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Waktu")%></label></td>
                                                         <td>
                                                             <table cellpadding="0" cellspacing="0" >
