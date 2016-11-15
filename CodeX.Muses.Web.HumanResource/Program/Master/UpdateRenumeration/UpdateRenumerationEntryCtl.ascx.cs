@@ -53,7 +53,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 vTransRenumerationDtFormula entityFormula = lstEntity.FirstOrDefault(p => p.GCDayType == entity.StandardCodeID);
                 if (entityFormula != null)
                 {
-                    divFormula.InnerHtml = entityFormula.FormulaName;
+                    if (entityFormula.FormulaRemarks != "")
+                        divFormula.InnerHtml = string.Format("{0} ({1})", entityFormula.FormulaName, entityFormula.FormulaRemarks);
+                    else
+                        divFormula.InnerHtml = entityFormula.FormulaName;
                     hdnFormulaName.Value = entityFormula.FormulaName;
                     hdnFormulaID.Value = entityFormula.FormulaID.ToString();
                 }

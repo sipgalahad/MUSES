@@ -157,8 +157,8 @@
                 <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
                         <Columns>
-                            <asp:BoundField DataField="StandardCodeName" HeaderText="Tipe Hari" /> 
-                            <asp:TemplateField HeaderText="Formula" HeaderStyle-Width="200px">
+                            <asp:BoundField DataField="StandardCodeName" HeaderText="Tipe Hari" HeaderStyle-Width="120px"/> 
+                            <asp:TemplateField HeaderText="Formula">
                                 <ItemTemplate>
                                     <div id="divFormula" runat="server"></div>
                                 </ItemTemplate>
