@@ -2682,6 +2682,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vEmployeeRenumeration
+        public static List<vEmployeeRenumeration> GetvEmployeeRenumerationList(string filterExpression)
+        {
+            List<vEmployeeRenumeration> result = new List<vEmployeeRenumeration>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vEmployeeRenumeration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vEmployeeRenumeration)helper.IDataReaderToObject(reader, new vEmployeeRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vExamClassSchedule
         public static List<vExamClassSchedule> GetvExamClassScheduleList(string filterExpression)
         {

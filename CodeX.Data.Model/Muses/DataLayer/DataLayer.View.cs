@@ -6586,6 +6586,10 @@ namespace CodeX.Data.Model
     {
         private Int32 _EmployeeID;
         private String _EmployeeCode;
+        private Int32 _OrganizationDepartmentID;
+        private String _OrganizationDepartmentName;
+        private Int32 _OrganizationPositionID;
+        private String _OrganizationPositionName;
         private String _SiteID;
         private String _SiteName;
         private String _GCSalutation;
@@ -6640,6 +6644,30 @@ namespace CodeX.Data.Model
         {
             get { return _EmployeeCode; }
             set { _EmployeeCode = value; }
+        }
+        [Column(Name = "OrganizationDepartmentID", DataType = "Int32")]
+        public Int32 OrganizationDepartmentID
+        {
+            get { return _OrganizationDepartmentID; }
+            set { _OrganizationDepartmentID = value; }
+        }
+        [Column(Name = "OrganizationDepartmentName", DataType = "String")]
+        public String OrganizationDepartmentName
+        {
+            get { return _OrganizationDepartmentName; }
+            set { _OrganizationDepartmentName = value; }
+        }
+        [Column(Name = "OrganizationPositionID", DataType = "Int32")]
+        public Int32 OrganizationPositionID
+        {
+            get { return _OrganizationPositionID; }
+            set { _OrganizationPositionID = value; }
+        }
+        [Column(Name = "OrganizationPositionName", DataType = "String")]
+        public String OrganizationPositionName
+        {
+            get { return _OrganizationPositionName; }
+            set { _OrganizationPositionName = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -6892,6 +6920,126 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vEmployeeRenumeration
+    [Serializable]
+    [Table(Name = "vEmployeeRenumeration")]
+    public class vEmployeeRenumeration
+    {
+        private Int32 _EmployeeID;
+        private String _EmployeeCode;
+        private String _EmployeeName;
+        private Int32 _OrganizationPositionID;
+        private String _OrganizationPositionName;
+        private Int32 _OrganizationDepartmentID;
+        private String _OrganizationDepartmentName;
+        private Int32 _RenumerationCompID;
+        private String _RenumerationCompCode;
+        private String _RenumerationCompName;
+        private String _GCRenumerationCompType;
+        private Int32 _EmployeePositionTransactionDtID;
+        private Int32 _RenumerationTransactionDtID;
+        private String _RenumerationCompType;
+        private Boolean _IsUseFormula;
+        private Decimal _Amount;
+
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "EmployeeCode", DataType = "String")]
+        public String EmployeeCode
+        {
+            get { return _EmployeeCode; }
+            set { _EmployeeCode = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+        [Column(Name = "OrganizationPositionID", DataType = "Int32")]
+        public Int32 OrganizationPositionID
+        {
+            get { return _OrganizationPositionID; }
+            set { _OrganizationPositionID = value; }
+        }
+        [Column(Name = "OrganizationPositionName", DataType = "String")]
+        public String OrganizationPositionName
+        {
+            get { return _OrganizationPositionName; }
+            set { _OrganizationPositionName = value; }
+        }
+        [Column(Name = "OrganizationDepartmentID", DataType = "Int32")]
+        public Int32 OrganizationDepartmentID
+        {
+            get { return _OrganizationDepartmentID; }
+            set { _OrganizationDepartmentID = value; }
+        }
+        [Column(Name = "OrganizationDepartmentName", DataType = "String")]
+        public String OrganizationDepartmentName
+        {
+            get { return _OrganizationDepartmentName; }
+            set { _OrganizationDepartmentName = value; }
+        }
+        [Column(Name = "RenumerationCompID", DataType = "Int32")]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "RenumerationCompCode", DataType = "String")]
+        public String RenumerationCompCode
+        {
+            get { return _RenumerationCompCode; }
+            set { _RenumerationCompCode = value; }
+        }
+        [Column(Name = "RenumerationCompName", DataType = "String")]
+        public String RenumerationCompName
+        {
+            get { return _RenumerationCompName; }
+            set { _RenumerationCompName = value; }
+        }
+        [Column(Name = "GCRenumerationCompType", DataType = "String")]
+        public String GCRenumerationCompType
+        {
+            get { return _GCRenumerationCompType; }
+            set { _GCRenumerationCompType = value; }
+        }
+        [Column(Name = "EmployeePositionTransactionDtID", DataType = "Int32")]
+        public Int32 EmployeePositionTransactionDtID
+        {
+            get { return _EmployeePositionTransactionDtID; }
+            set { _EmployeePositionTransactionDtID = value; }
+        }
+        [Column(Name = "RenumerationTransactionDtID", DataType = "Int32")]
+        public Int32 RenumerationTransactionDtID
+        {
+            get { return _RenumerationTransactionDtID; }
+            set { _RenumerationTransactionDtID = value; }
+        }
+        [Column(Name = "RenumerationCompType", DataType = "String")]
+        public String RenumerationCompType
+        {
+            get { return _RenumerationCompType; }
+            set { _RenumerationCompType = value; }
+        }
+        [Column(Name = "IsUseFormula", DataType = "Boolean")]
+        public Boolean IsUseFormula
+        {
+            get { return _IsUseFormula; }
+            set { _IsUseFormula = value; }
+        }
+        [Column(Name = "Amount", DataType = "Decimal")]
+        public Decimal Amount
+        {
+            get { return _Amount; }
+            set { _Amount = value; }
         }
     }
     #endregion
@@ -16119,6 +16267,98 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vOrganizationPositionRenumeration
+    [Serializable]
+    [Table(Name = "vOrganizationPositionRenumeration")]
+    public class vOrganizationPositionRenumeration
+    {
+        private Int32 _OrganizationPositionID;
+        private String _OrganizationPositionName;
+        private Int32 _OrganizationDepartmentID;
+        private String _OrganizationDepartmentName;
+        private Int32 _RenumerationCompID;
+        private String _RenumerationCompCode;
+        private String _RenumerationCompName;
+        private String _GCRenumerationCompType;
+        private Int32 _RenumerationTransactionDtID;
+        private String _RenumerationCompType;
+        private Boolean _IsUseFormula;
+        private Decimal _Amount;
+
+        [Column(Name = "OrganizationPositionID", DataType = "Int32")]
+        public Int32 OrganizationPositionID
+        {
+            get { return _OrganizationPositionID; }
+            set { _OrganizationPositionID = value; }
+        }
+        [Column(Name = "OrganizationPositionName", DataType = "String")]
+        public String OrganizationPositionName
+        {
+            get { return _OrganizationPositionName; }
+            set { _OrganizationPositionName = value; }
+        }
+        [Column(Name = "OrganizationDepartmentID", DataType = "Int32")]
+        public Int32 OrganizationDepartmentID
+        {
+            get { return _OrganizationDepartmentID; }
+            set { _OrganizationDepartmentID = value; }
+        }
+        [Column(Name = "OrganizationDepartmentName", DataType = "String")]
+        public String OrganizationDepartmentName
+        {
+            get { return _OrganizationDepartmentName; }
+            set { _OrganizationDepartmentName = value; }
+        }
+        [Column(Name = "RenumerationCompID", DataType = "Int32")]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "RenumerationCompCode", DataType = "String")]
+        public String RenumerationCompCode
+        {
+            get { return _RenumerationCompCode; }
+            set { _RenumerationCompCode = value; }
+        }
+        [Column(Name = "RenumerationCompName", DataType = "String")]
+        public String RenumerationCompName
+        {
+            get { return _RenumerationCompName; }
+            set { _RenumerationCompName = value; }
+        }
+        [Column(Name = "GCRenumerationCompType", DataType = "String")]
+        public String GCRenumerationCompType
+        {
+            get { return _GCRenumerationCompType; }
+            set { _GCRenumerationCompType = value; }
+        }
+        [Column(Name = "RenumerationTransactionDtID", DataType = "Int32")]
+        public Int32 RenumerationTransactionDtID
+        {
+            get { return _RenumerationTransactionDtID; }
+            set { _RenumerationTransactionDtID = value; }
+        }
+        [Column(Name = "RenumerationCompType", DataType = "String")]
+        public String RenumerationCompType
+        {
+            get { return _RenumerationCompType; }
+            set { _RenumerationCompType = value; }
+        }
+        [Column(Name = "IsUseFormula", DataType = "Boolean")]
+        public Boolean IsUseFormula
+        {
+            get { return _IsUseFormula; }
+            set { _IsUseFormula = value; }
+        }
+        [Column(Name = "Amount", DataType = "Decimal")]
+        public Decimal Amount
+        {
+            get { return _Amount; }
+            set { _Amount = value; }
         }
     }
     #endregion
