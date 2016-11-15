@@ -34,18 +34,51 @@
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
                             <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid" Style="height:330px; overflow-y: scroll;">
-                                <asp:GridView ID="grdPopupView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
-                                    <Columns>
-                                        <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:BoundField DataField="cfBaseTariffType" HeaderText="Tipe" ItemStyle-HorizontalAlign="Left" HeaderStyle-CssClass="thLeft" HeaderStyle-Width="100px"  />
-                                        <asp:CheckBoxField DataField="IsTariffFlat" HeaderText="Tarif Flat" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="70px"/>
-                                        <asp:BoundField DataField="BaseTariffMultiplyBy"  HeaderStyle-CssClass="thRight" HeaderText="Base Tariff" HeaderStyle-Width="50px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
-                                        <asp:BoundField DataField="MaxNHour" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderText="Max. Jam" HeaderStyle-Width="50px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
-                                    </Columns>
-                                    <EmptyDataTemplate>
-                                        <%=GetLabel("No Data To Display")%>
-                                    </EmptyDataTemplate>
-                                </asp:GridView>
+                                <table class="grdSelected" rules="all" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <th class="keyField"></th>
+                                        <th><%=GetLabel("Tipe")%></th>
+                                        <th style="width:150px" class="thCenter"><%=GetLabel("Tarif Flat")%></th>
+                                        <th style="width:100px" class="thCenter"><%=GetLabel("Max Jam")%></th>
+                                        <th style="width:70px" class="thRight"><%=GetLabel("Pengali")%></th>
+                                    </tr>
+                                    <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
+                                        <ItemTemplate>
+                                            <tr>
+                                                <td class="keyField"><%#Eval("TransactionDtID")%></td>
+                                                <td><%#Eval("cfBaseTariffType")%></td>
+                                                <td align="center"><asp:CheckBox ID="chkIsTariffFlat" runat="server" Enabled="false" Value='<%#Eval("IsTariffFlat") %>' /></td>
+                                                <td align="center"><%#Eval("MaxNHour")%></td>                                                
+                                                <td align="right"><div id="divMultiplyBy" runat="server"></div></td>
+                                            </tr>
+                                            <asp:Repeater ID="rptFormula" runat="server">
+                                                <HeaderTemplate>
+                                                    <tr>
+                                                        <td class="keyField"></td>
+                                                        <td colspan="4" style="padding-left:10px;">
+                                                            <table class="grdSelected" rules="all" cellpadding="0" cellspacing="0">
+                                                                <tr>
+                                                                    <th style="width:120px" class="thCenter"><%=GetLabel("Dari Jam")%></th>
+                                                                    <th style="width:120px" class="thCenter"><%=GetLabel("Sampai Jam")%></th>
+                                                                    <th class="thCenter"><%=GetLabel("Pengali")%></th>
+                                                                </tr>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                                <tr>
+                                                                    <td align="center"><%#Eval("FromHoursIndex") %></td>
+                                                                    <td align="center"><%#Eval("ToHoursIndex") %></td>
+                                                                    <td align="center"><%#Eval("MultiplyBy") %></td>
+                                                                </tr>
+                                                </ItemTemplate>
+                                                <FooterTemplate>    
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </FooterTemplate>
+                                            </asp:Repeater>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </table>
                             </asp:Panel>
                         </dx:PanelContent>
                     </PanelCollection>

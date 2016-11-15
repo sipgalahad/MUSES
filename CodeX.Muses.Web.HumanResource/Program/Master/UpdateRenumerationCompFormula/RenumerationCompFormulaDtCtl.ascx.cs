@@ -35,9 +35,27 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView()
         {
+            rptView.DataSource = BusinessLayer.GetvTransRenumerationCompFormulaDtList(String.Format("TransactionID = {0} AND IsDeleted = 0",Convert.ToInt32(hdnID.Value)));
+            rptView.DataBind();
+        }
 
-            grdPopupView.DataSource = BusinessLayer.GetvTransRenumerationCompFormulaDtList(String.Format("TransactionID = {0} AND IsDeleted = 0",Convert.ToInt32(hdnID.Value)));
-            grdPopupView.DataBind();
+        List<TransRenumerationCompFormulaDtHour> lstEntity = null;
+        protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vTransRenumerationCompFormulaDt entity = (vTransRenumerationCompFormulaDt)e.Item.DataItem;
+                Repeater rptFormula = (Repeater)e.Item.FindControl("rptFormula");
+                HtmlGenericControl divMultiplyBy = (HtmlGenericControl)e.Item.FindControl("divMultiplyBy");
+                if (!entity.IsTariffFlat)
+                {
+                    lstEntity = BusinessLayer.GetTransRenumerationCompFormulaDtHourList(string.Format("TransactionDtID = {0}", entity.TransactionDtID));
+                    rptFormula.DataSource = lstEntity;
+                    rptFormula.DataBind();
+                }
+                else
+                    divMultiplyBy.InnerHtml = entity.BaseTariffMultiplyBy.ToString();
+            }
         }
 
         protected void cbpPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

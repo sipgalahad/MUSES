@@ -76,12 +76,12 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
-        /// grdPopupView control.
+        /// rptView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdPopupView;
+        protected global::System.Web.UI.WebControls.Repeater rptView;
     }
 }
