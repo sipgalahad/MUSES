@@ -143,6 +143,12 @@ namespace CodeX.Common
             public const string ABSENCE = "X324";
         }
 
+        public static class Attendance 
+        {
+            public const string SAKIT = "X323^002";
+            public const string IZIN = "X323^003";
+        }
+
         public static class EmployeeScheduleType
         {
             public const string FIXED = "X317^001";
