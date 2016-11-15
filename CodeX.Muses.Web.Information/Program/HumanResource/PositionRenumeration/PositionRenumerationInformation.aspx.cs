@@ -117,10 +117,15 @@ namespace CodeX.Muses.Web.Information.Program
 
                 HtmlGenericControl divAmount = (HtmlGenericControl)e.Item.FindControl("divAmount");
                 HtmlGenericControl lblFormula = (HtmlGenericControl)e.Item.FindControl("lblFormula");
+                HtmlInputHidden hdnEmployeePositionTransID = (HtmlInputHidden)e.Item.FindControl("hdnEmployeePositionTransID");
+                HtmlInputHidden hdnRenumerationTransID = (HtmlInputHidden)e.Item.FindControl("hdnRenumerationTransID");
+                
                 if (renum != null)
                 {
                     if (renum.IsUseFormula)
                     {
+                        hdnEmployeePositionTransID.Value = renum.EmployeePositionTransactionDtID.ToString();
+                        hdnRenumerationTransID.Value = renum.RenumerationTransactionDtID.ToString();
                         lblFormula.Style.Remove("display");
                         divAmount.Style.Add("display", "none");
                     }

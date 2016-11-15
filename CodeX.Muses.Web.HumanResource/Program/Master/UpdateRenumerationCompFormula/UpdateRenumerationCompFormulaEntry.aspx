@@ -52,7 +52,7 @@
                 if (formulaID != null && formulaID != '') {
                     var id = formulaID;
                     var url = ResolveUrl("~/Program/Master/UpdateRenumerationCompFormula/RenumerationCompFormulaDtCtl.ascx");
-                    openUserControlPopup(url, id, 'Details Formula', 600, 500);
+                    openUserControlPopup(url, id, 'Details Formula', 800, 500);
                 }
             });
 
@@ -489,7 +489,7 @@
                                             <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="cfBaseTariffType" HeaderText="Tipe" />
                                             <asp:CheckBoxField DataField="IsTariffFlat" HeaderText="Tarif Flat" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="200px"/>
-                                            <asp:BoundField DataField="BaseTariffMultiplyBy"  HeaderStyle-CssClass="thRight" HeaderText="Base Tariff" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="BaseTariffMultiplyBy"  HeaderStyle-CssClass="thRight" HeaderText="Pengali" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
                                             <asp:BoundField DataField="MaxNHour" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" HeaderText="Max. Jam" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>

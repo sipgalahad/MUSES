@@ -76,9 +76,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             return hdnIsEditable.Value;
         }
 
-        protected string GetFilterEmployeeExpression()
+        protected string OnGetEmployeeFilterExpression()
         {
-            return string.Format("SiteID = '{0}' AND ", AppSession.UserLogin.SiteID);
+            return string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsDeleted = 0", AppSession.UserLogin.SiteID);
         }
 
         protected string GetFilterExpression()

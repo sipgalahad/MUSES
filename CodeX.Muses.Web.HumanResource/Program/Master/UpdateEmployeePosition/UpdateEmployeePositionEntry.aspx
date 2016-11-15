@@ -354,7 +354,11 @@
         //#region Employee
         function onGetEmployeeFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
-            var filterExpression = "IsDeleted = 0 AND EmployeeID NOT IN (SELECT EmployeeID FROM TransEmployeePositionDt WHERE TransactionID = " + TransactionID + ")";
+            var filterExpression = "1 = 0";
+            if (TransactionID != '') {
+                filterExpression = "<%=OnGetEmployeeFilterExpression() %>"
+                filterExpression += " AND IsDeleted = 0 AND EmployeeID NOT IN (SELECT EmployeeID FROM TransEmployeePositionDt WHERE TransactionID = " + TransactionID + ")";
+            }
             return filterExpression;
         }
 
@@ -383,11 +387,7 @@
         function onGetRenumerationCompFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
             var TransRenumerationID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
-            var filterExpression = "1 = 0";
-            if (TransRenumerationID != '') {
-                filterExpression = "<%=GetFilterEmployeeExpression() %>"
-                filterExpression += " IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeePositionRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 1 AND IsDeleted = 0)";
-            }
+            var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeePositionRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 1 AND IsDeleted = 0)";
             return filterExpression;
         }
 

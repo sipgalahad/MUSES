@@ -479,7 +479,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                         string[] temp = saveEntityDt.Split(';');
                         entityDtHour.FromHoursIndex = Convert.ToInt16(temp[0]);
                         entityDtHour.ToHoursIndex = Convert.ToInt16(temp[1]);
-                        entityDtHour.MultiplyBy = Convert.ToInt16(temp[2]);
+                        entityDtHour.MultiplyBy = Convert.ToDecimal(temp[2]);
                         entityDtHour.TransactionDtID = Convert.ToInt32(entityDt.TransactionDtID);
                         entityDtHourDao.Insert(entityDtHour);
                     }
@@ -523,7 +523,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
                     short fromHoursIndex = Convert.ToInt16(temp[0]);
                     short toHoursIndex = Convert.ToInt16(temp[1]);
-                    short multiplyBy = Convert.ToInt16(temp[2]);
+                    decimal multiplyBy = Convert.ToDecimal(temp[2]);
                     TransRenumerationCompFormulaDtHour entityDtHour = lstEntityDt.FirstOrDefault(p => p.FromHoursIndex == fromHoursIndex && p.ToHoursIndex == toHoursIndex);
                     if (entityDtHour == null)
                     {

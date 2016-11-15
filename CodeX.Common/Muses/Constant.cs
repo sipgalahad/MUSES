@@ -694,7 +694,7 @@ namespace CodeX.Common
                 public const string BALANCE_INFORMATION_PER_ACCOUNT = "IF040400";
                 public const string LABA_RUGI_INFORMATION = "IF040500";
 
-                public const string POSITION_RENUMERATION_INFORMATION = "IF040100";
+                public const string POSITION_RENUMERATION_INFORMATION = "IF050100";
             }
             #endregion
 

@@ -39663,7 +39663,7 @@ namespace CodeX.Data.Model
         private Int32 _TransactionDtID;
         private Int16 _FromHoursIndex;
         private Int16 _ToHoursIndex;
-        private Int16 _MultiplyBy;
+        private Decimal _MultiplyBy;
 
         [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 TransactionDtID
@@ -39683,8 +39683,8 @@ namespace CodeX.Data.Model
             get { return _ToHoursIndex; }
             set { _ToHoursIndex = value; }
         }
-        [Column(Name = "MultiplyBy", DataType = "Int16")]
-        public Int16 MultiplyBy
+        [Column(Name = "MultiplyBy", DataType = "Decimal")]
+        public Decimal MultiplyBy
         {
             get { return _MultiplyBy; }
             set { _MultiplyBy = value; }

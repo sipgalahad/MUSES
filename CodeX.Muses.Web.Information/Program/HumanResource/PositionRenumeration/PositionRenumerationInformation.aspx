@@ -21,20 +21,43 @@
             var grd = new customGridView2();
             grd.init('grdStockDetail', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 
-//            setDatePicker('</%=txtDateFrom.ClientID %>');
-//            setDatePicker('</%=txtDateTo.ClientID %>');
+            //            setDatePicker('</%=txtDateFrom.ClientID %>');
+            //            setDatePicker('</%=txtDateTo.ClientID %>');
 
-//            $('#</%=txtDateFrom.ClientID %>').change(function () {
-//                cbpView.PerformCallback('refresh');
-//            });
-//            $('#</%=txtDateTo.ClientID %>').change(function () {
-//                cbpView.PerformCallback('refresh');
-//            });
+            //            $('#</%=txtDateFrom.ClientID %>').change(function () {
+            //                cbpView.PerformCallback('refresh');
+            //            });
+            //            $('#</%=txtDateTo.ClientID %>').change(function () {
+            //                cbpView.PerformCallback('refresh');
+            //            });
 
             $('#<%=txtEmployeeName.ClientID %>').change(function () {
                 cbpView.PerformCallback('refresh');
             });
+
+            
         });
+
+
+        $('.lblFormula').live('click', function () {
+            //var id = $(this).closest('tr').find('.keyField').html();
+            alert("")
+            $tr = $(this).closest('td');
+            var hdnEmp = $tr.find('.hdnEmployeePositionTransID').val();
+            var hdnRenum = $tr.find('.hdnRenumerationTransID').val();
+            if (hdnEmp != "" && hdnEmp != "0") {
+                
+                var url = ResolveUrl("~/Program/HumanResource/UpdateRenumeration/EmployeePositionInformationCtl.ascx");
+                openUserControlPopup(url, hdnEmp, 'Renumeration Formula', 600, 500);
+            }
+            else {
+
+                var url = ResolveUrl("~/Program/HumanResource/PositionRenumeration/RenumerationInformationDtCtl.ascx");
+                openUserControlPopup(url, hdnRenum, 'Renumeration Formula', 600, 500);
+            }
+
+        });
+        
 
         //#region Location
         function getLocationFilterExpression() {
@@ -207,6 +230,8 @@
                                                 <asp:Repeater ID="rptCompDt" runat="server" OnItemDataBound="rptCompDt_ItemDataBound">
                                                     <ItemTemplate>
                                                         <td align="right">
+                                                            <input type="hidden" id="hdnEmployeePositionTransID" runat="server" class="hdnEmployeePositionTransID"/>
+                                                            <input type="hidden" id="hdnRenumerationTransID" runat="server" class="hdnRenumerationTransID" />
                                                             <div id="divAmount" runat="server"></div>
                                                             <label id="lblFormula" style="display:none" runat="server" class="lblLink lblFormula"><%=GetLabel("Formula") %></label>
                                                         </td>
