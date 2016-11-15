@@ -118,6 +118,7 @@
     <Content Include="Program\Finance\StudentFee\StudentFeeInformation.aspx" />
     <Content Include="Program\Finance\StudentRevenue\StudentRevenueInformation.aspx" />
     <Content Include="Program\Finance\Tariff\TariffInformation.aspx" />
+    <Content Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformation.aspx" />
     <Content Include="Program\Inventory\StockDetailInfo.aspx" />
     <Content Include="Program\Inventory\StockDetailInfoDtCtl.ascx" />
     <Content Include="Program\Main.aspx" />
@@ -482,6 +483,13 @@
     </Compile>
     <Compile Include="Program\Finance\Tariff\TariffInformation.aspx.designer.cs">
       <DependentUpon>TariffInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformation.aspx.cs">
+      <DependentUpon>PositionRenumerationInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformation.aspx.designer.cs">
+      <DependentUpon>PositionRenumerationInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Inventory\StockDetailInfo.aspx.cs">
       <DependentUpon>StockDetailInfo.aspx</DependentUpon>
