@@ -70,8 +70,46 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView()
         {
-            grdPopupView.DataSource = BusinessLayer.GetvTransRenumerationDtList(String.Format("TransactionID = {0} AND IsDeleted = 0",Convert.ToInt32(hdnID.Value)));
-            grdPopupView.DataBind();
+            lstDayType = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.RENUMERATION_COMP_DAY_TYPE));
+            rptView.DataSource = BusinessLayer.GetvTransRenumerationDtList(String.Format("TransactionID = {0} AND IsDeleted = 0",Convert.ToInt32(hdnID.Value)));
+            rptView.DataBind();
+        }
+
+        List<StandardCode> lstDayType = null;
+        List<vTransRenumerationDtFormula> lstEntity = null;
+        protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vTransRenumerationDt entity = (vTransRenumerationDt)e.Item.DataItem;
+                Repeater rptFormula = (Repeater)e.Item.FindControl("rptFormula");
+                HtmlGenericControl divAmount = (HtmlGenericControl)e.Item.FindControl("divAmount");
+                if (entity.IsUseFormula)
+                {
+                    lstEntity = BusinessLayer.GetvTransRenumerationDtFormulaList(string.Format("TransactionDtID = {0}", entity.TransactionDtID));
+                    rptFormula.DataSource = lstDayType;
+                    rptFormula.DataBind();
+                }
+                else
+                    divAmount.InnerHtml = entity.Amount.ToString("N");
+            }
+        }
+
+        protected void rptFormula_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                StandardCode entity = (StandardCode)e.Item.DataItem;
+                HtmlGenericControl divFormula = (HtmlGenericControl)e.Item.FindControl("divFormula");
+                vTransRenumerationDtFormula entityFormula = lstEntity.FirstOrDefault(p => p.GCDayType == entity.StandardCodeID);
+                if (entityFormula != null)
+                {
+                    if (entityFormula.FormulaRemarks != "")
+                        divFormula.InnerHtml = string.Format("{0} ({1})", entityFormula.FormulaName, entityFormula.FormulaRemarks);
+                    else
+                        divFormula.InnerHtml = entityFormula.FormulaName;
+                }
+            }
         }
 
         protected void cbpPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

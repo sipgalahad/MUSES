@@ -34523,6 +34523,7 @@ namespace CodeX.Data.Model
         private Int32 _FormulaID;
         private String _FormulaCode;
         private String _FormulaName;
+        private String _FormulaRemarks;
 
         [Column(Name = "TransactionDtID", DataType = "Int32")]
         public Int32 TransactionDtID
@@ -34559,6 +34560,12 @@ namespace CodeX.Data.Model
         {
             get { return _FormulaName; }
             set { _FormulaName = value; }
+        }
+        [Column(Name = "FormulaRemarks", DataType = "String")]
+        public String FormulaRemarks
+        {
+            get { return _FormulaRemarks; }
+            set { _FormulaRemarks = value; }
         }
     }
     #endregion

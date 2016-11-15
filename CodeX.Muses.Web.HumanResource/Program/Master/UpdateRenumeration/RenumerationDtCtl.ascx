@@ -37,18 +37,49 @@
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
                             <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid" Style="height:330px; overflow-y: scroll;">
-                                <asp:GridView ID="grdPopupView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
-                                    <Columns>
-                                        <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:BoundField DataField="RenumerationCompName" HeaderText="Komponen" ItemStyle-HorizontalAlign="Left" HeaderStyle-CssClass="thLeft" />
-                                        <asp:BoundField DataField="RenumerationCompType" HeaderText="Tipe Pembayaran" ItemStyle-HorizontalAlign="Left" HeaderStyle-CssClass="thLeft" HeaderStyle-Width="150px" />
-                                        <asp:CheckBoxField DataField="IsAllowChange" HeaderText="Is Allow Change" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px"/>
-                                        <asp:BoundField DataField="Amount" HeaderText="Amount" DataFormatString="{0:N}" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="70px" />
-                                    </Columns>
-                                    <EmptyDataTemplate>
-                                        <%=GetLabel("No Data To Display")%>
-                                    </EmptyDataTemplate>
-                                </asp:GridView>
+                                <table class="grdSelected" rules="all" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <th class="keyField"></th>
+                                        <th><%=GetLabel("Komponen")%></th>
+                                        <th style="width:150px"><%=GetLabel("Tipe Pembayaran")%></th>
+                                        <th style="width:100px" class="thCenter"><%=GetLabel("Is Allow Change")%></th>
+                                        <th style="width:70px" class="thRight"><%=GetLabel("Amount")%></th>
+                                    </tr>
+                                    <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
+                                        <ItemTemplate>
+                                            <tr>
+                                                <td class="keyField"><%#Eval("TransactionDtID")%></td>
+                                                <td><%#Eval("RenumerationCompName")%></td>
+                                                <td><%#Eval("RenumerationCompType")%></td>
+                                                <td align="center"><asp:CheckBox ID="chkIsAllowChange" runat="server" Enabled="false" Value='<%#Eval("IsAllowChange") %>' /></td>
+                                                <td align="right"><div id="divAmount" runat="server"></div></td>
+                                            </tr>
+                                            <asp:Repeater ID="rptFormula" runat="server" OnItemDataBound="rptFormula_ItemDataBound">
+                                                <HeaderTemplate>
+                                                    <tr>
+                                                        <td class="keyField"></td>
+                                                        <td colspan="4" style="padding-left:10px;">
+                                                            <table class="grdSelected" rules="all" cellpadding="0" cellspacing="0">
+                                                                <tr>
+                                                                    <th style="width:120px"><%=GetLabel("Tipe Hari")%></th>
+                                                                    <th><%=GetLabel("Formula")%></th>
+                                                                </tr>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                                <tr>
+                                                                    <td><%#Eval("StandardCodeName") %></td>
+                                                                    <td><div id="divFormula" runat="server"></div></td>
+                                                                </tr>
+                                                </ItemTemplate>
+                                                <FooterTemplate>    
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </FooterTemplate>
+                                            </asp:Repeater>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </table>
                             </asp:Panel>
                         </dx:PanelContent>
                     </PanelCollection>
