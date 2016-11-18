@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EmployeePositionInformationCtl.ascx.cs" 
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EmployeeRenumerationInformationCtl.ascx.cs" 
     Inherits="CodeX.Muses.Web.ControlPanel.Program.EmployeePositionInformationCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -22,29 +22,7 @@
         });
     });
 
-    $('#<%=grdView.ClientID %> .divDetailDelete').die('click');
-    $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
-        $row = $(this).closest('tr');
-        showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
-            if (result) {
-                var entity = rowToObject($row);
-                $('#<%=hdnGCDayType.ClientID %>').val(entity.GCDayType);
-                cbpProcessPopup.PerformCallback('delete');
-            }
-        });
-    });
 
-    $('#<%=grdView.ClientID %> .divDetailEdit').die('click');
-    $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
-        $row = $(this).closest('tr');
-        var entity = rowToObject($row);
-
-        $('#<%=hdnGCDayType.ClientID %>').val(entity.GCDayType);
-        $('#<%=txtDayType.ClientID %>').val(entity.DayType);
-        tacFormulaID.setValue(entity.FormulaID);
-        tacFormulaID.setText(entity.FormulaName);
-        $('#entryDetailContainerPopup').show();
-    });
 
     function onCbpProcesPopupEndCallback(s) {
         hideLoadingPanel();
@@ -165,8 +143,6 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
-                                    <div style='float:right;' class="divDetailDelete"></div>
-                                    <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                     <input type="hidden" value="<%#Eval("StandardCodeID") %>" bindingfield="GCDayType" />
                                     <input type="hidden" value="<%#Eval("StandardCodeName") %>" bindingfield="DayType" />
                                     <input type="hidden" id="hdnFormulaID" runat="server" bindingfield="FormulaID" />

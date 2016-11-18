@@ -118,9 +118,11 @@
     <Content Include="Program\Finance\StudentFee\StudentFeeInformation.aspx" />
     <Content Include="Program\Finance\StudentRevenue\StudentRevenueInformation.aspx" />
     <Content Include="Program\Finance\Tariff\TariffInformation.aspx" />
+    <Content Include="Program\HumanResource\EmployeeRenumeration\EmployeeRenumerationInformation.aspx" />
+    <Content Include="Program\HumanResource\EmployeeRenumeration\EmployeeRenumerationInformationCtl.ascx" />
+    <Content Include="Program\HumanResource\EmployeeRenumeration\RenumerationInformationDtCtl.ascx" />
     <Content Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformation.aspx" />
-    <Content Include="Program\HumanResource\PositionRenumeration\RenumerationInformationDtCtl.ascx" />
-    <Content Include="Program\HumanResource\PositionRenumeration\EmployeePositionInformationCtl.ascx" />
+    <Content Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformationDtCtl.ascx" />
     <Content Include="Program\Inventory\StockDetailInfo.aspx" />
     <Content Include="Program\Inventory\StockDetailInfoDtCtl.ascx" />
     <Content Include="Program\Main.aspx" />
@@ -486,6 +488,27 @@
     <Compile Include="Program\Finance\Tariff\TariffInformation.aspx.designer.cs">
       <DependentUpon>TariffInformation.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\HumanResource\EmployeeRenumeration\EmployeeRenumerationInformation.aspx.cs">
+      <DependentUpon>EmployeeRenumerationInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\HumanResource\EmployeeRenumeration\EmployeeRenumerationInformation.aspx.designer.cs">
+      <DependentUpon>EmployeeRenumerationInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\HumanResource\EmployeeRenumeration\EmployeeRenumerationInformationCtl.ascx.cs">
+      <DependentUpon>EmployeeRenumerationInformationCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\HumanResource\EmployeeRenumeration\EmployeeRenumerationInformationCtl.ascx.designer.cs">
+      <DependentUpon>EmployeeRenumerationInformationCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\HumanResource\EmployeeRenumeration\RenumerationInformationDtCtl.ascx.cs">
+      <DependentUpon>RenumerationInformationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\HumanResource\EmployeeRenumeration\RenumerationInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>RenumerationInformationDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformation.aspx.cs">
       <DependentUpon>PositionRenumerationInformation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -493,19 +516,12 @@
     <Compile Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformation.aspx.designer.cs">
       <DependentUpon>PositionRenumerationInformation.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\HumanResource\PositionRenumeration\RenumerationInformationDtCtl.ascx.cs">
-      <DependentUpon>RenumerationInformationDtCtl.ascx</DependentUpon>
+    <Compile Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformationDtCtl.ascx.cs">
+      <DependentUpon>PositionRenumerationInformationDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\HumanResource\PositionRenumeration\RenumerationInformationDtCtl.ascx.designer.cs">
-      <DependentUpon>RenumerationInformationDtCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\HumanResource\PositionRenumeration\EmployeePositionInformationCtl.ascx.cs">
-      <DependentUpon>EmployeePositionInformationCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\HumanResource\PositionRenumeration\EmployeePositionInformationCtl.ascx.designer.cs">
-      <DependentUpon>EmployeePositionInformationCtl.ascx</DependentUpon>
+    <Compile Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>PositionRenumerationInformationDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Inventory\StockDetailInfo.aspx.cs">
       <DependentUpon>StockDetailInfo.aspx</DependentUpon>

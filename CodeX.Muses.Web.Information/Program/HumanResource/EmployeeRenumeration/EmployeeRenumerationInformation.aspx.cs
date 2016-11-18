@@ -17,7 +17,7 @@ using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.Information.Program
 {
-    public partial class PositionRenumerationInformation : BasePageList
+    public partial class EmployeeRenumerationInformation : BasePageList
     {
         protected int PageCount = 0;
         protected int RowCount = 0;
@@ -25,7 +25,7 @@ namespace CodeX.Muses.Web.Information.Program
         protected int CurrPage = 1;     
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Information.POSITION_RENUMERATION_INFORMATION;
+            return Constant.MenuCode.Information.EMPLOYEE_RENUMERATION_INFORMATION;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
@@ -42,6 +42,10 @@ namespace CodeX.Muses.Web.Information.Program
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
 
+
+            Helper.SetControlEntrySetting(tacOrganizationPositionID, new ControlEntrySetting(true, true, true),"");
+            //SetControlProperties(tacOrganizationPositionID, new ControlEntrySetting(true, true, false));
+            //SetControlEntrySetting(tacOrganizationPositionID, new ControlEntrySetting(true, true, false));
         }
 
         
@@ -57,7 +61,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         public string OnGetFilterEmployeeExpression() 
         {
-            return String.Format("IsDeleted = 0 "); 
+            return string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') ", AppSession.UserLogin.SiteID); 
         }
     
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
@@ -82,30 +86,39 @@ namespace CodeX.Muses.Web.Information.Program
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvOrganizationPositionRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvEmployeeRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             } 
 
             lstRenumComp = BusinessLayer.GetvRenumerationCompList("IsDeleted = 0 ");
-
-            if(txtOrganizationPositionName.Text != "" && txtOrganizationPositionName.Text != null)
+            if (txtNIK.Text != "" && txtNIK.Text != null)
             {
-                filterExpression += String.Format(" AND OrganizationPositionName LIKE '%{0}%' ", txtOrganizationPositionName.Text);
+                filterExpression += String.Format(" AND EmployeeCode LIKE '%{0}%' ", txtNIK.Text);
+            }
+            if(txtEmployeeName.Text != "" && txtEmployeeName.Text != null)
+            {
+                filterExpression += String.Format(" AND EmployeeName LIKE '%{0}%' ", txtEmployeeName.Text);
             }
             if(cboOrganizationDepartment.Value != null && cboOrganizationDepartment.Value.ToString() != "0")
             {
                 filterExpression += String.Format(" AND OrganizationDepartmentID = {0} ", cboOrganizationDepartment.Value);
             }
+            if (tacOrganizationPositionID.Value != null && tacOrganizationPositionID.Value != "")
+            {
+                filterExpression += String.Format(" AND OrganizationPositionID = {0} ", tacOrganizationPositionID.Value);
+            }
 
-            List<vOrganizationPosition> lstOp = BusinessLayer.GetvOrganizationPositionList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "OrganizationPositionName ASC");
+            filterExpression += String.Format(" AND IsDeleted = 0 ");
 
-            string lstOpID = string.Join(",", lstOp.Select(p => p.OrganizationPositionID).ToList());
-            if (lstOpID != "")
-                lstOpRenumeration = BusinessLayer.GetvOrganizationPositionRenumerationList(string.Format("OrganizationPositionID IN ({0})", lstOpID));
+            List<vEmployee> lstEm = BusinessLayer.GetvEmployeeList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "EmployeeName ASC");
+
+            string lstEmpID = string.Join(",", lstEm.Select(p => p.EmployeeID).ToList());
+            if (lstEmpID != "")
+                lstEmpRenumeration = BusinessLayer.GetvEmployeeRenumerationList(string.Format("EmployeeID IN ({0})", lstEmpID));
             else
-                lstOpRenumeration = new List<vOrganizationPositionRenumeration>();
+                lstEmpRenumeration = new List<vEmployeeRenumeration>();
 
-            rptView.DataSource = lstOp;
+            rptView.DataSource = lstEm;
             rptView.DataBind();
                         
             rptCompHd.DataSource = lstRenumComp;
@@ -113,7 +126,7 @@ namespace CodeX.Muses.Web.Information.Program
         }
 
         List<vRenumerationComp> lstRenumComp = null;
-        List<vOrganizationPositionRenumeration> lstOpRenumeration = null;
+        List<vEmployeeRenumeration> lstEmpRenumeration = null;
         protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -128,23 +141,25 @@ namespace CodeX.Muses.Web.Information.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vOrganizationPosition position = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vOrganizationPosition;
+                vEmployee employee = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vEmployee;
                 vRenumerationComp renumComp = (vRenumerationComp)e.Item.DataItem;
 
-                vOrganizationPositionRenumeration renum = lstOpRenumeration.FirstOrDefault(p => p.OrganizationPositionID == position.OrganizationPositionID && p.RenumerationCompID == renumComp.RenumerationCompID);
+                vEmployeeRenumeration renum = lstEmpRenumeration.FirstOrDefault(p => p.EmployeeID == employee.EmployeeID && p.RenumerationCompID == renumComp.RenumerationCompID);
 
                 HtmlGenericControl divAmount = (HtmlGenericControl)e.Item.FindControl("divAmount");
                 HtmlGenericControl lblFormula = (HtmlGenericControl)e.Item.FindControl("lblFormula");
+                HtmlInputHidden hdnEmployeePositionTransID = (HtmlInputHidden)e.Item.FindControl("hdnEmployeePositionTransID");
                 HtmlInputHidden hdnRenumerationTransID = (HtmlInputHidden)e.Item.FindControl("hdnRenumerationTransID");
-                HtmlInputHidden hdnOrganizationPositionID = (HtmlInputHidden)e.Item.FindControl("hdnOrganizationPositionID");
+                HtmlInputHidden hdnEmployeeID = (HtmlInputHidden)e.Item.FindControl("hdnEmployeeID");
                 HtmlInputHidden hdnRenumerationCompID = (HtmlInputHidden)e.Item.FindControl("hdnRenumerationCompID");
                 
                 if (renum != null)
                 {
                     if (renum.IsUseFormula)
                     {
+                        hdnEmployeePositionTransID.Value = renum.EmployeePositionTransactionDtID.ToString();
                         hdnRenumerationTransID.Value = renum.RenumerationTransactionDtID.ToString();
-                        hdnOrganizationPositionID.Value = renum.OrganizationPositionID.ToString();
+                        hdnEmployeeID.Value = renum.EmployeeID.ToString();
                         hdnRenumerationCompID.Value = renum.RenumerationCompID.ToString();
                         lblFormula.Style.Remove("display");
                         divAmount.Style.Add("display", "none");

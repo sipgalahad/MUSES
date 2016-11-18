@@ -62,6 +62,7 @@ namespace CodeX.Common
             public const string ORGANIZATION_DEPARTMENT = "XXXHR005";
             public const string RENUMERATION_COMP_FORMULA = "XXXHR006";
             public const string TEMPLATE_EMPLOYEE_GROUP = "XXXHR007";
+            public const string JOB_LEVEL = "XXXHR008";
         }
 
         #region Standard Code
@@ -141,6 +142,7 @@ namespace CodeX.Common
             public const string OVERTIME_REASON = "X322";
             public const string ATTENDANCE_STATUS = "X323";
             public const string ABSENCE = "X324";
+            public const string JOB_LEVEL_TYPE = "X325";
         }
 
         public static class Attendance 

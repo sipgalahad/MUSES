@@ -23,11 +23,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
        
         public override void InitializeDataControl(string param)
         {
-            hdnID.Value = param;
+
             //String temp_hdn = string.Format("TransactionDtID = {0}", hdnID.Value);
-            //vTransRenumerationDt entity = BusinessLayer.GetvTransRenumerationDtList(string.Format("TransactionDtID = {0}", hdnID.Value))[0];
-            //txtHeaderText.Text = string.Format("{0}", entity.RenumerationCompName);
-            txtHeaderText.Text = string.Format("Test");
+            //hdnID.Value = param;
+            String[] lstParam = param.Split('|');
+            hdnID.Value = lstParam[2];
+            vEmployeeRenumeration entity = BusinessLayer.GetvEmployeeRenumerationList(string.Format(" EmployeeID = {0} AND RenumerationCompID = {1} ", lstParam[0], lstParam[1]))[0];
+            txtHeaderText.Text = string.Format("{0} - {1}", entity.EmployeeName, entity.RenumerationCompName);
+            //txtHeaderText.Text = string.format("test");
 
             BindGridView();
 
