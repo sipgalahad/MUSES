@@ -459,10 +459,12 @@
 		<gridcolumns>
 			<gridcolumn datafield="JobLevelName" headertext="Nama" width="50px" />
 			<gridcolumn datafield="JoblevelType" headertext="Level" width="300px" />
+      <gridcolumn datafield="WorkingYears" headertext="Lama Kerja (Tahun)" width="150px" />
 		</gridcolumns>
 		<intellisensetexts>
 			<intellisensetext datafield="JobLevelName" headertext="Nama" description="" />
 			<intellisensetext datafield="JoblevelType" headertext="Level" description="" />
+      <intellisensetext datafield="WorkingYears" headertext="Lama Kerja (Tahun)" description="" />
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
@@ -1193,17 +1195,29 @@
 	</searchdialog>
 	<!-- #EndRegion -->
 	<!-- #Region Trans Employee Position-->
-	<searchdialog type="transemployeepositionhd" methodname="vTransEmployeePositionHd" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+	<searchdialog type="transemployeepositionhd" methodname="GetvTransEmployeePositionHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
 		<gridcolumns>
 			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
 			<gridcolumn datafield="OrganizationPositionName" headertext="Posisi" width="120px" />
 		</gridcolumns>
 		<intellisensetexts>
 			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
-			<intellisensetext datafield="RenumerationNOrganizationPositionNameame" headertext="Posisi" description="" />
+			<intellisensetext datafield="OrganizationPositionName" headertext="Posisi" description="" />
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
+  <!-- #Region Trans Employee Job Level -->
+  <searchdialog type="transemployeejoblevelhd" methodname="GetvTransEmployeeJobLevelHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+      <gridcolumn datafield="JobLevelName" headertext="Golongan" width="120px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+      <intellisensetext datafield="JobLevelName" headertext="Golongan" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
 	<!-- #Region Trans Renumeration -->
 	<searchdialog type="transrenumerationhd" methodname="GetvTransRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
 		<gridcolumns>

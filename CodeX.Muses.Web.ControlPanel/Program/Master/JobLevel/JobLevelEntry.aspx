@@ -25,10 +25,15 @@ CodeBehind="JobLevelEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Progra
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                         <td><asp:TextBox ID="txtJobLevelName" Width="300px" runat="server" /></td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe")%></label></td>
                         <td><dxe:ASPxComboBox ID="cboJobLevelType" Width="200px" runat="server" /></td>
-                    </tr><%--
+                    </tr>                    
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Lama Kerja")%></label></td>
+                        <td><asp:TextBox ID="txtWorkingYears" CssClass="number" Width="80px" runat="server" /> <%=GetLabel("Tahun") %></td>
+                    </tr>
+                    <%--
                     <tr>
                         <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>
                         <td><asp:TextBox ID="txtRemarks" Width="300px" TextMode="MultiLine" Rows="2" runat="server" /></td>

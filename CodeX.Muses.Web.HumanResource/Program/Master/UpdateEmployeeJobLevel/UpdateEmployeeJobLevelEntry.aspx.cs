@@ -89,7 +89,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         public override int OnGetRowCount()
         {
             string filterExpression = GetFilterExpression();
-            return BusinessLayer.GetvTransEmployeePositionHdRowCount(filterExpression);
+            return BusinessLayer.GetvTransEmployeeJobLevelHdRowCount(filterExpression);
         }
 
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)

@@ -23,16 +23,6 @@
             var grd = new customGridView2();
             grd.init('grdStockDetail', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 
-            //            setDatePicker('</%=txtDateFrom.ClientID %>');
-            //            setDatePicker('</%=txtDateTo.ClientID %>');
-
-            //            $('#</%=txtDateFrom.ClientID %>').change(function () {
-            //                cbpView.PerformCallback('refresh');
-            //            });
-            //            $('#</%=txtDateTo.ClientID %>').change(function () {
-            //                cbpView.PerformCallback('refresh');
-            //            });
-
             cboOrganizationDepartment.SetValue('');
 
             $('#<%=txtEmployeeName.ClientID %>').change(function () {
@@ -52,7 +42,6 @@
 
 
         $('.lblFormula').live('click', function () {
-            //var id = $(this).closest('tr').find('.keyField').html();
             $td = $(this).closest('td');
             var hdnEmp = $td.find('.hdnEmployeePositionTransID').val();
             var hdnRenum = $td.find('.hdnRenumerationTransID').val();
@@ -203,45 +192,6 @@
                         <col style="width: 150px" />
                         <col style="width: 400px" />
                     </colgroup>
-                   <%-- <tr>
-                        <td class="tdLabel"><label class="lblLink" id="lblLocation"><%=GetLabel("Lokasi") %></label></td>
-                        <td>
-                            <input type="hidden" id="hdnLocationID" runat="server" />
-                            <table cellpadding="0" cellspacing="0">
-                                <colgroup>
-                                    <col width="100px" />
-                                    <col width="3px" />
-                                    <col width="250px"/>
-                                </colgroup>
-                                <tr>
-                                    <td><asp:TextBox runat="server" ID="txtLocationCode" Width="100%" /></td>
-                                    <td>&nbsp;</td>
-                                    <td><asp:TextBox runat="server" ID="txtLocationName" Width="100%" Enabled="false" /></td>
-                                </tr>
-                                
-                            </table>
-                        </td>
-                    </tr>--%>
-                    <%--<tr>
-                        <td class="tdLabel"><label><%=GetLabel("Tanggal") %></label></td>
-                        <td>
-                            <table cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td><asp:TextBox runat="server" CssClass="datepicker" ID="txtDateFrom" Width="120px" /></td>
-                                    <td>&nbsp;</td>
-                                    <td><asp:TextBox runat="server" CssClass="datepicker" ID="txtDateTo" Width="120px" /></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>--%>
-                    <tr>
-                        <td class="tdLabel"><label><%=GetLabel("NIK")%></label></td>
-                        <td><asp:TextBox runat="server" ID="txtNIK" Width="300px" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label><%=GetLabel("Nama Karyawan")%></label></td>
-                        <td><asp:TextBox runat="server" ID="txtEmployeeName" Width="300px" /></td>
-                    </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Department")%></label></td>
                         <td><dxe:ASPxComboBox ID="cboOrganizationDepartment" ClientInstanceName="cboOrganizationDepartment" Width="200px" runat="server" /></td>
@@ -255,6 +205,14 @@
                                     ValueChanged="function(){ onTacOrganizationPositionIDValueChanged(); }" />
                             </cdx:CodeXAutoCompleteTextBox>   
                         </td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label><%=GetLabel("NIK")%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtNIK" Width="300px" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label><%=GetLabel("Nama Karyawan")%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtEmployeeName" Width="300px" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label></label></td>
@@ -273,13 +231,13 @@
                              <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                                 position: relative; font-size: 0.95em;">
                                 <input type="hidden" id="hdnFilterExpression" value="" runat="server" />
-                                <table id="tblView" class="grdStockDetail grdSelected">
+                                <table id="tblView" class="grdStockDetail grdSelected grdBorder" rules="all" cellpadding="0" cellspacing="0">
                                     <tr>
-                                        <th style="width:100px" ><%=GetLabel("NIK Karyawan") %></th>
+                                        <th style="width:100px" ><%=GetLabel("NIK") %></th>
                                         <th><%=GetLabel("Nama Karyawan") %></th>
                                         <asp:Repeater ID="rptCompHd" runat="server">
                                             <ItemTemplate>
-                                                <th class="thCenter" style="width:150px">
+                                                <th class="thCenter" style="width:120px">
                                                     <%#Eval("RenumerationCompName") %>
                                                     <br />(<%#Eval("RenumerationCompType") %>)
                                                 </th>

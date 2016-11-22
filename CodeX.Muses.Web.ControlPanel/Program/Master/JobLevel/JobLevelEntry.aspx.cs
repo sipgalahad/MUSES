@@ -55,6 +55,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             SetControlEntrySetting(txtJobLevelName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboJobLevelType, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtWorkingYears, new ControlEntrySetting(true, true, true));
             //SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
            
         }
@@ -64,6 +65,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             ctlEntityCode.SetText(entity.JobLevelCode);
             txtJobLevelName.Text = entity.JobLevelName;
             cboJobLevelType.Value = entity.GCJobLevelType.ToString();
+            txtWorkingYears.Text = entity.WorkingYears.ToString();
             //txtRemarks.Text = entity.Remarks;
       
         }
@@ -72,6 +74,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.JobLevelName = txtJobLevelName.Text;
             entity.GCJobLevelType = cboJobLevelType.Value.ToString();
+            entity.WorkingYears = Convert.ToInt16(txtWorkingYears.Text);
             //entity.Remarks = txtRemarks.Text;
             entity.JobLevelCode = ctlEntityCode.GetCode(entity.JobLevelName, ctx);
         }

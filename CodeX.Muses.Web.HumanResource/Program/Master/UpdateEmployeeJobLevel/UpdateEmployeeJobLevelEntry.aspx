@@ -65,7 +65,7 @@
             }
 
             $('#lblTransactionNo.lblLink').click(function () {
-                openSearchDialog('transemployeepositionhd', onGetEmployeePositionFilterExpression(), function (value) {
+                openSearchDialog('transemployeejoblevelhd', onGetEmployeePositionFilterExpression(), function (value) {
                     $('#<%=txtTransactionNo.ClientID %>').val(value);
                     onTxtTransactionNoChanged(value);
                 });
@@ -104,15 +104,6 @@
                     $('#entryDetailContainer2').show();
                 }
             });
-
-//            $('#divTransactionAdd2').click(function (evt) {
-//                if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
-//                    editedLineAmount = 0;
-//                    tacEmployeeID.setValue('');
-//                    tacEmployeeID.setText('');
-//                    $('#entryDetailContainer2').show();
-//                }
-//            });
 
             $('#<%=chkIsUseFormula.ClientID %>').change(function () {
                 if (this.checked) {
@@ -274,7 +265,7 @@
             if ($('#<%=hdnTransactionID.ClientID %>').val() == '0') {
                 $('#<%=hdnTransactionID.ClientID %>').val(TransactionID);
                 var filterExpression = 'TransactionID = ' + TransactionID;
-                Methods.getObject('GetTransEmployeePositionHdList', filterExpression, function (result) {
+                Methods.getObject('GetTransEmployeeJobLevelHdList', filterExpression, function (result) {
                     $('#<%=txtTransactionNo.ClientID %>').val(result.TransactionNo);
                     cbpView.PerformCallback('refresh');
                 });

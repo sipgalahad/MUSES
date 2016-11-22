@@ -129,7 +129,7 @@
             if ($('#<%=hdnTransactionID.ClientID %>').val() == '0') {
                 $('#<%=hdnTransactionID.ClientID %>').val(TransactionID);
                 var filterExpression = 'TransactionID = ' + TransactionID;
-                Methods.getObject('GetTransPositionRenumerationHdList', filterExpression, function (result) {
+                Methods.getObject('GetTransJobLevelRenumerationHdList', filterExpression, function (result) {
                     $('#<%=txtTransactionNo.ClientID %>').val(result.TransactionNo);
                     cbpView.PerformCallback('refresh');
                 });

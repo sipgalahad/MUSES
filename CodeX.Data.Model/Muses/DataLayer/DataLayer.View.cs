@@ -6935,13 +6935,18 @@ namespace CodeX.Data.Model
         private String _OrganizationPositionName;
         private Int32 _OrganizationDepartmentID;
         private String _OrganizationDepartmentName;
+        private Int32 _JobLevelID;
+        private String _JobLevelCode;
+        private String _JobLevelName;
         private Int32 _RenumerationCompID;
         private String _RenumerationCompCode;
         private String _RenumerationCompName;
         private String _GCRenumerationCompType;
-        private Int32 _EmployeePositionTransactionDtID;
-        private Int32 _RenumerationTransactionDtID;
         private String _RenumerationCompType;
+        private Int32 _EmployeePositionTransactionDtID;
+        private Int32 _EmployeeJobLevelTransactionDtID;
+        private Int32 _RenumerationPositionTransactionDtID;
+        private Int32 _RenumerationJobLevelTransactionDtID;
         private Boolean _IsUseFormula;
         private Decimal _Amount;
 
@@ -6987,6 +6992,24 @@ namespace CodeX.Data.Model
             get { return _OrganizationDepartmentName; }
             set { _OrganizationDepartmentName = value; }
         }
+        [Column(Name = "JobLevelID", DataType = "Int32")]
+        public Int32 JobLevelID
+        {
+            get { return _JobLevelID; }
+            set { _JobLevelID = value; }
+        }
+        [Column(Name = "JobLevelCode", DataType = "String")]
+        public String JobLevelCode
+        {
+            get { return _JobLevelCode; }
+            set { _JobLevelCode = value; }
+        }
+        [Column(Name = "JobLevelName", DataType = "String")]
+        public String JobLevelName
+        {
+            get { return _JobLevelName; }
+            set { _JobLevelName = value; }
+        }
         [Column(Name = "RenumerationCompID", DataType = "Int32")]
         public Int32 RenumerationCompID
         {
@@ -7011,23 +7034,35 @@ namespace CodeX.Data.Model
             get { return _GCRenumerationCompType; }
             set { _GCRenumerationCompType = value; }
         }
+        [Column(Name = "RenumerationCompType", DataType = "String")]
+        public String RenumerationCompType
+        {
+            get { return _RenumerationCompType; }
+            set { _RenumerationCompType = value; }
+        }
         [Column(Name = "EmployeePositionTransactionDtID", DataType = "Int32")]
         public Int32 EmployeePositionTransactionDtID
         {
             get { return _EmployeePositionTransactionDtID; }
             set { _EmployeePositionTransactionDtID = value; }
         }
-        [Column(Name = "RenumerationTransactionDtID", DataType = "Int32")]
-        public Int32 RenumerationTransactionDtID
+        [Column(Name = "EmployeeJobLevelTransactionDtID", DataType = "Int32")]
+        public Int32 EmployeeJobLevelTransactionDtID
         {
-            get { return _RenumerationTransactionDtID; }
-            set { _RenumerationTransactionDtID = value; }
+            get { return _EmployeeJobLevelTransactionDtID; }
+            set { _EmployeeJobLevelTransactionDtID = value; }
         }
-        [Column(Name = "RenumerationCompType", DataType = "String")]
-        public String RenumerationCompType
+        [Column(Name = "RenumerationPositionTransactionDtID", DataType = "Int32")]
+        public Int32 RenumerationPositionTransactionDtID
         {
-            get { return _RenumerationCompType; }
-            set { _RenumerationCompType = value; }
+            get { return _RenumerationPositionTransactionDtID; }
+            set { _RenumerationPositionTransactionDtID = value; }
+        }
+        [Column(Name = "RenumerationJobLevelTransactionDtID", DataType = "Int32")]
+        public Int32 RenumerationJobLevelTransactionDtID
+        {
+            get { return _RenumerationJobLevelTransactionDtID; }
+            set { _RenumerationJobLevelTransactionDtID = value; }
         }
         [Column(Name = "IsUseFormula", DataType = "Boolean")]
         public Boolean IsUseFormula

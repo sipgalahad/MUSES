@@ -158,7 +158,7 @@ namespace CodeX.Muses.Web.Information.Program
                     if (renum.IsUseFormula)
                     {
                         hdnEmployeePositionTransID.Value = renum.EmployeePositionTransactionDtID.ToString();
-                        hdnRenumerationTransID.Value = renum.RenumerationTransactionDtID.ToString();
+                        hdnRenumerationTransID.Value = renum.RenumerationPositionTransactionDtID.ToString();
                         hdnEmployeeID.Value = renum.EmployeeID.ToString();
                         hdnRenumerationCompID.Value = renum.RenumerationCompID.ToString();
                         lblFormula.Style.Remove("display");
