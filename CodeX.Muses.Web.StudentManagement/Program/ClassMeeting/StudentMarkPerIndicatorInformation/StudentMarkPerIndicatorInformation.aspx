@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPClassSubjectPageTrxVisit.master" AutoEventWireup="true" 
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPClassSubjectPageTrxVisit.master" AutoEventWireup="true" EnableEventValidation="false"  
     CodeBehind="StudentMarkPerIndicatorInformation.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.StudentMarkPerIndicatorInformation" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -21,6 +21,12 @@
         });
 
         function onCboLessonTypeValueChanged() {
+            $('#<%=hdnLessonType.ClientID %>').val(cboLessonType.GetValue());
+            cbpView.PerformCallback('refresh');
+        }
+
+        function onCboSummaryTypeValueChanged() {
+            $('#<%=hdnCboSummaryType.ClientID %>').val(cboSummaryType.GetValue());
             cbpView.PerformCallback('refresh');
         }
 
@@ -44,9 +50,19 @@
         </tr>
         <tr>
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Pelajaran")%></label></td>
-            <td>
+            <td>    
+                <input type="hidden" id="hdnLessonType" runat="server" />
                 <dxe:ASPxComboBox runat="server" ID="cboLessonType" ClientInstanceName="cboLessonType" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e){ onCboLessonTypeValueChanged() }" />
+                </dxe:ASPxComboBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe Nilai")%></label></td>
+            <td>    
+                <input type="hidden" id="hdnCboSummaryType" runat="server" />
+                <dxe:ASPxComboBox runat="server" ID="cboSummaryType" ClientInstanceName="cboSummaryType" Width="200px">
+                    <ClientSideEvents ValueChanged="function(s,e){ onCboSummaryTypeValueChanged() }" />
                 </dxe:ASPxComboBox>
             </td>
         </tr>
@@ -91,6 +107,38 @@
                                                 </tr>
                                             </table>
                                         </td>
+                                        <asp:Repeater ID="rptSubjectIndicator" runat="server" OnItemDataBound="rptSubjectIndicator_ItemDataBound">
+                                            <ItemTemplate>
+                                                <td class="thCenter">
+                                                    <div id="divStudentMark" runat="server"></div>
+                                                </td>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </table>
+                    </asp:Panel>
+                    <asp:Panel runat="server" ID="pnlPrint">
+                        <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent" border="1">
+                            <tr>
+                                <th style="width:80px"><%=GetLabel("NIS") %></th>
+                                <th><%=GetLabel("Siswa") %></th>
+                                <asp:Repeater ID="rptSubjectIndicatorHeader2" runat="server">
+                                    <ItemTemplate>
+                                        <th class="thCenter thSubjectIndicator" style="width:60px;"><%# Container.ItemIndex + 1 %>
+                                            <div style="width:100%; position: relative;">
+                                                <div class="divSubjectIndicatorName" style="position: absolute; right: 0; width: 150px; height: 30px; background-color: #FFF !important; border: 1px solid #AAA;"><%#Eval("SubjectIndicatorName") %></div>
+                                            </div>
+                                        </th>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </tr>
+                            <asp:Repeater ID="rptStudent2" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
+                                <ItemTemplate>
+                                    <tr class="trStudent">
+                                        <td><%#Eval("StudentCode") %></td>
+                                        <td><%#Eval("StudentName") %></td>
                                         <asp:Repeater ID="rptSubjectIndicator" runat="server" OnItemDataBound="rptSubjectIndicator_ItemDataBound">
                                             <ItemTemplate>
                                                 <td class="thCenter">

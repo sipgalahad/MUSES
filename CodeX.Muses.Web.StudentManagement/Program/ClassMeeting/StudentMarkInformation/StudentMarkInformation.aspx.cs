@@ -25,16 +25,28 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<vClassSubjectTask> lstClassTask = null;
         protected override void InitializeDataControl()
         {
+            BindGridView();
+        }
+
+        private void BindGridView()
+        {
             lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
             rptHeader.DataSource = lstClassTask;
             rptHeader.DataBind();
 
+            thMark.ColSpan = lstClassTask.Count;
+
             lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
 
-            vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault(); 
+            vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
+        }
+
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridView();
         }
 
         List<vClassStudentSubjectTaskMark> lstStudentMark = null;
@@ -72,6 +84,25 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
         {
             IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
+        }
+
+        public override Control OnGetExportControl()
+        {
+            lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
+            rptHeader2.DataSource = lstClassTask;
+            rptHeader2.DataBind();
+
+            thMark2.ColSpan = lstClassTask.Count;
+
+            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
+
+            vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
+            rptStudent2.DataSource = lstStudent;
+            rptStudent2.DataBind();
+            HtmlGenericControl div = new HtmlGenericControl("DIV");
+            div.Controls.Add(pnlPrint);
+            return div;
         }
     }
 }

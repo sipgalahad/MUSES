@@ -39,12 +39,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND CurriculumSubjectGroupID = {2} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, hdnSubjectID.Value, entityClassSubject.CurriculumSubjectGroupID));
             Methods.SetComboBoxField<vCurriculumSubjectMarkType>(cboLessonType, lstCurriculumMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
             cboLessonType.SelectedIndex = 0;
+            hdnLessonType.Value = cboLessonType.Value.ToString();
 
-            BindGridView();
-        }
-
-        private void BindGridView()
-        {
             vPeriodFinalMarkFormula entityFormula = BusinessLayer.GetvPeriodFinalMarkFormulaList(string.Format("SchoolPeriodID = {0} AND CurriculumMarkTypeID = {1}", hdnSchoolPeriodID.Value, cboLessonType.Value)).FirstOrDefault();
             hdnSummaryType.Value = Constant.FinalMarkSummaryType.AVERAGE;
             if (entityFormula != null)
@@ -53,6 +49,22 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     hdnSummaryType.Value = entityFormula.GCSummaryType;
             }
 
+            List<Variable> lstSummaryType = new List<Variable>();
+            lstSummaryType.Add(new Variable { Code = "0", Value = GetLabel("Rata-Rata") });
+            lstSummaryType.Add(new Variable { Code = "1", Value = GetLabel("Tertinggi") });
+            lstSummaryType.Add(new Variable { Code = "2", Value = GetLabel("Terrendah") });
+            Methods.SetComboBoxField<Variable>(cboSummaryType, lstSummaryType, "Value", "Code");
+            if (hdnSummaryType.Value == Constant.FinalMarkSummaryType.AVERAGE)
+                cboSummaryType.Value = "0";
+            else
+                cboSummaryType.Value = "1";
+            hdnCboSummaryType.Value = cboSummaryType.Value.ToString();
+
+            BindGridView();
+        }
+
+        private void BindGridView()
+        {
             lstClassSubjectTaskIndicator = BusinessLayer.GetvClassSubjectTaskIndicatorList(string.Format("ClassSubjectID = {0} AND CurriculumMarkTypeID = {1} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID, cboLessonType.Value));
             lstIndicator = (from p in lstClassSubjectTaskIndicator
                             select new vClassSubjectTaskIndicator { SubjectIndicatorID = p.SubjectIndicatorID, SubjectIndicatorName = p.SubjectIndicatorName, CurriculumMarkTypeID = p.CurriculumMarkTypeID }).GroupBy(p => new { p.SubjectIndicatorID, p.SubjectIndicatorName, p.CurriculumMarkTypeID }).Select(p => p.First()).ToList();
@@ -110,14 +122,49 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 HtmlGenericControl divStudentMark = (HtmlGenericControl)e.Item.FindControl("divStudentMark");
                 if (lstStudentMark1.Count > 0)
                 {
-                    if (hdnSummaryType.Value == Constant.FinalMarkSummaryType.AVERAGE)
+                    string summaryType = Request.Form[hdnCboSummaryType.UniqueID];
+                    if (summaryType == "")
+                        summaryType = cboSummaryType.Value.ToString();
+                    if (summaryType == "0")
                         divStudentMark.InnerHtml = lstStudentMark1.Average(p => p.Mark).ToString("N");
-                    else
+                    else if (summaryType == "1")
                         divStudentMark.InnerHtml = lstStudentMark1.Max(p => p.Mark).ToString("N");
+                    else
+                        divStudentMark.InnerHtml = lstStudentMark1.Min(p => p.Mark).ToString("N");
                 }
                 else
                     divStudentMark.InnerHtml = "-";
             }
+        }
+
+        public override Control OnGetExportControl()
+        {
+            lstClassSubjectTaskIndicator = BusinessLayer.GetvClassSubjectTaskIndicatorList(string.Format("ClassSubjectID = {0} AND CurriculumMarkTypeID = {1} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID, Request.Form[hdnLessonType.UniqueID]));
+            lstIndicator = (from p in lstClassSubjectTaskIndicator
+                            select new vClassSubjectTaskIndicator { SubjectIndicatorID = p.SubjectIndicatorID, SubjectIndicatorName = p.SubjectIndicatorName, CurriculumMarkTypeID = p.CurriculumMarkTypeID }).GroupBy(p => new { p.SubjectIndicatorID, p.SubjectIndicatorName, p.CurriculumMarkTypeID }).Select(p => p.First()).ToList();
+
+            List<vClassSubjectTask> lstClassSubjectTask = (from p in lstClassSubjectTaskIndicator
+                                                           select new vClassSubjectTask { ClassSubjectTaskID = p.ClassSubjectTaskID }).GroupBy(p => new { p.ClassSubjectTaskID }).Select(p => p.First()).ToList();
+
+            if (lstClassSubjectTask.Count > 0)
+            {
+                string lstClassTaskID = String.Join(",", lstClassSubjectTask.Select(p => p.ClassSubjectTaskID).ToList());
+                lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", lstClassTaskID));
+            }
+            else
+                lstStudentMark = new List<vClassStudentSubjectTaskMark>();
+
+            rptSubjectIndicatorHeader2.DataSource = lstIndicator;
+            rptSubjectIndicatorHeader2.DataBind();
+
+            ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
+            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
+            rptStudent2.DataSource = lstStudent;
+            rptStudent2.DataBind();
+
+            HtmlGenericControl div = new HtmlGenericControl("DIV");
+            div.Controls.Add(pnlPrint);
+            return div;
         }
     }
 }

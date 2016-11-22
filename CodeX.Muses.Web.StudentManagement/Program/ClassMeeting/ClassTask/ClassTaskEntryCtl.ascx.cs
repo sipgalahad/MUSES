@@ -24,6 +24,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         public override void InitializeDataControl(string param)
         {
+            CurriculumSyllabus entityIndicator = BusinessLayer.GetCurriculumSyllabusList(string.Format("CurriculumID = {0} AND GCCurriculumSyllabusType = '{1}' AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, Constant.CurriculumSyllabusType.INDICATOR)).FirstOrDefault();
+            if (entityIndicator != null)
+                hdnCurriculumSyllabusIndicatorID.Value = entityIndicator.CurriculumSyllabusID.ToString();
+            else
+                hdnCurriculumSyllabusIndicatorID.Value = "0";
+
             vClassMeeting classMeeting = BusinessLayer.GetvClassMeetingList(string.Format("ClassMeetingID = {0}", AppSession.ClassSubject.ClassMeetingID)).FirstOrDefault();
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             hdnCurriculumSubjectGroupID.Value = classSubject.CurriculumSubjectGroupID.ToString();
@@ -120,6 +126,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             ClassSubjectTaskDao entityDao = new ClassSubjectTaskDao(ctx);
             ClassSubjectTaskIndicatorDao entityIndicatorDao = new ClassSubjectTaskIndicatorDao(ctx);
+            SubjectCurriculumSyllabusDao entitySyllabusDao = new SubjectCurriculumSyllabusDao(ctx);
             bool result = false;
             try
             {
@@ -134,8 +141,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
                 entity.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                entityDao.Insert(entity);
-                entity.ClassSubjectTaskID = BusinessLayer.GetClassSubjectTaskMaxID(ctx);
+                entity.ClassSubjectTaskID = entityDao.Insert(entity);
 
                 if (hdnSubjectIndicatorSave.Value != "")
                 {
@@ -151,8 +157,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entityIndicator.ClassSubjectTaskID = entity.ClassSubjectTaskID;
                         if (subjectIndicatorID == "")
                         {
-                            entityIndicator.SubjectIndicatorID = null;
-                            entityIndicator.SubjectIndicatorName = subjectIndicatorName;
+                            SubjectCurriculumSyllabus entitySyllabus = new SubjectCurriculumSyllabus();
+                            entitySyllabus.SubjectCurriculumID = Convert.ToInt32(hdnSubjectCurriculumID.Value);
+                            entitySyllabus.SubjectCurriculumSyllabusName = subjectIndicatorName;
+                            entitySyllabus.CurriculumSyllabusID = Convert.ToInt32(hdnCurriculumSyllabusIndicatorID.Value);
+                            entitySyllabus.IsAllowTask = true;
+                            entitySyllabus.CreatedBy = AppSession.UserLogin.UserID;
+                            entityIndicator.SubjectIndicatorID = entitySyllabusDao.Insert(entitySyllabus);
+                            entityIndicator.SubjectIndicatorName = null;                            
                         }
                         else
                         {
@@ -185,6 +197,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             ClassSubjectTaskDao entityDao = new ClassSubjectTaskDao(ctx);
             ClassSubjectTaskIndicatorDao entityIndicatorDao = new ClassSubjectTaskIndicatorDao(ctx);
+            SubjectCurriculumSyllabusDao entitySyllabusDao = new SubjectCurriculumSyllabusDao(ctx);
             try
             {
                 ClassSubjectTask entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
@@ -210,8 +223,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entityIndicator.ClassSubjectTaskID = entity.ClassSubjectTaskID;
                             if (subjectIndicatorID == "")
                             {
-                                entityIndicator.SubjectIndicatorID = null;
-                                entityIndicator.SubjectIndicatorName = subjectIndicatorName;
+                                SubjectCurriculumSyllabus entitySyllabus = new SubjectCurriculumSyllabus();
+                                entitySyllabus.SubjectCurriculumID = Convert.ToInt32(hdnSubjectCurriculumID.Value);
+                                entitySyllabus.SubjectCurriculumSyllabusName = subjectIndicatorName;
+                                entitySyllabus.CurriculumSyllabusID = Convert.ToInt32(hdnCurriculumSyllabusIndicatorID.Value);
+                                entitySyllabus.IsAllowTask = true;
+                                entitySyllabus.CreatedBy = AppSession.UserLogin.UserID;
+                                entityIndicator.SubjectIndicatorID = entitySyllabusDao.Insert(entitySyllabus);
+                                entityIndicator.SubjectIndicatorName = null;                            
                             }
                             else
                             {
