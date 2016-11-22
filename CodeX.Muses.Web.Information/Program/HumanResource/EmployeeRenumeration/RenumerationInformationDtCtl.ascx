@@ -75,6 +75,7 @@
 
 <div style="height:440px; overflow-y:auto">
     <input type="hidden" id="hdnID" value="" runat="server" />
+    <input type="hidden" id="hdnTempEntity" value="" runat="server" />
     <input type="hidden" id="hdnLstDayTypeID" value="" runat="server" />
     <input type="hidden" id="hdnDisplayOrder" value="" runat="server" />
 

@@ -18698,6 +18698,135 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TransEmployeeLoanHd
+        public static TransEmployeeLoanHd GetTransEmployeeLoanHd(Int32 TransactionID)
+        {
+            return new TransEmployeeLoanHdDao().Get(TransactionID);
+        }
+        public static int InsertTransEmployeeLoanHd(TransEmployeeLoanHd record)
+        {
+            return new TransEmployeeLoanHdDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeLoanHd(TransEmployeeLoanHd record)
+        {
+            return new TransEmployeeLoanHdDao().Update(record);
+        }
+        public static int DeleteTransEmployeeLoanHd(Int32 TransactionID)
+        {
+            return new TransEmployeeLoanHdDao().Delete(TransactionID);
+        }
+        public static List<TransEmployeeLoanHd> GetTransEmployeeLoanHdList(string filterExpression)
+        {
+            List<TransEmployeeLoanHd> result = new List<TransEmployeeLoanHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeLoanHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeLoanHd)helper.IDataReaderToObject(reader, new TransEmployeeLoanHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeLoanHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeLoanHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeLoanDt
+        public static TransEmployeeLoanDt GetTransEmployeeLoanDt(Int32 TransactionID, Int16 PaymentIndex)
+        {
+            return new TransEmployeeLoanDtDao().Get(TransactionID, PaymentIndex);
+        }
+        public static int InsertTransEmployeeLoanDt(TransEmployeeLoanDt record)
+        {
+            return new TransEmployeeLoanDtDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeLoanDt(TransEmployeeLoanDt record)
+        {
+            return new TransEmployeeLoanDtDao().Update(record);
+        }
+        public static int DeleteTransEmployeeLoanDt(Int32 TransactionID, Int16 PaymentIndex)
+        {
+            return new TransEmployeeLoanDtDao().Delete(TransactionID, PaymentIndex);
+        }
+        public static List<TransEmployeeLoanDt> GetTransEmployeeLoanDtList(string filterExpression)
+        {
+            List<TransEmployeeLoanDt> result = new List<TransEmployeeLoanDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeLoanDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeLoanDt)helper.IDataReaderToObject(reader, new TransEmployeeLoanDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransEmployeeLoanDt> GetTransEmployeeLoanDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeeLoanDt> result = new List<TransEmployeeLoanDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeLoanDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeLoanDt)helper.IDataReaderToObject(reader, new TransEmployeeLoanDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeLoanDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeLoanDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region TransEmployeePositionDt
         public static TransEmployeePositionDt GetTransEmployeePositionDt(Int32 TransactionID, Int32 EmployeeID)
         {
