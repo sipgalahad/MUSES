@@ -67,7 +67,7 @@
             var subjectIndicatorName = '';
             $tr = $(this).closest('tr');
             var keyField = $tr.find('.keyField').html();
-            if ($tr.find('.chkIsFromMeetingPlan').is(':checked'))
+            if ($tr.find('.chkIsFromMaster').is(':checked'))
                 subjectIndicatorID = $tr.find('.hdnAutoCompleteValue').val();
             else
                 subjectIndicatorName = $tr.find('.txtSubjectIndicatorName').val();
@@ -85,7 +85,7 @@
         return filterExpression;
     }
 
-    $('.chkIsFromMeetingPlan').live('change', function () {
+    $('.chkIsFromMaster').live('change', function () {
         $tr = $(this).closest('tr');
         if ($(this).is(':checked')) {
             $tr.find('.tacSubjectIndicator').show();
@@ -122,8 +122,8 @@
                     $('#divEntryDtAdd').click();
 
                     $tr = $('.trSubjectIndicatorDt').last();
-                    $tr.find('.chkIsFromMeetingPlan').prop('checked', entity.SubjectIndicatorID > 0);
-                    $tr.find('.chkIsFromMeetingPlan').change();
+                    $tr.find('.chkIsFromMaster').prop('checked', entity.SubjectIndicatorID > 0);
+                    $tr.find('.chkIsFromMaster').change();
                     $tr.find('.keyField').html(entity.ClassSubjectTaskIndicatorID);
                     if (entity.SubjectIndicatorID > 0) {
                         $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
@@ -147,8 +147,8 @@
                         $('#divEntryDtAdd').click();
 
                         $tr = $('.trSubjectIndicatorDt').last();
-                        $tr.find('.chkIsFromMeetingPlan').prop('checked', entity.SubjectIndicatorID > 0);
-                        $tr.find('.chkIsFromMeetingPlan').change();
+                        $tr.find('.chkIsFromMaster').prop('checked', entity.SubjectIndicatorID > 0);
+                        $tr.find('.chkIsFromMaster').change();
                         if (entity.SubjectIndicatorID > 0) {
                             $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
                             $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
@@ -240,7 +240,7 @@
                         </div>
                         <input type="text" class="txtSubjectIndicatorName" style="width:440px; display:none"/>
                     </td>
-                    <td style='width:100px'><input type='checkbox' checked='checked' class='chkIsFromMeetingPlan'/><%=GetLabel("Dari Silabus") %></td>
+                    <td style='width:100px'><input type='checkbox' checked='checked' class='chkIsFromMaster'/><%=GetLabel("Dari Master") %></td>
                     <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
                 </tr>
             </table>
@@ -248,6 +248,7 @@
     </tr>
 </script>
 
+<input type="hidden" id="hdnCurriculumSyllabusIndicatorID" runat="server" />
 <input type="hidden" id="hdnClassMeetingID" runat="server" />
 <input type="hidden" id="hdnSubjectID" runat="server" />
 <input type="hidden" id="hdnPeriodClassTypeSubjectID" runat="server" />

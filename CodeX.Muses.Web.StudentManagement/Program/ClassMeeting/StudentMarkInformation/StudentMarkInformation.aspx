@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPClassSubjectPageTrxVisit.master" AutoEventWireup="true" 
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPClassSubjectPageTrxVisit.master" AutoEventWireup="true" EnableEventValidation="false"  
     CodeBehind="StudentMarkInformation.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.StudentMarkInformation" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -18,7 +18,7 @@
     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
         <tr>
             <th rowspan="2"><%=GetLabel("Siswa") %></th>
-            <th colspan="10" class="thCenter"><%=GetLabel("NILAI") %></th>
+            <th id="thMark" runat="server" class="thCenter"><%=GetLabel("NILAI") %></th>
         </tr>
         <tr>
             <asp:Repeater ID="rptHeader" runat="server">
@@ -60,4 +60,50 @@
             </ItemTemplate>
         </asp:Repeater>
     </table>
+
+    
+    <div style="width:1250px; overflow-x: auto;">
+        <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
+            ShowLoadingPanel="false" OnCallback="cbpView_Callback">
+            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                EndCallback="function(s,e){ hideLoadingPanel(); }" />
+            <PanelCollection>
+                <dx:PanelContent ID="PanelContent1" runat="server">
+                    <asp:Panel runat="server" ID="pnlPrint">
+                        <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent" border="1">
+                            <tr>
+                                <th rowspan="2" style="width:80px"><%=GetLabel("NIS") %></th>
+                                <th rowspan="2"><%=GetLabel("Siswa") %></th>
+                                <th id="thMark2" runat="server" class="thCenter">NILAI</th>
+                            </tr>
+                            <tr>
+                                <asp:Repeater ID="rptHeader2" runat="server">
+                                    <ItemTemplate>
+                                        <th class="thCenter" style="width:90px">
+                                            <%#Eval("cfClassTaskCode")%>
+                                        </th>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </tr>
+                            <asp:Repeater ID="rptStudent2" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td><%#Eval("StudentCode") %></td>
+                                        <td><%#Eval("StudentName") %></td>
+                                        <asp:Repeater ID="rptStudentAttendance" runat="server" OnItemDataBound="rptStudentAttendance_ItemDataBound">
+                                            <ItemTemplate>
+                                                <td align="center">
+                                                    <div id="divStudentMark" runat="server"></div>
+                                                </td>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </table>
+                    </asp:Panel>
+                </dx:PanelContent>
+            </PanelCollection>
+        </dxcp:ASPxCallbackPanel>  
+    </div>
 </asp:Content>
