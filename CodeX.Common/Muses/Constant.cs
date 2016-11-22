@@ -657,6 +657,7 @@ namespace CodeX.Common
 
                 public const string OVERTIME_PROPOSAL = "HR020100";
                 public const string ABSENCE_PROPOSAL = "HR020200";
+                public const string EMPLOYEE_LOAN = "HR020300";
             }
             #endregion
 
@@ -699,6 +700,7 @@ namespace CodeX.Common
 
                 public const string POSITION_RENUMERATION_INFORMATION = "IF050100";
                 public const string EMPLOYEE_RENUMERATION_INFORMATION = "IF050200";
+                public const string JOB_LEVEL_RENUMERATION_INFORMATION = "IF050300";
             }
             #endregion
 
@@ -998,6 +1000,7 @@ namespace CodeX.Common
             public const string ABSENCE_PROPOSAL = "8207";
             public const string RENUMERATION_JOB_LEVEL = "8208";
             public const string EMPLOYEE_JOB_LEVEL = "8209";
+            public const string EMPLOYEE_LOAN = "8210";
 
             public const string TEACHER_PROFILE = "9101";
         }

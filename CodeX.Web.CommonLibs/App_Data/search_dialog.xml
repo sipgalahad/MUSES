@@ -1231,6 +1231,18 @@
 	</searchdialog>
 	<!-- #EndRegion -->
 	<!-- #Region Trans Renumeration Comp Formula-->
+	<searchdialog type="transemployeeloanhd" methodname="GetvTransEmployeeLoanHd" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+		<gridcolumns>
+			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+			<gridcolumn datafield="EmployeeName" headertext="Nama Karyawan" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+			<intellisensetext datafield="EmployeeName" headertext="Nama Karyawan" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
+	<!-- #Region Trans Renumeration Comp Formula-->
 	<searchdialog type="transrenumerationcompformulahd" methodname="GetvTransRenumerationCompFormulaHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
 		<gridcolumns>
 			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />

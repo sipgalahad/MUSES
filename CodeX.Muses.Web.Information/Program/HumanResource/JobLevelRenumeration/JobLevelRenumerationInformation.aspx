@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPBaseContent.master"
-    AutoEventWireup="true" CodeBehind="PositionRenumerationInformation.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.PositionRenumerationInformation" %>
+    AutoEventWireup="true" CodeBehind="JobLevelRenumerationInformation.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.JobLevelRenumerationInformation" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxPivotGrid.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPivotGrid" TagPrefix="dx" %>
@@ -23,10 +23,7 @@
             var grd = new customGridView2();
             grd.init('grdStockDetail', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 
-            
-            cboOrganizationDepartment.SetValue('');
-
-            $('#<%=txtOrganizationPositionName.ClientID %>').change(function () {
+            $('#<%=txtJobLevel.ClientID %>').change(function () {
                 cbpView.PerformCallback('refresh');
             });
 
@@ -43,7 +40,7 @@
             var hdnOp = $td.find('.hdnOrganizationPositionID').val();
             var hdnRenum = $td.find('.hdnRenumerationTransID').val();
             var hdnRenumCompID = $td.find('.hdnRenumerationCompID').val();
-            var id = "op|" + hdnOp + "|" + hdnRenumCompID + "|" + hdnRenum;
+            var id = "jl|" + hdnOp + "|" + hdnRenumCompID + "|" + hdnRenum;
             var url = ResolveUrl("~/Program/HumanResource/EmployeeRenumeration/RenumerationInformationDtCtl.ascx");
             openUserControlPopup(url, id, 'Renumeration Formula', 600, 500);
         });
@@ -54,8 +51,8 @@
             var filterExpression = "<%=OnGetLocationFilterExpression() %>";
             return filterExpression;
         }
-  
-        //#endregion
+
+//        
 
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
@@ -128,12 +125,8 @@
                         <col style="width: 400px" />
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Department")%></label></td>
-                        <td><dxe:ASPxComboBox ID="cboOrganizationDepartment" ClientInstanceName="cboOrganizationDepartment" Width="200px" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label><%=GetLabel("Nama Jabatan")%></label></td>
-                        <td><asp:TextBox runat="server" ID="txtOrganizationPositionName" Width="300px" /></td>
+                        <td class="tdLabel"><label><%=GetLabel("Nama Golongan")%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtJobLevel" Width="300px" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label></label></td>
@@ -168,8 +161,8 @@
                                     <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
                                         <ItemTemplate>
                                             <tr>
-                                                <td><%#Eval("OrganizationPositionID") %></td>
-                                                <td><%#Eval("OrganizationPositionName")%></td>
+                                                <td><%#Eval("JobLevelID") %></td>
+                                                <td><%#Eval("JobLevelName")%></td>
                                                 <asp:Repeater ID="rptCompDt" runat="server" OnItemDataBound="rptCompDt_ItemDataBound">
                                                     <ItemTemplate>
                                                         <td align="right">

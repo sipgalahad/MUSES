@@ -98,7 +98,7 @@
             $('#divTemplatePicks').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
                     //showLoadingPanel();
-                    id = "0";
+                    id = "HR";
                     var url = ResolveUrl('~/Program/Master/HRScheduleGroup/TemplateEmployeeGroupPicksCtl.ascx');
                     var transactionID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
                     openUserControlPopup(url, id, 'Template Picks', 1000, 600);

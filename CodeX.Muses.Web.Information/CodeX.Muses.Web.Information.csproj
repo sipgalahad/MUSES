@@ -121,6 +121,7 @@
     <Content Include="Program\HumanResource\EmployeeRenumeration\EmployeeRenumerationInformation.aspx" />
     <Content Include="Program\HumanResource\EmployeeRenumeration\EmployeeRenumerationInformationCtl.ascx" />
     <Content Include="Program\HumanResource\EmployeeRenumeration\RenumerationInformationDtCtl.ascx" />
+    <Content Include="Program\HumanResource\JobLevelRenumeration\JobLevelRenumerationInformation.aspx" />
     <Content Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformation.aspx" />
     <Content Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformationDtCtl.ascx" />
     <Content Include="Program\Inventory\StockDetailInfo.aspx" />
@@ -508,6 +509,13 @@
     </Compile>
     <Compile Include="Program\HumanResource\EmployeeRenumeration\RenumerationInformationDtCtl.ascx.designer.cs">
       <DependentUpon>RenumerationInformationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\HumanResource\JobLevelRenumeration\JobLevelRenumerationInformation.aspx.cs">
+      <DependentUpon>JobLevelRenumerationInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\HumanResource\JobLevelRenumeration\JobLevelRenumerationInformation.aspx.designer.cs">
+      <DependentUpon>JobLevelRenumerationInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\HumanResource\PositionRenumeration\PositionRenumerationInformation.aspx.cs">
       <DependentUpon>PositionRenumerationInformation.aspx</DependentUpon>

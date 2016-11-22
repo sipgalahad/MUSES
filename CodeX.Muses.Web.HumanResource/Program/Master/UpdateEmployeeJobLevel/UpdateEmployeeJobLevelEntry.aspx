@@ -80,6 +80,16 @@
             }
             //#endregion
 
+            $('#divTemplatePicks').click(function () {
+                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                    //showLoadingPanel();
+                    id = "JL";
+                    var url = ResolveUrl('~/Program/Master/HRScheduleGroup/TemplateEmployeeGroupPicksCtl.ascx');
+                    var transactionID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
+                    openUserControlPopup(url, id, 'Template Picks', 1000, 600);
+                }
+            });
+
             $('#divTransactionAdd').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
                     editedLineAmount = 0;
@@ -471,6 +481,7 @@
                     <div id="containerEmployee" class="containerTransDt">    
                         <div class="divTransactionEntry">
                             <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
+                            <span id="divTemplatePicks" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Template Picks")%></span>
                             <br />
                             <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                                 <fieldset id="fsTrx" style="margin: 0">

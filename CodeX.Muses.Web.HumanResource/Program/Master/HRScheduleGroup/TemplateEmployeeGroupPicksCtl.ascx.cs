@@ -20,9 +20,19 @@ namespace CodeX.Muses.Web.Inventory.Program
             return string.Format("IsDeleted = 0");
         }
 
-        private HRScheduleGroupEntry DetailPage
+        private HRScheduleGroupEntry DetailPageHR
         {
             get { return (HRScheduleGroupEntry)Page; }
+        }
+
+        private UpdateEmployeeJobLevelEntry DetailPageJobLevel
+        {
+            get { return (UpdateEmployeeJobLevelEntry)Page; }
+        }
+
+        private UpdateEmployeePositionEntry DetailPagePosition
+        {
+            get { return (UpdateEmployeePositionEntry)Page; }
         }
 
         #region Html Getter
@@ -69,20 +79,49 @@ namespace CodeX.Muses.Web.Inventory.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             HRScheduleGroupEmployeeDao entityDtDao = new HRScheduleGroupEmployeeDao(ctx);
+            TransEmployeeJobLevelDtDao entityDtJobLevelDao = new TransEmployeeJobLevelDtDao(ctx);
+            TransEmployeePositionDtDao entityDtEmpPosDao = new TransEmployeePositionDtDao(ctx);
             try
             {
                 int TransactionID = 0;
-                DetailPage.SaveHRScheduleGroupHd(ctx, ref TransactionID);
+                
 
                 string filterExpression = string.Format("TemplateID = {0} AND EmployeeID NOT IN (SELECT EmployeeID FROM HRScheduleGroupEmployee WHERE TransactionID = {1})", hdnTemplateID.Value, TransactionID);
                 List<TemplateEmployeeGroupDt> lsTemp =  BusinessLayer.GetTemplateEmployeeGroupDtList(filterExpression, ctx);
 
                 //HRScheduleGroupEmployee entityDt = new HRScheduleGroupEmployee();
-                foreach(TemplateEmployeeGroupDt templateEmp in lsTemp){
-                    HRScheduleGroupEmployee entityDt = new HRScheduleGroupEmployee();
-                    entityDt.TransactionID = Convert.ToInt32(TransactionID);
-                    entityDt.EmployeeID = templateEmp.EmployeeID;
-                    entityDtDao.Insert(entityDt);
+                if (hdnID.Value == "HR")
+                {
+                    DetailPageHR.SaveHRScheduleGroupHd(ctx, ref TransactionID);
+                    foreach (TemplateEmployeeGroupDt templateEmp in lsTemp)
+                    {
+                        HRScheduleGroupEmployee entityDt = new HRScheduleGroupEmployee();
+                        entityDt.TransactionID = Convert.ToInt32(TransactionID);
+                        entityDt.EmployeeID = templateEmp.EmployeeID;
+                        entityDtDao.Insert(entityDt);
+                    }
+                }
+                else if (hdnID.Value == "JL")
+                {
+                    DetailPageJobLevel.SaveTransEmployeeJobLevelHd(ctx, ref TransactionID);
+                    foreach (TemplateEmployeeGroupDt templateEmp in lsTemp)
+                    {
+                        TransEmployeeJobLevelDt entityDt = new TransEmployeeJobLevelDt();
+                        entityDt.TransactionID = Convert.ToInt32(TransactionID);
+                        entityDt.EmployeeID = templateEmp.EmployeeID;
+                        entityDtJobLevelDao.Insert(entityDt);
+                    }
+                }
+                else
+                {
+                    DetailPagePosition.SaveTransEmployeePositionHd(ctx, ref TransactionID);
+                    foreach (TemplateEmployeeGroupDt templateEmp in lsTemp)
+                    {
+                        TransEmployeePositionDt entityDt = new TransEmployeePositionDt();
+                        entityDt.TransactionID = Convert.ToInt32(TransactionID);
+                        entityDt.EmployeeID = templateEmp.EmployeeID;
+                        entityDtEmpPosDao.Insert(entityDt);
+                    }
                 }
                 //ControlToEntity(entityDt);
                 //entityDt.TransactionID = TransactionID;

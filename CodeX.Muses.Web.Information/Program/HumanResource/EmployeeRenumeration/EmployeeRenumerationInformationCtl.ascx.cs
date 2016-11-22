@@ -24,13 +24,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         public override void InitializeDataControl(string param)
         {
 
-            //String temp_hdn = string.Format("TransactionDtID = {0}", hdnID.Value);
-            //hdnID.Value = param;
             String[] lstParam = param.Split('|');
             hdnID.Value = lstParam[2];
             vEmployeeRenumeration entity = BusinessLayer.GetvEmployeeRenumerationList(string.Format(" EmployeeID = {0} AND RenumerationCompID = {1} ", lstParam[0], lstParam[1]))[0];
             txtHeaderText.Text = string.Format("{0} - {1}", entity.EmployeeName, entity.RenumerationCompName);
-            //txtHeaderText.Text = string.format("test");
+          
 
             BindGridView();
 
@@ -100,24 +98,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void ControlToEntity(TransRenumerationDtFormula entity)
         {
-            //entity.OrganizationPositionName = txtOrganizationPositionName.Text;
-            //entity.GCPositionLevel = cboGCPositionLevel.Value.ToString();
-            ////entity.GCScheduleType = cboGCScheduleType.Value.ToString();
-            //entity.GCPositionType = cboGCPositionType.Value.ToString();
-            //if (cboGCScheduleType.Value.ToString() != "0" || cboGCScheduleType.Value.ToString() != null)
-            //    entity.GCScheduleType = cboGCScheduleType.Value.ToString();
-            //else
-            //    entity.GCScheduleType = null;
-            //if (hdnPICEmployeeID.Value == "0" || hdnPICEmployeeID.Value == null)
-            //    entity.PICEmployeeID = null;
-            //else
-            //    entity.PICEmployeeID = Convert.ToInt32(hdnPICEmployeeID.Value);
-            //if (cboWeeklyScheduleID.Value.ToString() != "0" || cboWeeklyScheduleID.Value.ToString() != null)
-            //    entity.WeeklyScheduleID = Convert.ToInt32(cboWeeklyScheduleID.Value);
-            //else
-            //    entity.WeeklyScheduleID = null;
-            ////entity.WeeklyScheduleID = Convert.ToInt32(cboWeeklyScheduleID.Value);
-            //entity.IsScheduleAllowChanged = chkIsSchedule.Checked;
+           
         }
 
         private bool OnSaveRecordEntityDt(ref string errMessage)
@@ -127,9 +108,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 TransRenumerationDtFormula entity = BusinessLayer.GetTransRenumerationDtFormula(Convert.ToInt32(hdnID.Value), hdnGCDayType.Value);
                 if (entity == null)
                 {
-                    //ControlToEntity(entity);
-                    //entity.OrganizationDepartmentID = Convert.ToInt32(hdnID.Value);
-                    //entity.CreatedBy = AppSession.UserLogin.UserID;
                     entity = new TransRenumerationDtFormula();
                     entity.FormulaID = Convert.ToInt32(hdnFormulaID.Value);
                     entity.TransactionDtID = Convert.ToInt32(hdnID.Value);
@@ -155,12 +133,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                //TransRenumerationDtFormula entity = BusinessLayer.GetTransRenumerationDtFormula(Convert.ToInt32(hdnID.Value), hdnGCDayType.Value);
-                //OrganizationPosition entity = BusinessLayer.GetOrganizationPosition(Convert.ToInt32(hdnEntryID.Value));
-                //entity.IsDeleted = true;
-                //entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                //BusinessLayer.UpdateOrganizationPosition(entity);
-                //sentity.FormulaID = Convert.ToInt32(hdnFormulaID.Value);
                 BusinessLayer.DeleteTransRenumerationDtFormula(Convert.ToInt32(hdnID.Value), hdnGCDayType.Value);
                 return true;
             }
