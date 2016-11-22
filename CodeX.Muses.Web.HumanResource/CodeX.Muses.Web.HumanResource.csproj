@@ -106,6 +106,9 @@
     <Content Include="Global.asax" />
     <Content Include="Program\Master\HRScheduleGroup\HRScheduleGroupEntry.aspx" />
     <Content Include="Program\Master\HRScheduleGroup\TemplateEmployeeGroupPicksCtl.ascx" />
+    <Content Include="Program\Master\UpdateEmployeeJobLevel\UpdateEmployeeJobLevelEntry.aspx" />
+    <Content Include="Program\Master\UpdateEmployeeJobLevel\UpdateEmployeeJobLevelEntryCtl.ascx" />
+    <Content Include="Program\Master\UpdateRenumerationJobLevel\UpdateRenumerationJobLevelEntry.aspx" />
     <Content Include="Program\Transaction\AbsenceProposal\AbsenceProposalEntry.aspx" />
     <Content Include="Program\Transaction\OvertimeProposal\OvertimeProposalEntry.aspx" />
     <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntry.aspx" />
@@ -362,6 +365,27 @@
     </Compile>
     <Compile Include="Program\Master\HRScheduleGroup\TemplateEmployeeGroupPicksCtl.ascx.designer.cs">
       <DependentUpon>TemplateEmployeeGroupPicksCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\UpdateEmployeeJobLevel\UpdateEmployeeJobLevelEntry.aspx.cs">
+      <DependentUpon>UpdateEmployeeJobLevelEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateEmployeeJobLevel\UpdateEmployeeJobLevelEntry.aspx.designer.cs">
+      <DependentUpon>UpdateEmployeeJobLevelEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\UpdateEmployeeJobLevel\UpdateEmployeeJobLevelEntryCtl.ascx.cs">
+      <DependentUpon>UpdateEmployeeJobLevelEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateEmployeeJobLevel\UpdateEmployeeJobLevelEntryCtl.ascx.designer.cs">
+      <DependentUpon>UpdateEmployeeJobLevelEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\UpdateRenumerationJobLevel\UpdateRenumerationJobLevelEntry.aspx.cs">
+      <DependentUpon>UpdateRenumerationJobLevelEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateRenumerationJobLevel\UpdateRenumerationJobLevelEntry.aspx.designer.cs">
+      <DependentUpon>UpdateRenumerationJobLevelEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Transaction\AbsenceProposal\AbsenceProposalEntry.aspx.cs">
       <DependentUpon>AbsenceProposalEntry.aspx</DependentUpon>

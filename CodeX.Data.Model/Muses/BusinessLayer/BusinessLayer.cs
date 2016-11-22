@@ -8584,6 +8584,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region JobLevel
+        public static JobLevel GetJobLevel(Int32 JobLevelID)
+        {
+            return new JobLevelDao().Get(JobLevelID);
+        }
+        public static int InsertJobLevel(JobLevel record)
+        {
+            return new JobLevelDao().Insert(record);
+        }
+        public static int UpdateJobLevel(JobLevel record)
+        {
+            return new JobLevelDao().Update(record);
+        }
+        public static int DeleteJobLevel(Int32 JobLevelID)
+        {
+            return new JobLevelDao().Delete(JobLevelID);
+        }
+        public static List<JobLevel> GetJobLevelList(string filterExpression)
+        {
+            List<JobLevel> result = new List<JobLevel>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevel));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JobLevel)helper.IDataReaderToObject(reader, new JobLevel()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<JobLevel> GetJobLevelList(string filterExpression, IDbContext ctx)
+        {
+            List<JobLevel> result = new List<JobLevel>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevel));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JobLevel)helper.IDataReaderToObject(reader, new JobLevel()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region JournalTemplateDt
         public static JournalTemplateDt GetJournalTemplateDt(Int32 ID)
         {
@@ -19159,6 +19216,378 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeJobLevelDt
+        public static TransEmployeeJobLevelDt GetTransEmployeeJobLevelDt(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new TransEmployeeJobLevelDtDao().Get(TransactionID, EmployeeID);
+        }
+        public static int InsertTransEmployeeJobLevelDt(TransEmployeeJobLevelDt record)
+        {
+            return new TransEmployeeJobLevelDtDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeJobLevelDt(TransEmployeeJobLevelDt record)
+        {
+            return new TransEmployeeJobLevelDtDao().Update(record);
+        }
+        public static int DeleteTransEmployeeJobLevelDt(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new TransEmployeeJobLevelDtDao().Delete(TransactionID, EmployeeID);
+        }
+        public static List<TransEmployeeJobLevelDt> GetTransEmployeeJobLevelDtList(string filterExpression)
+        {
+            List<TransEmployeeJobLevelDt> result = new List<TransEmployeeJobLevelDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeJobLevelDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeJobLevelDt)helper.IDataReaderToObject(reader, new TransEmployeeJobLevelDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+         
+            return result;
+        }
+        public static List<TransEmployeeJobLevelDt> GetTransEmployeeJobLevelDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeeJobLevelDt> result = new List<TransEmployeeJobLevelDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeJobLevelDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeJobLevelDt)helper.IDataReaderToObject(reader, new TransEmployeeJobLevelDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeJobLevelDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeJobLevelDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeJobLevelHd
+        public static TransEmployeeJobLevelHd GetTransEmployeeJobLevelHd(Int32 TransactionID)
+        {
+            return new TransEmployeeJobLevelHdDao().Get(TransactionID);
+        }
+        public static int InsertTransEmployeeJobLevelHd(TransEmployeeJobLevelHd record)
+        {
+            return new TransEmployeeJobLevelHdDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeJobLevelHd(TransEmployeeJobLevelHd record)
+        {
+            return new TransEmployeeJobLevelHdDao().Update(record);
+        }
+        public static int DeleteTransEmployeeJobLevelHd(Int32 TransactionID)
+        {
+            return new TransEmployeeJobLevelHdDao().Delete(TransactionID);
+        }
+        public static List<TransEmployeeJobLevelHd> GetTransEmployeeJobLevelHdList(string filterExpression)
+        {
+            List<TransEmployeeJobLevelHd> result = new List<TransEmployeeJobLevelHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeJobLevelHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeJobLevelHd)helper.IDataReaderToObject(reader, new TransEmployeeJobLevelHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeJobLevelHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeJobLevelHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeJobLevelRenumeration
+        public static TransEmployeeJobLevelRenumeration GetTransEmployeeJobLevelRenumeration(Int32 TransactionDtID)
+        {
+            return new TransEmployeeJobLevelRenumerationDao().Get(TransactionDtID);
+        }
+        public static int InsertTransEmployeeJobLevelRenumeration(TransEmployeeJobLevelRenumeration record)
+        {
+            return new TransEmployeeJobLevelRenumerationDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeJobLevelRenumeration(TransEmployeeJobLevelRenumeration record)
+        {
+            return new TransEmployeeJobLevelRenumerationDao().Update(record);
+        }
+        public static int DeleteTransEmployeeJobLevelRenumeration(Int32 TransactionDtID)
+        {
+            return new TransEmployeeJobLevelRenumerationDao().Delete(TransactionDtID);
+        }
+        public static List<TransEmployeeJobLevelRenumeration> GetTransEmployeeJobLevelRenumerationList(string filterExpression)
+        {
+            List<TransEmployeeJobLevelRenumeration> result = new List<TransEmployeeJobLevelRenumeration>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeJobLevelRenumeration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeJobLevelRenumeration)helper.IDataReaderToObject(reader, new TransEmployeeJobLevelRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransEmployeeJobLevelRenumeration> GetTransEmployeeJobLevelRenumerationList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeeJobLevelRenumeration> result = new List<TransEmployeeJobLevelRenumeration>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeJobLevelRenumeration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeJobLevelRenumeration)helper.IDataReaderToObject(reader, new TransEmployeeJobLevelRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeJobLevelRenumerationMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeJobLevelRenumeration));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeJobLevelRenumerationFormula
+        public static TransEmployeeJobLevelRenumerationFormula GetTransEmployeeJobLevelRenumerationFormula(Int32 TransactionDtID, String GCDayType)
+        {
+            return new TransEmployeeJobLevelRenumerationFormulaDao().Get(TransactionDtID, GCDayType);
+        }
+        public static int InsertTransEmployeeJobLevelRenumerationFormula(TransEmployeeJobLevelRenumerationFormula record)
+        {
+            return new TransEmployeeJobLevelRenumerationFormulaDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeJobLevelRenumerationFormula(TransEmployeeJobLevelRenumerationFormula record)
+        {
+            return new TransEmployeeJobLevelRenumerationFormulaDao().Update(record);
+        }
+        public static int DeleteTransEmployeeJobLevelRenumerationFormula(Int32 TransactionDtID, String GCDayType)
+        {
+            return new TransEmployeeJobLevelRenumerationFormulaDao().Delete(TransactionDtID, GCDayType);
+        }
+        public static List<TransEmployeeJobLevelRenumerationFormula> GetTransEmployeeJobLevelRenumerationFormulaList(string filterExpression)
+        {
+            List<TransEmployeeJobLevelRenumerationFormula> result = new List<TransEmployeeJobLevelRenumerationFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeJobLevelRenumerationFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeJobLevelRenumerationFormula)helper.IDataReaderToObject(reader, new TransEmployeeJobLevelRenumerationFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TransJobLevelRenumerationDt
+        public static TransJobLevelRenumerationDt GetTransJobLevelRenumerationDt(Int32 TransactionID, Int32 JobLevelID)
+        {
+            return new TransJobLevelRenumerationDtDao().Get(TransactionID, JobLevelID);
+        }
+        public static int InsertTransJobLevelRenumerationDt(TransJobLevelRenumerationDt record)
+        {
+            return new TransJobLevelRenumerationDtDao().Insert(record);
+        }
+        public static int UpdateTransJobLevelRenumerationDt(TransJobLevelRenumerationDt record)
+        {
+            return new TransJobLevelRenumerationDtDao().Update(record);
+        }
+        public static int DeleteTransJobLevelRenumerationDt(Int32 TransactionID, Int32 JobLevelID)
+        {
+            return new TransJobLevelRenumerationDtDao().Delete(TransactionID, JobLevelID);
+        }
+        public static List<TransJobLevelRenumerationDt> GetTransJobLevelRenumerationDtList(string filterExpression)
+        {
+            List<TransJobLevelRenumerationDt> result = new List<TransJobLevelRenumerationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransJobLevelRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransJobLevelRenumerationDt)helper.IDataReaderToObject(reader, new TransJobLevelRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransJobLevelRenumerationDt> GetTransJobLevelRenumerationDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TransJobLevelRenumerationDt> result = new List<TransJobLevelRenumerationDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransJobLevelRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransJobLevelRenumerationDt)helper.IDataReaderToObject(reader, new TransJobLevelRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransJobLevelRenumerationDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransJobLevelRenumerationDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransJobLevelRenumerationHd
+        public static TransJobLevelRenumerationHd GetTransJobLevelRenumerationHd(Int32 TransactionID)
+        {
+            return new TransJobLevelRenumerationHdDao().Get(TransactionID);
+        }
+        public static int InsertTransJobLevelRenumerationHd(TransJobLevelRenumerationHd record)
+        {
+            return new TransJobLevelRenumerationHdDao().Insert(record);
+        }
+        public static int UpdateTransJobLevelRenumerationHd(TransJobLevelRenumerationHd record)
+        {
+            return new TransJobLevelRenumerationHdDao().Update(record);
+        }
+        public static int DeleteTransJobLevelRenumerationHd(Int32 TransactionID)
+        {
+            return new TransJobLevelRenumerationHdDao().Delete(TransactionID);
+        }
+        public static List<TransJobLevelRenumerationHd> GetTransJobLevelRenumerationHdList(string filterExpression)
+        {
+            List<TransJobLevelRenumerationHd> result = new List<TransJobLevelRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransJobLevelRenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransJobLevelRenumerationHd)helper.IDataReaderToObject(reader, new TransJobLevelRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransJobLevelRenumerationHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransJobLevelRenumerationHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

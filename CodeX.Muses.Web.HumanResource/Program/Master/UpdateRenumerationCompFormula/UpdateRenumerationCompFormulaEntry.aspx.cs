@@ -450,8 +450,13 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entityDt.BaseTariff = Convert.ToDecimal(txtBaseNilai.Text);
                 entityDt.FromRenumerationCompID = null;
             }
+
             entityDt.MaxNHour = Convert.ToInt16(txtMaxJam.Text);
-            entityDt.BaseTariffMultiplyBy = Convert.ToDecimal(txtTariffMultipleBy.Text);
+
+            if (txtTariffMultipleBy.Text == "0") 
+                entityDt.BaseTariffMultiplyBy = 0;
+            else
+                entityDt.BaseTariffMultiplyBy = Convert.ToDecimal(txtTariffMultipleBy.Text);
 
         }
 

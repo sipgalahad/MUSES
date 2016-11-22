@@ -454,6 +454,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+	<!-- #Region JobLevel -->
+	<searchdialog type="joblevel" methodname="GetvJobLevelList" keyfieldname="JobLevelID" orderbyexpression="JobLevelName ASC">
+		<gridcolumns>
+			<gridcolumn datafield="JobLevelName" headertext="Nama" width="50px" />
+			<gridcolumn datafield="JoblevelType" headertext="Level" width="300px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="JobLevelName" headertext="Nama" description="" />
+			<intellisensetext datafield="JoblevelType" headertext="Level" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
   <!-- #Region Location -->
   <searchdialog type="location" methodname="GetvLocationList" keyfieldname="LocationCode" istreeview="1">
     <gridcolumns>

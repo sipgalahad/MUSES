@@ -14,7 +14,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.Inventory.Program
 {
-    public partial class HRScheduleGroupEntry : BasePageTrx
+    public partial class UpdateEmployeeJobLevelEntry : BasePageTrx
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -28,7 +28,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.HumanResources.HR_SCHEDULE_GRUP_HD;
+            return Constant.MenuCode.HumanResources.UPDATE_EMPLOYEE_JOB_LEVEL;
         }
 
 
@@ -43,25 +43,14 @@ namespace CodeX.Muses.Web.Inventory.Program
             BindGridView(1, true, ref PageCount, ref RowCount);
             BindGridView2(1, true, ref PageCount2, ref RowCount2);
 
-            Helper.SetControlEntrySetting(cboGCDay, new ControlEntrySetting(true, true, false), "mpTrx");
-            Helper.SetControlEntrySetting(cboDailySchedule, new ControlEntrySetting(true, true, false), "mpTrx");
-            Helper.SetControlEntrySetting(txtScheduleDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(tacEmployeeID, new ControlEntrySetting(true, true, true), "mpTrx");
-            //Helper.SetControlEntrySetting(txtAmount, new ControlEntrySetting(true, true, true), "mpTrx");
-            
+            Helper.SetControlEntrySetting(txtAmount, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         protected override void SetControlProperties()
         {
-//            List<vOrganizationPosition> listRenumerationHd = BusinessLayer.GetvOrganizationPositionList(string.Format("IsDeleted = 0"));
-//            Methods.SetComboBoxField<vOrganizationPosition>(cboPositionID, listRenumerationHd, "OrganizationPositionName", "OrganizationPositionID");
-
-            List<StandardCode> listSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.DAY));
-            Methods.SetComboBoxField<StandardCode>(cboGCDay, listSc, "StandardCodeName", "StandardCodeID");
-
-            List<HRDailyScheduleHd> listDs = BusinessLayer.GetHRDailyScheduleHdList(string.Format("IsDeleted = 0"));
-            Methods.SetComboBoxField<HRDailyScheduleHd>(cboDailySchedule, listDs, "DailyScheduleName", "DailyScheduleID");
-        
+            List<vJobLevel> listRenumerationHd = BusinessLayer.GetvJobLevelList(string.Format("IsDeleted = 0"));
+            Methods.SetComboBoxField<vJobLevel>(cboJobLevelID, listRenumerationHd, "JobLevelName", "JobLevelID");
         }
 
         protected override void OnControlEntrySetting()
@@ -70,7 +59,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtTransactionNo, new ControlEntrySetting(false, false, false, ""));
             SetControlEntrySetting(txtTransactionDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtStartEffectiveDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
-//            SetControlEntrySetting(cboPositionID, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboJobLevelID, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false, ""));
         }
 
@@ -87,9 +76,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             return hdnIsEditable.Value;
         }
 
-        protected string GetFilterEmployeeExpression()
+        protected string OnGetEmployeeFilterExpression()
         {
-            return string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%' AND IsDeleted = 0 ) ", AppSession.UserLogin.SiteID); 
+            return string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsDeleted = 0", AppSession.UserLogin.SiteID);
         }
 
         protected string GetFilterExpression()
@@ -100,25 +89,25 @@ namespace CodeX.Muses.Web.Inventory.Program
         public override int OnGetRowCount()
         {
             string filterExpression = GetFilterExpression();
-            return BusinessLayer.GetvHRScheduleGroupHdRowCount(filterExpression);
+            return BusinessLayer.GetvTransEmployeePositionHdRowCount(filterExpression);
         }
 
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
             string filterExpression = GetFilterExpression();
-            vHRScheduleGroupHd entity = BusinessLayer.GetvHRScheduleGroupHd(filterExpression, PageIndex, "TransactionID DESC");
+            vTransEmployeeJobLevelHd entity = BusinessLayer.GetvTransEmployeeJobLevelHd(filterExpression, PageIndex, "TransactionID DESC");
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
         }
 
         protected override void OnLoadEntity(string keyValue, ref int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
             string filterExpression = GetFilterExpression();
-            PageIndex = BusinessLayer.GetvHRScheduleGroupHdRowIndex(filterExpression, keyValue, "TransactionID DESC");
-            vHRScheduleGroupHd entity = BusinessLayer.GetvHRScheduleGroupHd(filterExpression, PageIndex, "TransactionID DESC");
+            PageIndex = BusinessLayer.GetvTransEmployeeJobLevelHdRowIndex(filterExpression, keyValue, "TransactionID DESC");
+            vTransEmployeeJobLevelHd entity = BusinessLayer.GetvTransEmployeeJobLevelHd(filterExpression, PageIndex, "TransactionID DESC");
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
         }
 
-        private void EntityToControl(vHRScheduleGroupHd entity, ref bool isShowWatermark, ref string watermarkText)
+        private void EntityToControl(vTransEmployeeJobLevelHd entity, ref bool isShowWatermark, ref string watermarkText)
         {
             if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN)
             {
@@ -137,6 +126,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtTransactionNo.Text = entity.TransactionNo;
             txtStartEffectiveDate.Text = entity.StartEffectiveDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtTransactionDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            cboJobLevelID.Value = entity.JobLevelID.ToString();
             txtRemarks.Text = entity.Remarks;
 
             BindGridView(1, true, ref PageCount, ref RowCount);
@@ -154,11 +144,11 @@ namespace CodeX.Muses.Web.Inventory.Program
                 filterExpression = string.Format("TransactionID = {0}", hdnTransactionID.Value);
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvHRScheduleGroupEmployeeRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvTransEmployeeJobLevelDtRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vHRScheduleGroupEmployee> lstEntity = BusinessLayer.GetvHRScheduleGroupEmployeeList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "EmployeeName ASC");
+            List<vTransEmployeeJobLevelDt> lstEntity = BusinessLayer.GetvTransEmployeeJobLevelDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "EmployeeName ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -170,34 +160,35 @@ namespace CodeX.Muses.Web.Inventory.Program
                 filterExpression = string.Format("TransactionID = {0} AND IsDeleted = 0", hdnTransactionID.Value);
             if (isCountPageCount)
             {
-                rowCount2 = BusinessLayer.GetvHRScheduleGroupDateRowCount(filterExpression);
+                rowCount2 = BusinessLayer.GetvTransEmployeeJobLevelRenumerationRowCount(filterExpression);
                 pageCount2 = Helper.GetPageCount(rowCount2, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vHRScheduleGroupDate> lstEntity2 = BusinessLayer.GetvHRScheduleGroupDateList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "DailyScheduleName ASC");
+            List<vTransEmployeeJobLevelRenumeration> lstEntity2 = BusinessLayer.GetvTransEmployeeJobLevelRenumerationList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "RenumerationCompName ASC");
             grdView2.DataSource = lstEntity2;
             grdView2.DataBind();
         }
         #endregion
 
         #region Save Header
-        public void SaveHRScheduleGroupHd(IDbContext ctx, ref int TransactionID)
+        public void SaveTransEmployeeJobLevelHd(IDbContext ctx, ref int TransactionID)
         {
-            HRScheduleGroupHdDao entityHdDao = new HRScheduleGroupHdDao(ctx);
+            TransEmployeeJobLevelHdDao entityHdDao = new TransEmployeeJobLevelHdDao(ctx);
             if (hdnTransactionID.Value == "0")
             {
-                HRScheduleGroupHd entityHd = new HRScheduleGroupHd();
+                TransEmployeeJobLevelHd entityHd = new TransEmployeeJobLevelHd();
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                 entityHd.StartEffectiveDate = Helper.GetDatePickerValue(Request.Form[txtStartEffectiveDate.UniqueID]);
+                entityHd.JobLevelID = Convert.ToInt32(cboJobLevelID.Value);
                 entityHd.Remarks = txtRemarks.Text;
-                entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.HR_SCHEDULE_GRUP, entityHd.TransactionDate, ctx);
+                entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.EMPLOYEE_JOB_LEVEL, entityHd.TransactionDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
 
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
                 entityHd.CreatedBy = AppSession.UserLogin.UserID;
                 entityHdDao.Insert(entityHd);
-                TransactionID = BusinessLayer.GetHRScheduleGroupHdMaxID(ctx);
+                TransactionID = BusinessLayer.GetTransEmployeeJobLevelHdMaxID(ctx);
             }
             else
             {
@@ -212,7 +203,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 int OrderID = 0;
-                SaveHRScheduleGroupHd(ctx, ref OrderID);
+                SaveTransEmployeeJobLevelHd(ctx, ref OrderID);
                 retval = OrderID.ToString();
                 ctx.CommitTransaction();
             }
@@ -234,12 +225,13 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             try
             {
-                HRScheduleGroupHd entityHd = BusinessLayer.GetHRScheduleGroupHd(Convert.ToInt32(hdnTransactionID.Value));
+                TransEmployeeJobLevelHd entityHd = BusinessLayer.GetTransEmployeeJobLevelHd(Convert.ToInt32(hdnTransactionID.Value));
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                 entityHd.StartEffectiveDate = Helper.GetDatePickerValue(Request.Form[txtStartEffectiveDate.UniqueID]);
+                entityHd.JobLevelID = Convert.ToInt32(cboJobLevelID.Value);
                 entityHd.Remarks = txtRemarks.Text;
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateHRScheduleGroupHd(entityHd);
+                BusinessLayer.UpdateTransEmployeeJobLevelHd(entityHd);
                 return true;
             }
             catch (Exception ex)
@@ -255,26 +247,27 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            HRScheduleGroupHdDao hrScheduleGroupHdDao = new HRScheduleGroupHdDao(ctx);
+            TransEmployeeJobLevelHdDao transEmployeeJobLevelHdDao = new TransEmployeeJobLevelHdDao(ctx);
             EmployeeDao employeeDao = new EmployeeDao(ctx);
             try
             {
-                HRScheduleGroupHd hrScheduleGroupHd = hrScheduleGroupHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                hrScheduleGroupHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                hrScheduleGroupHd.Remarks = txtRemarks.Text;
-                hrScheduleGroupHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                hrScheduleGroupHdDao.Update(hrScheduleGroupHd);
-                //if approve
-                if (String.Compare(hrScheduleGroupHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
+                TransEmployeeJobLevelHd transEmployeeJobLevelHd = transEmployeeJobLevelHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                transEmployeeJobLevelHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                transEmployeeJobLevelHd.Remarks = txtRemarks.Text;
+                transEmployeeJobLevelHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                transEmployeeJobLevelHdDao.Update(transEmployeeJobLevelHd);
+
+                if (String.Compare(transEmployeeJobLevelHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
                 {
-                    List<Employee> lstEmpl = BusinessLayer.GetEmployeeList(String.Format("EmployeeID IN (SELECT EmployeeID FROM HRScheduleGroupEmployee WHERE TransactionID = {0})", hdnTransactionID.Value), ctx);
+                    List<Employee> lstEmpl = BusinessLayer.GetEmployeeList(String.Format("EmployeeID IN (SELECT EmployeeID FROM TransEmployeeJobLevelDt WHERE TransactionID = {0})", hdnTransactionID.Value), ctx);
                     foreach (Employee employee in lstEmpl)
                     {
-                        employee.CurrentTransScheduleID = Convert.ToInt32(hdnTransactionID.Value);
-                        employee.LastProcessedScheduleDate = DateTime.Now;
+                        employee.CurrentTransJobLevelID = Convert.ToInt32(hdnTransactionID.Value);
+                        employee.LastProcessedJobLevelDate = DateTime.Now;
                         employeeDao.Update(employee);
                     }
                 }
+
 
                 ctx.CommitTransaction();
             }
@@ -297,14 +290,14 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            HRScheduleGroupHdDao hrScheduleGroupHdDao = new HRScheduleGroupHdDao(ctx);
+            TransEmployeeJobLevelHdDao transEmployeeJobLevelHdDao = new TransEmployeeJobLevelHdDao(ctx);
             
             try
             {
-                HRScheduleGroupHd hrScheduleGroupHd = hrScheduleGroupHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                hrScheduleGroupHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
-                hrScheduleGroupHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                hrScheduleGroupHdDao.Update(hrScheduleGroupHd);
+                TransEmployeeJobLevelHd transEmployeeJobLevelHd = transEmployeeJobLevelHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                transEmployeeJobLevelHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                transEmployeeJobLevelHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                transEmployeeJobLevelHdDao.Update(transEmployeeJobLevelHd);
 
                 ctx.CommitTransaction();
             }
@@ -326,22 +319,22 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            HRScheduleGroupHdDao hrScheduleGroupHdDao = new HRScheduleGroupHdDao(ctx);
+            TransEmployeeJobLevelHdDao transEmployeeJobLevelHdDao = new TransEmployeeJobLevelHdDao(ctx);
             
             try
             {
-                HRScheduleGroupHd hrScheduleGroupHd = hrScheduleGroupHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                //if reopen
-                if (String.Compare(hrScheduleGroupHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
+                TransEmployeeJobLevelHd transEmployeeJobLevelHd = transEmployeeJobLevelHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+
+                if (String.Compare(transEmployeeJobLevelHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
                 {
                     result = false;
                     errMessage = "Transaksi Sudah Diproses, Tidak Dapat Diubah";
                 }
                 else
                 {
-                    hrScheduleGroupHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                    hrScheduleGroupHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    hrScheduleGroupHdDao.Update(hrScheduleGroupHd);
+                    transEmployeeJobLevelHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    transEmployeeJobLevelHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    transEmployeeJobLevelHdDao.Update(transEmployeeJobLevelHd);
                 }
                 ctx.CommitTransaction();
             }
@@ -364,14 +357,14 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            HRScheduleGroupHdDao hrScheduleGroupHdDao = new HRScheduleGroupHdDao(ctx);
+            TransEmployeeJobLevelHdDao transEmployeeJobLevelHdDao = new TransEmployeeJobLevelHdDao(ctx);
             
             try
             {
-                HRScheduleGroupHd hrScheduleGroupHd = hrScheduleGroupHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                hrScheduleGroupHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                hrScheduleGroupHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                hrScheduleGroupHdDao.Update(hrScheduleGroupHd);
+                TransEmployeeJobLevelHd transEmployeeJobLevelHd = transEmployeeJobLevelHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                transEmployeeJobLevelHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                transEmployeeJobLevelHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                transEmployeeJobLevelHdDao.Update(transEmployeeJobLevelHd);
 
                 ctx.CommitTransaction();
             }
@@ -421,7 +414,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             panel.JSProperties["cpTransactionID"] = adjustmentID.ToString();
         }
 
-        private void ControlToEntity(HRScheduleGroupEmployee entityDt)
+        private void ControlToEntity(TransEmployeeJobLevelDt entityDt)
         {
             entityDt.EmployeeID = Convert.ToInt32(tacEmployeeID.Value);
         }
@@ -430,11 +423,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            HRScheduleGroupEmployeeDao entityDtDao = new HRScheduleGroupEmployeeDao(ctx);
+            TransEmployeeJobLevelDtDao entityDtDao = new TransEmployeeJobLevelDtDao(ctx);
             try
             {
-                SaveHRScheduleGroupHd(ctx, ref TransactionID);
-                HRScheduleGroupEmployee entityDt = new HRScheduleGroupEmployee();
+                SaveTransEmployeeJobLevelHd(ctx, ref TransactionID);
+                TransEmployeeJobLevelDt entityDt = new TransEmployeeJobLevelDt();
                 ControlToEntity(entityDt);
                 entityDt.TransactionID = TransactionID;
                 entityDtDao.Insert(entityDt);
@@ -459,7 +452,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             try
             {
-                BusinessLayer.DeleteHRScheduleGroupEmployee(Convert.ToInt32(hdnTransactionID.Value), Convert.ToInt32(tacEmployeeID.Value));
+                BusinessLayer.DeleteTransEmployeeJobLevelDt(Convert.ToInt32(hdnTransactionID.Value), Convert.ToInt32(tacEmployeeID.Value));
                 return true;
             }
             catch (Exception ex)
@@ -511,17 +504,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             panel.JSProperties["cpTransactionID2"] = adjustmentID.ToString();
         }
 
-        private void ControlToEntity2(HRScheduleGroupDate entityDt)
+        private void ControlToEntity2(TransEmployeeJobLevelRenumeration entityDt)
         {
-            if (cboGCDay.Value != null)
-                entityDt.GCDay = cboGCDay.Value.ToString();
-            else
-                entityDt.GCDay = "";
-            if (txtScheduleDate.Text != null || txtScheduleDate.Text != "")
-                entityDt.ScheduleDate = Helper.GetDatePickerValue(Request.Form[txtScheduleDate.UniqueID]);
-            else
-                entityDt.ScheduleDate = Helper.InitializeDateTimeNull();
-            entityDt.DailyScheduleID = Convert.ToInt32(cboDailySchedule.Value);
+            //entityDt.RenumerationCompID = Convert.ToInt32(cboRenumerationCompID.Value);
+            entityDt.RenumerationCompID = Convert.ToInt32(tacRenumerationCompID.Value);
+            entityDt.Amount = Convert.ToDecimal(Request.Form[txtAmount.UniqueID]);
+            //entityDt.IsAllowChange = chkIsAllowChange.Checked;
+            entityDt.IsUseFormula = chkIsUseFormula.Checked;
         }
 
 
@@ -529,11 +518,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            HRScheduleGroupDateDao entityDtDao = new HRScheduleGroupDateDao(ctx);
+            TransEmployeeJobLevelRenumerationDao entityDtDao = new TransEmployeeJobLevelRenumerationDao(ctx);
             try
             {
-                SaveHRScheduleGroupHd(ctx, ref TransactionID);
-                HRScheduleGroupDate entityDt = new HRScheduleGroupDate();
+                SaveTransEmployeeJobLevelHd(ctx, ref TransactionID);
+                TransEmployeeJobLevelRenumeration entityDt = new TransEmployeeJobLevelRenumeration();
                 ControlToEntity2(entityDt);
                 entityDt.TransactionID = TransactionID;
                 entityDt.CreatedBy = AppSession.UserLogin.UserID;
@@ -558,10 +547,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            HRScheduleGroupDateDao entityDtDao = new HRScheduleGroupDateDao(ctx);
+            TransEmployeeJobLevelRenumerationDao entityDtDao = new TransEmployeeJobLevelRenumerationDao(ctx);
             try
             {
-                HRScheduleGroupDate entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                TransEmployeeJobLevelRenumeration entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity2(entityDt);
                 entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDtDao.Update(entityDt);
@@ -585,10 +574,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            HRScheduleGroupDateDao entityDtDao = new HRScheduleGroupDateDao(ctx);
+            TransEmployeeJobLevelRenumerationDao entityDtDao = new TransEmployeeJobLevelRenumerationDao(ctx);
             try
             {
-                HRScheduleGroupDate entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                TransEmployeeJobLevelRenumeration entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDt.IsDeleted = true;
                 entityDtDao.Update(entityDt);

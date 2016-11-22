@@ -31,13 +31,16 @@
                 if (!this.checked) {
                     $('#tblDetails').show();
                     $('#divEntryDtAdd').show();
+                    $('#trTariffMultipleBy').hide();
+                    $('#<%=txtTariffMultipleBy.ClientID %>').val('0').trigger('changeValue');
                 }
                 else {
                     $('#tblDetails').hide();
                     $('#divEntryDtAdd').hide();
-                    $('.trHourDt').each(function (){
-                       $tr = $(this).closest('tr');
-                       $tr.remove();
+                    $('#trTariffMultipleBy').show();
+                    $('.trHourDt').each(function () {
+                        $tr = $(this).closest('tr');
+                        $tr.remove();
                     });
                 }
             });
@@ -83,7 +86,7 @@
                     editedLineAmount = 0;
 
                     $('#<%=hdnEntryID.ClientID %>').val('');
-                    $('#<%=txtBaseNilai.ClientID %>').val('0').trigger('changeValue'); ;
+                    $('#<%=txtBaseNilai.ClientID %>').val('0').trigger('changeValue');
                     tacRenumerationCompID.setValue('');
                     tacRenumerationCompID.setText('');
                     cboGCBaseTariffType.SetSelectedIndex(0);
@@ -160,7 +163,7 @@
             $('#<%=hdnTransactionDtID.ClientID %>').val(entity.TransactionDtID);
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.TransactionDtID);
-            $('#<%=txtBaseNilai.ClientID %>').val(entity.BaseTariffMultipleBy);
+//            $('#</%=txtBaseNilai.ClientID %>').val(entity.BaseTariffMultipleBy);
             $('#<%=chkIsTariffFlat.ClientID %>').prop('checked', entity.IsTariffFlat == 'True');
             $('#<%=txtBaseNilai.ClientID %>').val(entity.BaseTariff).trigger('changeValue');
             $('#<%=txtMaxJam.ClientID %>').val(entity.MaxNHour);
@@ -424,7 +427,7 @@
                                                     <td class="tdLabel"></td>
                                                     <td><asp:Checkbox runat="server" ID="chkIsTariffFlat" Text="Flat"/></td>
                                                 </tr>
-                                                <tr>
+                                                <tr id="trTariffMultipleBy">
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Pengali")%></label></td>
                                                     <td><asp:TextBox ID="txtTariffMultipleBy" CssClass="number" Width="80px" runat="server" /></td>
                                                 </tr>

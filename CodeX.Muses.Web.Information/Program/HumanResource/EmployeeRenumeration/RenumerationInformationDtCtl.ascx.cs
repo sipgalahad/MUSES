@@ -23,12 +23,24 @@ namespace CodeX.Muses.Web.ControlPanel.Program
        
         public override void InitializeDataControl(string param)
         {
-            hdnID.Value = param;
+            //hdnID.Value = param;
             //String temp_hdn = string.Format("TransactionDtID = {0}", hdnID.Value);
             //vTransRenumerationDt entity = BusinessLayer.GetvTransRenumerationDtList(string.Format("TransactionDtID = {0}", hdnID.Value))[0];
             //txtHeaderText.Text = string.Format("{0}", entity.RenumerationCompName);
-            txtHeaderText.Text = string.Format("test");
+            //txtHeaderText.Text = string.Format("test");
 
+            String[] lstParam = param.Split('|');
+            hdnID.Value = lstParam[3];
+            if (lstParam[0] == "emp")
+            {
+                vEmployeeRenumeration entity = BusinessLayer.GetvEmployeeRenumerationList(string.Format(" EmployeeID = {0} AND RenumerationCompID = {1} ", lstParam[1], lstParam[2]))[0];
+                txtHeaderText.Text = string.Format("{0} - {1}", entity.EmployeeName, entity.RenumerationCompName);
+            }
+            else 
+            {
+                vOrganizationPositionRenumeration entity = BusinessLayer.GetvOrganizationPositionRenumerationList(string.Format(" OrganizationPositionID = {0} AND RenumerationCompID = {1} ", lstParam[1], lstParam[2]))[0];
+                txtHeaderText.Text = string.Format("{0} - {1}", entity.OrganizationPositionName, entity.RenumerationCompName);
+            }
             BindGridView();
 
             Helper.SetControlEntrySetting(tacFormulaID, new ControlEntrySetting(true, true, false), "mpTrxPopup");

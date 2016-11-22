@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.Information.Program {
     
     
-    public partial class PositionRenumerationInformation {
+    public partial class EmployeeRenumerationInformation {
         
         /// <summary>
         /// hdnFilterExpressionQuickSearch control.
@@ -40,6 +40,24 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnOrganizationPositionID;
         
         /// <summary>
+        /// txtNIK control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNIK;
+        
+        /// <summary>
+        /// txtEmployeeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEmployeeName;
+        
+        /// <summary>
         /// cboOrganizationDepartment control.
         /// </summary>
         /// <remarks>
@@ -49,13 +67,13 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboOrganizationDepartment;
         
         /// <summary>
-        /// txtOrganizationPositionName control.
+        /// tacOrganizationPositionID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtOrganizationPositionName;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacOrganizationPositionID;
         
         /// <summary>
         /// cbpView control.

@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="RenumerationInformationDtCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.ControlPanel.Program.RenumerationInformationDtCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="UpdateEmployeeJobLevelEntryCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.ControlPanel.Program.UpdateEmployeeJobLevelEntryCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -157,8 +157,8 @@
                 <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
                         <Columns>
-                            <asp:BoundField DataField="StandardCodeName" HeaderText="Tipe Hari" HeaderStyle-Width="120px"/> 
-                            <asp:TemplateField HeaderText="Formula">
+                            <asp:BoundField DataField="StandardCodeName" HeaderText="Tipe Hari" /> 
+                            <asp:TemplateField HeaderText="Formula" HeaderStyle-Width="200px">
                                 <ItemTemplate>
                                     <div id="divFormula" runat="server"></div>
                                 </ItemTemplate>
