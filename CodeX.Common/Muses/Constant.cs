@@ -913,6 +913,7 @@ namespace CodeX.Common
                 public const string WS_STUDENT_MARK_PER_INDICATOR = "SM99040205";
                 public const string WS_CLASS_TASK_PER_INDICATOR = "SM99040206";
                 public const string WS_STUDENT_NOTE_INFORMATION = "SM99040207";
+                public const string WS_STUDENT_MARK_PER_INDICATOR_ALL = "SM99040208";
 
                 public const string TEACHER_CLASS_SUBJECT_PAGE = "SM99050000";
                 public const string TCS_CLASS_TASK = "SM99050101";

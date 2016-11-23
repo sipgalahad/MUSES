@@ -259,6 +259,20 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassSubjectTaskIndicator
+    public partial class vClassSubjectTaskIndicator
+    {
+        public String cfClassTaskCode
+        {
+            get
+            {
+                if (_ClassTaskCode.Contains('-'))
+                    return _ClassTaskCode.Split('-').LastOrDefault();
+                return _ClassTaskCode;
+            }
+        }
+    }
+    #endregion
     #region vCurriculumClassType
     public partial class vCurriculumClassType
     {

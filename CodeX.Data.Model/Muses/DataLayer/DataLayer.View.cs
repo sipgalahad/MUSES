@@ -3360,7 +3360,7 @@ namespace CodeX.Data.Model
     #region vClassSubjectTaskIndicator
     [Serializable]
     [Table(Name = "vClassSubjectTaskIndicator")]
-    public class vClassSubjectTaskIndicator
+    public partial class vClassSubjectTaskIndicator
     {
         private Int32 _ClassSubjectTaskIndicatorID;
         private Int32 _ClassSubjectID;
