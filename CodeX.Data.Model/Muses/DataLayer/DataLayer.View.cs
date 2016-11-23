@@ -15349,6 +15349,7 @@ namespace CodeX.Data.Model
         private Int16 _FromWorkingYears;
         private Int16 _ToWorkingYears;
         private Int32 _CurrentTransactionID;
+        private String _Remarks;
         private Boolean _IsDeleted;
 
         [Column(Name = "JobLevelID", DataType = "Int32")]
@@ -15398,6 +15399,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurrentTransactionID; }
             set { _CurrentTransactionID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

@@ -78,6 +78,7 @@
                                 <asp:BoundField DataField="JobLevelName" HeaderText="Nama" />
                                 <asp:BoundField DataField="JobLevelType" HeaderText="Tingkat" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="cfWorkingYears" HeaderText="Lama Kerja" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="Remarks" HeaderText="Catatan" HeaderStyle-Width="250px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

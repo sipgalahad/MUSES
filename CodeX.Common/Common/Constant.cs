@@ -63,6 +63,7 @@ namespace CodeX.Common
             public const string RENUMERATION_COMP_FORMULA = "XXXHR006";
             public const string TEMPLATE_EMPLOYEE_GROUP = "XXXHR007";
             public const string JOB_LEVEL = "XXXHR008";
+            public const string FAMILY_STATUS = "XXXHR009";
         }
 
         #region Standard Code

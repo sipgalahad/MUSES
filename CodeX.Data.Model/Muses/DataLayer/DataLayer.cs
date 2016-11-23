@@ -17549,6 +17549,7 @@ namespace CodeX.Data.Model
         private Int16 _ToWorkingYears;
         private Int32? _CurrentTransactionID;
         private DateTime _LastProcessedDate;
+        private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -17602,6 +17603,12 @@ namespace CodeX.Data.Model
         {
             get { return _LastProcessedDate; }
             set { _LastProcessedDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

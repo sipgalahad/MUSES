@@ -1006,6 +1006,8 @@ namespace CodeX.Common
             public const string RENUMERATION_JOB_LEVEL = "8208";
             public const string EMPLOYEE_JOB_LEVEL = "8209";
             public const string EMPLOYEE_LOAN = "8210";
+            public const string RENUMERATION_FAMILY_STATUS = "8211";
+            public const string EMPLOYEE_FAMILY_STATUS = "8212";
 
             public const string TEACHER_PROFILE = "9101";
         }

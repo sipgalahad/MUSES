@@ -38,11 +38,10 @@ CodeBehind="JobLevelEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Progra
                             <%=GetLabel("Tahun") %>
                         </td>
                     </tr>
-                    <%--
                     <tr>
                         <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>
                         <td><asp:TextBox ID="txtRemarks" Width="300px" TextMode="MultiLine" Rows="2" runat="server" /></td>
-                    </tr>--%>
+                    </tr>
                 </table>
             </td>
         </tr>
