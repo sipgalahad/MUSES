@@ -361,7 +361,7 @@
                             <td><asp:TextBox ID="txtTransactionDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><%=GetLabel("Tanggal Dimulai")%></td>
+                            <td class="tdLabel"><%=GetLabel("Tanggal Berlaku")%></td>
                             <td><asp:TextBox ID="txtStartEffectiveDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>

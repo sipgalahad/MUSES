@@ -80,6 +80,7 @@
                                 <asp:BoundField DataField="RenumerationID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="RenumerationCode" HeaderText="Renumeration Code" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="RenumerationName" HeaderText="Renumeration Name" />
+                                <asp:BoundField DataField="RenumerationCompSource" HeaderText="Sumber" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Remarks" HeaderStyle-Width="250px" />
                                 <asp:HyperLinkField HeaderText="Detail" Text="Detail" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>

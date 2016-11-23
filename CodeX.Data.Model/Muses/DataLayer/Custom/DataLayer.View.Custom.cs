@@ -976,6 +976,20 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vJobLevel
+    public partial class vJobLevel
+    {
+        public string cfWorkingYears
+        {
+            get
+            {
+                if (_FromWorkingYears != _ToWorkingYears)
+                    return string.Format("{0} - {1}", _FromWorkingYears, _ToWorkingYears);
+                return _FromWorkingYears.ToString();
+            }
+        }
+    }
+    #endregion
     #region vJournalTemplateDt
     public partial class vJournalTemplateDt
     {

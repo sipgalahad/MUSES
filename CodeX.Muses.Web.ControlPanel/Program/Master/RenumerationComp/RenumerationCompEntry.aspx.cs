@@ -47,14 +47,16 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.RENUMERATION_COMP_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboRenumerationCompType, lstSc, "StandardCodeName", "StandardCodeID");
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.RENUMERATION_COMP_TYPE, Constant.StandardCode.RENUMERATION_COMP_SOURCE));
+            Methods.SetComboBoxField<StandardCode>(cboRenumerationCompType, lstSc.Where(p => p.ParentID == Constant.StandardCode.RENUMERATION_COMP_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboRenumerationCompSource, lstSc.Where(p => p.ParentID == Constant.StandardCode.RENUMERATION_COMP_SOURCE).ToList(), "StandardCodeName", "StandardCodeID");
         }
 
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(txtRenumerationCompName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboRenumerationCompType, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboRenumerationCompSource, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
            
         }
@@ -63,7 +65,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             ctlEntityCode.SetText(entity.RenumerationCompCode);
             txtRenumerationCompName.Text = entity.RenumerationCompName;
-            cboRenumerationCompType.Value = entity.GCRenumerationCompType.ToString();
+            cboRenumerationCompType.Value = entity.GCRenumerationCompType;
+            cboRenumerationCompSource.Value = entity.GCRenumerationCompSource;
             txtRemarks.Text = entity.Remarks;
       
         }
@@ -72,6 +75,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.RenumerationCompName = txtRenumerationCompName.Text;
             entity.GCRenumerationCompType = cboRenumerationCompType.Value.ToString();
+            entity.GCRenumerationCompSource = cboRenumerationCompSource.Value.ToString();
             entity.Remarks = txtRemarks.Text;
             entity.RenumerationCompCode = ctlEntityCode.GetCode(entity.RenumerationCompName, ctx);
         }

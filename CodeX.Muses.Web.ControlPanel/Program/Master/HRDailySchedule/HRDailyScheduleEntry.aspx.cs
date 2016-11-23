@@ -48,7 +48,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             SetControlEntrySetting(txtDailyScheduleName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtNoOfWorkHours, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtFromHour, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtStartGraceTimeArrive, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtEndGraceTimeArrive, new ControlEntrySetting(true, true, true));

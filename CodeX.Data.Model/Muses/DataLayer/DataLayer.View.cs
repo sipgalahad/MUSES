@@ -15339,14 +15339,15 @@ namespace CodeX.Data.Model
     #region vJobLevel
     [Serializable]
     [Table(Name = "vJobLevel")]
-    public class vJobLevel
+    public partial class vJobLevel
     {
         private Int32 _JobLevelID;
         private String _JobLevelCode;
         private String _JobLevelName;
         private String _GCJobLevelType;
         private String _JobLevelType;
-        private Int16 _WorkingYears;
+        private Int16 _FromWorkingYears;
+        private Int16 _ToWorkingYears;
         private Int32 _CurrentTransactionID;
         private Boolean _IsDeleted;
 
@@ -15380,11 +15381,17 @@ namespace CodeX.Data.Model
             get { return _JobLevelType; }
             set { _JobLevelType = value; }
         }
-        [Column(Name = "WorkingYears", DataType = "Int16")]
-        public Int16 WorkingYears
+        [Column(Name = "FromWorkingYears", DataType = "Int16")]
+        public Int16 FromWorkingYears
         {
-            get { return _WorkingYears; }
-            set { _WorkingYears = value; }
+            get { return _FromWorkingYears; }
+            set { _FromWorkingYears = value; }
+        }
+        [Column(Name = "ToWorkingYears", DataType = "Int16")]
+        public Int16 ToWorkingYears
+        {
+            get { return _ToWorkingYears; }
+            set { _ToWorkingYears = value; }
         }
         [Column(Name = "CurrentTransactionID", DataType = "Int32")]
         public Int32 CurrentTransactionID
@@ -25188,6 +25195,8 @@ namespace CodeX.Data.Model
         private String _RenumerationCompName;
         private String _GCRenumerationCompType;
         private String _RenumerationCompType;
+        private String _GCRenumerationCompSource;
+        private String _RenumerationCompSource;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -25220,6 +25229,89 @@ namespace CodeX.Data.Model
         {
             get { return _RenumerationCompType; }
             set { _RenumerationCompType = value; }
+        }
+        [Column(Name = "GCRenumerationCompSource", DataType = "String")]
+        public String GCRenumerationCompSource
+        {
+            get { return _GCRenumerationCompSource; }
+            set { _GCRenumerationCompSource = value; }
+        }
+        [Column(Name = "RenumerationCompSource", DataType = "String")]
+        public String RenumerationCompSource
+        {
+            get { return _RenumerationCompSource; }
+            set { _RenumerationCompSource = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vRenumerationHd
+    [Serializable]
+    [Table(Name = "vRenumerationHd")]
+    public class vRenumerationHd
+    {
+        private Int32 _RenumerationID;
+        private String _RenumerationCode;
+        private String _RenumerationName;
+        private String _GCRenumerationCompSource;
+        private String _RenumerationCompSource;
+        private Int32 _CurrentTransactionID;
+        private DateTime _LastProcessedDate;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "RenumerationID", DataType = "Int32")]
+        public Int32 RenumerationID
+        {
+            get { return _RenumerationID; }
+            set { _RenumerationID = value; }
+        }
+        [Column(Name = "RenumerationCode", DataType = "String")]
+        public String RenumerationCode
+        {
+            get { return _RenumerationCode; }
+            set { _RenumerationCode = value; }
+        }
+        [Column(Name = "RenumerationName", DataType = "String")]
+        public String RenumerationName
+        {
+            get { return _RenumerationName; }
+            set { _RenumerationName = value; }
+        }
+        [Column(Name = "GCRenumerationCompSource", DataType = "String")]
+        public String GCRenumerationCompSource
+        {
+            get { return _GCRenumerationCompSource; }
+            set { _GCRenumerationCompSource = value; }
+        }
+        [Column(Name = "RenumerationCompSource", DataType = "String")]
+        public String RenumerationCompSource
+        {
+            get { return _RenumerationCompSource; }
+            set { _RenumerationCompSource = value; }
+        }
+        [Column(Name = "CurrentTransactionID", DataType = "Int32")]
+        public Int32 CurrentTransactionID
+        {
+            get { return _CurrentTransactionID; }
+            set { _CurrentTransactionID = value; }
+        }
+        [Column(Name = "LastProcessedDate", DataType = "DateTime")]
+        public DateTime LastProcessedDate
+        {
+            get { return _LastProcessedDate; }
+            set { _LastProcessedDate = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -34614,6 +34706,8 @@ namespace CodeX.Data.Model
         private Int32 _RenumerationID;
         private String _RenumerationCode;
         private String _RenumerationName;
+        private String _GCRenumerationCompSource;
+        private String _RenumerationCompSource;
         private DateTime _StartEffectiveDate;
         private String _Remarks;
         private String _GCTransactionStatus;
@@ -34655,6 +34749,18 @@ namespace CodeX.Data.Model
         {
             get { return _RenumerationName; }
             set { _RenumerationName = value; }
+        }
+        [Column(Name = "GCRenumerationCompSource", DataType = "String")]
+        public String GCRenumerationCompSource
+        {
+            get { return _GCRenumerationCompSource; }
+            set { _GCRenumerationCompSource = value; }
+        }
+        [Column(Name = "RenumerationCompSource", DataType = "String")]
+        public String RenumerationCompSource
+        {
+            get { return _RenumerationCompSource; }
+            set { _RenumerationCompSource = value; }
         }
         [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
         public DateTime StartEffectiveDate

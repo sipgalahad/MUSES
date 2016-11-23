@@ -647,13 +647,18 @@ namespace CodeX.Common
             #region Human Resources
             public static class HumanResources
             {
-                public const string UPDATE_RENUMERATION = "HR010100";
-                public const string UPDATE_EMPLOYEE_POSITION = "HR010200";
-                public const string UPDATE_RENUMERATION_POSITION = "HR010300";
-                public const string UPDATE_RENUMERATION_COMP_FORMULA = "HR010400";
-                public const string HR_SCHEDULE_GRUP_HD = "HR010500";
-                public const string UPDATE_RENUMERATION_JOB_LEVEL = "HR010600";
-                public const string UPDATE_EMPLOYEE_JOB_LEVEL = "HR010700";
+                public const string UPDATE_RENUMERATION = "HR010101";
+                public const string UPDATE_RENUMERATION_COMP_FORMULA = "HR010102";
+                
+                public const string UPDATE_RENUMERATION_JOB_LEVEL = "HR010201";
+                public const string UPDATE_RENUMERATION_POSITION = "HR010202";
+                public const string UPDATE_RENUMERATION_FAMILY_STATUS = "HR010203";
+
+                public const string UPDATE_EMPLOYEE_JOB_LEVEL = "HR010301";
+                public const string UPDATE_EMPLOYEE_POSITION = "HR010302";
+                public const string UPDATE_EMPLOYEE_FAMILY_STATUS = "HR010303";
+                public const string UPDATE_EMPLOYEE_SITE = "HR010304";
+                public const string HR_SCHEDULE_GRUP_HD = "HR010305";
 
                 public const string OVERTIME_PROPOSAL = "HR020100";
                 public const string ABSENCE_PROPOSAL = "HR020200";

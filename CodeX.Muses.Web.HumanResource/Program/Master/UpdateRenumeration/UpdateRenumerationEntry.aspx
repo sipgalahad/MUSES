@@ -67,6 +67,7 @@
 
             $('#divTransactionAdd').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
+                    tacRenumeration.setEnabled(false);
                     editedLineAmount = 0;
 
                     $('#<%=hdnEntryID.ClientID %>').val('');
@@ -82,8 +83,8 @@
             });
 
             $('#btnRenumerationID').click(function () {
-                var renumerationID = cboRenumerationID.GetValue();
-                if (renumerationID != null && renumerationID != '') {
+                var renumerationID = tacRenumeration.getValue();
+                if (renumerationID != '') {
                     var id = renumerationID;
                     var url = ResolveUrl("~/Program/Master/UpdateRenumeration/RenumerationDtCtl.ascx");
                     openUserControlPopup(url, id, 'Details Renumeration', 600, 500);
@@ -219,9 +220,53 @@
             openUserControlPopup(url, id, 'Renumeration Formula', 600, 500);
         });
 
+        //#region Renumeration
+        function onGetRenumerationFilterExpression() {
+            var filterExpression = "IsDeleted = 0";
+            return filterExpression;
+        }
+
+        function onTacRenumerationSearchClick() {
+            openSearchDialog('renumerationhd', onGetRenumerationFilterExpression(), function (value) {
+                var filterExpression = onGetRenumerationFilterExpression() + " AND RenumerationCode = '" + value + "'";
+                Methods.getObject('GetvRenumerationHdList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacRenumeration.setValue(result.RenumerationID);
+                        tacRenumeration.setText(result.RenumerationName);
+                    }
+                    else {
+                        tacRenumeration.setValue('');
+                        tacRenumeration.setText('');
+                    }
+                    entityToControlRenumeration(result);
+                });
+            });
+        }
+
+        function onTacRenumerationValueChanged() {
+            var id = tacRenumeration.getValue();
+            if (id != '') {
+                var filterExpression = "RenumerationID = '" + id + "'";
+                Methods.getObject('GetvRenumerationHdList', filterExpression, function (result) {
+                    entityToControlRenumeration(result);
+                });
+            }
+            else
+                $('#<%=hdnGCRenumerationCompSource.ClientID %>').val('');
+        }
+
+        function entityToControlRenumeration(result) {
+            if (result != null)
+                $('#<%=hdnGCRenumerationCompSource.ClientID %>').val(result.GCRenumerationCompSource);
+            else
+                $('#<%=hdnGCRenumerationCompSource.ClientID %>').val('');
+        }
+        //#endregion
+
+        //#region Renumeration Comp
         function onGetRenumerationCompFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
-            var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransRenumerationDt where TransactionID = " + TransactionID + ")";
+            var filterExpression = "GCRenumerationCompSource = '" + $('#<%=hdnGCRenumerationCompSource.ClientID %>').val() + "' AND IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransRenumerationDt where TransactionID = " + TransactionID + ")";
             return filterExpression;
         }
 
@@ -260,6 +305,7 @@
             else
                 $('#<%=txtRenumerationCompType.ClientID %>').val('');
         }
+        //#endregion
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
@@ -290,7 +336,7 @@
                             <td><asp:TextBox ID="txtTransactionDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><%=GetLabel("Tanggal Dimulai")%></td>
+                            <td class="tdLabel"><%=GetLabel("Tanggal Berlaku")%></td>
                             <td><asp:TextBox ID="txtStartEffectiveDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
@@ -298,7 +344,14 @@
                             <td>
                                 <table cellpadding="0" cellspacing="0">
                                     <tr>
-                                        <td><dxe:ASPxComboBox ID="cboRenumerationID" ClientInstanceName="cboRenumerationID" Width="200px" runat="server" /></td>
+                                        <td>
+                                            <input type="hidden" id="hdnGCRenumerationCompSource" runat="server" />
+                                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacRenumeration" ClientInstanceName="tacRenumeration" MethodName="GetvRenumerationHdList" GetFilterExpressionFunction="onGetRenumerationFilterExpression"
+                                                SearchFields="RenumerationName,RenumerationID" TextField="RenumerationName" ValueField="RenumerationID" SearchText="${RenumerationName} (<b>${RenumerationCompSource}</b>)" OrderByExpression="RenumerationName">
+                                                <ClientSideEvents ButtonSearchClick="function(){ onTacRenumerationSearchClick(); }"
+                                                    ValueChanged="function(){ onTacRenumerationValueChanged(); }" />
+                                            </cdx:CodeXAutoCompleteTextBox>   
+                                        </td>
                                         <td style="width:5px;"></td>
                                         <td><input type="button" id="btnRenumerationID" class="btnMore" value="..." /></td>
                                     </tr>

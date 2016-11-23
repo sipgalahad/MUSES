@@ -22,16 +22,21 @@ CodeBehind="JobLevelEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Progra
                         <td><uc1:MasterCodingCtl ID="ctlEntityCode" runat="server" /> </td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Golongan")%></label></td>
                         <td><asp:TextBox ID="txtJobLevelName" Width="300px" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tingkat")%></label></td>
                         <td><dxe:ASPxComboBox ID="cboJobLevelType" Width="200px" runat="server" /></td>
                     </tr>                    
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Lama Kerja")%></label></td>
-                        <td><asp:TextBox ID="txtWorkingYears" CssClass="number" Width="80px" runat="server" /> <%=GetLabel("Tahun") %></td>
+                        <td>
+                            <asp:TextBox ID="txtFromWorkingYears" CssClass="number" Width="80px" runat="server" /> 
+                            -
+                            <asp:TextBox ID="txtToWorkingYears" CssClass="number" Width="80px" runat="server" />
+                            <%=GetLabel("Tahun") %>
+                        </td>
                     </tr>
                     <%--
                     <tr>

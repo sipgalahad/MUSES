@@ -49,12 +49,21 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboJobLevelType;
         
         /// <summary>
-        /// txtWorkingYears control.
+        /// txtFromWorkingYears control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtWorkingYears;
+        protected global::System.Web.UI.WebControls.TextBox txtFromWorkingYears;
+        
+        /// <summary>
+        /// txtToWorkingYears control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtToWorkingYears;
     }
 }

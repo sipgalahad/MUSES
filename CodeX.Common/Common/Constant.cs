@@ -143,6 +143,14 @@ namespace CodeX.Common
             public const string ATTENDANCE_STATUS = "X323";
             public const string ABSENCE = "X324";
             public const string JOB_LEVEL_TYPE = "X325";
+            public const string RENUMERATION_COMP_SOURCE = "X326";
+        }
+
+        public static class RenumerationCompSource
+        {
+            public const string JOB_LEVEL = "X326^001";
+            public const string POSITION = "X326^002";
+            public const string FAMILY_STATUS = "X326^003";
         }
 
         public static class Attendance 

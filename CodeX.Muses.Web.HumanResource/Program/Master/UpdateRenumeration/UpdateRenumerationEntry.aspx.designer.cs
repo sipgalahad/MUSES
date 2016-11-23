@@ -112,13 +112,22 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtStartEffectiveDate;
         
         /// <summary>
-        /// cboRenumerationID control.
+        /// hdnGCRenumerationCompSource control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboRenumerationID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCRenumerationCompSource;
+        
+        /// <summary>
+        /// tacRenumeration control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacRenumeration;
         
         /// <summary>
         /// txtRemarks control.

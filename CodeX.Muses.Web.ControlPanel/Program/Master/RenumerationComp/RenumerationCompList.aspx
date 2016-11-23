@@ -76,7 +76,8 @@
                                 <asp:BoundField DataField="RenumerationCompID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="RenumerationCompCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="RenumerationCompName" HeaderText="Nama" />
-                                <asp:BoundField DataField="RenumerationCompType" HeaderText="Tipe" HeaderStyle-Width="250px" />
+                                <asp:BoundField DataField="RenumerationCompType" HeaderText="Tipe" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="RenumerationCompSource" HeaderText="Sumber" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Remarks" HeaderStyle-Width="250px" />
                             </Columns>
                             <EmptyDataTemplate>
