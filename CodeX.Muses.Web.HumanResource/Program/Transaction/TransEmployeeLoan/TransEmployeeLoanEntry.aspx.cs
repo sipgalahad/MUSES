@@ -25,9 +25,9 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
 
         #region Html Getter
-        protected string OnGetRenumerationCompFormulaBaseTariffTypeFromComponent()
+        protected string OnGetRenumerationCompFilterExpression()
         {
-            return Constant.RenumerationFormulaBaseTariffType.RENUMERATION_COMP;
+            return string.Format("GCRenumerationCompType = '{0}' AND IsDeleted = 0", Constant.RenumerationCompType.DEDUCTION);
         }
         #endregion
 

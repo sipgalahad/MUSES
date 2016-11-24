@@ -147,6 +147,11 @@ namespace CodeX.Common
             public const string RENUMERATION_COMP_SOURCE = "X326";
         }
 
+        public static class RenumerationCompType
+        {
+            public const string DEDUCTION = "X314^005";
+        }
+
         public static class RenumerationCompSource
         {
             public const string JOB_LEVEL = "X326^001";

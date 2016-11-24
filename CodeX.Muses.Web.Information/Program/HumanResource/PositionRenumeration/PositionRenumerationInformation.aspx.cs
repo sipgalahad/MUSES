@@ -30,73 +30,28 @@ namespace CodeX.Muses.Web.Information.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            //txtDateFrom.Text = DateTime.Now.AddDays(-7).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-            //txtDateTo.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-
             List<OrganizationDepartment> lstOD = BusinessLayer.GetOrganizationDepartmentList(string.Format("IsDeleted = 0"));
             lstOD.Insert(0, new OrganizationDepartment {OrganizationDepartmentID = 0, OrganizationDepartmentName = "" });
             Methods.SetComboBoxField<OrganizationDepartment>(cboOrganizationDepartment, lstOD, "OrganizationDepartmentName", "OrganizationDepartmentID");
 
-            
-
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
-
         }
 
-        
-        protected string OnGetLocationFilterExpression()
-        {
-            return string.Format("{0};{1};;", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID);
-        }
-
-        //public string OnGetFilterExpression()
-        //{
-        //    return Request.Form[hdnFilterExpression.UniqueID];
-        //}
-
-        public string OnGetFilterEmployeeExpression() 
-        {
-            return String.Format("IsDeleted = 0 "); 
-        }
-    
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            
-            //if (hdnLocationID.Value != "")
-            //{
-            //    hdnFilterExpression.Value = string.Format("LocationID = {0} AND MovementDate BETWEEN '{1}' AND '{2}'", hdnLocationID.Value, Helper.GetDatePickerValue(txtDateFrom.Text).ToString("yyyyMMdd"), Helper.GetDatePickerValue(txtDateTo.Text).ToString("yyyyMMdd"));
-            //    if (isCountPageCount)
-            //    {
-            //        string filterExpression = string.Format("LocationID = {0} AND ItemName1 LIKE '%{1}%' AND IsDeleted = 0", hdnLocationID.Value, txtItemName.Text);
-            //        rowCount = BusinessLayer.GetvItemBalanceRowCount(filterExpression);
-            //        pageCount = Helper.GetPageCount(rowCount, 10);
-            //    }
-
-            //    List<GetItemMovementPerPeriodeDetail> lstEntity = BusinessLayer.GetItemMovementPerPeriodeDetail(string.Format("{0}|{1}", Helper.GetDatePickerValue(txtDateFrom.Text).ToString("yyyyMMdd"), Helper.GetDatePickerValue(txtDateTo.Text).ToString("yyyyMMdd")), Convert.ToInt32(hdnLocationID.Value), txtItemName.Text, pageIndex, 10);
-            //    lvwView.DataSource = lstEntity;
-            //    lvwView.DataBind();
-            //}
-
-            string filterExpression = OnGetFilterEmployeeExpression();
-
+            string filterExpression = "IsDeleted = 0";
+            if (txtOrganizationPositionName.Text != "" && txtOrganizationPositionName.Text != null)
+                filterExpression += String.Format(" AND OrganizationPositionName LIKE '%{0}%' ", txtOrganizationPositionName.Text);
+            if (cboOrganizationDepartment.Value != null && cboOrganizationDepartment.Value.ToString() != "0")
+                filterExpression += String.Format(" AND OrganizationDepartmentID = {0} ", cboOrganizationDepartment.Value);
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvOrganizationPositionRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
-            } 
-
-            lstRenumComp = BusinessLayer.GetvRenumerationCompList("IsDeleted = 0 ");
-
-            if(txtOrganizationPositionName.Text != "" && txtOrganizationPositionName.Text != null)
-            {
-                filterExpression += String.Format(" AND OrganizationPositionName LIKE '%{0}%' ", txtOrganizationPositionName.Text);
-            }
-            if(cboOrganizationDepartment.Value != null && cboOrganizationDepartment.Value.ToString() != "0")
-            {
-                filterExpression += String.Format(" AND OrganizationDepartmentID = {0} ", cboOrganizationDepartment.Value);
             }
 
+            lstRenumComp = BusinessLayer.GetvRenumerationCompList(string.Format("GCRenumerationCompType != '{0}' AND IsDeleted = 0", Constant.RenumerationCompType.DEDUCTION));
             List<vOrganizationPosition> lstOp = BusinessLayer.GetvOrganizationPositionList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "OrganizationPositionName ASC");
 
             string lstOpID = string.Join(",", lstOp.Select(p => p.OrganizationPositionID).ToList());

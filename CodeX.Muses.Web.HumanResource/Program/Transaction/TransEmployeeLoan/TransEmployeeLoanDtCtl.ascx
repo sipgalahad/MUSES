@@ -76,6 +76,8 @@
         else if (param[0] == 'save') {
             if (param[1] == 'fail')
                 showToast('Save Failed', 'Error Message : ' + param[2]);
+            else
+                cbpPopupView.PerformCallback('refresh');
         }
     }
 
@@ -136,8 +138,8 @@
 <script id="addEntityDt" type="text/x-jquery-tmpl">
      <tr class="trEntity">
         <td class="tdPaymentIndex" align="center"></td>
-        <td align="center"><asp:TextBox id="txtPaymentDate" Width="120px" CssClass="txtPaymentDate datepicker" runat="server" /></td>
-        <td align="center"><asp:TextBox id="txtTransactionAmount" CssClass="txtTransactionAmount txtCurrency" runat="server" /></td>
+        <td align="center"><asp:TextBox id="txtPaymentDate" Width="120px" CssClass="txtPaymentDate datepicker required" runat="server" /></td>
+        <td align="center"><asp:TextBox id="txtTransactionAmount" CssClass="txtTransactionAmount txtCurrency required" runat="server" /></td>
         <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
     </tr>
 </script>
@@ -185,8 +187,8 @@
                                                 <ItemTemplate>
                                                     <tr class="trEntity">
                                                         <td class="tdPaymentIndex" align="center"><%#Eval("PaymentIndex")%></td>
-                                                        <td align="center"><asp:TextBox id="txtPaymentDate" Width="120px" CssClass="txtPaymentDate datepicker" runat="server" /></td>
-                                                        <td align="center"><asp:TextBox id="txtTransactionAmount" CssClass="txtTransactionAmount txtCurrency" runat="server" /></td>
+                                                        <td align="center"><asp:TextBox id="txtPaymentDate" Width="120px" CssClass="txtPaymentDate datepicker required" runat="server" /></td>
+                                                        <td align="center"><asp:TextBox id="txtTransactionAmount" CssClass="txtTransactionAmount txtCurrency required" runat="server" /></td>
                                                         <td><div id="divDelete" runat="server" style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
                                                     </tr>
                                                 </ItemTemplate>

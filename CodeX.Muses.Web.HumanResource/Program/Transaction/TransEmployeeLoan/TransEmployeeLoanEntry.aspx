@@ -178,9 +178,9 @@
             }
         }
 
-        //#region Comp Renumeration
+        //#region Renumeration Comp
         function onGetRenumerationCompFilterExpression() {
-            var filterExpression = "IsDeleted = 0 ";
+            var filterExpression = "<%=OnGetRenumerationCompFilterExpression() %>";
             return filterExpression;
         }
 

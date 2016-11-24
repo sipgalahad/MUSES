@@ -29,47 +29,23 @@ namespace CodeX.Muses.Web.Information.Program
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
-        {
-            
+        {            
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
-
         }
 
-        
-        protected string OnGetLocationFilterExpression()
-        {
-            return string.Format("{0};{1};;", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID);
-        }
-
-        
-
-        public string OnGetFilterEmployeeExpression() 
-        {
-            return String.Format("IsDeleted = 0 "); 
-        }
-    
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            
-            
-
-            string filterExpression = OnGetFilterEmployeeExpression();
-
+            string filterExpression = "IsDeleted = 0";
+            if (txtJobLevel.Text != "" && txtJobLevel.Text != null)
+                filterExpression += String.Format(" AND JobLevelName LIKE '%{0}%' ", txtJobLevel.Text);
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvJobLevelRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
-            } 
-
-            lstRenumComp = BusinessLayer.GetvRenumerationCompList("IsDeleted = 0 ");
-
-            if(txtJobLevel.Text != "" && txtJobLevel.Text != null)
-            {
-                filterExpression += String.Format(" AND JobLevelName LIKE '%{0}%' ", txtJobLevel.Text);
             }
-            
 
+            lstRenumComp = BusinessLayer.GetvRenumerationCompList(string.Format("GCRenumerationCompType != '{0}' AND IsDeleted = 0", Constant.RenumerationCompType.DEDUCTION));
             List<vJobLevel> lstOp = BusinessLayer.GetvJobLevelList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "JobLevelName ASC");
 
             string lstOpID = string.Join(",", lstOp.Select(p => p.JobLevelID).ToList());

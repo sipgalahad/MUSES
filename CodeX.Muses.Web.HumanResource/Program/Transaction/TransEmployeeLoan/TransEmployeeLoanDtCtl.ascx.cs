@@ -35,7 +35,7 @@ namespace CodeX.Muses.Web.Information.Program
         {
             short indexPayment = 1;
             List<TransEmployeeLoanDt> lstViewDt = new List<TransEmployeeLoanDt>();
-            List<TransEmployeeLoanDt> lstTempDt = BusinessLayer.GetTransEmployeeLoanDtList(String.Format("TransactionID = {0} ORDER BY PaymentDate ASC ", Convert.ToInt32(hdnID.Value)));
+            List<TransEmployeeLoanDt> lstTempDt = BusinessLayer.GetTransEmployeeLoanDtList(String.Format("TransactionID = {0} ORDER BY PaymentIndex ASC ", Convert.ToInt32(hdnID.Value)));
             foreach (TransEmployeeLoanDt entityDt in lstTempDt)
             {
                 entityDt.PaymentIndex = indexPayment;
@@ -153,32 +153,40 @@ namespace CodeX.Muses.Web.Information.Program
 
             try
             {
-                List<TransEmployeeLoanDt> lstEntityDt = BusinessLayer.GetTransEmployeeLoanDtList(String.Format("TransactionID = {0}", hdnID.Value),ctx);
+                List<TransEmployeeLoanDt> lstEntityDt = BusinessLayer.GetTransEmployeeLoanDtList(String.Format("TransactionID = {0}", hdnID.Value), ctx);
                 string[] lstSaveValue = hdnSaveValue.Value.Split('|');
+                List<TransEmployeeLoanDt> lstSaveEntityDt = new List<TransEmployeeLoanDt>();
                 foreach (string saveValue in lstSaveValue)
                 {
                     string[] temp = saveValue.Split(';');
-                    short paymentIndex = Convert.ToInt16(temp[0]);
-                    DateTime paymentDate = Helper.GetDatePickerValue(temp[1]);
-                    Decimal paymentAmount = Convert.ToDecimal(temp[2]);
-
+                    TransEmployeeLoanDt saveEntityDt = new TransEmployeeLoanDt();
+                    saveEntityDt.PaymentIndex = Convert.ToInt16(temp[0]);
+                    saveEntityDt.PaymentDate = Helper.GetDatePickerValue(temp[1]);
+                    saveEntityDt.TransactionAmount = Convert.ToDecimal(temp[2]);
+                    lstSaveEntityDt.Add(saveEntityDt);
+                }
+                lstSaveEntityDt = lstSaveEntityDt.OrderBy(p => p.PaymentDate).ToList();
+                short paymentIndex = 1;
+                foreach (TransEmployeeLoanDt saveEntityDt in lstSaveEntityDt)
+                {
                     TransEmployeeLoanDt entityDt = lstEntityDt.FirstOrDefault(p => p.PaymentIndex == paymentIndex);
                     if (entityDt == null)
                     {
                         entityDt = new TransEmployeeLoanDt();
                         entityDt.PaymentIndex = paymentIndex;
-                        entityDt.PaymentDate = paymentDate;
-                        entityDt.TransactionAmount = paymentAmount;
+                        entityDt.PaymentDate = saveEntityDt.PaymentDate;
+                        entityDt.TransactionAmount = saveEntityDt.TransactionAmount;
                         entityDt.TransactionID = Convert.ToInt32(hdnID.Value);
                         entityDtDao.Insert(entityDt);
                     }
                     else
                     {
-                        entityDt.PaymentDate = paymentDate;
-                        entityDt.TransactionAmount = paymentAmount;
+                        entityDt.PaymentDate = saveEntityDt.PaymentDate;
+                        entityDt.TransactionAmount = saveEntityDt.TransactionAmount;
                         entityDtDao.Update(entityDt);
                         lstEntityDt.Remove(entityDt);
                     }
+                    paymentIndex++;
                 }
 
                 foreach (TransEmployeeLoanDt entityDt in lstEntityDt)
