@@ -2071,16 +2071,24 @@ namespace CodeX.Data.Model
     public class vClassMeetingAttendance
     {
         private Int32 _ClassMeetingID;
+        private DateTime _MeetingDate;
         private Int32 _ClassSubjectID;
         private Int32 _StudentID;
         private String _GCAttendanceStatus;
         private String _AttendanceStatus;
+        private String _Remarks;
 
         [Column(Name = "ClassMeetingID", DataType = "Int32")]
         public Int32 ClassMeetingID
         {
             get { return _ClassMeetingID; }
             set { _ClassMeetingID = value; }
+        }
+        [Column(Name = "MeetingDate", DataType = "DateTime")]
+        public DateTime MeetingDate
+        {
+            get { return _MeetingDate; }
+            set { _MeetingDate = value; }
         }
         [Column(Name = "ClassSubjectID", DataType = "Int32")]
         public Int32 ClassSubjectID
@@ -2105,6 +2113,12 @@ namespace CodeX.Data.Model
         {
             get { return _AttendanceStatus; }
             set { _AttendanceStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
     }
     #endregion
