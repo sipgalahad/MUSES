@@ -25,17 +25,9 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
 
         #region Html Getter
-        protected string OnGetFilterExpressionLocation()
+        protected string OnGetRenumerationFilterExpression()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_CONSUMPTION);
-        }
-        protected string OnGetFilterExpressionItemProduct()
-        {
-            return string.Format("IsDeleted = 0");
-        }
-        protected string OnGetFilterExpressionServiceUnit()
-        {
-            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            return string.Format("GCRenumerationCompSource = '{0}' AND IsDeleted = 0", Constant.RenumerationCompSource.JOB_LEVEL);
         }
         #endregion
 
@@ -53,8 +45,6 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void SetControlProperties()
         {
-            List<RenumerationHd> listRenumerationHd = BusinessLayer.GetRenumerationHdList(string.Format("IsDeleted = 0"));
-            Methods.SetComboBoxField<RenumerationHd>(cboRenumerationID, listRenumerationHd,"RenumerationName", "RenumerationID");
         }
 
         protected override void OnControlEntrySetting()
@@ -63,7 +53,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtTransactionNo, new ControlEntrySetting(false, false, false, ""));
             SetControlEntrySetting(txtTransactionDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtStartEffectiveDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
-            SetControlEntrySetting(cboRenumerationID, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(tacRenumeration, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false, ""));
         }
 
@@ -124,7 +114,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtTransactionNo.Text = entity.TransactionNo;
             txtStartEffectiveDate.Text = entity.StartEffectiveDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtTransactionDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-            cboRenumerationID.Value = entity.RenumerationID.ToString();
+            tacRenumeration.Value = entity.RenumerationID.ToString();
+            tacRenumeration.Text = entity.RenumerationName;
             txtRemarks.Text = entity.Remarks;
 
             BindGridView(1, true, ref PageCount, ref RowCount);
@@ -158,7 +149,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 TransJobLevelRenumerationHd entityHd = new TransJobLevelRenumerationHd();
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                 entityHd.StartEffectiveDate = Helper.GetDatePickerValue(Request.Form[txtStartEffectiveDate.UniqueID]);
-                entityHd.RenumerationID = Convert.ToInt32(cboRenumerationID.Value);
+                entityHd.RenumerationID = Convert.ToInt32(tacRenumeration.Value);
                 entityHd.Remarks = txtRemarks.Text;
                 entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.RENUMERATION_JOB_LEVEL, entityHd.TransactionDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
@@ -207,7 +198,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 TransJobLevelRenumerationHd entityHd = BusinessLayer.GetTransJobLevelRenumerationHd(Convert.ToInt32(hdnTransactionID.Value));
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                 entityHd.StartEffectiveDate = Helper.GetDatePickerValue(Request.Form[txtStartEffectiveDate.UniqueID]);
-                entityHd.RenumerationID = Convert.ToInt32(cboRenumerationID.Value);
+                entityHd.RenumerationID = Convert.ToInt32(tacRenumeration.Value);
                 entityHd.Remarks = txtRemarks.Text;
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.UpdateTransJobLevelRenumerationHd(entityHd);

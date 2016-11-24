@@ -55,8 +55,6 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void SetControlProperties()
         {
-            List<RenumerationHd> listRenumerationHd = BusinessLayer.GetRenumerationHdList(string.Format("IsDeleted = 0"));
-            Methods.SetComboBoxField<RenumerationHd>(cboRenumerationID, listRenumerationHd,"RenumerationName", "RenumerationID");
         }
 
         protected override void OnControlEntrySetting()
@@ -65,7 +63,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtTransactionNo, new ControlEntrySetting(false, false, false, ""));
             SetControlEntrySetting(txtTransactionDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtStartEffectiveDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
-            SetControlEntrySetting(cboRenumerationID, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(tacRenumeration, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false, ""));
         }
 
@@ -128,7 +126,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtTransactionNo.Text = entity.TransactionNo;
             txtStartEffectiveDate.Text = entity.StartEffectiveDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtTransactionDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-            cboRenumerationID.Value = entity.RenumerationID.ToString();
+            tacRenumeration.Value = entity.RenumerationID.ToString();
+            tacRenumeration.Text = entity.RenumerationName;
+            hdnGCRenumerationCompSource.Value = entity.GCRenumerationCompSource;
             txtRemarks.Text = entity.Remarks;
 
             BindGridView(1, true, ref PageCount, ref RowCount);
@@ -162,7 +162,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 TransRenumerationHd entityHd = new TransRenumerationHd();
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                 entityHd.StartEffectiveDate = Helper.GetDatePickerValue(Request.Form[txtStartEffectiveDate.UniqueID]);
-                entityHd.RenumerationID = Convert.ToInt32(cboRenumerationID.Value);
+                entityHd.RenumerationID = Convert.ToInt32(tacRenumeration.Value);
                 entityHd.Remarks = txtRemarks.Text;
                 entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.RENUMERATION, entityHd.TransactionDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
@@ -211,7 +211,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 TransRenumerationHd entityHd = BusinessLayer.GetTransRenumerationHd(Convert.ToInt32(hdnTransactionID.Value));
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                 entityHd.StartEffectiveDate = Helper.GetDatePickerValue(Request.Form[txtStartEffectiveDate.UniqueID]);
-                entityHd.RenumerationID = Convert.ToInt32(cboRenumerationID.Value);
+                entityHd.RenumerationID = Convert.ToInt32(tacRenumeration.Value);
                 entityHd.Remarks = txtRemarks.Text;
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.UpdateTransRenumerationHd(entityHd);

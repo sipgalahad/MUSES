@@ -27,6 +27,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
                 RenumerationHd entity = BusinessLayer.GetRenumerationHd(Convert.ToInt32(ID));
+                SetControlProperties();
                 EntityToControl(entity);
             }
             else
@@ -44,9 +45,16 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             ctlEntityCode.SetControlVisibility(true);
         }
 
+        protected override void SetControlProperties()
+        {
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.RENUMERATION_COMP_SOURCE));
+            Methods.SetComboBoxField<StandardCode>(cboRenumerationCompSource, lstSc, "StandardCodeName", "StandardCodeID");
+        }
+
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(txtRenumerationName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboRenumerationCompSource, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));           
         }
 
@@ -54,12 +62,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             ctlEntityCode.SetText(entity.RenumerationCode);
             txtRenumerationName.Text = entity.RenumerationName;
+            cboRenumerationCompSource.Value = entity.GCRenumerationCompSource;
             txtRemarks.Text = entity.Remarks;
         }
 
         private void ControlToEntity(RenumerationHd entity, IDbContext ctx)
         {
             entity.RenumerationName = txtRenumerationName.Text;
+            entity.GCRenumerationCompSource = cboRenumerationCompSource.Value.ToString();
             entity.Remarks = txtRemarks.Text;
             entity.RenumerationCode = ctlEntityCode.GetCode(entity.RenumerationName, ctx);
         }

@@ -29,9 +29,9 @@ CodeBehind="HRDailyScheduleEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Lama Jam Kerja")%></label></td>
                         <td><asp:TextBox ID="txtNoOfWorkHours" Width="100px" runat="server" /></td>
                     </tr>
-                     <tr>
-                        <td class="tdLabel"><label class="lbl"><%=GetLabel("Catatan")%></label></td>
-                        <td><asp:TextBox ID="txtRemarks" Width="100px" runat="server" /></td>
+                    <tr>
+                        <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>
+                        <td><asp:TextBox ID="txtRemarks" Width="300px" TextMode="MultiLine" Rows="2" runat="server" /></td>
                     </tr>
                     <tr>
                         <td colspan="2">

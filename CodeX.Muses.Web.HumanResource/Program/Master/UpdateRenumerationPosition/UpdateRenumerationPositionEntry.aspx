@@ -33,7 +33,7 @@
             $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'maxDate', '0');
 
             $('#btnRenumerationID').click(function () {
-                var renumerationID = cboRenumerationID.GetValue();
+                var renumerationID = tacRenumeration.getValue();
                 if (renumerationID != null && renumerationID != '') {
                     var id = renumerationID + "|" + $('#<%=txtStartEffectiveDate.ClientID %>').val();
                     var url = ResolveUrl("~/Program/Master/UpdateRenumeration/RenumerationDtCtl.ascx");
@@ -183,6 +183,32 @@
             }
         }
 
+        //#region Renumeration
+        function onGetRenumerationFilterExpression() {
+            var filterExpression = "<%=OnGetRenumerationFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacRenumerationSearchClick() {
+            openSearchDialog('renumerationhd', onGetRenumerationFilterExpression(), function (value) {
+                var filterExpression = onGetRenumerationFilterExpression() + " AND RenumerationCode = '" + value + "'";
+                Methods.getObject('GetvRenumerationHdList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacRenumeration.setValue(result.RenumerationID);
+                        tacRenumeration.setText(result.RenumerationName);
+                    }
+                    else {
+                        tacRenumeration.setValue('');
+                        tacRenumeration.setText('');
+                    }
+                });
+            });
+        }
+
+        function onTacRenumerationValueChanged() {
+        }
+        //#endregion
+
         //#region Organization Position
         function onGetOrganizationPositionFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
@@ -209,8 +235,6 @@
         function onTacOrganizationPositionIDValueChanged() {
         }
         //#endregion
-
-        
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
@@ -248,7 +272,13 @@
                             <td>
                                 <table cellpadding="0" cellspacing="0">
                                     <tr>
-                                        <td><dxe:ASPxComboBox ID="cboRenumerationID" ClientInstanceName="cboRenumerationID" Width="200px" runat="server" /></td>
+                                        <td>
+                                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacRenumeration" ClientInstanceName="tacRenumeration" MethodName="GetvRenumerationHdList" GetFilterExpressionFunction="onGetRenumerationFilterExpression"
+                                                SearchFields="RenumerationName,RenumerationID" TextField="RenumerationName" ValueField="RenumerationID" SearchText="${RenumerationName} (<b>${RenumerationCompSource}</b>)" OrderByExpression="RenumerationName">
+                                                <ClientSideEvents ButtonSearchClick="function(){ onTacRenumerationSearchClick(); }"
+                                                    ValueChanged="function(){ onTacRenumerationValueChanged(); }" />
+                                            </cdx:CodeXAutoCompleteTextBox>   
+                                        </td>
                                         <td style="width:5px;"></td>
                                         <td><input type="button" id="btnRenumerationID" class="btnMore" value="..." /></td>
                                     </tr>

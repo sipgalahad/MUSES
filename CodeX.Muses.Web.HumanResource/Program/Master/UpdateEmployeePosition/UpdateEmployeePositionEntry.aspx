@@ -115,15 +115,6 @@
                 }
             });
 
-//            $('#divTransactionAdd2').click(function (evt) {
-//                if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
-//                    editedLineAmount = 0;
-//                    tacEmployeeID.setValue('');
-//                    tacEmployeeID.setText('');
-//                    $('#entryDetailContainer2').show();
-//                }
-//            });
-
             $('#<%=chkIsUseFormula.ClientID %>').change(function () {
                 if (this.checked) {
                     $('#<%=txtAmount.ClientID %>').val('0').trigger('changeValue');
@@ -449,7 +440,7 @@
                             <td><asp:TextBox ID="txtTransactionDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><%=GetLabel("Tanggal Dimulai")%></td>
+                            <td class="tdLabel"><%=GetLabel("Tanggal Berlaku")%></td>
                             <td><asp:TextBox ID="txtStartEffectiveDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
@@ -531,21 +522,6 @@
                                 <dx:PanelContent ID="PanelContent1" runat="server">
                                     <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                                         position: relative;">
-                                        <%--<table>
-                                            <tr>
-                                                <th><%=GetLabel("Kode Karyawan") %></th>
-                                                <th><%=GetLabel("Nama Karyawan") %></th>
-                                            </tr>
-                                        <asp:Repeater ID="rptView" runat="server">
-                                            <ItemTemplate>
-                                                <tr>
-                                                    <td><%#Eval("EmployeeCode") %></td>
-                                                    <td><%#Eval("FullName") %></td>
-                                                </tr>
-                                            </ItemTemplate>
-                                        </asp:Repeater>
-                                        </table>--%>
-
                                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                             <Columns>

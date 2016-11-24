@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetRenumerationHdRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetvRenumerationHdRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -54,11 +54,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetRenumerationHdCount(filterExpression);
+                rowCount = BusinessLayer.GetvRenumerationHdRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<RenumerationHd> lstEntity = BusinessLayer.GetRenumerationHdList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vRenumerationHd> lstEntity = BusinessLayer.GetvRenumerationHdList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

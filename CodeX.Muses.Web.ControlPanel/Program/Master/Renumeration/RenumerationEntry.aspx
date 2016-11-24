@@ -26,6 +26,10 @@ CodeBehind="RenumerationEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Pr
                         <td><asp:TextBox ID="txtRenumerationName" Width="300px" runat="server" /></td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Sumber")%></label></td>
+                        <td><dxe:ASPxComboBox ID="cboRenumerationCompSource" Width="200px" runat="server" /></td>
+                    </tr>
+                    <tr>
                         <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>
                         <td><asp:TextBox ID="txtRemarks" Width="300px" TextMode="MultiLine" Rows="2" runat="server" /></td>
                     </tr>

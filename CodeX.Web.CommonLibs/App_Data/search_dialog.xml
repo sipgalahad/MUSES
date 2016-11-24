@@ -457,14 +457,15 @@
 	<!-- #Region JobLevel -->
 	<searchdialog type="joblevel" methodname="GetvJobLevelList" keyfieldname="JobLevelID" orderbyexpression="JobLevelName ASC">
 		<gridcolumns>
-			<gridcolumn datafield="JobLevelName" headertext="Nama" width="50px" />
-			<gridcolumn datafield="JoblevelType" headertext="Level" width="300px" />
-      <gridcolumn datafield="WorkingYears" headertext="Lama Kerja (Tahun)" width="150px" />
+			<gridcolumn datafield="JobLevelName" headertext="Golongan" width="300px" />
+			<gridcolumn datafield="JoblevelType" headertext="Tingkat" width="80px" />
+      <gridcolumn datafield="cfWorkingYears" headertext="Lama Kerja (Tahun)" width="80px" />
 		</gridcolumns>
 		<intellisensetexts>
-			<intellisensetext datafield="JobLevelName" headertext="Nama" description="" />
-			<intellisensetext datafield="JoblevelType" headertext="Level" description="" />
-      <intellisensetext datafield="WorkingYears" headertext="Lama Kerja (Tahun)" description="" />
+			<intellisensetext datafield="JobLevelName" headertext="Golongan" description="" />
+			<intellisensetext datafield="JoblevelType" headertext="Tingkat" description="" />
+      <intellisensetext datafield="FromWorkingYears" headertext="Dari Lama Kerja (Tahun)" description="" />
+      <intellisensetext datafield="ToWorkingYears" headertext="Sampai Lama Kerja (Tahun)" description="" />
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
@@ -791,11 +792,13 @@
 			<gridcolumn datafield="RenumerationCompCode" headertext="Kode" width="100px" />
 			<gridcolumn datafield="RenumerationCompName" headertext="Nama" width="120px" />
       <gridcolumn datafield="RenumerationCompType" headertext="Tipe" width="100px" />
+      <gridcolumn datafield="RenumerationCompSource" headertext="Sumber" width="100px" />
 		</gridcolumns>
 		<intellisensetexts>
 			<intellisensetext datafield="RenumerationCompCode" headertext="Kode" description="" />
 			<intellisensetext datafield="RenumerationCompName" headertext="Nama" description="" />
-      <intellisensetext datafield="RenumerationCompType" headertext="Nama" description="" />
+      <intellisensetext datafield="RenumerationCompType" headertext="Tipe" description="" />
+      <intellisensetext datafield="RenumerationCompSource" headertext="Sumber" description="" />
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
@@ -811,6 +814,20 @@
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
+  <!-- #Region Renumeration Hd-->
+  <searchdialog type="renumerationhd" methodname="GetvRenumerationHdList" keyfieldname="RenumerationCode" orderbyexpression="RenumerationName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="RenumerationCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="RenumerationName" headertext="Nama" width="120px" />
+      <gridcolumn datafield="RenumerationCompSource" headertext="Sumber" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="RenumerationCode" headertext="Kode" description="" />
+      <intellisensetext datafield="RenumerationName" headertext="Nama" description="" />
+      <intellisensetext datafield="RenumerationCompSource" headertext="Sumber" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Report Master -->
   <searchdialog type="reportmaster" methodname="GetvReportMasterList" keyfieldname="ReportCode" istreeview="1">
     <gridcolumns>
