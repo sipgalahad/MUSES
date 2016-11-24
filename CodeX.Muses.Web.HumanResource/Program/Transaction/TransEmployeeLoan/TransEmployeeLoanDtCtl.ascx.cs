@@ -56,8 +56,16 @@ namespace CodeX.Muses.Web.Information.Program
 
                 txtTransactionAmount.Text = entity.TransactionAmount.ToString();
                 txtPaymentDate.Text = entity.PaymentDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+
+                txtTransactionAmount.Attributes.Add("validationgroup", "mpTrxPopup");
+                txtPaymentDate.Attributes.Add("validationgroup", "mpTrxPopup");
                 if (entity.IsProcessed)
+                {
+                    HtmlGenericControl divDelete = (HtmlGenericControl)e.Item.FindControl("divDelete");
+                    divDelete.Style.Add("display", "none");
+                    txtTransactionAmount.ReadOnly = true;
                     txtPaymentDate.ReadOnly = true;
+                }
             }
         }
 

@@ -10,49 +10,50 @@
 <script type="text/javascript" id="dxss_serviceunithealthcareentryctl">
     $(function () {
         $('#btnGenerate').click(function (evt) {
-            //if (IsValid(evt, 'fsTrxPopup'))
             cbpProcessPopup.PerformCallback('generate');
         });
 
         $('#btnSave').click(function (evt) {
-            //if (IsValid(evt, 'fsTrxPopup'))
-            var indexPayment = 1;
-            var isAllowSave = true;
-            if (parseFloat($('#<%=txtTotalTransactionAmount.ClientID %>').attr('hiddenVal')) != parseFloat($('#<%=hdnTotalAmount.ClientID %>').val()))
-                isAllowSave = false;
-            if (isAllowSave) {
-                var result = '';
-                $('.trEntity').each(function () {
-                    if (result != '')
-                        result += '|';
-                    var paymentIndex = $(this).find('.tdPaymentIndex').html();
-                    var paymentDate = $(this).find('.txtPaymentDate').val();
-                    var transactionAmount = $(this).find('.txtTransactionAmount').attr('hiddenVal');
-                    result += paymentIndex + ';' + paymentDate + ';' + transactionAmount;
-                    indexPayment += 1;
-                });
-                $('#<%=hdnSaveValue.ClientID %>').val(result);
-                //alert(result)
-                cbpProcessPopup.PerformCallback('save');
-                cbpPopupView.PerformCallback('refresh');
+            if (IsValid(evt, 'fsTrxPopup', 'mpTrxPopup')) {
+                var indexPayment = 1;
+                var isAllowSave = true;
+                if (parseFloat($('#<%=txtTotalTransactionAmount.ClientID %>').attr('hiddenVal')) != parseFloat($('#<%=hdnTotalAmount.ClientID %>').val()))
+                    isAllowSave = false;
+                if (isAllowSave) {
+                    var result = '';
+                    $('.trEntity').each(function () {
+                        if (result != '')
+                            result += '|';
+                        var paymentIndex = $(this).find('.tdPaymentIndex').html();
+                        var paymentDate = $(this).find('.txtPaymentDate').val();
+                        var transactionAmount = $(this).find('.txtTransactionAmount').attr('hiddenVal');
+                        result += paymentIndex + ';' + paymentDate + ';' + transactionAmount;
+                        indexPayment += 1;
+                    });
+                    $('#<%=hdnSaveValue.ClientID %>').val(result);
+                    cbpProcessPopup.PerformCallback('save');
+                }
+                else
+                    showToast('Warning', 'Total Pembayaran Tidak Sama');
             }
-            else
-                showToast('Warning', 'Total Pembayaran Tidak Sama');
         });
         setControlDateAmount();
 
         $('#divEntryDtAdd').click(function () {
             $newTr = $('#addEntityDt').html();
             $newTr = $($newTr);
+            setDatePickerElement($newTr.find('.txtPaymentDate'));
             $newTr.insertBefore($('#trFooter'));
             setControlIndexPayment();
             setControlDateAmount();
+            calculateTotalAmountRepeater();
         });
 
         $('.divDeleteEntryDt').live('click', function () {
             $tr = $(this).closest('tr');
             $tr.remove();
             setControlIndexPayment();
+            calculateTotalAmountRepeater();
         });
     });
 
@@ -92,20 +93,26 @@
 
     function setControlDateAmount() {
         $('.txtPaymentDate').each(function () {
-            setDatePickerElement($(this));
+            var attr = $(this).attr('readonly');
+            if (typeof attr !== typeof undefined && attr !== false) {
+            }
+            else
+                setDatePickerElement($(this));
         });
 
         $('.txtTransactionAmount').each(function () {
             $(this).trigger('changeValue');
         });
 
-        if ($('#tblLoadDt tr').length > 1) {
+        if ($('.trEntity').length > 0) {
             $('#btnGenerate').hide();
             $('#btnSave').show();
+            $('#tblLoadDt').show();
         }
         else {
             $('#btnGenerate').show();
             $('#btnSave').hide();
+            $('#tblLoadDt').hide();
         }
 
         calculateTotalAmountRepeater();
@@ -180,7 +187,7 @@
                                                         <td class="tdPaymentIndex" align="center"><%#Eval("PaymentIndex")%></td>
                                                         <td align="center"><asp:TextBox id="txtPaymentDate" Width="120px" CssClass="txtPaymentDate datepicker" runat="server" /></td>
                                                         <td align="center"><asp:TextBox id="txtTransactionAmount" CssClass="txtTransactionAmount txtCurrency" runat="server" /></td>
-                                                        <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
+                                                        <td><div id="divDelete" runat="server" style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
                                                     </tr>
                                                 </ItemTemplate>
                                             </asp:Repeater>

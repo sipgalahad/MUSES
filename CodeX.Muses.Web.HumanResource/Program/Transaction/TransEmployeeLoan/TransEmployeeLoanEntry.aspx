@@ -47,7 +47,10 @@
             setDatePicker('<%=txtTransactionDate.ClientID %>');
             $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'minDate', '0');
 
-
+            if (getIsAdd())
+                $('#btnGenerate').hide();
+            else
+                $('#btnGenerate').show();
 
             $('#btnGenerate').click(function () {
                 var id = $('#<%=hdnTransactionID.ClientID %>').val();
@@ -63,7 +66,6 @@
                 var total = transactionAmount * (100 + interestPercentage) / 100;
                 $('#<%=txtTotalAmount.ClientID %>').val(total).trigger('changeValue');
             }
-
 
             //#region Transaction No
             function onGetFilterExpression() {
@@ -87,7 +89,6 @@
             }
             //#endregion
 
-
             $('.txtCurrency').each(function () {
                 $(this).trigger('changeValue');
             });
@@ -103,7 +104,6 @@
         }
 
         //#endregion
-
 
         //#region Paging
         function onCbpViewEndCallback(s) {
@@ -149,14 +149,6 @@
                     showToast('Save Failed', 'Error Message : ' + param[2]);
                 else {
                     onAfterSaveRecordDtSuccess(s.cpTransactionID);
-                    $('#divTransactionAdd').click();
-                    
-                    $('#tblDetails').hide();
-                    $('#divEntryDtAdd').hide();
-                    $('.trHourDt').each(function (){
-                       $tr = $(this).closest('tr');
-                       $tr.remove();
-                    });
                     cbpView.PerformCallback('refresh');
                 }
             }
@@ -188,9 +180,7 @@
 
         //#region Comp Renumeration
         function onGetRenumerationCompFilterExpression() {
-//            var TransactionID = $('#</%=hdnTransactionID.ClientID %>').val();
             var filterExpression = "IsDeleted = 0 ";
-            //alert(filterExpression);
             return filterExpression;
         }
 
@@ -245,9 +235,6 @@
         function onTacEmployeeIDValueChanged() {
         }
         //#endregion
-
-        
-
     </script>  
     
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
