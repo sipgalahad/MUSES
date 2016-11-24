@@ -18,7 +18,7 @@
     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
         <tr>
             <th rowspan="2"><%=GetLabel("Siswa") %></th>
-            <th colspan="10" class="thCenter"><%=GetLabel("STATUS KEHADIRAN") %></th>
+            <th id="thAttendance" runat="server" class="thCenter"><%=GetLabel("STATUS KEHADIRAN") %></th>
         </tr>
         <tr>
             <asp:Repeater ID="rptHeader" runat="server">
@@ -60,4 +60,50 @@
             </ItemTemplate>
         </asp:Repeater>
     </table>
+
+    
+    <div style="width:1250px; overflow-x: auto;">
+        <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
+            ShowLoadingPanel="false" OnCallback="cbpView_Callback">
+            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                EndCallback="function(s,e){ hideLoadingPanel(); }" />
+            <PanelCollection>
+                <dx:PanelContent ID="PanelContent1" runat="server">
+                    <asp:Panel runat="server" ID="pnlPrint">
+                        <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent" border="1">
+                            <tr>
+                                <th rowspan="2" style="width:80px"><%=GetLabel("NIS") %></th>
+                                <th rowspan="2"><%=GetLabel("Siswa") %></th>
+                                <th id="thAttendancePrint" runat="server" class="thCenter"><%=GetLabel("STATUS KEHADIRAN") %></th>
+                            </tr>
+                            <tr>
+                                <asp:Repeater ID="rptHeaderPrint" runat="server">
+                                    <ItemTemplate>
+                                        <th class="thCenter" style="width:90px">
+                                            <%#Eval("MeetingDate", "{0:dd-MM-yy}") %><br />
+                                        </th>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </tr>
+                            <asp:Repeater ID="rptStudentPrint" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td><%#Eval("StudentCode") %></td>
+                                        <td><%#Eval("StudentName") %></td>
+                                        <asp:Repeater ID="rptStudentAttendance" runat="server" OnItemDataBound="rptStudentAttendance_ItemDataBound">
+                                            <ItemTemplate>
+                                                <td align="center">
+                                                    <div id="divStudentAttendance" runat="server"></div>
+                                                </td>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </table>
+                    </asp:Panel>
+                </dx:PanelContent>
+            </PanelCollection>
+        </dxcp:ASPxCallbackPanel>  
+    </div>
 </asp:Content>

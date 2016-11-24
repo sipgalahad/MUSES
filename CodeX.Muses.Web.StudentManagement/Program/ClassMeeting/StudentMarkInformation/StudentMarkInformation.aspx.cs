@@ -19,6 +19,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         public override string OnGetMenuCode()
         {
+            string id = Request.QueryString["id"];
+            if (id == "tcs")
+                return Constant.MenuCode.StudentManagement.TCS_STUDENT_MARK;
             return Constant.MenuCode.StudentManagement.WS_STUDENT_MARK;
         }
 

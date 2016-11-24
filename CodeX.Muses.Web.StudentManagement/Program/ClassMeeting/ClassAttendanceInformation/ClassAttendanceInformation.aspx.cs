@@ -19,15 +19,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         public override string OnGetMenuCode()
         {
+            string id = Request.QueryString["id"];
+            if (id == "tcs")
+                return Constant.MenuCode.StudentManagement.TCS_ATTENDANCE_HISTORY;
             return Constant.MenuCode.StudentManagement.WS_ATTENDANCE_HISTORY;
         }
 
         List<ClassMeeting> lstClassMeeting = null;
         protected override void InitializeDataControl()
         {
+            BindGridView();
+        }
+
+        private void BindGridView()
+        {
             lstClassMeeting = BusinessLayer.GetClassMeetingList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
             rptHeader.DataSource = lstClassMeeting;
             rptHeader.DataBind();
+            thAttendance.ColSpan = lstClassMeeting.Count;
 
             lstClassMeetingAttendance = BusinessLayer.GetvClassMeetingAttendanceList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
 
@@ -35,6 +44,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
+        }
+
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridView();
         }
 
         List<vClassMeetingAttendance> lstClassMeetingAttendance = null;
@@ -67,6 +81,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
         {
             IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
+        }
+
+        public override Control OnGetExportControl()
+        {
+            lstClassMeeting = BusinessLayer.GetClassMeetingList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
+            rptHeaderPrint.DataSource = lstClassMeeting;
+            rptHeaderPrint.DataBind();
+            thAttendancePrint.ColSpan = lstClassMeeting.Count;
+
+            lstClassMeetingAttendance = BusinessLayer.GetvClassMeetingAttendanceList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
+
+            ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
+            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
+            rptStudentPrint.DataSource = lstStudent;
+            rptStudentPrint.DataBind();
+            HtmlGenericControl div = new HtmlGenericControl("DIV");
+            div.Controls.Add(pnlPrint);
+            return div;
         }
     }
 }

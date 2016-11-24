@@ -130,6 +130,7 @@
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx" />
+    <Content Include="Program\ClassMeeting\SubjectIndicator\SubjectIndicatorEntry.aspx" />
     <Content Include="Program\ClassMeeting\StudentMarkPerIndicatorAllInformation\StudentMarkPerIndicatorAllInformation.aspx" />
     <Content Include="Program\ClassMeeting\StudentMarkPerIndicator\StudentMarkPerIndicatorEntry2.aspx" />
     <Content Include="Program\ClassMeeting\StudentNoteInformation\StudentNoteViewDtCtl.ascx" />
@@ -690,6 +691,13 @@
     </Compile>
     <Compile Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTaskRemedialEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectIndicator\SubjectIndicatorEntry.aspx.cs">
+      <DependentUpon>SubjectIndicatorEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectIndicator\SubjectIndicatorEntry.aspx.designer.cs">
+      <DependentUpon>SubjectIndicatorEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ClassMeeting\StudentMarkPerIndicatorAllInformation\StudentMarkPerIndicatorAllInformation.aspx.cs">
       <DependentUpon>StudentMarkPerIndicatorAllInformation.aspx</DependentUpon>

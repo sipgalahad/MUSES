@@ -10,43 +10,43 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ClassAttendanceInformation {
+    public partial class SubjectIndicatorEntry {
         
         /// <summary>
-        /// hdnListSaveValue control.
+        /// hdnSubjectCurriculumID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectCurriculumID;
         
         /// <summary>
-        /// thAttendance control.
+        /// hdnCurriculumSyllabusIndicatorID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thAttendance;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumSyllabusIndicatorID;
         
         /// <summary>
-        /// rptHeader control.
+        /// hdnEntryID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeader;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// rptStudent control.
+        /// txtSubjectCurriculumSyllabusName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudent;
+        protected global::System.Web.UI.WebControls.TextBox txtSubjectCurriculumSyllabusName;
         
         /// <summary>
         /// cbpView control.
@@ -67,39 +67,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// pnlPrint control.
+        /// grdView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlPrint;
+        protected global::System.Web.UI.WebControls.GridView grdView;
         
         /// <summary>
-        /// thAttendancePrint control.
+        /// cbpProcess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thAttendancePrint;
-        
-        /// <summary>
-        /// rptHeaderPrint control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeaderPrint;
-        
-        /// <summary>
-        /// rptStudentPrint control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudentPrint;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcess;
     }
 }
