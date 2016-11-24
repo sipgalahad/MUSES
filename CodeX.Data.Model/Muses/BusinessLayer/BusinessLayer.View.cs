@@ -14132,6 +14132,25 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+
+        public static List<vTransEmployeeLoanHd> GetvTransEmployeeLoanHdList(string filterExpression, IDbContext ctx)
+        {
+            List<vTransEmployeeLoanHd> result = new List<vTransEmployeeLoanHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeLoanHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransEmployeeLoanHd)helper.IDataReaderToObject(reader, new vTransEmployeeLoanHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
         public static vTransEmployeeLoanHd GetvTransEmployeeLoanHd(string filterExpression, int pageIndex, string orderByExpression = "")
         {
             List<vTransEmployeeLoanHd> result = new List<vTransEmployeeLoanHd>();

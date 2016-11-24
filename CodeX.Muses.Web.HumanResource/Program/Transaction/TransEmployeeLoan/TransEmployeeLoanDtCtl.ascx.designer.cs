@@ -7,127 +7,82 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.Inventory.Program {
+namespace CodeX.Muses.Web.Information.Program {
     
     
-    public partial class TransEmployeeLoanEntry {
+    public partial class TransEmployeeLoanDtCtl {
         
         /// <summary>
-        /// hdnRowCountPerPage control.
+        /// hdnSaveValue control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRowCountPerPage;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSaveValue;
         
         /// <summary>
-        /// hdnRecordFilterExpression control.
+        /// hdnHdID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRecordFilterExpression;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnHdID;
         
         /// <summary>
-        /// hdnPrintStatus control.
+        /// hdnID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPrintStatus;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// hdnTransactionID control.
+        /// hdnPaymentIndex control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTransactionID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPaymentIndex;
         
         /// <summary>
-        /// hdnTransactionDtID control.
+        /// hdnTotalAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTransactionDtID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTotalAmount;
         
         /// <summary>
-        /// hdnPageCount control.
+        /// hdnStartPaymentDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPageCount;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStartPaymentDate;
         
         /// <summary>
-        /// hdnRowCount control.
+        /// hdnStartEffectiveDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRowCount;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStartEffectiveDate;
         
         /// <summary>
-        /// hdnDtHourSave control.
+        /// txtPaymentDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDtHourSave;
-        
-        /// <summary>
-        /// hdnIsEditable control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsEditable;
-        
-        /// <summary>
-        /// txtTransactionNo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTransactionNo;
-        
-        /// <summary>
-        /// txtTransactionDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTransactionDate;
-        
-        /// <summary>
-        /// tacEmployeeID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacEmployeeID;
-        
-        /// <summary>
-        /// tacRenumerationCompID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacRenumerationCompID;
+        protected global::System.Web.UI.WebControls.TextBox txtPaymentDate;
         
         /// <summary>
         /// txtTransactionAmount control.
@@ -139,48 +94,75 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtTransactionAmount;
         
         /// <summary>
-        /// txtInterestPercentage control.
+        /// txtHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtInterestPercentage;
+        protected global::System.Web.UI.WebControls.TextBox txtHeader;
         
         /// <summary>
-        /// txtTotalAmount control.
+        /// txtTotal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTotalAmount;
+        protected global::System.Web.UI.WebControls.TextBox txtTotal;
         
         /// <summary>
-        /// txtStartPaymentDate control.
+        /// cbpPopupView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStartPaymentDate;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopupView;
         
         /// <summary>
-        /// txtNoOfPayment control.
+        /// PanelContent1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNoOfPayment;
+        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// txtRemarks control.
+        /// pnlView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
+        protected global::System.Web.UI.WebControls.Panel pnlView;
+        
+        /// <summary>
+        /// rptView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptView;
+        
+        /// <summary>
+        /// txtTotalTransactionAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTotalTransactionAmount;
+        
+        /// <summary>
+        /// cbpProcessPopup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcessPopup;
     }
 }

@@ -46,11 +46,11 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             //BindGridView(1, true, ref PageCount, ref RowCount);
             
-            Helper.SetControlEntrySetting(cboGCBaseTariffType, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(tacRenumerationCompID, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(txtBaseNilai, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(txtTariffMultipleBy, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(txtMaxJam, new ControlEntrySetting(true, true, true), "mpTrx");
+            //Helper.SetControlEntrySetting(cboGCBaseTariffType, new ControlEntrySetting(true, true, true), "mpTrx");
+            //Helper.SetControlEntrySetting(tacRenumerationCompID, new ControlEntrySetting(true, true, true), "mpTrx");
+            //Helper.SetControlEntrySetting(txtBaseNilai, new ControlEntrySetting(true, true, true), "mpTrx");
+            //Helper.SetControlEntrySetting(txtTariffMultipleBy, new ControlEntrySetting(true, true, true), "mpTrx");
+            //Helper.SetControlEntrySetting(txtMaxJam, new ControlEntrySetting(true, true, true), "mpTrx");
             
         }
 
@@ -59,8 +59,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             //List<RenumerationCompFormulaHd> listRenumerationCompFormulaHd = BusinessLayer.GetRenumerationCompFormulaHdList(string.Format("IsDeleted = 0"));
             //Methods.SetComboBoxField<RenumerationCompFormulaHd>(cboFormulaID, listRenumerationCompFormulaHd, "FormulaName", "FormulaID");
 
-            List<StandardCode> listSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.RENUMERATION_FORMULA_BASE_TARIFF_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboGCBaseTariffType, listSc, "StandardCodeName", "StandardCodeID");
+            //List<StandardCode> listSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.RENUMERATION_FORMULA_BASE_TARIFF_TYPE));
+            //Methods.SetComboBoxField<StandardCode>(cboGCBaseTariffType, listSc, "StandardCodeName", "StandardCodeID");
 
         }
 

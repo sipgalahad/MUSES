@@ -38592,8 +38592,9 @@ namespace CodeX.Data.Model
     {
         private Int32 _TransactionID;
         private Int16 _PaymentIndex;
-        private Int32 _PaymentDate;
+        private DateTime _PaymentDate;
         private Decimal _TransactionAmount;
+        private Boolean _IsProcessed;
 
         [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 TransactionID
@@ -38607,8 +38608,8 @@ namespace CodeX.Data.Model
             get { return _PaymentIndex; }
             set { _PaymentIndex = value; }
         }
-        [Column(Name = "PaymentDate", DataType = "Int32")]
-        public Int32 PaymentDate
+        [Column(Name = "PaymentDate", DataType = "DateTime")]
+        public DateTime PaymentDate
         {
             get { return _PaymentDate; }
             set { _PaymentDate = value; }
@@ -38618,6 +38619,12 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionAmount; }
             set { _TransactionAmount = value; }
+        }
+        [Column(Name = "IsProcessed", DataType = "Boolean")]
+        public Boolean IsProcessed
+        {
+            get { return _IsProcessed; }
+            set { _IsProcessed = value; }
         }
     }
 
