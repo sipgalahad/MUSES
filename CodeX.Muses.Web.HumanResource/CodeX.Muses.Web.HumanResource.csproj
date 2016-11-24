@@ -119,6 +119,7 @@
     <Content Include="Program\Master\UpdateRenumeration\RenumerationDtCtl.ascx" />
     <Content Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntryCtl.ascx" />
     <Content Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntry.aspx" />
+    <Content Include="Program\Transaction\TransEmployeeLoan\TransEmployeeLoanDtCtl.ascx" />
     <Content Include="Program\Transaction\TransEmployeeLoan\TransEmployeeLoanEntry.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -457,6 +458,13 @@
     </Compile>
     <Compile Include="Program\Master\UpdateRenumeration\UpdateRenumerationEntry.aspx.designer.cs">
       <DependentUpon>UpdateRenumerationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Transaction\TransEmployeeLoan\TransEmployeeLoanDtCtl.ascx.cs">
+      <DependentUpon>TransEmployeeLoanDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\TransEmployeeLoan\TransEmployeeLoanDtCtl.ascx.designer.cs">
+      <DependentUpon>TransEmployeeLoanDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Transaction\TransEmployeeLoan\TransEmployeeLoanEntry.aspx.cs">
       <DependentUpon>TransEmployeeLoanEntry.aspx</DependentUpon>

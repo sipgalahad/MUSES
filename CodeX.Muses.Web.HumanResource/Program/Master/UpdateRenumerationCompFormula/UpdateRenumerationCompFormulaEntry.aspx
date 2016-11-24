@@ -437,7 +437,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>&nbsp;</td>
-                                                    <td colspan="2"><span class="divAdd" id="divEntryDtAdd"><%=GetLabel("Tambah Member")%></span><br /></td>
+                                                    <td colspan="2"><span class="divAdd" id="divEntryDtAdd"><%=GetLabel("Tambah Jam")%></span><br /></td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>

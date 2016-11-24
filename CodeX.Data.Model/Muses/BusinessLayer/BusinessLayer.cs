@@ -18737,6 +18737,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<TransEmployeeLoanHd> GetTransEmployeeLoanHdList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeeLoanHd> result = new List<TransEmployeeLoanHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeLoanHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeLoanHd)helper.IDataReaderToObject(reader, new TransEmployeeLoanHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetTransEmployeeLoanHdMaxID(IDbContext ctx)
         {
             Int32 result = 0;
