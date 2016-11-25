@@ -113,6 +113,7 @@
     <Content Include="Program\Master\UpdateRenumerationFamilyStatus\UpdateRenumerationFamilyStatusEntry.aspx" />
     <Content Include="Program\Master\UpdateRenumerationJobLevel\UpdateRenumerationJobLevelEntry.aspx" />
     <Content Include="Program\Transaction\AbsenceProposal\AbsenceProposalEntry.aspx" />
+    <Content Include="Program\Transaction\EmployeeDailyAttendance\EmployeeDailyAttendanceEntry.aspx" />
     <Content Include="Program\Transaction\OvertimeProposal\OvertimeProposalEntry.aspx" />
     <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntry.aspx" />
     <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntryCtl.ascx" />
@@ -419,6 +420,13 @@
     </Compile>
     <Compile Include="Program\Transaction\AbsenceProposal\AbsenceProposalEntry.aspx.designer.cs">
       <DependentUpon>AbsenceProposalEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Transaction\EmployeeDailyAttendance\EmployeeDailyAttendanceEntry.aspx.cs">
+      <DependentUpon>EmployeeDailyAttendanceEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\EmployeeDailyAttendance\EmployeeDailyAttendanceEntry.aspx.designer.cs">
+      <DependentUpon>EmployeeDailyAttendanceEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Transaction\OvertimeProposal\OvertimeProposalEntry.aspx.cs">
       <DependentUpon>OvertimeProposalEntry.aspx</DependentUpon>

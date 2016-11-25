@@ -15,28 +15,29 @@ using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class ClassAttendanceInformation : BasePageTrx
+    public partial class ClassAttendanceSummaryInformation : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
             string id = Request.QueryString["id"];
             if (id == "tcs")
-                return Constant.MenuCode.StudentManagement.TCS_ATTENDANCE_HISTORY;
-            return Constant.MenuCode.StudentManagement.WS_ATTENDANCE_HISTORY;
+                return Constant.MenuCode.StudentManagement.TCS_CLASS_ATTENDANCE_SUMMARY;
+            return Constant.MenuCode.StudentManagement.WS_CLASS_ATTENDANCE_SUMMARY;
         }
 
-        List<ClassMeeting> lstClassMeeting = null;
+        List<StandardCode> lstAttendanceStatus = null;
         protected override void InitializeDataControl()
         {
             BindGridView();
         }
-
+        
         private void BindGridView()
         {
-            lstClassMeeting = BusinessLayer.GetClassMeetingList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
-            rptHeader.DataSource = lstClassMeeting;
+            lstAttendanceStatus = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.STUDENT_ATTENDANCE));
+            thHeaderAttendance.ColSpan = lstAttendanceStatus.Count;
+
+            rptHeader.DataSource = lstAttendanceStatus;
             rptHeader.DataBind();
-            thAttendance.ColSpan = lstClassMeeting.Count;
 
             lstClassMeetingAttendance = BusinessLayer.GetvClassMeetingAttendanceList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
 
@@ -57,7 +58,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 Repeater rptStudentAttendance = (Repeater)e.Item.FindControl("rptStudentAttendance");
-                rptStudentAttendance.DataSource = lstClassMeeting;
+                rptStudentAttendance.DataSource = lstAttendanceStatus;
                 rptStudentAttendance.DataBind();
             }
         }
@@ -66,15 +67,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                ClassMeeting classMeeting = (ClassMeeting)e.Item.DataItem;
+                StandardCode classMeeting = (StandardCode)e.Item.DataItem;
                 vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
-
-                vClassMeetingAttendance entity = lstClassMeetingAttendance.FirstOrDefault(p => p.ClassMeetingID == classMeeting.ClassMeetingID && p.StudentID == student.StudentID);
-                if (entity != null)
-                {
-                    HtmlGenericControl divStudentAttendance = (HtmlGenericControl)e.Item.FindControl("divStudentAttendance");
-                    divStudentAttendance.InnerHtml = entity.AttendanceStatus.Substring(0, 1);
-                }
+                HtmlGenericControl divStudentAttendance = (HtmlGenericControl)e.Item.FindControl("divStudentAttendance");
+                divStudentAttendance.InnerHtml = lstClassMeetingAttendance.Where(p => p.GCAttendanceStatus == classMeeting.StandardCodeID && p.StudentID == student.StudentID).Count().ToString();
             }
         }
 
@@ -85,10 +81,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         public override Control OnGetExportControl()
         {
-            lstClassMeeting = BusinessLayer.GetClassMeetingList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
-            rptHeaderPrint.DataSource = lstClassMeeting;
+            lstAttendanceStatus = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.STUDENT_ATTENDANCE));
+            thHeaderAttendancePrint.ColSpan = lstAttendanceStatus.Count;
+
+            rptHeaderPrint.DataSource = lstAttendanceStatus;
             rptHeaderPrint.DataBind();
-            thAttendancePrint.ColSpan = lstClassMeeting.Count;
 
             lstClassMeetingAttendance = BusinessLayer.GetvClassMeetingAttendanceList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
 

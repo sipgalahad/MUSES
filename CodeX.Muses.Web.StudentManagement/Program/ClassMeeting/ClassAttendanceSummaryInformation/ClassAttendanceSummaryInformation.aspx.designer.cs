@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ClassAttendanceInformation {
+    public partial class ClassAttendanceSummaryInformation {
         
         /// <summary>
         /// hdnListSaveValue control.
@@ -22,13 +22,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
         
         /// <summary>
-        /// thAttendance control.
+        /// thHeaderAttendance control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thAttendance;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thHeaderAttendance;
         
         /// <summary>
         /// rptHeader control.
@@ -76,13 +76,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Panel pnlPrint;
         
         /// <summary>
-        /// thAttendancePrint control.
+        /// thHeaderAttendancePrint control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thAttendancePrint;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thHeaderAttendancePrint;
         
         /// <summary>
         /// rptHeaderPrint control.

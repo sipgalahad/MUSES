@@ -38,7 +38,6 @@
 
 
         $('.lblFormula').live('click', function () {
-            //var id = $(this).closest('tr').find('.keyField').html();
             $td = $(this).closest('td');
             var hdnOp = $td.find('.hdnOrganizationPositionID').val();
             var hdnRenum = $td.find('.hdnRenumerationTransID').val();
@@ -47,15 +46,6 @@
             var url = ResolveUrl("~/Program/HumanResource/EmployeeRenumeration/RenumerationInformationDtCtl.ascx");
             openUserControlPopup(url, id, 'Renumeration Formula', 600, 500);
         });
-        
-
-        //#region Location
-        function getLocationFilterExpression() {
-            var filterExpression = "<%=OnGetLocationFilterExpression() %>";
-            return filterExpression;
-        }
-  
-        //#endregion
 
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
@@ -152,13 +142,12 @@
                              <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                                 position: relative; font-size: 0.95em;">
                                 <input type="hidden" id="hdnFilterExpression" value="" runat="server" />
-                                <table id="tblView" class="grdStockDetail grdSelected">
+                                <table id="tblView" class="grdStockDetail grdSelected grdBorder" rules="all" cellpadding="0" cellspacing="0">
                                     <tr>
-                                        <th style="width:100px" ><%=GetLabel("ID Dulu") %></th>
                                         <th><%=GetLabel("Jabatan") %></th>
                                         <asp:Repeater ID="rptCompHd" runat="server">
                                             <ItemTemplate>
-                                                <th class="thCenter" style="width:150px">
+                                                <th class="thCenter" style="width:120px">
                                                     <%#Eval("RenumerationCompName") %>
                                                     <br />(<%#Eval("RenumerationCompType") %>)
                                                 </th>
@@ -168,7 +157,6 @@
                                     <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
                                         <ItemTemplate>
                                             <tr>
-                                                <td><%#Eval("OrganizationPositionID") %></td>
                                                 <td><%#Eval("OrganizationPositionName")%></td>
                                                 <asp:Repeater ID="rptCompDt" runat="server" OnItemDataBound="rptCompDt_ItemDataBound">
                                                     <ItemTemplate>

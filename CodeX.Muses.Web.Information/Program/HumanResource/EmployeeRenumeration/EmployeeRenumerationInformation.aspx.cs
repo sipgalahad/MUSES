@@ -35,61 +35,33 @@ namespace CodeX.Muses.Web.Information.Program
             lstOD.Insert(0, new OrganizationDepartment {OrganizationDepartmentID = 0, OrganizationDepartmentName = "" });
             Methods.SetComboBoxField<OrganizationDepartment>(cboOrganizationDepartment, lstOD, "OrganizationDepartmentName", "OrganizationDepartmentID");
 
-
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
 
-
             Helper.SetControlEntrySetting(tacOrganizationPositionID, new ControlEntrySetting(true, true, true),"");
-       
         }
 
-        
-        protected string OnGetLocationFilterExpression()
-        {
-            return string.Format("{0};{1};;", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID);
-        }
-
-       
-
-        public string OnGetFilterEmployeeExpression() 
-        {
-            return string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') ", AppSession.UserLogin.SiteID); 
-        }
-    
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            
-            string filterExpression = OnGetFilterEmployeeExpression();
+            string filterExpression = string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') ", AppSession.UserLogin.SiteID);
+            if (txtNIK.Text != "" && txtNIK.Text != null)
+                filterExpression += String.Format(" AND EmployeeCode LIKE '%{0}%' ", txtNIK.Text);
+            if (txtEmployeeName.Text != "" && txtEmployeeName.Text != null)
+                filterExpression += String.Format(" AND EmployeeName LIKE '%{0}%' ", txtEmployeeName.Text);
+            if (cboOrganizationDepartment.Value != null && cboOrganizationDepartment.Value.ToString() != "0")
+                filterExpression += String.Format(" AND OrganizationDepartmentID = {0} ", cboOrganizationDepartment.Value);
+            if (tacOrganizationPositionID.Value != null && tacOrganizationPositionID.Value != "")
+                filterExpression += String.Format(" AND OrganizationPositionID = {0} ", tacOrganizationPositionID.Value);
+            filterExpression += String.Format(" AND IsDeleted = 0");
 
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvEmployeeRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
-            } 
-
-            lstRenumComp = BusinessLayer.GetvRenumerationCompList("IsDeleted = 0 ");
-            if (txtNIK.Text != "" && txtNIK.Text != null)
-            {
-                filterExpression += String.Format(" AND EmployeeCode LIKE '%{0}%' ", txtNIK.Text);
-            }
-            if(txtEmployeeName.Text != "" && txtEmployeeName.Text != null)
-            {
-                filterExpression += String.Format(" AND EmployeeName LIKE '%{0}%' ", txtEmployeeName.Text);
-            }
-            if(cboOrganizationDepartment.Value != null && cboOrganizationDepartment.Value.ToString() != "0")
-            {
-                filterExpression += String.Format(" AND OrganizationDepartmentID = {0} ", cboOrganizationDepartment.Value);
-            }
-            if (tacOrganizationPositionID.Value != null && tacOrganizationPositionID.Value != "")
-            {
-                filterExpression += String.Format(" AND OrganizationPositionID = {0} ", tacOrganizationPositionID.Value);
             }
 
-            filterExpression += String.Format(" AND IsDeleted = 0 ");
-
+            lstRenumComp = BusinessLayer.GetvRenumerationCompList(string.Format("GCRenumerationCompType != '{0}' AND IsDeleted = 0", Constant.RenumerationCompType.DEDUCTION));
             List<vEmployee> lstEm = BusinessLayer.GetvEmployeeList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "EmployeeName ASC");
-
             string lstEmpID = string.Join(",", lstEm.Select(p => p.EmployeeID).ToList());
             if (lstEmpID != "")
                 lstEmpRenumeration = BusinessLayer.GetvEmployeeRenumerationList(string.Format("EmployeeID IN ({0})", lstEmpID));
@@ -98,7 +70,7 @@ namespace CodeX.Muses.Web.Information.Program
 
             rptView.DataSource = lstEm;
             rptView.DataBind();
-                        
+
             rptCompHd.DataSource = lstRenumComp;
             rptCompHd.DataBind();
         }

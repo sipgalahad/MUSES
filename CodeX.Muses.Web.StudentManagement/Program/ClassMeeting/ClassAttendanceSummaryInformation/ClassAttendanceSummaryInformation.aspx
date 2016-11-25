@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPClassSubjectPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="ClassAttendanceInformation.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.ClassAttendanceInformation" %>
+    CodeBehind="ClassAttendanceSummaryInformation.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.ClassAttendanceSummaryInformation" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -13,18 +13,26 @@
         $(function () {
             setStudentImage();
         });
+
+        $('.lblAttendance.lblLink').live('click', function () {
+            var GCAttendanceStatus = $(this).parent().find('.hdnAttendanceStatus').val();
+            var studentID = $(this).closest('tr').find('.keyField').html();
+            var id = studentID + '|' + GCAttendanceStatus;
+            var url = ResolveUrl("~/Program/ClassMeeting/ClassAttendanceSummaryInformation/ClassAttendanceSummaryDtCtl.ascx");
+            openUserControlPopup(url, id, 'Detil Status Kehadiran', 500, 450);
+        });
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
         <tr>
             <th rowspan="2"><%=GetLabel("Siswa") %></th>
-            <th id="thAttendance" runat="server" class="thCenter"><%=GetLabel("STATUS KEHADIRAN") %></th>
+            <th id="thHeaderAttendance" runat="server" class="thCenter"><%=GetLabel("STATUS KEHADIRAN") %></th>
         </tr>
         <tr>
             <asp:Repeater ID="rptHeader" runat="server">
                 <ItemTemplate>
-                    <th class="thCenter" style="width:90px">
-                        <%#Eval("MeetingDate", "{0:dd-MM-yy}") %><br />
+                    <th class="thCenter" style="width:100px">
+                        <%#Eval("StandardCodeName") %><br />
                     </th>
                 </ItemTemplate>
             </asp:Repeater>
@@ -43,16 +51,15 @@
                                 </td>
                                 <td>
                                     <%#Eval("StudentName") %>
-                                    <input type="hidden" id="Hidden1" class="hdnAttendance" runat="server" value="" />
                                 </td>
                             </tr>
                         </table>
-                        <input type="hidden" id="hdnAttendance" class="hdnAttendance" runat="server" value="" />
                     </td>
                     <asp:Repeater ID="rptStudentAttendance" runat="server" OnItemDataBound="rptStudentAttendance_ItemDataBound">
                         <ItemTemplate>
                             <td align="center">
-                                <div id="divStudentAttendance" runat="server"></div>
+                                <input type="hidden" class="hdnAttendanceStatus" value='<%#Eval("StandardCodeID") %>' />
+                                <label class="lblAttendance lblLink"><div id="divStudentAttendance" runat="server"></div></label>
                             </td>
                         </ItemTemplate>
                     </asp:Repeater>
@@ -74,13 +81,13 @@
                             <tr>
                                 <th rowspan="2" style="width:80px"><%=GetLabel("NIS") %></th>
                                 <th rowspan="2"><%=GetLabel("Siswa") %></th>
-                                <th id="thAttendancePrint" runat="server" class="thCenter"><%=GetLabel("STATUS KEHADIRAN") %></th>
+                                <th id="thHeaderAttendancePrint" runat="server" class="thCenter"><%=GetLabel("STATUS KEHADIRAN") %></th>
                             </tr>
                             <tr>
                                 <asp:Repeater ID="rptHeaderPrint" runat="server">
                                     <ItemTemplate>
-                                        <th class="thCenter" style="width:90px">
-                                            <%#Eval("MeetingDate", "{0:dd-MM-yy}") %><br />
+                                        <th class="thCenter" style="width:100px">
+                                            <%#Eval("StandardCodeName") %><br />
                                         </th>
                                     </ItemTemplate>
                                 </asp:Repeater>

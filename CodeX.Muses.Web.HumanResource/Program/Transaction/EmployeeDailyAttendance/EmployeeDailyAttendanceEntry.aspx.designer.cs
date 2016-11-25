@@ -7,99 +7,72 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Program {
+namespace CodeX.Muses.Web.HumanResource.Program {
     
     
-    public partial class ClassAttendanceInformation {
+    public partial class EmployeeDailyAttendanceEntry {
         
         /// <summary>
-        /// hdnListSaveValue control.
+        /// hdnID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// thAttendance control.
+        /// hdnFilterExpression control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thAttendance;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
         
         /// <summary>
-        /// rptHeader control.
+        /// txtDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeader;
+        protected global::System.Web.UI.WebControls.TextBox txtDate;
         
         /// <summary>
-        /// rptStudent control.
+        /// hdnFileName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudent;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFileName;
         
         /// <summary>
-        /// cbpView control.
+        /// hdnUploadedFile1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnUploadedFile1;
         
         /// <summary>
-        /// PanelContent1 control.
+        /// FileUpload1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
         
         /// <summary>
-        /// pnlPrint control.
+        /// cbpProcess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlPrint;
-        
-        /// <summary>
-        /// thAttendancePrint control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thAttendancePrint;
-        
-        /// <summary>
-        /// rptHeaderPrint control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeaderPrint;
-        
-        /// <summary>
-        /// rptStudentPrint control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudentPrint;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcess;
     }
 }

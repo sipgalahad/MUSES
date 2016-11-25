@@ -122,6 +122,7 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx" />
     <Content Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx" />
+    <Content Include="Program\ClassMeeting\ClassAttendanceSummaryInformation\ClassAttendanceSummaryDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassMeeting\SubjectCurriculumMeetingPlanDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskPerIndicatorInformation\ClassTaskPerIndicatorInformation.aspx" />
     <Content Include="Program\ClassMeeting\ClassTaskPerIndicatorInformation\ClassTaskPerIndicatorDtViewCtl.ascx" />
@@ -130,6 +131,8 @@
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx" />
+    <Content Include="Program\ClassMeeting\ClassAttendanceSummaryInformation\ClassAttendanceSummaryInformation.aspx" />
+    <Content Include="Program\ClassMeeting\SubjectIndicator\SubjectIndicatorEntry.aspx" />
     <Content Include="Program\ClassMeeting\StudentMarkPerIndicatorAllInformation\StudentMarkPerIndicatorAllInformation.aspx" />
     <Content Include="Program\ClassMeeting\StudentMarkPerIndicator\StudentMarkPerIndicatorEntry2.aspx" />
     <Content Include="Program\ClassMeeting\StudentNoteInformation\StudentNoteViewDtCtl.ascx" />
@@ -635,6 +638,13 @@
     <Compile Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx.designer.cs">
       <DependentUpon>ExtracurricularWeeklyScheduleList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ClassMeeting\ClassAttendanceSummaryInformation\ClassAttendanceSummaryDtCtl.ascx.cs">
+      <DependentUpon>ClassAttendanceSummaryDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassAttendanceSummaryInformation\ClassAttendanceSummaryDtCtl.ascx.designer.cs">
+      <DependentUpon>ClassAttendanceSummaryDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\ClassMeeting\ClassMeeting\SubjectCurriculumMeetingPlanDtCtl.ascx.cs">
       <DependentUpon>SubjectCurriculumMeetingPlanDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -690,6 +700,20 @@
     </Compile>
     <Compile Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTaskRemedialEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassAttendanceSummaryInformation\ClassAttendanceSummaryInformation.aspx.cs">
+      <DependentUpon>ClassAttendanceSummaryInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassAttendanceSummaryInformation\ClassAttendanceSummaryInformation.aspx.designer.cs">
+      <DependentUpon>ClassAttendanceSummaryInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectIndicator\SubjectIndicatorEntry.aspx.cs">
+      <DependentUpon>SubjectIndicatorEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectIndicator\SubjectIndicatorEntry.aspx.designer.cs">
+      <DependentUpon>SubjectIndicatorEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ClassMeeting\StudentMarkPerIndicatorAllInformation\StudentMarkPerIndicatorAllInformation.aspx.cs">
       <DependentUpon>StudentMarkPerIndicatorAllInformation.aspx</DependentUpon>

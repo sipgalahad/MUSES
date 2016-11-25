@@ -148,6 +148,11 @@ namespace CodeX.Common
             public const string EMPLOYEE_MARTIAL_STATUS = "X327";
         }
 
+        public static class RenumerationCompType
+        {
+            public const string DEDUCTION = "X314^005";
+        }
+
         public static class RenumerationCompSource
         {
             public const string JOB_LEVEL = "X326^001";

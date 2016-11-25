@@ -162,7 +162,7 @@
 
         function onTacOrganizationPositionIDSearchClick() {
             openSearchDialog('OrganizationPosition', onGetOrganizationPositionFilterExpression(), function (value) {
-                var filterExpression = onGetOrganizationPositionFilterExpression() + " AND OrganizationPositionID = '" + value + "' AND IsDeleted = 0 ";
+                var filterExpression = onGetOrganizationPositionFilterExpression() + " AND OrganizationPositionID = '" + value + "' AND IsDeleted = 0";
                 Methods.getObject('GetvOrganizationPositionList', filterExpression, function (result) {
                     if (result != null) {
                         tacOrganizationPositionID.setValue(result.OrganizationPositionID);
@@ -265,74 +265,6 @@
                                         </ItemTemplate>
                                     </asp:Repeater>
                                 </table>
-                               <%-- <asp:ListView runat="server" ID="lvwView">
-                                    <EmptyDataTemplate>
-                                        <table id="tblView" runat="server" class="grdStockDetail grdSelected" cellspacing="0" rules="all" >
-                                            <tr>  
-                                                <th class="keyField" rowspan="2">&nbsp;</th>
-                                                <th rowspan="2"><%=GetLabel("Nama Item")%></th>
-                                                <th rowspan="2" style="width:60px"><%=GetLabel("Satuan")%></th>
-                                                <th rowspan="2" class="thCenter" style="width:70px"><%=GetLabel("Stok Awal")%></th>
-                                                <th colspan="3" class="thCenter"><%=GetLabel("Masuk")%></th>
-                                                <th colspan="3" class="thCenter"><%=GetLabel("Keluar")%></th>
-                                                <th rowspan="2" class="thCenter" style="width:70px"><%=GetLabel("Stok Akhir")%></th>
-                                            </tr>
-                                            <tr>
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Pembelian")%></th> 
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
- 
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Pemakaian")%></th> 
-                                            </tr>
-                                            
-                                            <tr class="trEmpty">
-                                                <td colspan="25">
-                                                    <%=GetLabel("No Data To Display")%>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </EmptyDataTemplate>
-                                    <LayoutTemplate>
-                                        <table id="tblView" runat="server" class="grdStockDetail grdBorder grdSelected" cellspacing="0" rules="all" >
-                                            <tr>  
-                                                <th class="keyField" rowspan="2">&nbsp;</th>
-                                                <th rowspan="2"><%=GetLabel("Nama Item")%></th>
-                                                <th rowspan="2" style="width:60px"><%=GetLabel("Satuan")%></th>
-                                                <th rowspan="2" class="thCenter" style="width:70px"><%=GetLabel("Stok Awal")%></th>
-                                                <th colspan="3" class="thCenter"><%=GetLabel("Masuk")%></th>
-                                                <th colspan="3" class="thCenter"><%=GetLabel("Keluar")%></th>
-                                                <th rowspan="2" class="thCenter" style="width:70px"><%=GetLabel("Stok Akhir")%></th>
-                                            </tr>
-                                            <tr>
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Pembelian")%></th> 
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
-
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
-                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Pemakaian")%></th> 
-                                            </tr>
-                                            <tr runat="server" id="itemPlaceholder" ></tr>
-                                        </table>
-                                    </LayoutTemplate>
-                                    <ItemTemplate>
-                                        <tr>
-                                            <td class="keyField"><%# Eval("ItemID")%></td>
-                                            <td><label class="lblLink lblDetail"><%# Eval("ItemName1")%></label></td>
-                                            <td><%# Eval("ItemUnit")%></td>
-                                            <td align="right"><%# Eval("IN_QuantityBEGIN", "{0:N2}")%></td>
-                                            <td align="right"><%# Eval("IN_PurchaseReceive", "{0:N2}")%></td>
-                                            <td align="right"><%# Eval("IN_Distribution", "{0:N2}")%></td>
-                                            <td align="right"><%# Eval("IN_Adjustment", "{0:N2}")%></td>
-                                            <td align="right"><%# Eval("OUT_Distribution", "{0:N2}")%></td>
-                                            <td align="right"><%# Eval("OUT_Adjustment", "{0:N2}")%></td>
-                                            <td align="right"><%# Eval("OUT_Consumption", "{0:N2}")%></td>
-                                            <td align="right"><%# Eval("QuantityEND", "{0:N2}")%></td>
-                                        </tr>
-                                    </ItemTemplate>
-                                </asp:ListView>--%>
                             </asp:Panel>
                         </dx:PanelContent>
                     </PanelCollection>

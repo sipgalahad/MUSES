@@ -664,6 +664,7 @@ namespace CodeX.Common
                 public const string OVERTIME_PROPOSAL = "HR020100";
                 public const string ABSENCE_PROPOSAL = "HR020200";
                 public const string EMPLOYEE_LOAN = "HR020300";
+                public const string EMPLOYEE_DAILY_ATTENDANCE = "HR020400";
             }
             #endregion
 
@@ -706,7 +707,7 @@ namespace CodeX.Common
 
                 public const string POSITION_RENUMERATION_INFORMATION = "IF050100";
                 public const string EMPLOYEE_RENUMERATION_INFORMATION = "IF050200";
-                public const string JOB_LEVEL_RENUMERATION_INFORMATION = "IF050300";
+                public const string JOB_LEVEL_RENUMERATION_INFORMATION = "IF050400";
             }
             #endregion
 
@@ -907,6 +908,7 @@ namespace CodeX.Common
                 public const string WS_CLASS_ATTENDANCE = "SM99040102";
                 public const string WS_CLASS_TASK = "SM99040103";
                 public const string WS_STUDENT_NOTE = "SM99040104";
+                public const string WS_SUBJECT_INDICATOR = "SM99040105";
                 public const string WS_ATTENDANCE_HISTORY = "SM99040201";
                 public const string WS_STUDENT_MARK = "SM99040202";
                 public const string WS_SUBJECT_CURRICULUM_SYLLABUS = "SM99040203";
@@ -915,16 +917,19 @@ namespace CodeX.Common
                 public const string WS_CLASS_TASK_PER_INDICATOR = "SM99040206";
                 public const string WS_STUDENT_NOTE_INFORMATION = "SM99040207";
                 public const string WS_STUDENT_MARK_PER_INDICATOR_ALL = "SM99040208";
+                public const string WS_CLASS_ATTENDANCE_SUMMARY = "SM99040209";
 
                 public const string TEACHER_CLASS_SUBJECT_PAGE = "SM99050000";
                 public const string TCS_CLASS_TASK = "SM99050101";
                 public const string TCS_CLASS_TASK_SUMMARY = "SM99050102";
                 public const string TSC_STUDENT_MARK_PER_INDICATOR = "SM99050103";
-                public const string TCS_CLASS_ATTENDANCE_SUMMARY = "SM99050104";
+                public const string TCS_SUBJECT_INDICATOR = "SM99050105";
 
                 public const string TCS_ATTENDANCE_HISTORY = "SM99050201";
                 public const string TCS_STUDENT_MARK = "SM99050202";
-                public const string TCS_SUBJECT_MATTER = "SM99050203";
+                public const string TCS_STUDENT_MARK_PER_INDICATOR = "SM99050203";
+                public const string TCS_STUDENT_MARK_PER_INDICATOR_ALL = "SM99050204";
+                public const string TCS_CLASS_ATTENDANCE_SUMMARY = "SM99050104";
 
                 public const string CLASS_STUDENT_PAGE = "SM99060000";
                 public const string CS_SUBJECT_MARK = "SM99060101";
