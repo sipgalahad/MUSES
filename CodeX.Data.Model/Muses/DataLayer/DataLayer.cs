@@ -9969,6 +9969,8 @@ namespace CodeX.Data.Model
         private DateTime _LastProcessedPositionDate;
         private Int32? _CurrentTransJobLevelID;
         private DateTime _LastProcessedJobLevelDate;
+        private Int32? _CurrentTransFamilyStatusID;
+        private DateTime _LastProcessedFamilyStatusDate;
         private Int32? _CurrentTransScheduleID;
         private DateTime _LastProcessedScheduleDate;
         private String _Remarks;
@@ -10181,6 +10183,18 @@ namespace CodeX.Data.Model
         {
             get { return _LastProcessedJobLevelDate; }
             set { _LastProcessedJobLevelDate = value; }
+        }
+        [Column(Name = "CurrentTransFamilyStatusID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurrentTransFamilyStatusID
+        {
+            get { return _CurrentTransFamilyStatusID; }
+            set { _CurrentTransFamilyStatusID = value; }
+        }
+        [Column(Name = "LastProcessedFamilyStatusDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastProcessedFamilyStatusDate
+        {
+            get { return _LastProcessedFamilyStatusDate; }
+            set { _LastProcessedFamilyStatusDate = value; }
         }
         [Column(Name = "CurrentTransScheduleID", DataType = "Int32", IsNullable = true)]
         public Int32? CurrentTransScheduleID
@@ -12164,6 +12178,154 @@ namespace CodeX.Data.Model
                 record = new FAWriteOffDao().Get(FAWriteOffID);
             else
                 record = Get(FAWriteOffID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region FamilyStatus
+    [Serializable]
+    [Table(Name = "FamilyStatus")]
+    public class FamilyStatus : DbDataModel
+    {
+        private Int32 _FamilyStatusID;
+        private String _FamilyStatusCode;
+        private String _FamilyStatusName;
+        private String _GCMaritalStatus;
+        private Int16 _FromNoOfChilds;
+        private Int16 _ToNoOfChilds;
+        private Int32? _CurrentTransactionID;
+        private DateTime _LastProcessedDate;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "FamilyStatusID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 FamilyStatusID
+        {
+            get { return _FamilyStatusID; }
+            set { _FamilyStatusID = value; }
+        }
+        [Column(Name = "FamilyStatusCode", DataType = "String")]
+        public String FamilyStatusCode
+        {
+            get { return _FamilyStatusCode; }
+            set { _FamilyStatusCode = value; }
+        }
+        [Column(Name = "FamilyStatusName", DataType = "String")]
+        public String FamilyStatusName
+        {
+            get { return _FamilyStatusName; }
+            set { _FamilyStatusName = value; }
+        }
+        [Column(Name = "GCMaritalStatus", DataType = "String")]
+        public String GCMaritalStatus
+        {
+            get { return _GCMaritalStatus; }
+            set { _GCMaritalStatus = value; }
+        }
+        [Column(Name = "FromNoOfChilds", DataType = "Int16")]
+        public Int16 FromNoOfChilds
+        {
+            get { return _FromNoOfChilds; }
+            set { _FromNoOfChilds = value; }
+        }
+        [Column(Name = "ToNoOfChilds", DataType = "Int16")]
+        public Int16 ToNoOfChilds
+        {
+            get { return _ToNoOfChilds; }
+            set { _ToNoOfChilds = value; }
+        }
+        [Column(Name = "CurrentTransactionID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurrentTransactionID
+        {
+            get { return _CurrentTransactionID; }
+            set { _CurrentTransactionID = value; }
+        }
+        [Column(Name = "LastProcessedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastProcessedDate
+        {
+            get { return _LastProcessedDate; }
+            set { _LastProcessedDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FamilyStatusDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FamilyStatus));
+        private bool _isAuditLog = false;
+        private const string p_FamilyStatusID = "@p_FamilyStatusID";
+        public FamilyStatusDao() { }
+        public FamilyStatusDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FamilyStatus Get(Int32 FamilyStatusID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FamilyStatusID, FamilyStatusID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FamilyStatus)_helper.DataRowToObject(row, new FamilyStatus());
+        }
+        public int Insert(FamilyStatus record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FamilyStatus record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 FamilyStatusID)
+        {
+            FamilyStatus record;
+            if (_ctx.Transaction == null)
+                record = new FamilyStatusDao().Get(FamilyStatusID);
+            else
+                record = Get(FamilyStatusID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -39591,6 +39753,579 @@ namespace CodeX.Data.Model
                 record = new TransEmployeeJobLevelRenumerationFormulaDao().Get(TransactionDtID, GCDayType);
             else
                 record = Get(TransactionDtID, GCDayType);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransEmployeeFamilyStatusDt
+    [Serializable]
+    [Table(Name = "TransEmployeeFamilyStatusDt")]
+    public class TransEmployeeFamilyStatusDt : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private Int32 _EmployeeID;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+    }
+
+    public class TransEmployeeFamilyStatusDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransEmployeeFamilyStatusDt));
+        private bool _isAuditLog = false;
+        private const string p_EmployeeID = "@p_EmployeeID";
+        private const string p_TransactionID = "@p_TransactionID";
+        public TransEmployeeFamilyStatusDtDao() { }
+        public TransEmployeeFamilyStatusDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransEmployeeFamilyStatusDt Get(Int32 TransactionID, Int32 EmployeeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_EmployeeID, EmployeeID);
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransEmployeeFamilyStatusDt)_helper.DataRowToObject(row, new TransEmployeeFamilyStatusDt());
+        }
+        public int Insert(TransEmployeeFamilyStatusDt record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransEmployeeFamilyStatusDt record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID, Int32 EmployeeID)
+        {
+            TransEmployeeFamilyStatusDt record;
+            if (_ctx.Transaction == null)
+                record = new TransEmployeeFamilyStatusDtDao().Get(TransactionID, EmployeeID);
+            else
+                record = Get(TransactionID, EmployeeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransEmployeeFamilyStatusHd
+    [Serializable]
+    [Table(Name = "TransEmployeeFamilyStatusHd")]
+    public class TransEmployeeFamilyStatusHd : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private Int32 _FamilyStatusID;
+        private DateTime _StartEffectiveDate;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "FamilyStatusID", DataType = "Int32")]
+        public Int32 FamilyStatusID
+        {
+            get { return _FamilyStatusID; }
+            set { _FamilyStatusID = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TransEmployeeFamilyStatusHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransEmployeeFamilyStatusHd));
+        private bool _isAuditLog = false;
+        private const string p_TransactionID = "@p_TransactionID";
+        public TransEmployeeFamilyStatusHdDao() { }
+        public TransEmployeeFamilyStatusHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransEmployeeFamilyStatusHd Get(Int32 TransactionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransEmployeeFamilyStatusHd)_helper.DataRowToObject(row, new TransEmployeeFamilyStatusHd());
+        }
+        public int Insert(TransEmployeeFamilyStatusHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransEmployeeFamilyStatusHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID)
+        {
+            TransEmployeeFamilyStatusHd record;
+            if (_ctx.Transaction == null)
+                record = new TransEmployeeFamilyStatusHdDao().Get(TransactionID);
+            else
+                record = Get(TransactionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransEmployeeFamilyStatusRenumeration
+    [Serializable]
+    [Table(Name = "TransEmployeeFamilyStatusRenumeration")]
+    public class TransEmployeeFamilyStatusRenumeration : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private Int32 _TransactionID;
+        private Int32 _RenumerationCompID;
+        private Decimal _Amount;
+        private Boolean _IsUseFormula;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "RenumerationCompID", DataType = "Int32")]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "Amount", DataType = "Decimal")]
+        public Decimal Amount
+        {
+            get { return _Amount; }
+            set { _Amount = value; }
+        }
+        [Column(Name = "IsUseFormula", DataType = "Boolean")]
+        public Boolean IsUseFormula
+        {
+            get { return _IsUseFormula; }
+            set { _IsUseFormula = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TransEmployeeFamilyStatusRenumerationDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransEmployeeFamilyStatusRenumeration));
+        private bool _isAuditLog = false;
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public TransEmployeeFamilyStatusRenumerationDao() { }
+        public TransEmployeeFamilyStatusRenumerationDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransEmployeeFamilyStatusRenumeration Get(Int32 TransactionDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransEmployeeFamilyStatusRenumeration)_helper.DataRowToObject(row, new TransEmployeeFamilyStatusRenumeration());
+        }
+        public int Insert(TransEmployeeFamilyStatusRenumeration record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransEmployeeFamilyStatusRenumeration record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID)
+        {
+            TransEmployeeFamilyStatusRenumeration record;
+            if (_ctx.Transaction == null)
+                record = new TransEmployeeFamilyStatusRenumerationDao().Get(TransactionDtID);
+            else
+                record = Get(TransactionDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransEmployeeFamilyStatusRenumerationFormula
+    [Serializable]
+    [Table(Name = "TransEmployeeFamilyStatusRenumerationFormula")]
+    public class TransEmployeeFamilyStatusRenumerationFormula : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private String _GCDayType;
+        private Int32 _FormulaID;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "GCDayType", DataType = "String", IsPrimaryKey = true)]
+        public String GCDayType
+        {
+            get { return _GCDayType; }
+            set { _GCDayType = value; }
+        }
+        [Column(Name = "FormulaID", DataType = "Int32")]
+        public Int32 FormulaID
+        {
+            get { return _FormulaID; }
+            set { _FormulaID = value; }
+        }
+    }
+
+    public class TransEmployeeFamilyStatusRenumerationFormulaDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransEmployeeFamilyStatusRenumerationFormula));
+        private bool _isAuditLog = false;
+        private const string p_GCDayType = "@p_GCDayType";
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public TransEmployeeFamilyStatusRenumerationFormulaDao() { }
+        public TransEmployeeFamilyStatusRenumerationFormulaDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransEmployeeFamilyStatusRenumerationFormula Get(Int32 TransactionDtID, String GCDayType)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCDayType, GCDayType);
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransEmployeeFamilyStatusRenumerationFormula)_helper.DataRowToObject(row, new TransEmployeeFamilyStatusRenumerationFormula());
+        }
+        public int Insert(TransEmployeeFamilyStatusRenumerationFormula record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransEmployeeFamilyStatusRenumerationFormula record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID, String GCDayType)
+        {
+            TransEmployeeFamilyStatusRenumerationFormula record;
+            if (_ctx.Transaction == null)
+                record = new TransEmployeeFamilyStatusRenumerationFormulaDao().Get(TransactionDtID, GCDayType);
+            else
+                record = Get(TransactionDtID, GCDayType);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransFamilyStatusRenumerationDt
+    [Serializable]
+    [Table(Name = "TransFamilyStatusRenumerationDt")]
+    public class TransFamilyStatusRenumerationDt : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private Int32 _FamilyStatusID;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "FamilyStatusID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 FamilyStatusID
+        {
+            get { return _FamilyStatusID; }
+            set { _FamilyStatusID = value; }
+        }
+    }
+
+    public class TransFamilyStatusRenumerationDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransFamilyStatusRenumerationDt));
+        private bool _isAuditLog = false;
+        private const string p_FamilyStatusID = "@p_FamilyStatusID";
+        private const string p_TransactionID = "@p_TransactionID";
+        public TransFamilyStatusRenumerationDtDao() { }
+        public TransFamilyStatusRenumerationDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransFamilyStatusRenumerationDt Get(Int32 TransactionID, Int32 FamilyStatusID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FamilyStatusID, FamilyStatusID);
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransFamilyStatusRenumerationDt)_helper.DataRowToObject(row, new TransFamilyStatusRenumerationDt());
+        }
+        public int Insert(TransFamilyStatusRenumerationDt record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransFamilyStatusRenumerationDt record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID, Int32 FamilyStatusID)
+        {
+            TransFamilyStatusRenumerationDt record;
+            if (_ctx.Transaction == null)
+                record = new TransFamilyStatusRenumerationDtDao().Get(TransactionID, FamilyStatusID);
+            else
+                record = Get(TransactionID, FamilyStatusID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransFamilyStatusRenumerationHd
+    [Serializable]
+    [Table(Name = "TransFamilyStatusRenumerationHd")]
+    public class TransFamilyStatusRenumerationHd : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private Int32 _RenumerationID;
+        private DateTime _StartEffectiveDate;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "RenumerationID", DataType = "Int32")]
+        public Int32 RenumerationID
+        {
+            get { return _RenumerationID; }
+            set { _RenumerationID = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TransFamilyStatusRenumerationHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransFamilyStatusRenumerationHd));
+        private bool _isAuditLog = false;
+        private const string p_TransactionID = "@p_TransactionID";
+        public TransFamilyStatusRenumerationHdDao() { }
+        public TransFamilyStatusRenumerationHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransFamilyStatusRenumerationHd Get(Int32 TransactionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransFamilyStatusRenumerationHd)_helper.DataRowToObject(row, new TransFamilyStatusRenumerationHd());
+        }
+        public int Insert(TransFamilyStatusRenumerationHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransFamilyStatusRenumerationHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID)
+        {
+            TransFamilyStatusRenumerationHd record;
+            if (_ctx.Transaction == null)
+                record = new TransFamilyStatusRenumerationHdDao().Get(TransactionID);
+            else
+                record = Get(TransactionID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

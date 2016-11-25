@@ -6084,6 +6084,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region FamilyStatus
+        public static FamilyStatus GetFamilyStatus(Int32 FamilyStatusID)
+        {
+            return new FamilyStatusDao().Get(FamilyStatusID);
+        }
+        public static int InsertFamilyStatus(FamilyStatus record)
+        {
+            return new FamilyStatusDao().Insert(record);
+        }
+        public static int UpdateFamilyStatus(FamilyStatus record)
+        {
+            return new FamilyStatusDao().Update(record);
+        }
+        public static int DeleteFamilyStatus(Int32 FamilyStatusID)
+        {
+            return new FamilyStatusDao().Delete(FamilyStatusID);
+        }
+        public static List<FamilyStatus> GetFamilyStatusList(string filterExpression)
+        {
+            List<FamilyStatus> result = new List<FamilyStatus>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FamilyStatus));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FamilyStatus)helper.IDataReaderToObject(reader, new FamilyStatus()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<FamilyStatus> GetFamilyStatusList(string filterExpression, IDbContext ctx)
+        {
+            List<FamilyStatus> result = new List<FamilyStatus>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FamilyStatus));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FamilyStatus)helper.IDataReaderToObject(reader, new FamilyStatus()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region GLAccountPayable
         public static GLAccountPayable GetGLAccountPayable(Int32 ID)
         {
@@ -18962,6 +19019,377 @@ namespace CodeX.Data.Model
             try
             {
                 DbHelper helper = new DbHelper(typeof(TransEmployeePositionHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeFamilyStatusRenumeration
+        public static TransEmployeeFamilyStatusRenumeration GetTransEmployeeFamilyStatusRenumeration(Int32 TransactionDtID)
+        {
+            return new TransEmployeeFamilyStatusRenumerationDao().Get(TransactionDtID);
+        }
+        public static int InsertTransEmployeeFamilyStatusRenumeration(TransEmployeeFamilyStatusRenumeration record)
+        {
+            return new TransEmployeeFamilyStatusRenumerationDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeFamilyStatusRenumeration(TransEmployeeFamilyStatusRenumeration record)
+        {
+            return new TransEmployeeFamilyStatusRenumerationDao().Update(record);
+        }
+        public static int DeleteTransEmployeeFamilyStatusRenumeration(Int32 TransactionDtID)
+        {
+            return new TransEmployeeFamilyStatusRenumerationDao().Delete(TransactionDtID);
+        }
+        public static List<TransEmployeeFamilyStatusRenumeration> GetTransEmployeeFamilyStatusRenumerationList(string filterExpression)
+        {
+            List<TransEmployeeFamilyStatusRenumeration> result = new List<TransEmployeeFamilyStatusRenumeration>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeFamilyStatusRenumeration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeFamilyStatusRenumeration)helper.IDataReaderToObject(reader, new TransEmployeeFamilyStatusRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransEmployeeFamilyStatusRenumeration> GetTransEmployeeFamilyStatusRenumerationList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeeFamilyStatusRenumeration> result = new List<TransEmployeeFamilyStatusRenumeration>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeFamilyStatusRenumeration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeFamilyStatusRenumeration)helper.IDataReaderToObject(reader, new TransEmployeeFamilyStatusRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeFamilyStatusRenumerationMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeFamilyStatusRenumeration));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeFamilyStatusDt
+        public static TransEmployeeFamilyStatusDt GetTransEmployeeFamilyStatusDt(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new TransEmployeeFamilyStatusDtDao().Get(TransactionID, EmployeeID);
+        }
+        public static int InsertTransEmployeeFamilyStatusDt(TransEmployeeFamilyStatusDt record)
+        {
+            return new TransEmployeeFamilyStatusDtDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeFamilyStatusDt(TransEmployeeFamilyStatusDt record)
+        {
+            return new TransEmployeeFamilyStatusDtDao().Update(record);
+        }
+        public static int DeleteTransEmployeeFamilyStatusDt(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new TransEmployeeFamilyStatusDtDao().Delete(TransactionID, EmployeeID);
+        }
+        public static List<TransEmployeeFamilyStatusDt> GetTransEmployeeFamilyStatusDtList(string filterExpression)
+        {
+            List<TransEmployeeFamilyStatusDt> result = new List<TransEmployeeFamilyStatusDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeFamilyStatusDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeFamilyStatusDt)helper.IDataReaderToObject(reader, new TransEmployeeFamilyStatusDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransEmployeeFamilyStatusDt> GetTransEmployeeFamilyStatusDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeeFamilyStatusDt> result = new List<TransEmployeeFamilyStatusDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeFamilyStatusDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeFamilyStatusDt)helper.IDataReaderToObject(reader, new TransEmployeeFamilyStatusDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeFamilyStatusDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeFamilyStatusDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeFamilyStatusHd
+        public static TransEmployeeFamilyStatusHd GetTransEmployeeFamilyStatusHd(Int32 TransactionID)
+        {
+            return new TransEmployeeFamilyStatusHdDao().Get(TransactionID);
+        }
+        public static int InsertTransEmployeeFamilyStatusHd(TransEmployeeFamilyStatusHd record)
+        {
+            return new TransEmployeeFamilyStatusHdDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeFamilyStatusHd(TransEmployeeFamilyStatusHd record)
+        {
+            return new TransEmployeeFamilyStatusHdDao().Update(record);
+        }
+        public static int DeleteTransEmployeeFamilyStatusHd(Int32 TransactionID)
+        {
+            return new TransEmployeeFamilyStatusHdDao().Delete(TransactionID);
+        }
+        public static List<TransEmployeeFamilyStatusHd> GetTransEmployeeFamilyStatusHdList(string filterExpression)
+        {
+            List<TransEmployeeFamilyStatusHd> result = new List<TransEmployeeFamilyStatusHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeFamilyStatusHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeFamilyStatusHd)helper.IDataReaderToObject(reader, new TransEmployeeFamilyStatusHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeFamilyStatusHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeFamilyStatusHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeFamilyStatusRenumerationFormula
+        public static TransEmployeeFamilyStatusRenumerationFormula GetTransEmployeeFamilyStatusRenumerationFormula(Int32 TransactionDtID, String GCDayType)
+        {
+            return new TransEmployeeFamilyStatusRenumerationFormulaDao().Get(TransactionDtID, GCDayType);
+        }
+        public static int InsertTransEmployeeFamilyStatusRenumerationFormula(TransEmployeeFamilyStatusRenumerationFormula record)
+        {
+            return new TransEmployeeFamilyStatusRenumerationFormulaDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeFamilyStatusRenumerationFormula(TransEmployeeFamilyStatusRenumerationFormula record)
+        {
+            return new TransEmployeeFamilyStatusRenumerationFormulaDao().Update(record);
+        }
+        public static int DeleteTransEmployeeFamilyStatusRenumerationFormula(Int32 TransactionDtID, String GCDayType)
+        {
+            return new TransEmployeeFamilyStatusRenumerationFormulaDao().Delete(TransactionDtID, GCDayType);
+        }
+        public static List<TransEmployeeFamilyStatusRenumerationFormula> GetTransEmployeeFamilyStatusRenumerationFormulaList(string filterExpression)
+        {
+            List<TransEmployeeFamilyStatusRenumerationFormula> result = new List<TransEmployeeFamilyStatusRenumerationFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeFamilyStatusRenumerationFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeFamilyStatusRenumerationFormula)helper.IDataReaderToObject(reader, new TransEmployeeFamilyStatusRenumerationFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TransFamilyStatusRenumerationDt
+        public static TransFamilyStatusRenumerationDt GetTransFamilyStatusRenumerationDt(Int32 TransactionID, Int32 FamilyStatusID)
+        {
+            return new TransFamilyStatusRenumerationDtDao().Get(TransactionID, FamilyStatusID);
+        }
+        public static int InsertTransFamilyStatusRenumerationDt(TransFamilyStatusRenumerationDt record)
+        {
+            return new TransFamilyStatusRenumerationDtDao().Insert(record);
+        }
+        public static int UpdateTransFamilyStatusRenumerationDt(TransFamilyStatusRenumerationDt record)
+        {
+            return new TransFamilyStatusRenumerationDtDao().Update(record);
+        }
+        public static int DeleteTransFamilyStatusRenumerationDt(Int32 TransactionID, Int32 FamilyStatusID)
+        {
+            return new TransFamilyStatusRenumerationDtDao().Delete(TransactionID, FamilyStatusID);
+        }
+        public static List<TransFamilyStatusRenumerationDt> GetTransFamilyStatusRenumerationDtList(string filterExpression)
+        {
+            List<TransFamilyStatusRenumerationDt> result = new List<TransFamilyStatusRenumerationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransFamilyStatusRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransFamilyStatusRenumerationDt)helper.IDataReaderToObject(reader, new TransFamilyStatusRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransFamilyStatusRenumerationDt> GetTransFamilyStatusRenumerationDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TransFamilyStatusRenumerationDt> result = new List<TransFamilyStatusRenumerationDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransFamilyStatusRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransFamilyStatusRenumerationDt)helper.IDataReaderToObject(reader, new TransFamilyStatusRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransFamilyStatusRenumerationDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransFamilyStatusRenumerationDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransFamilyStatusRenumerationHd
+        public static TransFamilyStatusRenumerationHd GetTransFamilyStatusRenumerationHd(Int32 TransactionID)
+        {
+            return new TransFamilyStatusRenumerationHdDao().Get(TransactionID);
+        }
+        public static int InsertTransFamilyStatusRenumerationHd(TransFamilyStatusRenumerationHd record)
+        {
+            return new TransFamilyStatusRenumerationHdDao().Insert(record);
+        }
+        public static int UpdateTransFamilyStatusRenumerationHd(TransFamilyStatusRenumerationHd record)
+        {
+            return new TransFamilyStatusRenumerationHdDao().Update(record);
+        }
+        public static int DeleteTransFamilyStatusRenumerationHd(Int32 TransactionID)
+        {
+            return new TransFamilyStatusRenumerationHdDao().Delete(TransactionID);
+        }
+        public static List<TransFamilyStatusRenumerationHd> GetTransFamilyStatusRenumerationHdList(string filterExpression)
+        {
+            List<TransFamilyStatusRenumerationHd> result = new List<TransFamilyStatusRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransFamilyStatusRenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransFamilyStatusRenumerationHd)helper.IDataReaderToObject(reader, new TransFamilyStatusRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransFamilyStatusRenumerationHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransFamilyStatusRenumerationHd));
                 ctx.CommandText = helper.SelectMaxColumn("TransactionID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));

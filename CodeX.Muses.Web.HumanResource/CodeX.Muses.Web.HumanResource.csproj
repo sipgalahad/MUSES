@@ -106,8 +106,11 @@
     <Content Include="Global.asax" />
     <Content Include="Program\Master\HRScheduleGroup\HRScheduleGroupEntry.aspx" />
     <Content Include="Program\Master\HRScheduleGroup\TemplateEmployeeGroupPicksCtl.ascx" />
+    <Content Include="Program\Master\UpdateEmployeeFamilyStatus\UpdateEmployeeFamilyStatusEntry.aspx" />
+    <Content Include="Program\Master\UpdateEmployeeFamilyStatus\UpdateEmployeeFamilyStatusEntryCtl.ascx" />
     <Content Include="Program\Master\UpdateEmployeeJobLevel\UpdateEmployeeJobLevelEntry.aspx" />
     <Content Include="Program\Master\UpdateEmployeeJobLevel\UpdateEmployeeJobLevelEntryCtl.ascx" />
+    <Content Include="Program\Master\UpdateRenumerationFamilyStatus\UpdateRenumerationFamilyStatusEntry.aspx" />
     <Content Include="Program\Master\UpdateRenumerationJobLevel\UpdateRenumerationJobLevelEntry.aspx" />
     <Content Include="Program\Transaction\AbsenceProposal\AbsenceProposalEntry.aspx" />
     <Content Include="Program\Transaction\OvertimeProposal\OvertimeProposalEntry.aspx" />
@@ -368,6 +371,20 @@
     <Compile Include="Program\Master\HRScheduleGroup\TemplateEmployeeGroupPicksCtl.ascx.designer.cs">
       <DependentUpon>TemplateEmployeeGroupPicksCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\UpdateEmployeeFamilyStatus\UpdateEmployeeFamilyStatusEntry.aspx.cs">
+      <DependentUpon>UpdateEmployeeFamilyStatusEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateEmployeeFamilyStatus\UpdateEmployeeFamilyStatusEntry.aspx.designer.cs">
+      <DependentUpon>UpdateEmployeeFamilyStatusEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\UpdateEmployeeFamilyStatus\UpdateEmployeeFamilyStatusEntryCtl.ascx.cs">
+      <DependentUpon>UpdateEmployeeFamilyStatusEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateEmployeeFamilyStatus\UpdateEmployeeFamilyStatusEntryCtl.ascx.designer.cs">
+      <DependentUpon>UpdateEmployeeFamilyStatusEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\UpdateEmployeeJobLevel\UpdateEmployeeJobLevelEntry.aspx.cs">
       <DependentUpon>UpdateEmployeeJobLevelEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -381,6 +398,13 @@
     </Compile>
     <Compile Include="Program\Master\UpdateEmployeeJobLevel\UpdateEmployeeJobLevelEntryCtl.ascx.designer.cs">
       <DependentUpon>UpdateEmployeeJobLevelEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\UpdateRenumerationFamilyStatus\UpdateRenumerationFamilyStatusEntry.aspx.cs">
+      <DependentUpon>UpdateRenumerationFamilyStatusEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateRenumerationFamilyStatus\UpdateRenumerationFamilyStatusEntry.aspx.designer.cs">
+      <DependentUpon>UpdateRenumerationFamilyStatusEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\UpdateRenumerationJobLevel\UpdateRenumerationJobLevelEntry.aspx.cs">
       <DependentUpon>UpdateRenumerationJobLevelEntry.aspx</DependentUpon>

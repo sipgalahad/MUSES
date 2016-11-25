@@ -145,6 +145,7 @@ namespace CodeX.Common
             public const string ABSENCE = "X324";
             public const string JOB_LEVEL_TYPE = "X325";
             public const string RENUMERATION_COMP_SOURCE = "X326";
+            public const string EMPLOYEE_MARTIAL_STATUS = "X327";
         }
 
         public static class RenumerationCompSource

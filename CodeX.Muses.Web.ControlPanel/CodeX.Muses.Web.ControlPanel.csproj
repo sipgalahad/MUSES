@@ -140,6 +140,8 @@
     <Content Include="Program\Master\Curriculum\GradePromotionFormula\GradePromotionFormulaEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularDtEntryCtl.ascx" />
+    <Content Include="Program\Master\FamilyStatus\FamilyStatusList.aspx" />
+    <Content Include="Program\Master\FamilyStatus\FamilyStatusEntry.aspx" />
     <Content Include="Program\Master\HRDailySchedule\HRDailyScheduleDtEntryCtl.ascx" />
     <Content Include="Program\Master\HRDailySchedule\HRDailyScheduleList.aspx" />
     <Content Include="Program\Master\HRDailySchedule\HRDailyScheduleEntry.aspx" />
@@ -742,6 +744,20 @@
     </Compile>
     <Compile Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
       <DependentUpon>CurriculumClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\FamilyStatus\FamilyStatusList.aspx.cs">
+      <DependentUpon>FamilyStatusList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\FamilyStatus\FamilyStatusList.aspx.designer.cs">
+      <DependentUpon>FamilyStatusList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\FamilyStatus\FamilyStatusEntry.aspx.cs">
+      <DependentUpon>FamilyStatusEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\FamilyStatus\FamilyStatusEntry.aspx.designer.cs">
+      <DependentUpon>FamilyStatusEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\HRDailySchedule\HRDailyScheduleDtEntryCtl.ascx.cs">
       <DependentUpon>HRDailyScheduleDtEntryCtl.ascx</DependentUpon>
