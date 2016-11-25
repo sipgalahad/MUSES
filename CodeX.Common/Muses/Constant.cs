@@ -663,6 +663,7 @@ namespace CodeX.Common
                 public const string OVERTIME_PROPOSAL = "HR020100";
                 public const string ABSENCE_PROPOSAL = "HR020200";
                 public const string EMPLOYEE_LOAN = "HR020300";
+                public const string EMPLOYEE_DAILY_ATTENDANCE = "HR020400";
             }
             #endregion
 
