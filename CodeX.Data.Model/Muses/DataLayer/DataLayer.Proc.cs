@@ -621,6 +621,7 @@ namespace CodeX.Data.Model
         private Decimal _Col1;
         private Decimal _Col2;
         private Decimal _Col3;
+        private Decimal _ColPse2;
         private String _Remarks;
 
         [Column(Name = "StudentID", DataType = "Int32")]
@@ -670,6 +671,12 @@ namespace CodeX.Data.Model
         {
             get { return _Col3; }
             set { _Col3 = value; }
+        }
+        [Column(Name = "ColPse2", DataType = "Decimal")]
+        public Decimal ColPse2
+        {
+            get { return _ColPse2; }
+            set { _ColPse2 = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

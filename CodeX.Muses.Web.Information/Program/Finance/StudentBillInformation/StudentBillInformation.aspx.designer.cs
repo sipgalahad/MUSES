@@ -202,6 +202,15 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTotalPemb;
         
         /// <summary>
+        /// divTotalPse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTotalPse;
+        
+        /// <summary>
         /// divTotalAll control.
         /// </summary>
         /// <remarks>

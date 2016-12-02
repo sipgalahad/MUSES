@@ -64,6 +64,7 @@
                         cboDailySchedulePackage.SetValue(result.DailySchedulePackageID);
                         cboExamSchedulePackage.SetValue(result.ExamSchedulePackageID);
                         cboGradePromotionFormula.SetValue(result.GradePromotionFormulaID);
+                        cboGradePromotionFormula.SetText(result.GradePromotionFormulaID);
                         onCboCurriculumValueChanged();
                     }
                 });

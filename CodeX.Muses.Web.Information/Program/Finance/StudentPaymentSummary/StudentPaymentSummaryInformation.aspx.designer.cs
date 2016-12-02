@@ -166,6 +166,15 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTotalDenda;
         
         /// <summary>
+        /// divTotalPaymentReturn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTotalPaymentReturn;
+        
+        /// <summary>
         /// divTotalAll control.
         /// </summary>
         /// <remarks>
