@@ -3181,6 +3181,94 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vFamilyStatus
+        public static List<vFamilyStatus> GetvFamilyStatusList(string filterExpression)
+        {
+            List<vFamilyStatus> result = new List<vFamilyStatus>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vFamilyStatus));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vFamilyStatus)helper.IDataReaderToObject(reader, new vFamilyStatus()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vFamilyStatus> GetvFamilyStatusList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vFamilyStatus> result = new List<vFamilyStatus>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vFamilyStatus));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vFamilyStatus)helper.IDataReaderToObject(reader, new vFamilyStatus()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvFamilyStatusRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vFamilyStatus));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvFamilyStatusRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vFamilyStatus));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "FamilyStatusID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vGLAccountPayable
         public static List<vGLAccountPayable> GetvGLAccountPayableList(string filterExpression)
         {
@@ -14575,6 +14663,185 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vTransEmployeeFamilyStatusDt
+        public static List<vTransEmployeeFamilyStatusDt> GetvTransEmployeeFamilyStatusDtList(string filterExpression)
+        {
+            List<vTransEmployeeFamilyStatusDt> result = new List<vTransEmployeeFamilyStatusDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransEmployeeFamilyStatusDt)helper.IDataReaderToObject(reader, new vTransEmployeeFamilyStatusDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTransEmployeeFamilyStatusDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTransEmployeeFamilyStatusDt> GetvTransEmployeeFamilyStatusDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransEmployeeFamilyStatusDt> result = new List<vTransEmployeeFamilyStatusDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransEmployeeFamilyStatusDt)helper.IDataReaderToObject(reader, new vTransEmployeeFamilyStatusDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTransEmployeeFamilyStatusHd
+        public static List<vTransEmployeeFamilyStatusHd> GetvTransEmployeeFamilyStatusHdList(string filterExpression)
+        {
+            List<vTransEmployeeFamilyStatusHd> result = new List<vTransEmployeeFamilyStatusHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransEmployeeFamilyStatusHd)helper.IDataReaderToObject(reader, new vTransEmployeeFamilyStatusHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTransEmployeeFamilyStatusHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static vTransEmployeeFamilyStatusHd GetvTransEmployeeFamilyStatusHd(string filterExpression, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransEmployeeFamilyStatusHd> result = new List<vTransEmployeeFamilyStatusHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusHd));
+                ctx.CommandText = helper.SelectByPageIndex(filterExpression, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransEmployeeFamilyStatusHd)helper.IDataReaderToObject(reader, new vTransEmployeeFamilyStatusHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            if (result.Count > 0)
+                return result[0];
+            return null;
+        }
+        public static Int32 GetvTransEmployeeFamilyStatusHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TransactionNo", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTransEmployeeFamilyStatusHd> GetvTransEmployeeFamilyStatusHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransEmployeeFamilyStatusHd> result = new List<vTransEmployeeFamilyStatusHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransEmployeeFamilyStatusHd)helper.IDataReaderToObject(reader, new vTransEmployeeFamilyStatusHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vTransEmployeeJobLevelDt
         public static List<vTransEmployeeJobLevelDt> GetvTransEmployeeJobLevelDtList(string filterExpression)
         {
@@ -14876,6 +15143,319 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vTransEmployeeJobLevelRenumerationFormula)helper.IDataReaderToObject(reader, new vTransEmployeeJobLevelRenumerationFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTransFamilyStatusRenumerationDt
+        public static List<vTransFamilyStatusRenumerationDt> GetvTransFamilyStatusRenumerationDtList(string filterExpression)
+        {
+            List<vTransFamilyStatusRenumerationDt> result = new List<vTransFamilyStatusRenumerationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransFamilyStatusRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransFamilyStatusRenumerationDt)helper.IDataReaderToObject(reader, new vTransFamilyStatusRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTransFamilyStatusRenumerationDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransFamilyStatusRenumerationDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTransFamilyStatusRenumerationDt> GetvTransFamilyStatusRenumerationDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransFamilyStatusRenumerationDt> result = new List<vTransFamilyStatusRenumerationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransFamilyStatusRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransFamilyStatusRenumerationDt)helper.IDataReaderToObject(reader, new vTransFamilyStatusRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTransFamilyStatusRenumerationHd
+        public static List<vTransFamilyStatusRenumerationHd> GetvTransFamilyStatusRenumerationHdList(string filterExpression)
+        {
+            List<vTransFamilyStatusRenumerationHd> result = new List<vTransFamilyStatusRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransFamilyStatusRenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransFamilyStatusRenumerationHd)helper.IDataReaderToObject(reader, new vTransFamilyStatusRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTransFamilyStatusRenumerationHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransFamilyStatusRenumerationHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static vTransFamilyStatusRenumerationHd GetvTransFamilyStatusRenumerationHd(string filterExpression, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransFamilyStatusRenumerationHd> result = new List<vTransFamilyStatusRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransFamilyStatusRenumerationHd));
+                ctx.CommandText = helper.SelectByPageIndex(filterExpression, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransFamilyStatusRenumerationHd)helper.IDataReaderToObject(reader, new vTransFamilyStatusRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            if (result.Count > 0)
+                return result[0];
+            return null;
+        }
+        public static Int32 GetvTransFamilyStatusRenumerationHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransFamilyStatusRenumerationHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TransactionNo", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTransFamilyStatusRenumerationHd> GetvTransFamilyStatusRenumerationHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransFamilyStatusRenumerationHd> result = new List<vTransFamilyStatusRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransFamilyStatusRenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransFamilyStatusRenumerationHd)helper.IDataReaderToObject(reader, new vTransFamilyStatusRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTransEmployeeFamilyStatusRenumeration
+        public static List<vTransEmployeeFamilyStatusRenumeration> GetvTransEmployeeFamilyStatusRenumerationList(string filterExpression)
+        {
+            List<vTransEmployeeFamilyStatusRenumeration> result = new List<vTransEmployeeFamilyStatusRenumeration>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusRenumeration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransEmployeeFamilyStatusRenumeration)helper.IDataReaderToObject(reader, new vTransEmployeeFamilyStatusRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTransEmployeeFamilyStatusRenumerationRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusRenumeration));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTransEmployeeFamilyStatusRenumeration> GetvTransEmployeeFamilyStatusRenumerationList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransEmployeeFamilyStatusRenumeration> result = new List<vTransEmployeeFamilyStatusRenumeration>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusRenumeration));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransEmployeeFamilyStatusRenumeration)helper.IDataReaderToObject(reader, new vTransEmployeeFamilyStatusRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTransEmployeeFamilyStatusRenumerationFormula
+        public static List<vTransEmployeeFamilyStatusRenumerationFormula> GetvTransEmployeeFamilyStatusRenumerationFormulaList(string filterExpression)
+        {
+            List<vTransEmployeeFamilyStatusRenumerationFormula> result = new List<vTransEmployeeFamilyStatusRenumerationFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusRenumerationFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransEmployeeFamilyStatusRenumerationFormula)helper.IDataReaderToObject(reader, new vTransEmployeeFamilyStatusRenumerationFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTransEmployeeFamilyStatusRenumerationFormulaRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusRenumerationFormula));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTransEmployeeFamilyStatusRenumerationFormula> GetvTransEmployeeFamilyStatusRenumerationFormulaList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransEmployeeFamilyStatusRenumerationFormula> result = new List<vTransEmployeeFamilyStatusRenumerationFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransEmployeeFamilyStatusRenumerationFormula));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransEmployeeFamilyStatusRenumerationFormula)helper.IDataReaderToObject(reader, new vTransEmployeeFamilyStatusRenumerationFormula()));
             }
             catch (Exception ex)
             {

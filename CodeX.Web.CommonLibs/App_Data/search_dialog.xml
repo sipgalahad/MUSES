@@ -272,6 +272,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+	<!-- #Region Family Status -->
+	<searchdialog type="familystatus" methodname="GetvFamilyStatusList" keyfieldname="FamilyStatusID" orderbyexpression="FamilyStatusName ASC">
+		<gridcolumns>
+			<gridcolumn datafield="FamilyStatusName" headertext="Status" width="50px" />
+			<gridcolumn datafield="MaritalStatus" headertext="Status Pernikahan" width="300px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="FamilyStatusName" headertext="Status" description="" />
+			<intellisensetext datafield="MaritalStatus" headertext="Status Pernikahan" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
   <!-- #Region GLBalanceDtDocument -->
   <searchdialog type="glbalancedtdocument" methodname="GetGLBalanceDtDocumentList" keyfieldname="ReferenceNo" orderbyexpression="ReferenceNo DESC">
     <gridcolumns>
@@ -1235,6 +1247,7 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+	
 	<!-- #Region Trans Renumeration -->
 	<searchdialog type="transrenumerationhd" methodname="GetvTransRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
 		<gridcolumns>
@@ -1271,6 +1284,18 @@
 		</intellisensetexts>
 	</searchdialog>
   <!-- #EndRegion -->
+	<!-- #Region Trans Renumeration FamilyStatus-->
+	<searchdialog type="transfamilystatusrenumerationhd" methodname="GetvTransFamilyStatusRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+		<gridcolumns>
+			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+			<gridcolumn datafield="RenumerationName" headertext="Renumeration Name" width="120px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+			<intellisensetext datafield="RenumerationName" headertext="Renumeration Name" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
 	<!-- #Region Trans Renumeration Position-->
 	<searchdialog type="transpositionrenumerationhd" methodname="GetvTransPositionRenumerationHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
 		<gridcolumns>

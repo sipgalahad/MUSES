@@ -541,6 +541,20 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vFamilyStatus
+    public partial class vFamilyStatus
+    {
+        public string cfNoOfChilds
+        {
+            get
+            {
+                if (_FromNoOfChilds != _ToNoOfChilds)
+                    return string.Format("{0} - {1}", _FromNoOfChilds, _ToNoOfChilds);
+                return _FromNoOfChilds.ToString();
+            }
+        }
+    }
+    #endregion
     #region vGLTransactionDt
     public partial class vGLTransactionDt
     {

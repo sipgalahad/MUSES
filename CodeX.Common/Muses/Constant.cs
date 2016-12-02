@@ -529,6 +529,7 @@ namespace CodeX.Common
                 public const string RENUMERATION_COMP_FORMULA = "CP010506";
                 public const string TEMPLATE_EMPLOYEE_GROUP = "CP010507";
                 public const string JOB_LEVEL = "CP010508";
+                public const string FAMILY_STATUS = "CP010509";
 
                 public const string HOLIDAY = "CP010901";
 
