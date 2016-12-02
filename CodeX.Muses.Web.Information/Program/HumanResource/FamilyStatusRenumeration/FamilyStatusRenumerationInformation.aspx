@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPBaseContent.master"
-    AutoEventWireup="true" CodeBehind="EmployeeRenumerationInformation.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.EmployeeRenumerationInformation" %>
+    AutoEventWireup="true" CodeBehind="FamilyStatusRenumerationInformation.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.FamilyStatusRenumerationInformation" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxPivotGrid.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPivotGrid" TagPrefix="dx" %>
@@ -23,39 +23,26 @@
             var grd = new customGridView2();
             grd.init('grdStockDetail', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 
-            cboOrganizationDepartment.SetValue('');
-
-            $('#<%=txtEmployeeName.ClientID %>').change(function () {
-                cbpView.PerformCallback('refresh');
-            });
-
-            $('#<%=txtNIK.ClientID %>').change(function () {
+            $('#<%=txtFamilyStatus.ClientID %>').change(function () {
                 cbpView.PerformCallback('refresh');
             });
 
             $('#btnRefresh').click(function () {
                 cbpView.PerformCallback('refresh');
             });
+
         });
 
 
         $('.lblFormula').live('click', function () {
+            //var id = $(this).closest('tr').find('.keyField').html();
             $td = $(this).closest('td');
-            var hdnEmp = $td.find('.hdnEmployeePositionTransID').val();
+            var hdnOp = $td.find('.hdnOrganizationPositionID').val();
             var hdnRenum = $td.find('.hdnRenumerationTransID').val();
-            var hdnEmpID = $td.find('.hdnEmployeeID').val();
             var hdnRenumCompID = $td.find('.hdnRenumerationCompID').val();
-            var id = "";
-            if (hdnEmp != "" && hdnEmp != "0") {
-                id = hdnEmpID + "|" + hdnRenumCompID + "|" + hdnEmp;
-                var url = ResolveUrl("~/Program/HumanResource/EmployeeRenumeration/EmployeeRenumerationInformationCtl.ascx");
-                openUserControlPopup(url, id, 'Renumeration Formula', 600, 500);
-            }
-            else {
-                id = "emp|" + hdnEmpID + "|" + hdnRenumCompID + "|" + hdnRenum;
-                var url = ResolveUrl("~/Program/HumanResource/EmployeeRenumeration/RenumerationInformationDtCtl.ascx");
-                openUserControlPopup(url, id, 'Renumeration Formula', 600, 500);
-            }
+            var id = "jl|" + hdnOp + "|" + hdnRenumCompID + "|" + hdnRenum;
+            var url = ResolveUrl("~/Program/HumanResource/EmployeeRenumeration/RenumerationInformationDtCtl.ascx");
+            openUserControlPopup(url, id, 'Renumeration Formula', 600, 500);
         });
 
         //#region Paging
@@ -115,33 +102,7 @@
             openUserControlPopup(url, itemID, 'Detail Information', 1200, 550);
         });
 
-        //#region Organization Position
-        function onGetOrganizationPositionFilterExpression() {
-            var departmentID = cboOrganizationDepartment.GetValue();
-            var filterExpression = " OrganizationDepartmentID = " + departmentID +" ";
-            return filterExpression;
-        }
-
-        function onTacOrganizationPositionIDSearchClick() {
-            openSearchDialog('OrganizationPosition', onGetOrganizationPositionFilterExpression(), function (value) {
-                var filterExpression = onGetOrganizationPositionFilterExpression() + " AND OrganizationPositionID = '" + value + "' AND IsDeleted = 0";
-                Methods.getObject('GetvOrganizationPositionList', filterExpression, function (result) {
-                    if (result != null) {
-                        tacOrganizationPositionID.setValue(result.OrganizationPositionID);
-                        tacOrganizationPositionID.setText(result.OrganizationPositionName);
-                    }
-                    else {
-                        tacOrganizationPositionID.setValue('');
-                        tacOrganizationPositionID.setText('');
-                    }
-                });
-            });
-        }
-
-        function onTacOrganizationPositionIDValueChanged() {
-
-        }
-        //#endregion
+       
     </script>
     <input type="hidden" value="" id="hdnFilterExpressionQuickSearch" runat="server" />
     <input type="hidden" value="" id="hdnID" runat="server" />
@@ -155,26 +116,8 @@
                         <col style="width: 400px" />
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Department")%></label></td>
-                        <td><dxe:ASPxComboBox ID="cboOrganizationDepartment" ClientInstanceName="cboOrganizationDepartment" Width="200px" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblNormal" id="lblPosition"><%=GetLabel("Jabatan")%></label></td>
-                            <td>
-                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacOrganizationPositionID" ClientInstanceName="tacOrganizationPositionID" MethodName="GetvOrganizationPositionList" GetFilterExpressionFunction="onGetOrganizationPositionFilterExpression"
-                                SearchFields="OrganizationPositionName,OrganizationPositionID" TextField="OrganizationPositionName" ValueField="OrganizationPositionID" SearchText="${OrganizationPositionName} (<b>${PositionLevel}</b>)" OrderByExpression="OrganizationPositionName">
-                                <ClientSideEvents ButtonSearchClick="function(){ onTacOrganizationPositionIDSearchClick(); }"
-                                    ValueChanged="function(){ onTacOrganizationPositionIDValueChanged(); }" />
-                            </cdx:CodeXAutoCompleteTextBox>   
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label><%=GetLabel("NIK")%></label></td>
-                        <td><asp:TextBox runat="server" ID="txtNIK" Width="300px" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label><%=GetLabel("Nama Karyawan")%></label></td>
-                        <td><asp:TextBox runat="server" ID="txtEmployeeName" Width="300px" /></td>
+                        <td class="tdLabel"><label><%=GetLabel("Nama")%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtFamilyStatus" Width="300px" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label></label></td>
@@ -195,8 +138,7 @@
                                 <input type="hidden" id="hdnFilterExpression" value="" runat="server" />
                                 <table id="tblView" class="grdStockDetail grdSelected grdBorder" rules="all" cellpadding="0" cellspacing="0">
                                     <tr>
-                                        <th style="width:100px" ><%=GetLabel("NIK") %></th>
-                                        <th><%=GetLabel("Nama Karyawan") %></th>
+                                        <th><%=GetLabel("Jabatan") %></th>
                                         <asp:Repeater ID="rptCompHd" runat="server">
                                             <ItemTemplate>
                                                 <th class="thCenter" style="width:120px">
@@ -209,14 +151,12 @@
                                     <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
                                         <ItemTemplate>
                                             <tr>
-                                                <td><%#Eval("EmployeeCode") %></td>
-                                                <td><%#Eval("EmployeeName") %></td>
+                                                <td><%#Eval("FamilyStatusName")%></td>
                                                 <asp:Repeater ID="rptCompDt" runat="server" OnItemDataBound="rptCompDt_ItemDataBound">
                                                     <ItemTemplate>
                                                         <td align="right">
-                                                            <input type="hidden" id="hdnEmployeeID" runat="server" class="hdnEmployeeID"/>
                                                             <input type="hidden" id="hdnRenumerationCompID" runat="server" class="hdnRenumerationCompID"/>
-                                                            <input type="hidden" id="hdnEmployeePositionTransID" runat="server" class="hdnEmployeePositionTransID"/>
+                                                            <input type="hidden" id="hdnOrganizationPositionID" runat="server" class="hdnOrganizationPositionID"/>
                                                             <input type="hidden" id="hdnRenumerationTransID" runat="server" class="hdnRenumerationTransID" />
                                                             <div id="divAmount" runat="server"></div>
                                                             <label id="lblFormula" style="display:none" runat="server" class="lblLink lblFormula"><%=GetLabel("Formula") %></label>

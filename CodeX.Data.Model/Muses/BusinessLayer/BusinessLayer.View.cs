@@ -3269,6 +3269,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vFamilyStatusRenumeration
+        public static List<vFamilyStatusRenumeration> GetvFamilyStatusRenumerationList(string filterExpression)
+        {
+            List<vFamilyStatusRenumeration> result = new List<vFamilyStatusRenumeration>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vFamilyStatusRenumeration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vFamilyStatusRenumeration)helper.IDataReaderToObject(reader, new vFamilyStatusRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vGLAccountPayable
         public static List<vGLAccountPayable> GetvGLAccountPayableList(string filterExpression)
         {

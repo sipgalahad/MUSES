@@ -708,6 +708,7 @@ namespace CodeX.Common
                 public const string POSITION_RENUMERATION_INFORMATION = "IF050100";
                 public const string EMPLOYEE_RENUMERATION_INFORMATION = "IF050200";
                 public const string JOB_LEVEL_RENUMERATION_INFORMATION = "IF050400";
+                public const string FAMILY_STATUS_RENUMERATION_INFORMATION = "IF050500";
             }
             #endregion
 

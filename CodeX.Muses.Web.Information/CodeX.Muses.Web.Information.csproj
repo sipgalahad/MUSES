@@ -118,6 +118,7 @@
     <Content Include="Program\Finance\StudentFee\StudentFeeInformation.aspx" />
     <Content Include="Program\Finance\StudentRevenue\StudentRevenueInformation.aspx" />
     <Content Include="Program\Finance\Tariff\TariffInformation.aspx" />
+    <Content Include="Program\HumanResource\FamilyStatusRenumeration\FamilyStatusRenumerationInformation.aspx" />
     <Content Include="Program\HumanResource\EmployeeRenumeration\EmployeeRenumerationInformation.aspx" />
     <Content Include="Program\HumanResource\EmployeeRenumeration\EmployeeRenumerationInformationCtl.ascx" />
     <Content Include="Program\HumanResource\EmployeeRenumeration\RenumerationInformationDtCtl.ascx" />
@@ -488,6 +489,13 @@
     </Compile>
     <Compile Include="Program\Finance\Tariff\TariffInformation.aspx.designer.cs">
       <DependentUpon>TariffInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\HumanResource\FamilyStatusRenumeration\FamilyStatusRenumerationInformation.aspx.cs">
+      <DependentUpon>FamilyStatusRenumerationInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\HumanResource\FamilyStatusRenumeration\FamilyStatusRenumerationInformation.aspx.designer.cs">
+      <DependentUpon>FamilyStatusRenumerationInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\HumanResource\EmployeeRenumeration\EmployeeRenumerationInformation.aspx.cs">
       <DependentUpon>EmployeeRenumerationInformation.aspx</DependentUpon>
