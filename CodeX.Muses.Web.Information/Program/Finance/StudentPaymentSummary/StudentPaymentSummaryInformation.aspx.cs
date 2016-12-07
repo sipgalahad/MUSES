@@ -58,6 +58,7 @@ namespace CodeX.Muses.Web.Information.Program
         List<vARReceivingHd> lstARReceivingHd = null;
         List<vARInvoiceReceiving> lstARInvoiceReceivingPSE = null;
         List<vARReceivingDt> lstEntityDt = null;
+        List<vARReceivingDt> lstEntityDtReturn = null;
         List<vARInvoiceReceiving> lstARInvoiceReceiving = null;
         #region Bind Grid View
         private void BindGridView()
@@ -82,11 +83,15 @@ namespace CodeX.Muses.Web.Information.Program
                 string lstARReceivingID = string.Join(",", lstARReceivingHd.Select(p => p.ARReceivingID).ToList());
                 lstEntityDt = BusinessLayer.GetvARReceivingDtList(string.Format("ARReceivingID IN ({0}) AND GCARPaymentMethod IN ('{1}')", lstARReceivingID, Constant.PaymentMethod.DOWN_PAYMENT_RETURN));
                 lstARInvoiceReceiving = BusinessLayer.GetvARInvoiceReceivingList(string.Format("ARReceivingID IN ({0}) AND ReceivingAmount != 0", lstARReceivingID));
+
+                lstARReceivingID = string.Join(",", lstARReceivingHd.Where(p => p.InvoiceNo == "").Select(p => p.ARReceivingID).ToList());
+                lstEntityDtReturn = BusinessLayer.GetvARReceivingDtList(string.Format("ARReceivingID IN ({0}) AND PaymentAmount < 0", lstARReceivingID));
             }
             else
             {
                 lstEntityDt = new List<vARReceivingDt>();
                 lstARInvoiceReceiving = new List<vARInvoiceReceiving>();
+                lstEntityDtReturn = new List<vARReceivingDt>();
             }
 
             rptView.DataSource = lstDateTime;
@@ -96,13 +101,15 @@ namespace CodeX.Muses.Web.Information.Program
             divTotalUsek.InnerHtml = totalUangSek.ToString("N2");
             divTotalKeg.InnerHtml = totalUangKeg.ToString("N2");
             divTotalDenda.InnerHtml = totalDenda.ToString("N");
-            divTotalAll.InnerHtml = (totalUangPemb + totalUangSek + totalUangKeg + totalDenda).ToString("N2");
+            divTotalPaymentReturn.InnerHtml = totalPaymentReturn.ToString("N");
+            divTotalAll.InnerHtml = (totalUangPemb + totalUangSek + totalUangKeg + totalDenda + totalPaymentReturn).ToString("N2");
         }
 
         decimal totalUangPemb = 0;
         decimal totalUangSek = 0;
         decimal totalUangKeg = 0;
         decimal totalDenda = 0;
+        decimal totalPaymentReturn = 0;
         protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -110,19 +117,21 @@ namespace CodeX.Muses.Web.Information.Program
                 DateTime dt = (DateTime)e.Item.DataItem;
                 List<vARReceivingHd> lstARReceivingHd1 = lstARReceivingHd.Where(p => p.ReceivingDate == dt).ToList();
                 List<vARReceivingDt> lstARReceivingDt = lstEntityDt.Where(p => p.ReceivingDate == dt).ToList();
+                List<vARReceivingDt> lstARReceivingDtReturn = lstEntityDtReturn.Where(p => p.ReceivingDate == dt).ToList();
                 List<vARInvoiceReceiving> lstARInvoiceReceiving1 = lstARInvoiceReceiving.Where(p => p.ReceivingDate == dt).ToList();
                 List<vARInvoiceReceiving> lstARInvoiceReceivingPSE1 = lstARInvoiceReceivingPSE.Where(p => p.ReceivingDate == dt).ToList();
-
 
                 HtmlGenericControl divPemb = e.Item.FindControl("divPemb") as HtmlGenericControl;
                 HtmlGenericControl divSek = e.Item.FindControl("divUsek") as HtmlGenericControl;
                 HtmlGenericControl divKeg = e.Item.FindControl("divKeg") as HtmlGenericControl;
                 HtmlGenericControl divDenda = e.Item.FindControl("divDenda") as HtmlGenericControl;
+                HtmlGenericControl divPaymentReturn = e.Item.FindControl("divPaymentReturn") as HtmlGenericControl;
                 HtmlGenericControl divTotal = e.Item.FindControl("divTotal") as HtmlGenericControl;
                 decimal pemb = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.ReceivingAmount) + lstARInvoiceReceivingPSE1.Where(p => p.StudentFeeCompTypeID == 1).Sum(p => p.ReceivingAmount);
                 decimal usek = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.ReceivingAmount - p.cfPenaltyAmount) + lstARInvoiceReceivingPSE1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.ReceivingAmount);
                 decimal keg = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.ReceivingAmount) + lstARInvoiceReceivingPSE1.Where(p => p.StudentFeeCompTypeID == 3).Sum(p => p.ReceivingAmount);
                 decimal denda = lstARInvoiceReceiving1.Where(p => p.StudentFeeCompTypeID == 2).Sum(p => p.cfPenaltyAmount);
+                decimal paymentReturn = lstARReceivingDtReturn.Sum(p => p.PaymentAmount);
 
                 usek -= lstARReceivingDt.Sum(p => p.PaymentAmount);
                 usek += lstARReceivingHd1.Sum(p => p.DepositAmount);
@@ -131,13 +140,15 @@ namespace CodeX.Muses.Web.Information.Program
                 totalUangSek += usek;
                 totalUangKeg += keg;
                 totalDenda += denda;
+                totalPaymentReturn += paymentReturn;
 
-                decimal total = pemb + usek + keg + denda;
+                decimal total = pemb + usek + keg + denda + paymentReturn;
                 divPemb.InnerHtml = pemb.ToString("N2");
                 divSek.InnerHtml = usek.ToString("N2");
                 divKeg.InnerHtml = keg.ToString("N2");
                 divDenda.InnerHtml = denda.ToString("N2");
                 divTotal.InnerHtml = total.ToString("N2");
+                divPaymentReturn.InnerHtml = paymentReturn.ToString("N2");
             }
         }
 
@@ -157,7 +168,7 @@ namespace CodeX.Muses.Web.Information.Program
             HtmlGenericControl h43 = new HtmlGenericControl("DIV");
             h41.InnerHtml = "PENERIMAAN UANG SEKOLAH, U.KEGIATAN & U.PEMBANGUNAN";
             h42.InnerHtml = hdnExportPeriodText.Value;
-            h43.InnerHtml = string.Format("Unit {0}", AppSession.UserLogin.SiteName);
+            h43.InnerHtml = string.Format("Unit {0}", Request.Form[hdnSiteName.UniqueID]);
             div.Controls.Add(h41);
             div.Controls.Add(h42);
             div.Controls.Add(h43);

@@ -79,7 +79,7 @@ namespace CodeX.Data.Model
         {
             get
             {
-                return _Col1 + _Col2 + _Col3;
+                return _Col1 + _Col2 + _Col3 + _ColPse2;
             }
         }
     }

@@ -58,6 +58,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void BindCboGradePromotionFormula()
         {
             List<GradePromotionFormulaHd> lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaHdList(string.Format("CurriculumID = {0} AND IsDeleted = 0", cboCurriculum.Value));
+            if (lstGradePromotionFormula.Count == 0)
+                lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaHdList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<GradePromotionFormulaHd>(cboGradePromotionFormula, lstGradePromotionFormula, "GradePromotionFormulaName", "GradePromotionFormulaID");
             cboGradePromotionFormula.SelectedIndex = 0;            
         }

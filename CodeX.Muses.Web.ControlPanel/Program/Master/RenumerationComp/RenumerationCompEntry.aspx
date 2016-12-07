@@ -6,6 +6,14 @@ CodeBehind="RenumerationCompEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPane
 <%@ Register Src="~/Libs/Controls/MasterCodingCtl.ascx" TagName="MasterCodingCtl" TagPrefix="uc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
+    <script type="text/javascript">
+        function onCboRenumerationCompTypeValueChanged() {
+            if (cboRenumerationCompType.GetValue() == "<%=OnGetRenumerationCompTypeDeduction() %>")
+                $('#trRenumerationCompSource').attr('style', 'display:none');
+            else
+                $('#trRenumerationCompSource').removeAttr('style');
+        }
+    </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
     <table class="tblContentArea">
         <colgroup>
@@ -27,9 +35,14 @@ CodeBehind="RenumerationCompEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPane
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe")%></label></td>
-                        <td><dxe:ASPxComboBox ID="cboRenumerationCompType" Width="200px" runat="server" /></td>
+                        <td>
+                            <dxe:ASPxComboBox ID="cboRenumerationCompType" ClientInstanceName="cboRenumerationCompType" Width="200px" runat="server">
+                                <ClientSideEvents ValueChanged="function(s,e){ onCboRenumerationCompTypeValueChanged(); }" 
+                                    Init="function(s,e){ onCboRenumerationCompTypeValueChanged(); }"/>
+                            </dxe:ASPxComboBox>
+                        </td>
                     </tr>
-                    <tr>
+                    <tr id="trRenumerationCompSource">
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Sumber")%></label></td>
                         <td><dxe:ASPxComboBox ID="cboRenumerationCompSource" Width="200px" runat="server" /></td>
                     </tr>

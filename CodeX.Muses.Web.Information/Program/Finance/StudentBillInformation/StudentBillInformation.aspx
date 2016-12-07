@@ -251,13 +251,14 @@
                                                 <col style="width:120px"/>
                                                 <col style="width:120px"/>
                                                 <col style="width:120px"/>
+                                                <col style="width:120px"/>
                                                 <col style="width:70px"/>
                                             </colgroup>
                                             <tr>
                                                 <th rowspan="2" class="thCenter"><%=GetLabel("NBS") %></th>
                                                 <th rowspan="2" class="thCenter"><%=GetLabel("Nama") %></th>
                                                 <th rowspan="2" class="thCenter"><%=GetLabel("Kelas") %></th>
-                                                <th colspan="3" class="thCenter"><%=GetLabel("Jenis Pembayaran") %></th>
+                                                <th colspan="4" class="thCenter"><%=GetLabel("Jenis Pembayaran") %></th>
                                                 <th rowspan="2" class="thCenter"><%=GetLabel("Total") %></th>
                                                 <th rowspan="2" class="thCenter" id="thPrint" runat="server">Print</th>
                                             </tr>
@@ -265,6 +266,7 @@
                                                 <th class="thCenter"><%=GetLabel("Uang Sekolah") %></th>
                                                 <th class="thCenter"><%=GetLabel("Uang Kegiatan") %></th>
                                                 <th class="thCenter"><%=GetLabel("Uang Pembangunan") %></th>
+                                                <th class="thCenter"><%=GetLabel("PSE") %></th>
                                             </tr>
                                         <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
                                             <ItemTemplate>
@@ -278,6 +280,7 @@
                                                     <td align="right"><%#Eval("Col2", "{0:N}")%></td>
                                                     <td align="right"><%#Eval("Col3", "{0:N}")%></td>
                                                     <td align="right"><%#Eval("Col1", "{0:N}")%></td>
+                                                    <td align="right"><%#Eval("ColPse2", "{0:N}")%></td>
                                                     <td align="right"><%#Eval("Total", "{0:N}")%></td>
                                                     <td align="center" id="tdPrint" runat="server"><label class='lblPrint lblLink'>Print</label></td>
                                                 </tr>
@@ -288,6 +291,7 @@
                                                 <td align="right"><div id="divTotalUsek" runat="server"></div></td>
                                                 <td align="right"><div id="divTotalKeg" runat="server"></div></td>
                                                 <td align="right"><div id="divTotalPemb" runat="server"></div></td>
+                                                <td align="right"><div id="divTotalPse" runat="server"></div></td>
                                                 <td align="right"><div id="divTotalAll" runat="server"></div></td>
                                                 <td>&nbsp;</td>
                                             </tr>

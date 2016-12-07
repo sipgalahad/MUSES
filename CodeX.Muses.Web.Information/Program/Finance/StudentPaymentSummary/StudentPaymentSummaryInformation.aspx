@@ -82,15 +82,17 @@
                                     <table cellpadding="0" cellspacing="0" border="1" rules="all" class="grdSelected grdBorder">
                                         <colgroup>
                                             <col/>
-                                            <col style="width:200px"/>
-                                            <col style="width:200px"/>
-                                            <col style="width:200px"/>
-                                            <col style="width:200px"/>
-                                            <col style="width:200px"/>
+                                            <col style="width:180px"/>
+                                            <col style="width:180px"/>
+                                            <col style="width:180px"/>
+                                            <col style="width:180px"/>
+                                            <col style="width:180px"/>
+                                            <col style="width:180px"/>
                                         </colgroup>
                                         <tr>
                                             <th rowspan="2" class="thCenter"><%=GetLabel("Tanggal") %></th> 
                                             <th colspan="4" class="thCenter"><%=GetLabel("Jenis Pembayaran") %></th>
+                                            <th rowspan="2" class="thCenter"><%=GetLabel("Pengembalian Pembayaran") %></th>
                                             <th rowspan="2" class="thCenter"><%=GetLabel("Total") %></th>
                                         </tr>
                                         <tr>
@@ -107,6 +109,7 @@
                                         <td align="right"><div id="divKeg" runat="server"></div></td>
                                         <td align="right"><div id="divPemb" runat="server"></div></td>
                                         <td align="right"><div id="divDenda" runat="server"></div></td>
+                                        <td align="right"><div id="divPaymentReturn" runat="server"></div></td>
                                         <td align="right"><div id="divTotal" runat="server"></div></td>
                                     </tr>
                                 </ItemTemplate>
@@ -117,6 +120,7 @@
                                     <td align="right"><div id="divTotalKeg" runat="server"></div></td>
                                     <td align="right"><div id="divTotalPemb" runat="server"></div></td>
                                     <td align="right"><div id="divTotalDenda" runat="server"></div></td>
+                                    <td align="right"><div id="divTotalPaymentReturn" runat="server"></div></td>
                                     <td align="right"><div id="divTotalAll" runat="server"></div></td>
                                 </tr>
                             </table>

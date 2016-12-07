@@ -396,16 +396,27 @@ namespace CodeX.Muses.Web.Finance.Program
                                 #region Proses ARReceiving, ARInvoice, ARBalance
                                 if (entityStudent != null || entityProspectiveStudent != null)
                                 {
-                                    ARBalance entityARBalance = null;
                                     string dateTimeString = tempData.Substring(73, 18);
                                     string[] arr = dateTimeString.Split('/').ToArray();
                                     DateTime receivingDate = Convert.ToDateTime(String.Format("{0}/{1}/{2}",arr[1],arr[0],arr[2]));
 
+                                    ARBalance entityARBalance = null;
                                     if (entityStudent != null)
+                                    {
                                         entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == entityStudent.StudentID);
-
-                                    if (entityProspectiveStudent != null)
+                                        entity.StudentID = entityStudent.StudentID;
+                                        entity.ProspectiveStudentID = 0;
+                                        entity.StudentName = entityStudent.StudentName;
+                                        entity.Status = "Siswa";
+                                    }
+                                    else if (entityProspectiveStudent != null)
+                                    {
                                         entityARBalance = lstARBalance.FirstOrDefault(p => p.ProspectiveStudentID == entityProspectiveStudent.ProspectiveStudentID);
+                                        entity.StudentName = entityProspectiveStudent.ProspectiveStudentName;
+                                        entity.Status = "Calon Siswa";
+                                        entity.StudentID = 0;
+                                        entity.ProspectiveStudentID = entityProspectiveStudent.ProspectiveStudentID;
+                                    }
 
                                     decimal totalAmount = entity.Amount - bank.AdministrationAmount;
                                     if (entityARBalance != null)

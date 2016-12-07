@@ -7199,6 +7199,9 @@ namespace CodeX.Data.Model
         private Int32 _JobLevelID;
         private String _JobLevelCode;
         private String _JobLevelName;
+        private Int32 _FamilyStatusID;
+        private String _FamilyStatusCode;
+        private String _FamilyStatusName;
         private Int32 _RenumerationCompID;
         private String _RenumerationCompCode;
         private String _RenumerationCompName;
@@ -7206,8 +7209,10 @@ namespace CodeX.Data.Model
         private String _RenumerationCompType;
         private Int32 _EmployeePositionTransactionDtID;
         private Int32 _EmployeeJobLevelTransactionDtID;
+        private Int32 _EmployeeFamilyStatusTransactionDtID;
         private Int32 _RenumerationPositionTransactionDtID;
         private Int32 _RenumerationJobLevelTransactionDtID;
+        private Int32 _RenumerationFamilyStatusTransactionDtID;
         private Boolean _IsUseFormula;
         private Decimal _Amount;
 
@@ -7271,6 +7276,24 @@ namespace CodeX.Data.Model
             get { return _JobLevelName; }
             set { _JobLevelName = value; }
         }
+        [Column(Name = "FamilyStatusID", DataType = "Int32")]
+        public Int32 FamilyStatusID
+        {
+            get { return _FamilyStatusID; }
+            set { _FamilyStatusID = value; }
+        }
+        [Column(Name = "FamilyStatusCode", DataType = "String")]
+        public String FamilyStatusCode
+        {
+            get { return _FamilyStatusCode; }
+            set { _FamilyStatusCode = value; }
+        }
+        [Column(Name = "FamilyStatusName", DataType = "String")]
+        public String FamilyStatusName
+        {
+            get { return _FamilyStatusName; }
+            set { _FamilyStatusName = value; }
+        }
         [Column(Name = "RenumerationCompID", DataType = "Int32")]
         public Int32 RenumerationCompID
         {
@@ -7313,6 +7336,12 @@ namespace CodeX.Data.Model
             get { return _EmployeeJobLevelTransactionDtID; }
             set { _EmployeeJobLevelTransactionDtID = value; }
         }
+        [Column(Name = "EmployeeFamilyStatusTransactionDtID", DataType = "Int32")]
+        public Int32 EmployeeFamilyStatusTransactionDtID
+        {
+            get { return _EmployeeFamilyStatusTransactionDtID; }
+            set { _EmployeeFamilyStatusTransactionDtID = value; }
+        }
         [Column(Name = "RenumerationPositionTransactionDtID", DataType = "Int32")]
         public Int32 RenumerationPositionTransactionDtID
         {
@@ -7324,6 +7353,12 @@ namespace CodeX.Data.Model
         {
             get { return _RenumerationJobLevelTransactionDtID; }
             set { _RenumerationJobLevelTransactionDtID = value; }
+        }
+        [Column(Name = "RenumerationFamilyStatusTransactionDtID", DataType = "Int32")]
+        public Int32 RenumerationFamilyStatusTransactionDtID
+        {
+            get { return _RenumerationFamilyStatusTransactionDtID; }
+            set { _RenumerationFamilyStatusTransactionDtID = value; }
         }
         [Column(Name = "IsUseFormula", DataType = "Boolean")]
         public Boolean IsUseFormula
@@ -9456,6 +9491,84 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vFamilyStatusRenumeration
+    [Serializable]
+    [Table(Name = "vFamilyStatusRenumeration")]
+    public class vFamilyStatusRenumeration
+    {
+        private Int32 _FamilyStatusID;
+        private String _FamilyStatusName;
+        private Int32 _RenumerationCompID;
+        private String _RenumerationCompCode;
+        private String _RenumerationCompName;
+        private String _GCRenumerationCompType;
+        private Int32 _RenumerationTransactionDtID;
+        private String _RenumerationCompType;
+        private Boolean _IsUseFormula;
+        private Decimal _Amount;
+
+        [Column(Name = "FamilyStatusID", DataType = "Int32")]
+        public Int32 FamilyStatusID
+        {
+            get { return _FamilyStatusID; }
+            set { _FamilyStatusID = value; }
+        }
+        [Column(Name = "FamilyStatusName", DataType = "String")]
+        public String FamilyStatusName
+        {
+            get { return _FamilyStatusName; }
+            set { _FamilyStatusName = value; }
+        }
+        [Column(Name = "RenumerationCompID", DataType = "Int32")]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "RenumerationCompCode", DataType = "String")]
+        public String RenumerationCompCode
+        {
+            get { return _RenumerationCompCode; }
+            set { _RenumerationCompCode = value; }
+        }
+        [Column(Name = "RenumerationCompName", DataType = "String")]
+        public String RenumerationCompName
+        {
+            get { return _RenumerationCompName; }
+            set { _RenumerationCompName = value; }
+        }
+        [Column(Name = "GCRenumerationCompType", DataType = "String")]
+        public String GCRenumerationCompType
+        {
+            get { return _GCRenumerationCompType; }
+            set { _GCRenumerationCompType = value; }
+        }
+        [Column(Name = "RenumerationTransactionDtID", DataType = "Int32")]
+        public Int32 RenumerationTransactionDtID
+        {
+            get { return _RenumerationTransactionDtID; }
+            set { _RenumerationTransactionDtID = value; }
+        }
+        [Column(Name = "RenumerationCompType", DataType = "String")]
+        public String RenumerationCompType
+        {
+            get { return _RenumerationCompType; }
+            set { _RenumerationCompType = value; }
+        }
+        [Column(Name = "IsUseFormula", DataType = "Boolean")]
+        public Boolean IsUseFormula
+        {
+            get { return _IsUseFormula; }
+            set { _IsUseFormula = value; }
+        }
+        [Column(Name = "Amount", DataType = "Decimal")]
+        public Decimal Amount
+        {
+            get { return _Amount; }
+            set { _Amount = value; }
         }
     }
     #endregion

@@ -19,6 +19,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             return Constant.MenuCode.ControlPanel.RENUMERATION_COMP;
         }
 
+        protected string OnGetRenumerationCompTypeDeduction()
+        {
+            return Constant.RenumerationCompType.DEDUCTION;
+        }
+
         protected override void InitializeDataControl()
         {
             if (Request.QueryString.Count > 0)
@@ -75,7 +80,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.RenumerationCompName = txtRenumerationCompName.Text;
             entity.GCRenumerationCompType = cboRenumerationCompType.Value.ToString();
-            entity.GCRenumerationCompSource = cboRenumerationCompSource.Value.ToString();
+            if (entity.GCRenumerationCompType == Constant.RenumerationCompType.DEDUCTION)
+                entity.GCRenumerationCompSource = null;
+            else
+                entity.GCRenumerationCompSource = cboRenumerationCompSource.Value.ToString();
             entity.Remarks = txtRemarks.Text;
             entity.RenumerationCompCode = ctlEntityCode.GetCode(entity.RenumerationCompName, ctx);
         }
