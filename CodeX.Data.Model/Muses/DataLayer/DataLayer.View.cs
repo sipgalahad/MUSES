@@ -42,6 +42,84 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vAbsenceProposalEmployeeDate
+    [Serializable]
+    [Table(Name = "vAbsenceProposalEmployeeDate")]
+    public class vAbsenceProposalEmployeeDate
+    {
+        private Int32 _TransactionID;
+        private String _GCAttendanceStatus;
+        private Int32 _EmployeeID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _StartTime;
+        private String _EndTime;
+        private Boolean _IsFullDay;
+        private Decimal _TotalHours;
+        private String _GCTransactionStatus;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "GCAttendanceStatus", DataType = "String")]
+        public String GCAttendanceStatus
+        {
+            get { return _GCAttendanceStatus; }
+            set { _GCAttendanceStatus = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "IsFullDay", DataType = "Boolean")]
+        public Boolean IsFullDay
+        {
+            get { return _IsFullDay; }
+            set { _IsFullDay = value; }
+        }
+        [Column(Name = "TotalHours", DataType = "Decimal")]
+        public Decimal TotalHours
+        {
+            get { return _TotalHours; }
+            set { _TotalHours = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+    }
+    #endregion
     #region vAbsenceProposalHd
     [Serializable]
     [Table(Name = "vAbsenceProposalHd")]
@@ -6604,6 +6682,8 @@ namespace CodeX.Data.Model
         private String _OrganizationDepartmentName;
         private Int32 _OrganizationPositionID;
         private String _OrganizationPositionName;
+        private String _GCScheduleType;
+        private Int32 _WeeklyScheduleID;
         private String _SiteID;
         private String _SiteName;
         private String _GCSalutation;
@@ -6644,6 +6724,7 @@ namespace CodeX.Data.Model
         private String _PictureFileName;
         private String _GCEmployeeStatus;
         private String _EmployeeStatus;
+        private Int32 _CurrentTransScheduleID;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -6682,6 +6763,18 @@ namespace CodeX.Data.Model
         {
             get { return _OrganizationPositionName; }
             set { _OrganizationPositionName = value; }
+        }
+        [Column(Name = "GCScheduleType", DataType = "String")]
+        public String GCScheduleType
+        {
+            get { return _GCScheduleType; }
+            set { _GCScheduleType = value; }
+        }
+        [Column(Name = "WeeklyScheduleID", DataType = "Int32")]
+        public Int32 WeeklyScheduleID
+        {
+            get { return _WeeklyScheduleID; }
+            set { _WeeklyScheduleID = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -6923,6 +7016,12 @@ namespace CodeX.Data.Model
             get { return _EmployeeStatus; }
             set { _EmployeeStatus = value; }
         }
+        [Column(Name = "CurrentTransScheduleID", DataType = "Int32")]
+        public Int32 CurrentTransScheduleID
+        {
+            get { return _CurrentTransScheduleID; }
+            set { _CurrentTransScheduleID = value; }
+        }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
         {
@@ -6934,6 +7033,154 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vEmployeeDailyAttendance
+    [Serializable]
+    [Table(Name = "vEmployeeDailyAttendance")]
+    public class vEmployeeDailyAttendance
+    {
+        private Int32 _EmployeeID;
+        private String _EmployeeCode;
+        private String _EmployeeName;
+        private DateTime _ScheduleDate;
+        private String _ScheduleStartTime;
+        private String _ScheduleEndTime;
+        private Decimal _ScheduleNoOfWorkTimeHour;
+        private String _GCAttendanceStatus;
+        private String _AttendanceStatus;
+        private String _StartTime;
+        private String _EndTime;
+        private Decimal _NoOfWorkTimeHour;
+        private Decimal _DailyRenumerationMultiplyBy;
+        private String _OvertimeProposalStartTime;
+        private String _OvertimeProposalEndTime;
+        private String _OvertimeProposalTotalHour;
+        private Decimal _NoOfOvertimeHour;
+        private String _GCDayType;
+        private String _DayType;
+        private String _Remarks;
+
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "EmployeeCode", DataType = "String")]
+        public String EmployeeCode
+        {
+            get { return _EmployeeCode; }
+            set { _EmployeeCode = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+        [Column(Name = "ScheduleDate", DataType = "DateTime")]
+        public DateTime ScheduleDate
+        {
+            get { return _ScheduleDate; }
+            set { _ScheduleDate = value; }
+        }
+        [Column(Name = "ScheduleStartTime", DataType = "String")]
+        public String ScheduleStartTime
+        {
+            get { return _ScheduleStartTime; }
+            set { _ScheduleStartTime = value; }
+        }
+        [Column(Name = "ScheduleEndTime", DataType = "String")]
+        public String ScheduleEndTime
+        {
+            get { return _ScheduleEndTime; }
+            set { _ScheduleEndTime = value; }
+        }
+        [Column(Name = "ScheduleNoOfWorkTimeHour", DataType = "Decimal")]
+        public Decimal ScheduleNoOfWorkTimeHour
+        {
+            get { return _ScheduleNoOfWorkTimeHour; }
+            set { _ScheduleNoOfWorkTimeHour = value; }
+        }
+        [Column(Name = "GCAttendanceStatus", DataType = "String")]
+        public String GCAttendanceStatus
+        {
+            get { return _GCAttendanceStatus; }
+            set { _GCAttendanceStatus = value; }
+        }
+        [Column(Name = "AttendanceStatus", DataType = "String")]
+        public String AttendanceStatus
+        {
+            get { return _AttendanceStatus; }
+            set { _AttendanceStatus = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "NoOfWorkTimeHour", DataType = "Decimal")]
+        public Decimal NoOfWorkTimeHour
+        {
+            get { return _NoOfWorkTimeHour; }
+            set { _NoOfWorkTimeHour = value; }
+        }
+        [Column(Name = "DailyRenumerationMultiplyBy", DataType = "Decimal")]
+        public Decimal DailyRenumerationMultiplyBy
+        {
+            get { return _DailyRenumerationMultiplyBy; }
+            set { _DailyRenumerationMultiplyBy = value; }
+        }
+        [Column(Name = "OvertimeProposalStartTime", DataType = "String")]
+        public String OvertimeProposalStartTime
+        {
+            get { return _OvertimeProposalStartTime; }
+            set { _OvertimeProposalStartTime = value; }
+        }
+        [Column(Name = "OvertimeProposalEndTime", DataType = "String")]
+        public String OvertimeProposalEndTime
+        {
+            get { return _OvertimeProposalEndTime; }
+            set { _OvertimeProposalEndTime = value; }
+        }
+        [Column(Name = "OvertimeProposalTotalHour", DataType = "String")]
+        public String OvertimeProposalTotalHour
+        {
+            get { return _OvertimeProposalTotalHour; }
+            set { _OvertimeProposalTotalHour = value; }
+        }
+        [Column(Name = "NoOfOvertimeHour", DataType = "Decimal")]
+        public Decimal NoOfOvertimeHour
+        {
+            get { return _NoOfOvertimeHour; }
+            set { _NoOfOvertimeHour = value; }
+        }
+        [Column(Name = "GCDayType", DataType = "String")]
+        public String GCDayType
+        {
+            get { return _GCDayType; }
+            set { _GCDayType = value; }
+        }
+        [Column(Name = "DayType", DataType = "String")]
+        public String DayType
+        {
+            get { return _DayType; }
+            set { _DayType = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
     }
     #endregion
@@ -16685,6 +16932,63 @@ namespace CodeX.Data.Model
         {
             get { return _EmployeeName; }
             set { _EmployeeName = value; }
+        }
+    }
+    #endregion
+    #region vOvertimeProposalEmployeeDate
+    [Serializable]
+    [Table(Name = "vOvertimeProposalEmployeeDate")]
+    public class vOvertimeProposalEmployeeDate
+    {
+        private Int32 _TransactionID;
+        private Int32 _EmployeeID;
+        private DateTime _OvertimeDate;
+        private String _StartTime;
+        private String _EndTime;
+        private Decimal _TotalHours;
+        private String _GCTransactionStatus;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "OvertimeDate", DataType = "DateTime")]
+        public DateTime OvertimeDate
+        {
+            get { return _OvertimeDate; }
+            set { _OvertimeDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "TotalHours", DataType = "Decimal")]
+        public Decimal TotalHours
+        {
+            get { return _TotalHours; }
+            set { _TotalHours = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
         }
     }
     #endregion

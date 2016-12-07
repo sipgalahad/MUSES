@@ -160,6 +160,20 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region EmployeeFingerprintLog
+    public partial class EmployeeFingerprintLog
+    {
+        public String TimeFormatLogDateTime
+        {
+            get
+            {
+                if (_LogDateTime.ToString(Constant.FormatString.TIME_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _LogDateTime.ToString(Constant.FormatString.TIME_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region ExamScheduleHd
     public partial class ExamScheduleHd
     {

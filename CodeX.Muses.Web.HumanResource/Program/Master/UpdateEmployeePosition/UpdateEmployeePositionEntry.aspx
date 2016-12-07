@@ -182,15 +182,15 @@
                             if (result != null)
                                 $('#<%=hdnTransRenumerationID.ClientID %>').val(result.TransactionID);
                             else
-                                $('#<%=hdnTransRenumerationID.ClientID %>').val('');
+                                $('#<%=hdnTransRenumerationID.ClientID %>').val('0');
                         });
                     }
                     else
-                        $('#<%=hdnTransRenumerationID.ClientID %>').val('');
+                        $('#<%=hdnTransRenumerationID.ClientID %>').val('0');
                 });
             }
             else
-                $('#<%=hdnTransRenumerationID.ClientID %>').val('');
+                $('#<%=hdnTransRenumerationID.ClientID %>').val('0');
         }
 
         //#region  Delete
@@ -386,12 +386,14 @@
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
             var TransRenumerationID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
             var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeePositionRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 1 AND IsDeleted = 0)";
+            alert(filterExpression);
             return filterExpression;
         }
 
         function ontacRenumerationCompIDSearchClick() {
             openSearchDialog('renumerationcomp', onGetRenumerationCompFilterExpression(), function (value) {
                 var filterExpression = onGetRenumerationCompFilterExpression() + " AND RenumerationCompCode = '" + value + "'";
+                alert(filterExpression);
                 Methods.getObject('GetvRenumerationCompList', filterExpression, function (result) {
                     if (result != null) {
                         tacRenumerationCompID.setValue(result.RenumerationCompID);
@@ -410,7 +412,7 @@
         //#endregion
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
-    <input type="hidden" value="" id="hdnTransactionID" runat="server" />
+    <input type="hidden" value="0" id="hdnTransactionID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnPageCount2" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
