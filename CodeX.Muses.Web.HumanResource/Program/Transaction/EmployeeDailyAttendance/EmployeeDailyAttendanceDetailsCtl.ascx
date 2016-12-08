@@ -12,48 +12,11 @@
     $(function () {
         $('#divTransactionAddPopup').click(function () {
             $('#<%=hdnEntryID.ClientID %>').val('');
-            $('#<%=txtFromHour.ClientID %>').val('');
-            $('#<%=txtToHour.ClientID %>').val('');
-            cboDailyScheduleType.SetValue('');
-            $('#entryDetailContainerPopup').show();
-        });
-
-        $('#btnCancelPopup').click(function () {
-            $('#entryDetailContainerPopup').hide();
-        });
-
-        $('#btnSavePopup').click(function (evt) {
-//            alert('test');
-            if (IsValid(evt, 'fsTrxPopup', 'mpTrxPopup')) 
-                cbpProcessPopup.PerformCallback('save');
-            
+           
         });
     });
 
-    $('#<%=grdView.ClientID %> .divDetailDelete').die('click');
-    $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
-        $row = $(this).closest('tr');
-        showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
-            if (result) {
-                var entity = rowToObject($row);
-                $('#<%=hdnEntryID.ClientID %>').val(entity.DailyScheduleDtID);
-                cbpProcessPopup.PerformCallback('delete');
-            }
-        });
-    });
-
-    $('#<%=grdView.ClientID %> .divDetailEdit').die('click');
-    $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
-        $row = $(this).closest('tr');
-        var entity = rowToObject($row);
-
-        $('#<%=hdnEntryID.ClientID %>').val(entity.DailyScheduleDtID);
-        $('#<%=txtFromHour.ClientID %>').val(entity.FromHour);
-        $('#<%=txtToHour.ClientID %>').val(entity.ToHour);
-        cboDailyScheduleType.SetValue(entity.GCDailyScheduleType);
-        $('#entryDetailContainerPopup').show();
-    });
-
+   
     function onCbpProcesPopupEndCallback(s) {
         hideLoadingPanel();
 
@@ -73,8 +36,6 @@
                 cbpViewPopup.PerformCallback('refresh');
         }
     }
-
-    
 
 </script>
 
@@ -102,30 +63,6 @@
         <div id="entryDetailContainerPopup" class="entryDetailContainer" style="display: none">
             <fieldset id="fsTrxPopup" style="margin:0"> 
                 <input type="hidden" id="hdnEntryID" runat="server" value="" />
-                <table>
-                    <colgroup>
-                        <col style="width:150px"/>
-                        <col />
-                    </colgroup>
-                    <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jam Mulai")%></label></td>
-                        <td><asp:TextBox ID="txtFromHour" CssClass="time" Width="80px" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jam Selesai")%></label></td>
-                        <td><asp:TextBox ID="txtToHour" CssClass="time" Width="80px" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Jadwal")%></label></td>
-                        <td><dxe:ASPxComboBox runat="server" ID="cboDailyScheduleType" ClientInstanceName="cboDailyScheduleType" Width="200px" /></td>
-                    </tr>
-                    <tr>
-                        <td> 
-                            <input type="button" id="btnSavePopup" class="btnWhite" value="Commit"/>
-                            <input type="button" id="btnCancelPopup" class="btnWhite" value="Cancel"/>
-                        </td>
-                    </tr>
-                </table>
             </fieldset>
         </div>
     </div>

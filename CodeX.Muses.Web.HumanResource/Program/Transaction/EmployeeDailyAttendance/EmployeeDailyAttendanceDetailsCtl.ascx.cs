@@ -17,8 +17,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         public override void InitializeDataControl(string param)
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.HR_DAILY_SCHEDULE_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboDailyScheduleType, lstSc, "StandardCodeName", "StandardCodeID");
             string[] lstParam = param.Split('|');
             hdnID.Value = lstParam[0];
             hdnTanggal.Value = Helper.GetDatePickerValue(lstParam[1]).ToString("yyyyMMdd");
@@ -27,9 +25,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtTanggal.Text = lstParam[1].ToString();
             BindGridView();
 
-            Helper.SetControlEntrySetting(txtFromHour, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(txtToHour, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(cboDailyScheduleType, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            
   
         }
 

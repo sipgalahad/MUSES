@@ -207,7 +207,6 @@ namespace CodeX.Muses.Web.HumanResource.Program
 
                         employeeDailyAttendanceDao.Insert(eda);
                     }
-
                     else if (employeeFingerPrint != null && employeeFingerPrint.LogDateTime.Date == date.Date)
                     {
                         EmployeeDailyAttendance eda = new EmployeeDailyAttendance();
@@ -241,6 +240,17 @@ namespace CodeX.Muses.Web.HumanResource.Program
                                 if (depart != null)
                                     eda.EndTime = depart.LogDateTime.ToString("HH:mm");
 
+                                List<vOvertimeProposalEmployeeDate> lstOvertimeProposal = BusinessLayer.GetvOvertimeProposalEmployeeDateList(String.Format("OvertimeDate = '{0}' AND GCTransactionStatus = '{1}'", Helper.GetDatePickerValue(Request.Form[txtDate.UniqueID]), Constant.TransactionStatus.APPROVED));
+                                vOvertimeProposalEmployeeDate tempOvertimeProposal = lstOvertimeProposal.FirstOrDefault(p => p.EmployeeID == employee.EmployeeID);
+                                if (tempOvertimeProposal != null)
+                                {
+                                    EmployeeFingerprintLog departOvertime = lstFingerPrint.Where(p => String.Compare(p.LogDateTime.ToString("HH:mm"), tempOvertimeProposal.StartTime) >= 0 && String.Compare(p.LogDateTime.ToString("HH:mm"), tempOvertimeProposal.EndTime) <= 0).OrderByDescending(p => p.LogDateTime).FirstOrDefault();
+                                    eda.OvertimeProposalStartTime = tempOvertimeProposal.StartTime;
+                                    eda.OvertimeProposalEndTime = tempOvertimeProposal.EndTime;
+                                    eda.OvertimeProposalTotalHour = tempOvertimeProposal.TotalHours.ToString();
+                                    if(departOvertime != null)
+                                        eda.EndTime = departOvertime.LogDateTime.ToString("HH:mm");
+                                }
                             }
                             else
                             {
