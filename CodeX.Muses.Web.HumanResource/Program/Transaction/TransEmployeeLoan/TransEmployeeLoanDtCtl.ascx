@@ -155,7 +155,7 @@
                         <col/>
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Header")%></label></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("No Transaksi")%></label></td>
                         <td><asp:TextBox ID="txtHeader" ReadOnly="true" Width="100%" runat="server" /></td>
                     </tr>
                     <tr>

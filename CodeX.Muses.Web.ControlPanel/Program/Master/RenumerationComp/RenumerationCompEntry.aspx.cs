@@ -63,7 +63,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(cboRenumerationCompType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboRenumerationCompSource, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
-           
         }
 
         private void EntityToControl(RenumerationComp entity)
@@ -73,7 +72,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             cboRenumerationCompType.Value = entity.GCRenumerationCompType;
             cboRenumerationCompSource.Value = entity.GCRenumerationCompSource;
             txtRemarks.Text = entity.Remarks;
-      
         }
 
         private void ControlToEntity(RenumerationComp entity, IDbContext ctx)

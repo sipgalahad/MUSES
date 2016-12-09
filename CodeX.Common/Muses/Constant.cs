@@ -25,6 +25,7 @@ namespace CodeX.Common
             public const string INVENTORY = "IM";
             public const string PROJECT_MANAGEMENT = "PM";
             public const string STUDENT_MANAGEMENT = "SM";
+            public const string MOBILE = "MB";
         }
         #endregion
 
@@ -773,6 +774,13 @@ namespace CodeX.Common
                 public const string ITEM_DISTRIBUTION_CROSS_SITE_APPROVAL = "IM070402";
 
                 public const string REPORT = "IM090000";
+            }
+            #endregion
+
+            #region Mobile
+            public static class Mobile
+            {
+                public const string STUDENT_BILL_INFO = "MB010100";
             }
             #endregion
 
