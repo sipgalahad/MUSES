@@ -146,10 +146,12 @@ namespace CodeX.Common
             public const string JOB_LEVEL_TYPE = "X325";
             public const string RENUMERATION_COMP_SOURCE = "X326";
             public const string EMPLOYEE_MARTIAL_STATUS = "X327";
+            public const string RENUMERATION_AMOUNT_SOURCE = "X328";
         }
 
         public static class RenumerationCompType
         {
+            public const string MONTHLY = "X314^001";
             public const string DEDUCTION = "X314^005";
         }
 
@@ -182,6 +184,13 @@ namespace CodeX.Common
         {
             public const string RENUMERATION_COMP = "X319^001";
             public const string FIX_AMOUNT = "X319^002";
+        }
+
+        public static class RenumerationAmountSource
+        {
+            public const string FIXED = "X328^001";
+            public const string RENUMERATION_COMP_PERCENTAGE = "X328^002";
+            public const string RENUMERATION_COMP_HOUR = "X328^003";
         }
 
         public static class PaymentMethod

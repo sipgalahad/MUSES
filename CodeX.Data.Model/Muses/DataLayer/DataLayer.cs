@@ -40949,6 +40949,8 @@ namespace CodeX.Data.Model
         private Int32 _TransactionDtID;
         private Int32 _TransactionID;
         private Int32 _RenumerationCompID;
+        private String _GCRenumerationAmountSource;
+        private Int32? _FromRenumerationCompID;
         private Decimal _Amount;
         private Boolean _IsAllowChange;
         private Boolean _IsUseFormula;
@@ -40975,6 +40977,18 @@ namespace CodeX.Data.Model
         {
             get { return _RenumerationCompID; }
             set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "GCRenumerationAmountSource", DataType = "String")]
+        public String GCRenumerationAmountSource
+        {
+            get { return _GCRenumerationAmountSource; }
+            set { _GCRenumerationAmountSource = value; }
+        }
+        [Column(Name = "FromRenumerationCompID", DataType = "Int32", IsNullable = true)]
+        public Int32? FromRenumerationCompID
+        {
+            get { return _FromRenumerationCompID; }
+            set { _FromRenumerationCompID = value; }
         }
         [Column(Name = "Amount", DataType = "Decimal")]
         public Decimal Amount

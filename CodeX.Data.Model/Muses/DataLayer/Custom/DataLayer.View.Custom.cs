@@ -2785,6 +2785,22 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTransRenumerationDt
+    public partial class vTransRenumerationDt
+    {
+        public string cfAmount
+        {
+            get
+            {
+                if (_GCRenumerationAmountSource == Constant.RenumerationAmountSource.FIXED)
+                    return _Amount.ToString("N");
+                if (_GCRenumerationAmountSource == Constant.RenumerationAmountSource.RENUMERATION_COMP_PERCENTAGE)
+                    return string.Format("{0}% * {1}", _Amount, _FromRenumerationCompName);
+                return string.Format("/ Jam Dari {0", _FromRenumerationCompName);
+            }
+        }
+    }
+    #endregion
     #region Project Management
     #region vActivityHistory
     public partial class vActivityHistory

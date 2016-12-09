@@ -34863,10 +34863,10 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vTransEmployeePositionDt
+    #region vTransEmployeeFamilyStatusDt
     [Serializable]
-    [Table(Name = "vTransEmployeePositionDt")]
-    public class vTransEmployeePositionDt
+    [Table(Name = "vTransEmployeeFamilyStatusDt")]
+    public class vTransEmployeeFamilyStatusDt
     {
         private Int32 _TransactionID;
         private Int32 _EmployeeID;
@@ -34899,16 +34899,16 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vTransEmployeePositionHd
+    #region vTransEmployeeFamilyStatusHd
     [Serializable]
-    [Table(Name = "vTransEmployeePositionHd")]
-    public class vTransEmployeePositionHd
+    [Table(Name = "vTransEmployeeFamilyStatusHd")]
+    public class vTransEmployeeFamilyStatusHd
     {
         private Int32 _TransactionID;
         private String _TransactionNo;
         private DateTime _TransactionDate;
-        private Int32 _OrganizationPositionID;
-        private String _OrganizationPositionName;
+        private Int32 _FamilyStatusID;
+        private String _FamilyStatusName;
         private DateTime _StartEffectiveDate;
         private String _Remarks;
         private String _GCTransactionStatus;
@@ -34933,17 +34933,17 @@ namespace CodeX.Data.Model
             get { return _TransactionDate; }
             set { _TransactionDate = value; }
         }
-        [Column(Name = "OrganizationPositionID", DataType = "Int32")]
-        public Int32 OrganizationPositionID
+        [Column(Name = "FamilyStatusID", DataType = "Int32")]
+        public Int32 FamilyStatusID
         {
-            get { return _OrganizationPositionID; }
-            set { _OrganizationPositionID = value; }
+            get { return _FamilyStatusID; }
+            set { _FamilyStatusID = value; }
         }
-        [Column(Name = "OrganizationPositionName", DataType = "String")]
-        public String OrganizationPositionName
+        [Column(Name = "FamilyStatusName", DataType = "String")]
+        public String FamilyStatusName
         {
-            get { return _OrganizationPositionName; }
-            set { _OrganizationPositionName = value; }
+            get { return _FamilyStatusName; }
+            set { _FamilyStatusName = value; }
         }
         [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
         public DateTime StartEffectiveDate
@@ -34977,350 +34977,10 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vTransPositionRenumerationDt
+    #region vTransEmployeeFamilyStatusRenumeration
     [Serializable]
-    [Table(Name = "vTransPositionRenumerationDt")]
-    public class vTransPositionRenumerationDt
-    {
-        private Int32 _TransactionID;
-        private DateTime _StartEffectiveDate;
-        private Int32 _RenumerationID;
-        private Int32 _OrganizationDepartmentID;
-        private String _OrganizationDepartmentCode;
-        private String _OrganizationDepartmentName;
-        private Int32 _OrganizationPositionID;
-        private String _OrganizationPositionName;
-        private String _GCTransactionStatus;
-
-        [Column(Name = "TransactionID", DataType = "Int32")]
-        public Int32 TransactionID
-        {
-            get { return _TransactionID; }
-            set { _TransactionID = value; }
-        }
-        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
-        public DateTime StartEffectiveDate
-        {
-            get { return _StartEffectiveDate; }
-            set { _StartEffectiveDate = value; }
-        }
-        [Column(Name = "RenumerationID", DataType = "Int32")]
-        public Int32 RenumerationID
-        {
-            get { return _RenumerationID; }
-            set { _RenumerationID = value; }
-        }
-        [Column(Name = "OrganizationDepartmentID", DataType = "Int32")]
-        public Int32 OrganizationDepartmentID
-        {
-            get { return _OrganizationDepartmentID; }
-            set { _OrganizationDepartmentID = value; }
-        }
-        [Column(Name = "OrganizationDepartmentCode", DataType = "String")]
-        public String OrganizationDepartmentCode
-        {
-            get { return _OrganizationDepartmentCode; }
-            set { _OrganizationDepartmentCode = value; }
-        }
-        [Column(Name = "OrganizationDepartmentName", DataType = "String")]
-        public String OrganizationDepartmentName
-        {
-            get { return _OrganizationDepartmentName; }
-            set { _OrganizationDepartmentName = value; }
-        }
-        [Column(Name = "OrganizationPositionID", DataType = "Int32")]
-        public Int32 OrganizationPositionID
-        {
-            get { return _OrganizationPositionID; }
-            set { _OrganizationPositionID = value; }
-        }
-        [Column(Name = "OrganizationPositionName", DataType = "String")]
-        public String OrganizationPositionName
-        {
-            get { return _OrganizationPositionName; }
-            set { _OrganizationPositionName = value; }
-        }
-        [Column(Name = "GCTransactionStatus", DataType = "String")]
-        public String GCTransactionStatus
-        {
-            get { return _GCTransactionStatus; }
-            set { _GCTransactionStatus = value; }
-        }
-    }
-    #endregion
-    #region vTransPositionRenumerationHd
-    [Serializable]
-    [Table(Name = "vTransPositionRenumerationHd")]
-    public class vTransPositionRenumerationHd
-    {
-        private Int32 _TransactionID;
-        private String _TransactionNo;
-        private DateTime _TransactionDate;
-        private Int32 _RenumerationID;
-        private String _RenumerationCode;
-        private String _RenumerationName;
-        private DateTime _StartEffectiveDate;
-        private String _Remarks;
-        private String _GCTransactionStatus;
-        private String _TransactionStatus;
-        private String _TransactionStatusWatermark;
-
-        [Column(Name = "TransactionID", DataType = "Int32")]
-        public Int32 TransactionID
-        {
-            get { return _TransactionID; }
-            set { _TransactionID = value; }
-        }
-        [Column(Name = "TransactionNo", DataType = "String")]
-        public String TransactionNo
-        {
-            get { return _TransactionNo; }
-            set { _TransactionNo = value; }
-        }
-        [Column(Name = "TransactionDate", DataType = "DateTime")]
-        public DateTime TransactionDate
-        {
-            get { return _TransactionDate; }
-            set { _TransactionDate = value; }
-        }
-        [Column(Name = "RenumerationID", DataType = "Int32")]
-        public Int32 RenumerationID
-        {
-            get { return _RenumerationID; }
-            set { _RenumerationID = value; }
-        }
-        [Column(Name = "RenumerationCode", DataType = "String")]
-        public String RenumerationCode
-        {
-            get { return _RenumerationCode; }
-            set { _RenumerationCode = value; }
-        }
-        [Column(Name = "RenumerationName", DataType = "String")]
-        public String RenumerationName
-        {
-            get { return _RenumerationName; }
-            set { _RenumerationName = value; }
-        }
-        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
-        public DateTime StartEffectiveDate
-        {
-            get { return _StartEffectiveDate; }
-            set { _StartEffectiveDate = value; }
-        }
-        [Column(Name = "Remarks", DataType = "String")]
-        public String Remarks
-        {
-            get { return _Remarks; }
-            set { _Remarks = value; }
-        }
-        [Column(Name = "GCTransactionStatus", DataType = "String")]
-        public String GCTransactionStatus
-        {
-            get { return _GCTransactionStatus; }
-            set { _GCTransactionStatus = value; }
-        }
-        [Column(Name = "TransactionStatus", DataType = "String")]
-        public String TransactionStatus
-        {
-            get { return _TransactionStatus; }
-            set { _TransactionStatus = value; }
-        }
-        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
-        public String TransactionStatusWatermark
-        {
-            get { return _TransactionStatusWatermark; }
-            set { _TransactionStatusWatermark = value; }
-        }
-    }
-    #endregion
-    #region vTransRenumerationDt
-    [Serializable]
-    [Table(Name = "vTransRenumerationDt")]
-    public class vTransRenumerationDt
-    {
-        private Int32 _TransactionDtID;
-        private Int32 _TransactionID;
-        private Int32 _RenumerationCompID;
-        private String _RenumerationCompCode;
-        private String _RenumerationCompName;
-        private String _GCRenumerationCompType;
-        private String _RenumerationCompType;
-        private Decimal _Amount;
-        private Boolean _IsAllowChange;
-        private Boolean _IsUseFormula;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "TransactionDtID", DataType = "Int32")]
-        public Int32 TransactionDtID
-        {
-            get { return _TransactionDtID; }
-            set { _TransactionDtID = value; }
-        }
-        [Column(Name = "TransactionID", DataType = "Int32")]
-        public Int32 TransactionID
-        {
-            get { return _TransactionID; }
-            set { _TransactionID = value; }
-        }
-        [Column(Name = "RenumerationCompID", DataType = "Int32")]
-        public Int32 RenumerationCompID
-        {
-            get { return _RenumerationCompID; }
-            set { _RenumerationCompID = value; }
-        }
-        [Column(Name = "RenumerationCompCode", DataType = "String")]
-        public String RenumerationCompCode
-        {
-            get { return _RenumerationCompCode; }
-            set { _RenumerationCompCode = value; }
-        }
-        [Column(Name = "RenumerationCompName", DataType = "String")]
-        public String RenumerationCompName
-        {
-            get { return _RenumerationCompName; }
-            set { _RenumerationCompName = value; }
-        }
-        [Column(Name = "GCRenumerationCompType", DataType = "String")]
-        public String GCRenumerationCompType
-        {
-            get { return _GCRenumerationCompType; }
-            set { _GCRenumerationCompType = value; }
-        }
-        [Column(Name = "RenumerationCompType", DataType = "String")]
-        public String RenumerationCompType
-        {
-            get { return _RenumerationCompType; }
-            set { _RenumerationCompType = value; }
-        }
-        [Column(Name = "Amount", DataType = "Decimal")]
-        public Decimal Amount
-        {
-            get { return _Amount; }
-            set { _Amount = value; }
-        }
-        [Column(Name = "IsAllowChange", DataType = "Boolean")]
-        public Boolean IsAllowChange
-        {
-            get { return _IsAllowChange; }
-            set { _IsAllowChange = value; }
-        }
-        [Column(Name = "IsUseFormula", DataType = "Boolean")]
-        public Boolean IsUseFormula
-        {
-            get { return _IsUseFormula; }
-            set { _IsUseFormula = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
-    #region vTransRenumerationHd
-    [Serializable]
-    [Table(Name = "vTransRenumerationHd")]
-    public class vTransRenumerationHd
-    {
-        private Int32 _TransactionID;
-        private String _TransactionNo;
-        private DateTime _TransactionDate;
-        private Int32 _RenumerationID;
-        private String _RenumerationCode;
-        private String _RenumerationName;
-        private String _GCRenumerationCompSource;
-        private String _RenumerationCompSource;
-        private DateTime _StartEffectiveDate;
-        private String _Remarks;
-        private String _GCTransactionStatus;
-        private String _TransactionStatus;
-        private String _TransactionStatusWatermark;
-
-        [Column(Name = "TransactionID", DataType = "Int32")]
-        public Int32 TransactionID
-        {
-            get { return _TransactionID; }
-            set { _TransactionID = value; }
-        }
-        [Column(Name = "TransactionNo", DataType = "String")]
-        public String TransactionNo
-        {
-            get { return _TransactionNo; }
-            set { _TransactionNo = value; }
-        }
-        [Column(Name = "TransactionDate", DataType = "DateTime")]
-        public DateTime TransactionDate
-        {
-            get { return _TransactionDate; }
-            set { _TransactionDate = value; }
-        }
-        [Column(Name = "RenumerationID", DataType = "Int32")]
-        public Int32 RenumerationID
-        {
-            get { return _RenumerationID; }
-            set { _RenumerationID = value; }
-        }
-        [Column(Name = "RenumerationCode", DataType = "String")]
-        public String RenumerationCode
-        {
-            get { return _RenumerationCode; }
-            set { _RenumerationCode = value; }
-        }
-        [Column(Name = "RenumerationName", DataType = "String")]
-        public String RenumerationName
-        {
-            get { return _RenumerationName; }
-            set { _RenumerationName = value; }
-        }
-        [Column(Name = "GCRenumerationCompSource", DataType = "String")]
-        public String GCRenumerationCompSource
-        {
-            get { return _GCRenumerationCompSource; }
-            set { _GCRenumerationCompSource = value; }
-        }
-        [Column(Name = "RenumerationCompSource", DataType = "String")]
-        public String RenumerationCompSource
-        {
-            get { return _RenumerationCompSource; }
-            set { _RenumerationCompSource = value; }
-        }
-        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
-        public DateTime StartEffectiveDate
-        {
-            get { return _StartEffectiveDate; }
-            set { _StartEffectiveDate = value; }
-        }
-        [Column(Name = "Remarks", DataType = "String")]
-        public String Remarks
-        {
-            get { return _Remarks; }
-            set { _Remarks = value; }
-        }
-        [Column(Name = "GCTransactionStatus", DataType = "String")]
-        public String GCTransactionStatus
-        {
-            get { return _GCTransactionStatus; }
-            set { _GCTransactionStatus = value; }
-        }
-        [Column(Name = "TransactionStatus", DataType = "String")]
-        public String TransactionStatus
-        {
-            get { return _TransactionStatus; }
-            set { _TransactionStatus = value; }
-        }
-        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
-        public String TransactionStatusWatermark
-        {
-            get { return _TransactionStatusWatermark; }
-            set { _TransactionStatusWatermark = value; }
-        }
-    }
-    #endregion
-    #region vTransEmployeePositionRenumeration
-    [Serializable]
-    [Table(Name = "vTransEmployeePositionRenumeration")]
-    public class vTransEmployeePositionRenumeration
+    [Table(Name = "vTransEmployeeFamilyStatusRenumeration")]
+    public class vTransEmployeeFamilyStatusRenumeration
     {
         private Int32 _TransactionDtID;
         private Int32 _TransactionID;
@@ -35395,10 +35055,10 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vTransEmployeePositionRenumerationFormula
+    #region vTransEmployeeFamilyStatusRenumerationFormula
     [Serializable]
-    [Table(Name = "vTransEmployeePositionRenumerationFormula")]
-    public class vTransEmployeePositionRenumerationFormula
+    [Table(Name = "vTransEmployeeFamilyStatusRenumerationFormula")]
+    public class vTransEmployeeFamilyStatusRenumerationFormula
     {
         private Int32 _TransactionDtID;
         private String _GCDayType;
@@ -35701,10 +35361,10 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vTransEmployeeFamilyStatusDt
+    #region vTransEmployeePositionDt
     [Serializable]
-    [Table(Name = "vTransEmployeeFamilyStatusDt")]
-    public class vTransEmployeeFamilyStatusDt
+    [Table(Name = "vTransEmployeePositionDt")]
+    public class vTransEmployeePositionDt
     {
         private Int32 _TransactionID;
         private Int32 _EmployeeID;
@@ -35737,16 +35397,16 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vTransEmployeeFamilyStatusHd
+    #region vTransEmployeePositionHd
     [Serializable]
-    [Table(Name = "vTransEmployeeFamilyStatusHd")]
-    public class vTransEmployeeFamilyStatusHd
+    [Table(Name = "vTransEmployeePositionHd")]
+    public class vTransEmployeePositionHd
     {
         private Int32 _TransactionID;
         private String _TransactionNo;
         private DateTime _TransactionDate;
-        private Int32 _FamilyStatusID;
-        private String _FamilyStatusName;
+        private Int32 _OrganizationPositionID;
+        private String _OrganizationPositionName;
         private DateTime _StartEffectiveDate;
         private String _Remarks;
         private String _GCTransactionStatus;
@@ -35771,17 +35431,17 @@ namespace CodeX.Data.Model
             get { return _TransactionDate; }
             set { _TransactionDate = value; }
         }
-        [Column(Name = "FamilyStatusID", DataType = "Int32")]
-        public Int32 FamilyStatusID
+        [Column(Name = "OrganizationPositionID", DataType = "Int32")]
+        public Int32 OrganizationPositionID
         {
-            get { return _FamilyStatusID; }
-            set { _FamilyStatusID = value; }
+            get { return _OrganizationPositionID; }
+            set { _OrganizationPositionID = value; }
         }
-        [Column(Name = "FamilyStatusName", DataType = "String")]
-        public String FamilyStatusName
+        [Column(Name = "OrganizationPositionName", DataType = "String")]
+        public String OrganizationPositionName
         {
-            get { return _FamilyStatusName; }
-            set { _FamilyStatusName = value; }
+            get { return _OrganizationPositionName; }
+            set { _OrganizationPositionName = value; }
         }
         [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
         public DateTime StartEffectiveDate
@@ -35815,10 +35475,10 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vTransEmployeeFamilyStatusRenumeration
+    #region vTransEmployeePositionRenumeration
     [Serializable]
-    [Table(Name = "vTransEmployeeFamilyStatusRenumeration")]
-    public class vTransEmployeeFamilyStatusRenumeration
+    [Table(Name = "vTransEmployeePositionRenumeration")]
+    public class vTransEmployeePositionRenumeration
     {
         private Int32 _TransactionDtID;
         private Int32 _TransactionID;
@@ -35893,10 +35553,10 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vTransEmployeeFamilyStatusRenumerationFormula
+    #region vTransEmployeePositionRenumerationFormula
     [Serializable]
-    [Table(Name = "vTransEmployeeFamilyStatusRenumerationFormula")]
-    public class vTransEmployeeFamilyStatusRenumerationFormula
+    [Table(Name = "vTransEmployeePositionRenumerationFormula")]
+    public class vTransEmployeePositionRenumerationFormula
     {
         private Int32 _TransactionDtID;
         private String _GCDayType;
@@ -36187,6 +35847,381 @@ namespace CodeX.Data.Model
         {
             get { return _RenumerationName; }
             set { _RenumerationName = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+    }
+    #endregion
+    #region vTransPositionRenumerationDt
+    [Serializable]
+    [Table(Name = "vTransPositionRenumerationDt")]
+    public class vTransPositionRenumerationDt
+    {
+        private Int32 _TransactionID;
+        private DateTime _StartEffectiveDate;
+        private Int32 _RenumerationID;
+        private Int32 _OrganizationDepartmentID;
+        private String _OrganizationDepartmentCode;
+        private String _OrganizationDepartmentName;
+        private Int32 _OrganizationPositionID;
+        private String _OrganizationPositionName;
+        private String _GCTransactionStatus;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "RenumerationID", DataType = "Int32")]
+        public Int32 RenumerationID
+        {
+            get { return _RenumerationID; }
+            set { _RenumerationID = value; }
+        }
+        [Column(Name = "OrganizationDepartmentID", DataType = "Int32")]
+        public Int32 OrganizationDepartmentID
+        {
+            get { return _OrganizationDepartmentID; }
+            set { _OrganizationDepartmentID = value; }
+        }
+        [Column(Name = "OrganizationDepartmentCode", DataType = "String")]
+        public String OrganizationDepartmentCode
+        {
+            get { return _OrganizationDepartmentCode; }
+            set { _OrganizationDepartmentCode = value; }
+        }
+        [Column(Name = "OrganizationDepartmentName", DataType = "String")]
+        public String OrganizationDepartmentName
+        {
+            get { return _OrganizationDepartmentName; }
+            set { _OrganizationDepartmentName = value; }
+        }
+        [Column(Name = "OrganizationPositionID", DataType = "Int32")]
+        public Int32 OrganizationPositionID
+        {
+            get { return _OrganizationPositionID; }
+            set { _OrganizationPositionID = value; }
+        }
+        [Column(Name = "OrganizationPositionName", DataType = "String")]
+        public String OrganizationPositionName
+        {
+            get { return _OrganizationPositionName; }
+            set { _OrganizationPositionName = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+    }
+    #endregion
+    #region vTransPositionRenumerationHd
+    [Serializable]
+    [Table(Name = "vTransPositionRenumerationHd")]
+    public class vTransPositionRenumerationHd
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private Int32 _RenumerationID;
+        private String _RenumerationCode;
+        private String _RenumerationName;
+        private DateTime _StartEffectiveDate;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "RenumerationID", DataType = "Int32")]
+        public Int32 RenumerationID
+        {
+            get { return _RenumerationID; }
+            set { _RenumerationID = value; }
+        }
+        [Column(Name = "RenumerationCode", DataType = "String")]
+        public String RenumerationCode
+        {
+            get { return _RenumerationCode; }
+            set { _RenumerationCode = value; }
+        }
+        [Column(Name = "RenumerationName", DataType = "String")]
+        public String RenumerationName
+        {
+            get { return _RenumerationName; }
+            set { _RenumerationName = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+    }
+    #endregion
+    #region vTransRenumerationDt
+    [Serializable]
+    [Table(Name = "vTransRenumerationDt")]
+    public partial class vTransRenumerationDt
+    {
+        private Int32 _TransactionDtID;
+        private Int32 _TransactionID;
+        private Int32 _RenumerationCompID;
+        private String _RenumerationCompCode;
+        private String _RenumerationCompName;
+        private String _GCRenumerationCompType;
+        private String _RenumerationCompType;
+        private String _GCRenumerationAmountSource;
+        private String _RenumerationAmountSource;
+        private Int32 _FromRenumerationCompID;
+        private String _FromRenumerationCompCode;
+        private String _FromRenumerationCompName;
+        private Decimal _Amount;
+        private Boolean _IsAllowChange;
+        private Boolean _IsUseFormula;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32")]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "RenumerationCompID", DataType = "Int32")]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "RenumerationCompCode", DataType = "String")]
+        public String RenumerationCompCode
+        {
+            get { return _RenumerationCompCode; }
+            set { _RenumerationCompCode = value; }
+        }
+        [Column(Name = "RenumerationCompName", DataType = "String")]
+        public String RenumerationCompName
+        {
+            get { return _RenumerationCompName; }
+            set { _RenumerationCompName = value; }
+        }
+        [Column(Name = "GCRenumerationCompType", DataType = "String")]
+        public String GCRenumerationCompType
+        {
+            get { return _GCRenumerationCompType; }
+            set { _GCRenumerationCompType = value; }
+        }
+        [Column(Name = "RenumerationCompType", DataType = "String")]
+        public String RenumerationCompType
+        {
+            get { return _RenumerationCompType; }
+            set { _RenumerationCompType = value; }
+        }
+        [Column(Name = "GCRenumerationAmountSource", DataType = "String")]
+        public String GCRenumerationAmountSource
+        {
+            get { return _GCRenumerationAmountSource; }
+            set { _GCRenumerationAmountSource = value; }
+        }
+        [Column(Name = "RenumerationAmountSource", DataType = "String")]
+        public String RenumerationAmountSource
+        {
+            get { return _RenumerationAmountSource; }
+            set { _RenumerationAmountSource = value; }
+        }
+        [Column(Name = "FromRenumerationCompID", DataType = "Int32")]
+        public Int32 FromRenumerationCompID
+        {
+            get { return _FromRenumerationCompID; }
+            set { _FromRenumerationCompID = value; }
+        }
+        [Column(Name = "FromRenumerationCompCode", DataType = "String")]
+        public String FromRenumerationCompCode
+        {
+            get { return _FromRenumerationCompCode; }
+            set { _FromRenumerationCompCode = value; }
+        }
+        [Column(Name = "FromRenumerationCompName", DataType = "String")]
+        public String FromRenumerationCompName
+        {
+            get { return _FromRenumerationCompName; }
+            set { _FromRenumerationCompName = value; }
+        }
+        [Column(Name = "Amount", DataType = "Decimal")]
+        public Decimal Amount
+        {
+            get { return _Amount; }
+            set { _Amount = value; }
+        }
+        [Column(Name = "IsAllowChange", DataType = "Boolean")]
+        public Boolean IsAllowChange
+        {
+            get { return _IsAllowChange; }
+            set { _IsAllowChange = value; }
+        }
+        [Column(Name = "IsUseFormula", DataType = "Boolean")]
+        public Boolean IsUseFormula
+        {
+            get { return _IsUseFormula; }
+            set { _IsUseFormula = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vTransRenumerationHd
+    [Serializable]
+    [Table(Name = "vTransRenumerationHd")]
+    public class vTransRenumerationHd
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private Int32 _RenumerationID;
+        private String _RenumerationCode;
+        private String _RenumerationName;
+        private String _GCRenumerationCompSource;
+        private String _RenumerationCompSource;
+        private DateTime _StartEffectiveDate;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "RenumerationID", DataType = "Int32")]
+        public Int32 RenumerationID
+        {
+            get { return _RenumerationID; }
+            set { _RenumerationID = value; }
+        }
+        [Column(Name = "RenumerationCode", DataType = "String")]
+        public String RenumerationCode
+        {
+            get { return _RenumerationCode; }
+            set { _RenumerationCode = value; }
+        }
+        [Column(Name = "RenumerationName", DataType = "String")]
+        public String RenumerationName
+        {
+            get { return _RenumerationName; }
+            set { _RenumerationName = value; }
+        }
+        [Column(Name = "GCRenumerationCompSource", DataType = "String")]
+        public String GCRenumerationCompSource
+        {
+            get { return _GCRenumerationCompSource; }
+            set { _GCRenumerationCompSource = value; }
+        }
+        [Column(Name = "RenumerationCompSource", DataType = "String")]
+        public String RenumerationCompSource
+        {
+            get { return _RenumerationCompSource; }
+            set { _RenumerationCompSource = value; }
         }
         [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
         public DateTime StartEffectiveDate

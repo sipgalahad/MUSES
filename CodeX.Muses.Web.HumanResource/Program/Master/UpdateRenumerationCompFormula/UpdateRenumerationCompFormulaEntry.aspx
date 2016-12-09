@@ -318,7 +318,7 @@
                 $('#trBaseNilai').attr('style', 'display:none');
                 $('#trBaseNilai').removeAttr('style');
                 $('#trRenumerationComp').attr('style', 'display:none');
-             }
+            }
         }
 
     </script>  

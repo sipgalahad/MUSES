@@ -25,17 +25,17 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
 
         #region Html Getter
-        protected string OnGetFilterExpressionLocation()
+        protected string OnGetRenumerationSourceAmountFixed()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_CONSUMPTION);
+            return Constant.RenumerationAmountSource.FIXED;
         }
-        protected string OnGetFilterExpressionItemProduct()
+        protected string OnGetRenumerationSourceAmountRenumerationCompPercentage()
         {
-            return string.Format("IsDeleted = 0");
+            return Constant.RenumerationAmountSource.RENUMERATION_COMP_PERCENTAGE;
         }
-        protected string OnGetFilterExpressionServiceUnit()
+        protected string OnGetFromRenumerationCompFilterExpression()
         {
-            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            return string.Format("GCRenumerationCompType = '{0}' AND IsDeleted = 0", Constant.RenumerationCompType.MONTHLY);
         }
         #endregion
 
@@ -49,12 +49,17 @@ namespace CodeX.Muses.Web.Inventory.Program
             BindGridView(1, true, ref PageCount, ref RowCount);
 
             Helper.SetControlEntrySetting(tacRenumerationCompID, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(tacFromRenumerationCompID, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboRenumerationAmountSource, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtAmount, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtPercentage, new ControlEntrySetting(true, true, true), "mpTrx");
             
         }
 
         protected override void SetControlProperties()
         {
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.RENUMERATION_AMOUNT_SOURCE));
+            Methods.SetComboBoxField<StandardCode>(cboRenumerationAmountSource, lstSc, "StandardCodeName", "StandardCodeID");
         }
 
         protected override void OnControlEntrySetting()
@@ -423,11 +428,25 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void ControlToEntity(TransRenumerationDt entityDt)
         {
             entityDt.RenumerationCompID = Convert.ToInt32(tacRenumerationCompID.Value);
-            entityDt.Amount = Convert.ToDecimal(Request.Form[txtAmount.UniqueID]);
+            entityDt.GCRenumerationAmountSource = cboRenumerationAmountSource.Value.ToString();
+            if (entityDt.GCRenumerationAmountSource == Constant.RenumerationAmountSource.FIXED)
+            {
+                entityDt.FromRenumerationCompID = null;
+                entityDt.Amount = Convert.ToDecimal(Request.Form[txtAmount.UniqueID]);
+            }
+            else if (entityDt.GCRenumerationAmountSource == Constant.RenumerationAmountSource.RENUMERATION_COMP_PERCENTAGE)
+            {
+                entityDt.FromRenumerationCompID = Convert.ToInt32(tacFromRenumerationCompID.Value);
+                entityDt.Amount = Convert.ToDecimal(Request.Form[txtPercentage.UniqueID]);
+            }
+            else
+            {
+                entityDt.FromRenumerationCompID = Convert.ToInt32(tacFromRenumerationCompID.Value);
+                entityDt.Amount = 0;
+            }
             entityDt.IsAllowChange = chkIsAllowChange.Checked;
             entityDt.IsUseFormula = chkIsUseFormula.Checked;
         }
-
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int TransactionID)
         {

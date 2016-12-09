@@ -166,6 +166,24 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtRenumerationCompType;
         
         /// <summary>
+        /// cboRenumerationAmountSource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboRenumerationAmountSource;
+        
+        /// <summary>
+        /// tacFromRenumerationCompID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacFromRenumerationCompID;
+        
+        /// <summary>
         /// txtAmount control.
         /// </summary>
         /// <remarks>
@@ -173,6 +191,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAmount;
+        
+        /// <summary>
+        /// txtPercentage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPercentage;
         
         /// <summary>
         /// chkIsAllowChange control.
