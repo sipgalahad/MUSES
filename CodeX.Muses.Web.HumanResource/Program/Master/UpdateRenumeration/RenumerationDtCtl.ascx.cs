@@ -38,7 +38,7 @@ namespace CodeX.Muses.Web.Information.Program
                 trOrganizationPosition.Style.Remove("display");
                 txtorganizationPosition.Text = op.OrganizationPositionName;
 
-                if (lstParam[1] != "")
+                if (lstParam[1] != "0")
                 {
                     TransRenumerationHd entityTransHd = BusinessLayer.GetTransRenumerationHd(Convert.ToInt32(lstParam[1]));
                     RenumerationHd entityHd = BusinessLayer.GetRenumerationHd(entityTransHd.RenumerationID);

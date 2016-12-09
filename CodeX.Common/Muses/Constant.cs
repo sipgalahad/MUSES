@@ -1055,6 +1055,15 @@ namespace CodeX.Common
             public const string PEKERJAAN_RUMAH = "MS009^004";
             public const string TUGAS_KELAS = "MS009^005";
             public const string TUGAS_KELOMPOK = "MS009^006";
+        
+        }
+
+        public class EmployeeAttendanceStatus
+        {
+            public const string HADIR = "X323^001";
+            public const string SAKIT = "X323^002";
+            public const string IZIN = "X323^003";
+            public const string ALPA = "X323^004";
         }
 
         public class AttendanceStatus 

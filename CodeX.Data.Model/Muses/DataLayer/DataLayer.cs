@@ -10429,6 +10429,234 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region EmployeeDailyAttendance
+    [Serializable]
+    [Table(Name = "EmployeeDailyAttendance")]
+    public class EmployeeDailyAttendance : DbDataModel
+    {
+        private Int32 _EmployeeID;
+        private DateTime _ScheduleDate;
+        private String _ScheduleStartTime;
+        private String _ScheduleEndTime;
+        private Decimal _ScheduleNoOfWorkTimeHour;
+        private String _GCAttendanceStatus;
+        private String _StartTime;
+        private String _EndTime;
+        private Decimal _NoOfWorkTimeHour;
+        private Decimal _DailyRenumerationMultiplyBy;
+        private String _OvertimeProposalStartTime;
+        private String _OvertimeProposalEndTime;
+        private String _OvertimeProposalTotalHour;
+        private Decimal _NoOfOvertimeHour;
+        private String _GCDayType;
+        private String _Remarks;
+
+        [Column(Name = "EmployeeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "ScheduleDate", DataType = "DateTime", IsPrimaryKey = true)]
+        public DateTime ScheduleDate
+        {
+            get { return _ScheduleDate; }
+            set { _ScheduleDate = value; }
+        }
+        [Column(Name = "ScheduleStartTime", DataType = "String", IsPrimaryKey = true)]
+        public String ScheduleStartTime
+        {
+            get { return _ScheduleStartTime; }
+            set { _ScheduleStartTime = value; }
+        }
+        [Column(Name = "ScheduleEndTime", DataType = "String")]
+        public String ScheduleEndTime
+        {
+            get { return _ScheduleEndTime; }
+            set { _ScheduleEndTime = value; }
+        }
+        [Column(Name = "ScheduleNoOfWorkTimeHour", DataType = "Decimal", IsNullable = true)]
+        public Decimal ScheduleNoOfWorkTimeHour
+        {
+            get { return _ScheduleNoOfWorkTimeHour; }
+            set { _ScheduleNoOfWorkTimeHour = value; }
+        }
+        [Column(Name = "GCAttendanceStatus", DataType = "String")]
+        public String GCAttendanceStatus
+        {
+            get { return _GCAttendanceStatus; }
+            set { _GCAttendanceStatus = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String", IsNullable = true)]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String", IsNullable = true)]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "NoOfWorkTimeHour", DataType = "Decimal")]
+        public Decimal NoOfWorkTimeHour
+        {
+            get { return _NoOfWorkTimeHour; }
+            set { _NoOfWorkTimeHour = value; }
+        }
+        [Column(Name = "DailyRenumerationMultiplyBy", DataType = "Decimal")]
+        public Decimal DailyRenumerationMultiplyBy
+        {
+            get { return _DailyRenumerationMultiplyBy; }
+            set { _DailyRenumerationMultiplyBy = value; }
+        }
+        [Column(Name = "OvertimeProposalStartTime", DataType = "String")]
+        public String OvertimeProposalStartTime
+        {
+            get { return _OvertimeProposalStartTime; }
+            set { _OvertimeProposalStartTime = value; }
+        }
+        [Column(Name = "OvertimeProposalEndTime", DataType = "String")]
+        public String OvertimeProposalEndTime
+        {
+            get { return _OvertimeProposalEndTime; }
+            set { _OvertimeProposalEndTime = value; }
+        }
+        [Column(Name = "OvertimeProposalTotalHour", DataType = "String")]
+        public String OvertimeProposalTotalHour
+        {
+            get { return _OvertimeProposalTotalHour; }
+            set { _OvertimeProposalTotalHour = value; }
+        }
+        [Column(Name = "NoOfOvertimeHour", DataType = "Decimal")]
+        public Decimal NoOfOvertimeHour
+        {
+            get { return _NoOfOvertimeHour; }
+            set { _NoOfOvertimeHour = value; }
+        }
+        [Column(Name = "GCDayType", DataType = "String")]
+        public String GCDayType
+        {
+            get { return _GCDayType; }
+            set { _GCDayType = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+
+    public class EmployeeDailyAttendanceDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(EmployeeDailyAttendance));
+        private bool _isAuditLog = false;
+        private const string p_EmployeeID = "@p_EmployeeID";
+        private const string p_ScheduleDate = "@p_ScheduleDate";
+        private const string p_ScheduleStartTime = "@p_ScheduleStartTime";
+        public EmployeeDailyAttendanceDao() { }
+        public EmployeeDailyAttendanceDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public EmployeeDailyAttendance Get(Int32 EmployeeID, DateTime ScheduleDate, String ScheduleStartTime)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_EmployeeID, EmployeeID);
+            _ctx.Add(p_ScheduleDate, ScheduleDate);
+            _ctx.Add(p_ScheduleStartTime, ScheduleStartTime);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (EmployeeDailyAttendance)_helper.DataRowToObject(row, new EmployeeDailyAttendance());
+        }
+        public int Insert(EmployeeDailyAttendance record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(EmployeeDailyAttendance record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 EmployeeID, DateTime ScheduleDate, String ScheduleStartTime)
+        {
+            EmployeeDailyAttendance record;
+            if (_ctx.Transaction == null)
+                record = new EmployeeDailyAttendanceDao().Get(EmployeeID, ScheduleDate, ScheduleStartTime);
+            else
+                record = Get(EmployeeID, ScheduleDate, ScheduleStartTime);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region EmployeeFingerprintLog
+    [Serializable]
+    [Table(Name = "EmployeeFingerprintLog")]
+    public partial class EmployeeFingerprintLog : DbDataModel
+    {
+        private Int32 _EmployeeID;
+        private DateTime _LogDateTime;
+
+        [Column(Name = "EmployeeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "LogDateTime", DataType = "DateTime", IsPrimaryKey = true)]
+        public DateTime LogDateTime
+        {
+            get { return _LogDateTime; }
+            set { _LogDateTime = value; }
+        }
+    }
+
+    public class EmployeeFingerprintLogDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(EmployeeFingerprintLog));
+        private bool _isAuditLog = false;
+        private const string p_EmployeeID = "@p_EmployeeID";
+        private const string p_LogDateTime = "@p_LogDateTime";
+        public EmployeeFingerprintLogDao() { }
+        public EmployeeFingerprintLogDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public EmployeeFingerprintLog Get(Int32 EmployeeID, DateTime LogDateTime)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_EmployeeID, EmployeeID);
+            _ctx.Add(p_LogDateTime, LogDateTime);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (EmployeeFingerprintLog)_helper.DataRowToObject(row, new EmployeeFingerprintLog());
+        }
+        public int Insert(EmployeeFingerprintLog record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(EmployeeFingerprintLog record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 EmployeeID, DateTime LogDateTime)
+        {
+            EmployeeFingerprintLog record;
+            if (_ctx.Transaction == null)
+                record = new EmployeeFingerprintLogDao().Get(EmployeeID, LogDateTime);
+            else
+                record = Get(EmployeeID, LogDateTime);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ExamClassSchedule
     [Serializable]
     [Table(Name = "ExamClassSchedule")]

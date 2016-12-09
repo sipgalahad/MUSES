@@ -76,6 +76,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vAbsenceProposalEmployeeDate
+        public static List<vAbsenceProposalEmployeeDate> GetvAbsenceProposalEmployeeDateList(string filterExpression)
+        {
+            List<vAbsenceProposalEmployeeDate> result = new List<vAbsenceProposalEmployeeDate>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vAbsenceProposalEmployeeDate));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vAbsenceProposalEmployeeDate)helper.IDataReaderToObject(reader, new vAbsenceProposalEmployeeDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vAbsenceProposalHd
         public static List<vAbsenceProposalHd> GetvAbsenceProposalHdList(string filterExpression)
         {
@@ -2748,6 +2772,74 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        #endregion
+        #region vEmployeeDailyAttendance
+        public static List<vEmployeeDailyAttendance> GetvEmployeeDailyAttendanceList(string filterExpression)
+        {
+            List<vEmployeeDailyAttendance> result = new List<vEmployeeDailyAttendance>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vEmployeeDailyAttendance));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vEmployeeDailyAttendance)helper.IDataReaderToObject(reader, new vEmployeeDailyAttendance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vEmployeeDailyAttendance> GetvEmployeeDailyAttendanceList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vEmployeeDailyAttendance> result = new List<vEmployeeDailyAttendance>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vEmployeeDailyAttendance));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vEmployeeDailyAttendance)helper.IDataReaderToObject(reader, new vEmployeeDailyAttendance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvEmployeeDailyAttendanceRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vEmployeeDailyAttendance));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        
         #endregion
         #region vExamClassSchedule
         public static List<vExamClassSchedule> GetvExamClassScheduleList(string filterExpression)
@@ -6800,6 +6892,30 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vOvertimeProposalEmployee)helper.IDataReaderToObject(reader, new vOvertimeProposalEmployee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vOvertimeProposalEmployeeDate
+        public static List<vOvertimeProposalEmployeeDate> GetvOvertimeProposalEmployeeDateList(string filterExpression)
+        {
+            List<vOvertimeProposalEmployeeDate> result = new List<vOvertimeProposalEmployeeDate>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vOvertimeProposalEmployeeDate));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vOvertimeProposalEmployeeDate)helper.IDataReaderToObject(reader, new vOvertimeProposalEmployeeDate()));
             }
             catch (Exception ex)
             {

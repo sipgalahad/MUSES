@@ -373,7 +373,7 @@
         }
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
-    <input type="hidden" value="" id="hdnAdjustmentID" runat="server" />
+    <input type="hidden" value="0" id="hdnAdjustmentID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
