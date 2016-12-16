@@ -5321,6 +5321,79 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region EmployeeDailyAttendanceRenumeration
+        public static EmployeeDailyAttendanceRenumeration GetEmployeeDailyAttendanceRenumeration(Int32 EmployeeID, DateTime ScheduleDate, String ScheduleStartTime, Int32 RenumerationCompID)
+        {
+            return new EmployeeDailyAttendanceRenumerationDao().Get(EmployeeID, ScheduleDate, ScheduleStartTime, RenumerationCompID);
+        }
+        public static int InsertEmployeeDailyAttendanceRenumeration(EmployeeDailyAttendanceRenumeration record)
+        {
+            return new EmployeeDailyAttendanceRenumerationDao().Insert(record);
+        }
+        public static int UpdateEmployeeDailyAttendanceRenumeration(EmployeeDailyAttendanceRenumeration record)
+        {
+            return new EmployeeDailyAttendanceRenumerationDao().Update(record);
+        }
+        public static int DeleteEmployeeDailyAttendanceRenumeration(Int32 EmployeeID, DateTime ScheduleDate, String ScheduleStartTime, Int32 RenumerationCompID)
+        {
+            return new EmployeeDailyAttendanceRenumerationDao().Delete(EmployeeID, ScheduleDate, ScheduleStartTime, RenumerationCompID);
+        }
+        public static List<EmployeeDailyAttendanceRenumeration> GetEmployeeDailyAttendanceRenumerationList(string filterExpression)
+        {
+            List<EmployeeDailyAttendanceRenumeration> result = new List<EmployeeDailyAttendanceRenumeration>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(EmployeeDailyAttendanceRenumeration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((EmployeeDailyAttendanceRenumeration)helper.IDataReaderToObject(reader, new EmployeeDailyAttendanceRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<EmployeeDailyAttendanceRenumeration> GetEmployeeDailyAttendanceRenumerationList(string filterExpression, IDbContext ctx)
+        {
+            List<EmployeeDailyAttendanceRenumeration> result = new List<EmployeeDailyAttendanceRenumeration>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(EmployeeDailyAttendanceRenumeration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((EmployeeDailyAttendanceRenumeration)helper.IDataReaderToObject(reader, new EmployeeDailyAttendanceRenumeration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetEmployeeDailyAttendanceRenumerationMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(EmployeeDailyAttendanceRenumeration));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region EmployeeFingerprintLog
         public static EmployeeFingerprintLog GetEmployeeFingerprintLog(Int32 EmployeeID, DateTime LogDateTime)
         {

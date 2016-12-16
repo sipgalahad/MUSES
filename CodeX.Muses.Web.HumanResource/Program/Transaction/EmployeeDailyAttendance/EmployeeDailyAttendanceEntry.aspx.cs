@@ -82,6 +82,7 @@ namespace CodeX.Muses.Web.HumanResource.Program
             HRDailyScheduleHdDao entityDailyScheduleHdDao = new HRDailyScheduleHdDao(ctx);
             EmployeeFingerprintLogDao entityFingerPrintDao = new EmployeeFingerprintLogDao(ctx);
             EmployeeDailyAttendanceDao employeeDailyAttendanceDao = new EmployeeDailyAttendanceDao(ctx);
+            EmployeeDailyAttendanceRenumerationDao employeeDailyAttendanceRenumerationDao = new EmployeeDailyAttendanceRenumerationDao(ctx);
             try
             {
                 
@@ -101,45 +102,18 @@ namespace CodeX.Muses.Web.HumanResource.Program
                 //string lstEmployeeCode = string.Join(",", lstData.Select(p => string.Format("'{0}'", p.Code)).ToList());
                 List<vEmployee> lstEmployee = BusinessLayer.GetvEmployeeList(string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsDeleted = 0", AppSession.UserLogin.SiteID));
 
-                // DARI SINI BELUM DIGUNAKAN ABAIKAN DAHULU
                 List<Variable> lstSchedule = new List<Variable>();
                 foreach (vEmployee tempEmployee in lstEmployee)
                 {
                     lstSchedule.Add(new Variable { Code = tempEmployee.WeeklyScheduleID.ToString(), Value = tempEmployee.CurrentTransScheduleID.ToString() });
                 }
-                //String lstTransScheduleID = String.Join(",", lstSchedule.Select(p => String.Format("'{0}'", p.Value)).ToList());
                 
-                //List<vHRScheduleGroupDate> lstScheduleGroupDate = BusinessLayer.GetvHRScheduleGroupDateList(String.Format("TransactionID IN ({0})", lstTransScheduleID));
-                //List<Variable> lstDailySchedule = new List<Variable>();
-                //foreach (vHRScheduleGroupDate tempGroup in lstScheduleGroupDate)
-                //{
-                //    lstDailySchedule.Add(new Variable { Code = tempGroup.DailyScheduleCode.ToString(), Value = tempGroup.DailyScheduleID.ToString() });
-                //}
-                //String strDailyyJoin = String.Join(",", lstDailySchedule.Select(p => String.Format("'{0}'", p.Value)).Distinct().ToList());
                 String strWeeklyJoin = String.Join(",", lstSchedule.Select(p => String.Format("'{0}'", p.Code)).Distinct().ToList());
                 List<HRWeeklySchedule> lstWeeklySchedule = BusinessLayer.GetHRWeeklyScheduleList(String.Format("WeeklyScheduleID  IN ({0}) ", strWeeklyJoin));
-                //List<Variable> lstWeek= new List<Variable>();
-                //foreach (HRWeeklySchedule tempWeekly in lstWeeklySchedule)
-                //{
-                //    lstWeek.Add(new Variable { Code = tempWeekly.WeeklyScheduleCode.ToString(), Value = tempWeekly.WeeklyScheduleID.ToString()});
-                //}
-                //String strFromWeeklyJoin = String.Join(",", lstWeek.Select(p => String.Format("'{0}'", p.Value)).Distinct().ToList());
-                //List<HRDailyScheduleHd> lstDailyScheduleHd = BusinessLayer.GetHRDailyScheduleHdList(String.Format("DailyScheduleID IN ({0}) ", strDailyyJoin));
-                //List<HRDailyScheduleHd> lstDailyFromWeekly = BusinessLayer.GetHRDailyScheduleHdList(String.Format("DailyScheduleID IN ({0}) ", strFromWeeklyJoin));
                 
-                //List<Variable> lstTempDataLog = new List<Variable>();
-                // SAMPAI SINI YA
-
-                List<vAbsenceProposalEmployeeDate> lstAbsenceProposal = BusinessLayer.GetvAbsenceProposalEmployeeDateList(String.Format("StartDate <= '{0}' AND EndDate >= '{0}' AND GCTransactionStatus = '{1}'", Helper.GetDatePickerValue(Request.Form[txtDate.UniqueID]), Constant.TransactionStatus.APPROVED));
+                String dateTemp = Helper.GetDatePickerValue(Request.Form[txtDate.UniqueID]).ToString("yyyy-MM-dd");
+                List<vAbsenceProposalEmployeeDate> lstAbsenceProposal = BusinessLayer.GetvAbsenceProposalEmployeeDateList(String.Format(" StartDate <= '{0}' AND EndDate >= '{0}' AND GCTransactionStatus = '{1}' ", dateTemp, Constant.TransactionStatus.APPROVED));
                 
-                //IEnumerator<Variable> enumData =  lstData.GetEnumerator();
-                //while ((enumEmployee.MoveNext()) && (enumData.MoveNext()))
-                //{
-                //    EmployeeFingerprintLog entityFingerPrint = new EmployeeFingerprintLog();
-                //    entityFingerPrint.EmployeeID = Convert.ToInt32(enumEmployee.Current.EmployeeID);
-                //    entityFingerPrint.LogDateTime = Convert.ToDateTime(enumData.Current.Value);
-                //    entityFingerPrintDao.Insert(entityFingerPrint);
-                //}
                 
                
                 List<EmployeeFingerprintLog> lstTempEmployeeFinger = new List<EmployeeFingerprintLog>();
@@ -183,9 +157,6 @@ namespace CodeX.Muses.Web.HumanResource.Program
                         }
                     }
 
-                    //DateTime logTime = employeeFingerPrint.LogDateTime;
-                    //String tempLogTime = logTime.ToString("yyyy-MM-dd");
-                    //String tempDate = date.ToString("yyyy-MM-dd");
                     if (DailyScheduleID != null && employeeFingerPrint == null)
                     {
                         EmployeeDailyAttendance eda = new EmployeeDailyAttendance();
@@ -199,11 +170,6 @@ namespace CodeX.Muses.Web.HumanResource.Program
                         eda.NoOfWorkTimeHour = daily.NoOfWorkHours;
                         eda.DailyRenumerationMultiplyBy = 1;
 
-                        vAbsenceProposalEmployeeDate tempAbsenceProposal = lstAbsenceProposal.FirstOrDefault(p => p.EmployeeID == employee.EmployeeID);
-                        if (tempAbsenceProposal == null)
-                            eda.GCAttendanceStatus = Constant.EmployeeAttendanceStatus.ALPA;
-                        else
-                            eda.GCAttendanceStatus = tempAbsenceProposal.GCAttendanceStatus;
 
                         employeeDailyAttendanceDao.Insert(eda);
                     }
@@ -250,6 +216,18 @@ namespace CodeX.Muses.Web.HumanResource.Program
                                     eda.OvertimeProposalTotalHour = tempOvertimeProposal.TotalHours.ToString();
                                     if(departOvertime != null)
                                         eda.EndTime = departOvertime.LogDateTime.ToString("HH:mm");
+
+                                    EmployeeDailyAttendanceRenumeration edar = new EmployeeDailyAttendanceRenumeration();
+                                    edar.EmployeeID = eda.EmployeeID;
+                                    edar.ScheduleDate = date;
+                                    edar.ScheduleStartTime = eda.OvertimeProposalStartTime;
+                                    edar.RenumerationCompID = 1;
+                                    String renumCompID = "1";
+                                    vEmployeeRenumeration employeeRenumeration = BusinessLayer.GetvEmployeeRenumerationList(String.Format("EmployeeID = {0} AND RenumerationCompID = {1} ", employee.EmployeeID.ToString(), renumCompID)).FirstOrDefault();
+                                    Decimal totalAmountOvertime = Convert.ToDecimal(tempOvertimeProposal.TotalHours) * (employeeRenumeration.Amount / 72);
+                                    edar.TotalAmount = totalAmountOvertime;
+
+                                    employeeDailyAttendanceRenumerationDao.Insert(edar);
                                 }
                             }
                             else
@@ -338,6 +316,7 @@ namespace CodeX.Muses.Web.HumanResource.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             EmployeeDailyAttendanceDao entityDao = new EmployeeDailyAttendanceDao(ctx);
+            EmployeeDailyAttendanceRenumerationDao employeeDailyAttendanceRenumerationDao = new EmployeeDailyAttendanceRenumerationDao(ctx);
             DateTime date = Helper.GetDatePickerValue(txtDate);
             try
             {
@@ -355,6 +334,20 @@ namespace CodeX.Muses.Web.HumanResource.Program
                 entity.NoOfOvertimeHour = Convert.ToDecimal(hdnNoOfOvertimeHour.Value);
                 entity.GCAttendanceStatus = hdnStatus.Value.ToString();
                 entityDao.Update(entity);
+
+                EmployeeDailyAttendanceRenumeration entityEmployeeDaily = employeeDailyAttendanceRenumerationDao.Get(Convert.ToInt32(hdnID.Value), date, hdnOvertimeProposalStartTime.Value.ToString(), 1);
+                if (hdnOvertimeProposalTotalHour.Value.ToString() != null || hdnOvertimeProposalTotalHour.Value.ToString() != "")
+                {
+                    String renumerationCompId = "1";
+                    vEmployeeRenumeration employeeRenumeration = BusinessLayer.GetvEmployeeRenumerationList(String.Format("EmployeeID = {0} AND RenumerationCompID = {1} ", Convert.ToInt32(hdnID.Value), renumerationCompId)).FirstOrDefault();
+                    Decimal totalAmountOvertime = Convert.ToDecimal(hdnOvertimeProposalTotalHour.Value) * (employeeRenumeration.Amount / 72);
+                    entityEmployeeDaily.TotalAmount = totalAmountOvertime;
+                    employeeDailyAttendanceRenumerationDao.Update(entityEmployeeDaily);
+                }
+                else 
+                {
+                    BusinessLayer.DeleteEmployeeDailyAttendanceRenumeration(Convert.ToInt32(hdnID.Value), date, hdnOvertimeProposalStartTime.Value.ToString(), 1);
+                }
           
                 ctx.CommitTransaction();
             }

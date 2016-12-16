@@ -10593,6 +10593,95 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region EmployeeDailyAttendanceRenumeration
+    [Serializable]
+    [Table(Name = "EmployeeDailyAttendanceRenumeration")]
+    public class EmployeeDailyAttendanceRenumeration : DbDataModel
+    {
+        private Int32 _EmployeeID;
+        private DateTime _ScheduleDate;
+        private String _ScheduleStartTime;
+        private Int32 _RenumerationCompID;
+        private Decimal _TotalAmount;
+
+        [Column(Name = "EmployeeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "ScheduleDate", DataType = "DateTime", IsPrimaryKey = true)]
+        public DateTime ScheduleDate
+        {
+            get { return _ScheduleDate; }
+            set { _ScheduleDate = value; }
+        }
+        [Column(Name = "ScheduleStartTime", DataType = "String", IsPrimaryKey = true)]
+        public String ScheduleStartTime
+        {
+            get { return _ScheduleStartTime; }
+            set { _ScheduleStartTime = value; }
+        }
+        [Column(Name = "RenumerationCompID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+    }
+
+    public class EmployeeDailyAttendanceRenumerationDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(EmployeeDailyAttendanceRenumeration));
+        private bool _isAuditLog = false;
+        private const string p_EmployeeID = "@p_EmployeeID";
+        private const string p_RenumerationCompID = "@p_RenumerationCompID";
+        private const string p_ScheduleDate = "@p_ScheduleDate";
+        private const string p_ScheduleStartTime = "@p_ScheduleStartTime";
+        public EmployeeDailyAttendanceRenumerationDao() { }
+        public EmployeeDailyAttendanceRenumerationDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public EmployeeDailyAttendanceRenumeration Get(Int32 EmployeeID, DateTime ScheduleDate, String ScheduleStartTime, Int32 RenumerationCompID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_EmployeeID, EmployeeID);
+            _ctx.Add(p_RenumerationCompID, RenumerationCompID);
+            _ctx.Add(p_ScheduleDate, ScheduleDate);
+            _ctx.Add(p_ScheduleStartTime, ScheduleStartTime);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (EmployeeDailyAttendanceRenumeration)_helper.DataRowToObject(row, new EmployeeDailyAttendanceRenumeration());
+        }
+        public int Insert(EmployeeDailyAttendanceRenumeration record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(EmployeeDailyAttendanceRenumeration record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 EmployeeID, DateTime ScheduleDate, String ScheduleStartTime, Int32 RenumerationCompID)
+        {
+            EmployeeDailyAttendanceRenumeration record;
+            if (_ctx.Transaction == null)
+                record = new EmployeeDailyAttendanceRenumerationDao().Get(EmployeeID, ScheduleDate, ScheduleStartTime, RenumerationCompID);
+            else
+                record = Get(EmployeeID, ScheduleDate, ScheduleStartTime, RenumerationCompID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region EmployeeFingerprintLog
     [Serializable]
     [Table(Name = "EmployeeFingerprintLog")]

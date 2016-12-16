@@ -6682,6 +6682,10 @@ namespace CodeX.Data.Model
         private String _OrganizationDepartmentName;
         private Int32 _OrganizationPositionID;
         private String _OrganizationPositionName;
+        private Int32 _JobLevelID;
+        private String _JobLevelName;
+        private Int32 _FamilyStatusID;
+        private String _FamilyStatusName;
         private String _GCScheduleType;
         private Int32 _WeeklyScheduleID;
         private String _SiteID;
@@ -6763,6 +6767,30 @@ namespace CodeX.Data.Model
         {
             get { return _OrganizationPositionName; }
             set { _OrganizationPositionName = value; }
+        }
+        [Column(Name = "JobLevelID", DataType = "Int32")]
+        public Int32 JobLevelID
+        {
+            get { return _JobLevelID; }
+            set { _JobLevelID = value; }
+        }
+        [Column(Name = "JobLevelName", DataType = "String")]
+        public String JobLevelName
+        {
+            get { return _JobLevelName; }
+            set { _JobLevelName = value; }
+        }
+        [Column(Name = "FamilyStatusID", DataType = "Int32")]
+        public Int32 FamilyStatusID
+        {
+            get { return _FamilyStatusID; }
+            set { _FamilyStatusID = value; }
+        }
+        [Column(Name = "FamilyStatusName", DataType = "String")]
+        public String FamilyStatusName
+        {
+            get { return _FamilyStatusName; }
+            set { _FamilyStatusName = value; }
         }
         [Column(Name = "GCScheduleType", DataType = "String")]
         public String GCScheduleType
