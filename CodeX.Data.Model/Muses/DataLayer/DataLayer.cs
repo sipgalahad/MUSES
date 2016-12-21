@@ -31699,6 +31699,7 @@ namespace CodeX.Data.Model
         private DateTime _AcceptedDate;
         private DateTime _DropOutDate;
         private String _GCStudentType;
+        private String _Password;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -31921,6 +31922,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCStudentType; }
             set { _GCStudentType = value; }
+        }
+        [Column(Name = "Password", DataType = "String", IsNullable = true)]
+        public String Password
+        {
+            get { return _Password; }
+            set { _Password = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

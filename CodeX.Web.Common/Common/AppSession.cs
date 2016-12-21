@@ -165,6 +165,58 @@ namespace CodeX.Web.Common
             }
         }
         #endregion
+
+        #region StudentLogin
+        public static UserLogin StudentLogin
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_StudentLogin"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_StudentLogin"] != null)
+                        {
+                            string[] temp = HttpContext.Current.Request.Cookies["Muses"]["_StudentLogin"].Split('|');
+                            string userID = temp[0];
+                            string siteID = temp[1];
+                            Student user = BusinessLayer.GetStudentList(string.Format("StudentID = {0} AND IsDeleted = 0", userID)).FirstOrDefault();
+                            if (user == null)
+                                return null;
+                            UserLogin userLogin = new UserLogin();
+                            userLogin.UserID = user.StudentID;
+                            userLogin.UserName = user.StudentCode;
+                            userLogin.SiteID = siteID;
+                            userLogin.UserFullName = user.StudentName;
+                            if (siteID != "")
+                                userLogin.SiteName = BusinessLayer.GetSite(siteID).SiteName;
+
+                            HttpContext.Current.Session["_StudentLogin"] = userLogin;
+                            return userLogin;
+                        }
+                    }
+                    return null;
+                }
+                return ((UserLogin)(HttpContext.Current.Session["_StudentLogin"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] == null || HttpContext.Current.Request.Cookies["Muses"]["_StudentLogin"] == null)
+                {
+                    HttpCookie userLoginCookie = new HttpCookie("Muses");
+                    userLoginCookie["_StudentLogin"] = string.Format("{0}|{1}", value.UserID, value.SiteID);
+                    userLoginCookie.Expires = DateTime.Now.AddDays(1d);
+                    HttpContext.Current.Response.Cookies.Add(userLoginCookie);
+                }
+                else
+                {
+                    HttpContext.Current.Request.Cookies["Muses"]["_StudentLogin"] = string.Format("{0}|{1}", value.UserID, value.SiteID);
+                    HttpContext.Current.Request.Cookies["Muses"].Expires = DateTime.Now.AddDays(1d);
+                }
+                HttpContext.Current.Session["_StudentLogin"] = value;
+            }
+        }
+        #endregion
         
         #region UserLogin
         public static UserLogin UserLogin

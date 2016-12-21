@@ -48,7 +48,7 @@
             });
 
             $('#lnkMPMainChangePassword').click(function () {
-                var url = ResolveUrl("~/Libs/Controls/ChangePasswordCtl.ascx");
+                var url = ResolveUrl("~/Controls/ChangePasswordCtl.ascx");
                 openUserControlPopup(url, '', '<%=GetLabel("Change Password") %>', 400, 200);
             });
 

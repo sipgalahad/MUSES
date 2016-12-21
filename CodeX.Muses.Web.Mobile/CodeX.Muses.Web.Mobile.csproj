@@ -57,12 +57,16 @@
     <Content Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx">
       <Link>SharedLibs\Controls\GeneralCtl.ascx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx">
+      <Link>SharedLibs\Controls\MPListPopupCtl.ascx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx">
       <Link>SharedLibs\ErrorPage.aspx</Link>
     </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx">
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
+    <Content Include="Controls\ChangePasswordCtl.ascx" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
     <Content Include="Program\StudentBillInformation.aspx" />
@@ -84,6 +88,15 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\GeneralCtl.ascx.designer.cs</Link>
       <DependentUpon>GeneralCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MPListPopupCtl.ascx.cs</Link>
+      <DependentUpon>MPListPopupCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MPListPopupCtl.ascx.designer.cs</Link>
+      <DependentUpon>MPListPopupCtl.ascx.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.cs">
       <Link>SharedLibs\ErrorPage.aspx.cs</Link>
@@ -107,6 +120,13 @@
       <Link>SharedLibs\Service\MethodService.asmx.cs</Link>
       <DependentUpon>MethodService.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ChangePasswordCtl.ascx.cs">
+      <DependentUpon>ChangePasswordCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\ChangePasswordCtl.ascx.designer.cs">
+      <DependentUpon>ChangePasswordCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

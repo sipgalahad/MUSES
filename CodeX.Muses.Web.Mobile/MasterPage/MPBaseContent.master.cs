@@ -35,18 +35,18 @@ namespace CodeX.Muses.Web.Mobile.MasterPage
                 menu = ((MPMain)Master).ListMenu.FirstOrDefault(p => p.MenuCode == menuCode);
             }
         }
-        private GetUserMenuAccess menu;
+        private MenuMaster menu;
         protected String GetMenuCaption()
         {
             return menu.MenuCaption;
         }
         protected String GetBreadcrumbs()
         {
-            List<GetUserMenuAccess> lstMenu = ((MPMain)Master).ListMenu;
+            List<MenuMaster> lstMenu = ((MPMain)Master).ListMenu;
             StringBuilder result = new StringBuilder();
-            List<GetUserMenuAccess> imagesHierarchy = new List<GetUserMenuAccess>();
+            List<MenuMaster> imagesHierarchy = new List<MenuMaster>();
 
-            GetUserMenuAccess currMenu = lstMenu.FirstOrDefault(p => p.MenuCode == menuCode);
+            MenuMaster currMenu = lstMenu.FirstOrDefault(p => p.MenuCode == menuCode);
             while (currMenu != null)
             {
                 imagesHierarchy.Insert(0, currMenu);
@@ -54,7 +54,7 @@ namespace CodeX.Muses.Web.Mobile.MasterPage
             }
 
             string breadcrumb = "";
-            foreach (GetUserMenuAccess menu in imagesHierarchy)
+            foreach (MenuMaster menu in imagesHierarchy)
             {
                 if (breadcrumb != "")
                     breadcrumb += "<div class='divSeparator'> > </div>";

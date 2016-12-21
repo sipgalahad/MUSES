@@ -24,7 +24,7 @@ namespace CodeX.Muses.Web.Mobile.Program
         {
             if (!Page.IsPostBack)
             {
-                hdnStudentID.Value = "5";
+                hdnStudentID.Value = AppSession.StudentLogin.UserID.ToString();
                 GetARStudentPerDate entity = BusinessLayer.GetARStudentPerDate(false, hdnStudentID.Value, DateTime.Now).FirstOrDefault();
                 divUpemb.InnerHtml = entity.Col1.ToString("N");
                 divUsek.InnerHtml = entity.Col2.ToString("N");
