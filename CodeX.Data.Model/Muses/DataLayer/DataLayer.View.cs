@@ -7243,6 +7243,8 @@ namespace CodeX.Data.Model
         private Int32 _RenumerationFamilyStatusTransactionDtID;
         private Boolean _IsUseFormula;
         private Decimal _Amount;
+        private String _GCRenumerationAmountSource;
+        private Int32 _FromRenumerationCompID;
 
         [Column(Name = "EmployeeID", DataType = "Int32")]
         public Int32 EmployeeID
@@ -7399,6 +7401,18 @@ namespace CodeX.Data.Model
         {
             get { return _Amount; }
             set { _Amount = value; }
+        }
+        [Column(Name = "GCRenumerationAmountSource", DataType = "String")]
+        public String GCRenumerationAmountSource
+        {
+            get { return _GCRenumerationAmountSource; }
+            set { _GCRenumerationAmountSource = value; }
+        }
+        [Column(Name = "FromRenumerationCompID", DataType = "Int32")]
+        public Int32 FromRenumerationCompID
+        {
+            get { return _FromRenumerationCompID; }
+            set { _FromRenumerationCompID = value; }
         }
     }
     #endregion

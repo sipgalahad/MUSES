@@ -175,6 +175,7 @@
         function getCurrentTransRenumerationID() {
             if (cboJobLevelID.GetValue() != null) {
                 var filterExpression = "StartEffectiveDate <= '" + Methods.dateToYMD(Methods.getDatePickerDate($('#<%=txtStartEffectiveDate.ClientID %>').val())) + "' AND JobLevelID = " + cboJobLevelID.GetValue() + " AND GCTransactionStatus = '<%=OnGetTransactionStatusApproved() %>' ORDER BY StartEffectiveDate DESC";
+                
                 Methods.getObject('GetvTransJobLevelRenumerationDtList', filterExpression, function (result) {
                     if (result != null) {
                         var filterExpression = "RenumerationID = " + result.RenumerationID + " AND StartEffectiveDate <= '" + Methods.dateToYMD(Methods.getDatePickerDate($('#<%=txtStartEffectiveDate.ClientID %>').val())) + "' AND GCTransactionStatus = '<%=OnGetTransactionStatusApproved() %>' ORDER BY StartEffectiveDate DESC";
@@ -388,7 +389,7 @@
         function onGetRenumerationCompFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
             var TransRenumerationID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
-            //var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeeJobLevelRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransJobLevelRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 1 AND IsDeleted = 0)";
+            //  var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeeJobLevelRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransJobLevelRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 1 AND IsDeleted = 0)";
             var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeeJobLevelRenumeration WHERE TransactionID = " + TransactionID + ") "; 
             return filterExpression;
         }

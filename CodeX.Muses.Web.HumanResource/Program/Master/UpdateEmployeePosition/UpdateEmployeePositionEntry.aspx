@@ -386,7 +386,7 @@
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
             var TransRenumerationID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
             var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeePositionRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 1 AND IsDeleted = 0)";
-            alert(filterExpression);
+            //alert(filterExpression);
             return filterExpression;
         }
 

@@ -82,7 +82,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.EndGraceTimeArrive = txtEndGraceTimeArrive.Text;
             entity.ToHour = txtToHour.Text;
             entity.StartGraceTimeDepart = txtStartGraceTimeDepart.Text;
-            entity.ToGraceTimeDepart = txtStartGraceTimeDepart.Text;
+            entity.ToGraceTimeDepart = txtEndGraceTimeDepart.Text;
             entity.DailyScheduleCode = ctlEntityCode.GetCode(entity.DailyScheduleName, ctx);            
         }
 

@@ -175,9 +175,11 @@
         function getCurrentTransRenumerationID() {
             if (cboFamilyStatusID.GetValue() != null) {
                 var filterExpression = "StartEffectiveDate <= '" + Methods.dateToYMD(Methods.getDatePickerDate($('#<%=txtStartEffectiveDate.ClientID %>').val())) + "' AND FamilyStatusID = " + cboFamilyStatusID.GetValue() + " AND GCTransactionStatus = '<%=OnGetTransactionStatusApproved() %>' ORDER BY StartEffectiveDate DESC";
+                //alert(filterExpression);
                 Methods.getObject('GetvTransFamilyStatusRenumerationDtList', filterExpression, function (result) {
                     if (result != null) {
                         var filterExpression = "RenumerationID = " + result.RenumerationID + " AND StartEffectiveDate <= '" + Methods.dateToYMD(Methods.getDatePickerDate($('#<%=txtStartEffectiveDate.ClientID %>').val())) + "' AND GCTransactionStatus = '<%=OnGetTransactionStatusApproved() %>' ORDER BY StartEffectiveDate DESC";
+                        //alert(filterExpression);
                         Methods.getObject('GetTransRenumerationHdList', filterExpression, function (result) {
                             if (result != null)
                                 $('#<%=hdnTransRenumerationID.ClientID %>').val(result.TransactionID);
@@ -385,7 +387,8 @@
         function onGetRenumerationCompFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
             var TransRenumerationID = $('#<%=hdnTransRenumerationID.ClientID %>').val();
-            var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeeFamilyStatusRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 1 AND IsDeleted = 0)";
+            var filterExpression = "IsDeleted = 0 AND RenumerationCompID NOT IN (SELECT RenumerationCompID FROM TransEmployeeFamilyStatusRenumeration WHERE TransactionID = " + TransactionID + ") AND RenumerationCompID IN (SELECT RenumerationCompID FROM TransRenumerationDt WHERE TransactionID = " + TransRenumerationID + " AND IsAllowChange = 0 AND IsDeleted = 0)";
+            alert(filterExpression);
             return filterExpression;
         }
 

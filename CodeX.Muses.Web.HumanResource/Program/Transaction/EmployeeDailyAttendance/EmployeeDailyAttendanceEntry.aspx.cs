@@ -167,9 +167,9 @@ namespace CodeX.Muses.Web.HumanResource.Program
                         eda.ScheduleStartTime = daily.FromHour;
                         eda.ScheduleEndTime = daily.ToHour;
                         eda.ScheduleNoOfWorkTimeHour = daily.NoOfWorkHours;
-                        eda.NoOfWorkTimeHour = daily.NoOfWorkHours;
+                        //eda.NoOfWorkTimeHour = daily.NoOfWorkHours;
                         eda.DailyRenumerationMultiplyBy = 1;
-
+                        eda.GCAttendanceStatus = Constant.EmployeeAttendanceStatus.ALPA;
 
                         employeeDailyAttendanceDao.Insert(eda);
                     }
@@ -198,7 +198,7 @@ namespace CodeX.Muses.Web.HumanResource.Program
                             if (lstFingerPrint.Count > 0)
                             {
                                 // Hadir => set status hadir, lalu cek dari lstFingerprint utk realisasi jam masuk dan keluar
-                                eda.GCAttendanceStatus = Constant.AttendanceStatus.HADIR;
+                                eda.GCAttendanceStatus = Constant.EmployeeAttendanceStatus.HADIR;
                                 EmployeeFingerprintLog arrive = lstFingerPrint.Where(p => String.Compare(p.LogDateTime.ToString("HH:mm"), daily.StartGraceTimeArrive) >= 0 && String.Compare(p.LogDateTime.ToString("HH:mm"), daily.EndGraceTimeArrive) <= 0).OrderBy(p => p.LogDateTime).FirstOrDefault();
                                 if (arrive != null)
                                     eda.StartTime = arrive.LogDateTime.ToString("HH:mm");
@@ -218,14 +218,13 @@ namespace CodeX.Muses.Web.HumanResource.Program
                                         eda.EndTime = departOvertime.LogDateTime.ToString("HH:mm");
 
                                     EmployeeDailyAttendanceRenumeration edar = new EmployeeDailyAttendanceRenumeration();
+                                    vEmployeeRenumeration employeeRenumeration = BusinessLayer.GetvEmployeeRenumerationList(String.Format("EmployeeID = {0} AND GCRenumerationCompType = '{1}' ", employee.EmployeeID, Constant.RenumerationCompType.OVERTIME), ctx).FirstOrDefault();
                                     edar.EmployeeID = eda.EmployeeID;
                                     edar.ScheduleDate = date;
                                     edar.ScheduleStartTime = eda.OvertimeProposalStartTime;
-                                    edar.RenumerationCompID = 1;
-                                    String renumCompID = "1";
-                                    vEmployeeRenumeration employeeRenumeration = BusinessLayer.GetvEmployeeRenumerationList(String.Format("EmployeeID = {0} AND RenumerationCompID = {1} ", employee.EmployeeID.ToString(), renumCompID)).FirstOrDefault();
-                                    Decimal totalAmountOvertime = Convert.ToDecimal(tempOvertimeProposal.TotalHours) * (employeeRenumeration.Amount / 72);
-                                    edar.TotalAmount = totalAmountOvertime;
+                                    edar.RenumerationCompID = employeeRenumeration.RenumerationCompID;
+                                    Decimal tempTotal = GetTotalAmount(employee.EmployeeID, employeeRenumeration.FromRenumerationCompID, tempOvertimeProposal.TotalHours, ctx);
+                                    edar.TotalAmount = tempTotal;
 
                                     employeeDailyAttendanceRenumerationDao.Insert(edar);
                                 }
@@ -284,6 +283,8 @@ namespace CodeX.Muses.Web.HumanResource.Program
             // Ambil Proposal Ketidakhadiran. Kalo tidak ada di fingerprint dan ada jdwl, default alpha. kecuali ada di proposal
         }
 
+        
+
         protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             string result = "";
@@ -331,17 +332,16 @@ namespace CodeX.Muses.Web.HumanResource.Program
                 entity.OvertimeProposalStartTime = hdnOvertimeProposalStartTime.Value.ToString();
                 entity.OvertimeProposalEndTime = hdnOvertimeProposalEndTime.Value.ToString();
                 entity.OvertimeProposalTotalHour = hdnOvertimeProposalTotalHour.Value.ToString();
-                entity.NoOfOvertimeHour = Convert.ToDecimal(hdnNoOfOvertimeHour.Value);
+                entity.NoOfOvertimeHour = Convert.ToDecimal(hdnNoOfOvertimeHour.Value.ToString());
                 entity.GCAttendanceStatus = hdnStatus.Value.ToString();
                 entityDao.Update(entity);
 
-                EmployeeDailyAttendanceRenumeration entityEmployeeDaily = employeeDailyAttendanceRenumerationDao.Get(Convert.ToInt32(hdnID.Value), date, hdnOvertimeProposalStartTime.Value.ToString(), 1);
-                if (hdnOvertimeProposalTotalHour.Value.ToString() != null || hdnOvertimeProposalTotalHour.Value.ToString() != "")
+
+                if (Convert.ToDecimal(hdnNoOfOvertimeHour.Value.ToString()) != 0 && hdnNoOfOvertimeHour.Value.ToString() != null)
                 {
-                    String renumerationCompId = "1";
-                    vEmployeeRenumeration employeeRenumeration = BusinessLayer.GetvEmployeeRenumerationList(String.Format("EmployeeID = {0} AND RenumerationCompID = {1} ", Convert.ToInt32(hdnID.Value), renumerationCompId)).FirstOrDefault();
-                    Decimal totalAmountOvertime = Convert.ToDecimal(hdnOvertimeProposalTotalHour.Value) * (employeeRenumeration.Amount / 72);
-                    entityEmployeeDaily.TotalAmount = totalAmountOvertime;
+                    vEmployeeRenumeration employeeRenumeration = BusinessLayer.GetvEmployeeRenumerationList(String.Format("EmployeeID = {0} AND GCRenumerationCompType = '{1}' ", entity.EmployeeID, Constant.RenumerationCompType.OVERTIME), ctx).FirstOrDefault();
+                    EmployeeDailyAttendanceRenumeration entityEmployeeDaily = employeeDailyAttendanceRenumerationDao.Get(Convert.ToInt32(hdnID.Value), date, hdnOvertimeProposalStartTime.Value.ToString(), employeeRenumeration.RenumerationCompID);
+                    entityEmployeeDaily.TotalAmount = GetTotalAmount(entityEmployeeDaily.EmployeeID, employeeRenumeration.FromRenumerationCompID, Convert.ToDecimal(hdnNoOfOvertimeHour.Value), ctx);
                     employeeDailyAttendanceRenumerationDao.Update(entityEmployeeDaily);
                 }
                 else 
@@ -363,6 +363,14 @@ namespace CodeX.Muses.Web.HumanResource.Program
                 ctx.Close();
             }
             return result;
+        }
+
+        public Decimal GetTotalAmount(int employeeId, int renumerationCompId, decimal totalHour, IDbContext ctx)
+        {
+            vEmployeeRenumeration employeeRenumeration = BusinessLayer.GetvEmployeeRenumerationList(String.Format("EmployeeID = {0} AND RenumerationCompID = {1} ", employeeId, renumerationCompId),ctx).FirstOrDefault();
+            decimal totalAmount = totalHour * (employeeRenumeration.Amount / 72);
+
+            return totalAmount;
         }
 
         public String GetDataFromFile() 

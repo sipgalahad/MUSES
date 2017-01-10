@@ -41797,6 +41797,316 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region TransEmployeeRevenueDt
+    [Serializable]
+    [Table(Name = "TransEmployeeRevenueDt")]
+    public class TransEmployeeRevenueDt : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private Int32 _TransactionID;
+        private Int32 _RenumerationCompID;
+        private String _GCRenumerationCompType;
+        private Decimal _Amount;
+        private Decimal _LineAmount;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "RenumerationCompID", DataType = "Int32")]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "GCRenumerationCompType", DataType = "String")]
+        public String GCRenumerationCompType
+        {
+            get { return _GCRenumerationCompType; }
+            set { _GCRenumerationCompType = value; }
+        }
+        [Column(Name = "Amount", DataType = "Decimal")]
+        public Decimal Amount
+        {
+            get { return _Amount; }
+            set { _Amount = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal")]
+        public Decimal LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TransEmployeeRevenueDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransEmployeeRevenueDt));
+        private bool _isAuditLog = false;
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public TransEmployeeRevenueDtDao() { }
+        public TransEmployeeRevenueDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransEmployeeRevenueDt Get(Int32 TransactionDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransEmployeeRevenueDt)_helper.DataRowToObject(row, new TransEmployeeRevenueDt());
+        }
+        public int Insert(TransEmployeeRevenueDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransEmployeeRevenueDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID)
+        {
+            TransEmployeeRevenueDt record;
+            if (_ctx.Transaction == null)
+                record = new TransEmployeeRevenueDtDao().Get(TransactionDtID);
+            else
+                record = Get(TransactionDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransEmployeeRevenueHd
+    [Serializable]
+    [Table(Name = "TransEmployeeRevenueHd")]
+    public class TransEmployeeRevenueHd : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private Int32 _EmployeeID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Int32 _WorkDays;
+        private Int32 _EfectiveDays;
+        private Decimal _DailyRenumerationMultiplyBy;
+        private Int32 _SickDays;
+        private Int32 _PermitDays;
+        private Int32 _AlphaDays;
+        private Decimal _TotalAmount;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "WorkDays", DataType = "Int32")]
+        public Int32 WorkDays
+        {
+            get { return _WorkDays; }
+            set { _WorkDays = value; }
+        }
+        [Column(Name = "EfectiveDays", DataType = "Int32")]
+        public Int32 EfectiveDays
+        {
+            get { return _EfectiveDays; }
+            set { _EfectiveDays = value; }
+        }
+        [Column(Name = "DailyRenumerationMultiplyBy", DataType = "Decimal")]
+        public Decimal DailyRenumerationMultiplyBy
+        {
+            get { return _DailyRenumerationMultiplyBy; }
+            set { _DailyRenumerationMultiplyBy = value; }
+        }
+        [Column(Name = "SickDays", DataType = "Int32")]
+        public Int32 SickDays
+        {
+            get { return _SickDays; }
+            set { _SickDays = value; }
+        }
+        [Column(Name = "PermitDays", DataType = "Int32")]
+        public Int32 PermitDays
+        {
+            get { return _PermitDays; }
+            set { _PermitDays = value; }
+        }
+        [Column(Name = "AlphaDays", DataType = "Int32")]
+        public Int32 AlphaDays
+        {
+            get { return _AlphaDays; }
+            set { _AlphaDays = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TransEmployeeRevenueHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransEmployeeRevenueHd));
+        private bool _isAuditLog = false;
+        private const string p_TransactionID = "@p_TransactionID";
+        public TransEmployeeRevenueHdDao() { }
+        public TransEmployeeRevenueHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransEmployeeRevenueHd Get(Int32 TransactionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransEmployeeRevenueHd)_helper.DataRowToObject(row, new TransEmployeeRevenueHd());
+        }
+        public int Insert(TransEmployeeRevenueHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransEmployeeRevenueHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID)
+        {
+            TransEmployeeRevenueHd record;
+            if (_ctx.Transaction == null)
+                record = new TransEmployeeRevenueHdDao().Get(TransactionID);
+            else
+                record = Get(TransactionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region TransTeacherProfileDt
     [Serializable]
     [Table(Name = "TransTeacherProfileDt")]

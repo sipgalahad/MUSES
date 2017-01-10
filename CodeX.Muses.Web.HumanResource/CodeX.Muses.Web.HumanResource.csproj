@@ -115,6 +115,7 @@
     <Content Include="Program\Transaction\AbsenceProposal\AbsenceProposalEntry.aspx" />
     <Content Include="Program\Transaction\EmployeeDailyAttendance\EmployeeDailyAttendanceEntry.aspx" />
     <Content Include="Program\Transaction\EmployeeDailyAttendance\EmployeeDailyAttendanceDetailsCtl.ascx" />
+    <Content Include="Program\Transaction\EmployeeRevenue\EmployeeRevenueEntry.aspx" />
     <Content Include="Program\Transaction\OvertimeProposal\OvertimeProposalEntry.aspx" />
     <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntry.aspx" />
     <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntryCtl.ascx" />
@@ -436,6 +437,13 @@
     <Compile Include="Program\Transaction\EmployeeDailyAttendance\EmployeeDailyAttendanceDetailsCtl.ascx.designer.cs">
       <DependentUpon>EmployeeDailyAttendanceDetailsCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Transaction\EmployeeRevenue\EmployeeRevenueEntry.aspx.cs">
+      <DependentUpon>EmployeeRevenueEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\EmployeeRevenue\EmployeeRevenueEntry.aspx.designer.cs">
+      <DependentUpon>EmployeeRevenueEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Transaction\OvertimeProposal\OvertimeProposalEntry.aspx.cs">
       <DependentUpon>OvertimeProposalEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -517,6 +525,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Program\Transaction\OvertimeProposal\EmployeeRevenue\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />

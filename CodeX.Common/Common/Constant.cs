@@ -152,6 +152,8 @@ namespace CodeX.Common
         public static class RenumerationCompType
         {
             public const string MONTHLY = "X314^001";
+            public const string DAYLY = "X314^002";
+            public const string OVERTIME = "X314^003";
             public const string DEDUCTION = "X314^005";
         }
 

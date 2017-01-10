@@ -20627,6 +20627,152 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TransEmployeeRevenueDt
+        public static TransEmployeeRevenueDt GetTransEmployeeRevenueDt(Int32 TransactionDtID)
+        {
+            return new TransEmployeeRevenueDtDao().Get(TransactionDtID);
+        }
+        public static int InsertTransEmployeeRevenueDt(TransEmployeeRevenueDt record)
+        {
+            return new TransEmployeeRevenueDtDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeRevenueDt(TransEmployeeRevenueDt record)
+        {
+            return new TransEmployeeRevenueDtDao().Update(record);
+        }
+        public static int DeleteTransEmployeeRevenueDt(Int32 TransactionDtID)
+        {
+            return new TransEmployeeRevenueDtDao().Delete(TransactionDtID);
+        }
+        public static List<TransEmployeeRevenueDt> GetTransEmployeeRevenueDtList(string filterExpression)
+        {
+            List<TransEmployeeRevenueDt> result = new List<TransEmployeeRevenueDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeRevenueDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeRevenueDt)helper.IDataReaderToObject(reader, new TransEmployeeRevenueDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransEmployeeRevenueDt> GetTransEmployeeRevenueDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeeRevenueDt> result = new List<TransEmployeeRevenueDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeRevenueDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeRevenueDt)helper.IDataReaderToObject(reader, new TransEmployeeRevenueDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeRevenueDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeRevenueDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeRevenueHd
+        public static TransEmployeeRevenueHd GetTransEmployeeRevenueHd(Int32 TransactionID)
+        {
+            return new TransEmployeeRevenueHdDao().Get(TransactionID);
+        }
+        public static int InsertTransEmployeeRevenueHd(TransEmployeeRevenueHd record)
+        {
+            return new TransEmployeeRevenueHdDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeRevenueHd(TransEmployeeRevenueHd record)
+        {
+            return new TransEmployeeRevenueHdDao().Update(record);
+        }
+        public static int DeleteTransEmployeeRevenueHd(Int32 TransactionID)
+        {
+            return new TransEmployeeRevenueHdDao().Delete(TransactionID);
+        }
+        public static List<TransEmployeeRevenueHd> GetTransEmployeeRevenueHdList(string filterExpression)
+        {
+            List<TransEmployeeRevenueHd> result = new List<TransEmployeeRevenueHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeRevenueHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeRevenueHd)helper.IDataReaderToObject(reader, new TransEmployeeRevenueHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransEmployeeRevenueHd> GetTransEmployeeRevenueHdList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeeRevenueHd> result = new List<TransEmployeeRevenueHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeRevenueHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeRevenueHd)helper.IDataReaderToObject(reader, new TransEmployeeRevenueHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeRevenueHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeRevenueHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region TransTeacherProfileDt
         public static TransTeacherProfileDt GetTransTeacherProfileDt(Int32 ID)
         {

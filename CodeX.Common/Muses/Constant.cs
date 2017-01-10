@@ -666,6 +666,7 @@ namespace CodeX.Common
                 public const string ABSENCE_PROPOSAL = "HR020200";
                 public const string EMPLOYEE_LOAN = "HR020300";
                 public const string EMPLOYEE_DAILY_ATTENDANCE = "HR020400";
+                public const string EMPLOYEE_REVENUE = "HR020500";
             }
             #endregion
 
@@ -1024,6 +1025,7 @@ namespace CodeX.Common
             public const string EMPLOYEE_LOAN = "8210";
             public const string RENUMERATION_FAMILY_STATUS = "8211";
             public const string EMPLOYEE_FAMILY_STATUS = "8212";
+            public const string EMPLOYEE_REVENUE = "8213";
 
             public const string TEACHER_PROFILE = "9101";
         }
