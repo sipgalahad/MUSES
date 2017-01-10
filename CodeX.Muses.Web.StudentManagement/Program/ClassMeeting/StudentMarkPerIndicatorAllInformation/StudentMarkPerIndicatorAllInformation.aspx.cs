@@ -52,7 +52,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string lessonType = cboLessonType.Value.ToString();
             if (lessonType == "")
                 lessonType = Request.Form[hdnLessonType.UniqueID];
-            lstClassSubjectTaskIndicator = BusinessLayer.GetvClassSubjectTaskIndicatorList(string.Format("ClassSubjectID = {0} AND CurriculumMarkTypeID = {1} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID, lessonType));
+            lstClassSubjectTaskIndicator = BusinessLayer.GetvClassSubjectTaskIndicatorList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1} AND CurriculumMarkTypeID = {2} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID, lessonType));
             lstIndicator = (from p in lstClassSubjectTaskIndicator
                             select new vClassSubjectTaskIndicator { SubjectIndicatorID = p.SubjectIndicatorID, SubjectIndicatorName = p.SubjectIndicatorName, CurriculumMarkTypeID = p.CurriculumMarkTypeID }).GroupBy(p => new { p.SubjectIndicatorID, p.SubjectIndicatorName, p.CurriculumMarkTypeID }).Select(p => p.First()).ToList();
 
@@ -67,7 +67,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
                 lstStudentMark = new List<vClassStudentSubjectTaskMark>();
 
-            lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
+            lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID));
 
             totalColSpan = 0;
             rptSubjectIndicatorHeader.DataSource = lstIndicator;
@@ -77,7 +77,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             thMark.ColSpan = totalColSpan;
 
-            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
+            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1}", AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID));
 
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));

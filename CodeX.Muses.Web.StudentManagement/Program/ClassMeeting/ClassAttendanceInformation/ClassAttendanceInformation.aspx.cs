@@ -33,12 +33,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void BindGridView()
         {
-            lstClassMeeting = BusinessLayer.GetClassMeetingList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
+            lstClassMeeting = BusinessLayer.GetClassMeetingList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID));
             rptHeader.DataSource = lstClassMeeting;
             rptHeader.DataBind();
             thAttendance.ColSpan = lstClassMeeting.Count;
 
-            lstClassMeetingAttendance = BusinessLayer.GetvClassMeetingAttendanceList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
+            lstClassMeetingAttendance = BusinessLayer.GetvClassMeetingAttendanceList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1}", AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID));
 
             ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));

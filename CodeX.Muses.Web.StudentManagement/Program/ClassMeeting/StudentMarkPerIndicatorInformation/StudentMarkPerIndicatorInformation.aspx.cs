@@ -68,7 +68,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void BindGridView()
         {
-            lstClassSubjectTaskIndicator = BusinessLayer.GetvClassSubjectTaskIndicatorList(string.Format("ClassSubjectID = {0} AND CurriculumMarkTypeID = {1} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID, cboLessonType.Value));
+            lstClassSubjectTaskIndicator = BusinessLayer.GetvClassSubjectTaskIndicatorList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1} AND CurriculumMarkTypeID = {2} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID, cboLessonType.Value));
             lstIndicator = (from p in lstClassSubjectTaskIndicator
                             select new vClassSubjectTaskIndicator { SubjectIndicatorID = p.SubjectIndicatorID, SubjectIndicatorName = p.SubjectIndicatorName, CurriculumMarkTypeID = p.CurriculumMarkTypeID }).GroupBy(p => new { p.SubjectIndicatorID, p.SubjectIndicatorName, p.CurriculumMarkTypeID }).Select(p => p.First()).ToList();
 

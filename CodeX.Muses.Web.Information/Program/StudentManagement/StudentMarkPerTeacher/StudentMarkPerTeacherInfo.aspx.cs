@@ -24,6 +24,11 @@ namespace CodeX.Muses.Web.Information.Program
             return Constant.MenuCode.Information.STUDENT_MARK_PER_TEACHER_INFO;
         }
 
+        protected string OnGetPeriodSectionFilterExpression()
+        {
+            return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
+        }
+
         protected string OnGetSchoolPeriodNowFilterExpression()
         {
             return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
@@ -36,6 +41,7 @@ namespace CodeX.Muses.Web.Information.Program
             cboSite.SelectedIndex = 0;
         }
 
+        List<vClassMeeting> lstClassMeeting = null;
         List<ClassSubjectTask> lstClassSubjectTask = null;
         List<vClassStudentSubjectTaskMark> lstTaskMark = null;
         List<ClassStudent> lstStudent = null;
@@ -50,13 +56,24 @@ namespace CodeX.Muses.Web.Information.Program
             {
                 string lstClassSubjectID = string.Join(",", lstEntity.Select(p => p.ClassSubjectID).ToList());
                 string lstSchoolClassID = string.Join(",", lstEntity.Select(p => p.SchoolClassID).ToList());
-                lstClassSubjectTask = BusinessLayer.GetClassSubjectTaskList(string.Format("ClassSubjectID IN ({0}) AND IsDeleted = 0", lstClassSubjectID));
+                if (tacPeriodSection.Value != "")
+                {
+                    lstClassMeeting = BusinessLayer.GetvClassMeetingList(string.Format("ClassSubjectID IN ({0}) AND PeriodSectionID = {1} AND IsDeleted = 0", lstClassSubjectID, tacPeriodSection.Value));
+                    lstClassSubjectTask = BusinessLayer.GetClassSubjectTaskList(string.Format("ClassSubjectID IN ({0}) AND PeriodSectionID = {1} AND IsDeleted = 0", lstClassSubjectID, tacPeriodSection.Value));
+                }
+                else
+                {
+                    lstClassMeeting = new List<vClassMeeting>();
+                    lstClassSubjectTask = new List<ClassSubjectTask>();
+                }
                 lstStudent = BusinessLayer.GetClassStudentList(string.Format("SchoolClassID IN ({0})", lstSchoolClassID));
                 if (lstClassSubjectTask.Count > 0)
                 {
                     string lstClassSubjectTaskID = string.Join(",", lstClassSubjectTask.Select(p => p.ClassSubjectTaskID).ToList());
                     lstTaskMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", lstClassSubjectTaskID));
                 }
+                else
+                    lstTaskMark = new List<vClassStudentSubjectTaskMark>();
             }
             else
                 lstClassSubjectTask = new List<ClassSubjectTask>();
@@ -70,9 +87,11 @@ namespace CodeX.Muses.Web.Information.Program
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 vTeacherClassSubject entity = (vTeacherClassSubject)e.Row.DataItem;
+                HtmlGenericControl divMeetingCount = (HtmlGenericControl)e.Row.FindControl("divMeetingCount");
                 HtmlGenericControl divTaskCount = (HtmlGenericControl)e.Row.FindControl("divTaskCount");
                 HtmlGenericControl divBelowPassingGradeCount = (HtmlGenericControl)e.Row.FindControl("divBelowPassingGradeCount");
                 HtmlGenericControl divStudentCount = (HtmlGenericControl)e.Row.FindControl("divStudentCount");
+                divMeetingCount.InnerHtml = lstClassMeeting.Count(p => p.ClassSubjectID == entity.ClassSubjectID).ToString();
                 divTaskCount.InnerHtml = lstClassSubjectTask.Count(p => p.ClassSubjectID == entity.ClassSubjectID).ToString();
                 divBelowPassingGradeCount.InnerHtml = lstTaskMark.Where(p => p.ClassSubjectID == entity.ClassSubjectID && p.Mark < entity.PassingGrade).GroupBy(p => new { p.StudentID }).Select(p => p.First()).Count().ToString();
                 divStudentCount.InnerHtml = lstStudent.Count(p => p.SchoolClassID == entity.SchoolClassID).ToString();

@@ -7,41 +7,36 @@ using System.Web.UI.WebControls;
 using CodeX.Web.Common.UI;
 using CodeX.Data.Model;
 using CodeX.Web.Common;
-using System.Data;
-using CodeX.Data.Core.Dal;
-using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 using System.Web.UI.HtmlControls;
+using CodeX.Data.Core.Dal;
+using CodeX.Muses.Web.Information.Program;
+using CodeX.Common;
 
-namespace CodeX.Muses.Web.StudentManagement.Program
+namespace CodeX.Muses.Web.Information.Program
 {
-    public partial class StudentMarkInformation : BasePageTrx
+    public partial class StudentMarkInformationDtCtl : BaseViewPopupCtl
     {
-        public override string OnGetMenuCode()
-        {
-            string id = Request.QueryString["id"];
-            if (id == "tcs")
-                return Constant.MenuCode.StudentManagement.TCS_STUDENT_MARK;
-            return Constant.MenuCode.StudentManagement.WS_STUDENT_MARK;
-        }
-
         List<vClassSubjectTask> lstClassTask = null;
-        protected override void InitializeDataControl()
+        public override void InitializeDataControl(string param)
         {
+            string[] temp = param.Split('|');
+            hdnPeriodSection.Value = temp[0];
+            hdnClassSubjectID.Value = temp[1];
             BindGridView();
         }
 
         private void BindGridView()
         {
-            lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID));
+            lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1} AND IsDeleted = 0", hdnClassSubjectID.Value, hdnPeriodSection.Value));
             rptHeader.DataSource = lstClassTask;
             rptHeader.DataBind();
 
             thMark.ColSpan = lstClassTask.Count;
 
-            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1}", AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID));
+            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1}", hdnClassSubjectID.Value, hdnPeriodSection.Value));
 
-            vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+            vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", hdnClassSubjectID.Value)).FirstOrDefault();
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
@@ -82,30 +77,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     }
                 }
             }
-        }
-
-        public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
-        {
-            IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
-        }
-
-        public override Control OnGetExportControl()
-        {
-            lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
-            rptHeader2.DataSource = lstClassTask;
-            rptHeader2.DataBind();
-
-            thMark2.ColSpan = lstClassTask.Count;
-
-            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
-
-            vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
-            rptStudent2.DataSource = lstStudent;
-            rptStudent2.DataBind();
-            HtmlGenericControl div = new HtmlGenericControl("DIV");
-            div.Controls.Add(pnlPrint);
-            return div;
         }
     }
 }

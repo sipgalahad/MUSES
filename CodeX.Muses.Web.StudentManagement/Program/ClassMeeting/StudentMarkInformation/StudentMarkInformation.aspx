@@ -62,7 +62,7 @@
     </table>
 
     
-    <div style="width:1250px; overflow-x: auto;">
+    <div style="width:1250px; overflow-x: auto; display: none">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"

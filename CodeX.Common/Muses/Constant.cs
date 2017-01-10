@@ -933,13 +933,13 @@ namespace CodeX.Common
                 public const string TCS_CLASS_TASK = "SM99050101";
                 public const string TCS_CLASS_TASK_SUMMARY = "SM99050102";
                 public const string TSC_STUDENT_MARK_PER_INDICATOR = "SM99050103";
-                public const string TCS_SUBJECT_INDICATOR = "SM99050105";
+                public const string TCS_SUBJECT_INDICATOR = "SM99050104";
 
                 public const string TCS_ATTENDANCE_HISTORY = "SM99050201";
                 public const string TCS_STUDENT_MARK = "SM99050202";
                 public const string TCS_STUDENT_MARK_PER_INDICATOR = "SM99050203";
                 public const string TCS_STUDENT_MARK_PER_INDICATOR_ALL = "SM99050204";
-                public const string TCS_CLASS_ATTENDANCE_SUMMARY = "SM99050104";
+                public const string TCS_CLASS_ATTENDANCE_SUMMARY = "SM99050205";
 
                 public const string CLASS_STUDENT_PAGE = "SM99060000";
                 public const string CS_SUBJECT_MARK = "SM99060101";

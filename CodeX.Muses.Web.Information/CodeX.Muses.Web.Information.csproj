@@ -132,6 +132,8 @@
     <Content Include="Program\StudentManagement\ClassScheduleInfo.aspx" />
     <Content Include="Program\StudentManagement\StudentMarkPerClass\StudentMarkPerClassInfo.aspx" />
     <Content Include="Program\StudentManagement\StudentMarkPerClass\StudentMarkPerClassInfoDtCtl.ascx" />
+    <Content Include="Program\StudentManagement\StudentMarkPerTeacher\ClassMeetingHistoryDtCtl.ascx" />
+    <Content Include="Program\StudentManagement\StudentMarkPerTeacher\StudentMarkInformationDtCtl.ascx" />
     <Content Include="Program\StudentManagement\StudentMarkPerTeacher\StudentMarkPerTeacherInfoDtCtl.ascx" />
     <Content Include="Program\StudentManagement\StudentMarkPerTeacher\StudentMarkPerTeacherInfo.aspx" />
     <Content Include="Program\StudentManagement\StudentStatisticInfo.aspx" />
@@ -587,6 +589,20 @@
     </Compile>
     <Compile Include="Program\StudentManagement\StudentMarkPerClass\StudentMarkPerClassInfoDtCtl.ascx.designer.cs">
       <DependentUpon>StudentMarkPerClassInfoDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentManagement\StudentMarkPerTeacher\ClassMeetingHistoryDtCtl.ascx.cs">
+      <DependentUpon>ClassMeetingHistoryDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentManagement\StudentMarkPerTeacher\ClassMeetingHistoryDtCtl.ascx.designer.cs">
+      <DependentUpon>ClassMeetingHistoryDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentManagement\StudentMarkPerTeacher\StudentMarkInformationDtCtl.ascx.cs">
+      <DependentUpon>StudentMarkInformationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentManagement\StudentMarkPerTeacher\StudentMarkInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentMarkInformationDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentManagement\StudentMarkPerTeacher\StudentMarkPerTeacherInfoDtCtl.ascx.cs">
       <DependentUpon>StudentMarkPerTeacherInfoDtCtl.ascx</DependentUpon>

@@ -2151,6 +2151,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassMeetingID;
         private DateTime _MeetingDate;
         private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
         private Int32 _StudentID;
         private String _GCAttendanceStatus;
         private String _AttendanceStatus;
@@ -2173,6 +2174,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
         }
         [Column(Name = "StudentID", DataType = "Int32")]
         public Int32 StudentID
@@ -3117,6 +3124,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
         private Int32 _StudentID;
         private Int16 _PassingGrade;
         private Int32 _SchoolClassID;
@@ -3137,6 +3145,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
         }
         [Column(Name = "StudentID", DataType = "Int32")]
         public Int32 StudentID
@@ -3456,6 +3470,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectTaskIndicatorID;
         private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
         private Int32 _ClassSubjectTaskID;
         private String _ClassTaskCode;
         private String _GCMarkType;
@@ -3477,6 +3492,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
         }
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
         public Int32 ClassSubjectTaskID

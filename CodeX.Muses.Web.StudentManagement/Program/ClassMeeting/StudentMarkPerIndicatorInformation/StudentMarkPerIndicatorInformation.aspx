@@ -119,38 +119,40 @@
                             </asp:Repeater>
                         </table>
                     </asp:Panel>
-                    <asp:Panel runat="server" ID="pnlPrint">
-                        <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent" border="1">
-                            <tr>
-                                <th style="width:80px"><%=GetLabel("NIS") %></th>
-                                <th><%=GetLabel("Siswa") %></th>
-                                <asp:Repeater ID="rptSubjectIndicatorHeader2" runat="server">
+                    <div style="display:none">
+                        <asp:Panel runat="server" ID="pnlPrint">
+                            <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent" border="1">
+                                <tr>
+                                    <th style="width:80px"><%=GetLabel("NIS") %></th>
+                                    <th><%=GetLabel("Siswa") %></th>
+                                    <asp:Repeater ID="rptSubjectIndicatorHeader2" runat="server">
+                                        <ItemTemplate>
+                                            <th class="thCenter thSubjectIndicator" style="width:60px;"><%# Container.ItemIndex + 1 %>
+                                                <div style="width:100%; position: relative;">
+                                                    <div class="divSubjectIndicatorName" style="position: absolute; right: 0; width: 150px; height: 30px; background-color: #FFF !important; border: 1px solid #AAA;"><%#Eval("SubjectIndicatorName") %></div>
+                                                </div>
+                                            </th>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </tr>
+                                <asp:Repeater ID="rptStudent2" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
                                     <ItemTemplate>
-                                        <th class="thCenter thSubjectIndicator" style="width:60px;"><%# Container.ItemIndex + 1 %>
-                                            <div style="width:100%; position: relative;">
-                                                <div class="divSubjectIndicatorName" style="position: absolute; right: 0; width: 150px; height: 30px; background-color: #FFF !important; border: 1px solid #AAA;"><%#Eval("SubjectIndicatorName") %></div>
-                                            </div>
-                                        </th>
+                                        <tr class="trStudent">
+                                            <td><%#Eval("StudentCode") %></td>
+                                            <td><%#Eval("StudentName") %></td>
+                                            <asp:Repeater ID="rptSubjectIndicator" runat="server" OnItemDataBound="rptSubjectIndicator_ItemDataBound">
+                                                <ItemTemplate>
+                                                    <td class="thCenter">
+                                                        <div id="divStudentMark" runat="server"></div>
+                                                    </td>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                        </tr>
                                     </ItemTemplate>
                                 </asp:Repeater>
-                            </tr>
-                            <asp:Repeater ID="rptStudent2" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
-                                <ItemTemplate>
-                                    <tr class="trStudent">
-                                        <td><%#Eval("StudentCode") %></td>
-                                        <td><%#Eval("StudentName") %></td>
-                                        <asp:Repeater ID="rptSubjectIndicator" runat="server" OnItemDataBound="rptSubjectIndicator_ItemDataBound">
-                                            <ItemTemplate>
-                                                <td class="thCenter">
-                                                    <div id="divStudentMark" runat="server"></div>
-                                                </td>
-                                            </ItemTemplate>
-                                        </asp:Repeater>
-                                    </tr>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </table>
-                    </asp:Panel>
+                            </table>
+                        </asp:Panel>
+                    </div>
                 </dx:PanelContent>
             </PanelCollection>
         </dxcp:ASPxCallbackPanel>  

@@ -60,6 +60,37 @@
         }
 
         function onTacSchoolPeriodValueChanged() {
+            tacPeriodSection.setValue('');
+            tacPeriodSection.setText('');
+            cbpView.PerformCallback('refresh');
+        }
+        //#endregion
+
+        //#region Period Section
+        function onGetPeriodSectionFilterExpression() {
+            var filterExpression = "SchoolPeriodID = " + tacSchoolPeriod.getValue() + " AND <%=OnGetPeriodSectionFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacPeriodSectionButtonSearchClick() {
+            openSearchDialog('periodsection', onGetPeriodSectionFilterExpression(), function (value) {
+                var filterExpression = onGetPeriodSectionFilterExpression() + " AND PeriodSectionCode = '" + value + "'";
+                Methods.getObject('GetPeriodSectionList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacPeriodSection.setValue(result.PeriodSectionID);
+                        tacPeriodSection.setText(result.PeriodSectionName);
+                    }
+                    else {
+                        tacPeriodSection.setValue('');
+                        tacPeriodSection.setText('');
+                    }
+                    onTacPeriodSectionValueChanged();
+                });
+            });
+
+        }
+
+        function onTacPeriodSectionValueChanged() {
             cbpView.PerformCallback('refresh');
         }
         //#endregion
@@ -92,6 +123,24 @@
              cbpView.PerformCallback('refresh');
          }
          //#endregion
+
+         $('.lblTaskCount').live('click', function () {
+             $tr = $(this).closest('tr');
+             var classSubjectID = $tr.find('.keyField').html();
+             var id = tacPeriodSection.getValue() + '|' + classSubjectID;
+
+             var url = ResolveUrl("~/Program/StudentManagement/StudentMarkPerTeacher/StudentMarkInformationDtCtl.ascx");
+             openUserControlPopup(url, id, 'Detail Tugas', 1200, 550);
+         }); 
+
+         $('.lblMeetingCount').live('click', function () {
+             $tr = $(this).closest('tr');
+             var classSubjectID = $tr.find('.keyField').html();
+             var id = tacPeriodSection.getValue() + '|' + classSubjectID;
+
+             var url = ResolveUrl("~/Program/StudentManagement/StudentMarkPerTeacher/ClassMeetingHistoryDtCtl.ascx");
+             openUserControlPopup(url, id, 'Detail Pertemuan', 1200, 550);
+         }); 
 
          $('.lblBelowPassingGradeCount').live('click', function () {
              $tr = $(this).closest('tr');
@@ -133,6 +182,16 @@
                 </cdx:CodeXAutoCompleteTextBox>
             </td>
         </tr>
+        <tr>
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Semester")%></label></td>
+            <td>
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacPeriodSection" ClientInstanceName="tacPeriodSection" MethodName="GetPeriodSectionList" GetFilterExpressionFunction="onGetPeriodSectionFilterExpression"
+                    SearchFields="PeriodSectionName,PeriodSectionCode" TextField="PeriodSectionName" ValueField="PeriodSectionID" SearchText="${PeriodSectionName} (<b>${PeriodSectionCode}</b>)" OrderByExpression="PeriodSectionName">
+                    <ClientSideEvents ButtonSearchClick="function(){ onTacPeriodSectionButtonSearchClick(); }"
+                        ValueChanged="function(){ onTacPeriodSectionValueChanged(); }" />
+                </cdx:CodeXAutoCompleteTextBox>   
+            </td>
+        </tr>
     </table>
     <div style="position: relative;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
@@ -147,9 +206,14 @@
                                 <asp:BoundField DataField="ClassSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SchoolClassName" HeaderText="Nama Kelas"/>
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" HeaderStyle-Width="250px" />
+                                <asp:TemplateField HeaderStyle-Width="150px" HeaderText="Jmlh Pertemuan" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
+                                    <ItemTemplate>
+                                        <label class="lblLink lblMeetingCount"><div id="divMeetingCount" runat="server"></div></label>
+                                    </ItemTemplate>
+                                </asp:TemplateField> 
                                 <asp:TemplateField HeaderStyle-Width="150px" HeaderText="Jmlh Penilaian" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
                                     <ItemTemplate>
-                                        <div id="divTaskCount" runat="server"></div>
+                                        <label class="lblLink lblTaskCount"><div id="divTaskCount" runat="server"></div></label>
                                     </ItemTemplate>
                                 </asp:TemplateField> 
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderText="< KKM" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
