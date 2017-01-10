@@ -24,6 +24,11 @@ namespace CodeX.Muses.Web.Information.Program
             return Constant.MenuCode.Information.STUDENT_MARK_PER_CLASS_INFO;
         }
 
+        protected string OnGetPeriodSectionFilterExpression()
+        {
+            return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
+        }
+
         protected string OnGetSchoolPeriodNowFilterExpression()
         {
             return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
@@ -36,6 +41,7 @@ namespace CodeX.Muses.Web.Information.Program
             cboSite.SelectedIndex = 0;
         }
 
+        List<vClassMeeting> lstClassMeeting = null;
         List<vClassSubjectTask> lstClassSubjectTask = null;
         List<vClassStudentSubjectTaskMark> lstTaskMark = null;
         List<ClassStudent> lstStudent = null;
@@ -49,7 +55,16 @@ namespace CodeX.Muses.Web.Information.Program
             if (lstEntity.Count > 0)
             {
                 string lstSchoolClassID = string.Join(",", lstEntity.Select(p => p.SchoolClassID).ToList());
-                lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("SchoolClassID IN ({0}) AND IsDeleted = 0", lstSchoolClassID));
+                if (tacPeriodSection.Value != "")
+                {
+                    lstClassMeeting = BusinessLayer.GetvClassMeetingList(string.Format("SchoolClassID IN ({0}) AND PeriodSectionID = {1} AND IsDeleted = 0", lstSchoolClassID, tacPeriodSection.Value));
+                    lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("SchoolClassID IN ({0}) AND IsDeleted = 0", lstSchoolClassID));
+                }
+                else
+                {
+                    lstClassMeeting = new List<vClassMeeting>();
+                    lstClassSubjectTask = new List<vClassSubjectTask>();
+                }
                 lstStudent = BusinessLayer.GetClassStudentList(string.Format("SchoolClassID IN ({0})", lstSchoolClassID));
                 if (lstClassSubjectTask.Count > 0)
                 {
@@ -71,9 +86,11 @@ namespace CodeX.Muses.Web.Information.Program
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 vSchoolClass entity = (vSchoolClass)e.Row.DataItem;
+                HtmlGenericControl divMeetingCount = (HtmlGenericControl)e.Row.FindControl("divMeetingCount");
                 HtmlGenericControl divTaskCount = (HtmlGenericControl)e.Row.FindControl("divTaskCount");
                 HtmlGenericControl divBelowPassingGradeCount = (HtmlGenericControl)e.Row.FindControl("divBelowPassingGradeCount");
                 HtmlGenericControl divStudentCount = (HtmlGenericControl)e.Row.FindControl("divStudentCount");
+                divMeetingCount.InnerHtml = lstClassMeeting.Count(p => p.SchoolClassID == entity.SchoolClassID).ToString();
                 divTaskCount.InnerHtml = lstClassSubjectTask.Count(p => p.SchoolClassID == entity.SchoolClassID).ToString();
                 divBelowPassingGradeCount.InnerHtml = lstTaskMark.Where(p => p.SchoolClassID == entity.SchoolClassID && p.Mark < p.PassingGrade).GroupBy(p => new { p.StudentID }).Select(p => p.First()).Count().ToString();
                 divStudentCount.InnerHtml = lstStudent.Count(p => p.SchoolClassID == entity.SchoolClassID).ToString();

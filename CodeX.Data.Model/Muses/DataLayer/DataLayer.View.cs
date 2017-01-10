@@ -2010,6 +2010,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassMeetingID;
         private Int32 _ClassSubjectID;
         private Int32 _PeriodSectionID;
+        private Int32 _SchoolClassID;
         private Int32 _PeriodClassTypeSubjectID;
         private DateTime _MeetingDate;
         private String _StartTime;
@@ -2044,6 +2045,12 @@ namespace CodeX.Data.Model
         {
             get { return _PeriodSectionID; }
             set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
         }
         [Column(Name = "PeriodClassTypeSubjectID", DataType = "Int32")]
         public Int32 PeriodClassTypeSubjectID

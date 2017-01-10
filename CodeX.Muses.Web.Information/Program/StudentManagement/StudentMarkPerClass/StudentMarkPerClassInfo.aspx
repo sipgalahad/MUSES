@@ -64,6 +64,35 @@
         }
         //#endregion
 
+        //#region Period Section
+        function onGetPeriodSectionFilterExpression() {
+            var filterExpression = "SchoolPeriodID = " + tacSchoolPeriod.getValue() + " AND <%=OnGetPeriodSectionFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacPeriodSectionButtonSearchClick() {
+            openSearchDialog('periodsection', onGetPeriodSectionFilterExpression(), function (value) {
+                var filterExpression = onGetPeriodSectionFilterExpression() + " AND PeriodSectionCode = '" + value + "'";
+                Methods.getObject('GetPeriodSectionList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacPeriodSection.setValue(result.PeriodSectionID);
+                        tacPeriodSection.setText(result.PeriodSectionName);
+                    }
+                    else {
+                        tacPeriodSection.setValue('');
+                        tacPeriodSection.setText('');
+                    }
+                    onTacPeriodSectionValueChanged();
+                });
+            });
+
+        }
+
+        function onTacPeriodSectionValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+        //#endregion
+
         $('.lblBelowPassingGradeCount').live('click', function () {
             $tr = $(this).closest('tr');
             var itemID = $tr.find('.keyField').html();
@@ -94,6 +123,16 @@
                 </cdx:CodeXAutoCompleteTextBox>
             </td>
         </tr>
+        <tr>
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Semester")%></label></td>
+            <td>
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacPeriodSection" ClientInstanceName="tacPeriodSection" MethodName="GetPeriodSectionList" GetFilterExpressionFunction="onGetPeriodSectionFilterExpression"
+                    SearchFields="PeriodSectionName,PeriodSectionCode" TextField="PeriodSectionName" ValueField="PeriodSectionID" SearchText="${PeriodSectionName} (<b>${PeriodSectionCode}</b>)" OrderByExpression="PeriodSectionName">
+                    <ClientSideEvents ButtonSearchClick="function(){ onTacPeriodSectionButtonSearchClick(); }"
+                        ValueChanged="function(){ onTacPeriodSectionValueChanged(); }" />
+                </cdx:CodeXAutoCompleteTextBox>   
+            </td>
+        </tr>
     </table>
     <div style="position: relative;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
@@ -107,6 +146,11 @@
                             <Columns>
                                 <asp:BoundField DataField="SchoolClassID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SchoolClassName" HeaderText="Kelas"/>
+                                <asp:TemplateField HeaderStyle-Width="150px" HeaderText="Jmlh Pertemuan" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
+                                    <ItemTemplate>
+                                        <div id="divMeetingCount" runat="server"></div>
+                                    </ItemTemplate>
+                                </asp:TemplateField> 
                                 <asp:TemplateField HeaderStyle-Width="150px" HeaderText="Jmlh Penilaian" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
                                     <ItemTemplate>
                                         <div id="divTaskCount" runat="server"></div>
