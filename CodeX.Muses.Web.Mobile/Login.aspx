@@ -19,21 +19,7 @@
         });
 
         function onLoginSuccess(loginData) {
-            var mapForm = document.createElement("form");
-            mapForm.method = "POST";
-            mapForm.action = ResolveUrl('~/Program/RemoteLogon.aspx');
-
-            var mapInput = document.createElement("input");
-            mapInput.type = "hidden";
-            mapInput.name = "id";
-            mapInput.value = loginData + '|1';
-            mapForm.appendChild(mapInput);
-
-            document.body.appendChild(mapForm);
-
-            mapForm.submit();
-
-            $(mapForm).remove();
+            window.location = ResolveUrl('~/Program/StudentBillInformation.aspx');
         }
     </script>
     

@@ -14,23 +14,23 @@ namespace CodeX.Muses.Web.Mobile.MasterPage
 {
     public partial class MPMain : BaseMP
     {
-        public List<GetUserMenuAccess> ListMenu { get { return lstMenu; } }
-        protected List<GetUserMenuAccess> lstMenu = null;
-
+        public List<MenuMaster> ListMenu { get { return lstMenu; } }
+        protected List<MenuMaster> lstMenu = null;
         private string MenuCode = "";
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
             if (!Page.IsPostBack)
             {
-                if (AppSession.UserLogin == null)
+                if (AppSession.StudentLogin == null)
                     Response.Redirect("~/Login.aspx");
 
                 MenuCode = ((BasePageContent)Page).OnGetMenuCode();
-                hdnLoginData.Value = string.Format("{0}|{1}|{2}", AppSession.UserLogin.UserName, "fromprogram", AppSession.UserLogin.SiteID);
+                hdnLoginData.Value = string.Format("{0}|{1}|{2}", AppSession.StudentLogin.UserName, "fromprogram", AppSession.StudentLogin.SiteID);
 
-                string ModuleID = Constant.Module.MOBILE;
-                lstMenu = BusinessLayer.GetUserMenuAccess(ModuleID, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, "IsShowInPullDownMenu = 1 AND IsVisible = 1");
+                lstMenu = BusinessLayer.GetMenuMasterList(string.Format("ModuleID = '{0}' AND IsShowInPullDownMenu = 1 AND IsVisible = 1", Constant.Module.MOBILE));
+                //string ModuleID = Constant.Module.MOBILE;
+                //lstMenu = BusinessLayer.GetUserMenuAccess(ModuleID, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, "IsShowInPullDownMenu = 1 AND IsVisible = 1");
                 //lstMenu = BusinessLayer.GetMenuList(string.Format("ModuleID = '{0}'", ModuleID));
                 
                 imgOpenModule.Src = ResolveUrl("~/Libs/Images/Icon/menu.png");
@@ -45,7 +45,7 @@ namespace CodeX.Muses.Web.Mobile.MasterPage
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                GetUserMenuAccess entity = (GetUserMenuAccess)e.Item.DataItem;
+                MenuMaster entity = (MenuMaster)e.Item.DataItem;
                 Repeater rptMenuLevel2 = (Repeater)e.Item.FindControl("rptMenuLevel2");
                 rptMenuLevel2.DataSource = lstMenu.Where(p => p.ParentID == entity.MenuID).ToList();
                 rptMenuLevel2.DataBind();
@@ -56,7 +56,7 @@ namespace CodeX.Muses.Web.Mobile.MasterPage
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                GetUserMenuAccess entity = (GetUserMenuAccess)e.Item.DataItem;
+                MenuMaster entity = (MenuMaster)e.Item.DataItem;
                 HtmlGenericControl ulLinkMenu = e.Item.FindControl("ulLinkMenu") as HtmlGenericControl;
                 if (entity.MenuCode == MenuCode)
                     ulLinkMenu.Attributes.Add("class", "ulLinkMenu selected");
@@ -79,12 +79,12 @@ namespace CodeX.Muses.Web.Mobile.MasterPage
 
         protected string GetHospitalName()
         {
-            return AppSession.UserLogin.SiteName;
+            return AppSession.StudentLogin.SiteName;
         }
 
         protected string GetUserInfo()
         {
-            return string.Format("{0}", AppSession.UserLogin.UserFullName);
+            return string.Format("{0}", AppSession.StudentLogin.UserFullName);
         }
 
         protected void cbpCloseWindow_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

@@ -26,30 +26,24 @@ namespace CodeX.Muses.Web.Mobile.Program
             string loginData = "";
             string userName = txtUserName.Text;
             string password = txtPassword.Text;
-            List<vUser> lstUser = BusinessLayer.GetvUserList(string.Format("UserName = '{0}' AND IsDeleted = 0", userName));
+            List<Student> lstUser = BusinessLayer.GetStudentList(string.Format("StudentCode = '{0}' AND IsDeleted = 0", userName));
             if (lstUser.Count > 0)
             {
-                vUser user = lstUser[0];
+                Student user = lstUser[0];
                 if (user.Password.Trim() == FormsAuthentication.HashPasswordForStoringInConfigFile(password, "sha1"))
                 {
                     UserLogin userLogin = new UserLogin();
-                    userLogin.UserID = user.UserID;
-                    userLogin.UserName = user.UserName;
-                    userLogin.UserFullName = user.FullName;
+                    userLogin.UserID = user.StudentID;
+                    userLogin.UserName = user.StudentCode;
+                    userLogin.UserFullName = user.StudentName;
                     Site site = BusinessLayer.GetSiteList("").FirstOrDefault();
                     userLogin.SiteID = site.SiteID;
                     userLogin.SiteName = site.SiteName;
-                    
-                    UserAttribute ua = BusinessLayer.GetUserAttribute(user.UserID);
-                    userLogin.EmployeeID = ua.EmployeeID;
 
-                    List<UserInRole> lstUserSysAdmin = BusinessLayer.GetUserInRoleList(string.Format("UserID = {0} AND SiteID = '{1}' AND RoleID = 1", userLogin.UserID, userLogin.SiteID));
-                    userLogin.IsSysAdmin = (lstUserSysAdmin.Count > 0);
-
-                    AppSession.UserLogin = userLogin;
+                    AppSession.StudentLogin = userLogin;
 
                     loginData = string.Format("{0}|{1}|{2}", userName, user.Password, site.SiteID);
-                    result = string.Format("success|{0}", user.UserName);
+                    result = string.Format("success|{0}", user.StudentCode);
                 }
                 else
                     result = "fail|UserID And Password Doesn't match";
