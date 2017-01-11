@@ -531,6 +531,8 @@ namespace CodeX.Common
                 public const string TEMPLATE_EMPLOYEE_GROUP = "CP010507";
                 public const string JOB_LEVEL = "CP010508";
                 public const string FAMILY_STATUS = "CP010509";
+                public const string REVENUE_PERIOD = "CP010510";
+                public const string JOB_LEVEL_POSITION = "CP010511";
 
                 public const string HOLIDAY = "CP010901";
 
@@ -655,12 +657,14 @@ namespace CodeX.Common
                 public const string UPDATE_RENUMERATION_JOB_LEVEL = "HR010201";
                 public const string UPDATE_RENUMERATION_POSITION = "HR010202";
                 public const string UPDATE_RENUMERATION_FAMILY_STATUS = "HR010203";
+                public const string UPDATE_RENUMERATION_JOB_LEVEL_POSITION = "HR010204";
 
                 public const string UPDATE_EMPLOYEE_JOB_LEVEL = "HR010301";
                 public const string UPDATE_EMPLOYEE_POSITION = "HR010302";
                 public const string UPDATE_EMPLOYEE_FAMILY_STATUS = "HR010303";
                 public const string UPDATE_EMPLOYEE_SITE = "HR010304";
                 public const string HR_SCHEDULE_GRUP_HD = "HR010305";
+                public const string UPDATE_EMPLOYEE_RENUMERATION = "HR010306";
 
                 public const string OVERTIME_PROPOSAL = "HR020100";
                 public const string ABSENCE_PROPOSAL = "HR020200";
@@ -1026,6 +1030,9 @@ namespace CodeX.Common
             public const string RENUMERATION_FAMILY_STATUS = "8211";
             public const string EMPLOYEE_FAMILY_STATUS = "8212";
             public const string EMPLOYEE_REVENUE = "8213";
+            public const string EMPLOYEE_RENUMERATION = "8214";
+            public const string EMPLOYEE_SITE = "8215";
+            public const string JOB_LEVEL_POSITION_RENUMERATION = "8216";
 
             public const string TEACHER_PROFILE = "9101";
         }
