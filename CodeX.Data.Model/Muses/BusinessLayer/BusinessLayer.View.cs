@@ -6229,6 +6229,94 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vJobLevelPosition
+        public static List<vJobLevelPosition> GetvJobLevelPositionList(string filterExpression)
+        {
+            List<vJobLevelPosition> result = new List<vJobLevelPosition>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vJobLevelPosition));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vJobLevelPosition)helper.IDataReaderToObject(reader, new vJobLevelPosition()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vJobLevelPosition> GetvJobLevelPositionList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vJobLevelPosition> result = new List<vJobLevelPosition>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vJobLevelPosition));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vJobLevelPosition)helper.IDataReaderToObject(reader, new vJobLevelPosition()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvJobLevelPositionRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vJobLevelPosition));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvJobLevelPositionRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vJobLevelPosition));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "JobLevelPositionID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vJobLevelRenumeration
         public static List<vJobLevelRenumeration> GetvJobLevelRenumerationList(string filterExpression)
         {
@@ -15792,6 +15880,185 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vTransJobLevelRenumerationHd)helper.IDataReaderToObject(reader, new vTransJobLevelRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTransJobLevelPositionRenumerationDt
+        public static List<vTransJobLevelPositionRenumerationDt> GetvTransJobLevelPositionRenumerationDtList(string filterExpression)
+        {
+            List<vTransJobLevelPositionRenumerationDt> result = new List<vTransJobLevelPositionRenumerationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransJobLevelPositionRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransJobLevelPositionRenumerationDt)helper.IDataReaderToObject(reader, new vTransJobLevelPositionRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTransJobLevelPositionRenumerationDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransJobLevelPositionRenumerationDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTransJobLevelPositionRenumerationDt> GetvTransJobLevelPositionRenumerationDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransJobLevelPositionRenumerationDt> result = new List<vTransJobLevelPositionRenumerationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransJobLevelPositionRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransJobLevelPositionRenumerationDt)helper.IDataReaderToObject(reader, new vTransJobLevelPositionRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTransJobLevelPositionRenumerationHd
+        public static List<vTransJobLevelPositionRenumerationHd> GetvTransJobLevelPositionRenumerationHdList(string filterExpression)
+        {
+            List<vTransJobLevelPositionRenumerationHd> result = new List<vTransJobLevelPositionRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransJobLevelPositionRenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransJobLevelPositionRenumerationHd)helper.IDataReaderToObject(reader, new vTransJobLevelPositionRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTransJobLevelPositionRenumerationHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransJobLevelPositionRenumerationHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static vTransJobLevelPositionRenumerationHd GetvTransJobLevelPositionRenumerationHd(string filterExpression, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransJobLevelPositionRenumerationHd> result = new List<vTransJobLevelPositionRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransJobLevelPositionRenumerationHd));
+                ctx.CommandText = helper.SelectByPageIndex(filterExpression, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransJobLevelPositionRenumerationHd)helper.IDataReaderToObject(reader, new vTransJobLevelPositionRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            if (result.Count > 0)
+                return result[0];
+            return null;
+        }
+        public static Int32 GetvTransJobLevelPositionRenumerationHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransJobLevelPositionRenumerationHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TransactionNo", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTransJobLevelPositionRenumerationHd> GetvTransJobLevelPositionRenumerationHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTransJobLevelPositionRenumerationHd> result = new List<vTransJobLevelPositionRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTransJobLevelPositionRenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTransJobLevelPositionRenumerationHd)helper.IDataReaderToObject(reader, new vTransJobLevelPositionRenumerationHd()));
             }
             catch (Exception ex)
             {

@@ -148,6 +148,8 @@
     <Content Include="Program\Master\HRWeeklySchedule\HRWeeklyScheduleList.aspx" />
     <Content Include="Program\Master\HRWeeklySchedule\HRWeeklyScheduleEntry.aspx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupPlanningEntryCtl.ascx" />
+    <Content Include="Program\Master\JobLevelPosition\JobLevelPositionEntry.aspx" />
+    <Content Include="Program\Master\JobLevelPosition\JobLevelPositionList.aspx" />
     <Content Include="Program\Master\JobLevel\JobLevelList.aspx" />
     <Content Include="Program\Master\JobLevel\JobLevelEntry.aspx" />
     <Content Include="Program\Master\Location\LocationItemGroupEntryCtl.ascx" />
@@ -191,6 +193,8 @@
     <Content Include="Program\Master\Renumeration\RenumerationEntry.aspx" />
     <Content Include="Program\Master\Renumeration\RenumerationList.aspx" />
     <Content Include="Program\Master\Renumeration\RenumerationCtl.ascx" />
+    <Content Include="Program\Master\RevenuePeriod\RevenuePeriodEntry.aspx" />
+    <Content Include="Program\Master\RevenuePeriod\RevenuePeriodList.aspx" />
     <Content Include="Program\Master\Room\RoomSiteEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolType\ClassType\ClassTypeEntry.aspx" />
     <Content Include="Program\Master\SchoolType\ClassTypeExtracurricular\ClassTypeExtracurricularEntry.aspx" />
@@ -801,6 +805,20 @@
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupPlanningEntryCtl.ascx.designer.cs">
       <DependentUpon>ItemGroupPlanningEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\JobLevelPosition\JobLevelPositionEntry.aspx.cs">
+      <DependentUpon>JobLevelPositionEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelPosition\JobLevelPositionEntry.aspx.designer.cs">
+      <DependentUpon>JobLevelPositionEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelPosition\JobLevelPositionList.aspx.cs">
+      <DependentUpon>JobLevelPositionList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelPosition\JobLevelPositionList.aspx.designer.cs">
+      <DependentUpon>JobLevelPositionList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\JobLevel\JobLevelList.aspx.cs">
       <DependentUpon>JobLevelList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1101,6 +1119,20 @@
     </Compile>
     <Compile Include="Program\Master\Renumeration\RenumerationCtl.ascx.designer.cs">
       <DependentUpon>RenumerationCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\RevenuePeriod\RevenuePeriodEntry.aspx.cs">
+      <DependentUpon>RevenuePeriodEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\RevenuePeriod\RevenuePeriodEntry.aspx.designer.cs">
+      <DependentUpon>RevenuePeriodEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\RevenuePeriod\RevenuePeriodList.aspx.cs">
+      <DependentUpon>RevenuePeriodList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\RevenuePeriod\RevenuePeriodList.aspx.designer.cs">
+      <DependentUpon>RevenuePeriodList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Room\RoomSiteEntryCtl.ascx.cs">
       <DependentUpon>RoomSiteEntryCtl.ascx</DependentUpon>

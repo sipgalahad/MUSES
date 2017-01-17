@@ -174,6 +174,29 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region RevenuePeriod
+    public partial class RevenuePeriod
+    {
+        public String StartDateInString
+        {
+            get
+            {
+                if (_StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _StartDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public String EndDateInString
+        {
+            get
+            {
+                if (_EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _EndDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region ExamScheduleHd
     public partial class ExamScheduleHd
     {

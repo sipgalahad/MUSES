@@ -15943,6 +15943,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vJobLevelPosition
+    [Serializable]
+    [Table(Name = "vJobLevelPosition")]
+    public class vJobLevelPosition
+    {
+        private Int32 _JobLevelPositionID;
+        private String _GCJobLevelPositionType;
+        private String _JobLevelPositionType;
+        private Int32 _OrganizationPositionID;
+        private String _OrganizationPositionName;
+        private Int32 _CurrentTransactionID;
+        private DateTime _LastProcessedDate;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "JobLevelPositionID", DataType = "Int32")]
+        public Int32 JobLevelPositionID
+        {
+            get { return _JobLevelPositionID; }
+            set { _JobLevelPositionID = value; }
+        }
+        [Column(Name = "GCJobLevelPositionType", DataType = "String")]
+        public String GCJobLevelPositionType
+        {
+            get { return _GCJobLevelPositionType; }
+            set { _GCJobLevelPositionType = value; }
+        }
+        [Column(Name = "JobLevelPositionType", DataType = "String")]
+        public String JobLevelPositionType
+        {
+            get { return _JobLevelPositionType; }
+            set { _JobLevelPositionType = value; }
+        }
+        [Column(Name = "OrganizationPositionID", DataType = "Int32")]
+        public Int32 OrganizationPositionID
+        {
+            get { return _OrganizationPositionID; }
+            set { _OrganizationPositionID = value; }
+        }
+        [Column(Name = "OrganizationPositionName", DataType = "String")]
+        public String OrganizationPositionName
+        {
+            get { return _OrganizationPositionName; }
+            set { _OrganizationPositionName = value; }
+        }
+        [Column(Name = "CurrentTransactionID", DataType = "Int32")]
+        public Int32 CurrentTransactionID
+        {
+            get { return _CurrentTransactionID; }
+            set { _CurrentTransactionID = value; }
+        }
+        [Column(Name = "LastProcessedDate", DataType = "DateTime")]
+        public DateTime LastProcessedDate
+        {
+            get { return _LastProcessedDate; }
+            set { _LastProcessedDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vJobLevelRenumeration
     [Serializable]
     [Table(Name = "vJobLevelRenumeration")]
@@ -35869,6 +35940,162 @@ namespace CodeX.Data.Model
     [Serializable]
     [Table(Name = "vTransJobLevelRenumerationHd")]
     public class vTransJobLevelRenumerationHd
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private Int32 _RenumerationID;
+        private String _RenumerationCode;
+        private String _RenumerationName;
+        private DateTime _StartEffectiveDate;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "RenumerationID", DataType = "Int32")]
+        public Int32 RenumerationID
+        {
+            get { return _RenumerationID; }
+            set { _RenumerationID = value; }
+        }
+        [Column(Name = "RenumerationCode", DataType = "String")]
+        public String RenumerationCode
+        {
+            get { return _RenumerationCode; }
+            set { _RenumerationCode = value; }
+        }
+        [Column(Name = "RenumerationName", DataType = "String")]
+        public String RenumerationName
+        {
+            get { return _RenumerationName; }
+            set { _RenumerationName = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+    }
+    #endregion
+    #region vTransJobLevelPositionRenumerationDt
+    [Serializable]
+    [Table(Name = "vTransJobLevelPositionRenumerationDt")]
+    public class vTransJobLevelPositionRenumerationDt
+    {
+        private Int32 _TransactionID;
+        private DateTime _StartEffectiveDate;
+        private Int32 _RenumerationID;
+        private Int32 _JobLevelPositionID;
+        private Int32 _OrganizationPositionID;
+        private String _OrganizationPositionName;
+        private String _GCJobLevelPositionType;
+        private String _JobLevelPositionType;
+        private String _GCTransactionStatus;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "RenumerationID", DataType = "Int32")]
+        public Int32 RenumerationID
+        {
+            get { return _RenumerationID; }
+            set { _RenumerationID = value; }
+        }
+        [Column(Name = "JobLevelPositionID", DataType = "Int32")]
+        public Int32 JobLevelPositionID
+        {
+            get { return _JobLevelPositionID; }
+            set { _JobLevelPositionID = value; }
+        }
+        [Column(Name = "OrganizationPositionID", DataType = "Int32")]
+        public Int32 OrganizationPositionID
+        {
+            get { return _OrganizationPositionID; }
+            set { _OrganizationPositionID = value; }
+        }
+        [Column(Name = "OrganizationPositionName", DataType = "String")]
+        public String OrganizationPositionName
+        {
+            get { return _OrganizationPositionName; }
+            set { _OrganizationPositionName = value; }
+        }
+        [Column(Name = "GCJobLevelPositionType", DataType = "String")]
+        public String GCJobLevelPositionType
+        {
+            get { return _GCJobLevelPositionType; }
+            set { _GCJobLevelPositionType = value; }
+        }
+        [Column(Name = "JobLevelPositionType", DataType = "String")]
+        public String JobLevelPositionType
+        {
+            get { return _JobLevelPositionType; }
+            set { _JobLevelPositionType = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+    }
+    #endregion
+    #region vTransJobLevelPositionRenumerationHd
+    [Serializable]
+    [Table(Name = "vTransJobLevelPositionRenumerationHd")]
+    public class vTransJobLevelPositionRenumerationHd
     {
         private Int32 _TransactionID;
         private String _TransactionNo;

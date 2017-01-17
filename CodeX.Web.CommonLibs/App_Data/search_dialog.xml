@@ -481,6 +481,18 @@
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
+	<!-- #Region JobLevelPosition -->
+	<searchdialog type="joblevelposition" methodname="GetvJobLevelPositionList" keyfieldname="JobLevelPositionID" orderbyexpression="JobLevelPositionID ASC">
+		<gridcolumns>
+			<gridcolumn datafield="JobLevelPositionType" headertext="Golongan" width="300px" />
+			<gridcolumn datafield="OrganizationPositionName" headertext="Jabatan" width="80px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="JobLevelPositionType" headertext="Golongan" description="" />
+			<intellisensetext datafield="OrganizationPositionName" headertext="Jabatan" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
   <!-- #Region Location -->
   <searchdialog type="location" methodname="GetvLocationList" keyfieldname="LocationCode" istreeview="1">
     <gridcolumns>
@@ -540,9 +552,9 @@
 	</searchdialog>
 	<!-- #EndRegion -->
 	<!-- #Region Organization Position -->
-	<searchdialog type="OrganizationPosition" methodname="GetvOrganizationPositionList" keyfieldname="OrganizationPositionID" orderbyexpression="OrganizationPositionName ASC">
+	<searchdialog type="OrganizationPosition" methodname="GetvOrganizationPositionList" keyfieldname="OrganizationPositionID" orderbyexpression="OrganizationDepartmentID ASC">
 		<gridcolumns>
-			<gridcolumn datafield="OrganizationPositionName" headertext="Nama" width="50px" />
+			<gridcolumn datafield="OrganizationPositionName" headertext="Nama" width="300px" />
 			<gridcolumn datafield="Positionlevel" headertext="Level" width="300px" />
 		</gridcolumns>
 		<intellisensetexts>
