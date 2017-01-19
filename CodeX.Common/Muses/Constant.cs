@@ -533,6 +533,9 @@ namespace CodeX.Common
                 public const string FAMILY_STATUS = "CP010509";
                 public const string REVENUE_PERIOD = "CP010510";
                 public const string JOB_LEVEL_POSITION = "CP010511";
+                public const string PERFORMANCE_INDICATOR = "CP010512";
+                public const string JOB_LEVEL_WORK_YEARS = "CP010513";
+                public const string JOB_LEVEL_PERFORMANCE_INDICATOR = "CP010514";
 
                 public const string HOLIDAY = "CP010901";
 

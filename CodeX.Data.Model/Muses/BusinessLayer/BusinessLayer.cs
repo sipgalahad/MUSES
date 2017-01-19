@@ -8974,6 +8974,366 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region JobLevelPerformanceIndicator
+        public static JobLevelPerformanceIndicator GetJobLevelPerformanceIndicator(Int32 JobLevelPerformanceIndicatorID)
+        {
+            return new JobLevelPerformanceIndicatorDao().Get(JobLevelPerformanceIndicatorID);
+        }
+        public static int InsertJobLevelPerformanceIndicator(JobLevelPerformanceIndicator record)
+        {
+            return new JobLevelPerformanceIndicatorDao().Insert(record);
+        }
+        public static int UpdateJobLevelPerformanceIndicator(JobLevelPerformanceIndicator record)
+        {
+            return new JobLevelPerformanceIndicatorDao().Update(record);
+        }
+        public static int DeleteJobLevelPerformanceIndicator(Int32 JobLevelPerformanceIndicatorID)
+        {
+            return new JobLevelPerformanceIndicatorDao().Delete(JobLevelPerformanceIndicatorID);
+        }
+        public static List<JobLevelPerformanceIndicator> GetJobLevelPerformanceIndicatorList(string filterExpression)
+        {
+            List<JobLevelPerformanceIndicator> result = new List<JobLevelPerformanceIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelPerformanceIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JobLevelPerformanceIndicator)helper.IDataReaderToObject(reader, new JobLevelPerformanceIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<JobLevelPerformanceIndicator> GetJobLevelPerformanceIndicatorList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<JobLevelPerformanceIndicator> result = new List<JobLevelPerformanceIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelPerformanceIndicator));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JobLevelPerformanceIndicator)helper.IDataReaderToObject(reader, new JobLevelPerformanceIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetJobLevelPerformanceIndicatorRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelPerformanceIndicator));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetJobLevelPerformanceIndicatorRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelPerformanceIndicator));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "JobLevelPerformanceIndicatorID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetJobLevelPerformanceIndicatorMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelPerformanceIndicator));
+                ctx.CommandText = helper.SelectMaxColumn("JobLevelPerformanceIndicatorID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region JobLevelPerformanceIndicatorDt
+        public static JobLevelPerformanceIndicatorDt GetJobLevelPerformanceIndicatorDt(Int32 JobLevelPerformanceIndicatorID, Int32 JobLevelID)
+        {
+            return new JobLevelPerformanceIndicatorDtDao().Get(JobLevelPerformanceIndicatorID, JobLevelID);
+        }
+        public static int InsertJobLevelPerformanceIndicatorDt(JobLevelPerformanceIndicatorDt record)
+        {
+            return new JobLevelPerformanceIndicatorDtDao().Insert(record);
+        }
+        public static int UpdateJobLevelPerformanceIndicatorDt(JobLevelPerformanceIndicatorDt record)
+        {
+            return new JobLevelPerformanceIndicatorDtDao().Update(record);
+        }
+        public static int DeleteJobLevelPerformanceIndicatorDt(Int32 JobLevelPerformanceIndicatorID, Int32 JobLevelID)
+        {
+            return new JobLevelPerformanceIndicatorDtDao().Delete(JobLevelPerformanceIndicatorID, JobLevelID);
+        }
+        public static List<JobLevelPerformanceIndicatorDt> GetJobLevelPerformanceIndicatorDtList(string filterExpression)
+        {
+            List<JobLevelPerformanceIndicatorDt> result = new List<JobLevelPerformanceIndicatorDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelPerformanceIndicatorDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JobLevelPerformanceIndicatorDt)helper.IDataReaderToObject(reader, new JobLevelPerformanceIndicatorDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region JobLevelPerformanceIndicatorDtIndicator
+        public static JobLevelPerformanceIndicatorDtIndicator GetJobLevelPerformanceIndicatorDtIndicator(Int32 JobLevelPerformanceIndicatorID, Int32 PerformanceIndicatorDtID)
+        {
+            return new JobLevelPerformanceIndicatorDtIndicatorDao().Get(JobLevelPerformanceIndicatorID, PerformanceIndicatorDtID);
+        }
+        public static int InsertJobLevelPerformanceIndicatorDtIndicator(JobLevelPerformanceIndicatorDtIndicator record)
+        {
+            return new JobLevelPerformanceIndicatorDtIndicatorDao().Insert(record);
+        }
+        public static int UpdateJobLevelPerformanceIndicatorDtIndicator(JobLevelPerformanceIndicatorDtIndicator record)
+        {
+            return new JobLevelPerformanceIndicatorDtIndicatorDao().Update(record);
+        }
+        public static int DeleteJobLevelPerformanceIndicatorDtIndicator(Int32 JobLevelPerformanceIndicatorID, Int32 PerformanceIndicatorDtID)
+        {
+            return new JobLevelPerformanceIndicatorDtIndicatorDao().Delete(JobLevelPerformanceIndicatorID, PerformanceIndicatorDtID);
+        }
+        public static List<JobLevelPerformanceIndicatorDtIndicator> GetJobLevelPerformanceIndicatorDtIndicatorList(string filterExpression)
+        {
+            List<JobLevelPerformanceIndicatorDtIndicator> result = new List<JobLevelPerformanceIndicatorDtIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelPerformanceIndicatorDtIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JobLevelPerformanceIndicatorDtIndicator)helper.IDataReaderToObject(reader, new JobLevelPerformanceIndicatorDtIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region JobLevelWorkYears
+        public static JobLevelWorkYears GetJobLevelWorkYears(Int32 JobLevelWorkYearsID)
+        {
+            return new JobLevelWorkYearsDao().Get(JobLevelWorkYearsID);
+        }
+        public static int InsertJobLevelWorkYears(JobLevelWorkYears record)
+        {
+            return new JobLevelWorkYearsDao().Insert(record);
+        }
+        public static int UpdateJobLevelWorkYears(JobLevelWorkYears record)
+        {
+            return new JobLevelWorkYearsDao().Update(record);
+        }
+        public static int DeleteJobLevelWorkYears(Int32 JobLevelWorkYearsID)
+        {
+            return new JobLevelWorkYearsDao().Delete(JobLevelWorkYearsID);
+        }
+        public static List<JobLevelWorkYears> GetJobLevelWorkYearsList(string filterExpression)
+        {
+            List<JobLevelWorkYears> result = new List<JobLevelWorkYears>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelWorkYears));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JobLevelWorkYears)helper.IDataReaderToObject(reader, new JobLevelWorkYears()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<JobLevelWorkYears> GetJobLevelWorkYearsList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<JobLevelWorkYears> result = new List<JobLevelWorkYears>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelWorkYears));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JobLevelWorkYears)helper.IDataReaderToObject(reader, new JobLevelWorkYears()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetJobLevelWorkYearsRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelWorkYears));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetJobLevelWorkYearsRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelWorkYears));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "JobLevelWorkYearsID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetJobLevelWorkYearsMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelWorkYears));
+                ctx.CommandText = helper.SelectMaxColumn("JobLevelWorkYearsID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region JobLevelWorkYearsDt
+        public static JobLevelWorkYearsDt GetJobLevelWorkYearsDt(Int32 JobLevelWorkYearsID, Int32 JobLevelID)
+        {
+            return new JobLevelWorkYearsDtDao().Get(JobLevelWorkYearsID, JobLevelID);
+        }
+        public static int InsertJobLevelWorkYearsDt(JobLevelWorkYearsDt record)
+        {
+            return new JobLevelWorkYearsDtDao().Insert(record);
+        }
+        public static int UpdateJobLevelWorkYearsDt(JobLevelWorkYearsDt record)
+        {
+            return new JobLevelWorkYearsDtDao().Update(record);
+        }
+        public static int DeleteJobLevelWorkYearsDt(Int32 JobLevelWorkYearsID, Int32 JobLevelID)
+        {
+            return new JobLevelWorkYearsDtDao().Delete(JobLevelWorkYearsID, JobLevelID);
+        }
+        public static List<JobLevelWorkYearsDt> GetJobLevelWorkYearsDtList(string filterExpression)
+        {
+            List<JobLevelWorkYearsDt> result = new List<JobLevelWorkYearsDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JobLevelWorkYearsDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JobLevelWorkYearsDt)helper.IDataReaderToObject(reader, new JobLevelWorkYearsDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region JournalTemplateDt
         public static JournalTemplateDt GetJournalTemplateDt(Int32 ID)
         {
@@ -10247,6 +10607,166 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(OvertimeProposalHd));
                 ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region PerformanceIndicatorDt
+        public static PerformanceIndicatorDt GetPerformanceIndicatorDt(Int32 PerformanceIndicatorDtID)
+        {
+            return new PerformanceIndicatorDtDao().Get(PerformanceIndicatorDtID);
+        }
+        public static int InsertPerformanceIndicatorDt(PerformanceIndicatorDt record)
+        {
+            return new PerformanceIndicatorDtDao().Insert(record);
+        }
+        public static int UpdatePerformanceIndicatorDt(PerformanceIndicatorDt record)
+        {
+            return new PerformanceIndicatorDtDao().Update(record);
+        }
+        public static int DeletePerformanceIndicatorDt(Int32 PerformanceIndicatorDtID)
+        {
+            return new PerformanceIndicatorDtDao().Delete(PerformanceIndicatorDtID);
+        }
+        public static List<PerformanceIndicatorDt> GetPerformanceIndicatorDtList(string filterExpression)
+        {
+            List<PerformanceIndicatorDt> result = new List<PerformanceIndicatorDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PerformanceIndicatorDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PerformanceIndicatorDt)helper.IDataReaderToObject(reader, new PerformanceIndicatorDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region PerformanceIndicatorHd
+        public static PerformanceIndicatorHd GetPerformanceIndicatorHd(Int32 PerformanceIndicatorID)
+        {
+            return new PerformanceIndicatorHdDao().Get(PerformanceIndicatorID);
+        }
+        public static int InsertPerformanceIndicatorHd(PerformanceIndicatorHd record)
+        {
+            return new PerformanceIndicatorHdDao().Insert(record);
+        }
+        public static int UpdatePerformanceIndicatorHd(PerformanceIndicatorHd record)
+        {
+            return new PerformanceIndicatorHdDao().Update(record);
+        }
+        public static int DeletePerformanceIndicatorHd(Int32 PerformanceIndicatorID)
+        {
+            return new PerformanceIndicatorHdDao().Delete(PerformanceIndicatorID);
+        }
+        public static List<PerformanceIndicatorHd> GetPerformanceIndicatorHdList(string filterExpression)
+        {
+            List<PerformanceIndicatorHd> result = new List<PerformanceIndicatorHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PerformanceIndicatorHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PerformanceIndicatorHd)helper.IDataReaderToObject(reader, new PerformanceIndicatorHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<PerformanceIndicatorHd> GetPerformanceIndicatorHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<PerformanceIndicatorHd> result = new List<PerformanceIndicatorHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PerformanceIndicatorHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PerformanceIndicatorHd)helper.IDataReaderToObject(reader, new PerformanceIndicatorHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetPerformanceIndicatorHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PerformanceIndicatorHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetPerformanceIndicatorHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PerformanceIndicatorHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "PerformanceIndicatorID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetPerformanceIndicatorHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PerformanceIndicatorHd));
+                ctx.CommandText = helper.SelectMaxColumn("PerformanceIndicatorID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
@@ -20413,6 +20933,264 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeRenumerationDt
+        public static TransEmployeeRenumerationDt GetTransEmployeeRenumerationDt(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new TransEmployeeRenumerationDtDao().Get(TransactionID, EmployeeID);
+        }
+        public static int InsertTransEmployeeRenumerationDt(TransEmployeeRenumerationDt record)
+        {
+            return new TransEmployeeRenumerationDtDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeRenumerationDt(TransEmployeeRenumerationDt record)
+        {
+            return new TransEmployeeRenumerationDtDao().Update(record);
+        }
+        public static int DeleteTransEmployeeRenumerationDt(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new TransEmployeeRenumerationDtDao().Delete(TransactionID, EmployeeID);
+        }
+        public static List<TransEmployeeRenumerationDt> GetTransEmployeeRenumerationDtList(string filterExpression)
+        {
+            List<TransEmployeeRenumerationDt> result = new List<TransEmployeeRenumerationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeRenumerationDt)helper.IDataReaderToObject(reader, new TransEmployeeRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransEmployeeRenumerationDt> GetTransEmployeeRenumerationDttList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeeRenumerationDt> result = new List<TransEmployeeRenumerationDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeRenumerationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeRenumerationDt)helper.IDataReaderToObject(reader, new TransEmployeeRenumerationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeRenumerationDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeRenumerationDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeRenumerationHd
+        public static TransEmployeeRenumerationHd GetTransEmployeeRenumerationHd(Int32 TransactionID)
+        {
+            return new TransEmployeeRenumerationHdDao().Get(TransactionID);
+        }
+        public static int InsertTransEmployeeRenumerationHd(TransEmployeeRenumerationHd record)
+        {
+            return new TransEmployeeRenumerationHdDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeRenumerationHd(TransEmployeeRenumerationHd record)
+        {
+            return new TransEmployeeRenumerationHdDao().Update(record);
+        }
+        public static int DeleteTransEmployeeRenumerationHd(Int32 TransactionID)
+        {
+            return new TransEmployeeRenumerationHdDao().Delete(TransactionID);
+        }
+        public static List<TransEmployeeRenumerationHd> GetTransEmployeeRenumerationHdList(string filterExpression)
+        {
+            List<TransEmployeeRenumerationHd> result = new List<TransEmployeeRenumerationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeRenumerationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeRenumerationHd)helper.IDataReaderToObject(reader, new TransEmployeeRenumerationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeRenumerationHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeRenumerationHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeSiteDt
+        public static TransEmployeeSiteDt GetTransEmployeeSiteDt(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new TransEmployeeSiteDtDao().Get(TransactionID, EmployeeID);
+        }
+        public static int InsertTransEmployeeSiteDt(TransEmployeeSiteDt record)
+        {
+            return new TransEmployeeSiteDtDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeSiteDt(TransEmployeeSiteDt record)
+        {
+            return new TransEmployeeSiteDtDao().Update(record);
+        }
+        public static int DeleteTransEmployeeSiteDt(Int32 TransactionID, Int32 EmployeeID)
+        {
+            return new TransEmployeeSiteDtDao().Delete(TransactionID, EmployeeID);
+        }
+        public static List<TransEmployeeSiteDt> GetTransEmployeeSiteDtList(string filterExpression)
+        {
+            List<TransEmployeeSiteDt> result = new List<TransEmployeeSiteDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeSiteDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeSiteDt)helper.IDataReaderToObject(reader, new TransEmployeeSiteDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransEmployeeSiteDt> GetTransEmployeeSiteDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TransEmployeeSiteDt> result = new List<TransEmployeeSiteDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeSiteDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeSiteDt)helper.IDataReaderToObject(reader, new TransEmployeeSiteDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeSiteDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeSiteDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransEmployeeSiteHd
+        public static TransEmployeeSiteHd GetTransEmployeeSiteHd(Int32 TransactionID)
+        {
+            return new TransEmployeeSiteHdDao().Get(TransactionID);
+        }
+        public static int InsertTransEmployeeSiteHd(TransEmployeeSiteHd record)
+        {
+            return new TransEmployeeSiteHdDao().Insert(record);
+        }
+        public static int UpdateTransEmployeeSiteHd(TransEmployeeSiteHd record)
+        {
+            return new TransEmployeeSiteHdDao().Update(record);
+        }
+        public static int DeleteTransEmployeeSiteHd(Int32 TransactionID)
+        {
+            return new TransEmployeeSiteHdDao().Delete(TransactionID);
+        }
+        public static List<TransEmployeeSiteHd> GetTransEmployeeSiteHdList(string filterExpression)
+        {
+            List<TransEmployeeSiteHd> result = new List<TransEmployeeSiteHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeSiteHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransEmployeeSiteHd)helper.IDataReaderToObject(reader, new TransEmployeeSiteHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTransEmployeeSiteHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransEmployeeSiteHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }
