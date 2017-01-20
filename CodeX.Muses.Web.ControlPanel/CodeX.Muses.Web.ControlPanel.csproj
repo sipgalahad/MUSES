@@ -148,8 +148,13 @@
     <Content Include="Program\Master\HRWeeklySchedule\HRWeeklyScheduleList.aspx" />
     <Content Include="Program\Master\HRWeeklySchedule\HRWeeklyScheduleEntry.aspx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupPlanningEntryCtl.ascx" />
+    <Content Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorList.aspx" />
+    <Content Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorEntry.aspx" />
     <Content Include="Program\Master\JobLevelPosition\JobLevelPositionEntry.aspx" />
     <Content Include="Program\Master\JobLevelPosition\JobLevelPositionList.aspx" />
+    <Content Include="Program\Master\JobLevelWorkYears\JobLevelWorkYearsList.aspx" />
+    <Content Include="Program\Master\JobLevelWorkYears\JobLevelWorkYearsEntry.aspx" />
+    <Content Include="Program\Master\JobLevelWorkYears\JobLevelWorkYearsEntryCtl.ascx" />
     <Content Include="Program\Master\JobLevel\JobLevelList.aspx" />
     <Content Include="Program\Master\JobLevel\JobLevelEntry.aspx" />
     <Content Include="Program\Master\Location\LocationItemGroupEntryCtl.ascx" />
@@ -185,6 +190,9 @@
     <Content Include="Program\Master\OrganizationStructure\OrganizationStructureEntryCtl.ascx" />
     <Content Include="Program\Master\OrganizationStructure\OrganizationStructureList.aspx" />
     <Content Include="Program\Master\OrganizationStructure\OrganizationStructureCompEntry.aspx" />
+    <Content Include="Program\Master\PerformanceIndicator\PerformanceIndicatorEntryCtl.ascx" />
+    <Content Include="Program\Master\PerformanceIndicator\PerformanceIndicatorList.aspx" />
+    <Content Include="Program\Master\PerformanceIndicator\PerformanceIndicatorEntry.aspx" />
     <Content Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaDtCtl.ascx" />
     <Content Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaList.aspx" />
     <Content Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaEntry.aspx" />
@@ -805,6 +813,20 @@
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupPlanningEntryCtl.ascx.designer.cs">
       <DependentUpon>ItemGroupPlanningEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorList.aspx.cs">
+      <DependentUpon>JobLevelPerformanceIndicatorList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorList.aspx.designer.cs">
+      <DependentUpon>JobLevelPerformanceIndicatorList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorEntry.aspx.cs">
+      <DependentUpon>JobLevelPerformanceIndicatorEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorEntry.aspx.designer.cs">
+      <DependentUpon>JobLevelPerformanceIndicatorEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\JobLevelPosition\JobLevelPositionEntry.aspx.cs">
       <DependentUpon>JobLevelPositionEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -818,6 +840,27 @@
     </Compile>
     <Compile Include="Program\Master\JobLevelPosition\JobLevelPositionList.aspx.designer.cs">
       <DependentUpon>JobLevelPositionList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelWorkYears\JobLevelWorkYearsList.aspx.cs">
+      <DependentUpon>JobLevelWorkYearsList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelWorkYears\JobLevelWorkYearsList.aspx.designer.cs">
+      <DependentUpon>JobLevelWorkYearsList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelWorkYears\JobLevelWorkYearsEntry.aspx.cs">
+      <DependentUpon>JobLevelWorkYearsEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelWorkYears\JobLevelWorkYearsEntry.aspx.designer.cs">
+      <DependentUpon>JobLevelWorkYearsEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelWorkYears\JobLevelWorkYearsEntryCtl.ascx.cs">
+      <DependentUpon>JobLevelWorkYearsEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelWorkYears\JobLevelWorkYearsEntryCtl.ascx.designer.cs">
+      <DependentUpon>JobLevelWorkYearsEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\JobLevel\JobLevelList.aspx.cs">
       <DependentUpon>JobLevelList.aspx</DependentUpon>
@@ -1063,6 +1106,27 @@
     </Compile>
     <Compile Include="Program\Master\OrganizationStructure\OrganizationStructureCompEntry.aspx.designer.cs">
       <DependentUpon>OrganizationStructureCompEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\PerformanceIndicator\PerformanceIndicatorEntryCtl.ascx.cs">
+      <DependentUpon>PerformanceIndicatorEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\PerformanceIndicator\PerformanceIndicatorEntryCtl.ascx.designer.cs">
+      <DependentUpon>PerformanceIndicatorEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\PerformanceIndicator\PerformanceIndicatorList.aspx.cs">
+      <DependentUpon>PerformanceIndicatorList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\PerformanceIndicator\PerformanceIndicatorList.aspx.designer.cs">
+      <DependentUpon>PerformanceIndicatorList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\PerformanceIndicator\PerformanceIndicatorEntry.aspx.cs">
+      <DependentUpon>PerformanceIndicatorEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\PerformanceIndicator\PerformanceIndicatorEntry.aspx.designer.cs">
+      <DependentUpon>PerformanceIndicatorEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\RenumerationCompFormula\RenumerationCompFormulaDtCtl.ascx.cs">
       <DependentUpon>RenumerationCompFormulaDtCtl.ascx</DependentUpon>

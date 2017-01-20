@@ -64,6 +64,7 @@ namespace CodeX.Common
             public const string TEMPLATE_EMPLOYEE_GROUP = "XXXHR007";
             public const string JOB_LEVEL = "XXXHR008";
             public const string FAMILY_STATUS = "XXXHR009";
+            public const string PERFORMANCE_INDICATOR = "XXXHR010";
         }
 
         #region Standard Code
@@ -147,6 +148,10 @@ namespace CodeX.Common
             public const string RENUMERATION_COMP_SOURCE = "X326";
             public const string EMPLOYEE_MARTIAL_STATUS = "X327";
             public const string RENUMERATION_AMOUNT_SOURCE = "X328";
+            public const string DAILY_REPORT_TYPE = "X329";
+            public const string INDICATOR_MARK_PERIOD = "X330";
+            public const string INDICATOR_MARK_TYPE = "X331";
+
         }
 
         public static class RenumerationCompType
@@ -162,6 +167,23 @@ namespace CodeX.Common
             public const string JOB_LEVEL = "X326^001";
             public const string POSITION = "X326^002";
             public const string FAMILY_STATUS = "X326^003";
+            public const string JOB_LEVEL_POSITION = "X326^004";
+            public const string EMPLOYEE = "X326^005";
+        }
+
+        public static class IndicatorMarkType
+        {
+            public const string TOTAL_DAYLY = "X331^001";
+            public const string ATTANDANCE = "X331^002";
+            public const string OVERTIME = "X331^003";
+            public const string CUSTOM = "X331^999";
+        }
+
+        public static class IndicatorMarkPeriod
+        {
+            public const string MONTHLY = "X330^001";
+            public const string YEARLY = "X330^002";
+         
         }
 
         public static class Attendance 
