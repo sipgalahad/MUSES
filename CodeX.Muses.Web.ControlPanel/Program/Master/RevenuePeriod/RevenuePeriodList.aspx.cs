@@ -21,7 +21,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.JOB_LEVEL;
+            return Constant.MenuCode.ControlPanel.REVENUE_PERIOD;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
