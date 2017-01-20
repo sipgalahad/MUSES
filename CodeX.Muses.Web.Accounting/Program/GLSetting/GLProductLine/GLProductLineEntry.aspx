@@ -34,6 +34,10 @@
                         <td><asp:TextBox ID="txtProductLineName" Width="300px" runat="server" /></td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Harga Persediaan Incl PPN")%></label></td>
+                        <td><asp:CheckBox ID="chkIsIncludeVAT" runat="server" /></td>
+                    </tr>
+                    <tr>
                         <td class="tdLabel" valign="top" style="padding-top:5px"><label><%=GetLabel("Notes")%></label></td>
                         <td><asp:TextBox ID="txtRemarks" Width="300px" runat="server" TextMode="MultiLine" /></td>
                     </tr>

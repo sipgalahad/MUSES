@@ -54,6 +54,7 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             SetControlEntrySetting(txtProductLineCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtProductLineName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(chkIsIncludeVAT, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
         }
 
@@ -61,6 +62,7 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             txtProductLineCode.Text = entity.ProductLineCode;
             txtProductLineName.Text = entity.ProductLineName;
+            chkIsIncludeVAT.Checked = entity.IsIncludeVAT;
             txtRemarks.Text = entity.Remarks;
         }
 
@@ -68,6 +70,7 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             entity.ProductLineCode = txtProductLineCode.Text;
             entity.ProductLineName = txtProductLineName.Text;
+            entity.IsIncludeVAT = chkIsIncludeVAT.Checked;
             entity.Remarks = txtRemarks.Text;
         }
 

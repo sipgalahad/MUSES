@@ -34,6 +34,33 @@
                 });
             }
             //#endregion
+            //#region Product Line
+            $('#lblProductLine.lblLink').click(function () {
+                openSearchDialog('productline', 'IsDeleted = 0', function (value) {
+                    $('#<%=txtProductLineCode.ClientID %>').val(value);
+                    onTxtProductLineCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtProductLineCode.ClientID %>').change(function () {
+                onTxtProductLineCodeChanged($(this).val());
+            });
+
+            function onTxtProductLineCodeChanged(value) {
+                var filterExpression = "ProductLineCode = '" + value + "'";
+                Methods.getObject('GetProductLineList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnProductLineID.ClientID %>').val(result.ProductLineID);
+                        $('#<%=txtProductLineName.ClientID %>').val(result.ProductLineName);
+                    }
+                    else {
+                        $('#<%=hdnProductLineID.ClientID %>').val('');
+                        $('#<%=txtProductLineCode.ClientID %>').val('');
+                        $('#<%=txtProductLineName.ClientID %>').val('');
+                    }
+                });
+            }
+            //#endregion
         }
 
         function onBeforeGoToListPage(mapForm) {
@@ -86,6 +113,28 @@
                                 </tr>
                             </table>
                         </td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblLink" id="lblProductLine"><%=GetLabel("Product Line")%></label></td>
+                        <td>
+                            <input type="hidden" id="hdnProductLineID" value="" runat="server" />
+                            <table style="width:100%" cellpadding="0" cellspacing="0">
+                                <colgroup>
+                                    <col style="width:30%"/>
+                                    <col style="width:3px"/>
+                                    <col/>
+                                </colgroup>
+                                <tr>
+                                    <td><asp:TextBox ID="txtProductLineCode" Width="100%" runat="server" /></td>
+                                    <td>&nbsp;</td>
+                                    <td><asp:TextBox ID="txtProductLineName" Width="100%" runat="server" /></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><asp:CheckBox ID="chkIsControlExpired" runat="server" /><%=GetLabel("Kontrol Tanggal Kadaluarsa")%></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Print Order")%></label></td>

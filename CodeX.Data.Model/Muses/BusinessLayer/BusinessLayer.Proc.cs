@@ -1375,6 +1375,66 @@ namespace CodeX.Data.Model
             return (Int32)param.Value;
         }
         #endregion
+        #region GetServiceUnitUserList
+        public static List<GetServiceUnitUserList> GetServiceUnitUserList(String siteID, int userID, String filterExpression)
+        {
+            List<GetServiceUnitUserList> result = new List<GetServiceUnitUserList>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetServiceUnitUserList));
+                ctx.CommandText = "GetServiceUnitUserList";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("p_SiteID", siteID);
+                ctx.Add("p_UserID", userID);
+                ctx.Add("p_AdditionalFilterExpression", filterExpression);
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetServiceUnitUserList)helper.IDataReaderToObject(reader, new GetServiceUnitUserList()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GetServiceUnitUserRoleList
+        public static List<GetServiceUnitUserRoleList> GetServiceUnitUserRoleList(String siteID, int userID, String filterExpression)
+        {
+            List<GetServiceUnitUserRoleList> result = new List<GetServiceUnitUserRoleList>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetServiceUnitUserRoleList));
+                ctx.CommandText = "GetServiceUnitUserRoleList";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("p_SiteID", siteID);
+                ctx.Add("p_UserID", userID);
+                ctx.Add("p_AdditionalFilterExpression", filterExpression);
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetServiceUnitUserRoleList)helper.IDataReaderToObject(reader, new GetServiceUnitUserRoleList()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetStudentReceiveSummary
         public static List<GetStudentReceiveSummary> GetStudentReceiveSummary(String SiteID, Int32 year, Int32 month)
         {

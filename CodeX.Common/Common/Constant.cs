@@ -127,6 +127,7 @@ namespace CodeX.Common
             public const string EMPLOYEE_OCCUPATION = "X193";
             public const string DEPARTMENT = "X194";
             public const string EMPLOYEE_OCCUPATION_LEVEL = "X195";
+            public const string EMPLOYEE_TYPE = "X196";
             public const string PREFIX_TYPE = "X302";
             public const string BANK_TRANSACTION_TYPE = "X305";
             public const string CLIENT_TYPE = "X306";

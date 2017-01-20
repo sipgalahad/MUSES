@@ -1821,6 +1821,106 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetServiceUnitUserList
+    [Serializable]
+    [Table(Name = "GetServiceUnitUserList")]
+    public class GetServiceUnitUserList
+    {
+        private Int32 _SiteServiceUnitID;
+        private String _DepartmentID;
+        private String _DepartmentName;
+        private Int32 _ServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
+
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "DepartmentID", DataType = "String")]
+        public String DepartmentID
+        {
+            get { return _DepartmentID; }
+            set { _DepartmentID = value; }
+        }
+        [Column(Name = "DepartmentName", DataType = "String")]
+        public String DepartmentName
+        {
+            get { return _DepartmentName; }
+            set { _DepartmentName = value; }
+        }
+        [Column(Name = "ServiceUnitID", DataType = "Int32")]
+        public Int32 ServiceUnitID
+        {
+            get { return _ServiceUnitID; }
+            set { _ServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
+        }
+    }
+    #endregion
+    #region GetServiceUnitUserRoleList
+    [Serializable]
+    [Table(Name = "GetServiceUnitUserRoleList")]
+    public class GetServiceUnitUserRoleList
+    {
+        private Int32 _SiteServiceUnitID;
+        private String _DepartmentID;
+        private String _DepartmentName;
+        private Int32 _ServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
+
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "DepartmentID", DataType = "String")]
+        public String DepartmentID
+        {
+            get { return _DepartmentID; }
+            set { _DepartmentID = value; }
+        }
+        [Column(Name = "DepartmentName", DataType = "String")]
+        public String DepartmentName
+        {
+            get { return _DepartmentName; }
+            set { _DepartmentName = value; }
+        }
+        [Column(Name = "ServiceUnitID", DataType = "Int32")]
+        public Int32 ServiceUnitID
+        {
+            get { return _ServiceUnitID; }
+            set { _ServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
+        }
+    }
+    #endregion
     #region GetStudentReceiveSummary
     public class GetStudentReceiveSummary
     {

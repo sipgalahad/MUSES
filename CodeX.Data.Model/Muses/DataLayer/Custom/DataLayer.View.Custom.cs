@@ -1327,6 +1327,38 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPurchaseBudgetDt
+    public partial class vPurchaseBudgetDt
+    {
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+        public String Conversion
+        {
+            get { return string.Format("1 {0} = {1} {2}", _BaseUnit, _ConversionFactor, _ItemUnit); }
+        }
+        public String CustomItemUnit
+        {
+            get
+            {
+                return _Quantity + " " + _ItemUnit;
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseBudgetHd
+    public partial class vPurchaseBudgetHd
+    {
+        public String TransactionDateInString
+        {
+            get { return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region vPurchaseInvoiceDt
     public partial class vPurchaseInvoiceDt
     {

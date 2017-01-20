@@ -127,9 +127,11 @@
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserLocationEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserLoginAttributeEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserReportEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserServiceUnitEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLocationEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLoginAttributeEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesReportEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesServiceUnitEntryCtl.ascx" />
     <Content Include="Program\Master\Bank\BankEntry.aspx" />
     <Content Include="Program\Master\Bank\BankList.aspx" />
     <Content Include="Program\Master\Department\DepartmentEntry.aspx" />
@@ -148,6 +150,7 @@
     <Content Include="Program\Master\HRWeeklySchedule\HRWeeklyScheduleList.aspx" />
     <Content Include="Program\Master\HRWeeklySchedule\HRWeeklyScheduleEntry.aspx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupPlanningEntryCtl.ascx" />
+    <Content Include="Program\Master\ItemProduct\ItemExpiredEntryCtl.ascx" />
     <Content Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorList.aspx" />
     <Content Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorEntry.aspx" />
     <Content Include="Program\Master\JobLevelPosition\JobLevelPositionEntry.aspx" />
@@ -213,11 +216,15 @@
     <Content Include="Program\Master\SchoolType\SchoolTypeEntry.aspx" />
     <Content Include="Program\Master\SchoolType\SchoolTypeList.aspx" />
     <Content Include="Program\Master\ServiceUnit\ServiceUnitEntry.aspx" />
+    <Content Include="Program\Master\ServiceUnit\ServiceUnitItemLogistic\ServiceUnitItemLogisticEntry.aspx" />
+    <Content Include="Program\Master\ServiceUnit\ServiceUnitItemLogistic\ServiceUnitItemLogisticQuickPicksEntryCtl.ascx" />
     <Content Include="Program\Master\ServiceUnit\ServiceUnitList.aspx" />
     <Content Include="Program\Master\ServiceUnit\ServiceUnitLocation\ServiceUnitLocationEntry.aspx" />
     <Content Include="Program\Master\ServiceUnit\ServiceUnitLocation\ServiceUnitLocationQuickPicksEntryCtl.ascx" />
     <Content Include="Program\Master\ServiceUnit\ServiceUnitSiteEntryCtl.ascx" />
     <Content Include="Program\Master\ServiceUnit\SiteServiceUnitPageLauncher.aspx" />
+    <Content Include="Program\Master\EmployeeType\EmployeeTypeEntry.aspx" />
+    <Content Include="Program\Master\EmployeeType\EmployeeTypeList.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypeDueDateEntryCtl.ascx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypePaymentEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
@@ -666,6 +673,13 @@
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserReportEntryCtl.ascx.designer.cs">
       <DependentUpon>UserReportEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserServiceUnitEntryCtl.ascx.cs">
+      <DependentUpon>UserServiceUnitEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserServiceUnitEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserServiceUnitEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLocationEntryCtl.ascx.cs">
       <DependentUpon>UserRolesLocationEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -686,6 +700,13 @@
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesReportEntryCtl.ascx.designer.cs">
       <DependentUpon>UserRolesReportEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesServiceUnitEntryCtl.ascx.cs">
+      <DependentUpon>UserRolesServiceUnitEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesServiceUnitEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserRolesServiceUnitEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Bank\BankEntry.aspx.cs">
       <DependentUpon>BankEntry.aspx</DependentUpon>
@@ -812,6 +833,13 @@
     </Compile>
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupPlanningEntryCtl.ascx.designer.cs">
       <DependentUpon>ItemGroupPlanningEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemExpiredEntryCtl.ascx.cs">
+      <DependentUpon>ItemExpiredEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemExpiredEntryCtl.ascx.designer.cs">
+      <DependentUpon>ItemExpiredEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorList.aspx.cs">
       <DependentUpon>JobLevelPerformanceIndicatorList.aspx</DependentUpon>
@@ -1268,6 +1296,20 @@
     <Compile Include="Program\Master\ServiceUnit\ServiceUnitEntry.aspx.designer.cs">
       <DependentUpon>ServiceUnitEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitItemLogistic\ServiceUnitItemLogisticEntry.aspx.cs">
+      <DependentUpon>ServiceUnitItemLogisticEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitItemLogistic\ServiceUnitItemLogisticEntry.aspx.designer.cs">
+      <DependentUpon>ServiceUnitItemLogisticEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitItemLogistic\ServiceUnitItemLogisticQuickPicksEntryCtl.ascx.cs">
+      <DependentUpon>ServiceUnitItemLogisticQuickPicksEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ServiceUnit\ServiceUnitItemLogistic\ServiceUnitItemLogisticQuickPicksEntryCtl.ascx.designer.cs">
+      <DependentUpon>ServiceUnitItemLogisticQuickPicksEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\ServiceUnit\ServiceUnitList.aspx.cs">
       <DependentUpon>ServiceUnitList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1302,6 +1344,20 @@
     </Compile>
     <Compile Include="Program\Master\ServiceUnit\SiteServiceUnitPageLauncher.aspx.designer.cs">
       <DependentUpon>SiteServiceUnitPageLauncher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\EmployeeType\EmployeeTypeEntry.aspx.cs">
+      <DependentUpon>EmployeeTypeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\EmployeeType\EmployeeTypeEntry.aspx.designer.cs">
+      <DependentUpon>EmployeeTypeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\EmployeeType\EmployeeTypeList.aspx.cs">
+      <DependentUpon>EmployeeTypeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\EmployeeType\EmployeeTypeList.aspx.designer.cs">
+      <DependentUpon>EmployeeTypeList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\StudentFeeComp\StudentFeeCompTypeDueDateEntryCtl.ascx.cs">
       <DependentUpon>StudentFeeCompTypeDueDateEntryCtl.ascx</DependentUpon>

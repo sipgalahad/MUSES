@@ -29,6 +29,9 @@
                     </tr>
                 </table>
             </td>
+            <td style="padding:5px;vertical-align:top">
+                <div><asp:CheckBox ID="chkIsAllowPurchase" runat="server" /> <%=GetLabel("Allow Purchase")%></div>
+            </td>
         </tr>
     </table>
 </asp:Content>

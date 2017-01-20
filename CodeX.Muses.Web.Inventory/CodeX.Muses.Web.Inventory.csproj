@@ -104,6 +104,10 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalDtCtl.ascx" />
+    <Content Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalList.aspx" />
+    <Content Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetEntry.aspx" />
+    <Content Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetQuickPicksCtl.ascx" />
     <Content Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalDetail.aspx" />
     <Content Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalList.aspx" />
     <Content Include="Program\Consignment\ConsignmentOrder\ConsignmentOrderAddFromReceiveCtl.ascx" />
@@ -390,6 +394,34 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalDtCtl.ascx.cs">
+      <DependentUpon>PurchaseBudgetApprovalDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalDtCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseBudgetApprovalDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalList.aspx.cs">
+      <DependentUpon>PurchaseBudgetApprovalList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalList.aspx.designer.cs">
+      <DependentUpon>PurchaseBudgetApprovalList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetEntry.aspx.cs">
+      <DependentUpon>PurchaseBudgetEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetEntry.aspx.designer.cs">
+      <DependentUpon>PurchaseBudgetEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetQuickPicksCtl.ascx.cs">
+      <DependentUpon>PurchaseBudgetQuickPicksCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetQuickPicksCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseBudgetQuickPicksCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalDetail.aspx.cs">
       <DependentUpon>ConsignmentOrderApprovalDetail.aspx</DependentUpon>

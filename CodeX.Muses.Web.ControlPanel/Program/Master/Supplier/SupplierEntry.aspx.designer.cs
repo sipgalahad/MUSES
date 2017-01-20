@@ -103,6 +103,24 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.TextBox txtMaxPOAmount;
         
         /// <summary>
+        /// chkIsSetMaxPOItem control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsSetMaxPOItem;
+        
+        /// <summary>
+        /// txtMaxPOItem control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMaxPOItem;
+        
+        /// <summary>
         /// txtLeadTime control.
         /// </summary>
         /// <remarks>
@@ -137,6 +155,42 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSupplierLineName;
+        
+        /// <summary>
+        /// chkIsLineAmountRounded control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsLineAmountRounded;
+        
+        /// <summary>
+        /// txtLineAmountRoundedFormat control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLineAmountRoundedFormat;
+        
+        /// <summary>
+        /// chkIsTotalAmountRounded control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsTotalAmountRounded;
+        
+        /// <summary>
+        /// txtTotalAmountRoundedFormat control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTotalAmountRoundedFormat;
         
         /// <summary>
         /// chkIsTaxable control.

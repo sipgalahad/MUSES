@@ -19,6 +19,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             return Constant.MenuCode.ControlPanel.LOCATION;
         }
 
+        protected string OnGetSiteServiceUnitFilterExpression()
+        {
+            return String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+        }
+
         protected override void InitializeDataControl()
         {
             String[] param = Request.QueryString["id"].Split('|');
@@ -74,6 +79,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(hdnParentID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtParentCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtParentName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(chkIsAllowOverIssued, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsAvailable, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsHeader, new ControlEntrySetting(true, true, false));
@@ -94,6 +102,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtItemGroupCode.Text = entity.ItemGroupCode;
             txtItemGroupName.Text = entity.ItemGroupName1;
             hdnParentID.Value = entity.ParentID.ToString();
+            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
+            txtServiceUnitCode.Text = entity.ServiceUnitCode;
+            txtServiceUnitName.Text = entity.ServiceUnitName;
             chkIsAllowOverIssued.Checked = entity.IsAllowOverIssued;
             chkIsAvailable.Checked = entity.IsAvailable;
             chkIsHeader.Checked = entity.IsHeader;
@@ -123,6 +134,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.ParentID = null;
             else
                 entity.ParentID = Convert.ToInt32(hdnParentID.Value);
+            if (hdnSiteServiceUnitID.Value == "" || hdnSiteServiceUnitID.Value == "0")
+                entity.SiteServiceUnitID = null;
+            else
+                entity.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
             entity.SiteID = cboSite.Value.ToString();
 
             entity.IsAllowOverIssued = chkIsAllowOverIssued.Checked;

@@ -536,6 +536,7 @@ namespace CodeX.Common
                 public const string PERFORMANCE_INDICATOR = "CP010512";
                 public const string JOB_LEVEL_WORK_YEARS = "CP010513";
                 public const string JOB_LEVEL_PERFORMANCE_INDICATOR = "CP010514";
+                public const string EMPLOYEE_TYPE = "CP010515";
 
                 public const string HOLIDAY = "CP010901";
 
@@ -596,6 +597,7 @@ namespace CodeX.Common
 
                 public const string SITE_SERVICE_UNIT_PAGE = "CP99040000";
                 public const string SSU_LOCATION = "CP99040100";
+                public const string SSU_ITEM_LOGISTIC = "CP99040200";
             }
             #endregion
 
@@ -759,6 +761,9 @@ namespace CodeX.Common
                 public const string REORDER_ITEM_DISTRIBUTION_CROSS_SITE = "IM050201";
                 public const string ITEM_DISTRIBUTION_CROSS_SITE = "IM050202";
                 public const string ITEM_DISTRIBUTION_CONFIRMED_CROSS_SITE = "IM050203";
+
+                public const string PURCHASE_BUDGET = "IM060100";
+                public const string PURCHASE_BUDGET_APPROVAL = "IM060200";
 
                 public const string ITEM_REQUEST_APPROVAL = "IM070101";
                 public const string ITEM_DISTRIBUTION_APPROVAL = "IM070102";
@@ -994,6 +999,7 @@ namespace CodeX.Common
             public const string CONSIGNMENT_RETURN = "4215";
             public const string ITEM_REQUEST_CROSS_SITE = "4301";
             public const string ITEM_DISTRIBUTION_CROSS_SITE = "4302";
+            public const string PURCHASE_BUDGET = "4701";
 
             public const string AR_INVOICE_PROSPECTIVE_STUDENT = "5101";
             public const string AR_RECEIVE_PROSPECTIVE_STUDENT = "5102";
