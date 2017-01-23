@@ -68,6 +68,20 @@
                     if (result != null) {
                         $('#<%=hdnSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
                         $('#<%=txtServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+
+                        var filterExpression = "SiteServiceUnitID = " + result.SiteServiceUnitID + " AND <%=OnGetFilterExpressionItemGroup() %>";
+                        Methods.getListObject('GetvServiceUnitItemGroupList', filterExpression, function (result) {
+                            var filterLocationItemGroup = '';
+                            for (var i = 0; i < result.length; ++i) {
+                                if (filterLocationItemGroup != '')
+                                    filterLocationItemGroup += ' OR ';
+                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
+                            }
+                            if (filterLocationItemGroup != '')
+                                $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                            else
+                                $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val("");
+                        });
                     }
                     else {
                         $('#<%=hdnSiteServiceUnitID.ClientID %>').val('');
@@ -78,17 +92,73 @@
             }
             //#endregion
 
-            //#region Location
-            function getLocationFilterExpression() {
-                if ($('#<%=hdnSiteServiceUnitID.ClientID %>').val() != "") {
-                    var filterExpression = "<%=OnGetFilterExpressionLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
+            //#region To Service Unit
+            function onGetToLocationFilterExpression() {
+                if ($('#<%=hdnToSiteServiceUnitID.ClientID %>').val() != "") {
+                    var filterExpression = "<%=OnGetFilterExpressionToLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnToSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
                     return filterExpression;
                 }
-                return "<%=OnGetFilterExpressionLocation()%>1 = 0";
+                return "<%=OnGetFilterExpressionToLocation()%>1 = 0";
             }
 
+            function getToServiceUnitFilterExpression() {
+                var filterExpression = "<%=OnGetFilterExpressionToServiceUnit() %>";
+                return filterExpression;
+            }
+
+            $('#<%=lblToSiteServiceUnit.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('serviceunitpersite', getToServiceUnitFilterExpression(), function (value) {
+                    $('#<%=txtToServiceUnitCode.ClientID %>').val(value);
+                    ontxtToServiceUnitCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtToServiceUnitCode.ClientID %>').live('change', function () {
+                ontxtToServiceUnitCodeChanged($(this).val());
+            });
+
+            function ontxtToServiceUnitCodeChanged(value) {
+                var filterExpression = getToServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
+                Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnToSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
+                        $('#<%=txtToServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+
+                        var filterExpression = onGetToLocationFilterExpression();
+                        Methods.getListObject('GetLocationUserAccessList', filterExpression, function (result) {
+                            var lstLocationID = '';
+                            for (var i = 0; i < result.length; ++i) {
+                                if (lstLocationID != '')
+                                    lstLocationID += ',';
+                                lstLocationID += result[i].LocationID;
+                            }
+                            var filterExpression = "LocationID IN (" + lstLocationID + ")";
+                            Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
+                                var filterLocationItemGroup = '';
+                                for (var i = 0; i < result.length; ++i) {
+                                    if (filterLocationItemGroup != '')
+                                        filterLocationItemGroup += ' OR ';
+                                    filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
+                                }
+                                if (filterLocationItemGroup != '')
+                                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                                else
+                                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
+                            });
+                        });
+                    }
+                    else {
+                        $('#<%=hdnToSiteServiceUnitID.ClientID %>').val('');
+                        $('#<%=txtToServiceUnitCode.ClientID %>').val('');
+                        $('#<%=txtToServiceUnitName.ClientID %>').val('');
+                    }
+                });
+            }
+            //#endregion
+
+            //#region Location
             $('#<%=lblLocation.ClientID %>.lblLink').live('click', function () {
-                openSearchDialog('locationroleuser', getLocationFilterExpression(), function (value) {
+                openSearchDialog('locationroleuser', onGetToLocationFilterExpression(), function (value) {
                     $('#<%=txtLocationCode.ClientID %>').val(value);
                     onTxtLocationCodeChanged(value);
                 });
@@ -99,7 +169,7 @@
             });
 
             function onTxtLocationCodeChanged(value) {
-                var filterExpression = getLocationFilterExpression() + " AND LocationCode = '" + value + "'";
+                var filterExpression = onGetToLocationFilterExpression() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnLocationID.ClientID %>').val(result.LocationID);
@@ -146,11 +216,15 @@
             });
 
             function onTxtSupplierChanged(value) {
-                var filterExpression = getSupplierFilterExpression() + " AND BusinessPartnerCode = '" + value + "'";
-                Methods.getObject('GetBusinessPartnersList', filterExpression, function (result) {
+                var filterExpression = "BusinessPartnerCode = '" + value + "'";
+                Methods.getObject('GetvSupplierList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnSupplierID.ClientID %>').val(result.BusinessPartnerID);
                         $('#<%=txtSupplierName.ClientID %>').val(result.BusinessPartnerName);
+                        $('#<%=hdnIsLineAmountRounded.ClientID %>').val(result.IsLineAmountRounded ? '1' : '0');
+                        $('#<%=hdnLineAmountRoundedFormat.ClientID %>').val(result.LineAmountRoundedFormat);
+                        $('#<%=hdnIsTotalAmountRounded.ClientID %>').val(result.IsTotalAmountRounded ? '1' : '0');
+                        $('#<%=hdnTotalAmountRoundedFormat.ClientID %>').val(result.TotalAmountRoundedFormat);
                     }
                     else {
                         $('#<%=hdnSupplierID.ClientID %>').val('');
@@ -163,9 +237,11 @@
 
             //#region Item Group
             function onGetItemGroupFilterExpression() {
-                var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+                var filterExpression = "<%=OnGetFilterExpressionItemGroup() %>";
                 if ($('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() != '')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() + ")";                
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() + ")";
+                if ($('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() != '')
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() + ")";
                 return filterExpression;
             }
 
@@ -203,9 +279,13 @@
                 var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
                 var purchaseID = $('#<%=hdnDirectPurchaseID.ClientID %>').val();
                 if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
-                else if ($('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() != '')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() + ")";
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
+                else {
+                    if ($('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() != '')
+                        filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterLocationItemGroup.ClientID %>').val() + ")";
+                    if ($('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() != '')
+                        filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() + ")";
+                }
                 if (purchaseID != '')
                     filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM DirectPurchaseDt WHERE DirectPurchaseID = " + purchaseID + "AND GCItemDetailStatus != 'X121^999')";
                 return filterExpression;
@@ -279,19 +359,21 @@
                     $('#<%=txtDiscountPercentage.ClientID %>').val('0');
                     $('#<%=txtDiscountAmount.ClientID %>').val('0');
                     $('#<%=txtLineAmount.ClientID %>').val('').trigger('changeValue');
-                    /*$('#<%=lblSupplier.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=lblSupplier.ClientID %>').attr('class', 'lblDisabled');
                     $('#<%=txtSupplierCode.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=txtLocationCode.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=txtServiceUnitCode.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtToServiceUnitCode.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=lblSiteServiceUnit.ClientID %>').attr('class', 'lblDisabled');
-                    $('#<%=lblLocation.ClientID %>').attr('class', 'lblDisabled');*/
+                    $('#<%=lblToSiteServiceUnit.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=lblLocation.ClientID %>').attr('class', 'lblDisabled');
                     lastTransactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
                     editedLineAmount = 0;
                     cboItemUnit.SetValue('');
                     cboDirectPurchaseType.SetEnabled(false);
                     $('#<%=txtConversion.ClientID %>').val('');
 
-                    //$('#<%=chkIsFromMasterSupplier.ClientID %>').attr("disabled", true);
+                    $('#<%=chkIsFromMasterSupplier.ClientID %>').attr("disabled", true);
                     $('#<%=chkIsFromMasterItem.ClientID %>').prop("checked", true);
                     $('#<%=chkIsFromMasterItem.ClientID %>').change();
                     $('#entryDetailContainer').show();
@@ -350,6 +432,13 @@
                 $('#<%=txtDiscountPercentage.ClientID %>').val(discountPercentage);
 
                 calculateSubTotal();
+            });
+
+            $('#<%=txtLineAmount.ClientID %>').change(function () {
+                $(this).blur();
+                var totalPurchase = lastTransactionAmount - editedLineAmount + parseFloat($(this).attr('hiddenVal'));
+                $('#<%=txtTransactionAmount.ClientID %>').val(totalPurchase).trigger('changeValue');
+                calculateTotal();
             });
 
             $('#<%=chkIsFromMasterSupplier.ClientID %>').change(function () {
@@ -474,7 +563,7 @@
             }
 
             lastTransactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
-            editedLineAmount = entity.LineAmount;
+            editedLineAmount = parseFloat(entity.LineAmount);
 
             $('#entryDetailContainer').show();
         });
@@ -504,6 +593,11 @@
                 var discountPercentage = discountAmount * 100 / totalHarga;
                 $('#<%=txtFinalDiscountPercentage.ClientID %>').val(discountPercentage);
             }
+            totalHarga = totalHarga - discountAmount;
+            if ($('#<%=hdnIsTotalAmountRounded.ClientID %>').val() == '1') {
+                var format = parseFloat($('#<%=hdnTotalAmountRoundedFormat.ClientID %>').val());
+                totalHarga = Math.ceil(totalHarga / format) * format;
+            }
             $('#<%=txtTotalNetTransactionAmount.ClientID %>').val(totalHarga - discountAmount).trigger('changeValue');
         }
 
@@ -513,6 +607,10 @@
             var totalBeforeDisc = price * qty;
             var discount = parseFloat($('#<%=txtDiscountAmount.ClientID %>').attr('hiddenVal'));
             var subTotal = totalBeforeDisc - discount;
+            if ($('#<%=hdnIsLineAmountRounded.ClientID %>').val() == '1') {
+                var format = parseFloat($('#<%=hdnLineAmountRoundedFormat.ClientID %>').val());
+                subTotal = Math.ceil(subTotal / format) * format;
+            }
             $('#<%=txtLineAmount.ClientID %>').val(subTotal).trigger('changeValue');
 
             var totalPurchase = lastTransactionAmount - editedLineAmount + subTotal;
@@ -557,7 +655,7 @@
         }
 
         function onCboNonMasterItemUnitChanged() {
-            $('#<%=txtBaseUnit.ClientID %>').val("per " + cboNonMasterItemUnit.GetText());            
+            $('#<%=txtBaseUnit.ClientID %>').val("per " + cboNonMasterItemUnit.GetText());
         }
 
         function getItemUnitName(baseValue) {
@@ -663,8 +761,17 @@
     <input type="hidden" value="" id="hdnDefaultSiteServiceUnitID" runat="server" />
     <input type="hidden" value="" id="hdnDefaultServiceUnitCode" runat="server" />
     <input type="hidden" value="" id="hdnDefaultServiceUnitName" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultToSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultToServiceUnitCode" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultToServiceUnitName" runat="server" />
     <input type="hidden" value="" id="hdnListSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnListToSiteServiceUnitID" runat="server" />
     <input type="hidden" value="" id="hdnLstFilterLocationItemGroup" runat="server" />
+    <input type="hidden" value="" id="hdnLstFilterToLocationItemGroup" runat="server" />
+    <input type="hidden" value="" id="hdnIsLineAmountRounded" runat="server" />
+    <input type="hidden" value="" id="hdnLineAmountRoundedFormat" runat="server" />
+    <input type="hidden" value="" id="hdnIsTotalAmountRounded" runat="server" />
+    <input type="hidden" value="" id="hdnTotalAmountRoundedFormat" runat="server" />
     <div style="overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
             <colgroup>
@@ -705,7 +812,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblSiteServiceUnit"><%=GetLabel("Bagian")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblSiteServiceUnit"><%=GetLabel("Dari Bagian")%></label></td>
                             <td>
                                 <input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
@@ -718,6 +825,24 @@
                                         <td><asp:TextBox ID="txtServiceUnitCode" Width="100%" runat="server" /></td>
                                         <td>&nbsp;</td>
                                         <td><asp:TextBox ID="txtServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblToSiteServiceUnit"><%=GetLabel("Ke Bagian")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnToSiteServiceUnitID" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtToServiceUnitCode" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtToServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
                             </td>
@@ -887,7 +1012,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Total Harga")%></label></td>
-                                                    <td><asp:TextBox ID="txtLineAmount" Width="180px" ReadOnly="true" runat="server" CssClass="txtCurrency" /></td>
+                                                    <td><asp:TextBox ID="txtLineAmount" Width="180px" runat="server" CssClass="txtCurrency" /></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -1024,7 +1149,7 @@
                                                 <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Total Pembelian Tunai")%></label></td>
                                                 <td>&nbsp;</td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox ID="txtTotalNetTransactionAmount" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
+                                                <td><asp:TextBox ID="txtTotalNetTransactionAmount" CssClass="txtCurrency" Width="180px" runat="server" /></td>
                                             </tr>
                                         </table>
                                     </td>

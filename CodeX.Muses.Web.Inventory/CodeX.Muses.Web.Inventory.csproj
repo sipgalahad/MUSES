@@ -124,6 +124,9 @@
     <Content Include="Program\Consignment\ConsignmentReturn\Approval\ConsignmentReturnApprovalDetail.aspx" />
     <Content Include="Program\Consignment\ConsignmentReturn\Approval\ConsignmentReturnApprovalList.aspx" />
     <Content Include="Program\Consignment\ConsignmentReturn\ConsignmentReturnEntry.aspx" />
+    <Content Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationDtCtl.ascx" />
+    <Content Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationEditDtCtl.ascx" />
+    <Content Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationList.aspx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseEntry.aspx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseReturnEntry.aspx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseReturnEntryPicksCtl.ascx" />
@@ -534,6 +537,27 @@
     </Compile>
     <Compile Include="Program\Consignment\ConsignmentReturn\ConsignmentReturnEntry.aspx.designer.cs">
       <DependentUpon>ConsignmentReturnEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationDtCtl.ascx.cs">
+      <DependentUpon>DirectPurchaseConfirmationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationDtCtl.ascx.designer.cs">
+      <DependentUpon>DirectPurchaseConfirmationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationEditDtCtl.ascx.cs">
+      <DependentUpon>DirectPurchaseConfirmationEditDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationEditDtCtl.ascx.designer.cs">
+      <DependentUpon>DirectPurchaseConfirmationEditDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationList.aspx.cs">
+      <DependentUpon>DirectPurchaseConfirmationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationList.aspx.designer.cs">
+      <DependentUpon>DirectPurchaseConfirmationList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Procurement\DirectPurchase\DirectPurchaseEntry.aspx.cs">
       <DependentUpon>DirectPurchaseEntry.aspx</DependentUpon>

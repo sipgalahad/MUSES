@@ -777,6 +777,7 @@ namespace CodeX.Common
 
                 public const string PURCHASE_REQUEST_APPROVAL = "IM070201";
                 public const string PURCHASE_ORDER_APPROVAL = "IM070202";
+                public const string DIRECT_PURCHASE_CONFIRMED = "IM070203";
 
                 public const string CONSIGNMENT_ORDER_APPROVAL = "IM070301";
                 public const string CONSIGNMENT_RECEIVE_CONFIRMED = "IM070302";
@@ -1060,8 +1061,12 @@ namespace CodeX.Common
             public const string RANGE_EXPIRED_DATE = "MSSIM0004";
             public const string IS_DISCOUNT_APPLIED_TO_AVERAGE_PRICE = "MSSIM0005";
             public const string IS_DISCOUNT_APPLIED_TO_UNIT_PRICE = "MSSIM0006";
-            public const string NON_MASTER_SUPPLIER = "MSSIM0007";
-            public const string NON_MASTER_ITEM = "MSSIM0008";
+            public const string IS_VAT_APPLIED_TO_AVERAGE_PRICE = "OTMIM0007";
+            public const string IS_PURCHASE_RECEIVE_ALLOW_MULTI_PURCHASE_ORDER = "OTMIM0008";
+            public const string IS_ALLOW_REOPEN_OUTSTANDING_PO = "OTMIM0009";
+
+            public const string NON_MASTER_SUPPLIER = "MSSFN0003";
+            public const string NON_MASTER_ITEM = "MSSFN0004";
         }
         #endregion
 

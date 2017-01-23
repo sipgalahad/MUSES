@@ -11688,6 +11688,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ProductLine> GetProductLineList(string filterExpression, IDbContext ctx)
+        {
+            List<ProductLine> result = new List<ProductLine>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductLine));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProductLine)helper.IDataReaderToObject(reader, new ProductLine()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static List<ProductLine> GetProductLineList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
         {
             List<ProductLine> result = new List<ProductLine>();

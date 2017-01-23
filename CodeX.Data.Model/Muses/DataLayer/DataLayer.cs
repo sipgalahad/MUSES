@@ -9032,8 +9032,11 @@ namespace CodeX.Data.Model
         private Decimal _UnitPrice;
         private Decimal _DiscountPercentage;
         private Decimal _DiscountAmount;
+        private Decimal _LineAmountBeforeRounded;
+        private Decimal _RoundedAmount;
         private Decimal _LineAmount;
         private Boolean _IsControlExpired;
+        private Decimal _QtyBeforeApproved;
         private String _GCItemDetailStatus;
         private Int32 _CreatedBy;
         private DateTime _CreatedDate;
@@ -9112,6 +9115,18 @@ namespace CodeX.Data.Model
             get { return _DiscountAmount; }
             set { _DiscountAmount = value; }
         }
+        [Column(Name = "LineAmountBeforeRounded", DataType = "Decimal")]
+        public Decimal LineAmountBeforeRounded
+        {
+            get { return _LineAmountBeforeRounded; }
+            set { _LineAmountBeforeRounded = value; }
+        }
+        [Column(Name = "RoundedAmount", DataType = "Decimal")]
+        public Decimal RoundedAmount
+        {
+            get { return _RoundedAmount; }
+            set { _RoundedAmount = value; }
+        }
         [Column(Name = "LineAmount", DataType = "Decimal")]
         public Decimal LineAmount
         {
@@ -9123,6 +9138,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsControlExpired; }
             set { _IsControlExpired = value; }
+        }
+        [Column(Name = "QtyBeforeApproved", DataType = "Decimal", IsNullable = true)]
+        public Decimal QtyBeforeApproved
+        {
+            get { return _QtyBeforeApproved; }
+            set { _QtyBeforeApproved = value; }
         }
         [Column(Name = "GCItemDetailStatus", DataType = "String")]
         public String GCItemDetailStatus
@@ -9207,6 +9228,7 @@ namespace CodeX.Data.Model
         private String _DirectPurchaseNo;
         private DateTime _PurchaseDate;
         private Int32? _SiteServiceUnitID;
+        private Int32? _ToSiteServiceUnitID;
         private Int32 _LocationID;
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerName;
@@ -9217,10 +9239,14 @@ namespace CodeX.Data.Model
         private Decimal _TransactionAmount;
         private Decimal _VATPercentage;
         private Decimal _VATAmount;
+        private Decimal _FinalDiscountPercentage;
         private Decimal _FinalDiscountAmount;
+        private Decimal _TransactionAmountBeforeRounded;
+        private Decimal _RoundedAmount;
         private Decimal _TotalNetTransactionAmount;
         private String _Remarks;
         private String _GCTransactionStatus;
+        private DateTime _ApprovedDate;
         private Boolean _IsHasPurchaseReturn;
         private Int32? _DirectPurchaseReturnID;
         private Int32 _CreatedBy;
@@ -9251,6 +9277,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteServiceUnitID; }
             set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ToSiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? ToSiteServiceUnitID
+        {
+            get { return _ToSiteServiceUnitID; }
+            set { _ToSiteServiceUnitID = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -9312,11 +9344,29 @@ namespace CodeX.Data.Model
             get { return _VATAmount; }
             set { _VATAmount = value; }
         }
+        [Column(Name = "FinalDiscountPercentage", DataType = "Decimal")]
+        public Decimal FinalDiscountPercentage
+        {
+            get { return _FinalDiscountPercentage; }
+            set { _FinalDiscountPercentage = value; }
+        }
         [Column(Name = "FinalDiscountAmount", DataType = "Decimal")]
         public Decimal FinalDiscountAmount
         {
             get { return _FinalDiscountAmount; }
             set { _FinalDiscountAmount = value; }
+        }
+        [Column(Name = "TransactionAmountBeforeRounded", DataType = "Decimal")]
+        public Decimal TransactionAmountBeforeRounded
+        {
+            get { return _TransactionAmountBeforeRounded; }
+            set { _TransactionAmountBeforeRounded = value; }
+        }
+        [Column(Name = "RoundedAmount", DataType = "Decimal")]
+        public Decimal RoundedAmount
+        {
+            get { return _RoundedAmount; }
+            set { _RoundedAmount = value; }
         }
         [Column(Name = "TotalNetTransactionAmount", DataType = "Decimal")]
         public Decimal TotalNetTransactionAmount
@@ -9335,6 +9385,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCTransactionStatus; }
             set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "ApprovedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime ApprovedDate
+        {
+            get { return _ApprovedDate; }
+            set { _ApprovedDate = value; }
         }
         [Column(Name = "IsHasPurchaseReturn", DataType = "Boolean")]
         public Boolean IsHasPurchaseReturn
@@ -16715,6 +16771,7 @@ namespace CodeX.Data.Model
         private Boolean _IsROPSettingDefault;
         private Int32? _NDaysBackward;
         private Int32? _NDaysForward;
+        private String _ListPendingPurchaseReceiveID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -16882,6 +16939,12 @@ namespace CodeX.Data.Model
         {
             get { return _NDaysForward; }
             set { _NDaysForward = value; }
+        }
+        [Column(Name = "ListPendingPurchaseReceiveID", DataType = "String", IsNullable = true)]
+        public String ListPendingPurchaseReceiveID
+        {
+            get { return _ListPendingPurchaseReceiveID; }
+            set { _ListPendingPurchaseReceiveID = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

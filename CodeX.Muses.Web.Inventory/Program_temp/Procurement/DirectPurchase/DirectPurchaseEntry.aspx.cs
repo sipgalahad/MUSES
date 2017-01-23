@@ -1,0 +1,652 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using CodeX.Web.Common.UI;
+using CodeX.Web.Common;
+using CodeX.Data.Model;
+using DevExpress.Web.ASPxCallbackPanel;
+using CodeX.Data.Core.Dal;
+using System.Data;
+using System.Web.UI.HtmlControls;
+using CodeX.Common;
+
+namespace CodeX.Muses.Web.Inventory.Program
+{
+    public partial class DirectPurchaseEntry : BasePageTrx
+    {
+        protected int PageCount = 1;
+        protected int RowCount = 1;
+        public override string OnGetMenuCode()
+        {
+            return Constant.MenuCode.Inventory.DIRECT_PURCHASE;
+        }
+
+        protected override void InitializeDataControl()
+        {
+            hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
+            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}','{1}','{2}')", Constant.SettingParameter.VAT_PERCENTAGE, Constant.SettingParameter.NON_MASTER_SUPPLIER, Constant.SettingParameter.NON_MASTER_ITEM));
+            hdnVATPercentage.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
+            hdnNonMasterSupplierID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.NON_MASTER_SUPPLIER).ParameterValue;
+            hdnNonMasterItemID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.NON_MASTER_ITEM).ParameterValue;
+
+            List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.DIRECT_PURCHASE, "");
+            if (lstUserLocation.Count > 0)
+            {
+                List<ServiceUnitLocation> lstServiceUnitLocation = BusinessLayer.GetServiceUnitLocationList(string.Format("LocationID IN ({0})", string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList())));
+                hdnListSiteServiceUnitID.Value = string.Join(",", lstServiceUnitLocation.Select(p => p.SiteServiceUnitID).ToList());
+
+                List<vSiteServiceUnit> lstSiteServiceUnit = BusinessLayer.GetvSiteServiceUnitList(OnGetFilterExpressionServiceUnit());
+                if (lstSiteServiceUnit.Count == 1)
+                {
+                    vSiteServiceUnit serviceUnit = lstSiteServiceUnit.FirstOrDefault();
+                    hdnDefaultSiteServiceUnitID.Value = serviceUnit.SiteServiceUnitID.ToString();
+                    hdnDefaultServiceUnitCode.Value = serviceUnit.ServiceUnitCode;
+                    hdnDefaultServiceUnitName.Value = serviceUnit.ServiceUnitName;
+                }
+            }
+
+            hdnGCTransactionStatus.Value = "";
+
+            SetControlProperties();
+
+            decimal tempTransactionAmount = -1;
+            BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
+            Helper.SetControlEntrySetting(txtNonMasterItemName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboNonMasterItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtPrice, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtDiscountPercentage, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtDiscountAmount, new ControlEntrySetting(true, true, true), "mpTrx");
+        }
+
+        protected string GetVATPercentageLabel()
+        {
+            return hdnVATPercentage.Value;
+        }
+
+        #region Filter Expression Search Dialog
+        protected string OnGetFilterExpressionServiceUnit()
+        {
+            if (hdnListSiteServiceUnitID.Value != "")
+                return string.Format("SiteServiceUnitID IN ({0}) AND IsDeleted = 0", hdnListSiteServiceUnitID.Value);
+            return "1 = 0";
+        }
+        protected string OnGetFilterExpressionLocation()
+        {
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.DIRECT_PURCHASE);
+        }
+        protected string OnGetFilterExpressionItemProduct()
+        {
+            return string.Format("IsDeleted = 0");
+        }
+        protected string OnGetFilterExpressionSupplier()
+        {
+            return string.Format("GCBusinessPartnerType = '{0}' AND IsDeleted = 0", Constant.BusinessObjectType.SUPPLIER);
+        }
+        #endregion
+
+        protected override void SetControlProperties()
+        {
+            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.DIRECT_PURCHASE_TYPE, Constant.StandardCode.ITEM_UNIT));
+            Methods.SetComboBoxField<StandardCode>(cboDirectPurchaseType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.DIRECT_PURCHASE_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+            cboDirectPurchaseType.SelectedIndex = 0;
+
+            Methods.SetComboBoxField<StandardCode>(cboNonMasterItemUnit, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_UNIT).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+        }
+
+        protected override void OnControlEntrySetting()
+        {
+            SetControlEntrySetting(hdnDirectPurchaseID, new ControlEntrySetting(false, false, false, "0"));
+            SetControlEntrySetting(txtDirectPurchaseNo, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtDirectPurchaseDate, new ControlEntrySetting(true, true, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
+            SetControlEntrySetting(lblLocation, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(lblSupplier, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(chkIsFromMasterSupplier, new ControlEntrySetting(true, true, false, true, true));
+            SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtNonMasterSupplierName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, true, true, hdnDefaultServiceUnitCode.Value));
+            SetControlEntrySetting(lblSiteServiceUnit, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, true, hdnDefaultServiceUnitName.Value));
+
+            SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(true, true, false, hdnDefaultSiteServiceUnitID.Value));
+
+            SetControlEntrySetting(cboDirectPurchaseType, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
+
+            SetControlEntrySetting(txtTransactionAmount, new ControlEntrySetting(false, false, true, "0"));
+            SetControlEntrySetting(txtPPN, new ControlEntrySetting(false, false, true, "0"));
+            SetControlEntrySetting(txtFinalDiscountPercentage, new ControlEntrySetting(true, true, true, "0"));
+            SetControlEntrySetting(txtFinalDiscountAmount, new ControlEntrySetting(true, true, true, "0"));
+            SetControlEntrySetting(txtTotalNetTransactionAmount, new ControlEntrySetting(false, false, true, "0"));
+        }
+
+        #region Load Entity
+        public override void OnAddRecord()
+        {
+            hdnPageCount.Value = "0";
+            hdnIsEditable.Value = "1";
+            hdnGCTransactionStatus.Value = "";
+            chkPPN.Checked = false;
+            chkIsFromMasterSupplier.Checked = true;
+            chkIsFromMasterSupplier.Enabled = true;
+        }
+        protected string GetFilterExpression()
+        {
+            return hdnRecordFilterExpression.Value;
+        }
+
+        protected string IsEditable()
+        {
+            return hdnIsEditable.Value;
+        }
+
+        public override int OnGetRowCount()
+        {
+            string filterExpression = GetFilterExpression();
+            return BusinessLayer.GetvDirectPurchaseHdRowCount(filterExpression);
+        }
+
+        protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
+        {
+            string filterExpression = GetFilterExpression();
+            vDirectPurchaseHd entity = BusinessLayer.GetvDirectPurchaseHd(filterExpression, PageIndex, "DirectPurchaseID DESC");
+            EntityToControl(entity, ref isShowWatermark, ref watermarkText);
+        }
+
+        protected override void OnLoadEntity(string keyValue, ref int PageIndex, ref bool isShowWatermark, ref string watermarkText)
+        {
+            string filterExpression = GetFilterExpression();
+            PageIndex = BusinessLayer.GetvDirectPurchaseHdRowIndex(filterExpression, keyValue, "DirectPurchaseID DESC");
+            vDirectPurchaseHd entity = BusinessLayer.GetvDirectPurchaseHd(filterExpression, PageIndex, "DirectPurchaseID DESC");
+            EntityToControl(entity, ref isShowWatermark, ref watermarkText);
+        }
+
+        private void EntityToControl(vDirectPurchaseHd entity, ref bool isShowWatermark, ref string watermarkText)
+        {
+            if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN)
+            {
+                isShowWatermark = true;
+                watermarkText = entity.TransactionStatusWatermark;
+                hdnIsEditable.Value = "0";
+            }
+            else
+                hdnIsEditable.Value = "1";
+            if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN && entity.GCTransactionStatus != Constant.TransactionStatus.VOID)
+                hdnPrintStatus.Value = "true";
+            else
+                hdnPrintStatus.Value = "false";
+            hdnGCTransactionStatus.Value = entity.GCTransactionStatus;
+            hdnDirectPurchaseID.Value = entity.DirectPurchaseID.ToString();
+            txtDirectPurchaseNo.Text = entity.DirectPurchaseNo;
+            txtDirectPurchaseDate.Text = entity.PurchaseDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            if (entity.ReferenceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) != "01-01-1900")
+                txtReferenceDate.Text = entity.ReferenceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            else
+                txtReferenceDate.Text = "";
+            hdnSupplierID.Value = entity.BusinessPartnerID.ToString();
+            txtSupplierCode.Text = entity.BusinessPartnerCode;
+            txtNonMasterSupplierName.Text = txtSupplierName.Text = entity.BusinessPartnerName;
+
+            if (entity.BusinessPartnerID.ToString() != hdnNonMasterSupplierID.Value)
+            {
+                chkIsFromMasterSupplier.Checked = true;
+                tblSupplierMaster.Style.Remove("display");
+                txtNonMasterSupplierName.Style.Add("display", "none");
+            }
+            else
+            {
+                chkIsFromMasterSupplier.Checked = false;
+                txtNonMasterSupplierName.Style.Remove("display");
+                tblSupplierMaster.Style.Add("display", "none");
+            }
+            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
+            txtServiceUnitCode.Text = entity.ServiceUnitCode;
+            txtServiceUnitName.Text = entity.ServiceUnitName;
+            hdnLocationID.Value = entity.LocationID.ToString();
+            txtLocationCode.Text = entity.LocationCode;
+            txtLocationName.Text = entity.LocationName;
+            cboDirectPurchaseType.Value = entity.GCDirectPurchaseType;
+            txtRemarks.Text = entity.Remarks;
+            chkPPN.Checked = entity.IsIncludeVAT;
+            txtTransactionAmount.Text = entity.TransactionAmount.ToString();
+            if ((entity.TransactionAmount + entity.VATAmount) != 0)
+                txtFinalDiscountPercentage.Text = (entity.FinalDiscountAmount * 100 / (entity.TransactionAmount + entity.VATAmount)).ToString();
+            else
+                txtFinalDiscountPercentage.Text = "0";
+            txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
+
+            decimal tempTransactionAmount = -1;
+            BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
+            hdnPageCount.Value = PageCount.ToString();
+            hdnRowCount.Value = RowCount.ToString();
+
+            {
+                List<LocationItemGroup> lstLocationItemGroup = BusinessLayer.GetLocationItemGroupList(string.Format("LocationID = {0}", entity.LocationID));
+                string filterLocationItemGroup = String.Join(" OR ", lstLocationItemGroup.Select(p => string.Format("DisplayPath LIKE '%/{0}/%'", p.ItemGroupID)).ToList());
+                if (filterLocationItemGroup != "")
+                    hdnLstFilterLocationItemGroup.Value = string.Format("({0})", filterLocationItemGroup);
+                else
+                    hdnLstFilterLocationItemGroup.Value = "";
+            }
+        }
+
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount, ref decimal transactionAmount)
+        {
+            string filterExpression = "1 = 0";
+            if (hdnDirectPurchaseID.Value != "" && hdnDirectPurchaseID.Value != "0")
+                filterExpression = string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID);
+
+            if (isCountPageCount)
+            {
+                rowCount = BusinessLayer.GetvDirectPurchaseDtRowCount(filterExpression);
+                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
+            }
+            if (transactionAmount > -1)
+                transactionAmount = BusinessLayer.GetDirectPurchaseHd(Convert.ToInt32(hdnDirectPurchaseID.Value)).TransactionAmount;
+            List<vDirectPurchaseDt> lstEntity = BusinessLayer.GetvDirectPurchaseDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ItemName1 ASC");
+            grdView.DataSource = lstEntity;
+            grdView.DataBind();
+        }
+        #endregion
+
+        #region Save Edit Header
+        private void ControlToEntity(DirectPurchaseHd entityHd)
+        {
+            entityHd.PurchaseDate = Helper.GetDatePickerValue(txtDirectPurchaseDate.Text);
+            if (txtReferenceDate.Text != "" && txtReferenceDate.Text != null)
+                entityHd.ReferenceDate = Helper.GetDatePickerValue(txtReferenceDate.Text);
+            entityHd.GCDirectPurchaseType = cboDirectPurchaseType.Value.ToString();
+            entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
+            if (chkIsFromMasterSupplier.Checked)
+                entityHd.BusinessPartnerName = null;
+            else
+                entityHd.BusinessPartnerName = txtNonMasterSupplierName.Text;
+            entityHd.Remarks = txtRemarks.Text;
+            entityHd.IsIncludeVAT = chkPPN.Checked;
+            if (entityHd.IsIncludeVAT)
+                entityHd.VATPercentage = Convert.ToDecimal(hdnVATPercentage.Value);
+            else
+                entityHd.VATPercentage = 0;
+            entityHd.VATAmount = Convert.ToDecimal(Request.Form[txtPPN.UniqueID]);
+            entityHd.FinalDiscountAmount = Convert.ToDecimal(txtFinalDiscountAmount.Text);
+            entityHd.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
+            entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
+            entityHd.TotalNetTransactionAmount = entityHd.TransactionAmount + entityHd.VATAmount - entityHd.FinalDiscountAmount;
+        }
+
+        public void SaveDirectPurchaseHd(IDbContext ctx, ref int DirectPurchaseID)
+        {
+            DirectPurchaseHdDao entityHdDao = new DirectPurchaseHdDao(ctx);
+            if (hdnDirectPurchaseID.Value == "0")
+            {
+                DirectPurchaseHd entityHd = new DirectPurchaseHd();
+                ControlToEntity(entityHd);
+                entityHd.DirectPurchaseNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.DIRECT_PURCHASE, entityHd.PurchaseDate, ctx);
+                entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                ctx.CommandType = CommandType.Text;
+                ctx.Command.Parameters.Clear();
+                entityHd.CreatedBy = AppSession.UserLogin.UserID;
+                entityHdDao.Insert(entityHd);
+                DirectPurchaseID = BusinessLayer.GetDirectPurchaseHdMaxID(ctx);
+            }
+            else
+            {
+                DirectPurchaseID = Convert.ToInt32(hdnDirectPurchaseID.Value);
+                DirectPurchaseHd entityHd = entityHdDao.Get(DirectPurchaseID);
+                ControlToEntity(entityHd);
+                entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityHdDao.Update(entityHd);
+            }
+        }
+
+
+        protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            try
+            {
+                int DirectPurchaseID = 0;
+                SaveDirectPurchaseHd(ctx, ref DirectPurchaseID);
+                retval = DirectPurchaseID.ToString();
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        protected override bool OnSaveEditRecord(ref string errMessage, ref string retval)
+        {
+            try
+            {
+                DirectPurchaseHd entity = BusinessLayer.GetDirectPurchaseHd(Convert.ToInt32(hdnDirectPurchaseID.Value));
+                ControlToEntity(entity);
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateDirectPurchaseHd(entity);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                return false;
+            }
+        }
+
+        protected override bool OnApproveRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            DirectPurchaseHdDao directPurchaseHdDao = new DirectPurchaseHdDao(ctx);
+            DirectPurchaseDtDao directPurchaseDtDao = new DirectPurchaseDtDao(ctx);
+            try
+            {
+                DirectPurchaseHd entity = directPurchaseHdDao.Get(Convert.ToInt32(hdnDirectPurchaseID.Value));
+                ControlToEntity(entity);
+                entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                List<DirectPurchaseDt> lstEntity = BusinessLayer.GetDirectPurchaseDtList(string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID), ctx);
+                foreach (DirectPurchaseDt entityDt in lstEntity)
+                {
+                    entityDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    directPurchaseDtDao.Update(entityDt);
+                }
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                directPurchaseHdDao.Update(entity);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        protected override bool OnProposeRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            DirectPurchaseHdDao directPurchaseHdDao = new DirectPurchaseHdDao(ctx);
+            DirectPurchaseDtDao directPurchaseDtDao = new DirectPurchaseDtDao(ctx);
+            try
+            {
+                DirectPurchaseHd entity = directPurchaseHdDao.Get(Convert.ToInt32(hdnDirectPurchaseID.Value));
+                ControlToEntity(entity);
+                entity.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                List<DirectPurchaseDt> lstEntity = BusinessLayer.GetDirectPurchaseDtList(string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID), ctx);
+                foreach (DirectPurchaseDt entityDt in lstEntity)
+                {
+                    entityDt.GCItemDetailStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    directPurchaseDtDao.Update(entityDt);
+                }
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                directPurchaseHdDao.Update(entity);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        protected override bool OnVoidRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            DirectPurchaseHdDao directPurchaseHdDao = new DirectPurchaseHdDao(ctx);
+            DirectPurchaseDtDao directPurchaseDtDao = new DirectPurchaseDtDao(ctx);
+            try
+            {
+                DirectPurchaseHd entity = directPurchaseHdDao.Get(Convert.ToInt32(hdnDirectPurchaseID.Value));
+                entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                List<DirectPurchaseDt> lstEntity = BusinessLayer.GetDirectPurchaseDtList(string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID), ctx);
+                foreach (DirectPurchaseDt entityDt in lstEntity)
+                {
+                    entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    directPurchaseDtDao.Update(entityDt);
+                }
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                directPurchaseHdDao.Update(entity);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+
+        #region Process Detail
+        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string result = "";
+            string errMessage = "";
+            int PurchaseID = 0;
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
+            if (param[0] == "save")
+            {
+                if (hdnEntryID.Value.ToString() != "")
+                {
+                    PurchaseID = Convert.ToInt32(hdnDirectPurchaseID.Value);
+                    if (OnSaveEditRecordEntityDt(ref errMessage))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+                else
+                {
+                    if (OnSaveAddRecordEntityDt(ref errMessage, ref PurchaseID))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
+                }
+            }
+            else if (param[0] == "delete")
+            {
+                PurchaseID = Convert.ToInt32(hdnDirectPurchaseID.Value);
+                if (OnDeleteEntityDt(ref errMessage, PurchaseID))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+            panel.JSProperties["cpPurchaseID"] = PurchaseID.ToString();
+        }
+
+        private void ControlToEntity(DirectPurchaseDt entityDt)
+        {
+            entityDt.ItemID = Convert.ToInt32(hdnItemID.Value);
+            if (chkIsFromMasterItem.Checked)
+            {
+                entityDt.ItemName1 = null;
+                entityDt.GCItemUnit = cboItemUnit.Value.ToString();
+                entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
+                entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
+            }
+            else
+            {
+                entityDt.ItemName1 = txtNonMasterItemName.Text;
+                entityDt.GCItemUnit = entityDt.GCBaseUnit = cboNonMasterItemUnit.Value.ToString();
+                entityDt.ConversionFactor = 1;
+            }
+            entityDt.Quantity = Convert.ToDecimal(txtQuantity.Text);
+            entityDt.UnitPrice = Convert.ToDecimal(txtPrice.Text);
+            entityDt.DiscountPercentage = Convert.ToDecimal(txtDiscountPercentage.Text);
+            entityDt.DiscountAmount = Convert.ToDecimal(txtDiscountAmount.Text);
+            entityDt.IsControlExpired = false;
+            entityDt.LineAmount = Convert.ToDecimal(Request.Form[txtLineAmount.UniqueID]);
+        }
+
+        private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int DirectPurchaseID)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            DirectPurchaseDtDao entityDtDao = new DirectPurchaseDtDao(ctx);
+            try
+            {
+                SaveDirectPurchaseHd(ctx, ref DirectPurchaseID);
+                DirectPurchaseDt entityDt = new DirectPurchaseDt();
+                ControlToEntity(entityDt);
+                entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+                entityDt.DirectPurchaseID = DirectPurchaseID;
+                entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                entityDtDao.Insert(entityDt);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                result = false;
+                errMessage = ex.Message;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+
+        }
+
+        private bool OnSaveEditRecordEntityDt(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            DirectPurchaseDtDao entityDtDao = new DirectPurchaseDtDao(ctx);
+            try
+            {
+                int DirectPurchaseID = 0;
+                SaveDirectPurchaseHd(ctx, ref DirectPurchaseID);
+                DirectPurchaseDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                ControlToEntity(entityDt);
+                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityDtDao.Update(entityDt);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                result = false;
+                errMessage = ex.Message;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        private bool OnDeleteEntityDt(ref string errMessage, int ID)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            DirectPurchaseDtDao entityDtDao = new DirectPurchaseDtDao(ctx);
+            try
+            {
+                DirectPurchaseDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityDtDao.Update(entityDt);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+
+        #region callBack Trigger
+        protected void cboItemUnit_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            List<StandardCode> lst = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND (StandardCodeID IN (SELECT GCAlternateUnit FROM ItemAlternateUnit WHERE ItemID = {1}) OR StandardCodeID = (SELECT GCItemUnit FROM ItemMaster WHERE ItemID = {1}))", Constant.StandardCode.ITEM_UNIT, hdnItemID.Value));
+            Methods.SetComboBoxField<StandardCode>(cboItemUnit, lst, "StandardCodeName", "StandardCodeID");
+            cboItemUnit.SelectedIndex = -1;
+        }
+
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            int pageCount = 1;
+            int rowCount = 1;
+            decimal transactionAmount = 0;
+            string result = "";
+            if (e.Parameter != null && e.Parameter != "")
+            {
+                string[] param = e.Parameter.Split('|');
+                if (param[0] == "changepage")
+                {
+                    transactionAmount = -1;
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount, ref transactionAmount);
+                    result = "changepage";
+                }
+                else // refresh
+                {
+                    BindGridView(1, true, ref pageCount, ref rowCount, ref transactionAmount);
+                    result = string.Format("refresh|{0}|{1}|{2}", pageCount, rowCount, transactionAmount);
+                }
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+        }
+        #endregion
+    }
+}

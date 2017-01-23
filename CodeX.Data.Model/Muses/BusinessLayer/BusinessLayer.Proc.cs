@@ -1665,5 +1665,69 @@ namespace CodeX.Data.Model
             }
         }
         #endregion
+        #region UpdateChargesCostAmount
+        public static void UpdateChargesCostAmount(Int32 PurchaseReceiveID, Int32 ItemID, Decimal CostAmount, Boolean IsUpdateCostAmount, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "UpdateChargesCostAmount";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@PurchaseReceiveID", PurchaseReceiveID));
+            ctx.Command.Parameters.Add(new SqlParameter("@ItemID", ItemID));
+            ctx.Command.Parameters.Add(new SqlParameter("@CostAmount", CostAmount));
+            ctx.Command.Parameters.Add(new SqlParameter("@IsUpdateCostAmount", IsUpdateCostAmount));
+            ctx.Command.CommandTimeout = 1000;
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+        }
+        #endregion
+        #region UpdateChargesCostAmountDirectPurchase
+        public static void UpdateChargesCostAmountDirectPurchase(Int32 DirectPurchaseID, Int32 ItemID, Decimal CostAmount, Boolean IsUpdateCostAmount, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "UpdateChargesCostAmountDirectPurchase";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@DirectPurchaseID", DirectPurchaseID));
+            ctx.Command.Parameters.Add(new SqlParameter("@ItemID", ItemID));
+            ctx.Command.Parameters.Add(new SqlParameter("@CostAmount", CostAmount));
+            ctx.Command.Parameters.Add(new SqlParameter("@IsUpdateCostAmount", IsUpdateCostAmount));
+            ctx.Command.CommandTimeout = 1000;
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+        }
+        #endregion
     }
 }

@@ -6020,6 +6020,9 @@ namespace CodeX.Data.Model
         private Int32 _SiteServiceUnitID;
         private String _ServiceUnitCode;
         private String _ServiceUnitName;
+        private Int32 _ToSiteServiceUnitID;
+        private String _ToServiceUnitCode;
+        private String _ToServiceUnitName;
         private Int32 _LocationID;
         private String _LocationCode;
         private String _LocationName;
@@ -6028,6 +6031,10 @@ namespace CodeX.Data.Model
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerCode;
         private String _BusinessPartnerName;
+        private Boolean _IsLineAmountRounded;
+        private Decimal _LineAmountRoundedFormat;
+        private Boolean _IsTotalAmountRounded;
+        private Decimal _TotalAmountRoundedFormat;
         private String _GCDirectPurchaseType;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
@@ -6035,7 +6042,10 @@ namespace CodeX.Data.Model
         private Decimal _TransactionAmount;
         private Decimal _VATPercentage;
         private Decimal _VATAmount;
+        private Decimal _FinalDiscountPercentage;
         private Decimal _FinalDiscountAmount;
+        private Decimal _TransactionAmountBeforeRounded;
+        private Decimal _RoundedAmount;
         private Decimal _TotalNetTransactionAmount;
         private String _Remarks;
         private String _GCTransactionStatus;
@@ -6079,6 +6089,24 @@ namespace CodeX.Data.Model
         {
             get { return _ServiceUnitName; }
             set { _ServiceUnitName = value; }
+        }
+        [Column(Name = "ToSiteServiceUnitID", DataType = "Int32")]
+        public Int32 ToSiteServiceUnitID
+        {
+            get { return _ToSiteServiceUnitID; }
+            set { _ToSiteServiceUnitID = value; }
+        }
+        [Column(Name = "ToServiceUnitCode", DataType = "String")]
+        public String ToServiceUnitCode
+        {
+            get { return _ToServiceUnitCode; }
+            set { _ToServiceUnitCode = value; }
+        }
+        [Column(Name = "ToServiceUnitName", DataType = "String")]
+        public String ToServiceUnitName
+        {
+            get { return _ToServiceUnitName; }
+            set { _ToServiceUnitName = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -6128,6 +6156,30 @@ namespace CodeX.Data.Model
             get { return _BusinessPartnerName; }
             set { _BusinessPartnerName = value; }
         }
+        [Column(Name = "IsLineAmountRounded", DataType = "Boolean")]
+        public Boolean IsLineAmountRounded
+        {
+            get { return _IsLineAmountRounded; }
+            set { _IsLineAmountRounded = value; }
+        }
+        [Column(Name = "LineAmountRoundedFormat", DataType = "Decimal")]
+        public Decimal LineAmountRoundedFormat
+        {
+            get { return _LineAmountRoundedFormat; }
+            set { _LineAmountRoundedFormat = value; }
+        }
+        [Column(Name = "IsTotalAmountRounded", DataType = "Boolean")]
+        public Boolean IsTotalAmountRounded
+        {
+            get { return _IsTotalAmountRounded; }
+            set { _IsTotalAmountRounded = value; }
+        }
+        [Column(Name = "TotalAmountRoundedFormat", DataType = "Decimal")]
+        public Decimal TotalAmountRoundedFormat
+        {
+            get { return _TotalAmountRoundedFormat; }
+            set { _TotalAmountRoundedFormat = value; }
+        }
         [Column(Name = "GCDirectPurchaseType", DataType = "String")]
         public String GCDirectPurchaseType
         {
@@ -6170,11 +6222,29 @@ namespace CodeX.Data.Model
             get { return _VATAmount; }
             set { _VATAmount = value; }
         }
+        [Column(Name = "FinalDiscountPercentage", DataType = "Decimal")]
+        public Decimal FinalDiscountPercentage
+        {
+            get { return _FinalDiscountPercentage; }
+            set { _FinalDiscountPercentage = value; }
+        }
         [Column(Name = "FinalDiscountAmount", DataType = "Decimal")]
         public Decimal FinalDiscountAmount
         {
             get { return _FinalDiscountAmount; }
             set { _FinalDiscountAmount = value; }
+        }
+        [Column(Name = "TransactionAmountBeforeRounded", DataType = "Decimal")]
+        public Decimal TransactionAmountBeforeRounded
+        {
+            get { return _TransactionAmountBeforeRounded; }
+            set { _TransactionAmountBeforeRounded = value; }
+        }
+        [Column(Name = "RoundedAmount", DataType = "Decimal")]
+        public Decimal RoundedAmount
+        {
+            get { return _RoundedAmount; }
+            set { _RoundedAmount = value; }
         }
         [Column(Name = "TotalNetTransactionAmount", DataType = "Decimal")]
         public Decimal TotalNetTransactionAmount
@@ -28570,6 +28640,7 @@ namespace CodeX.Data.Model
         private String _DepartmentID;
         private String _DepartmentName;
         private Int32 _ServiceUnitID;
+        private String _ServiceUnitCode;
         private String _ServiceUnitName;
         private Int32 _LocationID;
         private String _LocationName;
@@ -28610,6 +28681,12 @@ namespace CodeX.Data.Model
         {
             get { return _ServiceUnitID; }
             set { _ServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
         }
         [Column(Name = "ServiceUnitName", DataType = "String")]
         public String ServiceUnitName

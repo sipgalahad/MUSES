@@ -76,7 +76,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 int PRID = 0;
                 string purchaseReturnNo = "";
                 DetailPage.SavePurchaseReturnHd(ctx, ref PRID, ref purchaseReturnNo);
-                
+
                 string[] lstSelectedItem = hdnSelectedItem.Value.Split(',');
                 string[] lstSelectedQty = hdnSelectedQtyRetur.Value.Split(',');
                 string[] lstSelectedReturnReason = hdnSelectedReturnReason.Value.Split(',');
