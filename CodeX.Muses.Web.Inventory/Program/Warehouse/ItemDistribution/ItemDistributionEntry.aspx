@@ -66,25 +66,34 @@
             function onTxtFromServiceUnitCodeChanged(value) {
                 var filterExpression = onGetFromServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
                 Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    $('#<%=hdnFromLocationID.ClientID %>').val('');
+                    $('#<%=txtFromLocationCode.ClientID %>').val('');
+                    $('#<%=txtFromLocationName.ClientID %>').val('');
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
                     if (result != null) {
                         $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
                         $('#<%=txtFromServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+                        var filterExpression = onGetFromLocationFilterExpression();
+
+                        Methods.getListObject('GetLocationUserAccessList', filterExpression, function (result1) {
+                            if (result1.length == 1) {
+                                var loc = result1[0];
+                                $('#<%=txtFromLocationCode.ClientID %>').val(loc.LocationCode);
+                                entityToControlFromLocation(loc);
+                            }
+                        });
                     }
                     else {
                         $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val('');
                         $('#<%=txtFromServiceUnitCode.ClientID %>').val('');
                         $('#<%=txtFromServiceUnitName.ClientID %>').val('');
                     }
-                    $('#<%=hdnFromLocationID.ClientID %>').val('');
-                    $('#<%=txtFromLocationCode.ClientID %>').val('');
-                    $('#<%=txtFromLocationName.ClientID %>').val('');
-                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
                 });
             }
             //#endregion
 
             //#region Location From
-            function getLocationFilterExpression() {
+            function onGetFromLocationFilterExpression() {
                 if ($('#<%=hdnFromSiteServiceUnitID.ClientID %>').val() != "") {
                     var filterExpression = "<%=OnGetFilterExpressionFromLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
                     return filterExpression;
@@ -93,7 +102,7 @@
             }
 
             $('#<%=lblFromLocation.ClientID %>.lblLink').live('click', function () {
-                openSearchDialog('locationroleuser', getLocationFilterExpression(), function (value) {
+                openSearchDialog('locationroleuser', onGetFromLocationFilterExpression(), function (value) {
                     $('#<%=txtFromLocationCode.ClientID %>').val(value);
                     onTxtLocationCodeChanged(value);
                 });
@@ -104,24 +113,10 @@
             });
 
             function onTxtLocationCodeChanged(value) {
-                var filterExpression = getLocationFilterExpression() + " AND LocationCode = '" + value + "'";
+                var filterExpression = onGetFromLocationFilterExpression() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnFromLocationID.ClientID %>').val(result.LocationID);
-                        $('#<%=txtFromLocationName.ClientID %>').val(result.LocationName);
-                        filterExpression = "LocationID = " + result.LocationID;
-                        Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
-                            var filterLocationItemGroup = '';
-                            for (var i = 0; i < result.length; ++i) {
-                                if (filterLocationItemGroup != '')
-                                    filterLocationItemGroup += ' OR ';
-                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
-                            }
-                            if (filterLocationItemGroup != '')
-                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
-                            else
-                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
-                        });
+                        entityToControlFromLocation(result);
                     }
                     else {
                         $('#<%=hdnFromLocationID.ClientID %>').val('');
@@ -155,9 +150,22 @@
             function onTxtToServiceUnitCodeChanged(value) {
                 var filterExpression = onGetToServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
                 Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    $('#<%=hdnToLocationID.ClientID %>').val('');
+                    $('#<%=txtToLocationCode.ClientID %>').val('');
+                    $('#<%=txtToLocationName.ClientID %>').val('');
+                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
                     if (result != null) {
                         $('#<%=hdnToSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
                         $('#<%=txtToServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+                        var filterExpression = onGetToLocationFilterExpression();
+
+                        Methods.getListObject('GetLocationUserAccessList', filterExpression, function (result1) {
+                            if (result1.length == 1) {
+                                var loc = result1[0];
+                                $('#<%=txtToLocationCode.ClientID %>').val(loc.LocationCode);
+                                entityToControlToLocation(loc);
+                            }
+                        });
                     }
                     else {
                         $('#<%=hdnToSiteServiceUnitID.ClientID %>').val('');
@@ -165,16 +173,12 @@
                         $('#<%=txtToServiceUnitName.ClientID %>').val('');
                         $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val('');
                     }
-                    $('#<%=hdnToLocationID.ClientID %>').val('');
-                    $('#<%=txtToLocationCode.ClientID %>').val('');
-                    $('#<%=txtToLocationName.ClientID %>').val('');
-                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
                 });
             }
             //#endregion
 
             //#region Location To
-            function getLocationFilterExpressionTo() {
+            function onGetToLocationFilterExpression() {
                 if ($('#<%=hdnToSiteServiceUnitID.ClientID %>').val() != "") {
                     var filterExpression = "<%=OnGetFilterExpressionToLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnToSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
                     return filterExpression;
@@ -183,7 +187,7 @@
             }
 
             $('#<%=lblToLocation.ClientID %>.lblLink').live('click', function () {
-                openSearchDialog('locationroleuser', getLocationFilterExpressionTo(), function (value) {
+                openSearchDialog('locationroleuser', onGetToLocationFilterExpression(), function (value) {
                     $('#<%=txtToLocationCode.ClientID %>').val(value);
                     onTxtLocationToCodeChanged(value);
                 });
@@ -194,24 +198,10 @@
             });
 
             function onTxtLocationToCodeChanged(value) {
-                var filterExpression = getLocationFilterExpressionTo() + " AND LocationCode = '" + value + "'";
+                var filterExpression = onGetToLocationFilterExpression() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnToLocationID.ClientID %>').val(result.LocationID);
-                        $('#<%=txtToLocationName.ClientID %>').val(result.LocationName);
-                        filterExpression = "LocationID = " + result.LocationID;
-                        Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
-                            var filterLocationItemGroup = '';
-                            for (var i = 0; i < result.length; ++i) {
-                                if (filterLocationItemGroup != '')
-                                    filterLocationItemGroup += ' OR ';
-                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
-                            }
-                            if (filterLocationItemGroup != '')
-                                $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
-                            else
-                                $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
-                        });
+                        entityToControlToLocation(result);
                     }
                     else {
                         $('#<%=hdnToLocationID.ClientID %>').val('');
@@ -225,7 +215,7 @@
 
             //#region Item Group
             function onGetItemGroupFilterExpression() {
-                var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+                var filterExpression = "<%=OnGetFilterExpressionItemGroup() %>";
                 if ($('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() != '')
                     filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() + ")";
                 if ($('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() != '')
@@ -266,7 +256,7 @@
                 var distributionID = $('#<%=hdnDistributionID.ClientID %>').val();
                 var locationID = $('#<%=hdnFromLocationID.ClientID %>').val();
                 if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
                 else {
                     if ($('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() != '')
                         filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() + ")";
@@ -412,6 +402,44 @@
             setPaging($("#paging"), pageCount, function (page) {
                 cbpView.PerformCallback('changepage|' + page);
                 setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
+            });
+        }
+
+        function entityToControlFromLocation(entity) {
+            $('#<%=hdnFromLocationID.ClientID %>').val(entity.LocationID);
+            $('#<%=txtFromLocationName.ClientID %>').val(entity.LocationName);
+            filterExpression = "LocationID = " + entity.LocationID;
+            Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result2) {
+                var filterLocationItemGroup = '';
+                for (var i = 0; i < result2.length; ++i) {
+                    if (filterLocationItemGroup != '')
+                        filterLocationItemGroup += ' OR ';
+                    filterLocationItemGroup += "DisplayPath LIKE '%/" + result2[i].ItemGroupID + "/%'";
+                }
+                if (filterLocationItemGroup != '')
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                else
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
+                cbpView.PerformCallback('refresh');
+            });
+        }
+
+        function entityToControlToLocation(entity) {
+            $('#<%=hdnToLocationID.ClientID %>').val(entity.LocationID);
+            $('#<%=txtToLocationName.ClientID %>').val(entity.LocationName);
+            filterExpression = "LocationID = " + entity.LocationID;
+            Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result2) {
+                var filterLocationItemGroup = '';
+                for (var i = 0; i < result2.length; ++i) {
+                    if (filterLocationItemGroup != '')
+                        filterLocationItemGroup += ' OR ';
+                    filterLocationItemGroup += "DisplayPath LIKE '%/" + result2[i].ItemGroupID + "/%'";
+                }
+                if (filterLocationItemGroup != '')
+                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                else
+                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
+                cbpView.PerformCallback('refresh');
             });
         }
 

@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
     public partial class ItemRequestOutstandingDetail {
         
         /// <summary>
+        /// btnItemReqHdSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnItemReqHdSave;
+        
+        /// <summary>
         /// btnItemReqHdProcess control.
         /// </summary>
         /// <remarks>
@@ -299,15 +308,6 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFromLocationID;
-        
-        /// <summary>
-        /// hdnLstFilterFromLocationItemGroup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstFilterFromLocationItemGroup;
         
         /// <summary>
         /// txtFromLocationCode control.

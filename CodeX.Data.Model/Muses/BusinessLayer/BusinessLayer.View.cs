@@ -5463,6 +5463,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vItemPlanningCustom> GetvItemPlanningCustomList(string filterExpression, IDbContext ctx)
+        {
+            List<vItemPlanningCustom> result = new List<vItemPlanningCustom>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vItemPlanningCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vItemPlanningCustom)helper.IDataReaderToObject(reader, new vItemPlanningCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region vItemProduct
         public static List<vItemProduct> GetvItemProductList(string filterExpression)

@@ -14,12 +14,12 @@
     $(function () {
         setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, 1, rowCountPerPagePopup);
         setPaging($("#pagingPopup"), pageCountPopup, function (page) {
-            cbpEntryPopupView.PerformCallback('changepage|' + page);
+            cbpViewPopup.PerformCallback('changepage|' + page);
             setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, page, rowCountPerPagePopup);
         });
     });
 
-    function onCbpEntryPopupViewEndCallback(s) {
+    function onCbpPopupViewEndCallback(s) {
         hideLoadingPanel();
         var param = s.cpResult.split('|');
         if (param[0] == 'refresh') {
@@ -28,7 +28,7 @@
 
             setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, 1, rowCountPerPage);
             setPaging($("#pagingPopup"), pageCount, function (page) {
-                cbpEntryPopupView.PerformCallback('changepage|' + page);
+                cbpViewPopup.PerformCallback('changepage|' + page);
                 setNumEntriesText($('#informationNumEntriesPopup'), rowCount, page, rowCountPerPage);
             });
 
@@ -87,7 +87,7 @@
         <td colspan="2">
             <dxcp:ASPxCallbackPanel ID="cbpViewPopup" runat="server" Width="100%" ClientInstanceName="cbpViewPopup"
                 ShowLoadingPanel="false" OnCallback="cbpViewPopup_Callback">
-                <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpPopupViewEndCallback(s); }" />
                 <PanelCollection>
                     <dx:PanelContent ID="PanelContent1" runat="server">
                         <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto; height:290px; overflow-y:scroll;

@@ -17209,6 +17209,7 @@ namespace CodeX.Data.Model
         private Decimal _PurchaseRequestQty;
         private String _GCPurchaseRequestItemUnit;
         private Decimal _PurchaseRequestConversionFactor;
+        private Boolean _IsSelected;
         private String _GCItemDetailStatus;
         private Boolean _IsDeleted;
         private Int32 _CreatedBy;
@@ -17311,6 +17312,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseRequestConversionFactor; }
             set { _PurchaseRequestConversionFactor = value; }
+        }
+        [Column(Name = "IsSelected", DataType = "Boolean")]
+        public Boolean IsSelected
+        {
+            get { return _IsSelected; }
+            set { _IsSelected = value; }
         }
         [Column(Name = "GCItemDetailStatus", DataType = "String")]
         public String GCItemDetailStatus

@@ -8054,6 +8054,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ItemDistributionHd> GetItemDistributionHdList(string filterExpression, IDbContext ctx)
+        {
+            List<ItemDistributionHd> result = new List<ItemDistributionHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemDistributionHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemDistributionHd)helper.IDataReaderToObject(reader, new ItemDistributionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetItemDistributionHdMaxID(IDbContext ctx)
         {
             Int32 result = 0;

@@ -67,9 +67,24 @@
             function onTxtFromServiceUnitCodeChanged(value) {
                 var filterExpression = onGetFromServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
                 Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    $('#<%=hdnFromLocationID.ClientID %>').val('');
+                    $('#<%=txtFromLocationCode.ClientID %>').val('');
+                    $('#<%=txtFromLocationName.ClientID %>').val('');
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
                     if (result != null) {
                         $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
                         $('#<%=txtFromServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+
+                        var filterExpression = onGetLocationFilterExpression();
+
+                        Methods.getListObject('GetLocationUserAccessList', filterExpression, function (result1) {
+                            if (result1.length == 1) {
+                                var loc = result1[0];
+                                $('#<%=txtFromLocationCode.ClientID %>').val(loc.LocationCode);
+                                entityToControlLocation(loc);
+                            }
+                        });
+
                         cbpLocation.PerformCallback();
                     }
                     else {
@@ -77,10 +92,6 @@
                         $('#<%=txtFromServiceUnitCode.ClientID %>').val('');
                         $('#<%=txtFromServiceUnitName.ClientID %>').val('');
                     }
-                    $('#<%=hdnFromLocationID.ClientID %>').val('');
-                    $('#<%=txtFromLocationCode.ClientID %>').val('');
-                    $('#<%=txtFromLocationName.ClientID %>').val('');
-                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
                 });
             }
             //#endregion
@@ -109,22 +120,7 @@
                 var filterExpression = onGetLocationFilterExpression() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnFromLocationID.ClientID %>').val(result.LocationID);
-                        $('#<%=txtFromLocationName.ClientID %>').val(result.LocationName);
-
-                        filterExpression = "LocationID = " + result.LocationID;
-                        Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
-                            var filterLocationItemGroup = '';
-                            for (var i = 0; i < result.length; ++i) {
-                                if (filterLocationItemGroup != '')
-                                    filterLocationItemGroup += ' OR ';
-                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
-                            }
-                            if (filterLocationItemGroup != '')
-                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
-                            else
-                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
-                        });
+                        entityToControlLocation(result);
                     }
                     else {
                         $('#<%=hdnFromLocationID.ClientID %>').val('');
@@ -201,7 +197,7 @@
 
             //#region Item Group
             function onGetItemGroupFilterExpression() {
-                var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+                var filterExpression = "<%=OnGetFilterExpressionItemGroup() %>";
                 if ($('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() != '')
                     filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() + ")";
                 if ($('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() != '')
@@ -241,7 +237,7 @@
                 var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
                 var orderID = $('#<%=hdnOrderID.ClientID %>').val();
                 if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
                 else {
                     if ($('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() != '')
                         filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() + ")";
@@ -388,6 +384,25 @@
             });
 
             setDdeLocationText();
+        }
+
+        function entityToControlLocation(entity) {
+            $('#<%=hdnFromLocationID.ClientID %>').val(entity.LocationID);
+            $('#<%=txtFromLocationName.ClientID %>').val(entity.LocationName);
+
+            filterExpression = "LocationID = " + entity.LocationID;
+            Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result2) {
+                var filterLocationItemGroup = '';
+                for (var i = 0; i < result2.length; ++i) {
+                    if (filterLocationItemGroup != '')
+                        filterLocationItemGroup += ' OR ';
+                    filterLocationItemGroup += "DisplayPath LIKE '%/" + result2[i].ItemGroupID + "/%'";
+                }
+                if (filterLocationItemGroup != '')
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                else
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
+            });
         }
 
         function GetItemQtyFromServiceUnit() {

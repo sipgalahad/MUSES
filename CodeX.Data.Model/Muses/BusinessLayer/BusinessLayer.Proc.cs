@@ -1248,7 +1248,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetItemUsageItemRequestROPList
-        public static List<GetItemUsageItemRequestROPList> GetItemUsageItemRequestROPList(String LstLocationID, string itemName, Int32 PageIndex, Int32 NumRows)
+        public static List<GetItemUsageItemRequestROPList> GetItemUsageItemRequestROPList(Int32 FromLocationID, String LstLocationID, string itemName, string itemGroupID, string viewType, Int32 PageIndex, Int32 NumRows)
         {
             List<GetItemUsageItemRequestROPList> result = new List<GetItemUsageItemRequestROPList>();
             IDbContext ctx = DbFactory.Configure();
@@ -1258,8 +1258,11 @@ namespace CodeX.Data.Model
                 ctx.CommandText = "GetItemUsageItemRequestROPList";
                 ctx.CommandType = CommandType.StoredProcedure;
                 //Add Parameter
+                ctx.Add("FromLocationID", FromLocationID);
                 ctx.Add("LstLocationID", LstLocationID);
                 ctx.Add("ItemName", itemName);
+                ctx.Add("ItemGroupID", itemGroupID);
+                ctx.Add("ViewType", viewType);
                 ctx.Add("PageIndex", PageIndex);
                 ctx.Add("NumRows", NumRows);
 
@@ -1280,7 +1283,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetItemUsageItemRequestROPRowCount
-        public static Int32 GetItemUsageItemRequestROPRowCount(String LstLocationID, string itemName)
+        public static Int32 GetItemUsageItemRequestROPRowCount(Int32 FromLocationID, String LstLocationID, string itemName, string itemGroupID, string viewType)
         {
             SqlParameter param = new SqlParameter();
             IDbContext ctx = DbFactory.Configure();
@@ -1289,8 +1292,11 @@ namespace CodeX.Data.Model
                 ctx.CommandText = "GetItemUsageItemRequestROPRowCount";
                 ctx.CommandType = CommandType.StoredProcedure;
                 //Add Parameter
+                ctx.Add("FromLocationID", FromLocationID);
                 ctx.Add("LstLocationID", LstLocationID);
                 ctx.Add("ItemName", itemName);
+                ctx.Add("ItemGroupID", itemGroupID);
+                ctx.Add("ViewType", viewType);
 
                 param.ParameterName = "@Result";
                 param.SqlDbType = SqlDbType.Int;

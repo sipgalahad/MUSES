@@ -124,7 +124,7 @@
         $('.lnkDistribution a').live('click', function () {
             var param = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl("~/Program/Warehouse/ItemDistribution/Confirmation/ItemDistributionConfirmationDetailCtl.ascx");
-            openUserControlPopup(url, param, 'Konfirmasi Penerimaan Barang', 800, 600);
+            openUserControlPopup(url, param, 'Konfirmasi Penerimaan Barang', 1000, 600);
         });
     </script>
     <input type="hidden" id="hdnTransactionCode" runat="server" />
@@ -170,11 +170,11 @@
                                         <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:HyperLinkField HeaderText="No. Penerimaan" DataTextField="DistributionNo" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" ItemStyle-CssClass="lnkDistribution" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="DeliveryDateTimeInString" HeaderText="Tanggal Pengiriman" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="160px" />
-                                <asp:BoundField DataField="FromServiceUnitName" HeaderText="Dari Bagian"  HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" HeaderStyle-Width="300px" />
-                                <asp:BoundField DataField="FromLocationName" HeaderText="Dari Lokasi"  HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" HeaderStyle-Width="300px" />
-                                <asp:BoundField DataField="DeliveryRemarks" HeaderText="Keterangan" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
+                                <asp:HyperLinkField DataTextField="DistributionNo" HeaderText="No. Penerimaan" ItemStyle-CssClass="lnkDistribution" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="DeliveryDateTimeInString" HeaderText="Tanggal Pengiriman" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="160px" />
+                                <asp:BoundField DataField="FromServiceUnitName" HeaderText="Dari Bagian" HeaderStyle-Width="300px" />
+                                <asp:BoundField DataField="FromLocationName" HeaderText="Dari Lokasi" HeaderStyle-Width="300px" />
+                                <asp:BoundField DataField="DeliveryRemarks" HeaderText="Keterangan" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>
