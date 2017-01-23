@@ -28,9 +28,13 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
 
         #region Html Getter
-        protected string OnGetFilterExpressionLocation()
+        protected string OnGetReorderTypeStatic()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_ORDER);
+            return Constant.ReorderType.STATIC;
+        }
+        protected string OnGetFilterExpressionToLocation()
+        {
+            return string.Format("{0};0;{1};", AppSession.UserLogin.SiteID, Constant.TransactionCode.PURCHASE_RECEIVE);
         }
         protected string OnGetFilterExpressionServiceUnit()
         {
@@ -38,9 +42,19 @@ namespace CodeX.Muses.Web.Inventory.Program
                 return string.Format("SiteServiceUnitID IN ({0}) AND IsDeleted = 0", hdnListSiteServiceUnitID.Value);
             return "1 = 0";
         }
+        protected string OnGetFilterExpressionToServiceUnit()
+        {
+            if (hdnListToSiteServiceUnitID.Value != "")
+                return string.Format("SiteServiceUnitID IN ({0}) AND IsDeleted = 0", hdnListToSiteServiceUnitID.Value);
+            return "1 = 0";
+        }
         protected string OnGetFilterExpressionSupplier()
         {
             return string.Format("GCBusinessPartnerType = '{0}' AND IsDeleted = 0", Constant.BusinessObjectType.SUPPLIER);
+        }
+        protected string OnGetFilterExpressionItemGroup()
+        {
+            return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
         }
         #endregion
 
@@ -56,19 +70,31 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void InitializeDataControl()
         {
-            List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_REQUEST, "");
+            List<GetServiceUnitUserList> lstUserServiceUnit = BusinessLayer.GetServiceUnitUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, string.Format("SiteServiceUnitID IN (SELECT SiteServiceUnitID FROM vSiteServiceUnit WHERE IsAllowPurchase = 1)"));
+            if (lstUserServiceUnit.Count == 1)
+            {
+                GetServiceUnitUserList serviceUnit = lstUserServiceUnit.FirstOrDefault();
+                hdnDefaultToSiteServiceUnitID.Value = serviceUnit.SiteServiceUnitID.ToString();
+                hdnDefaultToServiceUnitCode.Value = serviceUnit.ServiceUnitCode;
+                hdnDefaultToServiceUnitName.Value = serviceUnit.ServiceUnitName;
+            }
+            if (lstUserServiceUnit.Count > 0)
+            {
+                hdnListSiteServiceUnitID.Value = string.Join(",", lstUserServiceUnit.Select(p => p.SiteServiceUnitID).ToList());
+            }
+
+            List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, 0, Constant.TransactionCode.PURCHASE_RECEIVE, "");
             if (lstUserLocation.Count > 0)
             {
-                List<ServiceUnitLocation> lstServiceUnitLocation = BusinessLayer.GetServiceUnitLocationList(string.Format("LocationID IN ({0})", string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList())));
-                hdnListSiteServiceUnitID.Value = string.Join(",", lstServiceUnitLocation.Select(p => p.SiteServiceUnitID).ToList());
+                List<vServiceUnitLocation> lstServiceUnitLocation = BusinessLayer.GetvServiceUnitLocationList(string.Format("LocationID IN ({0})", string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList())));
+                hdnListToSiteServiceUnitID.Value = string.Join(",", lstServiceUnitLocation.Select(p => p.SiteServiceUnitID).ToList());
 
-                List<vSiteServiceUnit> lstSiteServiceUnit = BusinessLayer.GetvSiteServiceUnitList(OnGetFilterExpressionServiceUnit());
-                if (lstSiteServiceUnit.Count == 1)
+                if (lstServiceUnitLocation.Count == 1)
                 {
-                    vSiteServiceUnit serviceUnit = lstSiteServiceUnit.FirstOrDefault();
-                    hdnDefaultSiteServiceUnitID.Value = serviceUnit.SiteServiceUnitID.ToString();
-                    hdnDefaultServiceUnitCode.Value = serviceUnit.ServiceUnitCode;
-                    hdnDefaultServiceUnitName.Value = serviceUnit.ServiceUnitName;
+                    vServiceUnitLocation serviceUnit = lstServiceUnitLocation.FirstOrDefault();
+                    hdnDefaultToSiteServiceUnitID.Value = serviceUnit.SiteServiceUnitID.ToString();
+                    hdnDefaultToServiceUnitCode.Value = serviceUnit.ServiceUnitCode;
+                    hdnDefaultToServiceUnitName.Value = serviceUnit.ServiceUnitName;
 
                     GetLocationItemGroupAndBindLocation(serviceUnit.SiteServiceUnitID);
                 }
@@ -82,7 +108,23 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.REORDER_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboReorderType, lstSc, "StandardCodeName", "StandardCodeID");
-            cboReorderType.SelectedIndex = 0;
+            StandardCode defaultSc = lstSc.FirstOrDefault(p => p.IsDefault);
+            if (defaultSc == null)
+                defaultSc = lstSc.FirstOrDefault();
+            cboReorderType.Value = defaultSc.StandardCodeID;
+
+            List<Variable> lstViewType = new List<Variable>();
+            lstViewType.Add(new Variable { Code = "0", Value = GetLabel("Pengeluaran > Qty Akhir") });
+            lstViewType.Add(new Variable { Code = "1", Value = GetLabel("Ada Pengeluaran") });
+            lstViewType.Add(new Variable { Code = "2", Value = GetLabel("Semua Item") });
+            Methods.SetComboBoxField<Variable>(cboViewType, lstViewType, "Value", "Code");
+            cboViewType.SelectedIndex = 0;
+
+            lstViewType = new List<Variable>();
+            lstViewType.Add(new Variable { Code = "0", Value = GetLabel("Stok <= Minimum") });
+            lstViewType.Add(new Variable { Code = "1", Value = GetLabel("Semua Item") });
+            Methods.SetComboBoxField<Variable>(cboViewTypeStatic, lstViewType, "Value", "Code");
+            cboViewTypeStatic.SelectedIndex = 0;
 
             BindGridView(1, true, ref PageCount, ref RowCount);
             hdnPageCount.Value = PageCount.ToString();
@@ -91,7 +133,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         private void GetLocationItemGroupAndBindLocation(int SiteServiceUnitID)
         {
-            string filterExpression = string.Format("{0}LocationID IN (SELECT LocationID FROM ServiceUnitLocation WHERE SiteServiceUnitID = {1})", OnGetFilterExpressionLocation(), SiteServiceUnitID);
+            string filterExpression = string.Format("{0}LocationID IN (SELECT LocationID FROM ServiceUnitLocation WHERE SiteServiceUnitID = {1})", OnGetFilterExpressionToLocation(), SiteServiceUnitID);
             List<GetLocationUserList> lstLocation = BusinessLayer.GetLocationUserAccessList(filterExpression);
             string lstLocationID = String.Join(",", lstLocation.Select(p => p.LocationID).ToList());
             if (lstLocationID != "")
@@ -100,12 +142,12 @@ namespace CodeX.Muses.Web.Inventory.Program
                 List<LocationItemGroup> lstLocationItemGroup = BusinessLayer.GetLocationItemGroupList(filterExpression);
                 string filterLocationItemGroup = String.Join(" OR ", lstLocationItemGroup.Select(p => string.Format("DisplayPath LIKE '%/{0}/%'", p.ItemGroupID)).ToList());
                 if (filterLocationItemGroup != "")
-                    hdnLstFilterLocationItemGroup.Value = string.Format("({0})", filterLocationItemGroup);
+                    hdnLstFilterToLocationItemGroup.Value = string.Format("({0})", filterLocationItemGroup);
                 else
-                    hdnLstFilterLocationItemGroup.Value = "";
+                    hdnLstFilterToLocationItemGroup.Value = "";
             }
             else
-                hdnLstFilterLocationItemGroup.Value = "";
+                hdnLstFilterToLocationItemGroup.Value = "";
             BindLocation();
         }
 
@@ -113,8 +155,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             Repeater rptLocation = (Repeater)ddeLocation.FindControl("rptLocation");
             string filterExpression = "1 = 0";
-            if (hdnLstFilterLocationItemGroup.Value != "")
-                filterExpression = string.Format("LocationID IN (SELECT LocationID FROM vLocationItemGroupPath WHERE {0}) AND IsDeleted = 0", hdnLstFilterLocationItemGroup.Value);
+            if (hdnLstFilterToLocationItemGroup.Value != "")
+                filterExpression = string.Format("LocationID IN (SELECT LocationID FROM vLocationItemGroupPath WHERE {0}) AND IsDeleted = 0", hdnLstFilterToLocationItemGroup.Value);
             List<Location> lstLocation = BusinessLayer.GetLocationList(filterExpression);
             rptLocation.DataSource = lstLocation;
             rptLocation.DataBind();
@@ -141,7 +183,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_ORDER_TYPE, Constant.StandardCode.FRANCO_REGION, Constant.StandardCode.CURRENCY_CODE));
             List<Term> listTerm = BusinessLayer.GetTermList(string.Format("isDeleted = 0"));
-            Methods.SetComboBoxField<StandardCode>(cboPurchaseOrderType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.PURCHASE_ORDER_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboPurchaseOrderType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.PURCHASE_ORDER_TYPE && p.TagProperty == "0").ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboFrancoRegion, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.FRANCO_REGION).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboCurrency, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CURRENCY_CODE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<Term>(cboTerm, listTerm, "TermName", "TermID");
@@ -161,6 +203,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(false, false, false, hdnDefaultSiteServiceUnitID.Value));
             SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, false, true, hdnDefaultServiceUnitCode.Value));
             SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, true, hdnDefaultServiceUnitName.Value));
+            SetControlEntrySetting(hdnToSiteServiceUnitID, new ControlEntrySetting(false, false, false, hdnDefaultToSiteServiceUnitID.Value));
+            SetControlEntrySetting(txtToServiceUnitCode, new ControlEntrySetting(true, false, true, hdnDefaultToServiceUnitCode.Value));
+            SetControlEntrySetting(txtToServiceUnitName, new ControlEntrySetting(false, false, true, hdnDefaultToServiceUnitName.Value));
             
             SetControlEntrySetting(cboPurchaseOrderType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(cboTerm, new ControlEntrySetting(true, false, true));
@@ -212,8 +257,12 @@ namespace CodeX.Muses.Web.Inventory.Program
                 hdnConversionFactor.Value = itemPlanning.PurchaseUnitConversionFactor.ToString();
 
                 decimal conversionFactor = itemPlanning.PurchaseUnitConversionFactor;
-                Decimal autoQty = (quantityMAX - quantityEND - qtyOnOrder);
-                if (autoQty < 0) autoQty = 0;
+                Decimal autoQty = 0;
+                if (quantityEND <= quantityMIN)
+                {
+                    autoQty = (quantityMAX - quantityEND - qtyOnOrder);
+                    if (autoQty < 0) autoQty = 0;
+                }
                 if (lstSelectedMember.Contains(entity.ItemID.ToString()))
                 {
                     int idx = Array.IndexOf(lstSelectedMember, entity.ItemID.ToString());
@@ -226,14 +275,15 @@ namespace CodeX.Muses.Web.Inventory.Program
                     lblItemUnit.Attributes.Add("class", "lblItemUnit lblLink");
                     conversionFactor = Convert.ToDecimal(lstConversionFactor[idx]);
                     lblItemUnit.InnerHtml = string.Format("{0} ({1})", lstItemUnit[idx], conversionFactor.ToString("G29"));
+                    txtTotalQty.Text = (Convert.ToDecimal(lstQty[idx]) * Convert.ToDecimal(lstConversionFactor[idx])).ToString("0.00");
                 }
                 else
                 {
                     lblItemUnit.Attributes.Add("class", "lblItemUnit lblDisabled");
+                    autoQty = Math.Ceiling(autoQty / conversionFactor);
+                    txtQty.Text = autoQty.ToString("0.00");
+                    txtTotalQty.Text = (autoQty * conversionFactor).ToString("0.00");
                 }
-                autoQty = Math.Ceiling(autoQty / conversionFactor);
-                txtQty.Text = autoQty.ToString("0.00");
-                txtTotalQty.Text = (autoQty * conversionFactor).ToString("0.00");
             }
         }
 
@@ -243,7 +293,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             if (hdnLstLocationID.Value != "")
             {
                 if (cboReorderType.Value.ToString() == Constant.ReorderType.STATIC)
-                    filterExpression = string.Format("ItemID IN (SELECT ItemID FROM ItemBalance WHERE LocationID IN ({0}) AND GCReorderType = '{1}' AND IsDeleted = 0 GROUP BY ItemID HAVING SUM(QuantityEND) <= SUM(QuantityMIN)) AND IsDeleted = 0", hdnLstLocationID.Value, cboReorderType.Value);
+                {
+                    if (cboViewTypeStatic.Value.ToString() == "0")
+                        filterExpression = string.Format("ItemID IN (SELECT ItemID FROM ItemBalance WHERE LocationID IN ({0}) AND IsDeleted = 0 GROUP BY ItemID HAVING SUM(QuantityEND) <= SUM(QuantityMIN)) AND ItemID IN (SELECT ItemID FROM ItemPlanning WHERE GCPurchaseReorderType = '{1}' AND SiteID = '{3}' AND IsDeleted = 0) AND ItemName1 LIKE '%{2}%' AND IsDeleted = 0", hdnLstLocationID.Value, cboReorderType.Value, txtItemName.Text, AppSession.UserLogin.SiteID);
+                    else
+                        filterExpression = string.Format("ItemID IN (SELECT ItemID FROM ItemBalance WHERE LocationID IN ({0}) AND IsDeleted = 0 GROUP BY ItemID) AND ItemID IN (SELECT ItemID FROM ItemPlanning WHERE GCPurchaseReorderType = '{1}' AND SiteID = '{3}' AND IsDeleted = 0) AND ItemName1 LIKE '%{2}%' AND IsDeleted = 0", hdnLstLocationID.Value, cboReorderType.Value, txtItemName.Text, AppSession.UserLogin.SiteID);
+                }
             }
 
             if (isCountPageCount)
@@ -251,7 +306,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 if (cboReorderType.Value.ToString() == Constant.ReorderType.STATIC)
                     rowCount = BusinessLayer.GetvItemMasterRowCount(filterExpression);
                 else
-                    rowCount = BusinessLayer.GetItemUsagePurchaseRequestROPRowCount(hdnLstLocationID.Value, "");
+                    rowCount = BusinessLayer.GetItemUsagePurchaseRequestROPRowCount(hdnLstLocationID.Value, txtItemName.Text, hdnItemGroupID.Value, cboViewType.Value.ToString());
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
             lstSelectedMember = hdnSelectedMember.Value.Split('|');
@@ -270,7 +325,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             else
             {
                 if (hdnLstLocationID.Value != "")
-                    lstEntity2 = BusinessLayer.GetItemUsagePurchaseRequestROPList(hdnLstLocationID.Value, "", pageIndex, Constant.GridViewPageSize.GRID_MASTER);
+                    lstEntity2 = BusinessLayer.GetItemUsagePurchaseRequestROPList(hdnLstLocationID.Value, txtItemName.Text, hdnItemGroupID.Value, cboViewType.Value.ToString(), pageIndex, Constant.GridViewPageSize.GRID_MASTER);
                 else
                     lstEntity2 = new List<GetItemUsagePurchaseRequestROPList>();
                 lstItemID = string.Join(",", lstEntity2.Select(p => p.ItemID).ToList());
@@ -282,7 +337,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 lstQtyOnOrder = new List<vPurchaseOrderDtQtyOnOrderPerItemPerSiteServiceUnit>();
 
             if (lstItemID != "" && hdnLstLocationID.Value != "")
-                lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID IN ({0}) AND ItemID IN ({1}) AND GCReorderType = '{2}' AND IsDeleted = 0", hdnLstLocationID.Value, lstItemID, cboReorderType.Value));
+                lstItemBalance = BusinessLayer.GetItemBalanceList(string.Format("LocationID IN ({0}) AND ItemID IN ({1}) AND IsDeleted = 0", hdnLstLocationID.Value, lstItemID));
             else
                 lstItemBalance = new List<ItemBalance>();
             if (lstItemID != "")
@@ -329,12 +384,14 @@ namespace CodeX.Muses.Web.Inventory.Program
                 HtmlGenericControl lblEndingBalance = e.Row.FindControl("lblEndingBalance") as HtmlGenericControl;
                 CheckBox chkIsSelected = (CheckBox)e.Row.FindControl("chkIsSelected");
                 HtmlInputHidden hdnGCItemUnit = (HtmlInputHidden)e.Row.FindControl("hdnGCItemUnit");
+                HtmlInputHidden hdnItemUnit = (HtmlInputHidden)e.Row.FindControl("hdnItemUnit");
                 HtmlInputHidden hdnConversionFactor = (HtmlInputHidden)e.Row.FindControl("hdnConversionFactor");
                 HtmlGenericControl lblItemUnit = (HtmlGenericControl)e.Row.FindControl("lblItemUnit");
 
                 lblQtyOnOrder.InnerHtml = qtyOnOrder.ToString("0.00");
                 lblEndingBalance.InnerHtml = quantityEND.ToString("0.00");
                 hdnGCItemUnit.Value = itemPlanning.GCPurchaseUnit;
+                hdnItemUnit.Value = itemPlanning.PurchaseUnit;
                 lblItemUnit.InnerText = string.Format("{0} ({1})", itemPlanning.PurchaseUnit, itemPlanning.PurchaseUnitConversionFactor.ToString("G29"));
                 hdnConversionFactor.Value = itemPlanning.PurchaseUnitConversionFactor.ToString();
 
@@ -350,17 +407,19 @@ namespace CodeX.Muses.Web.Inventory.Program
                     txtQty.Text = lstQty[idx];
                     hdnConversionFactor.Value = lstConversionFactor[idx];
                     hdnGCItemUnit.Value = lstGCItemUnit[idx];
+                    hdnItemUnit.Value = lstItemUnit[idx];
                     lblItemUnit.Attributes.Add("class", "lblItemUnit lblLink");
                     conversionFactor = Convert.ToDecimal(lstConversionFactor[idx]);
                     lblItemUnit.InnerHtml = string.Format("{0} ({1})", lstItemUnit[idx], conversionFactor.ToString("G29"));
+                    txtTotalQty.Text = (Convert.ToDecimal(lstQty[idx]) * Convert.ToDecimal(lstConversionFactor[idx])).ToString("0.00");
                 }
                 else
                 {
                     lblItemUnit.Attributes.Add("class", "lblItemUnit lblDisabled");
+                    autoQty = Math.Ceiling(autoQty / conversionFactor);
+                    txtQty.Text = autoQty.ToString("0.00");
+                    txtTotalQty.Text = (autoQty * conversionFactor).ToString("0.00");
                 }
-                autoQty = Math.Ceiling(autoQty / conversionFactor);
-                txtQty.Text = autoQty.ToString("0.00");
-                txtTotalQty.Text = (autoQty * conversionFactor).ToString("0.00");
             }
         }
 
@@ -404,6 +463,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.TermID = Convert.ToInt32(cboTerm.Value.ToString());
             entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
             entityHd.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
+            entityHd.ToSiteServiceUnitID = Convert.ToInt32(hdnToSiteServiceUnitID.Value);
             entityHd.GCFrancoRegion = cboFrancoRegion.Value.ToString();
             entityHd.GCCurrencyCode = cboCurrency.Value.ToString();
             entityHd.CurrencyRate = Convert.ToDecimal(txtKurs.Text);

@@ -1,55 +1,50 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPTrx.master" AutoEventWireup="true"
-    CodeBehind="PurchaseOrderOutstandingDetail.aspx.cs" Inherits="CodeX.Muses.Web.Inventory.Program.PurchaseOrderOutstandingDetail" %>
-
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="PurchaseOrderOutstandingDtCtl.ascx.cs"
+    Inherits="CodeX.Ottimo.Web.Inventory.Program.PurchaseOrderOutstandingDtCtl" %>
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
-<asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnPurchaseRequestBack" runat="server" crudmode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/back.png")%>' alt="" /><div><%=GetLabel("Back")%></div></li>
-</asp:Content>
-<asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
-    <script type="text/javascript">
-        function onLoad() {
-            $('#<%=btnPurchaseRequestBack.ClientID %>').click(function () {
-                showLoadingPanel();
-                document.location = ResolveUrl('~/Program/Procurement/PurchaseOrder/Outstanding/PurchaseOrderOutstandingList.aspx');
-            });
-        }
 
-        //#region Paging
-        var pageCount = parseInt('<%=PageCount %>');
-        var rowCount = parseInt('<%=RowCount %>');
-        var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
-        $(function () {
-            setNumEntriesText($('#informationNumEntries'), rowCount, 1, rowCountPerPage);
-            setPaging($("#paging"), pageCount, function (page) {
-                cbpView.PerformCallback('changepage|' + page);
-                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
-            });
+<script type="text/javascript" id="dxss_serviceunithealthcareentryctl">
+    $('#containerPopup .txtCurrency').each(function () {
+        $(this).trigger('changeValue');
+    });
+    //#region Paging
+    var pageCountPopup = parseInt('<%=PageCount %>');
+    var rowCountPopup = parseInt('<%=RowCount %>');
+    var rowCountPerPagePopup = parseInt('<%=RowCountPerPage %>');
+    $(function () {
+        setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, 1, rowCountPerPagePopup);
+        setPaging($("#pagingPopup"), pageCountPopup, function (page) {
+            cbpView.PerformCallback('changepage|' + page);
+            setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, page, rowCountPerPagePopup);
         });
+    });
 
-        function onCbpViewEndCallback(s) {
-            hideLoadingPanel();
+    function onCbpViewPopupEndCallback(s) {
+        hideLoadingPanel();
 
-            var param = s.cpResult.split('|');
-            if (param[0] == 'refresh') {
-                var pageCount = parseInt(param[1]);
-                var rowCount = parseInt(param[2]);
-                setNumEntriesText($('#informationNumEntries'), rowCount, 1, rowCountPerPage);
-                setPaging($("#paging"), pageCount, function (page) {
-                    cbpView.PerformCallback('changepage|' + page);
-                    setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
-                });
-            }
+        var param = s.cpResult.split('|');
+        if (param[0] == 'refresh') {
+            var pageCountPopup = parseInt(param[1]);
+            var rowCountPopup = parseInt(param[2]);
+            setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, 1, rowCountPerPagePopup);
+            setPaging($("#pagingPopup"), pageCountPopup, function (page) {
+                cbpView.PerformCallback('changepage|' + page);
+                setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, page, rowCountPerPagePopup);
+            });
         }
-        //#endregion
-    </script>
+    }
+    //#endregion
+</script>
+<input type="hidden" id="hdnPurchaseReceiveID" runat="server" />
+<input type="hidden" id="hdnVATPercentage" runat="server" />
+
+<div style="max-height: 500px; overflow-y: auto" id="containerPopup">
     <input type="hidden" value="" id="hdnParam" runat="server" />
     <input type="hidden" value="" id="hdnOrderID" runat="server" />
-    <input type="hidden" value="" id="hdnVATPercentage" runat="server" />
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
 
     <style type="text/css">
@@ -85,8 +80,12 @@
                             <td><asp:TextBox ID="txtExpiredDate" Width="120px" CssClass="datepicker" runat="server" ReadOnly="true" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><%=GetLabel("Bagian") %></td>
+                            <td class="tdLabel"><%=GetLabel("Dari Bagian") %></td>
                             <td><asp:TextBox ID="txtServiceUnitName" Width="100%" runat="server" ReadOnly="true"/></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><%=GetLabel("Ke Bagian") %></td>
+                            <td><asp:TextBox ID="txtToServiceUnitName" Width="100%" runat="server" ReadOnly="true"/></td>
                         </tr>
                     </table>
                 </td>
@@ -125,22 +124,20 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
-                        ShowLoadingPanel="false" OnCallback="cbpView_Callback">
-                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                    <dxcp:ASPxCallbackPanel ID="cbpViewPopup" runat="server" Width="100%" ClientInstanceName="cbpViewPopup"
+                        ShowLoadingPanel="false" OnCallback="cbpViewPopup_Callback">
+                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpViewPopupEndCallback(s); }" />
                         <PanelCollection>
                             <dx:PanelContent ID="PanelContent1" runat="server">
                                 <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                                     position: relative; font-size: 0.95em;">
-                                    <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" OnRowDataBound="grdView_RowDataBound"
+                                    <asp:GridView ID="grdViewPopup" runat="server" CssClass="tblTransactionEntryResult" OnRowDataBound="grdViewPopup_RowDataBound"
                                         AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
                                             <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:TemplateField ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
-                                                    <img src='<%# ResolveUrl("~/Libs/Images/Button/verify.png") %>' 
-                                                    <%#Eval("IsReceived").ToString() == "True" ? "" : "Style ='display:none'" %> 
-                                                    title='<%=GetLabel("Diterima") %>' alt="" />
+                                                    <img src='<%# ResolveUrl("~/Libs/Images/Button/verify.png") %>' <%#Eval("IsReceived").ToString() == "True" ? "" : "Style ='display:none'" %> title='<%=GetLabel("Diterima") %>' alt="" />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="ItemName1" HeaderText="Item Name" HeaderStyle-Width="300px" />
@@ -175,15 +172,11 @@
                                                     </table>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                                <asp:BoundField DataField="CustomConversion" HeaderText="Konversi" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="200px" />
-                                            <asp:BoundField DataField="DiscountPercentage1" HeaderStyle-CssClass="thRight" HeaderText="Diskon 1 [%]" ItemStyle-HorizontalAlign="Right"
-                                                HeaderStyle-Width="100px" DataFormatString="{0:N}" />
-                                            <asp:BoundField DataField="DiscountPercentage2" HeaderStyle-CssClass="thRight" HeaderText="Diskon 2 [%]" ItemStyle-HorizontalAlign="Right"
-                                                HeaderStyle-Width="100px" DataFormatString="{0:N}" />
-                                            <asp:BoundField DataField="LineAmount" HeaderStyle-CssClass="thRight" HeaderText="SubTotal" ItemStyle-HorizontalAlign="Right"
-                                                HeaderStyle-Width="130px" DataFormatString="{0:N}" />
-                                            <asp:BoundField DataField="OutstandingAmount" HeaderStyle-CssClass="thRight" HeaderText="Outstanding" ItemStyle-HorizontalAlign="Right"
-                                                HeaderStyle-Width="130px" DataFormatString="{0:N}" />
+                                            <asp:BoundField DataField="CustomConversion" HeaderText="Konversi" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="200px" />
+                                            <asp:BoundField DataField="DiscountPercentage1" HeaderStyle-CssClass="thRight" HeaderText="Diskon 1 [%]" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="100px" DataFormatString="{0:N}" />
+                                            <asp:BoundField DataField="DiscountPercentage2" HeaderStyle-CssClass="thRight" HeaderText="Diskon 2 [%]" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="100px" DataFormatString="{0:N}" />
+                                            <asp:BoundField DataField="LineAmount" HeaderStyle-CssClass="thRight" HeaderText="SubTotal" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="130px" DataFormatString="{0:N}" />
+                                            <asp:BoundField DataField="OutstandingAmount" HeaderStyle-CssClass="thRight" HeaderText="Outstanding" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="130px" DataFormatString="{0:N}" />
                                         </Columns>
                                         <EmptyDataTemplate>
                                             <%=GetLabel("No Data To Display")%>
@@ -194,9 +187,9 @@
                         </PanelCollection>
                     </dxcp:ASPxCallbackPanel>
                     <div class="containerPaging">
-                        <div class="divInformationNumEntries" id="informationNumEntries"></div>
+                        <div class="divInformationNumEntries" id="informationNumEntriesPopup"></div>
                         <div class="wrapperPaging">
-                            <div id="paging">
+                            <div id="pagingPopup">
                             </div>
                         </div>
                     </div>
@@ -218,26 +211,16 @@
                                                 <col style="width: 100px" />
                                             </colgroup>
                                             <tr>
-                                                <td class="tdLabel" style="width: 120px; vertical-align: top; padding-top: 5px;">
-                                                    <label class="lblNormal" id="lblPaymentRemarks"><%=GetLabel("Syarat Pembayaran")%></label>
-                                                </td>
-                                                <td>
-                                                    <asp:TextBox ID="txtPaymentRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="5" ReadOnly="true" />
-                                                </td>
+                                                <td class="tdLabel" style="width: 120px; vertical-align: top; padding-top: 5px;"><label class="lblNormal" id="lblPaymentRemarks"><%=GetLabel("Syarat Pembayaran")%></label></td>
+                                                <td><asp:TextBox ID="txtPaymentRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="5" ReadOnly="true" /></td>
                                             </tr>
                                             <tr>
-                                                <td class="tdLabel" style="width: 120px; vertical-align: top; padding-top: 5px;">
-                                                    <label class="lblNormal"><%=GetLabel("Keterangan")%></label>
-                                                </td>
-                                                <td>
-                                                    <asp:TextBox ID="txtNotes" Width="100%" runat="server" TextMode="MultiLine" Rows="2" ReadOnly="true" />
-                                                </td>
+                                                <td class="tdLabel" style="width: 120px; vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan")%></label></td>
+                                                <td><asp:TextBox ID="txtNotes" Width="100%" runat="server" TextMode="MultiLine" Rows="2" ReadOnly="true" /></td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td>
-                                        &nbsp;
-                                    </td>
+                                    <td>&nbsp;</td>
                                     <td valign="top">
                                         <table style="width: 100%;">
                                             <colgroup>
@@ -285,4 +268,4 @@
             </tr>
         </table>
     </div>
-</asp:Content>
+</div>

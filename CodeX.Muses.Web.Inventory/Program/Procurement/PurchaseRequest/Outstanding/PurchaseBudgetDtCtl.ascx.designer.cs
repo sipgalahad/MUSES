@@ -7,91 +7,109 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.Inventory.Program {
+namespace CodeX.Ottimo.Web.Inventory.Program {
     
     
-    public partial class PurchaseOrderOutstandingList {
+    public partial class PurchaseBudgetDtCtl {
         
         /// <summary>
-        /// btnClosePO control.
+        /// hdnItemID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnClosePO;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnItemID;
         
         /// <summary>
-        /// btnCloseNewPO control.
+        /// hdnSiteServiceUnitID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnCloseNewPO;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteServiceUnitID;
         
         /// <summary>
-        /// btnCopyPO control.
+        /// txtServiceUnit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnCopyPO;
+        protected global::System.Web.UI.WebControls.TextBox txtServiceUnit;
         
         /// <summary>
-        /// btnGeneratePO control.
+        /// txtItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnGeneratePO;
+        protected global::System.Web.UI.WebControls.TextBox txtItem;
         
         /// <summary>
-        /// hdnParam control.
+        /// txtQty control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParam;
+        protected global::System.Web.UI.WebControls.TextBox txtQty;
         
         /// <summary>
-        /// hdnID control.
+        /// txtQtyUsed control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
+        protected global::System.Web.UI.WebControls.TextBox txtQtyUsed;
         
         /// <summary>
-        /// hdnListSiteServiceUnitID control.
+        /// txtQtyRemaining control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSiteServiceUnitID;
+        protected global::System.Web.UI.WebControls.TextBox txtQtyRemaining;
         
         /// <summary>
-        /// hdnFilterExpression control.
+        /// txtTotalAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
+        protected global::System.Web.UI.WebControls.TextBox txtTotalAmount;
         
         /// <summary>
-        /// cbpView control.
+        /// txtTotalAmountUsed control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.WebControls.TextBox txtTotalAmountUsed;
+        
+        /// <summary>
+        /// txtTotalAmountRemaining control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTotalAmountRemaining;
+        
+        /// <summary>
+        /// cbpEntryPopupView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpEntryPopupView;
         
         /// <summary>
         /// PanelContent1 control.
@@ -103,13 +121,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// pnlView control.
+        /// pnlEntryPopupGrdView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
+        protected global::System.Web.UI.WebControls.Panel pnlEntryPopupGrdView;
         
         /// <summary>
         /// grdView control.
@@ -119,5 +137,14 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdView;
+        
+        /// <summary>
+        /// grdView2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdView2;
     }
 }

@@ -36,7 +36,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             grdView.DataSource = lstEntity;
             grdView.DataBind();
 
-            filterExpression = string.Format("SiteServiceUnitID = {0} AND ItemID = {1} AND GCTransactionStatus NOT IN ('{2}','{3}') AND GCItemDetailStatus != '{3}'", hdnSiteServiceUnitID.Value, hdnItemID.Value, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
+            filterExpression = string.Format("SiteServiceUnitID = {0} AND ItemID = {1} AND GCTransactionStatus NOT IN ('{2}','{3}','{4}') AND GCItemDetailStatus != '{4}'", hdnSiteServiceUnitID.Value, hdnItemID.Value, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
             List<vDirectPurchaseDt> lstEntity2 = BusinessLayer.GetvDirectPurchaseDtList(filterExpression);
             grdView2.DataSource = lstEntity2;
             grdView2.DataBind();

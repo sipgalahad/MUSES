@@ -103,6 +103,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSiteServiceUnitID;
         
         /// <summary>
+        /// hdnListToSiteServiceUnitID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListToSiteServiceUnitID;
+        
+        /// <summary>
         /// hdnLstLocationID control.
         /// </summary>
         /// <remarks>
@@ -119,6 +128,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstFilterLocationItemGroup;
+        
+        /// <summary>
+        /// hdnLstFilterToLocationItemGroup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstFilterToLocationItemGroup;
         
         /// <summary>
         /// hdnDefaultSiteServiceUnitID control.
@@ -146,6 +164,33 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDefaultServiceUnitName;
+        
+        /// <summary>
+        /// hdnDefaultToSiteServiceUnitID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDefaultToSiteServiceUnitID;
+        
+        /// <summary>
+        /// hdnDefaultToServiceUnitCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDefaultToServiceUnitCode;
+        
+        /// <summary>
+        /// hdnDefaultToServiceUnitName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDefaultToServiceUnitName;
         
         /// <summary>
         /// txtItemOrderDate control.
@@ -211,6 +256,42 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtServiceUnitName;
         
         /// <summary>
+        /// lblToSiteServiceUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblToSiteServiceUnit;
+        
+        /// <summary>
+        /// hdnToSiteServiceUnitID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnToSiteServiceUnitID;
+        
+        /// <summary>
+        /// txtToServiceUnitCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtToServiceUnitCode;
+        
+        /// <summary>
+        /// txtToServiceUnitName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtToServiceUnitName;
+        
+        /// <summary>
         /// cbpLocation control.
         /// </summary>
         /// <remarks>
@@ -245,6 +326,24 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboReorderType;
+        
+        /// <summary>
+        /// cboViewType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboViewType;
+        
+        /// <summary>
+        /// cboViewTypeStatic control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboViewTypeStatic;
         
         /// <summary>
         /// cboPurchaseOrderType control.
@@ -326,6 +425,42 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtKurs;
+        
+        /// <summary>
+        /// hdnItemGroupID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnItemGroupID;
+        
+        /// <summary>
+        /// txtItemGroupCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtItemGroupCode;
+        
+        /// <summary>
+        /// txtItemGroupName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtItemGroupName;
+        
+        /// <summary>
+        /// txtItemName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtItemName;
         
         /// <summary>
         /// cbpView control.

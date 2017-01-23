@@ -35,15 +35,15 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("SiteServiceUnitID = {0} AND ItemID = {1} AND GCItemDetailStatus NOT IN ('{2}','{3}','{4}') AND IsDeleted = 0", hdnSiteServiceUnitID.Value, hdnItemID.Value, Constant.TransactionStatus.PROCESSED, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
+            string filterExpression = string.Format("SiteServiceUnitID = {0} AND ItemID = {1}", hdnSiteServiceUnitID.Value, hdnItemID.Value);
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvPurchaseRequestDtRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvPurchaseRequestDtQtyOnOrderRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_POPUP);
             }
 
-            List<vPurchaseRequestDt> lstEntity = BusinessLayer.GetvPurchaseRequestDtList(filterExpression, Constant.GridViewPageSize.GRID_POPUP, pageIndex, "PurchaseRequestNo DESC");
+            List<vPurchaseRequestDtQtyOnOrder> lstEntity = BusinessLayer.GetvPurchaseRequestDtQtyOnOrderList(filterExpression, Constant.GridViewPageSize.GRID_POPUP, pageIndex, "PurchaseRequestNo DESC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

@@ -1312,7 +1312,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetItemUsagePurchaseRequestROPList
-        public static List<GetItemUsagePurchaseRequestROPList> GetItemUsagePurchaseRequestROPList(String LstLocationID, string itemName, Int32 PageIndex, Int32 NumRows)
+        public static List<GetItemUsagePurchaseRequestROPList> GetItemUsagePurchaseRequestROPList(String LstLocationID, string itemName, string itemGroupID, string viewType, Int32 PageIndex, Int32 NumRows)
         {
             List<GetItemUsagePurchaseRequestROPList> result = new List<GetItemUsagePurchaseRequestROPList>();
             IDbContext ctx = DbFactory.Configure();
@@ -1324,6 +1324,8 @@ namespace CodeX.Data.Model
                 //Add Parameter
                 ctx.Add("LstLocationID", LstLocationID);
                 ctx.Add("ItemName", itemName);
+                ctx.Add("ItemGroupID", itemGroupID);
+                ctx.Add("ViewType", viewType);
                 ctx.Add("PageIndex", PageIndex);
                 ctx.Add("NumRows", NumRows);
 
@@ -1344,7 +1346,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetItemUsagePurchaseRequestROPRowCount
-        public static Int32 GetItemUsagePurchaseRequestROPRowCount(String LstLocationID, string itemName)
+        public static Int32 GetItemUsagePurchaseRequestROPRowCount(String LstLocationID, string itemName, string itemGroupID, string viewType)
         {
             SqlParameter param = new SqlParameter();
             IDbContext ctx = DbFactory.Configure();
@@ -1355,6 +1357,8 @@ namespace CodeX.Data.Model
                 //Add Parameter
                 ctx.Add("LstLocationID", LstLocationID);
                 ctx.Add("ItemName", itemName);
+                ctx.Add("ItemGroupID", itemGroupID);
+                ctx.Add("ViewType", viewType);
 
                 param.ParameterName = "@Result";
                 param.SqlDbType = SqlDbType.Int;

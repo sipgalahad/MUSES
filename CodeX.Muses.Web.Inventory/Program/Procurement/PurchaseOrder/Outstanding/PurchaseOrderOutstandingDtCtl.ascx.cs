@@ -5,41 +5,28 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CodeX.Web.Common.UI;
-using CodeX.Web.Common;
 using CodeX.Data.Model;
+using CodeX.Web.Common;
 using DevExpress.Web.ASPxCallbackPanel;
+using System.Web.UI.HtmlControls;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
 
-namespace CodeX.Muses.Web.Inventory.Program
+namespace CodeX.Ottimo.Web.Inventory.Program
 {
-    public partial class PurchaseOrderOutstandingDetail : BasePageTrx
+    public partial class PurchaseOrderOutstandingDtCtl : BaseViewPopupCtl
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
         protected int RowCountPerPage = 1;
-        public override string OnGetMenuCode()
-        {
-            return Constant.MenuCode.Inventory.APPROVED_PURCHASE_ORDER;
-        }
         protected string GetVATPercentageLabel()
         {
             return hdnVATPercentage.Value;
         }
 
-        public override void SetCRUDMode(ref bool IsAllowAdd, ref bool IsAllowEdit, ref bool IsAllowDelete)
+        public override void InitializeDataControl(string param)
         {
-            IsAllowAdd = IsAllowEdit = IsAllowDelete = false;
-        }
-
-        public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
-        {
-            IsAllowAdd = false;
-        }
-
-        protected override void InitializeDataControl()
-        {
-            hdnOrderID.Value = Page.Request.QueryString["id"];
+            hdnOrderID.Value = param;
             hdnVATPercentage.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
             vPurchaseOrderHd entityItemRequest = BusinessLayer.GetvPurchaseOrderHdList(String.Format("PurchaseOrderID = '{0}'", Convert.ToInt32(hdnOrderID.Value)))[0];
             EntityToControl(entityItemRequest);
@@ -52,6 +39,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtItemOrderDate.Text = entity.OrderDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtSupplierName.Text = entity.BusinessPartnerName;
             txtServiceUnitName.Text = entity.ServiceUnitName;
+            txtToServiceUnitName.Text = entity.ToServiceUnitName;
             txtNotes.Text = entity.Remarks;
             txtExpiredDate.Text = entity.POExpiredDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtPurchaseOrderType.Text = entity.PurchaseOrderType;
@@ -59,7 +47,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtFrancoRegion.Text = entity.FrancoRegion;
             txtCurrencyCode.Text = entity.CurrencyCode;
             txtCurrencyRate.Text = entity.CurrencyRate.ToString();
-            txtDeliveryDate.Text = entity.DeliveryDateInString;
+            txtDeliveryDate.Text = entity.DeliveryDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtTransactionAmount.Text = entity.TransactionAmount.ToString();
             txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString();
             txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
@@ -85,11 +73,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
 
             List<vPurchaseOrderDtOutstandingInfo> lstEntity = BusinessLayer.GetvPurchaseOrderDtOutstandingInfoList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
-            grdView.DataSource = lstEntity;
-            grdView.DataBind();
+            grdViewPopup.DataSource = lstEntity;
+            grdViewPopup.DataBind();
         }
 
-        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void grdViewPopup_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
@@ -99,7 +87,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
         }
 
-        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        protected void cbpViewPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             int pageCount = 1;
             int rowCount = 1;

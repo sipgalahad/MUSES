@@ -25527,6 +25527,7 @@ namespace CodeX.Data.Model
         private DateTime _OrderDate;
         private String _PurchaseOrderNo;
         private Int32? _SiteServiceUnitID;
+        private Int32? _ToSiteServiceUnitID;
         private Int32? _LocationID;
         private DateTime _DeliveryDate;
         private DateTime _POExpiredDate;
@@ -25544,6 +25545,8 @@ namespace CodeX.Data.Model
         private Decimal _VATAmount;
         private Decimal _DownPaymentAmount;
         private Decimal _TotalNetTransactionAmount;
+        private Int32? _ReferencePurchaseOrderID;
+        private Boolean _IsFinalPO;
         private String _PaymentRemarks;
         private String _Remarks;
         private String _GCTransactionStatus;
@@ -25581,6 +25584,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteServiceUnitID; }
             set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ToSiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? ToSiteServiceUnitID
+        {
+            get { return _ToSiteServiceUnitID; }
+            set { _ToSiteServiceUnitID = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32", IsNullable = true)]
         public Int32? LocationID
@@ -25683,6 +25692,18 @@ namespace CodeX.Data.Model
         {
             get { return _TotalNetTransactionAmount; }
             set { _TotalNetTransactionAmount = value; }
+        }
+        [Column(Name = "ReferencePurchaseOrderID", DataType = "Int32", IsNullable = true)]
+        public Int32? ReferencePurchaseOrderID
+        {
+            get { return _ReferencePurchaseOrderID; }
+            set { _ReferencePurchaseOrderID = value; }
+        }
+        [Column(Name = "IsFinalPO", DataType = "Boolean")]
+        public Boolean IsFinalPO
+        {
+            get { return _IsFinalPO; }
+            set { _IsFinalPO = value; }
         }
         [Column(Name = "PaymentRemarks", DataType = "String")]
         public String PaymentRemarks
@@ -26066,6 +26087,7 @@ namespace CodeX.Data.Model
         private Int32 _LocationID;
         private Int32 _BusinessPartnerID;
         private Int32 _TermID;
+        private Int32? _PurchaseOrderID;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
         private DateTime _PaymentDueDate;
@@ -26082,10 +26104,13 @@ namespace CodeX.Data.Model
         private Decimal _VATAmount;
         private Decimal _DownPaymentAmount;
         private String _DownPaymentReferenceNo;
+        private Decimal _TransactionAmountBeforeRounded;
+        private Decimal _RoundedAmount;
         private Decimal _TotalNetTransactionAmount;
         private String _ReceivedBy;
         private String _Remarks;
         private String _GCTransactionStatus;
+        private DateTime _ApprovedDate;
         private Boolean _IsHasPurchaseReturn;
         private Int32? _PurchaseReturnID;
         private Int32? _CreatedBy;
@@ -26146,6 +26171,12 @@ namespace CodeX.Data.Model
         {
             get { return _TermID; }
             set { _TermID = value; }
+        }
+        [Column(Name = "PurchaseOrderID", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseOrderID
+        {
+            get { return _PurchaseOrderID; }
+            set { _PurchaseOrderID = value; }
         }
         [Column(Name = "ReferenceNo", DataType = "String")]
         public String ReferenceNo
@@ -26243,6 +26274,18 @@ namespace CodeX.Data.Model
             get { return _DownPaymentReferenceNo; }
             set { _DownPaymentReferenceNo = value; }
         }
+        [Column(Name = "TransactionAmountBeforeRounded", DataType = "Decimal")]
+        public Decimal TransactionAmountBeforeRounded
+        {
+            get { return _TransactionAmountBeforeRounded; }
+            set { _TransactionAmountBeforeRounded = value; }
+        }
+        [Column(Name = "RoundedAmount", DataType = "Decimal")]
+        public Decimal RoundedAmount
+        {
+            get { return _RoundedAmount; }
+            set { _RoundedAmount = value; }
+        }
         [Column(Name = "TotalNetTransactionAmount", DataType = "Decimal")]
         public Decimal TotalNetTransactionAmount
         {
@@ -26266,6 +26309,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCTransactionStatus; }
             set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "ApprovedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime ApprovedDate
+        {
+            get { return _ApprovedDate; }
+            set { _ApprovedDate = value; }
         }
         [Column(Name = "IsHasPurchaseReturn", DataType = "Boolean")]
         public Boolean IsHasPurchaseReturn
@@ -26839,6 +26888,16 @@ namespace CodeX.Data.Model
         private Int32? _BusinessPartnerID;
         private Decimal _UnitPrice;
         private Decimal _DiscountPercentage;
+        private Boolean _IsSelected;
+        private String _GCPurchaseMethod;
+        private Int32? _ProcessBusinessPartnerID;
+        private String _ProcessBusinessPartnerName;
+        private Decimal _ProcessQuantity;
+        private String _GCProcessUnit;
+        private Decimal _ProcessConversionFactor;
+        private Decimal _ProcessUnitPrice;
+        private Decimal _ProcessDiscountPercentage1;
+        private Decimal _ProcessDiscountPercentage2;
         private String _GCItemDetailStatus;
         private String _Remarks;
         private Boolean _IsDeleted;
@@ -26912,6 +26971,66 @@ namespace CodeX.Data.Model
         {
             get { return _DiscountPercentage; }
             set { _DiscountPercentage = value; }
+        }
+        [Column(Name = "IsSelected", DataType = "Boolean")]
+        public Boolean IsSelected
+        {
+            get { return _IsSelected; }
+            set { _IsSelected = value; }
+        }
+        [Column(Name = "GCPurchaseMethod", DataType = "String", IsNullable = true)]
+        public String GCPurchaseMethod
+        {
+            get { return _GCPurchaseMethod; }
+            set { _GCPurchaseMethod = value; }
+        }
+        [Column(Name = "ProcessBusinessPartnerID", DataType = "Int32", IsNullable = true)]
+        public Int32? ProcessBusinessPartnerID
+        {
+            get { return _ProcessBusinessPartnerID; }
+            set { _ProcessBusinessPartnerID = value; }
+        }
+        [Column(Name = "ProcessBusinessPartnerName", DataType = "String", IsNullable = true)]
+        public String ProcessBusinessPartnerName
+        {
+            get { return _ProcessBusinessPartnerName; }
+            set { _ProcessBusinessPartnerName = value; }
+        }
+        [Column(Name = "ProcessQuantity", DataType = "Decimal", IsNullable = true)]
+        public Decimal ProcessQuantity
+        {
+            get { return _ProcessQuantity; }
+            set { _ProcessQuantity = value; }
+        }
+        [Column(Name = "GCProcessUnit", DataType = "String", IsNullable = true)]
+        public String GCProcessUnit
+        {
+            get { return _GCProcessUnit; }
+            set { _GCProcessUnit = value; }
+        }
+        [Column(Name = "ProcessConversionFactor", DataType = "Decimal", IsNullable = true)]
+        public Decimal ProcessConversionFactor
+        {
+            get { return _ProcessConversionFactor; }
+            set { _ProcessConversionFactor = value; }
+        }
+        [Column(Name = "ProcessUnitPrice", DataType = "Decimal", IsNullable = true)]
+        public Decimal ProcessUnitPrice
+        {
+            get { return _ProcessUnitPrice; }
+            set { _ProcessUnitPrice = value; }
+        }
+        [Column(Name = "ProcessDiscountPercentage1", DataType = "Decimal", IsNullable = true)]
+        public Decimal ProcessDiscountPercentage1
+        {
+            get { return _ProcessDiscountPercentage1; }
+            set { _ProcessDiscountPercentage1 = value; }
+        }
+        [Column(Name = "ProcessDiscountPercentage2", DataType = "Decimal", IsNullable = true)]
+        public Decimal ProcessDiscountPercentage2
+        {
+            get { return _ProcessDiscountPercentage2; }
+            set { _ProcessDiscountPercentage2 = value; }
         }
         [Column(Name = "GCItemDetailStatus", DataType = "String")]
         public String GCItemDetailStatus
@@ -27011,7 +27130,9 @@ namespace CodeX.Data.Model
         private Int32? _ItemRequestID;
         private Int32? _SiteServiceUnitID;
         private Int32? _FromLocationID;
+        private Int32? _ToSiteServiceUnitID;
         private Int32? _ToLocationID;
+        private String _GCPurchaseOrderType;
         private String _Remarks;
         private String _GCTransactionStatus;
         private Int32 _CreatedBy;
@@ -27061,11 +27182,23 @@ namespace CodeX.Data.Model
             get { return _FromLocationID; }
             set { _FromLocationID = value; }
         }
+        [Column(Name = "ToSiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? ToSiteServiceUnitID
+        {
+            get { return _ToSiteServiceUnitID; }
+            set { _ToSiteServiceUnitID = value; }
+        }
         [Column(Name = "ToLocationID", DataType = "Int32", IsNullable = true)]
         public Int32? ToLocationID
         {
             get { return _ToLocationID; }
             set { _ToLocationID = value; }
+        }
+        [Column(Name = "GCPurchaseOrderType", DataType = "String", IsNullable = true)]
+        public String GCPurchaseOrderType
+        {
+            get { return _GCPurchaseOrderType; }
+            set { _GCPurchaseOrderType = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

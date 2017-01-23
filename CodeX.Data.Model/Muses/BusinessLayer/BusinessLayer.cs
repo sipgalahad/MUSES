@@ -13304,6 +13304,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<PurchaseRequestHd> GetPurchaseRequestHdList(string filterExpression, IDbContext ctx)
+        {
+            List<PurchaseRequestHd> result = new List<PurchaseRequestHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseRequestHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseRequestHd)helper.IDataReaderToObject(reader, new PurchaseRequestHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetPurchaseRequestHdMaxID(IDbContext ctx)
         {
             Int32 result = 0;

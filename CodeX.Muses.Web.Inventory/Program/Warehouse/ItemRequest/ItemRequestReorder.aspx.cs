@@ -221,7 +221,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 if (cboReorderType.Value.ToString() == Constant.ReorderType.STATIC)
                     rowCount = BusinessLayer.GetvItemMasterRowCount(filterExpression);
                 else
-                    rowCount = BusinessLayer.GetItemUsagePurchaseRequestROPRowCount(hdnLstLocationID.Value, "");
+                    rowCount = 0;//BusinessLayer.GetItemUsagePurchaseRequestROPRowCount(hdnLstLocationID.Value, "");
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
             lstSelectedMember = hdnSelectedMember.Value.Split('|');
@@ -240,7 +240,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             else
             {
                 if (hdnLstLocationID.Value != "")
-                    lstEntity2 = BusinessLayer.GetItemUsagePurchaseRequestROPList(hdnLstLocationID.Value, "", pageIndex, Constant.GridViewPageSize.GRID_MASTER);
+                    lstEntity2 = null;//BusinessLayer.GetItemUsagePurchaseRequestROPList(hdnLstLocationID.Value, "", pageIndex, Constant.GridViewPageSize.GRID_MASTER);
                 else
                     lstEntity2 = new List<GetItemUsagePurchaseRequestROPList>();
                 lstItemID = string.Join(",", lstEntity2.Select(p => p.ItemID).ToList());
