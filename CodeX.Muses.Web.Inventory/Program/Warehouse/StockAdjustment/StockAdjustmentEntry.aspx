@@ -109,9 +109,9 @@
 
             //#region Item Group
             function onGetItemGroupFilterExpression() {
-                var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+                var filterExpression = "<%=OnGetFilterExpressionItemGroup() %>";
                 if ($('#<%=hdnLocationItemGroupID.ClientID %>').val() != '')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnLocationItemGroupID.ClientID %>').val() + "/%')";
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/" + $('#<%=hdnLocationItemGroupID.ClientID %>').val() + "/%')";
                 return filterExpression;
             }
 
@@ -215,7 +215,8 @@
         function GetItemQtyFromLocation() {
             var filterExpression = "LocationID = " + $('#<%=hdnLocationID.ClientID %>').val() + " AND ItemID = " + $('#<%=hdnItemID.ClientID %>').val() + " AND IsDeleted = 0";
             Methods.getObject('GetvItemBalanceList', filterExpression, function (result) {
-                $('#<%=txtQuantity.ClientID %>').attr('min', parseInt(result.QuantityEND) * -1);
+                if (cboGCAdjustmentType.GetValue() != "<%=GetAdjusmentTypeReceipts() %>")
+                    $('#<%=txtQuantity.ClientID %>').attr('min', parseFloat(result.QuantityEND) * -1);
                 $('#<%=txtStockLocation.ClientID %>').val(result.QuantityEND + ' ' + result.ItemUnit);
             });
         }
@@ -347,10 +348,12 @@
                 $('#<%=txtQuantity.ClientID %>').addClass('min');
                 $('#<%=txtQuantity.ClientID %>').attr('min', '0');
                 $('#<%=txtQuantity.ClientID %>').removeClass('max');
+                $('#<%=txtQuantity.ClientID %>').removeAttr('max');
             } else {
                 $('#<%=txtQuantity.ClientID %>').addClass('max');
                 $('#<%=txtQuantity.ClientID %>').attr('max', '0');
                 $('#<%=txtQuantity.ClientID %>').removeClass('min');
+                $('#<%=txtQuantity.ClientID %>').removeAttr('min');
             }
         }
 
@@ -373,7 +376,7 @@
         }
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
-    <input type="hidden" value="0" id="hdnAdjustmentID" runat="server" />
+    <input type="hidden" value="" id="hdnAdjustmentID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />

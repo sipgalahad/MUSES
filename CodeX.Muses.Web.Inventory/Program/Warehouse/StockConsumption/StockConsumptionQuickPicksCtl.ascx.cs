@@ -62,9 +62,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = "";
 
             if (hdnItemGroupDrugLogisticID.Value == "")
-                filterExpression += string.Format("LocationID = '{0}' AND ItemName1 LIKE '%{1}%' AND IsDeleted = 0", hdnLocationID.Value, hdnFilterItem.Value);
+                filterExpression += string.Format("LocationID = '{0}' AND ItemName1 LIKE '%{1}%' AND GCItemStatus = '{2}' AND IsDeleted = 0", hdnLocationID.Value, hdnFilterItem.Value, Constant.ItemStatus.ACTIVE);
             else
-                filterExpression += string.Format("LocationID = '{0}' AND ItemName1 LIKE '%{1}%' AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/{2}/%') AND IsDeleted = 0", hdnLocationID.Value, hdnFilterItem.Value, hdnItemGroupDrugLogisticID.Value);
+                filterExpression += string.Format("LocationID = '{0}' AND ItemName1 LIKE '%{1}%' AND GCItemStatus = '{2}' AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/{3}/%') AND IsDeleted = 0", hdnLocationID.Value, hdnFilterItem.Value, Constant.ItemStatus.ACTIVE, hdnItemGroupDrugLogisticID.Value);
 
             return filterExpression;
         }

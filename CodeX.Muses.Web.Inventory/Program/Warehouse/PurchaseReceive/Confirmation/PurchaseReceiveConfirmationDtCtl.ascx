@@ -11,20 +11,6 @@
     $('#containerPopup .txtCurrency').each(function () {
         $(this).trigger('changeValue');
     });
-
-    var VATPercentage = parseInt('<%=GetVATPercentageLabel() %>');
-
-    calculateTotal();
-    function calculateTotal() {
-        var totalKotor = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
-        var PPN = parseFloat($('#<%=txtPPN.ClientID %>').attr('hiddenVal'));
-        var totalHarga = totalKotor + PPN;
-        var discountAmount = parseFloat($('#<%=txtFinalDiscountAmount.ClientID %>').attr('hiddenVal'));
-        var DP = parseFloat($('#<%=txtDP.ClientID %>').attr('hiddenVal'));
-        var Charge = parseFloat($('#<%=txtCharges.ClientID %>').attr('hiddenVal'));
-        totalHarga = totalHarga - discountAmount - DP + Charge;
-        $('#<%=txtTotalNetTransactionAmount.ClientID %>').val(totalHarga).trigger('changeValue');
-    }
 </script>
 <input type="hidden" id="hdnPurchaseReceiveID" runat="server" />
 <input type="hidden" id="hdnVATPercentage" runat="server" />
@@ -54,6 +40,10 @@
                             </table>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Supplier")%></label></td>
+                        <td><asp:TextBox ID="txtSupplier" ReadOnly="true" Width="200px" runat="server" /></td>
+                    </tr>  
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("No.Faktur/Kirim")%></label></td>
                         <td><asp:TextBox ID="txtReferenceNo" ReadOnly="true" CssClass="required" ValidationGroup="mpEntry" Width="100px" runat="server" /></td>

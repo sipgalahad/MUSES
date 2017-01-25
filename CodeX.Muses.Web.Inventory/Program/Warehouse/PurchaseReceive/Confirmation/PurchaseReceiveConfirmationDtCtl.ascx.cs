@@ -51,8 +51,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             chkPPN.Checked = entity.IsIncludeVAT;
             txtPPN.Text = entity.VATAmount.ToString();
             txtTransactionAmount.Text = entity.TransactionAmount.ToString();
+            txtTotalNetTransactionAmount.Text = entity.TotalNetTransactionAmount.ToString();
             txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString();
             txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
+
+            vSupplier sup = BusinessLayer.GetvSupplierList(string.Format("BusinessPartnerID = {0}", entity.BusinessPartnerID)).FirstOrDefault();
+            txtSupplier.Text = sup.BusinessPartnerName;
 
             BindGridView();
         }

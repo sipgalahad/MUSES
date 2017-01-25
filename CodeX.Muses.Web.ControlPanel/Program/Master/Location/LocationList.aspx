@@ -76,6 +76,12 @@
             var url = ResolveUrl("~/Program/Master/Location/LocationItemGroupEntryCtl.ascx");
             openUserControlPopup(url, id, 'Location Item Group', 900, 500);
         });
+
+        $('.lnkRack a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/Location/LocationRackEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Rak', 600, 500);
+        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />

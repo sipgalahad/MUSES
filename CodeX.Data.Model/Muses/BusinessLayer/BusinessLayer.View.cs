@@ -12671,6 +12671,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vStockTakingDt> GetvStockTakingDtList(string filterExpression, IDbContext ctx)
+        {
+            List<vStockTakingDt> result = new List<vStockTakingDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStockTakingDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStockTakingDt)helper.IDataReaderToObject(reader, new vStockTakingDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static List<vStockTakingDt> GetvStockTakingDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
         {
             List<vStockTakingDt> result = new List<vStockTakingDt>();

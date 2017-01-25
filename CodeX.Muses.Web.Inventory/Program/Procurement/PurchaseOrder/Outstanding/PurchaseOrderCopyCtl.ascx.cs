@@ -12,7 +12,7 @@ using CodeX.Common;
 using CodeX.Data.Core.Dal;
 using System.Data;
 
-namespace CodeX.Ottimo.Web.Inventory.Program
+namespace CodeX.Muses.Web.Inventory.Program
 {
     public partial class PurchaseOrderCopyCtl : BaseEntryPopupCtl
     {

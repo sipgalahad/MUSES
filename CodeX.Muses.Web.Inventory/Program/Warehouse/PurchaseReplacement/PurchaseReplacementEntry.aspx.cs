@@ -39,9 +39,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             return string.Format("GCTransactionStatus = '{0}' AND GCPurchaseReturnType = '{1}'", Constant.TransactionStatus.APPROVED, Constant.PurchaseReturnType.REPLACEMENT);
         }
 
-        protected string OnGetFilterExpressionItemProduct()
+        protected string OnGetFilterExpressionItemGroup()
         {
             return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
+        }
+        protected string OnGetFilterExpressionItemProduct()
+        {
+            return string.Format("GCItemType = '{0}' AND GCItemStatus = '{1}' AND IsDeleted = 0", Constant.ItemType.PRODUCT, Constant.ItemStatus.ACTIVE);
         }
 
         protected string GetTransactionStatusVoid()
@@ -55,6 +59,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
             SetControlProperties();
             hdnIsEditable.Value = "1";
+            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}')",
+                                                                                               Constant.SettingParameter.IS_VAT_APPLIED_TO_AVERAGE_PRICE));
+
+            hdnIsVATAppliedToAveragePrice.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.IS_VAT_APPLIED_TO_AVERAGE_PRICE).ParameterValue;
 
             int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
             if (count > 0)
@@ -245,6 +253,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -255,13 +264,17 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 PurchaseReplacementHd entity = BusinessLayer.GetPurchaseReplacementHd(Convert.ToInt32(hdnPurchaseReplacementID.Value));
-                ControlToEntity(entity);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdatePurchaseReplacementHd(entity);
+                if (entity.GCTransactionStatus == Constant.TransactionStatus.OPEN)
+                {
+                    ControlToEntity(entity);
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdatePurchaseReplacementHd(entity);
+                }
                 return true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -272,26 +285,75 @@ namespace CodeX.Muses.Web.Inventory.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             PurchaseReplacementHdDao purchaseHdDao = new PurchaseReplacementHdDao(ctx);
+            PurchaseReturnHdDao purchaseReturnHdDao = new PurchaseReturnHdDao(ctx);
             PurchaseReplacementDtDao purchaseDtDao = new PurchaseReplacementDtDao(ctx);
+            ItemPlanningDao itemPlanningDao = new ItemPlanningDao(ctx);
             try
             {
                 PurchaseReplacementHd purchaseHd = purchaseHdDao.Get(Convert.ToInt32(hdnPurchaseReplacementID.Value));
-                purchaseHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                purchaseHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                purchaseHdDao.Update(purchaseHd);
-
-                string filterExpressionPurchaseOrderHd = String.Format("PurchaseReplacementID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseReplacementID.Value, Constant.TransactionStatus.VOID);
-                List<PurchaseReplacementDt> lstPurchaseOrderDt = BusinessLayer.GetPurchaseReplacementDtList(filterExpressionPurchaseOrderHd);
-                foreach (PurchaseReplacementDt purchaseDt in lstPurchaseOrderDt)
+                if (purchaseHd.GCTransactionStatus == Constant.TransactionStatus.OPEN || purchaseHd.GCTransactionStatus == Constant.TransactionStatus.WAIT_FOR_APPROVAL)
                 {
-                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
-                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    purchaseDtDao.Update(purchaseDt);
+                    PurchaseReturnHd purchaseReturn = purchaseReturnHdDao.Get(purchaseHd.PurchaseReturnID);
+
+                    purchaseHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                    purchaseHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    purchaseHdDao.Update(purchaseHd);
+
+                    string filterExpressionPurchaseReturnHd = String.Format("PurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", purchaseReturn.PurchaseReturnID, Constant.TransactionStatus.VOID);
+                    string filterExpressionPurchaseReplacementHd = String.Format("PurchaseReplacementID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseReplacementID.Value, Constant.TransactionStatus.VOID);
+                    List<PurchaseReplacementDt> lstPurchaseReplacementDt = BusinessLayer.GetPurchaseReplacementDtList(filterExpressionPurchaseReplacementHd, ctx);
+                    List<PurchaseReturnDt> lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionPurchaseReplacementHd, ctx);
+
+                    String lstItemID = String.Join(",", lstPurchaseReplacementDt.Select(p => p.ToItemID).ToList());
+
+                    string filterExpression = String.Format("SiteID = '{0}' AND ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID);
+                    List<ItemPlanning> lstItemPlanning = BusinessLayer.GetItemPlanningList(filterExpression, ctx);
+                    List<vItemBalance> lstItemBalance = BusinessLayer.GetvItemBalanceList(String.Format("SiteID = '{0}' AND ItemID IN ({1}) AND LocationIsDeleted = 0 AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID), ctx);
+                    List<ItemMaster> lstItemMaster = BusinessLayer.GetItemMasterList(string.Format("ItemID IN ({0})", lstItemID), ctx);
+                    String lstProductLineID = String.Join(",", lstItemMaster.Select(p => p.ProductLineID).ToList());
+                    List<ProductLine> lstProductLine = BusinessLayer.GetProductLineList(string.Format("ProductLineID IN (SELECT ProductLineID FROM ItemProduct WHERE ItemID IN ({0}) AND ProductLineID IS NOT NULL)", lstItemID), ctx);
+
+                    foreach (PurchaseReplacementDt purchaseDt in lstPurchaseReplacementDt)
+                    {
+                        purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
+                        purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        purchaseDtDao.Update(purchaseDt);
+
+                        PurchaseReturnDt entityReturnDt = lstPurchaseReturnDt.FirstOrDefault(p => p.ItemID == purchaseDt.ToItemID);
+
+                        ItemPlanning entityItemPlanning = lstItemPlanning.Where(x => x.ItemID == entityReturnDt.ItemID).FirstOrDefault();
+                        ItemMaster entityItemMaster = lstItemMaster.Where(x => x.ItemID == entityReturnDt.ItemID).FirstOrDefault();
+
+                        bool isVATAppliedToAveragePrice = hdnIsVATAppliedToAveragePrice.Value == "1";
+                        if (entityItemMaster.ProductLineID != null)
+                        {
+                            ProductLine productLine = lstProductLine.Where(x => x.ProductLineID == entityItemMaster.ProductLineID).FirstOrDefault();
+                            isVATAppliedToAveragePrice = productLine.IsIncludeVAT;
+                        }
+
+                        decimal qtyPurchase = (purchaseDt.Quantity * purchaseDt.ConversionFactor);
+                        decimal purchasePrice = entityReturnDt.LineAmount;
+                        if (isVATAppliedToAveragePrice)
+                        {
+                            if (purchaseReturn.IsIncludeVAT)
+                                purchasePrice = purchasePrice * (100 + purchaseReturn.VATPercentage) / 100;
+                        }
+                        decimal qtyEnd = lstItemBalance.Where(p => p.ItemID == entityReturnDt.ItemID).Sum(p => p.QuantityEND);
+                        if ((qtyPurchase + qtyEnd) > 0)
+                            entityItemPlanning.AveragePrice = ((entityItemPlanning.AveragePrice * qtyEnd) + (purchasePrice)) / (qtyPurchase + qtyEnd);
+                        else
+                            entityItemPlanning.AveragePrice = 0;
+                        entityItemPlanning.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        itemPlanningDao.Update(entityItemPlanning);
+
+                        purchaseDtDao.Update(purchaseDt);
+                    }
                 }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -307,14 +369,18 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             try
             {
-                PurchaseReplacementHd entity = BusinessLayer.GetPurchaseReplacementHd(Convert.ToInt32(hdnPurchaseReplacementID.Value)); 
-                entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdatePurchaseReplacementHd(entity);
+                PurchaseReplacementHd entity = BusinessLayer.GetPurchaseReplacementHd(Convert.ToInt32(hdnPurchaseReplacementID.Value));
+                if (entity.GCTransactionStatus == Constant.TransactionStatus.OPEN)
+                {
+                    entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdatePurchaseReplacementHd(entity);
+                }
                 return true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -389,6 +455,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
@@ -408,13 +475,17 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 PurchaseReplacementDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                ControlToEntity(entityDt);
-                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDtDao.Update(entityDt);
+                if (entityDt.GCItemDetailStatus == Constant.TransactionStatus.OPEN)
+                {
+                    ControlToEntity(entityDt);
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
@@ -434,13 +505,17 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 PurchaseReplacementDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
-                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDtDao.Update(entityDt);
+                if (entityDt.GCItemDetailStatus == Constant.TransactionStatus.OPEN)
+                {
+                    entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;

@@ -21290,9 +21290,12 @@ namespace CodeX.Data.Model
         private Int32 _SupplierID;
         private String _SupplierCode;
         private String _SupplierName;
+        private Boolean _IsLineAmountRounded;
+        private Decimal _LineAmountRoundedFormat;
         private Int32 _SiteServiceUnitID;
         private String _ServiceUnitCode;
         private String _ServiceUnitName;
+        private Int32 _ToSiteServiceUnitID;
         private Int32 _LocationID;
         private Int32 _ItemID;
         private String _ItemCode;
@@ -21317,6 +21320,7 @@ namespace CodeX.Data.Model
         private String _ReceivedInformation;
         private Decimal _ReceivedQuantity;
         private Decimal _LineAmount;
+        private Boolean _IsControlExpired;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
         private Boolean _IsDeleted;
@@ -21363,6 +21367,18 @@ namespace CodeX.Data.Model
             get { return _SupplierName; }
             set { _SupplierName = value; }
         }
+        [Column(Name = "IsLineAmountRounded", DataType = "Boolean")]
+        public Boolean IsLineAmountRounded
+        {
+            get { return _IsLineAmountRounded; }
+            set { _IsLineAmountRounded = value; }
+        }
+        [Column(Name = "LineAmountRoundedFormat", DataType = "Decimal")]
+        public Decimal LineAmountRoundedFormat
+        {
+            get { return _LineAmountRoundedFormat; }
+            set { _LineAmountRoundedFormat = value; }
+        }
         [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
         public Int32 SiteServiceUnitID
         {
@@ -21380,6 +21396,12 @@ namespace CodeX.Data.Model
         {
             get { return _ServiceUnitName; }
             set { _ServiceUnitName = value; }
+        }
+        [Column(Name = "ToSiteServiceUnitID", DataType = "Int32")]
+        public Int32 ToSiteServiceUnitID
+        {
+            get { return _ToSiteServiceUnitID; }
+            set { _ToSiteServiceUnitID = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -21524,6 +21546,12 @@ namespace CodeX.Data.Model
         {
             get { return _LineAmount; }
             set { _LineAmount = value; }
+        }
+        [Column(Name = "IsControlExpired", DataType = "Boolean")]
+        public Boolean IsControlExpired
+        {
+            get { return _IsControlExpired; }
+            set { _IsControlExpired = value; }
         }
         [Column(Name = "GCTransactionStatus", DataType = "String")]
         public String GCTransactionStatus
@@ -23892,8 +23920,14 @@ namespace CodeX.Data.Model
         private Int32 _SupplierID;
         private String _SupplierCode;
         private String _SupplierName;
+        private Boolean _IsLineAmountRounded;
+        private Decimal _LineAmountRoundedFormat;
+        private Boolean _IsTotalAmountRounded;
+        private Decimal _TotalAmountRoundedFormat;
         private Int32 _TermID;
         private String _TermName;
+        private Int32 _PurchaseOrderID;
+        private String _PurchaseOrderNo;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
         private String _GCCurrencyCode;
@@ -23911,6 +23945,8 @@ namespace CodeX.Data.Model
         private Decimal _VATAmount;
         private Decimal _DownPaymentAmount;
         private String _DownPaymentReferenceNo;
+        private Decimal _TransactionAmountBeforeRounded;
+        private Decimal _RoundedAmount;
         private Decimal _TotalNetTransactionAmount;
         private String _ReceivedBy;
         private String _Remarks;
@@ -23918,6 +23954,8 @@ namespace CodeX.Data.Model
         private String _GCTransactionStatus;
         private Boolean _IsHasPurchaseReturn;
         private Int32 _PurchaseReturnID;
+        private Int16 _RevisionNo;
+        private String _TransactionStatus;
         private String _TransactionStatusWatermark;
         private String _CreatedByName;
 
@@ -24011,6 +24049,30 @@ namespace CodeX.Data.Model
             get { return _SupplierName; }
             set { _SupplierName = value; }
         }
+        [Column(Name = "IsLineAmountRounded", DataType = "Boolean")]
+        public Boolean IsLineAmountRounded
+        {
+            get { return _IsLineAmountRounded; }
+            set { _IsLineAmountRounded = value; }
+        }
+        [Column(Name = "LineAmountRoundedFormat", DataType = "Decimal")]
+        public Decimal LineAmountRoundedFormat
+        {
+            get { return _LineAmountRoundedFormat; }
+            set { _LineAmountRoundedFormat = value; }
+        }
+        [Column(Name = "IsTotalAmountRounded", DataType = "Boolean")]
+        public Boolean IsTotalAmountRounded
+        {
+            get { return _IsTotalAmountRounded; }
+            set { _IsTotalAmountRounded = value; }
+        }
+        [Column(Name = "TotalAmountRoundedFormat", DataType = "Decimal")]
+        public Decimal TotalAmountRoundedFormat
+        {
+            get { return _TotalAmountRoundedFormat; }
+            set { _TotalAmountRoundedFormat = value; }
+        }
         [Column(Name = "TermID", DataType = "Int32")]
         public Int32 TermID
         {
@@ -24022,6 +24084,18 @@ namespace CodeX.Data.Model
         {
             get { return _TermName; }
             set { _TermName = value; }
+        }
+        [Column(Name = "PurchaseOrderID", DataType = "Int32")]
+        public Int32 PurchaseOrderID
+        {
+            get { return _PurchaseOrderID; }
+            set { _PurchaseOrderID = value; }
+        }
+        [Column(Name = "PurchaseOrderNo", DataType = "String")]
+        public String PurchaseOrderNo
+        {
+            get { return _PurchaseOrderNo; }
+            set { _PurchaseOrderNo = value; }
         }
         [Column(Name = "ReferenceNo", DataType = "String")]
         public String ReferenceNo
@@ -24125,6 +24199,18 @@ namespace CodeX.Data.Model
             get { return _DownPaymentReferenceNo; }
             set { _DownPaymentReferenceNo = value; }
         }
+        [Column(Name = "TransactionAmountBeforeRounded", DataType = "Decimal")]
+        public Decimal TransactionAmountBeforeRounded
+        {
+            get { return _TransactionAmountBeforeRounded; }
+            set { _TransactionAmountBeforeRounded = value; }
+        }
+        [Column(Name = "RoundedAmount", DataType = "Decimal")]
+        public Decimal RoundedAmount
+        {
+            get { return _RoundedAmount; }
+            set { _RoundedAmount = value; }
+        }
         [Column(Name = "TotalNetTransactionAmount", DataType = "Decimal")]
         public Decimal TotalNetTransactionAmount
         {
@@ -24166,6 +24252,18 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReturnID; }
             set { _PurchaseReturnID = value; }
+        }
+        [Column(Name = "RevisionNo", DataType = "Int16")]
+        public Int16 RevisionNo
+        {
+            get { return _RevisionNo; }
+            set { _RevisionNo = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
         }
         [Column(Name = "TransactionStatusWatermark", DataType = "String")]
         public String TransactionStatusWatermark
@@ -30134,6 +30232,8 @@ namespace CodeX.Data.Model
         private Int32 _LocationID;
         private String _LocationCode;
         private String _LocationName;
+        private Int32 _RackID;
+        private String _RackName;
         private String _Remarks;
         private String _GCTransactionStatus;
         private String _TransactionStatusWatermark;
@@ -30175,6 +30275,18 @@ namespace CodeX.Data.Model
         {
             get { return _LocationName; }
             set { _LocationName = value; }
+        }
+        [Column(Name = "RackID", DataType = "Int32")]
+        public Int32 RackID
+        {
+            get { return _RackID; }
+            set { _RackID = value; }
+        }
+        [Column(Name = "RackName", DataType = "String")]
+        public String RackName
+        {
+            get { return _RackName; }
+            set { _RackName = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

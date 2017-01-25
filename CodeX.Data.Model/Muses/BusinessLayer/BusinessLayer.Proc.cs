@@ -40,7 +40,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region FillStockTakingDt
-        public static void FillStockTakingDt(Int32 StockTakingID, Int32 LocationID, DateTime Date, String Time, int UserID, IDbContext ctx = null)
+        public static void FillStockTakingDt(Int32 StockTakingID, Int32 LocationID, Int32? RackID, DateTime Date, String Time, int UserID, IDbContext ctx = null)
         {
             bool IsCtxNull = false;
             if (ctx == null)
@@ -52,6 +52,7 @@ namespace CodeX.Data.Model
             ctx.CommandType = CommandType.StoredProcedure;
             ctx.Command.Parameters.Add(new SqlParameter("@StockTakingID", StockTakingID));
             ctx.Command.Parameters.Add(new SqlParameter("@LocationID", LocationID));
+            ctx.Command.Parameters.Add(new SqlParameter("@RackID", RackID));
             ctx.Command.Parameters.Add(new SqlParameter("@Date", Date));
             ctx.Command.Parameters.Add(new SqlParameter("@Time", Time));
             ctx.Command.Parameters.Add(new SqlParameter("@UserID", UserID));

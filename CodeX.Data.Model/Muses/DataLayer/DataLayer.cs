@@ -19457,6 +19457,112 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region LocationRack
+    [Serializable]
+    [Table(Name = "LocationRack")]
+    public class LocationRack : DbDataModel
+    {
+        private Int32 _ID;
+        private Int32 _LocationID;
+        private String _RackName;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "RackName", DataType = "String")]
+        public String RackName
+        {
+            get { return _RackName; }
+            set { _RackName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class LocationRackDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(LocationRack));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public LocationRackDao() { }
+        public LocationRackDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public LocationRack Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (LocationRack)_helper.DataRowToObject(row, new LocationRack());
+        }
+        public int Insert(LocationRack record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(LocationRack record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            LocationRack record;
+            if (_ctx.Transaction == null)
+                record = new LocationRackDao().Get(ID);
+            else
+                record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Manufacturer
     [Serializable]
     [Table(Name = "Manufacturer")]
@@ -25817,9 +25923,12 @@ namespace CodeX.Data.Model
         private Decimal _DiscountAmount1;
         private Decimal _DiscountPercentage2;
         private Decimal _DiscountAmount2;
+        private Decimal _LineAmountBeforeRounded;
+        private Decimal _RoundedAmount;
         private Decimal _LineAmount;
         private Boolean _IsBonusItem;
         private Boolean _IsControlExpired;
+        private Decimal _QtyBeforeApproved;
         private String _GCItemDetailStatus;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -25910,6 +26019,18 @@ namespace CodeX.Data.Model
             get { return _DiscountAmount2; }
             set { _DiscountAmount2 = value; }
         }
+        [Column(Name = "LineAmountBeforeRounded", DataType = "Decimal")]
+        public Decimal LineAmountBeforeRounded
+        {
+            get { return _LineAmountBeforeRounded; }
+            set { _LineAmountBeforeRounded = value; }
+        }
+        [Column(Name = "RoundedAmount", DataType = "Decimal")]
+        public Decimal RoundedAmount
+        {
+            get { return _RoundedAmount; }
+            set { _RoundedAmount = value; }
+        }
         [Column(Name = "LineAmount", DataType = "Decimal")]
         public Decimal LineAmount
         {
@@ -25927,6 +26048,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsControlExpired; }
             set { _IsControlExpired = value; }
+        }
+        [Column(Name = "QtyBeforeApproved", DataType = "Decimal", IsNullable = true)]
+        public Decimal QtyBeforeApproved
+        {
+            get { return _QtyBeforeApproved; }
+            set { _QtyBeforeApproved = value; }
         }
         [Column(Name = "GCItemDetailStatus", DataType = "String")]
         public String GCItemDetailStatus
@@ -26120,6 +26247,7 @@ namespace CodeX.Data.Model
         private DateTime _ApprovedDate;
         private Boolean _IsHasPurchaseReturn;
         private Int32? _PurchaseReturnID;
+        private Int16 _RevisionNo;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
@@ -26334,6 +26462,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReturnID; }
             set { _PurchaseReturnID = value; }
+        }
+        [Column(Name = "RevisionNo", DataType = "Int16")]
+        public Int16 RevisionNo
+        {
+            get { return _RevisionNo; }
+            set { _RevisionNo = value; }
         }
         [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
         public Int32? CreatedBy
@@ -33377,6 +33511,7 @@ namespace CodeX.Data.Model
         private String _StockTakingNo;
         private DateTime _FormDate;
         private Int32 _LocationID;
+        private Int32? _RackID;
         private String _Remarks;
         private String _GCTransactionStatus;
         private String _GCVoidReason;
@@ -33409,6 +33544,12 @@ namespace CodeX.Data.Model
         {
             get { return _LocationID; }
             set { _LocationID = value; }
+        }
+        [Column(Name = "RackID", DataType = "Int32", IsNullable = true)]
+        public Int32? RackID
+        {
+            get { return _RackID; }
+            set { _RackID = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

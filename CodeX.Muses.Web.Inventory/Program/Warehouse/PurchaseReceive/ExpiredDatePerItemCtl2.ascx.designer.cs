@@ -7,19 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.PatientManagement.Program {
+namespace CodeX.Ottimo.Web.Inventory.Program {
     
     
-    public partial class ExpiredDatePerItemCtl {
-        
-        /// <summary>
-        /// txtHeaderText control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtHeaderText;
+    public partial class ExpiredDatePerItemCtl2 {
         
         /// <summary>
         /// hdnID control.
@@ -31,13 +22,13 @@ namespace CodeX.Muses.Web.PatientManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// hdnIsAdd control.
+        /// hdnBatchNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsAdd;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnBatchNumber;
         
         /// <summary>
         /// txtBatchNumber control.
@@ -67,13 +58,13 @@ namespace CodeX.Muses.Web.PatientManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtQuantity;
         
         /// <summary>
-        /// cbpViewPopup control.
+        /// cbpPopupView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopup;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopupView;
         
         /// <summary>
         /// PanelContent1 control.
@@ -85,6 +76,15 @@ namespace CodeX.Muses.Web.PatientManagement.Program {
         protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
+        /// pnlView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlView;
+        
+        /// <summary>
         /// grdView control.
         /// </summary>
         /// <remarks>
@@ -94,12 +94,12 @@ namespace CodeX.Muses.Web.PatientManagement.Program {
         protected global::System.Web.UI.WebControls.GridView grdView;
         
         /// <summary>
-        /// cbpProcessPopup control.
+        /// cbpPopupProcess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcessPopup;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopupProcess;
     }
 }

@@ -43,6 +43,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(hdnPurchaseReturnID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtPurchaseReturnNo, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(cboGCCreditNoteType, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtReturnAmount, new ControlEntrySetting(false, false, false, 0));
             SetControlEntrySetting(txtCNAmount, new ControlEntrySetting(true, true, true, 0));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkPPN, new ControlEntrySetting(true, true, false));
@@ -106,6 +107,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnPurchaseReturnID.Value = entity.PurchaseReturnID.ToString();
             txtPurchaseReturnNo.Text = entity.PurchaseReturnNo;
             cboGCCreditNoteType.Value = entity.GCCreditNoteType;
+            txtReturnAmount.Text = entity.PurchaseReturnAmount.ToString();
             hdnPurchaseReturnAmount.Value = entity.PurchaseReturnAmount.ToString();
             txtCNAmount.Text = entity.CNAmount.ToString();
             chkPPN.Checked = entity.IsIncludeVAT;
@@ -139,7 +141,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 SupplierCreditNote entity = new SupplierCreditNote();
                 ControlToEntity(entity);
-                entity.CreditNoteNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.SUPPLIER_CREDIT_NOTE, entity.CreditNoteDate);
+                entity.CreditNoteNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.SUPPLIER_CREDIT_NOTE, entity.CreditNoteDate, ctx);
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
                 entity.GCTransactionStatus = Constant.TransactionStatus.OPEN;
@@ -150,6 +152,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 result = false;
                 errMessage = ex.Message;
@@ -166,13 +169,17 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 SupplierCreditNote entity = BusinessLayer.GetSupplierCreditNote(Convert.ToInt32(hdnCreditNoteID.Value));
-                ControlToEntity(entity);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSupplierCreditNote(entity);
+                if (entity.GCTransactionStatus == Constant.TransactionStatus.OPEN)
+                {
+                    ControlToEntity(entity);
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdateSupplierCreditNote(entity);
+                }
                 return true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -183,14 +190,48 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 SupplierCreditNote entity = BusinessLayer.GetSupplierCreditNote(Convert.ToInt32(hdnCreditNoteID.Value));
-                ControlToEntity(entity);
-                entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSupplierCreditNote(entity);
+                if (entity.GCTransactionStatus == Constant.TransactionStatus.OPEN || entity.GCTransactionStatus == Constant.TransactionStatus.WAIT_FOR_APPROVAL)
+                {
+                    ControlToEntity(entity);
+                    entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdateSupplierCreditNote(entity);
+                }
                 return true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                return false;
+            }
+        }
+
+        protected override bool OnReopenRecord(ref string errMessage)
+        {
+            try
+            {
+                List<vPurchaseInvoiceDt> lstInvoiceDt = BusinessLayer.GetvPurchaseInvoiceDtList(string.Format("CreditNoteID = {0} AND GCTransactionStatus != '{1}' AND IsDeleted = 0", hdnCreditNoteID.Value, Constant.TransactionStatus.VOID));
+                if (lstInvoiceDt.Count == 0)
+                {
+                    SupplierCreditNote entity = BusinessLayer.GetSupplierCreditNote(Convert.ToInt32(hdnCreditNoteID.Value));
+                    if (entity.GCTransactionStatus == Constant.TransactionStatus.APPROVED)
+                    {
+                        entity.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                        entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        BusinessLayer.UpdateSupplierCreditNote(entity);
+                    }
+                    return true;
+                }
+                else
+                {
+                    errMessage = "Nota Kredit Sudah Dilakukan Tukar Faktur. Tidak Bisa Diubah";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -201,14 +242,18 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 SupplierCreditNote entity = BusinessLayer.GetSupplierCreditNote(Convert.ToInt32(hdnCreditNoteID.Value));
-                ControlToEntity(entity);
-                entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSupplierCreditNote(entity);
+                if (entity.GCTransactionStatus == Constant.TransactionStatus.OPEN)
+                {
+                    ControlToEntity(entity);
+                    entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdateSupplierCreditNote(entity);
+                }
                 return true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }

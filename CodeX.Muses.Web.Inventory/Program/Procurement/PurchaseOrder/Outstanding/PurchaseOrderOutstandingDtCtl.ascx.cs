@@ -12,7 +12,7 @@ using System.Web.UI.HtmlControls;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
 
-namespace CodeX.Ottimo.Web.Inventory.Program
+namespace CodeX.Muses.Web.Inventory.Program
 {
     public partial class PurchaseOrderOutstandingDtCtl : BaseViewPopupCtl
     {

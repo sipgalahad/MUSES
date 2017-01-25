@@ -251,9 +251,9 @@
         }
 
         function onGetItemGroupFilterExpression() {
-            var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+            var filterExpression = "<%=OnGetFilterExpressionItemGroup() %>";
             if ($('#<%=hdnLocationItemGroupID.ClientID %>').val() != '')
-                filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnLocationItemGroupID.ClientID %>').val() + "/%')";
+                filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/" + $('#<%=hdnLocationItemGroupID.ClientID %>').val() + "/%')";
             return filterExpression;
         }
 

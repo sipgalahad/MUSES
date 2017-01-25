@@ -13,7 +13,7 @@
         return filterExpression;
     }
 
-    $('#lblOrderNo.lblLink').click(function () {
+    $('#<%=lblOrderNo.ClientID %>.lblLink').click(function () {
         openSearchDialog('purchaseorderhd', getPurchaseOrderExpression(), function (value) {
             $('#<%=txtOrderNo.ClientID %>').val(value);
             onTxtOrderNoChanged(value);
@@ -36,6 +36,8 @@
     }
     //#endregion
 
+    onCbpViewPopupEndCallback();
+
     function onCbpViewPopupEndCallback(s) {
         hideLoadingPanel();
         $('.grdPurchaseReceiveDt .txtCurrency').each(function () {
@@ -44,10 +46,8 @@
 
         $('.grdPurchaseReceiveDt tr:gt(0)').each(function () {
             $txtExpired = $(this).find('.txtExpired');
-            if ($txtExpired != null) {
+            if ($txtExpired != null && $txtExpired.is(':visible'))
                 setDatePickerElement($txtExpired);
-                $txtExpired.val('<%=DateTimeNowDatePicker() %>');
-            }
         });
     }
 
@@ -70,6 +70,7 @@
             $tr.find('.txtDiscountAmount1').removeAttr('readonly');
             $tr.find('.txtDiscountPercentage2').removeAttr('readonly');
             $tr.find('.txtDiscountAmount2').removeAttr('readonly');
+            $tr.find('.txtLineAmount').removeAttr('readonly');
             $tr.find('.txtBatchNo').removeAttr('readonly');
             $tr.find('.txtExpired').removeAttr('readonly');
             $tr.find('.lblPurchaseUnit').addClass('lblLink');
@@ -81,10 +82,18 @@
             $tr.find('.txtDiscountAmount1').attr('readonly', 'readonly');
             $tr.find('.txtDiscountPercentage2').attr('readonly', 'readonly');
             $tr.find('.txtDiscountAmount2').attr('readonly', 'readonly');
+            $tr.find('.txtLineAmount').attr('readonly', 'readonly');
             $tr.find('.txtBatchNo').attr('readonly', 'readonly');
             $tr.find('.txtExpired').attr('readonly', 'readonly');
             $tr.find('.lblPurchaseUnit').removeClass('lblLink');
         }
+    });
+
+    $('.txtReceivedItem').die('change');
+    $('.txtReceivedItem').live('change', function () {
+        $(this).blur();
+        var $tr = $(this).closest('tr');
+        $tr.find('.txtDiscountPercentage1').change();
     });
 
     $('.txtUnitPrice').die('change');
@@ -124,7 +133,7 @@
     $('.txtDiscountAmount2').die('change');
     $('.txtDiscountAmount2').live('change', function () {
         $(this).blur();
-        var $tr = $(this).closest('tr');
+        $tr = $(this).closest('tr');
         var discountAmount = parseFloat($(this).attr('hiddenVal'));
         var discountAmount1 = parseFloat($tr.find('.txtDiscountAmount1').attr('hiddenVal'));
         var receivedItem = parseFloat($tr.find('.txtReceivedItem').val());
@@ -132,11 +141,13 @@
 
         var discountPercentage = (discountAmount * 100) / ((receivedItem * unitPrice) - discountAmount1);
         $tr.find('.txtDiscountPercentage2').val(discountPercentage);
+
+        calculateTotalPopup();
     });
 
     $('.txtDiscountPercentage2').die('change');
     $('.txtDiscountPercentage2').live('change', function () {
-        var $tr = $(this).closest('tr');
+        $tr = $(this).closest('tr');
         var discountPercentage = parseFloat($(this).val());
         var discountAmount1 = parseFloat($tr.find('.txtDiscountAmount1').attr('hiddenVal'));
         var receivedItem = parseFloat($tr.find('.txtReceivedItem').val());
@@ -144,9 +155,24 @@
 
         var discountAmount = ((receivedItem * unitPrice) - discountAmount1) * discountPercentage / 100;
         $tr.find('.txtDiscountAmount2').val(discountAmount).trigger('changeValue');
+
+        calculateTotalPopup();
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function calculateTotalPopup() {
+        var discountAmount1 = parseFloat($tr.find('.txtDiscountAmount1').attr('hiddenVal'));
+        var discountAmount2 = parseFloat($tr.find('.txtDiscountAmount2').attr('hiddenVal'));
+        var receivedItem = parseFloat($tr.find('.txtReceivedItem').val());
+        var unitPrice = parseFloat($tr.find('.txtUnitPrice').attr('hiddenVal'));
+        var lineAmount = (receivedItem * unitPrice) - discountAmount1 - discountAmount2;
+        if ($('#<%=hdnIsLineAmountRounded.ClientID %>').val() == '1') {
+            var format = parseFloat($('#<%=hdnLineAmountRoundedFormat.ClientID %>').val());
+            lineAmount = Math.ceil(lineAmount / format) * format;
+        }
+        $tr.find('.txtLineAmount').val(lineAmount).trigger('changeValue');
+    }
+
+    function onBeforeSaveRecordPopup(errMessage) {
         var result = '';
         var lstPurchaseOrderDtID = '';
 
@@ -163,6 +189,7 @@
                 var discountAmount1 = $tr.find('.txtDiscountAmount1').attr('hiddenVal');
                 var discountPercentage2 = $tr.find('.txtDiscountPercentage2').val();
                 var discountAmount2 = $tr.find('.txtDiscountAmount2').attr('hiddenVal');
+                var lineAmount = $tr.find('.txtLineAmount').attr('hiddenVal'); 
                 var conversionFactor = $tr.find('.hdnConversionFactor').val();
                 var GCPurchaseUnit = $tr.find('.hdnGCPurchaseUnit').val();
 
@@ -170,7 +197,7 @@
                     result += '|';
                     lstPurchaseOrderDtID += ',';
                 }
-                result += purchaseOrderDtID + ';' + purchaseOrderID + ';' + receivedItem + ';' + unitPrice + ';' + batchNo + ';' + expired + ';' + discountPercentage1 + ';' + discountAmount1 + ';' + discountPercentage2 + ';' + discountAmount2 + ';' + conversionFactor + ';' + GCPurchaseUnit;
+                result += purchaseOrderDtID + ';' + purchaseOrderID + ';' + receivedItem + ';' + unitPrice + ';' + batchNo + ';' + expired + ';' + discountPercentage1 + ';' + discountAmount1 + ';' + discountPercentage2 + ';' + discountAmount2 + ';' + conversionFactor + ';' + GCPurchaseUnit + ';' + lineAmount;
                 lstPurchaseOrderDtID += purchaseOrderDtID;
             }
         });
@@ -222,6 +249,10 @@
 </script>
 <input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />
 <input type="hidden" id="hdnSupplierID" value="" runat="server" />
+<input type="hidden" id="hdnIsLineAmountRounded" value="" runat="server" />
+<input type="hidden" id="hdnLineAmountRoundedFormat" value="" runat="server" />
+<input type="hidden" id="hdnIsTotalAmountRounded" value="" runat="server" />
+<input type="hidden" id="hdnTotalAmountRoundedFormat" value="" runat="server" />
 <input type="hidden" id="hdnLstPurchaseOrderDtID" runat="server" value="" />
 <input type="hidden" id="hdnSaveValue" runat="server" value="" />
 
@@ -235,10 +266,7 @@
                         <col />
                     </colgroup>
                     <tr>
-                        <td class="tdLabel">
-                            <label class="lblLink" id="lblOrderNo">
-                                <%=GetLabel("No. Pemesanan")%></label>
-                        </td>
+                        <td class="tdLabel"><label runat="server" id="lblOrderNo"><%=GetLabel("No. Pemesanan")%></label></td>
                         <td>
                             <input type="hidden" id="hdnOrderID" value="" runat="server" />
                             <asp:TextBox ID="txtOrderNo" Width="150px" ReadOnly="true" runat="server" />
@@ -298,7 +326,7 @@
                                                 <th class="thCenter" colspan="2"><%=GetLabel("Diskon 1")%></th>
                                                 <th class="thCenter" colspan="2"><%=GetLabel("Diskon 2")%></th>
                                                 <th class="thCenter" style="width:150px;" rowspan="2"><%=GetLabel("Konversi")%></th>
-                                                <th class="thCenter" style="width:80px;" rowspan="2"><%=GetLabel("No Serial")%></th>
+                                                <th class="thCenter" style="width:80px;" rowspan="2"><%=GetLabel("Total")%></th>
                                                 <th class="thCenter" style="width:90px;" rowspan="2"><%=GetLabel("No Batch")%></th>
                                                 <th class="thCenter" style="width:120px;" rowspan="2"><%=GetLabel("Expired")%></th>
                                             </tr>
@@ -332,9 +360,9 @@
                                             <td align="center"><asp:TextBox ID="txtDiscountPercentage2" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="number txtDiscountPercentage2"/> </td>
                                             <td align="center"><asp:TextBox ID="txtDiscountAmount2" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="txtCurrency txtDiscountAmount2"/> </td>
                                             <td align="center"><label runat="server" id="lblConversion" class="lblConversion"><%#Eval("CustomConversion")%></label></td>
-                                            <td align="center"><asp:TextBox ID="txtSerialNo" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="number txtSerialNo"/> </td>
-                                            <td align="center"><asp:TextBox ID="txtBatchNo" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="txtBatchNo"/> </td>
-                                            <td align="center"><asp:TextBox ID="txtExpired" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="txtExpired datepicker"/> </td>
+                                            <td align="center"><asp:TextBox ID="txtLineAmount" Width="100%" value ="0" runat="server" ReadOnly="true" CssClass="txtCurrency txtLineAmount"/> </td>
+                                            <td align="center"><asp:TextBox ID="txtBatchNo" Width="90%" ReadOnly="true" value="" runat="server" CssClass="txtBatchNo"/> </td>
+                                            <td align="center"><asp:TextBox ID="txtExpired" Width="70%" ReadOnly="true" value="" runat="server" CssClass="txtExpired datepicker"/> </td>
                                         </tr>
                                     </ItemTemplate>
                                 </asp:ListView>

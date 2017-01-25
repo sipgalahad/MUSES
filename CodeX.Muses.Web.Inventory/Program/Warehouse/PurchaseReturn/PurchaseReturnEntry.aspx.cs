@@ -29,9 +29,23 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             return Constant.PurchaseReturnType.CREDIT_NOTE;
         }
-        protected string OnGetFilterExpressionItemProduct()
+        protected string OnGetFilterExpressionServiceUnit()
+        {
+            if (hdnListSiteServiceUnitID.Value != "")
+                return string.Format("SiteServiceUnitID IN ({0}) AND IsDeleted = 0", hdnListSiteServiceUnitID.Value);
+            return "1 = 0";
+        }
+        protected string OnGetFilterExpressionLocation()
+        {
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_RETURN);
+        }
+        protected string OnGetFilterExpressionItemGroup()
         {
             return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
+        }
+        protected string OnGetFilterExpressionItemProduct()
+        {
+            return string.Format("GCItemType = '{0}' AND GCItemStatus = '{1}' AND IsDeleted = 0", Constant.ItemType.PRODUCT, Constant.ItemStatus.ACTIVE);
         }
         protected string OnGetFilterExpressionSupplier()
         {
@@ -39,21 +53,33 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
         protected string OnGetPurchaseReceiveFilterExpression()
         {
-            return string.Format("TransactionCode = '{0}' AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM vPurchaseInvoiceDt WHERE IsDeleted = 0 AND GCTransactionStatus != '{1}' AND PurchaseReceiveID IS NOT NULL) AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM PurchaseReturnHd WHERE GCTransactionStatus != '{1}') AND GCTransactionStatus = '{2}'", Constant.TransactionCode.PURCHASE_RECEIVE, Constant.TransactionStatus.VOID, Constant.TransactionStatus.APPROVED);
+            return string.Format("TransactionCode = '{0}' AND GCTransactionStatus IN ('{1}','{2}')", Constant.TransactionCode.PURCHASE_RECEIVE, Constant.TransactionStatus.PROCESSED, Constant.TransactionStatus.CLOSED);
         }
         #endregion
 
         protected override void InitializeDataControl()
         {
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
-            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}','{1}')", Constant.SettingParameter.VAT_PERCENTAGE, Constant.SettingParameter.NON_MASTER_ITEM));
-            hdnVATPercentage.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
-            hdnNonMasterItemID.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.NON_MASTER_ITEM).ParameterValue;
+            hdnVATPercentage.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
+            List<GetLocationUserList> lstUserLocation = BusinessLayer.GetLocationUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.PURCHASE_RETURN, "");
+            if (lstUserLocation.Count > 0)
+            {
+                List<GetServiceUnitUserList> lstUserServiceUnit = BusinessLayer.GetServiceUnitUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, string.Format("SiteServiceUnitID IN (SELECT SiteServiceUnitID FROM ServiceUnitLocation WHERE LocationID IN ({0}))", string.Join(",", lstUserLocation.Select(p => p.LocationID).ToList())));
+                hdnListSiteServiceUnitID.Value = string.Join(",", lstUserServiceUnit.Select(p => p.SiteServiceUnitID).ToList());
+                if (lstUserServiceUnit.Count == 1)
+                {
+                    GetServiceUnitUserList serviceUnit = lstUserServiceUnit.FirstOrDefault();
+                    hdnDefaultSiteServiceUnitID.Value = serviceUnit.SiteServiceUnitID.ToString();
+                    hdnDefaultServiceUnitCode.Value = serviceUnit.ServiceUnitCode;
+                    hdnDefaultServiceUnitName.Value = serviceUnit.ServiceUnitName;
+                }
+            }
 
             SetControlProperties(); 
             decimal tempTransactionAmount = -1;
             BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
             Helper.SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboReason, new ControlEntrySetting(true, true, true), "mpTrx");
         }
@@ -70,25 +96,34 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_RETURN_TYPE, Constant.StandardCode.PURCHASE_RETURN_REASON, Constant.StandardCode.ITEM_UNIT));
+            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_RETURN_TYPE, Constant.StandardCode.PURCHASE_RETURN_REASON, Constant.StandardCode.SUPPLIER_CREDIT_NOTE_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboReturnType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.PURCHASE_RETURN_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboReason, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.PURCHASE_RETURN_REASON).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<StandardCode>(cboNonMasterItemUnit, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_UNIT).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+
+            List<StandardCode> lstCNType = listStandardCode.Where(p => p.ParentID == Constant.StandardCode.SUPPLIER_CREDIT_NOTE_TYPE).ToList<StandardCode>();
+            StandardCode defaultCNType = lstCNType.FirstOrDefault(p => p.IsDefault);
+            if (defaultCNType == null)
+                defaultCNType = lstCNType.FirstOrDefault();
+            hdnCNType.Value = defaultCNType.StandardCodeID;
         }
 
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(hdnPRID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(txtPurchaseReturnDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
+            SetControlEntrySetting(lblSupplier, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true,""));
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, true,""));
             SetControlEntrySetting(hdnPurchaseReceiveID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(lblPurchaseReceiveNo, new ControlEntrySetting(true, false));
             SetControlEntrySetting(txtPurchaseReceiveNo, new ControlEntrySetting(true, false, true,""));
-            SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(true, false));
-            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(false, false, true));
-            SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, true));
-            SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(false, false));
-            SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(false, false, true));
+
+            SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(true, false, true, hdnDefaultSiteServiceUnitID.Value));
+            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, false, true, hdnDefaultServiceUnitCode.Value));
+            SetControlEntrySetting(lblSiteServiceUnit, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, true, hdnDefaultServiceUnitName.Value));
+            SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(lblLocation, new ControlEntrySetting(true, false));
             SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, true));
             SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(false, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
             SetControlEntrySetting(cboReturnType, new ControlEntrySetting(true, false, true));
@@ -117,11 +152,15 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected string GetFilterExpression()
         {
-            string filterExpression = "";
-            if (filterExpression != "")
-                filterExpression += " AND ";
-            filterExpression += string.Format("TransactionCode = '{0}'", Constant.TransactionCode.PURCHASE_RETURN);
-            return filterExpression;
+            if (hdnListSiteServiceUnitID.Value != "")
+            {
+                string filterExpression = "";
+                if (filterExpression != "")
+                    filterExpression += " AND ";
+                filterExpression += string.Format("SiteServiceUnitID IN ({0}) AND TransactionCode = '{1}'", hdnListSiteServiceUnitID.Value, Constant.TransactionCode.PURCHASE_RETURN);
+                return filterExpression;
+            }
+            return "1 = 0";
         }
 
         public override int OnGetRowCount()
@@ -168,11 +207,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtPurchaseReturnDate.Text = entity.ReturnDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtReferenceDate.Text = entity.ReferenceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             hdnSupplierID.Value = entity.BusinessPartnerID.ToString();
+            txtSupplierCode.Text = entity.BusinessPartnerCode;
             txtSupplierName.Text = entity.SupplierName;
             txtReferenceNo.Text = entity.ReferenceNo;
-            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
-            txtServiceUnitCode.Text = entity.ServiceUnitCode;
-            txtServiceUnitName.Text = entity.ServiceUnitName;
             hdnLocationID.Value = entity.LocationID.ToString();
             txtLocationCode.Text = entity.LocationCode;
             txtLocationName.Text = entity.LocationName;
@@ -295,9 +332,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 PurchaseReturnHd entity = BusinessLayer.GetPurchaseReturnHd(Convert.ToInt32(hdnPRID.Value));
-                ControlToEntity(entity);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdatePurchaseReturnHd(entity);
+                if (entity.GCTransactionStatus == Constant.TransactionStatus.OPEN)
+                {
+                    ControlToEntity(entity);
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdatePurchaseReturnHd(entity);
+                }
                 return true;
             }
             catch (Exception ex)
@@ -314,23 +354,54 @@ namespace CodeX.Muses.Web.Inventory.Program
             IDbContext ctx = DbFactory.Configure(true);
             PurchaseReturnHdDao purchaseReturnHdDao = new PurchaseReturnHdDao(ctx);
             PurchaseReturnDtDao purchaseReturnDtDao = new PurchaseReturnDtDao(ctx);
+            SupplierCreditNoteDao entityHdDao = new SupplierCreditNoteDao(ctx);
             try
             {
                 PurchaseReturnHd purchaseReturnHd = purchaseReturnHdDao.Get(Convert.ToInt32(hdnPRID.Value));
-                ControlToEntity(purchaseReturnHd);
-                purchaseReturnHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                purchaseReturnHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                purchaseReturnHdDao.Update(purchaseReturnHd);
-
-                string filterExpressionPurchaseReturnHd = String.Format("PurchaseReturnID IN ({0})", hdnPRID.Value);
-                List<PurchaseReturnDt> lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionPurchaseReturnHd);
-                foreach (PurchaseReturnDt purchaseDt in lstPurchaseReturnDt)
+                if (purchaseReturnHd.GCTransactionStatus == Constant.TransactionStatus.OPEN || purchaseReturnHd.GCTransactionStatus == Constant.TransactionStatus.WAIT_FOR_APPROVAL)
                 {
-                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
-                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    purchaseReturnDtDao.Update(purchaseDt);
-                }
+                    ControlToEntity(purchaseReturnHd);
+                    purchaseReturnHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                    purchaseReturnHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    purchaseReturnHdDao.Update(purchaseReturnHd);
 
+                    string filterExpressionPurchaseReturnHd = String.Format("PurchaseReturnID IN ({0})", hdnPRID.Value);
+                    List<PurchaseReturnDt> lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionPurchaseReturnHd);
+                    foreach (PurchaseReturnDt purchaseDt in lstPurchaseReturnDt)
+                    {
+                        purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
+                        purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        purchaseReturnDtDao.Update(purchaseDt);
+                    }
+
+                    if (purchaseReturnHd.GCPurchaseReturnType == Constant.PurchaseReturnType.CREDIT_NOTE)
+                    {
+                        SupplierCreditNote entity = new SupplierCreditNote();
+                        entity.CreditNoteDate = purchaseReturnHd.ReturnDate;
+                        entity.BusinessPartnerID = purchaseReturnHd.BusinessPartnerID;
+                        entity.PurchaseReturnID = purchaseReturnHd.PurchaseReturnID;
+                        entity.GCCreditNoteType = hdnCNType.Value;
+                        entity.CNAmount = purchaseReturnHd.TotalNetTransactionAmount;
+                        entity.PurchaseReturnAmount = purchaseReturnHd.TotalNetTransactionAmount;
+                        entity.IsIncludeVAT = chkPPN.Checked;
+                        if (entity.IsIncludeVAT)
+                            entity.VATPercentage = Convert.ToDecimal(hdnVATPercentage.Value);
+                        else
+                            entity.VATPercentage = 0;
+                        entity.Remarks = "";
+                        entity.CreditNoteNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.SUPPLIER_CREDIT_NOTE, entity.CreditNoteDate, ctx);
+                        ctx.CommandType = CommandType.Text;
+                        ctx.Command.Parameters.Clear();
+                        entity.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                        entity.CreatedBy = AppSession.UserLogin.UserID;
+                        entity.CreditNoteID = entityHdDao.Insert(entity);
+
+                        entity = entityHdDao.Get(entity.CreditNoteID);
+                        entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                        entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityHdDao.Update(entity);
+                    }
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -349,119 +420,45 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override bool OnProposeRecord(ref string errMessage)
         {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            PurchaseReturnHdDao purchaseReturnHdDao = new PurchaseReturnHdDao(ctx);
-            PurchaseReturnDtDao purchaseReturnDtDao = new PurchaseReturnDtDao(ctx);
             try
             {
-                PurchaseReturnHd purchaseReturnHd = purchaseReturnHdDao.Get(Convert.ToInt32(hdnPRID.Value));
-                ControlToEntity(purchaseReturnHd);
-                purchaseReturnHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
-                purchaseReturnHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                purchaseReturnHdDao.Update(purchaseReturnHd);
-
-                string filterExpressionPurchaseReturnHd = String.Format("PurchaseReturnID IN ({0})", hdnPRID.Value);
-                List<PurchaseReturnDt> lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionPurchaseReturnHd);
-                foreach (PurchaseReturnDt purchaseDt in lstPurchaseReturnDt)
+                PurchaseReturnHd entity = BusinessLayer.GetPurchaseReturnHd(Convert.ToInt32(hdnPRID.Value));
+                if (entity.GCTransactionStatus == Constant.TransactionStatus.OPEN)
                 {
-                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
-                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    purchaseReturnDtDao.Update(purchaseDt);
+                    ControlToEntity(entity);
+                    entity.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdatePurchaseReturnHd(entity);
                 }
-
-                ctx.CommitTransaction();
+                return true;
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
-                result = false;
-                ctx.RollBackTransaction();
+                return false;
             }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
         }
 
         protected override bool OnVoidRecord(ref string errMessage)
         {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            PurchaseReturnHdDao purchaseReturnHdDao = new PurchaseReturnHdDao(ctx);
-            PurchaseReturnDtDao purchaseReturnDtDao = new PurchaseReturnDtDao(ctx);
             try
             {
-                PurchaseReturnHd purchaseReturnHd = purchaseReturnHdDao.Get(Convert.ToInt32(hdnPRID.Value));
-                ControlToEntity(purchaseReturnHd);
-                purchaseReturnHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                purchaseReturnHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                purchaseReturnHdDao.Update(purchaseReturnHd);
-
-                string filterExpressionPurchaseReturnHd = String.Format("PurchaseReturnID IN ({0})", hdnPRID.Value);
-                List<PurchaseReturnDt> lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionPurchaseReturnHd);
-                foreach (PurchaseReturnDt purchaseDt in lstPurchaseReturnDt)
+                PurchaseReturnHd entity = BusinessLayer.GetPurchaseReturnHd(Convert.ToInt32(hdnPRID.Value));
+                if (entity.GCTransactionStatus == Constant.TransactionStatus.OPEN)
                 {
-                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
-                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    purchaseReturnDtDao.Update(purchaseDt);
+                    entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdatePurchaseReturnHd(entity);
                 }
-
-                ctx.CommitTransaction();
+                return true;
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
-                result = false;
-                ctx.RollBackTransaction();
+                return false;
             }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-
-        protected override bool OnReopenRecord(ref string errMessage)
-        {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            PurchaseReturnHdDao purchaseReturnHdDao = new PurchaseReturnHdDao(ctx);
-            PurchaseReturnDtDao purchaseReturnDtDao = new PurchaseReturnDtDao(ctx);
-            try
-            {
-                PurchaseReturnHd purchaseReturnHd = purchaseReturnHdDao.Get(Convert.ToInt32(hdnPRID.Value));
-                ControlToEntity(purchaseReturnHd);
-                purchaseReturnHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                purchaseReturnHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                purchaseReturnHdDao.Update(purchaseReturnHd);
-
-                string filterExpressionPurchaseReturnHd = String.Format("PurchaseReturnID IN ({0})", hdnPRID.Value);
-                List<PurchaseReturnDt> lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionPurchaseReturnHd);
-                foreach (PurchaseReturnDt purchaseDt in lstPurchaseReturnDt)
-                {
-                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
-                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    purchaseReturnDtDao.Update(purchaseDt);
-                }
-
-                ctx.CommitTransaction();
-            }
-            catch (Exception ex)
-            {
-                Helper.InsertErrorLog(ex);
-                errMessage = ex.Message;
-                result = false;
-                ctx.RollBackTransaction();
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
         }
 
         #endregion
@@ -544,21 +541,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void ControlToEntity(PurchaseReturnDt entityDt)
         {
             entityDt.ItemID = Convert.ToInt32(hdnItemID.Value);
-            if (entityDt.ItemID == Convert.ToInt32(hdnNonMasterItemID.Value))
-            {
-                entityDt.ItemName1 = Request.Form[txtItemName.UniqueID];
-                entityDt.ConversionFactor = 1;
-                entityDt.GCBaseUnit = entityDt.GCItemUnit = cboNonMasterItemUnit.Value.ToString();
-            }
-            else
-            {
-                entityDt.ItemName1 = null;
-                entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
-                entityDt.GCItemUnit = cboItemUnit.Value.ToString();
-                entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
-            }
             entityDt.Quantity = Convert.ToDecimal(txtQuantity.Text);
+            entityDt.GCItemUnit = cboItemUnit.Value.ToString();
+            entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
             entityDt.UnitPrice = Convert.ToDecimal(Request.Form[txtPrice.UniqueID]);
+            entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
             entityDt.DiscountPercentage1 = Convert.ToDecimal(Request.Form[txtDiscountPercentage1.UniqueID]);
             entityDt.DiscountAmount1 = Convert.ToDecimal(Request.Form[txtDiscountAmount1.UniqueID]);
             entityDt.DiscountPercentage2 = Convert.ToDecimal(Request.Form[txtDiscountPercentage2.UniqueID]);
@@ -608,9 +595,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 PurchaseReturnDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                ControlToEntity(entityDt);
-                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDtDao.Update(entityDt);
+                if (entityDt.GCItemDetailStatus == Constant.TransactionStatus.OPEN)
+                {
+                    ControlToEntity(entityDt);
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -635,9 +625,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 PurchaseReturnDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
-                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDtDao.Update(entityDt);
+                if (entityDt.GCItemDetailStatus == Constant.TransactionStatus.OPEN)
+                {
+                    entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

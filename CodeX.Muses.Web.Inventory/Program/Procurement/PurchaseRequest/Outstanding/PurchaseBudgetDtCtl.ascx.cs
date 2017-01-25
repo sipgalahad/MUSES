@@ -10,7 +10,7 @@ using CodeX.Web.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
 
-namespace CodeX.Ottimo.Web.Inventory.Program
+namespace CodeX.Muses.Web.Inventory.Program
 {
     public partial class PurchaseBudgetDtCtl : BaseViewPopupCtl
     {

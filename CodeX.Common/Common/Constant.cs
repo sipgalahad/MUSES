@@ -187,6 +187,12 @@ namespace CodeX.Common
          
         }
 
+        public static class CheckCountType
+        {
+            public const string CYCLE_COUNT = "X177^001";
+            public const string CYCLE_RECOUNT = "X177^002";
+        }
+
         public static class Attendance 
         {
             public const string SAKIT = "X323^002";

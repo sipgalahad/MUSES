@@ -7,19 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.PatientManagement.Program {
+namespace CodeX.Ottimo.Web.Inventory.Program {
     
     
-    public partial class ExpiredDatePerItemCtl {
+    public partial class PurchaseReceiveRevisionList {
         
         /// <summary>
-        /// txtHeaderText control.
+        /// hdnParam control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtHeaderText;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParam;
         
         /// <summary>
         /// hdnID control.
@@ -31,49 +31,49 @@ namespace CodeX.Muses.Web.PatientManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// hdnIsAdd control.
+        /// hdnIsDiscountAppliedToAveragePrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsAdd;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsDiscountAppliedToAveragePrice;
         
         /// <summary>
-        /// txtBatchNumber control.
+        /// hdnIsVATAppliedToAveragePrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBatchNumber;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsVATAppliedToAveragePrice;
         
         /// <summary>
-        /// txtExpiredDate control.
+        /// hdnIsDiscountAppliedToUnitPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtExpiredDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsDiscountAppliedToUnitPrice;
         
         /// <summary>
-        /// txtQuantity control.
+        /// hdnFilterExpression control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtQuantity;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
         
         /// <summary>
-        /// cbpViewPopup control.
+        /// cbpView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopup;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
         
         /// <summary>
         /// PanelContent1 control.
@@ -85,6 +85,15 @@ namespace CodeX.Muses.Web.PatientManagement.Program {
         protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
+        /// pnlView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlView;
+        
+        /// <summary>
         /// grdView control.
         /// </summary>
         /// <remarks>
@@ -92,14 +101,5 @@ namespace CodeX.Muses.Web.PatientManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdView;
-        
-        /// <summary>
-        /// cbpProcessPopup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcessPopup;
     }
 }

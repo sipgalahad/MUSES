@@ -13,15 +13,6 @@ namespace CodeX.Muses.Web.Inventory.Program {
     public partial class PurchaseReceiveApprovalList {
         
         /// <summary>
-        /// btnPurchaseReceiveHdItem control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnPurchaseReceiveHdItem;
-        
-        /// <summary>
         /// btnPurchaseReceiveHdApprove control.
         /// </summary>
         /// <remarks>
@@ -40,13 +31,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnPurchaseReceiveHdDecline;
         
         /// <summary>
-        /// hdnParam control.
+        /// hdnIsDiscountAppliedToUnitPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParam;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsDiscountAppliedToUnitPrice;
         
         /// <summary>
         /// hdnID control.
