@@ -9,87 +9,65 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
 <script type="text/javascript" id="dxss_serviceunithealthcareentryctl">
-    if ($('#<%=txtCreditNoteDate.ClientID %>').attr('readonly') == null) {
-        setDatePicker('<%=txtCreditNoteDate.ClientID %>');
-    }
+    $('.txtCreditNoteDate').each(function () {
+        setDatePickerElement($(this));
+    });
 
     $('#containerPopup .txtCurrency').each(function () {
         $(this).trigger('changeValue');
     });
+
+    function onBeforeSaveRecordPopup(errMessage) {
+        var result = '';
+        $('#<%=grdView.ClientID %> tr:gt(0)').each(function () {
+            if (result != '')
+                result += '|';
+            var creditNoteID = $(this).find('.keyField').html();
+            var creditNoteDate = $(this).find('.txtCreditNoteDate').val();
+            var GCCreditNoteType = $(this).find('.ddlCreditNoteType').val();
+            var CNAmount = $(this).find('.txtCNAmount').attr('hiddenVal');
+            result += creditNoteID + ';' + creditNoteDate + ';' + GCCreditNoteType + ';' + CNAmount;
+        });
+        $('#<%=hdnLstSaveValue.ClientID %>').val(result);
+        return true;
+    }
 </script>
 <input type="hidden" id="hdnID" runat="server" />
-<input type="hidden" id="hdnItemID" runat="server" />
-<input type="hidden" id="hdnLocationID" runat="server" />
-<input type="hidden" id="hdnDateFrom" runat="server" />
-<input type="hidden" id="hdnDateTo" runat="server" />
-<input type="hidden" id="hdnPurchaseReceiveID" runat="server" />
+<input type="hidden" id="hdnLstSaveValue" runat="server" />
 <input type="hidden" id="hdnVATPercentage" runat="server" />
-<input type="hidden" id="hdnPurchaseReturnAmount" runat="server" />
 
 <div style="max-height: 440px; overflow-y: auto" id="containerPopup">
     <table style="width:100%">
         <tr>
             <td style="padding: 5px; vertical-align: top">
-                <input type="hidden" id="hdnCreditNoteID" value="0" runat="server" />
-                <input type="hidden" id="Hidden1" value="0" runat="server" />
-                <table class="tblEntryContent" style="width: 100%">
-                    <colgroup>
-                        <col style="width: 30%" />
-                    </colgroup>
-                    <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("No Nota Kredit")%></label></td>
-                        <td><asp:TextBox ID="txtCreditNoteNo" Width="150px" ReadOnly="true" runat="server" TabIndex="1" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal") %></label></td>
-                        <td><asp:TextBox ID="txtCreditNoteDate" Width="120px" CssClass="datepicker" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Supplier/Penyedia")%></label></td>
-                        <td>
-                            <input type="hidden" value="" id="hdnSupplierID" runat="server" />
-                            <table cellpadding="0" cellspacing="0">
-                                <colgroup>
-                                    <col style="width: 30%" />
-                                    <col style="width: 3px" />
-                                    <col style="width: 250px" />
-                                </colgroup>
-                                <tr>
-                                    <td><asp:TextBox ID="txtSupplierCode" ReadOnly="true" CssClass="required" ValidationGroup="mpEntry" Width="100%" runat="server" /></td>
-                                    <td>&nbsp;</td>
-                                    <td><asp:TextBox ID="txtSupplierName" ReadOnly="true" Width="100%" runat="server" /></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("No. Pengembalian")%></label></td>
-                        <td>
-                            <input type="hidden" runat="server" id="hdnPurchaseReturnID" value="" />
-                            <asp:TextBox ID="txtPurchaseReturnNo" ReadOnly="true" Width="150px" runat="server" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Nota Kredit")%></label></td>
-                        <td><dxe:ASPxComboBox ID="cboGCCreditNoteType" Width="100%" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td><asp:CheckBox ID="chkPPN" Enabled="false" Width="100%" runat="server" />&nbsp;<%=GetLabel("PPN")%></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Total (Setelah PPN)")%></label></td>
-                        <td><asp:TextBox ID="txtCNAmount" Width="150px" CssClass="txtCurrency" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
-                        <td><asp:TextBox ID="txtRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
-                    </tr>
-                </table>
-            </td>            
-            <td>
-                &nbsp;
-            </td>
+                <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
+                    <Columns>
+                        <asp:BoundField DataField="CreditNoteID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                        <asp:BoundField DataField="CreditNoteNo" HeaderText="No Nota Kredit" HeaderStyle-Width="150px" />
+                        <asp:TemplateField HeaderText="Tanggal Nota Kredit" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
+                            <ItemTemplate>
+                                <asp:TextBox ID="txtCreditNoteDate" runat="server" CssClass="txtCreditNoteDate datepicker" Width="90px" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="PurchaseReturnNo" HeaderText="No Retur" />
+                        <asp:TemplateField HeaderText="Tipe Nota Kredit" HeaderStyle-Width="140px" >
+                            <ItemTemplate>
+                                <asp:DropDownList ID="ddlCreditNoteType" CssClass="ddlCreditNoteType" runat="server" Width="100%" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:CheckBoxField DataField="IsIncludeVAT" HeaderText="PPN" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="70px" />                                
+                        <asp:BoundField DataField="TotalNetTransactionAmount" HeaderText="Nilai Retur" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="100px" DataFormatString="{0:N}" />
+                        <asp:TemplateField HeaderText="Total (Setelah PPN)" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="120px">
+                            <ItemTemplate>
+                                <asp:TextBox ID="txtCNAmount" runat="server" CssClass="txtCNAmount txtCurrency" Width="100%" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                    <EmptyDataTemplate>
+                        <%=GetLabel("No Data To Display")%>
+                    </EmptyDataTemplate>
+                </asp:GridView>
+            </td>        
         </tr>
     </table>
 </div>

@@ -15,12 +15,20 @@
                 //useClick: true
             });
 
+            $('#imgOpenLibrary').click(function () {
+                openLibrary();
+            });
+
             $('#imgOpenUserHelp').click(function () {
                 openUserHelp();
             });
 
             $('#imgOpenInformation').click(function () {
                 openInformation();
+            });
+
+            $('#imgOpenReport').click(function () {
+                openReport();
             });
 
             $('#userlogininfo').click(function (evt) {
@@ -99,6 +107,41 @@
             });
         });
 
+        function openLibrary() {
+            showLoadingPanel();
+            var url = ResolveUrl('~/Libs/Program/Library.aspx');
+            var windowID = 'MapLibrary';
+            var width = 1200;
+            var heigth = 650;
+            var left = (screen.width / 2) - (width / 2);
+            var top = (screen.height / 2) - (heigth / 2);
+            var win = window.open("", windowID, 'status=1,toolbar=0,menubar=0,resizable=1,location=0,scrollbars=1,width=' + width + ',height=' + heigth + ', top=' + top + ', left=' + left);
+            if (win) {
+                win.focus();
+
+                var mapForm = document.createElement("form");
+                mapForm.target = windowID;
+                mapForm.method = "POST";
+                mapForm.action = url;
+
+                var mapInput = document.createElement("input");
+                mapInput.type = "hidden";
+                mapInput.name = "id";
+                mapInput.value = '';
+                mapForm.appendChild(mapInput);
+
+                document.body.appendChild(mapForm);
+
+                mapForm.submit();
+
+                $(mapForm).remove();
+
+            } else {
+                showToast('Warning', 'You must allow popups for this map to work.');
+            }
+            hideLoadingPanel();
+        }
+
         function openUserHelp() {
             showLoadingPanel();
             var url = ResolveUrl('~/Libs/Program/UserHelp.aspx');
@@ -169,6 +212,41 @@
             hideLoadingPanel();
         }
 
+        function openReport() {
+            showLoadingPanel();
+            var url = ResolveUrl('~/../Report/Program/RemoteLogon.aspx');
+            var windowID = 'MapRP';
+            var width = 1300;
+            var heigth = 650;
+            var left = (screen.width / 2) - (width / 2);
+            var top = (screen.height / 2) - (heigth / 2);
+            var win = window.open("", windowID, 'status=1,toolbar=0,menubar=0,resizable=1,location=0,scrollbars=1,width=' + width + ',height=' + heigth + ', top=' + top + ', left=' + left);
+            if (win) {
+                win.focus();
+
+                var mapForm = document.createElement("form");
+                mapForm.target = windowID;
+                mapForm.method = "POST";
+                mapForm.action = url;
+
+                var mapInput = document.createElement("input");
+                mapInput.type = "hidden";
+                mapInput.name = "id";
+                mapInput.value = $('#<%=hdnLoginData.ClientID %>').val() + '|1';
+                mapForm.appendChild(mapInput);
+
+                document.body.appendChild(mapForm);
+
+                mapForm.submit();
+
+                $(mapForm).remove();
+
+            } else {
+                showToast('Warning', 'You must allow popups for this map to work.');
+            }
+            hideLoadingPanel();
+        }
+
         function openWindowPopup(link, windowID, width, heigth) {
             showLoadingPanel();
             var url = ResolveUrl(link);
@@ -202,6 +280,7 @@
                 showToast('Warning', 'You must allow popups for this map to work.');
             }
             hideLoadingPanel();
+            return win;
         }
 
         function redirectToLoginPage() {
@@ -236,9 +315,13 @@
         <div class="containeruserlogininfo">
             <table cellpadding="0" cellspacing="0" style="height:100%" >
                 <tr>
+                    <td class="tdImgModuleHome"><img id="imgOpenLibrary" src='<%=ResolveUrl("~/Libs/Images/library.png")%>' style="cursor: pointer;" title='Library' alt="" /></td>
+                    <td style="width:5px">&nbsp;</td>
                     <td class="tdImgModuleHome"><img id="imgOpenUserHelp" src='<%=ResolveUrl("~/Libs/Images/help.png")%>' style="cursor: pointer;" title='User Help' alt="" /></td>
                     <td style="width:5px">&nbsp;</td>
                     <td class="tdImgModuleHome"><img id="imgOpenInformation" src='<%=ResolveUrl("~/Libs/Images/information.png")%>' style="cursor: pointer;" title='Information' alt="" /></td>
+                    <td style="width:5px">&nbsp;</td>
+                    <td class="tdImgModuleHome"><img id="imgOpenReport" src='<%=ResolveUrl("~/Libs/Images/report.png")%>' style="cursor: pointer;" title='Report' alt="" /></td>
                     <td style="width:5px">&nbsp;</td>
                     <td class="tdImgModuleHome"><img id="imgModuleHome" src='<%=ResolveUrl("~/Libs/Images/home.png")%>' style="cursor: pointer;" title='Home' alt="" /></td>
                     <td style="width:10px"></td>
@@ -266,7 +349,7 @@
             </table>
         </div>
         <img height="24" style="cursor: pointer; float:left; margin-left: 10px; margin-top: 5px;" runat="server" id="imgOpenModule" title="Module" />
-        <div class="hospitalName" id="divSiteName" style="float:left;width:120px; margin-left: 15px;" runat="server"></div>
+        <div class="hospitalName" id="hospitalName" style="float:left;width:120px; margin-left: 15px;"><%=OnGetTitle() %></div>
         <div id="page-wrap" style="padding-top:7px;">
             <asp:Repeater ID="rptMenu" runat="server" OnItemDataBound="rptMenu_ItemDataBound">
                 <HeaderTemplate>

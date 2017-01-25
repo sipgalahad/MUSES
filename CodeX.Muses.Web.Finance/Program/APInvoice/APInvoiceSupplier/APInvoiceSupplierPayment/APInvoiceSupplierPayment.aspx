@@ -25,6 +25,7 @@
                 else {
                     $txt.attr('readonly', 'readonly');
                 }
+                calculateTotal();
             });
 
             if ($('#<%=hdnIsAdd.ClientID %>').val() == "1") {
@@ -56,6 +57,12 @@
                 onLoadObject(value);
             }
             //#endregion
+
+            $('.txtCurrency').each(function () {
+                $(this).trigger('changeValue');
+            });
+
+            calculateGrandTotal();
         }
 
         function onCbpViewEndCallback(s) {
@@ -105,6 +112,16 @@
             });
             $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedPurchaseInvoice);
             $('#<%=hdnSelectedPayment.ClientID %>').val(lstSelectedPayment);
+
+            var resultFee = '';
+            $('.txtFeeAmount').each(function () {
+                if (resultFee != '')
+                    resultFee += '|';
+                var GCPaymentFeeType = $(this).closest('tr').find('.hdnGCFeeType').val();
+                var feeAmount = $(this).attr('hiddenVal');
+                resultFee += GCPaymentFeeType + ';' + feeAmount;
+            });
+            $('#<%=hdnPaymentFeeSaveValue.ClientID %>').val(resultFee); 
         }
 
         function onBeforeSaveRecord(errMessage) {
@@ -123,7 +140,7 @@
             $tr = $(this).closest('tr');
             var id = $tr.find('.keyField').val();
 
-            var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
+            var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
             openUserControlPopup(url, id, 'Detail Information', 1100, 400);
         });
 
@@ -131,13 +148,37 @@
         $('.lblgrdPurchaseInvoiceNo').live('click', function () {
             $row = $(this).closest('tr');
             var id = $row.find('.keyField').html();
-            var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
+            var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
             openUserControlPopup(url, id, 'Detil No Tukar Faktur', 1100, 400);
         });
+
+        function calculateTotal() {
+            var total = 0;
+            $('.tblView tr:gt(0)').each(function () {
+                if ($(this).find('.chkIsSelected input').is(':checked'))
+                    total += parseFloat($(this).find('.txtPembayaran').attr('hiddenVal'));
+            });
+            $('#<%=txtTotalAmount.ClientID %>').val(total).trigger('changeValue');
+            calculateGrandTotal();
+        }
+
+        $('.txtFeeAmount').live('change', function () {
+            $(this).blur();
+            calculateGrandTotal();
+        });
+
+        function calculateGrandTotal() {
+            var total = parseFloat($('#<%=txtTotalAmount.ClientID %>').attr('hiddenVal'));
+            $('.txtFeeAmount').each(function () {
+                total += parseFloat($(this).attr('hiddenVal'));
+            });
+            $('#<%=txtGrandTotal.ClientID %>').val(total).trigger('changeValue');
+        }
     </script> 
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
     <input type="hidden" id="hdnSelectedPayment" runat="server" value="" />
     <input type="hidden" id="hdnTransactionHdID" runat="server" value="" /> 
+    <input type="hidden" value="" id="hdnPaymentFeeSaveValue" runat="server"/> 
     <input type="hidden" value="" id="hdnSupplierPaymentID" runat="server"/> 
     <input type="hidden" value="" id="hdnIsAdd" runat="server"/> 
 
@@ -238,7 +279,7 @@
                                     <asp:Panel runat="server" ID="panel1" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                                         <asp:ListView runat="server" ID="lvwView" OnItemDataBound="lvwView_ItemDataBound">
                                             <EmptyDataTemplate>
-                                                <table id="tblView" runat="server" class="tblTransactionEntryResult" cellspacing="0" rules="all" >
+                                                <table id="tblView" runat="server" class="tblView tblTransactionEntryResult" cellspacing="0" rules="all" >
                                                     <tr>
                                                         <th style="width:40px" class="thCenter" id="thSelectAll"><input id="chkSelectAllInvoice" type="checkbox" /></th>
                                                         <th><%=GetLabel("No. Tukar Faktur")%></th>
@@ -256,7 +297,7 @@
                                                 </table>
                                             </EmptyDataTemplate>
                                             <LayoutTemplate>
-                                                <table id="tblView" runat="server" class="tblTransactionEntryResult" cellspacing="0" rules="all" >
+                                                <table id="tblView" runat="server" class="tblView tblTransactionEntryResult" cellspacing="0" rules="all" >
                                                     <tr>
                                                         <th style="width:40px" class="thCenter" id="thSelectAll"><input id="chkSelectAllInvoice" type="checkbox" /></th>
                                                         <th><%=GetLabel("No. Tukar Faktur")%></th>
@@ -311,6 +352,45 @@
                         <div class="imgLoadingGrdView" id="Div1">
                             <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
                         </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="containerTotal" style="margin-top: 5px;float:right">
+                        <table class="tblContentArea" style="width: 100%;">
+                            <colgroup>
+                                <col style="width: 50%" />
+                            </colgroup>
+                            <tr>
+                                <td valign="top" colspan="2">
+                                    <table style="width: 100%;" border="0" >
+                                        <colgroup>
+                                            <col />
+                                        </colgroup>
+                                        <tr>
+                                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Total")%></label></td>
+                                            <td><asp:TextBox ID="txtTotalAmount" CssClass="txtCurrency" ReadOnly="true" Width="100%" runat="server" hiddenVal="0" /></td>
+                                        </tr>
+                                        <asp:Repeater ID="rptPaymentFee" runat="server" OnItemDataBound="rptPaymentFee_ItemDataBound">
+                                            <ItemTemplate>
+                                                <tr>
+                                                    <td class="tdLabel"><label class="lblNormal"><%#Eval("StandardCodeName")%></label></td>
+                                                    <td>
+                                                        <input type="hidden" class="hdnGCFeeType" value='<%#Eval("StandardCodeID")%>' />
+                                                        <asp:TextBox ID="txtFeeAmount" CssClass="txtCurrency txtFeeAmount" Width="100%" runat="server" hiddenVal="0" />
+                                                    </td>
+                                                </tr>    
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                        <tr>
+                                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Grand Total")%></label></td>
+                                            <td><asp:TextBox ID="txtGrandTotal" CssClass="txtCurrency" ReadOnly="true" Width="100%" runat="server" hiddenVal="0" /></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </td>
             </tr>

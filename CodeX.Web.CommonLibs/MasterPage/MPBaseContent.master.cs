@@ -40,6 +40,10 @@ namespace CodeX.Web.CommonLibs.MasterPage
             }
         }
 
+        protected string IsReportSelectLanguage()
+        {
+            return "0";
+        }
         protected string OnGetMenuCode()
         {
             return BasePageContent.OnGetMenuCode();

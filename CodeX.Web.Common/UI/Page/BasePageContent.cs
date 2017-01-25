@@ -12,9 +12,13 @@ namespace CodeX.Web.Common.UI
     public abstract class BasePageContent : BasePage
     {
         public abstract string OnGetMenuCode();
-        public virtual bool IsShowRightPanel()
+        public virtual string GetCustomLang()
         {
-            return true;
+            return "";
+        }
+        public virtual bool IsReportSelectLanguage()
+        {
+            return false;
         }
         public virtual bool IsEntryUsePopup()
         {

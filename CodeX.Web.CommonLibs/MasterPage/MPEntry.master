@@ -50,9 +50,8 @@
                     if (typeof onBeforeSaveRecord != 'undefined')
                         isAllowSave = onBeforeSaveRecord(errMessage);
                     if (isAllowSave) {
-                        if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
+                        if (IsValid(evt, 'fsMPEntry', 'mpEntry'))
                             cbpMPEntryProcess.PerformCallback('savenew|' + $('#<%=hdnIsAdd.ClientID %>').val());
-                        }
                     }
                 });
                 $('#<%=btnMPEntrySaveClose.ClientID %>').click(function (evt) {

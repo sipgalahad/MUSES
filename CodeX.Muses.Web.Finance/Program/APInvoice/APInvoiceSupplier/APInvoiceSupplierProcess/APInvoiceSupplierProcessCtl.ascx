@@ -11,6 +11,7 @@
 <script type="text/javascript" id="dxss_apinvoicesupplierprocessctl">
     function getCheckedPurchaseReceive() {
         var lstSelectedPurchaseReceive = $('#<%=hdnSelectedPurchaseReceive.ClientID %>').val().split(',');
+        var lstSelectedPurchaseReturn = $('#<%=hdnSelectedIncludePurchaseReturn.ClientID %>').val().split(',');
         $('.chkPurchaseReceive input').each(function () {
             if ($(this).is(':checked')) {
                 var key = $(this).closest('tr').find('.keyField').val();
@@ -23,8 +24,25 @@
                     lstSelectedPurchaseReceive.splice(lstSelectedPurchaseReceive.indexOf(key), 1);
             }
         });
+        $('.chkIsIncludePurchaseReturn input').each(function () {
+            if ($(this).is(':checked')) {
+                var key = $(this).closest('tr').find('.keyField').val();
+                if (lstSelectedPurchaseReturn.indexOf(key) < 0)
+                    lstSelectedPurchaseReturn.push(key);
+            }
+            else {
+                var key = $(this).closest('tr').find('.keyField').val();
+                if (lstSelectedPurchaseReturn.indexOf(key) > -1)
+                    lstSelectedPurchaseReturn.splice(lstSelectedPurchaseReturn.indexOf(key), 1);
+            }
+        });
         $('#<%=hdnSelectedPurchaseReceive.ClientID %>').val(lstSelectedPurchaseReceive.join(','));
+        $('#<%=hdnSelectedIncludePurchaseReturn.ClientID %>').val(lstSelectedPurchaseReturn.join(','));
     }
+
+    $('.chkPurchaseReceive input').live('change', function () {
+        $(this).closest('tr').find('.chkIsIncludePurchaseReturn input').prop('checked', $(this).is(':checked'));
+    });
 
     $('#chkSelectAllPR').die('change');
     $('#chkSelectAllPR').live('change', function () {
@@ -37,7 +55,7 @@
         });
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         getCheckedPurchaseReceive();
         if ($('#<%=hdnSelectedPurchaseReceive.ClientID %>').val() == '') {
             errMessage.text = 'Please Select Purchase Receive First';
@@ -72,6 +90,7 @@
 
 <div style="height:440px; overflow-y:auto;overflow-x: hidden">
     <input type="hidden" id="hdnSelectedPurchaseReceive" runat="server" value="" />
+    <input type="hidden" id="hdnSelectedIncludePurchaseReturn" runat="server" value="" />
     <input type="hidden" id="hdnPurchaseInvoiceID" value="" runat="server" />
     <input type="hidden" id="hdnItemID" value="" runat="server" />
     <input type="hidden" id="hdnLabResultID" value="" runat="server" />
@@ -100,6 +119,7 @@
                                                 <th style="width:130px" class="thRight"><%=GetLabel("Jumlah Penerimaan")%></th>                             
                                                 <th style="width:130px" class="thRight"><%=GetLabel("Nota Kredit")%></th>
                                                 <th style="width:130px" class="thRight"><%=GetLabel("Sub Total")%></th>
+                                                <th style="width:50px" class="thCenter"><%=GetLabel("Retur")%></th>
                                             </tr>
                                             <tr class="trEmpty">
                                                 <td colspan="6">
@@ -113,9 +133,11 @@
                                             <tr>
                                                 <th style="width:40px" class="thCenter"><input id="chkSelectAllPR" type="checkbox" /></th>
                                                 <th align="center"><%=GetLabel("No. Penerimaan")%></th>
+                                                <th style="width:150px" align="center"><%=GetLabel("No. Faktur")%></th>
                                                 <th style="width:160px" class="thRight"><%=GetLabel("Jumlah Penerimaan")%></th>                            
                                                 <th style="width:130px" class="thRight"><%=GetLabel("Nota Kredit")%></th>
                                                 <th style="width:130px" class="thRight"><%=GetLabel("Sub Total")%></th>
+                                                <th style="width:50px" class="thCenter"><%=GetLabel("Retur")%></th>
                                             </tr>
                                             <tr runat="server" id="itemPlaceholder" ></tr>
                                         </table>
@@ -127,9 +149,13 @@
                                                 <input type="hidden" class="keyField" id="keyField" runat="server" value='<%# Eval("PurchaseReceiveID")%>' />
                                             </td>
                                             <td><%# Eval("PurchaseReceiveNo")%></td>
+                                            <td><%# Eval("ReferenceNo")%></td>
                                             <td align="right"><%# Eval("TotalNetTransactionAmount", "{0:N}")%></td>
                                             <td align="right"><%# Eval("CNAmount", "{0:N}")%></td>
                                             <td align="right"><%# Eval("CustomSubTotal", "{0:N}")%></td>
+                                            <td align="center">
+                                                <span <%#Eval("CreditNoteID").ToString() == "" ? "style='display:none'" : "" %>><asp:CheckBox ID="chkIsIncludePurchaseReturn" runat="server" Checked="true" CssClass="chkIsIncludePurchaseReturn" /></span>
+                                            </td>
                                         </tr>
                                     </ItemTemplate>
                                 </asp:ListView>

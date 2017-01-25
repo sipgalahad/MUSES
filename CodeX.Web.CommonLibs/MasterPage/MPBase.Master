@@ -6,11 +6,13 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>VIDA</title>
-    <link href="../Images/icon.ico?v=1" rel="icon" type="image/gif" />
-    <link href='../Styles/common.css' rel="stylesheet" type="text/css" />
+    <title><%=OnGetTitle()%></title>
+    <link href='../Styles/common.css?2' rel="stylesheet" type="text/css" />
+    <link href='../Styles/[Themes]/codex.css?2' rel="stylesheet" type="text/css" runat="server" id="cssCodex" />
+    <link href='../Styles/[Themes]/jquery/jquery.ui.theme.css' rel="stylesheet" type="text/css" runat="server" id="cssJquery" />
     <link rel="stylesheet" href='../Styles/jquery/jquery.ui.core.css' type="text/css" />
     <link rel="stylesheet" href='../Styles/jquery/jquery.ui.datepicker.css' type="text/css" />
+    <link rel="stylesheet" href="../Styles/jquery/jquery.jOrgChart.css" />
 </head>
 <body style="max-width:100%; overflow-x: hidden">
     <form id="myForm" runat="server">
@@ -19,15 +21,11 @@
         
         </asp:ContentPlaceHolder>
     </form>
-
-    <style type="text/css">
-        .dxeListBoxItemHover                { background-color: #A7DFF4; color: Black; }
-        .dxeListBoxItemSelected             { background-color: #368EE0; color: White; }
-
-        .dxeDisabled        { color: Maroon !important; background-color: #EAEAEA !important; border: 1px solid #848484; border-right: 1px solid #FAFAFA; border-bottom: 1px solid #FAFAFA; }
         
-        .dxeButtonEdit input[type="text"]   { max-height: 19px; font-family: Segoe UI; font-size: 12px; }
-        .dxeButtonEdit                      { border: 1px solid #BABABA; }
+    <div id="divStyle" runat="server">
+    
+    </div>
+    <style type="text/css">
     </style>
 </body>
 </html>

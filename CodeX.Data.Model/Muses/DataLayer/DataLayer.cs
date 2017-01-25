@@ -2051,6 +2051,10 @@ namespace CodeX.Data.Model
         private String _GCBankExportDataType;
         private String _SiteID;
         private Decimal _AdministrationAmount;
+        private Boolean _IsTransferIn;
+        private Boolean _IsTransferOut;
+        private Boolean _IsDefaultTransferIn;
+        private Boolean _IsDefaultTransferOut;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -2110,6 +2114,30 @@ namespace CodeX.Data.Model
         {
             get { return _AdministrationAmount; }
             set { _AdministrationAmount = value; }
+        }
+        [Column(Name = "IsTransferIn", DataType = "Boolean")]
+        public Boolean IsTransferIn
+        {
+            get { return _IsTransferIn; }
+            set { _IsTransferIn = value; }
+        }
+        [Column(Name = "IsTransferOut", DataType = "Boolean")]
+        public Boolean IsTransferOut
+        {
+            get { return _IsTransferOut; }
+            set { _IsTransferOut = value; }
+        }
+        [Column(Name = "IsDefaultTransferIn", DataType = "Boolean")]
+        public Boolean IsDefaultTransferIn
+        {
+            get { return _IsDefaultTransferIn; }
+            set { _IsDefaultTransferIn = value; }
+        }
+        [Column(Name = "IsDefaultTransferOut", DataType = "Boolean")]
+        public Boolean IsDefaultTransferOut
+        {
+            get { return _IsDefaultTransferOut; }
+            set { _IsDefaultTransferOut = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -24734,6 +24762,9 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _PurchaseInvoiceID;
         private Int32? _PurchaseReceiveID;
+        private Int32? _PurchaseReturnID;
+        private Int32? _CreditNoteID;
+        private Boolean _IsCreditNoteOnly;
         private Int32? _GLAPOtherID;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
@@ -24772,6 +24803,24 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReceiveID; }
             set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "PurchaseReturnID", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseReturnID
+        {
+            get { return _PurchaseReturnID; }
+            set { _PurchaseReturnID = value; }
+        }
+        [Column(Name = "CreditNoteID", DataType = "Int32", IsNullable = true)]
+        public Int32? CreditNoteID
+        {
+            get { return _CreditNoteID; }
+            set { _CreditNoteID = value; }
+        }
+        [Column(Name = "IsCreditNoteOnly", DataType = "Boolean")]
+        public Boolean IsCreditNoteOnly
+        {
+            get { return _IsCreditNoteOnly; }
+            set { _IsCreditNoteOnly = value; }
         }
         [Column(Name = "GLAPOtherID", DataType = "Int32", IsNullable = true)]
         public Int32? GLAPOtherID
@@ -24932,6 +24981,79 @@ namespace CodeX.Data.Model
                 record = new PurchaseInvoiceDtDao().Get(ID);
             else
                 record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PurchaseInvoiceDtCreditNote
+    [Serializable]
+    [Table(Name = "PurchaseInvoiceDtCreditNote")]
+    public class PurchaseInvoiceDtCreditNote : DbDataModel
+    {
+        private Int32 _PurchaseInvoiceDtID;
+        private Int32 _PurchaseReceiveID;
+        private Int32 _CreditNoteID;
+
+        [Column(Name = "PurchaseInvoiceDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PurchaseInvoiceDtID
+        {
+            get { return _PurchaseInvoiceDtID; }
+            set { _PurchaseInvoiceDtID = value; }
+        }
+        [Column(Name = "PurchaseReceiveID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PurchaseReceiveID
+        {
+            get { return _PurchaseReceiveID; }
+            set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "CreditNoteID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CreditNoteID
+        {
+            get { return _CreditNoteID; }
+            set { _CreditNoteID = value; }
+        }
+    }
+
+    public class PurchaseInvoiceDtCreditNoteDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PurchaseInvoiceDtCreditNote));
+        private bool _isAuditLog = false;
+        private const string p_CreditNoteID = "@p_CreditNoteID";
+        private const string p_PurchaseInvoiceDtID = "@p_PurchaseInvoiceDtID";
+        private const string p_PurchaseReceiveID = "@p_PurchaseReceiveID";
+        public PurchaseInvoiceDtCreditNoteDao() { }
+        public PurchaseInvoiceDtCreditNoteDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PurchaseInvoiceDtCreditNote Get(Int32 PurchaseInvoiceDtID, Int32 PurchaseReceiveID, Int32 CreditNoteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_CreditNoteID, CreditNoteID);
+            _ctx.Add(p_PurchaseInvoiceDtID, PurchaseInvoiceDtID);
+            _ctx.Add(p_PurchaseReceiveID, PurchaseReceiveID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PurchaseInvoiceDtCreditNote)_helper.DataRowToObject(row, new PurchaseInvoiceDtCreditNote());
+        }
+        public int Insert(PurchaseInvoiceDtCreditNote record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PurchaseInvoiceDtCreditNote record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PurchaseInvoiceDtID, Int32 PurchaseReceiveID, Int32 CreditNoteID)
+        {
+            PurchaseInvoiceDtCreditNote record;
+            if (_ctx.Transaction == null)
+                record = new PurchaseInvoiceDtCreditNoteDao().Get(PurchaseInvoiceDtID, PurchaseReceiveID, CreditNoteID);
+            else
+                record = Get(PurchaseInvoiceDtID, PurchaseReceiveID, CreditNoteID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -32403,6 +32525,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ServiceUnitItemGroup
+    [Serializable]
+    [Table(Name = "ServiceUnitItemGroup")]
+    public class ServiceUnitItemGroup : DbDataModel
+    {
+        private Int32 _SiteServiceUnitID;
+        private Int32 _ItemGroupID;
+
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+    }
+
+    public class ServiceUnitItemGroupDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ServiceUnitItemGroup));
+        private bool _isAuditLog = false;
+        private const string p_ItemGroupID = "@p_ItemGroupID";
+        private const string p_SiteServiceUnitID = "@p_SiteServiceUnitID";
+        public ServiceUnitItemGroupDao() { }
+        public ServiceUnitItemGroupDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ServiceUnitItemGroup Get(Int32 SiteServiceUnitID, Int32 ItemGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ItemGroupID, ItemGroupID);
+            _ctx.Add(p_SiteServiceUnitID, SiteServiceUnitID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ServiceUnitItemGroup)_helper.DataRowToObject(row, new ServiceUnitItemGroup());
+        }
+        public int Insert(ServiceUnitItemGroup record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ServiceUnitItemGroup record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SiteServiceUnitID, Int32 ItemGroupID)
+        {
+            ServiceUnitItemGroup record;
+            if (_ctx.Transaction == null)
+                record = new ServiceUnitItemGroupDao().Get(SiteServiceUnitID, ItemGroupID);
+            else
+                record = Get(SiteServiceUnitID, ItemGroupID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ServiceUnitItemLogistic
     [Serializable]
     [Table(Name = "ServiceUnitItemLogistic")]
@@ -38796,6 +38982,77 @@ namespace CodeX.Data.Model
                 record = new SupplierPaymentHdDao().Get(SupplierPaymentID);
             else
                 record = Get(SupplierPaymentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SupplierPaymentHdFee
+    [Serializable]
+    [Table(Name = "SupplierPaymentHdFee")]
+    public class SupplierPaymentHdFee : DbDataModel
+    {
+        private Int32 _SupplierPaymentID;
+        private String _GCSupplierPaymentFeeType;
+        private Decimal _TotalAmount;
+
+        [Column(Name = "SupplierPaymentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SupplierPaymentID
+        {
+            get { return _SupplierPaymentID; }
+            set { _SupplierPaymentID = value; }
+        }
+        [Column(Name = "GCSupplierPaymentFeeType", DataType = "String", IsPrimaryKey = true)]
+        public String GCSupplierPaymentFeeType
+        {
+            get { return _GCSupplierPaymentFeeType; }
+            set { _GCSupplierPaymentFeeType = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+    }
+
+    public class SupplierPaymentHdFeeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SupplierPaymentHdFee));
+        private bool _isAuditLog = false;
+        private const string p_GCSupplierPaymentFeeType = "@p_GCSupplierPaymentFeeType";
+        private const string p_SupplierPaymentID = "@p_SupplierPaymentID";
+        public SupplierPaymentHdFeeDao() { }
+        public SupplierPaymentHdFeeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SupplierPaymentHdFee Get(Int32 SupplierPaymentID, String GCSupplierPaymentFeeType)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCSupplierPaymentFeeType, GCSupplierPaymentFeeType);
+            _ctx.Add(p_SupplierPaymentID, SupplierPaymentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SupplierPaymentHdFee)_helper.DataRowToObject(row, new SupplierPaymentHdFee());
+        }
+        public int Insert(SupplierPaymentHdFee record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SupplierPaymentHdFee record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SupplierPaymentID, String GCSupplierPaymentFeeType)
+        {
+            SupplierPaymentHdFee record;
+            if (_ctx.Transaction == null)
+                record = new SupplierPaymentHdFeeDao().Get(SupplierPaymentID, GCSupplierPaymentFeeType);
+            else
+                record = Get(SupplierPaymentID, GCSupplierPaymentFeeType);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

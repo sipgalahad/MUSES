@@ -23,12 +23,12 @@ namespace CodeX.Web.Common.UI
         {
             get
             {
-                if (Session["__ControlEntryList"] == null)
-                    Session["__ControlEntryList"] = new Hashtable();
+                if (ViewState["__ControlEntryList"] == null)
+                    ViewState["__ControlEntryList"] = new Hashtable();
 
-                return (Hashtable)Session["__ControlEntryList"];
+                return (Hashtable)ViewState["__ControlEntryList"];
             }
-            set { Session["__ControlEntryList"] = value; }
+            set { ViewState["__ControlEntryList"] = value; }
         }
         #endregion
 

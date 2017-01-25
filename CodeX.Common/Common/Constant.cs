@@ -136,6 +136,7 @@ namespace CodeX.Common
             public const string PURCHASE_METHOD = "X309";
             public const string REORDER_TYPE = "X310";
             public const string DISTRIBUTION_TYPE = "X311";
+            public const string SUPPLIER_PAYMENT_FEE_TYPE = "X312";
             public const string RENUMERATION_COMP_TYPE = "X314";
             public const string POSITION_LEVEL = "X315";
             public const string POSITION_TYPE = "X316";

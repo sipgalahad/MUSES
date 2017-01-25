@@ -37,13 +37,10 @@ namespace CodeX.Muses.Web.Finance.Program
             hdnID.Value = temp[0];
             hdnPurchaseReceiveID.Value = temp[1];
 
-            vPurchaseReceiveHd entity = BusinessLayer.GetvPurchaseReceiveHdList(string.Format("PurchaseReceiveID = {0}", hdnPurchaseReceiveID.Value)).FirstOrDefault();
+            PurchaseReceiveHd entity = BusinessLayer.GetPurchaseReceiveHd(Convert.ToInt32(hdnPurchaseReceiveID.Value));
             txtPurchaseReceiveNo.Text = entity.PurchaseReceiveNo;
             txtPurchaseReceiveDate.Text = entity.ReceivedDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtPurchaseReceiveTime.Text = entity.ReceivedTime;
-            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
-            txtServiceUnitCode.Text = entity.ServiceUnitCode;
-            txtServiceUnitName.Text = entity.ServiceUnitName;
             txtReferenceNo.Text = entity.ReferenceNo;
             txtDateReferrence.Text = entity.ReferenceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtDPReferrenceNo.Text = entity.DownPaymentReferenceNo;

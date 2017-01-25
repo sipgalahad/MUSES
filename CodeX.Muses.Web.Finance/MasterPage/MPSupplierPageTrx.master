@@ -1,10 +1,11 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/Libs/MasterPage/MPBaseDetailPageTrx.master" AutoEventWireup="true" 
-    CodeBehind="MPSupplierPageTrx.master.cs" Inherits="CodeX.Muses.Web.Finance.MasterPage.MPSupplierPageTrx" %>
+    CodeBehind="MPSupplierPageTrx.master.cs" Inherits="CodeX.Web.Finance.MasterPage.MPSupplierPageTrx" %>
 
 <%@ Register Src="~/MasterPage/SupplierBannerDtCtl.ascx" TagName="BannerCtl" TagPrefix="uc1" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhMPBaseDetailPageDetailInfo" runat="server"> 
     <uc1:BannerCtl ID="ctlBanner" runat="server" />  
+    <input type="hidden" ID="hdnPostSessionID" runat="server" />  
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="plhHeader" runat="server"> 
     <asp:ContentPlaceHolder ID="plhHeader" runat="server">        

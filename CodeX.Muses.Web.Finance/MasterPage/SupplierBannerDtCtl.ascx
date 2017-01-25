@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SupplierBannerDtCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.Finance.MasterPage.SupplierBannerDtCtl" %>
+    Inherits="CodeX.Web.Finance.MasterPage.SupplierBannerDtCtl" %>
 
 <script type="text/javascript" id="dxss_patientbannerdtctl">
     $(function () {
@@ -8,7 +8,7 @@
 </script>
 
 <input type="hidden" id="hdnTitleText" runat="server" />
-<h4><%=GetLabel("Data Pasien")%></h4>
+<h4><%=GetLabel("Data Supplier")%></h4>
 <img src="" id="imgPatientImage" style="display:none" runat="server" />
 <ul class="ulHeaderBannerDetailInfo">
     <li style="width: 190px">

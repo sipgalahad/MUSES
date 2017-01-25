@@ -13,6 +13,7 @@ using CodeX.Data.Core.Dal;
 using System.Data;
 using CodeX.Web.CommonLibs.Program;
 using CodeX.Common;
+using CodeX.Web.Finance.MasterPage;
 
 namespace CodeX.Muses.Web.Finance.Program
 {
@@ -25,6 +26,14 @@ namespace CodeX.Muses.Web.Finance.Program
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.Finance.AP_INVOICE_SUPPLIER_VERIFICATION;
+        }
+
+        private MPSupplierPageTrx MasterPage
+        {
+            get
+            {
+                return (MPSupplierPageTrx)Master;
+            }
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -73,7 +82,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 case "5": filterExpression += string.Format(" AND NumberOfPayment = 0 AND IsVerified = 1"); break;
                 case "6": filterExpression += string.Format(" AND NumberOfPayment > 0 AND IsVerified = 1"); break;
             }
-            filterExpression += string.Format(" AND BusinessPartnerID = {0}", AppSession.BusinessPartnerID);
+            filterExpression += string.Format(" AND BusinessPartnerID = {0}", MasterPage.BusinessPartnerID);
             return filterExpression;
         }
 
@@ -169,6 +178,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 }
                 catch (Exception ex)
                 {
+                    Helper.InsertErrorLog(ex);
                     errMessage = ex.Message;
                     result = false;
                     ctx.RollBackTransaction();
@@ -208,6 +218,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 }
                 catch (Exception ex)
                 {
+                    Helper.InsertErrorLog(ex);
                     errMessage = ex.Message;
                     result = false;
                     ctx.RollBackTransaction();

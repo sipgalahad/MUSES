@@ -12556,6 +12556,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PurchaseInvoiceDtCreditNote
+        public static PurchaseInvoiceDtCreditNote GetPurchaseInvoiceDtCreditNote(Int32 PurchaseInvoiceDtID, Int32 PurchaseReceiveID, Int32 CreditNoteID)
+        {
+            return new PurchaseInvoiceDtCreditNoteDao().Get(PurchaseInvoiceDtID, PurchaseReceiveID, CreditNoteID);
+        }
+        public static int InsertPurchaseInvoiceDtCreditNote(PurchaseInvoiceDtCreditNote record)
+        {
+            return new PurchaseInvoiceDtCreditNoteDao().Insert(record);
+        }
+        public static int UpdatePurchaseInvoiceDtCreditNote(PurchaseInvoiceDtCreditNote record)
+        {
+            return new PurchaseInvoiceDtCreditNoteDao().Update(record);
+        }
+        public static int DeletePurchaseInvoiceDtCreditNote(Int32 PurchaseInvoiceDtID, Int32 PurchaseReceiveID, Int32 CreditNoteID)
+        {
+            return new PurchaseInvoiceDtCreditNoteDao().Delete(PurchaseInvoiceDtID, PurchaseReceiveID, CreditNoteID);
+        }
+        public static List<PurchaseInvoiceDtCreditNote> GetPurchaseInvoiceDtCreditNoteList(string filterExpression)
+        {
+            List<PurchaseInvoiceDtCreditNote> result = new List<PurchaseInvoiceDtCreditNote>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseInvoiceDtCreditNote));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseInvoiceDtCreditNote)helper.IDataReaderToObject(reader, new PurchaseInvoiceDtCreditNote()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PurchaseInvoiceDtPayment
         public static PurchaseInvoiceDtPayment GetPurchaseInvoiceDtPayment(Int32 ID)
         {
@@ -16154,6 +16194,84 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ServiceUnitItemGroup
+        public static ServiceUnitItemGroup GetServiceUnitItemGroup(Int32 SiteServiceUnitID, Int32 ItemGroupID)
+        {
+            return new ServiceUnitItemGroupDao().Get(SiteServiceUnitID, ItemGroupID);
+        }
+        public static int InsertServiceUnitItemGroup(ServiceUnitItemGroup record)
+        {
+            return new ServiceUnitItemGroupDao().Insert(record);
+        }
+        public static int UpdateServiceUnitItemGroup(ServiceUnitItemGroup record)
+        {
+            return new ServiceUnitItemGroupDao().Update(record);
+        }
+        public static int DeleteServiceUnitItemGroup(Int32 SiteServiceUnitID, Int32 ItemGroupID)
+        {
+            return new ServiceUnitItemGroupDao().Delete(SiteServiceUnitID, ItemGroupID);
+        }
+        public static List<ServiceUnitItemGroup> GetServiceUnitItemGroupList(string filterExpression)
+        {
+            List<ServiceUnitItemGroup> result = new List<ServiceUnitItemGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ServiceUnitItemGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ServiceUnitItemGroup)helper.IDataReaderToObject(reader, new ServiceUnitItemGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ServiceUnitItemGroup> GetServiceUnitItemGroupList(string filterExpression, IDbContext ctx)
+        {
+            List<ServiceUnitItemGroup> result = new List<ServiceUnitItemGroup>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ServiceUnitItemGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ServiceUnitItemGroup)helper.IDataReaderToObject(reader, new ServiceUnitItemGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetServiceUnitItemGroupRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ServiceUnitItemGroup));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ServiceUnitItemLogistic
         public static ServiceUnitItemLogistic GetServiceUnitItemLogistic(Int32 SiteServiceUnitID, Int32 ItemID)
         {
@@ -19017,6 +19135,46 @@ namespace CodeX.Data.Model
                 ctx.CommandText = helper.GetRowCount(filterExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SupplierPaymentHdFee
+        public static SupplierPaymentHdFee GetSupplierPaymentHdFee(Int32 SupplierPaymentID, String GCSupplierPaymentFeeType)
+        {
+            return new SupplierPaymentHdFeeDao().Get(SupplierPaymentID, GCSupplierPaymentFeeType);
+        }
+        public static int InsertSupplierPaymentHdFee(SupplierPaymentHdFee record)
+        {
+            return new SupplierPaymentHdFeeDao().Insert(record);
+        }
+        public static int UpdateSupplierPaymentHdFee(SupplierPaymentHdFee record)
+        {
+            return new SupplierPaymentHdFeeDao().Update(record);
+        }
+        public static int DeleteSupplierPaymentHdFee(Int32 SupplierPaymentID, String GCSupplierPaymentFeeType)
+        {
+            return new SupplierPaymentHdFeeDao().Delete(SupplierPaymentID, GCSupplierPaymentFeeType);
+        }
+        public static List<SupplierPaymentHdFee> GetSupplierPaymentHdFeeList(string filterExpression)
+        {
+            List<SupplierPaymentHdFee> result = new List<SupplierPaymentHdFee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierPaymentHdFee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SupplierPaymentHdFee)helper.IDataReaderToObject(reader, new SupplierPaymentHdFee()));
             }
             catch (Exception ex)
             {

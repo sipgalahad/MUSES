@@ -11,6 +11,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Data.Core.Dal;
 using System.Data;
 using CodeX.Common;
+using CodeX.Web.Finance.MasterPage;
 
 namespace CodeX.Muses.Web.Finance.Program
 {
@@ -22,12 +23,28 @@ namespace CodeX.Muses.Web.Finance.Program
             return Constant.MenuCode.Finance.AP_INVOICE_SUPPLIER_PROCESS;
         }
 
+        private MPSupplierPageTrx MasterPage
+        {
+            get
+            {
+                return (MPSupplierPageTrx)Master;
+            }
+        }
+
         protected override void InitializeDataControl()
         {
-            hdnBusinessPartnerID.Value = AppSession.BusinessPartnerID.ToString();
+            hdnBusinessPartnerID.Value = MasterPage.BusinessPartnerID.ToString();
             SetControlProperties();
             hdnTotalAmount.Value = hdnTotalAmountBeforeDP.Value = "0";
-            hdnPPNPctg.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
+
+            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}','{1}','{2}')",
+                                                                                               Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_AVERAGE_PRICE,
+                                                                                               Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_UNIT_PRICE,
+                                                                                               Constant.SettingParameter.VAT_PERCENTAGE));
+
+            hdnIsDiscountAppliedToAveragePrice.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_AVERAGE_PRICE).ParameterValue;
+            hdnIsDiscountAppliedToUnitPrice.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_UNIT_PRICE).ParameterValue;
+            hdnPPNPctg.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
 
             BindGridView(1, true, ref PageCount, false);
             Helper.SetControlEntrySetting(cboGLAPOther, new ControlEntrySetting(true, true, false), "mpTrx");
@@ -43,19 +60,12 @@ namespace CodeX.Muses.Web.Finance.Program
             txtPurchaseInvoiceDate.Text = DateTime.Today.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtSupplierInvoiceDate.Text = DateTime.Today.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtTaxInvoiceDate.Text = DateTime.Today.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-
-            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}','{1}')",
-                                                                                               Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_AVERAGE_PRICE,
-                                                                                               Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_UNIT_PRICE));
-
-            hdnIsDiscountAppliedToAveragePrice.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_AVERAGE_PRICE).ParameterValue;
-            hdnIsDiscountAppliedToUnitPrice.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_UNIT_PRICE).ParameterValue;
         }
 
         protected override void SetControlProperties()
         {
             List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_TYPE, Constant.StandardCode.CURRENCY_CODE, Constant.StandardCode.PURCHASE_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboItemType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboItemType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_TYPE && (p.StandardCodeID == Constant.ItemType.PRODUCT)).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             cboItemType.SelectedIndex = 0;
 
             Methods.SetComboBoxField<StandardCode>(cboCurrency, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CURRENCY_CODE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
@@ -104,6 +114,11 @@ namespace CodeX.Muses.Web.Finance.Program
             chkPPN.Checked = false;
         }
 
+        public bool IsAllowEditPurchaseReceive()
+        {
+            return false;
+        }
+
         protected string IsEditable()
         {
             return hdnIsEditable.Value;
@@ -112,7 +127,7 @@ namespace CodeX.Muses.Web.Finance.Program
         #region Load Entity
         protected string GetFilterExpression()
         {
-            return string.Format("BusinessPartnerID = {0}", AppSession.BusinessPartnerID);
+            return string.Format("BusinessPartnerID = {0}", MasterPage.BusinessPartnerID);
         }
 
         public override int OnGetRowCount()
@@ -146,6 +161,12 @@ namespace CodeX.Muses.Web.Finance.Program
             }
             else
                 hdnIsEditable.Value = "1";
+
+            if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN && entity.GCTransactionStatus != Constant.TransactionStatus.VOID)
+                hdnPrintStatus.Value = "true";
+            else
+                hdnPrintStatus.Value = "false";
+
             hdnPurchaseInvoiceID.Value = entity.PurchaseInvoiceID.ToString();
             txtPurchaseInvoiceNo.Text = entity.PurchaseInvoiceNo;
             txtPurchaseInvoiceDate.Text = entity.PurchaseInvoiceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
@@ -222,7 +243,7 @@ namespace CodeX.Muses.Web.Finance.Program
             entityHd.GCCurrencyCode = cboCurrency.Value.ToString();
             entityHd.GCChargesType = "X157^001";
             entityHd.ChargesAmount = Convert.ToDecimal(txtChargesPI.Text);
-            entityHd.BusinessPartnerID = AppSession.BusinessPartnerID;
+            entityHd.BusinessPartnerID = MasterPage.BusinessPartnerID;
             entityHd.CurrencyRate = Convert.ToDecimal(txtKurs.Text);
             entityHd.Remarks = txtRemarks.Text;
             if (chkPPN.Checked)
@@ -316,7 +337,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
 
-                List<PurchaseReceiveHd> lstPurchaseReceiveHd = BusinessLayer.GetPurchaseReceiveHdList(String.Format("PurchaseReceiveID IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseInvoiceID = {0} AND IsDeleted = 0) AND GCTransactionStatus = '{1}'", entity.PurchaseInvoiceID, Constant.TransactionStatus.APPROVED), ctx);
+                List<PurchaseReceiveHd> lstPurchaseReceiveHd = BusinessLayer.GetPurchaseReceiveHdList(String.Format("PurchaseReceiveID IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseInvoiceID = {0} AND PurchaseReceiveID IS NOT NULL AND IsDeleted = 0) AND GCTransactionStatus = '{1}'", entity.PurchaseInvoiceID, Constant.TransactionStatus.PROCESSED), ctx);
                 foreach (PurchaseReceiveHd purchaseReceiveHd in lstPurchaseReceiveHd)
                 {
                     purchaseReceiveHd.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
@@ -366,7 +387,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
 
-                List<PurchaseReceiveHd> lstPurchaseReceiveHd = BusinessLayer.GetPurchaseReceiveHdList(String.Format("PurchaseReceiveID IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseInvoiceID = {0} AND IsDeleted = 0) AND GCTransactionStatus = '{1}'", entity.PurchaseInvoiceID, Constant.TransactionStatus.APPROVED), ctx);
+                List<PurchaseReceiveHd> lstPurchaseReceiveHd = BusinessLayer.GetPurchaseReceiveHdList(String.Format("PurchaseReceiveID IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseInvoiceID = {0} AND PurchaseReceiveID IS NOT NULL AND IsDeleted = 0) AND GCTransactionStatus = '{1}'", entity.PurchaseInvoiceID, Constant.TransactionStatus.CLOSED), ctx);
                 foreach (PurchaseReceiveHd purchaseReceiveHd in lstPurchaseReceiveHd)
                 {
                     purchaseReceiveHd.GCTransactionStatus = Constant.TransactionStatus.PROCESSED;
@@ -501,6 +522,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
@@ -527,6 +549,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
@@ -553,6 +576,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
@@ -591,6 +615,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

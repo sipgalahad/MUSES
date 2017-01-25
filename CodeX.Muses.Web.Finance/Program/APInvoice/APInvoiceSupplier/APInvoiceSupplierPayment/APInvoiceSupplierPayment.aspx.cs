@@ -13,6 +13,7 @@ using CodeX.Data.Core.Dal;
 using System.Data;
 using CodeX.Web.CommonLibs.Program;
 using CodeX.Common;
+using CodeX.Web.Finance.MasterPage;
 
 namespace CodeX.Muses.Web.Finance.Program
 {
@@ -22,6 +23,14 @@ namespace CodeX.Muses.Web.Finance.Program
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.Finance.AP_INVOICE_SUPPLIER_PAYMENT;
+        }
+
+        private MPSupplierPageTrx MasterPage
+        {
+            get
+            {
+                return (MPSupplierPageTrx)Master;
+            }
         }
 
         protected String IsAdd()
@@ -37,6 +46,31 @@ namespace CodeX.Muses.Web.Finance.Program
             Helper.SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, false, false), "mpEntry");
 
             txtPaymentDate.Text = txtReferenceDate.Text = DateTime.Today.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+
+            SetControlProperties();
+            BindGridView();
+        }
+
+        List<SupplierPaymentHdFee> lstSupplierPaymentHdFee = null;
+        private void BindRptFee()
+        {
+            List<StandardCode> lstFee = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUPPLIER_PAYMENT_FEE_TYPE));
+            rptPaymentFee.DataSource = lstFee;
+            rptPaymentFee.DataBind();
+        }
+
+        protected void rptPaymentFee_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                StandardCode entity = e.Item.DataItem as StandardCode;
+                TextBox txtFeeAmount = (TextBox)e.Item.FindControl("txtFeeAmount");
+                if (hdnSupplierPaymentID.Value != "" && hdnSupplierPaymentID.Value != "0")
+                    txtFeeAmount.ReadOnly = true;
+                SupplierPaymentHdFee entityFee = lstSupplierPaymentHdFee.FirstOrDefault(p => p.GCSupplierPaymentFeeType == entity.StandardCodeID);
+                if (entityFee != null)
+                    txtFeeAmount.Text = entityFee.TotalAmount.ToString();
+            }
         }
 
         public override void OnAddRecord()
@@ -52,15 +86,21 @@ namespace CodeX.Muses.Web.Finance.Program
         protected override void SetControlProperties()
         {
             List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}','{3}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CURRENCY_CODE, Constant.StandardCode.SUPPLIER_PAYMENT_METHOD, Constant.StandardCode.ITEM_TYPE, Constant.StandardCode.PURCHASE_TYPE));
-            List<Bank> listBank = BusinessLayer.GetBankList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<StandardCode>(cboPurchaseType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.PURCHASE_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<StandardCode>(cboItemType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboItemType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_TYPE && (p.StandardCodeID == Constant.ItemType.PRODUCT)).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboCurrency, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CURRENCY_CODE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboPaymentMethod, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.SUPPLIER_PAYMENT_METHOD).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<Bank>(cboBank, listBank, "BankName", "BankID");
+            
+            List<Bank> lstBank = BusinessLayer.GetBankList("IsTransferOut = 1 AND IsDeleted = 0");
+            Bank selectedBank = lstBank.FirstOrDefault(p => p.IsDefaultTransferOut);
+            if (selectedBank == null)
+                selectedBank = lstBank.FirstOrDefault();
+            Methods.SetComboBoxField<Bank>(cboBank, lstBank, "BankName", "BankID");
+            if (selectedBank != null)
+                cboBank.Value = selectedBank.BankID.ToString();
+
             cboItemType.SelectedIndex = 0;
             cboPurchaseType.SelectedIndex = 0;
-            BindGridView();
         }
 
         protected override void OnControlEntrySetting()
@@ -86,7 +126,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         public string GetFilterExpression()
         {
-            string filterExpression = String.Format("BusinessPartnerID = {0}", AppSession.BusinessPartnerID);
+            string filterExpression = String.Format("BusinessPartnerID = {0}", MasterPage.BusinessPartnerID);
             return filterExpression;
         }
 
@@ -161,19 +201,26 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 if (hdnSupplierPaymentID.Value != "" && hdnSupplierPaymentID.Value != "0")
                 {
-                    filterExpression = string.Format("SupplierPaymentID = {0} AND BusinessPartnerID = {1} AND IsVerified = 1", hdnSupplierPaymentID.Value, AppSession.BusinessPartnerID);
+                    filterExpression = string.Format("SupplierPaymentID = {0} AND BusinessPartnerID = {1} AND IsVerified = 1", hdnSupplierPaymentID.Value, MasterPage.BusinessPartnerID);
                     List<vPurchaseInvoiceHdPayment> lstEntity = BusinessLayer.GetvPurchaseInvoiceHdPaymentList(filterExpression);
                     grdView.DataSource = lstEntity;
                     grdView.DataBind();
+
+                    txtTotalAmount.Text = lstEntity.Sum(p => p.PaymentAmount).ToString();
+
+                    lstSupplierPaymentHdFee = BusinessLayer.GetSupplierPaymentHdFeeList(string.Format("SupplierPaymentID = {0}", hdnSupplierPaymentID.Value));
                 }
             }
             else
             {
-                filterExpression = string.Format("BusinessPartnerID = {0} AND GCItemType = '{1}' AND GCPurchaseType = '{2}' AND IsVerified = 1 AND GCTransactionStatus NOT IN ('{3}','{4}','{5}')", AppSession.BusinessPartnerID, cboItemType.Value, cboPurchaseType.Value, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.OPEN, Constant.TransactionStatus.VOID);
+                filterExpression = string.Format("BusinessPartnerID = {0} AND GCItemType = '{1}' AND GCPurchaseType = '{2}' AND IsVerified = 1 AND GCTransactionStatus NOT IN ('{3}','{4}','{5}')", MasterPage.BusinessPartnerID, cboItemType.Value, cboPurchaseType.Value, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.OPEN, Constant.TransactionStatus.VOID);
                 List<vPurchaseInvoiceHd> lst = BusinessLayer.GetvPurchaseInvoiceHdList(filterExpression);
                 lvwView.DataSource = lst;
                 lvwView.DataBind();
+                txtTotalAmount.Text = "0";
+                lstSupplierPaymentHdFee = new List<SupplierPaymentHdFee>();
             }
+            BindRptFee();
         }
 
         protected void lvwView_ItemDataBound(object sender, ListViewItemEventArgs e)
@@ -214,7 +261,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 entityHd.GCItemType = cboItemType.Value.ToString();
 
                 entityHd.GCCurrencyCode = cboCurrency.Value.ToString();
-                entityHd.BusinessPartnerID = AppSession.BusinessPartnerID;
+                entityHd.BusinessPartnerID = MasterPage.BusinessPartnerID;
                 entityHd.CurrencyRate = Convert.ToDecimal(txtKurs.Text);
                 entityHd.Remarks = txtRemarks.Text;
 
@@ -249,6 +296,7 @@ namespace CodeX.Muses.Web.Finance.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             SupplierPaymentDtDao entityDtDao = new SupplierPaymentDtDao(ctx);
+            SupplierPaymentHdFeeDao entityHdFeeDao = new SupplierPaymentHdFeeDao(ctx);
             PurchaseInvoiceHdDao entityInvoiceHdDao = new PurchaseInvoiceHdDao(ctx);
             PurchaseInvoiceDtDao entityInvoiceDtDao = new PurchaseInvoiceDtDao(ctx);
             PurchaseInvoiceDtPaymentDao entityInvoiceDtPaymentDao = new PurchaseInvoiceDtPaymentDao(ctx);
@@ -329,6 +377,16 @@ namespace CodeX.Muses.Web.Finance.Program
                         }
                     }
                 }
+                string[] lstPaymentFee = hdnPaymentFeeSaveValue.Value.Split('|');
+                foreach (string paymentFee in lstPaymentFee)
+                {
+                    string[] temp = paymentFee.Split(';');
+                    SupplierPaymentHdFee entityFee = new SupplierPaymentHdFee();
+                    entityFee.SupplierPaymentID = SupplierPaymentID;
+                    entityFee.GCSupplierPaymentFeeType = temp[0];
+                    entityFee.TotalAmount = Convert.ToDecimal(temp[1]);
+                    entityHdFeeDao.Insert(entityFee);
+                }                
 
                 retval = SupplierPaymentID.ToString();
                 ctx.CommitTransaction();
@@ -355,7 +413,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 entity.ReferenceDate = Helper.GetDatePickerValue(txtReferenceDate.Text);
 
                 entity.GCCurrencyCode = cboCurrency.Value.ToString();
-                entity.BusinessPartnerID = AppSession.BusinessPartnerID;
+                entity.BusinessPartnerID = MasterPage.BusinessPartnerID;
                 entity.CurrencyRate = Convert.ToDecimal(txtKurs.Text);
                 entity.Remarks = txtRemarks.Text;
 

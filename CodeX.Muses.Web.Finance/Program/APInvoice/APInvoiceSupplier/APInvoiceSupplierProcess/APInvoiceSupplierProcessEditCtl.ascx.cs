@@ -39,13 +39,10 @@ namespace CodeX.Muses.Web.Finance.Program
             hdnID.Value = temp[0];
             hdnPurchaseReceiveID.Value = temp[1];
 
-            vPurchaseReceiveHd entity = BusinessLayer.GetvPurchaseReceiveHdList(string.Format("PurchaseReceiveID = {0}", hdnPurchaseReceiveID.Value)).FirstOrDefault();
+            PurchaseReceiveHd entity = BusinessLayer.GetPurchaseReceiveHd(Convert.ToInt32(hdnPurchaseReceiveID.Value));
             txtPurchaseReceiveNo.Text = entity.PurchaseReceiveNo;
             txtPurchaseReceiveDate.Text = entity.ReceivedDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtPurchaseReceiveTime.Text = entity.ReceivedTime;
-            hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
-            txtServiceUnitCode.Text = entity.ServiceUnitCode;
-            txtServiceUnitName.Text = entity.ServiceUnitName;
             txtReferenceNo.Text = entity.ReferenceNo;
             txtDateReferrence.Text = entity.ReferenceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtDPReferrenceNo.Text = entity.DownPaymentReferenceNo;
@@ -157,7 +154,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     HtmlInputHidden hdnReturnQuantity = (HtmlInputHidden)e.Item.FindControl("hdnReturnQuantity");
                     HtmlTableCell tdReturnQuantity = (HtmlTableCell)e.Item.FindControl("tdReturnQuantity");
                     TextBox txtReturnLineAmount = (TextBox)e.Item.FindControl("txtReturnLineAmount");
-
+                    
                     hdnPurchaseReturnDtID.Value = entityReturn.ID.ToString();
                     tdReturnQuantity.InnerHtml = entityReturn.Quantity.ToString();
                     hdnReturnQuantity.Value = entityReturn.Quantity.ToString();
@@ -292,8 +289,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             ctx.Command.Parameters.Clear();
                             entity.GCTransactionStatus = Constant.TransactionStatus.OPEN;
                             entity.CreatedBy = AppSession.UserLogin.UserID;
-                            entityHdDao.Insert(entity);
-                            int creditNoteID = BusinessLayer.GetSupplierCreditNoteMaxID(ctx);
+                            int creditNoteID = entityHdDao.Insert(entity);
 
                             entity = entityHdDao.Get(creditNoteID);
                             entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;

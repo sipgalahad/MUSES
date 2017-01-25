@@ -41,8 +41,8 @@ namespace CodeX.Muses.Web.Finance.Program
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
-            fieldListText = new string[] { "Business Partner Code", "Business Partner Name" };
-            fieldListValue = new string[] { "BusinessPartnerCode", "BusinessPartnerName" };
+            fieldListText = new string[] { "Nama Supplier", "Kode Supplier" };
+            fieldListValue = new string[] { "BusinessPartnerName", "BusinessPartnerCode" };
         }
 
         private string GetFilterExpression()

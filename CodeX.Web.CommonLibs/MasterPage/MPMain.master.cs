@@ -18,13 +18,17 @@ namespace CodeX.Web.CommonLibs.MasterPage
         protected List<GetUserMenuAccess> lstMenu = null;
 
         private string ModuleID = "";
+        protected string OnGetTitle()
+        {
+            return AppSession.UserLogin.SiteName;
+        }
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
             if (!Page.IsPostBack)
             {
                 if (AppSession.UserLogin == null)
-                    Response.Redirect("~/../ControlPanel/Login.aspx");
+                    Response.Redirect("~/../ControlPanel/Login2.aspx");
 
                 hdnLoginData.Value = string.Format("{0}|{1}|{2}", AppSession.UserLogin.UserName, "fromprogram", AppSession.UserLogin.SiteID);
 
@@ -37,7 +41,6 @@ namespace CodeX.Web.CommonLibs.MasterPage
 
                 imgOpenModule.Src = ResolveUrl("~/Libs/Images/Icon/module.png");
 
-                divSiteName.InnerHtml = AppSession.UserLogin.SiteName;
                 List<Module> lstModule = BusinessLayer.GetModuleList(string.Format("ModuleID IN ({0}) ORDER BY ModuleIndex", AppSession.ListModuleID));
                 rptModule.DataSource = lstModule;
                 rptModule.DataBind();

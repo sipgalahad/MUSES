@@ -40,7 +40,7 @@
         });
         $(function () {
             $('#<%=btnMPEntryPrint.ClientID %>').click(function () {
-                var id = '<%=OnGetMenuCode() %>';
+                var id = '<%=OnGetMenuCode() %>|<%=IsReportSelectLanguage() %>';
                 var url = ResolveUrl("~/Libs/Controls/PopupPrintCtl.ascx");
                 openUserControlPopup(url, id, 'Print', 500, 400);
             });
