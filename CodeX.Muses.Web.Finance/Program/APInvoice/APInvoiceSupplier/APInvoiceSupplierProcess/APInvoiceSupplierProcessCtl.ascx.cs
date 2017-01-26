@@ -12,6 +12,7 @@ using CodeX.Data.Core.Dal;
 using DevExpress.Web.ASPxCallbackPanel;
 using DevExpress.Web.ASPxEditors;
 using CodeX.Common;
+using CodeX.Web.Finance.MasterPage;
 
 namespace CodeX.Muses.Web.Finance.Program
 {
@@ -19,9 +20,18 @@ namespace CodeX.Muses.Web.Finance.Program
     {
         protected int PageCount = 1;
         private string[] lstSelectedMember = null;
+        private string[] lstSelectedMemberPurchaseReturn = null;
         private APInvoiceSupplierProcess DetailPage
         {
             get { return (APInvoiceSupplierProcess)Page; }
+        }
+
+        public MPSupplierPageTrx MasterPage
+        {
+            get
+            {
+                return (MPSupplierPageTrx)DetailPage.Master;
+            }
         }
 
         public override void InitializeDataControl(string param)
@@ -41,7 +51,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 transactionCode = Constant.TransactionCode.CONSIGNMENT_RECEIVE;
             else
                 transactionCode = Constant.TransactionCode.PURCHASE_RECEIVE;
-            string filterExpression = string.Format("BusinessPartnerID = {0} AND GCTransactionStatus IN ('{1}') AND GCItemType = '{2}' AND TransactionCode = '{3}' AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseReceiveID IS NOT NULL AND IsDeleted = 0)", AppSession.BusinessPartnerID, Constant.TransactionStatus.PROCESSED, hdnGCItemType.Value, transactionCode);
+            string filterExpression = string.Format("BusinessPartnerID = {0} AND GCTransactionStatus IN ('{1}') AND GCItemType = '{2}' AND TransactionCode = '{3}' AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseReceiveID IS NOT NULL AND IsDeleted = 0)", MasterPage.BusinessPartnerID, Constant.TransactionStatus.PROCESSED, hdnGCItemType.Value, transactionCode);
             if (isCountPageCount)
             {
                 int rowCount = BusinessLayer.GetvPurchaseReceiveCreditRowCount(filterExpression);
@@ -49,6 +59,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
 
             lstSelectedMember = hdnSelectedPurchaseReceive.Value.Split(',');
+            lstSelectedMemberPurchaseReturn = hdnSelectedIncludePurchaseReturn.Value.Split(',');
             List<vPurchaseReceiveCredit> lstEntity = BusinessLayer.GetvPurchaseReceiveCreditList(filterExpression, Constant.GridViewPageSize.GRID_MATRIX, pageIndex);
             lvwView.DataSource = lstEntity;
             lvwView.DataBind();
@@ -64,6 +75,11 @@ namespace CodeX.Muses.Web.Finance.Program
                     chkPurchaseReceive.Checked = true;
                 else
                     chkPurchaseReceive.Checked = false;
+                CheckBox chkIsIncludePurchaseReturn = e.Item.FindControl("chkIsIncludePurchaseReturn") as CheckBox;
+                if (lstSelectedMemberPurchaseReturn.Contains(entity.PurchaseReceiveID.ToString()))
+                    chkIsIncludePurchaseReturn.Checked = true;
+                else
+                    chkIsIncludePurchaseReturn.Checked = false;
             }
         }
 
@@ -93,19 +109,39 @@ namespace CodeX.Muses.Web.Finance.Program
         #endregion
 
         #region Save Entity
-        private void ControlToEntity(IDbContext ctx, List<PurchaseInvoiceDt> lstEntityDt)
+        private void ControlToEntity(IDbContext ctx, List<PurchaseInvoiceDt> lstEntityDt, List<PurchaseInvoiceDtCreditNote> lstEntityDtCreditNote)
         {
+            lstSelectedMemberPurchaseReturn = hdnSelectedIncludePurchaseReturn.Value.Split(',');
             string filterExpression = string.Format("PurchaseReceiveID IN ({0})", hdnSelectedPurchaseReceive.Value.Substring(1));
             List<vPurchaseReceiveCredit> lstPurchaseReceiveCredit = BusinessLayer.GetvPurchaseReceiveCreditList(filterExpression);
             foreach (vPurchaseReceiveCredit purchaseReceiveCredit in lstPurchaseReceiveCredit)
             {
+                bool isIncludePurchaseReturn = lstSelectedMemberPurchaseReturn.Contains(purchaseReceiveCredit.PurchaseReceiveID.ToString());
                 PurchaseInvoiceDt entityDt = new PurchaseInvoiceDt();
-
                 entityDt.PurchaseReceiveID = purchaseReceiveCredit.PurchaseReceiveID;
-                //List<vPurchaseReceiveDt> lstEntity = BusinessLayer.GetvPurchaseReceiveDtList(string.Format("PurchaseReceiveID = {0}", purchaseReceiveCredit.PurchaseReceiveID), ctx);
-                //entityDt.DiscountAmount = lstEntity.Sum(p => p.CustomTotalDiscount);
+                entityDt.PurchaseReturnID = null;
+                entityDt.CreditNoteID = null;
+                entityDt.IsCreditNoteOnly = false;
+                if (purchaseReceiveCredit.CreditNoteID != "")
+                {
+                    if (isIncludePurchaseReturn)
+                    {
+                        string[] lstCreditNoteID = purchaseReceiveCredit.CreditNoteID.Split(',');
+                        foreach (string creditNoteID in lstCreditNoteID)
+                        {
+                            PurchaseInvoiceDtCreditNote entityDtCreditNote = new PurchaseInvoiceDtCreditNote();
+                            entityDtCreditNote.PurchaseReceiveID = purchaseReceiveCredit.PurchaseReceiveID;
+                            entityDtCreditNote.CreditNoteID = Convert.ToInt32(creditNoteID);
+                            lstEntityDtCreditNote.Add(entityDtCreditNote);
+                        }
+                        entityDt.CreditNoteAmount = purchaseReceiveCredit.CNAmount;
+                    }
+                    else
+                        entityDt.CreditNoteAmount = 0;
+                }
+                else
+                    entityDt.CreditNoteAmount = 0;
                 entityDt.ChargesAmount = purchaseReceiveCredit.ChargesAmount;
-                entityDt.CreditNoteAmount = purchaseReceiveCredit.CNAmount;
                 entityDt.PPH23Amount = 0; 
                 entityDt.PPH25Amount = 0;
                 entityDt.FinalDiscountAmount = purchaseReceiveCredit.FinalDiscountAmount;
@@ -125,19 +161,29 @@ namespace CodeX.Muses.Web.Finance.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             PurchaseInvoiceDtDao entityDtDao = new PurchaseInvoiceDtDao(ctx);
+            PurchaseInvoiceDtCreditNoteDao entityDtCreditNoteDao = new PurchaseInvoiceDtCreditNoteDao(ctx);
             int purchaseInvoiceID = Convert.ToInt32(hdnPurchaseInvoiceID.Value);
             try
             {
                 DetailPage.SavePurchaseInvoiceHd(ctx, ref purchaseInvoiceID);
                 List<PurchaseInvoiceDt> lstEntityDt = new List<PurchaseInvoiceDt>();
-                ControlToEntity(ctx, lstEntityDt);
+                List<PurchaseInvoiceDtCreditNote> lstEntityDtCreditNote = new List<PurchaseInvoiceDtCreditNote>();
+                ControlToEntity(ctx, lstEntityDt, lstEntityDtCreditNote);
 
                 foreach (PurchaseInvoiceDt entityDt in lstEntityDt)
                 {
                     entityDt.PurchaseInvoiceID = purchaseInvoiceID;
 
                     entityDt.CreatedBy = AppSession.UserLogin.UserID;
-                    entityDtDao.Insert(entityDt);
+                    entityDt.ID = entityDtDao.Insert(entityDt);
+
+                    List<PurchaseInvoiceDtCreditNote> lstEntityDtCreditNote1 = lstEntityDtCreditNote.Where(p => p.PurchaseReceiveID == entityDt.PurchaseReceiveID).ToList();
+                    foreach (PurchaseInvoiceDtCreditNote entityDtCreditNote in lstEntityDtCreditNote1)
+                    {
+                        entityDtCreditNote.PurchaseInvoiceDtID = entityDt.ID;
+                        entityDtCreditNoteDao.Insert(entityDtCreditNote);
+                    }
+
                 }
                 retval = purchaseInvoiceID.ToString();
                 ctx.CommitTransaction();

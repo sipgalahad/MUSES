@@ -107,7 +107,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 {
                     string filterExpressionDistributionHd = String.Format("DistributionID IN ({0})", hdnParam.Value);
 
-                    List<ItemDistributionHd> lstItemDistributionHd = BusinessLayer.GetItemDistributionHdList(filterExpressionDistributionHd);
+                    List<ItemDistributionHd> lstItemDistributionHd = BusinessLayer.GetItemDistributionHdList(filterExpressionDistributionHd, ctx);
 
                     foreach (ItemDistributionHd distributionHd in lstItemDistributionHd)
                     {
@@ -116,7 +116,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                         distributionHdDao.Update(distributionHd);
                     }
 
-                    List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionDistributionHd);
+                    List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionDistributionHd, ctx);
                     foreach (ItemDistributionDt distributionDt in lstItemDistributionDt)
                     {
                         distributionDt.GCItemDetailStatus = Constant.DistributionStatus.RECEIVED;
@@ -127,6 +127,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 }
                 catch (Exception ex)
                 {
+                    Helper.InsertErrorLog(ex);
                     errMessage = ex.Message;
                     result = false;
                     ctx.RollBackTransaction();
@@ -146,7 +147,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 try
                 {
                     string filterExpressionDistributionHd = String.Format("DistributionID IN ({0})", hdnParam.Value);
-                    List<ItemDistributionHd> lstItemDistributionHd = BusinessLayer.GetItemDistributionHdList(filterExpressionDistributionHd);
+                    List<ItemDistributionHd> lstItemDistributionHd = BusinessLayer.GetItemDistributionHdList(filterExpressionDistributionHd, ctx);
 
                     foreach (ItemDistributionHd distributionHd in lstItemDistributionHd)
                     {
@@ -155,7 +156,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                         distributionHdDao.Update(distributionHd);
                     }
 
-                    List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionDistributionHd);
+                    List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionDistributionHd, ctx);
                     foreach (ItemDistributionDt distributionDt in lstItemDistributionDt)
                     {
                         distributionDt.GCItemDetailStatus = Constant.DistributionStatus.OPEN;
@@ -166,6 +167,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 }
                 catch (Exception ex)
                 {
+                    Helper.InsertErrorLog(ex);
                     errMessage = ex.Message;
                     result = false;
                     ctx.RollBackTransaction();

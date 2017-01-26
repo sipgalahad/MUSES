@@ -13,6 +13,8 @@ using System.Data;
 using DevExpress.Web.ASPxEditors;
 using System.Web.UI.HtmlControls;
 using CodeX.Common;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace CodeX.Muses.Web.Inventory.Program
 {
@@ -70,9 +72,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(hdnRackID, new ControlEntrySetting(true, true));            
+            SetControlEntrySetting(txtRackName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
 
             SetControlEntrySetting(lblLocation, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(lblRack, new ControlEntrySetting(true, false));
         }
 
         #region Load Entity
@@ -126,6 +131,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnLocationID.Value = entity.LocationID.ToString();
             txtLocationCode.Text = entity.LocationCode;
             txtLocationName.Text = entity.LocationName;
+            hdnRackID.Value = entity.RackID.ToString();
+            txtRackName.Text = entity.RackName;
             txtRemarks.Text = entity.Remarks;
 
             BindGridView(1, true, ref PageCount, ref RowCount);
@@ -206,6 +213,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             entity.FormDate = Helper.GetDatePickerValue(txtFormDate);
             entity.LocationID = Convert.ToInt32(hdnLocationID.Value);
+            if (hdnRackID.Value != "" && hdnRackID.Value != "0")
+                entity.RackID = Convert.ToInt32(hdnRackID.Value);
+            else
+                entity.RackID = null;
             entity.Remarks = txtRemarks.Text;
         }
 
@@ -223,6 +234,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -233,13 +245,17 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 StockTakingHd entity = BusinessLayer.GetStockTakingHd(Convert.ToInt32(hdnStockTakingID.Value));
-                ControlToEntity(entity);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateStockTakingHd(entity);
+                if (entity.GCTransactionStatus == Constant.TransactionStatus.OPEN)
+                {
+                    ControlToEntity(entity);
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdateStockTakingHd(entity);
+                }
                 return true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -255,6 +271,23 @@ namespace CodeX.Muses.Web.Inventory.Program
             if (param[0] == "calculate")
             {
                 if (FillStockTakingDt(ref errMessage))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+            else if (param[0] == "upload")
+            {
+                string imageData = hdnUploadedFile1.Value;
+                if (imageData != "")
+                {
+                    string[] parts = Regex.Split(imageData, ",").Skip(1).ToArray();
+                    imageData = String.Join(",", parts);
+                }
+
+                byte[] data = Convert.FromBase64String(imageData);
+                StreamReader stream = new StreamReader(new MemoryStream(data));
+
+                if (OnUploadFile(stream, ref errMessage))
                     result += "success";
                 else
                     result += string.Format("fail|{0}", errMessage);
@@ -277,11 +310,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 int stockTakingID = Convert.ToInt32(hdnStockTakingID.Value);
                 int locationID = Convert.ToInt32(hdnLocationID.Value);
-                BusinessLayer.FillStockTakingDt(stockTakingID, locationID, DateTime.Now, DateTime.Now.ToString(Constant.FormatString.TIME_FORMAT), AppSession.UserLogin.UserID);
+                int rackID = Convert.ToInt32(hdnRackID.Value);
+                BusinessLayer.FillStockTakingDt(stockTakingID, locationID, rackID, DateTime.Now, DateTime.Now.ToString(Constant.FormatString.TIME_FORMAT), AppSession.UserLogin.UserID);
                 return true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -311,6 +346,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -325,24 +361,27 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 StockTakingHd stockTakingHd = stockTakingHdDao.Get(Convert.ToInt32(hdnStockTakingID.Value));
-                stockTakingHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                stockTakingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                stockTakingHdDao.Update(stockTakingHd);
-
-                string filterExpression = String.Format("StockTakingID = {0} AND GCItemDetailStatus != '{1}' AND QuantityAdjustment != 0", hdnStockTakingID.Value, Constant.TransactionStatus.VOID);
-                List<StockTakingDt> lstStockTakingDt = BusinessLayer.GetStockTakingDtList(filterExpression, ctx);
-                
-                foreach (StockTakingDt stockTakingDt in lstStockTakingDt)
+                if (stockTakingHd.GCTransactionStatus == Constant.TransactionStatus.OPEN || stockTakingHd.GCTransactionStatus == Constant.TransactionStatus.WAIT_FOR_APPROVAL)
                 {
-                    stockTakingDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
-                    stockTakingDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    stockTakingDtDao.Update(stockTakingDt);
+                    stockTakingHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                    stockTakingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    stockTakingHdDao.Update(stockTakingHd);
+
+                    string filterExpression = String.Format("StockTakingID = {0} AND GCItemDetailStatus != '{1}' AND QuantityAdjustment != 0", hdnStockTakingID.Value, Constant.TransactionStatus.VOID);
+                    List<StockTakingDt> lstStockTakingDt = BusinessLayer.GetStockTakingDtList(filterExpression, ctx);
+
+                    foreach (StockTakingDt stockTakingDt in lstStockTakingDt)
+                    {
+                        stockTakingDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
+                        stockTakingDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        stockTakingDtDao.Update(stockTakingDt);
+                    }
                 }
-                
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -359,13 +398,17 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 StockTakingHd entity = BusinessLayer.GetStockTakingHd(Convert.ToInt32(hdnStockTakingID.Value));
-                entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateStockTakingHd(entity);
+                if (entity.GCTransactionStatus == Constant.TransactionStatus.OPEN)
+                {
+                    entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdateStockTakingHd(entity);
+                }
                 return true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -395,6 +438,72 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
+        }
+        #endregion
+
+        #region Import Data
+        public bool OnUploadFile(StreamReader stream, ref String errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            StockTakingDtDao entityDtDao = new StockTakingDtDao(ctx);
+
+            try
+            {
+                List<StockTakingDt> lstStockTakingDt = BusinessLayer.GetStockTakingDtList(string.Format("StockTakingID = {0} AND GCItemDetailStatus != '{1}'", hdnStockTakingID.Value, Constant.TransactionStatus.VOID), ctx);
+                List<vStockTakingDt> lstvStockTakingDt = BusinessLayer.GetvStockTakingDtList(string.Format("StockTakingID = {0} AND GCItemDetailStatus != '{1}'", hdnStockTakingID.Value, Constant.TransactionStatus.VOID), ctx);
+                int ctr = 0;
+                while (true)
+                {
+                    string line = stream.ReadLine();
+                    if (line == null)
+                    {
+                        break;
+                    }
+                    if (ctr > 6)
+                    {
+                        var regex = new Regex("\"([^\"]*)\"");
+                        foreach (Match match in regex.Matches(line))
+                        {
+                            string temp = match.ToString();
+                            string temp2 = temp.Replace(",", "").Replace("\"", "");
+                            line = line.Replace(temp, temp2);
+                        }
+                        String[] lstTemp = line.Split(',');
+                        string itemCode = lstTemp[1];
+
+                        vStockTakingDt vStockTakingDt = lstvStockTakingDt.FirstOrDefault(p => p.ItemCode == itemCode);
+                        if (vStockTakingDt != null)
+                        {
+                            StockTakingDt stockTakingDt = lstStockTakingDt.FirstOrDefault(p => p.ItemID == vStockTakingDt.ItemID);
+
+                            decimal qty = -1;
+                            if (Decimal.TryParse(lstTemp[5], out qty))
+                            {
+                                stockTakingDt.QuantityEND = qty;
+                                stockTakingDt.GCCheckCountType = Constant.CheckCountType.CYCLE_RECOUNT;
+                                stockTakingDt.QuantityAdjustment = stockTakingDt.QuantityEND - stockTakingDt.QuantityBSO;
+                                stockTakingDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                entityDtDao.Update(stockTakingDt);
+                            }
+                        }
+                    }
+                    ctr++;
+                }
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
         #endregion
     }

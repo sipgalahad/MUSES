@@ -46,6 +46,12 @@
             openUserControlPopup(url, id, 'Login Attribute', 1000, 620);
         });
 
+        $('.lnkServiceUnit a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserManagement/UserServiceUnitEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Unit Pelayanan', 1000, 620);
+        });
+
         $('.lnkLocation a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
             var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserManagement/UserLocationEntryCtl.ascx");
@@ -144,6 +150,7 @@
                                 <asp:HyperLinkField HeaderText="Report" Text="Report" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkReport" HeaderStyle-Width="100px" />
                                 <asp:HyperLinkField HeaderText="Menu Access" Text="Menu Access" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkMenuAccess" HeaderStyle-Width="100px" />
                                 <asp:HyperLinkField HeaderText="Login Attribute" Text="Login Attribute" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkLoginAttribute" HeaderStyle-Width="100px" />
+                                <asp:HyperLinkField HeaderText="Unit Pelayanan" Text="Unit Pelayanan" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkServiceUnit" HeaderStyle-Width="100px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

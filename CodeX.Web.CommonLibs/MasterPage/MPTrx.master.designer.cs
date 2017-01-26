@@ -85,6 +85,15 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsAllowReopen;
         
         /// <summary>
+        /// hdnIsAllowExport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsAllowExport;
+        
+        /// <summary>
         /// hdnRowCount control.
         /// </summary>
         /// <remarks>
@@ -121,6 +130,51 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnProposeText;
         
         /// <summary>
+        /// hdnIsVoidNeedReason control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsVoidNeedReason;
+        
+        /// <summary>
+        /// hdnVoidReasonParentID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnVoidReasonParentID;
+        
+        /// <summary>
+        /// hdnGCVoidReason control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCVoidReason;
+        
+        /// <summary>
+        /// hdnVoidReasonOther control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnVoidReasonOther;
+        
+        /// <summary>
+        /// hdnMenuCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMenuCaption;
+        
+        /// <summary>
         /// pnlWatermark control.
         /// </summary>
         /// <remarks>
@@ -128,6 +182,24 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnlWatermark;
+        
+        /// <summary>
+        /// btnTemp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnTemp;
+        
+        /// <summary>
+        /// btnExport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnExport;
         
         /// <summary>
         /// plhHeader control.
@@ -317,6 +389,15 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnMPEntryNext;
+        
+        /// <summary>
+        /// btnMPEntryExport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnMPEntryExport;
         
         /// <summary>
         /// plhCustomButtonToolbar control.

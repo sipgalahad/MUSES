@@ -25,11 +25,6 @@ namespace CodeX.Muses.Web.Inventory.Program
             return Constant.MenuCode.Inventory.APPROVED_ITEM_REQUEST;
         }
 
-        public override bool IsShowRightPanel()
-        {
-            return false;
-        }
-
         public override void SetCRUDMode(ref bool IsAllowAdd, ref bool IsAllowEdit, ref bool IsAllowDelete)
         {
             IsAllowAdd = IsAllowEdit = IsAllowDelete = false;

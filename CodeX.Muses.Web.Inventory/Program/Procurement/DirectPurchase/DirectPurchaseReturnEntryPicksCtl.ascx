@@ -38,7 +38,7 @@
         }, 500);
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         getCheckedItem();
         if ($('#<%=hdnSelectedItem.ClientID %>').val() == '') {
             errMessage.text = 'Please Select Item First';
@@ -70,7 +70,7 @@
         });
         $('#<%=hdnSelectedItem.ClientID %>').val(lstSelectedItem);
         $('#<%=hdnSelectedQtyRetur.ClientID %>').val(lstSelectedQtyRetur);
-        $('#<%=hdnSelectedReturnReason.ClientID %>').val(lstSelectedReturnReason); 
+        $('#<%=hdnSelectedReturnReason.ClientID %>').val(lstSelectedReturnReason);
     }
 
     $('#chkSelectAllItem').die('change');

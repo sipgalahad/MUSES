@@ -19,20 +19,7 @@
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 
             $('#<%=btnProcess.ClientID %>').click(function () {
-                if ($('.chkIsSelected input:checked').length < 1) {
-                    showToast('Warning', 'Pilih Nomor Terlebih Dahulu');
-                }
-                else {
-                    var param = '';
-                    $('.chkIsSelected input:checked').each(function () {
-                        var ID = $(this).closest('tr').find('.keyField').html();
-                        if (param != '')
-                            param += ',';
-                        param += ID;
-                    });
-                    $('#<%=hdnParam.ClientID %>').val(param);
-                    onCustomButtonClick('process');
-                }
+                onCustomButtonClick('process');
             });
         });
 
@@ -94,17 +81,17 @@
             var param = $tr.find('.keyField').html();
             var transactionStatus = $tr.find('.hdnGCTransactionStatus').val();
             var url = "";
-            if (transactionStatus == '<%=OnGetTransactionStatusApproved() %>')
+            if (transactionStatus == '<%=OnGetTransactionStatusApproved() %>') {
+                param += '|0';
                 url = ResolveUrl("~/Program/Warehouse/PurchaseReceive/Confirmation/PurchaseReceiveConfirmationEditDtCtl.ascx");
+            }
             else
                 url = ResolveUrl("~/Program/Warehouse/PurchaseReceive/Confirmation/PurchaseReceiveConfirmationDtCtl.ascx");
             openUserControlPopup(url, param, 'Konfirmasi Penerimaan Pembelian', 1000, 600);
         });
     </script>
-    <input type="hidden" value="" id="hdnParam" runat="server" />
     <input type="hidden" value="" id="hdnID" runat="server" />
-    <input type="hidden" value="" id="hdnIsDiscountAppliedToAveragePrice" runat="server" />
-    <input type="hidden" value="" id="hdnIsDiscountAppliedToUnitPrice" runat="server" />
+    <input type="hidden" value="" id="hdnIsVATAppliedToAveragePrice" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <table class="tblEntryContent">
         <colgroup>
@@ -131,14 +118,13 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
                             <Columns>
                                 <asp:BoundField DataField="PurchaseReceiveID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                <asp:TemplateField HeaderText="No. Penerimaan" ItemStyle-CssClass="lnkPurchaseReceive" HeaderStyle-Width="150px" >
                                     <ItemTemplate>
                                         <input type="hidden" class="hdnGCTransactionStatus" value='<%#Eval("GCTransactionStatus") %>' />
-                                        <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
+                                        <a><%#Eval("PurchaseReceiveNo")%></a>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:HyperLinkField HeaderText="No. Penerimaan" DataTextField="PurchaseReceiveNo" ItemStyle-CssClass="lnkPurchaseReceive" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="ReceivedDateInString" HeaderText="Tanggal Penerimaan" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
+                                <asp:BoundField DataField="ReceivedDateInString" HeaderText="Tanggal Penerimaan" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="SupplierName" HeaderText="Nama Supplier" HeaderStyle-Width="250px" />
                                 <asp:BoundField DataField="ReferenceNo" HeaderText="No Faktur" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="PaymentDueDateInString" HeaderText="Tanggal Jatuh Tempo" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="180px" />

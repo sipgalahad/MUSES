@@ -59,7 +59,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         private string GetFilterExpression()
         {
-            String filterExpression = String.Format("SiteID = '{0}' AND GCStudentStatus = '{1}' AND IsDeleted = 0", cboSite.Value, Constant.StudentStatus.ACTIVE);
+            String filterExpression = String.Format("SiteID = '{0}' AND IsDeleted = 0", cboSite.Value);
             if (tacSchoolClass.Value != "")
                 filterExpression += string.Format(" AND SchoolClassID = {0}", tacSchoolClass.Value);
             else if (hdnSchoolPeriodEndDate.Value != "")

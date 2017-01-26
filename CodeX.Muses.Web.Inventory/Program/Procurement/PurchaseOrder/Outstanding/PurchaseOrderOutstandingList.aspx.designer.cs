@@ -13,15 +13,6 @@ namespace CodeX.Muses.Web.Inventory.Program {
     public partial class PurchaseOrderOutstandingList {
         
         /// <summary>
-        /// btnPurchaseRequestHdItem control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnPurchaseRequestHdItem;
-        
-        /// <summary>
         /// btnClosePO control.
         /// </summary>
         /// <remarks>
@@ -38,6 +29,24 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnCloseNewPO;
+        
+        /// <summary>
+        /// btnCopyPO control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnCopyPO;
+        
+        /// <summary>
+        /// btnGeneratePO control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnGeneratePO;
         
         /// <summary>
         /// hdnParam control.

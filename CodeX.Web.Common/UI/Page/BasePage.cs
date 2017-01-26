@@ -28,6 +28,21 @@ namespace CodeX.Web.Common.UI
             return Helper.GetWordsLabel(words, code);
         }
 
+        public virtual string OnGetCustomLang()
+        {
+            return "";
+        }
+
+        public virtual string OnGetDepartmentID()
+        {
+            return "";
+        }
+
+        public virtual bool OnBeforeDirectPrint(ReportMaster reportMaster, ref string errMessage)
+        {
+            return true;
+        }
+
         protected override void OnPreLoad(EventArgs e)
         {
             base.OnPreLoad(e);

@@ -25,6 +25,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             get { return (ItemDistributionEntry)Page; }
         }
 
+        protected string OnGetFilterExpressionItemGroup()
+        {
+            return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
+        }
         protected string OnGetFilterExpressionItemProduct()
         {
             return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
@@ -68,10 +72,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = "";
 
             if (hdnItemGroupID.Value != "")
-                filterExpression += string.Format("GCItemType = '{0}' AND ItemName1 LIKE '%{1}%' AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/{2}/%') AND IsDeleted = 0", Constant.ItemType.PRODUCT, hdnFilterItem.Value, hdnItemGroupID.Value);
+                filterExpression += string.Format("GCItemType = '{0}' AND GCItemStatus = '{1}' AND ItemName1 LIKE '%{2}%' AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/{3}/%') AND IsDeleted = 0", Constant.ItemType.PRODUCT, Constant.ItemStatus.ACTIVE, hdnFilterItem.Value, hdnItemGroupID.Value);
             else
             {
-                filterExpression += string.Format("GCItemType = '{0}' AND ItemName1 LIKE '%{1}%' AND IsDeleted = 0", Constant.ItemType.PRODUCT, hdnFilterItem.Value);
+                filterExpression += string.Format("GCItemType = '{0}' AND GCItemStatus = '{1}' AND ItemName1 LIKE '%{2}%' AND IsDeleted = 0", Constant.ItemType.PRODUCT, Constant.ItemStatus.ACTIVE, hdnFilterItem.Value);
                 if (hdnLstFilterFromLocationItemGroup.Value != "")
                     filterExpression += string.Format(" AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE {0})", hdnLstFilterFromLocationItemGroup.Value);
                 if (hdnLstFilterToLocationItemGroup.Value != "")
@@ -104,7 +108,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = GetFilterExpression();
             if (hdnTransactionID.Value != "0" && hdnTransactionID.Value != "")
             {
-                List<vItemDistributionDt> lstItemDistributionID = BusinessLayer.GetvItemDistributionDtList(string.Format("DistributionID = {0} AND GCItemDetailStatus != '{1}'", hdnTransactionID.Value, Constant.TransactionStatus.VOID));
+                List<vItemDistributionDt> lstItemDistributionID = BusinessLayer.GetvItemDistributionDtList(string.Format("DistributionID = {0} AND GCItemDetailStatus != '{1}' AND IsDeleted = 0", hdnTransactionID.Value, Constant.TransactionStatus.VOID));
                 string lstSelectedID = string.Join(",", lstItemDistributionID.Select(p => p.ItemID).ToList());
                 if (lstSelectedID != "")
                     filterExpression += string.Format(" AND ItemID NOT IN ({0})", lstSelectedID);
@@ -144,19 +148,22 @@ namespace CodeX.Muses.Web.Inventory.Program
                 int TransactionID = 0;
                 DetailPage.SaveItemDistributionHd(ctx, ref TransactionID);
 
-                List<ItemMaster> lstItemMaster = BusinessLayer.GetItemMasterList(string.Format("ItemID IN ({0})", hdnSelectedMember.Value), ctx);
+                List<ItemMaster> lstItemMaster = BusinessLayer.GetItemMasterList(string.Format("ItemID IN ({0})", hdnSelectedMember.Value), ctx); 
+                lstItemPlanning = BusinessLayer.GetvItemPlanningCustomList(string.Format("SiteID = '{0}' AND ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, hdnSelectedMember.Value), ctx);
+
                 int ct = 0;
                 foreach (String itemID in lstSelectedMember)
                 {
                     ItemMaster itemMaster = lstItemMaster.FirstOrDefault(p => p.ItemID == Convert.ToInt32(itemID));
+                    vItemPlanningCustom itemPlanning = lstItemPlanning.FirstOrDefault(p => p.ItemID == Convert.ToInt32(itemID));
 
                     ItemDistributionDt entityDt = new ItemDistributionDt();
                     entityDt.DistributionID = TransactionID;
                     entityDt.ItemID = itemMaster.ItemID;
                     entityDt.Quantity = Convert.ToDecimal(lstSelectedMemberQty[ct]);
-                    entityDt.GCItemUnit = itemMaster.GCItemUnit;
+                    entityDt.GCItemUnit = itemPlanning.GCDistributionUnit;
                     entityDt.GCBaseUnit = itemMaster.GCItemUnit;
-                    entityDt.ConversionFactor = 1;
+                    entityDt.ConversionFactor = itemPlanning.DistributionUnitConversionFactor;
                     entityDt.Remarks = "";
                     entityDt.GCItemDetailStatus = Constant.DistributionStatus.OPEN;
                     entityDt.CreatedBy = AppSession.UserLogin.UserID;

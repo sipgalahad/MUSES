@@ -11,6 +11,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using System.Web.UI.HtmlControls;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
+using System.Data;
 
 namespace CodeX.Muses.Web.Inventory.Program
 {
@@ -34,7 +35,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             cboChargesType.SelectedIndex = 0;
             cboCurrency.SelectedIndex = 0;
 
-            hdnPurchaseReceiveID.Value = param;
+            string[] temp = param.Split('|');
+            hdnPurchaseReceiveID.Value = temp[0];
+            hdnIsRevision.Value = temp[1];
 
             PurchaseReceiveHd entity = BusinessLayer.GetPurchaseReceiveHd(Convert.ToInt32(hdnPurchaseReceiveID.Value));
             txtPurchaseReceiveNo.Text = entity.PurchaseReceiveNo;
@@ -55,8 +58,16 @@ namespace CodeX.Muses.Web.Inventory.Program
             chkPPN.Checked = entity.IsIncludeVAT;
             txtPPN.Text = entity.VATAmount.ToString();
             txtTransactionAmount.Text = entity.TransactionAmount.ToString();
+            txtTotalNetTransactionAmount.Text = entity.TotalNetTransactionAmount.ToString();
             txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString();
             txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
+
+            vSupplier sup = BusinessLayer.GetvSupplierList(string.Format("BusinessPartnerID = {0}", entity.BusinessPartnerID)).FirstOrDefault();
+            hdnIsLineAmountRounded.Value = sup.IsLineAmountRounded ? "1" : "0";
+            hdnLineAmountRoundedFormat.Value = sup.LineAmountRoundedFormat.ToString();
+            hdnIsTotalAmountRounded.Value = sup.IsTotalAmountRounded ? "1" : "0";
+            hdnTotalAmountRoundedFormat.Value = sup.TotalAmountRoundedFormat.ToString();
+            txtSupplier.Text = sup.BusinessPartnerName;
 
             BindGridView();
         }
@@ -130,9 +141,17 @@ namespace CodeX.Muses.Web.Inventory.Program
                 purchaseReceiveHd.FinalDiscountAmount = Convert.ToDecimal(Request.Form[txtFinalDiscountAmount.UniqueID]);
                 purchaseReceiveHd.DownPaymentAmount = Convert.ToDecimal(txtDP.Text);
                 purchaseReceiveHd.CurrencyRate = Convert.ToDecimal(txtKurs.Text);
-                purchaseReceiveHd.TotalNetTransactionAmount = purchaseReceiveHd.TransactionAmount + purchaseReceiveHd.VATAmount - purchaseReceiveHd.FinalDiscountAmount + purchaseReceiveHd.StampAmount + purchaseReceiveHd.ChargesAmount - purchaseReceiveHd.DownPaymentAmount;
+                purchaseReceiveHd.TransactionAmountBeforeRounded = purchaseReceiveHd.TransactionAmount + purchaseReceiveHd.VATAmount - purchaseReceiveHd.FinalDiscountAmount + purchaseReceiveHd.StampAmount + purchaseReceiveHd.ChargesAmount - purchaseReceiveHd.DownPaymentAmount;
+                purchaseReceiveHd.TotalNetTransactionAmount = Convert.ToDecimal(Request.Form[txtTotalNetTransactionAmount.UniqueID]);
+                purchaseReceiveHd.RoundedAmount = purchaseReceiveHd.TotalNetTransactionAmount - purchaseReceiveHd.TransactionAmountBeforeRounded;
 
                 List<PurchaseReceiveDt> lstPurchaseReceiveDt = BusinessLayer.GetPurchaseReceiveDtList(string.Format("ID IN ({0})", hdnLstID.Value), ctx);
+
+                ctx.CommandText = "ALTER TABLE PurchaseReceiveDt DISABLE TRIGGER onPurchaseReceieveDtChanged";
+                DaoBase.ExecuteNonQuery(ctx);
+                ctx.CommandType = CommandType.Text;
+                ctx.Command.Parameters.Clear();
+
                 foreach (string saveValue in lstSaveValue)
                 {
                     string[] temp = saveValue.Split(';');
@@ -142,15 +161,24 @@ namespace CodeX.Muses.Web.Inventory.Program
                     purchaseReceiveDt.DiscountAmount1 = Convert.ToDecimal(temp[3]);
                     purchaseReceiveDt.DiscountPercentage2 = Convert.ToDecimal(temp[4]);
                     purchaseReceiveDt.DiscountAmount2 = Convert.ToDecimal(temp[5]);
+                    purchaseReceiveDt.LineAmountBeforeRounded = (purchaseReceiveDt.Quantity * purchaseReceiveDt.UnitPrice) - purchaseReceiveDt.DiscountAmount1 - purchaseReceiveDt.DiscountAmount2;
                     purchaseReceiveDt.LineAmount = Convert.ToDecimal(temp[6]);
+                    purchaseReceiveDt.RoundedAmount = purchaseReceiveDt.LineAmount - purchaseReceiveDt.LineAmountBeforeRounded;
                     purchaseReceiveDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                     purchaseReceiveDtDao.Update(purchaseReceiveDt);
                 }
+                ctx.CommandText = "ALTER TABLE PurchaseReceiveDt ENABLE TRIGGER onPurchaseReceieveDtChanged";
+                DaoBase.ExecuteNonQuery(ctx);
+                ctx.CommandType = CommandType.Text;
+                ctx.Command.Parameters.Clear();
+
+                purchaseReceiveHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 purchaseReceiveHdDao.Update(purchaseReceiveHd);
 
                 purchaseReceiveHd = purchaseReceiveHdDao.Get(Convert.ToInt32(hdnPurchaseReceiveID.Value));
-                purchaseReceiveHd.TotalNetTransactionAmount = purchaseReceiveHd.TotalNetTransactionAmount;
                 purchaseReceiveHd.GCTransactionStatus = tempGCTransactionStatus;
+                if (hdnIsRevision.Value == "1")
+                    purchaseReceiveHd.RevisionNo++;
                 purchaseReceiveHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 purchaseReceiveHdDao.Update(purchaseReceiveHd);
 

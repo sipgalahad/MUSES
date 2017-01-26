@@ -79,11 +79,17 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtVATRegistrationNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboTerm, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMaxPOAmount, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(chkIsSetMaxPOItem, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtMaxPOItem, new ControlEntrySetting(true, true, true, "0"));
             SetControlEntrySetting(txtLeadTime, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(hdnSupplierLineID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtSupplierLineCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtSupplierLineName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(cboSupplierType, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(chkIsLineAmountRounded, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtLineAmountRoundedFormat, new ControlEntrySetting(true, true, true, "0"));
+            SetControlEntrySetting(chkIsTotalAmountRounded, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtTotalAmountRoundedFormat, new ControlEntrySetting(true, true, true, "0"));
             #endregion
 
             #region Supplier Status
@@ -140,11 +146,17 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtVATRegistrationNo.Text = entity.VATRegistrationNo;
             cboTerm.Value = entity.TermID.ToString();
             txtMaxPOAmount.Text = entitySup.MaxPOAmount.ToString();
+            chkIsSetMaxPOItem.Checked = entitySup.MaxPOItem > 0;
+            txtMaxPOItem.Text = entitySup.MaxPOItem.ToString();
             txtLeadTime.Text = entitySup.LeadTime.ToString();
             hdnSupplierLineID.Value = entitySup.SupplierLineID.ToString();
             txtSupplierLineCode.Text = entitySup.SupplierLineCode;
             txtSupplierLineName.Text = entitySup.SupplierLineName;
             cboSupplierType.Value = entitySup.GCSupplierType;
+            txtLineAmountRoundedFormat.Text = entitySup.LineAmountRoundedFormat.ToString();
+            chkIsLineAmountRounded.Checked = entitySup.IsLineAmountRounded;
+            txtTotalAmountRoundedFormat.Text = entitySup.TotalAmountRoundedFormat.ToString();
+            chkIsTotalAmountRounded.Checked = entitySup.IsTotalAmountRounded;
             #endregion
 
             #region Supplier Status
@@ -208,6 +220,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             else
                 entity.TermID = null;
             entitySup.MaxPOAmount = Convert.ToDecimal(txtMaxPOAmount.Text);
+            if (chkIsSetMaxPOItem.Checked)
+                entitySup.MaxPOItem = Convert.ToInt32(Request.Form[txtMaxPOItem.UniqueID]);
+            else
+                entitySup.MaxPOItem = 0;
+            entitySup.LeadTime = Convert.ToInt16(txtLeadTime.Text);
             entitySup.LeadTime = Convert.ToInt16(txtLeadTime.Text);
 
             entitySup.GCSupplierType = cboSupplierType.Value.ToString();
@@ -215,6 +232,16 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entitySup.SupplierLineID = null;
             else
                 entitySup.SupplierLineID = Convert.ToInt32(hdnSupplierLineID.Value);
+            entitySup.IsLineAmountRounded = chkIsLineAmountRounded.Checked;
+            if (entitySup.IsLineAmountRounded)
+                entitySup.LineAmountRoundedFormat = Convert.ToDecimal(txtLineAmountRoundedFormat.Text);
+            else
+                entitySup.LineAmountRoundedFormat = 0;
+            entitySup.IsTotalAmountRounded = chkIsTotalAmountRounded.Checked;
+            if (entitySup.IsTotalAmountRounded)
+                entitySup.TotalAmountRoundedFormat = Convert.ToDecimal(txtTotalAmountRoundedFormat.Text);
+            else
+                entitySup.TotalAmountRoundedFormat = 0;
             #endregion
 
             #region Supplier Status

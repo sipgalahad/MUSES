@@ -10,6 +10,7 @@ using CodeX.Data.Model;
 using System.Web.UI.HtmlControls;
 using System.Text;
 using CodeX.Common;
+using CodeX.Web.Common;
 
 namespace CodeX.Web.CommonLibs.MasterPage
 {
@@ -71,6 +72,11 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 bool IsAllowAdd, IsAllowSave, IsAllowVoid, IsAllowNextPrev, IsAllowEdit;
                 IsAllowAdd = IsAllowSave = IsAllowVoid = IsAllowNextPrev = IsAllowEdit = true;
                 BasePageEntry.SetToolbarVisibility(ref IsAllowAdd, ref IsAllowSave, ref IsAllowVoid, ref IsAllowNextPrev);
+
+                string voidReasonParentID = "";
+                hdnIsVoidNeedReason.Value = BasePageEntry.IsVoidNeedReason(ref voidReasonParentID) ? "1" : "0";
+                hdnVoidReasonParentID.Value = voidReasonParentID;
+
                 if (!IsAllowAdd)
                     btnMPEntryNew.Style.Add("display", "none");
                 if (!IsAllowSave)
@@ -91,6 +97,8 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 menu = ((MPMain)((MPBaseContent)Master).Master).ListMenu.FirstOrDefault(p => p.MenuCode == menuCode);
                 string CRUDMode = menu.CRUDMode;
 
+                hdnMenuCaption.Value = menu.MenuCaption;
+
                 if (!IsAllowAdd) CRUDMode = CRUDMode.Replace("C", "");
                 if (!IsAllowEdit) CRUDMode = CRUDMode.Replace("U", "");
                 if (!IsAllowVoid) CRUDMode = CRUDMode.Replace("V", "");
@@ -99,6 +107,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 hdnIsAllowNextPrev.Value = IsAllowNextPrev ? "1" : "0";
                 hdnIsAllowVoid.Value = CRUDMode.Contains("D") ? "1" : "0";
                 hdnIsAllowReopen.Value = CRUDMode.Contains("O") ? "1" : "0";
+                hdnIsAllowExport.Value = CRUDMode.Contains("E") ? "1" : "0";
 
                 if (CRUDMode.Contains('A'))
                 {
@@ -146,6 +155,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
                     btnMPEntryVoid.Style.Add("display", "none");
                     btnMPEntryPropose.Style.Add("display", "none");
                     btnMPEntryReopen.Style.Add("display", "none");
+                    btnMPEntryExport.Style.Add("display", "none");
                 }
                 else
                 {
@@ -236,7 +246,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 BasePageEntry.OnBtnSaveClick(ref result, ref retval, isAdd);
             }
             else if (param[0] == "void")
-                BasePageEntry.OnBtnVoidClick(ref result);
+                BasePageEntry.OnBtnVoidClick(ref result, hdnGCVoidReason.Value, hdnVoidReasonOther.Value);
             else if (param[0] == "approve")
                 BasePageEntry.OnBtnApproveClick(ref result);
             else if (param[0] == "propose")
@@ -251,6 +261,18 @@ namespace CodeX.Web.CommonLibs.MasterPage
 
             panel.JSProperties["cpResult"] = result;
             panel.JSProperties["cpRetval"] = retval;
+        }
+
+        protected void btnExport_Click(object sender, EventArgs e)
+        {
+            bool isShowTitle = true;
+            string fileName = "";
+            Control controlHtml = BasePageEntry.OnGetExportControl(ref isShowTitle, ref fileName);
+            if (controlHtml == null)
+                controlHtml = BasePageEntry.OnGetExportControl();
+            if (fileName == "")
+                fileName = hdnMenuCaption.Value;
+            Helper.ExportExcel(fileName, hdnMenuCaption.Value, controlHtml, this, isShowTitle);
         }
 
         #region Popup List

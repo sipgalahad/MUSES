@@ -43,6 +43,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtShortName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(chkIsAllowPurchase, new ControlEntrySetting(true, true, false));
         }
 
         private void EntityToControl(ServiceUnitMaster entity)
@@ -50,6 +51,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtServiceUnitCode.Text = entity.ServiceUnitCode;
             txtServiceUnitName.Text = entity.ServiceUnitName;
             txtShortName.Text = entity.ShortName;
+            chkIsAllowPurchase.Checked = entity.IsAllowPurchase;
         }
 
         private void ControlToEntity(ServiceUnitMaster entity)
@@ -58,6 +60,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.ServiceUnitName = txtServiceUnitName.Text;
             entity.ShortName = txtShortName.Text;
             entity.DepartmentID = hdnDepartmentID.Value;
+            entity.IsAllowPurchase = chkIsAllowPurchase.Checked;
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)

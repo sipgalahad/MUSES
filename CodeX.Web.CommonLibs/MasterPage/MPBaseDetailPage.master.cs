@@ -20,10 +20,14 @@ namespace CodeX.Web.CommonLibs.MasterPage
             return "";
         }
         public List<GetUserMenuAccess> ListMenu = null;
+        public bool isReportSelectLanguage = false;
         public string menuCode = null;
         private string parentCode = null;
 
-
+        protected string IsReportSelectLanguage()
+        {
+            return isReportSelectLanguage ? "1" : "0";
+        }
         protected string OnGetMenuCode()
         {
             return menuCode;
@@ -31,6 +35,28 @@ namespace CodeX.Web.CommonLibs.MasterPage
         public void SetTitleText(string title)
         {
             tdPatientName.InnerHtml = h3Title.InnerHtml = title;
+        }
+        public void SetSubTitleText(string subtitle)
+        {
+            if (subtitle == "")
+                h3Subtitle.InnerHtml = "&nbsp;";
+            else
+            {
+                h3Subtitle.InnerHtml = subtitle;
+                h3Subtitle.Style.Remove("display");
+                trSubtitle.Style.Remove("display");
+            }
+        }
+        public void SetSubTitleText2(string subtitle)
+        {
+            if (subtitle == "")
+                h3Subtitle2.InnerHtml = "&nbsp;";
+            else
+            {
+                h3Subtitle2.InnerHtml = subtitle;
+                h3Subtitle2.Style.Remove("display");
+                trSubtitle.Style.Remove("display");
+            }
         }
         public void SetListMenu(List<GetUserMenuAccess> lstMenu)
         {
@@ -50,26 +76,42 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 if (AppSession.UserLogin == null)
                     Response.Redirect("~/../ControlPanel/Login.aspx");
 
+                if (Request.Form["postsessionid"] != null)
+                    hdnPostSessionID.Value = Request.Form["postsessionid"].ToString();
 
                 //imgCloseLeftPane.Src = ResolveUrl("~/Libs/Images/Icon/close_pane.png");
                 menuCode = ((BasePageContent)Page).OnGetMenuCode();
+                isReportSelectLanguage = ((BasePageContent)Page).IsReportSelectLanguage();
                 if (parentCode != "")
                 {
-                    rptMenuHeader.DataSource = ListMenu.Where(p => p.ParentCode == parentCode && p.IsVisible).OrderBy(p => p.MenuIndex).ToList();
-                    rptMenuHeader.DataBind();
-
                     GetUserMenuAccess selectedMenu = ListMenu.FirstOrDefault(p => p.MenuCode == menuCode);
-                    if (selectedMenu.ParentCode != parentCode)
+
+                    if (selectedMenu.ParentCode == parentCode)
                     {
+                        rptMenuDetail.DataSource = ListMenu.Where(p => p.ParentCode == parentCode && p.IsVisible).OrderBy(p => p.MenuIndex).ToList();
+                        rptMenuDetail.DataBind();
+                        divContainerMenuLevel1.Style.Add("display", "none");
+                    }
+                    else
+                    {
+                        List<GetUserMenuAccess> lstMenuHeader = ListMenu.Where(p => p.ParentCode == parentCode && p.IsVisible).OrderBy(p => p.MenuIndex).ToList();
+                        //if (lstMenuHeader.Count > 1)
+                        //{
+                            rptMenuHeader.DataSource = lstMenuHeader;
+                            rptMenuHeader.DataBind();
+                        //}
+                        //else
+                        //    divContainerMenuLevel1.Style.Add("display", "none");
+
                         rptMenuDetail.DataSource = ListMenu.Where(p => p.ParentID == selectedMenu.ParentID && p.IsVisible).OrderBy(p => p.MenuIndex).ToList();
                         rptMenuDetail.DataBind();
-                        divBorderBottomMenuLevel1.Style.Add("display", "none");
                     }
                 }
                 else
                 {
-                    rptMenuHeader.DataSource = ListMenu;
-                    rptMenuHeader.DataBind();
+                    rptMenuDetail.DataSource = ListMenu;
+                    rptMenuDetail.DataBind();
+                    divContainerMenuLevel1.Style.Add("display", "none");
                 }
                 string moduleName = Helper.GetModuleName();
                 string ModuleID = Helper.GetModuleID(moduleName);

@@ -13,6 +13,15 @@ namespace CodeX.Web.CommonLibs.MasterPage {
     public partial class MPBaseDetailPage {
         
         /// <summary>
+        /// hdnPostSessionID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPostSessionID;
+        
+        /// <summary>
         /// tdPatientName control.
         /// </summary>
         /// <remarks>
@@ -29,6 +38,15 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder plhMPBaseDetailPageDetailInfo;
+        
+        /// <summary>
+        /// plhMPBaseDetailPageBelowBannerPreview control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhMPBaseDetailPageBelowBannerPreview;
         
         /// <summary>
         /// plhMPBaseDetailPageExitImage control.
@@ -49,6 +67,42 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl h3Title;
         
         /// <summary>
+        /// trSubtitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trSubtitle;
+        
+        /// <summary>
+        /// h3Subtitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl h3Subtitle;
+        
+        /// <summary>
+        /// h3Subtitle2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl h3Subtitle2;
+        
+        /// <summary>
+        /// divContainerMenuLevel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divContainerMenuLevel1;
+        
+        /// <summary>
         /// rptMenuHeader control.
         /// </summary>
         /// <remarks>
@@ -56,15 +110,6 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptMenuHeader;
-        
-        /// <summary>
-        /// divBorderBottomMenuLevel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBorderBottomMenuLevel1;
         
         /// <summary>
         /// rptMenuDetail control.

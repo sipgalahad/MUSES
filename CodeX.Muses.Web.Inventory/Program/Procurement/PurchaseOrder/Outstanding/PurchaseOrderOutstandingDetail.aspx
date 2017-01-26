@@ -51,6 +51,10 @@
     <input type="hidden" value="" id="hdnOrderID" runat="server" />
     <input type="hidden" value="" id="hdnVATPercentage" runat="server" />
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
+
+    <style type="text/css">
+        .trOutstanding td       { background-color: #EB6A7D; }
+    </style>
     <div style="overflow-x: hidden;">
         <table class="tblContentArea">
             <colgroup>
@@ -128,7 +132,7 @@
                             <dx:PanelContent ID="PanelContent1" runat="server">
                                 <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                                     position: relative; font-size: 0.95em;">
-                                    <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
+                                    <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" OnRowDataBound="grdView_RowDataBound"
                                         AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
                                             <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
@@ -140,11 +144,21 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="ItemName1" HeaderText="Item Name" HeaderStyle-Width="300px" />
-                                            <asp:TemplateField HeaderText="Jumlah Pembelian" HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
+                                            <asp:TemplateField HeaderText="Pesan" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
                                                 <ItemTemplate>
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td style="width:75px" align="right"><%#Eval("Quantity", "{0:N}")%></td>
+                                                            <td style="width:50px; color: Red;"><%#Eval("PurchaseUnit") %></td>
+                                                        </tr>
+                                                    </table>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Terima" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
+                                                <ItemTemplate>
+                                                    <table cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="width:75px" align="right"><%#Eval("ReceivedQuantity", "{0:N}")%></td>
                                                             <td style="width:50px; color: Red;"><%#Eval("PurchaseUnit") %></td>
                                                         </tr>
                                                     </table>
@@ -162,12 +176,14 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                                 <asp:BoundField DataField="CustomConversion" HeaderText="Konversi" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="200px" />
-                                            <asp:BoundField DataField="DiscountAmount1" HeaderStyle-CssClass="thRight" HeaderText="Diskon 1" ItemStyle-HorizontalAlign="Right"
+                                            <asp:BoundField DataField="DiscountPercentage1" HeaderStyle-CssClass="thRight" HeaderText="Diskon 1 [%]" ItemStyle-HorizontalAlign="Right"
                                                 HeaderStyle-Width="100px" DataFormatString="{0:N}" />
-                                            <asp:BoundField DataField="DiscountAmount2" HeaderStyle-CssClass="thRight" HeaderText="Diskon 2" ItemStyle-HorizontalAlign="Right"
+                                            <asp:BoundField DataField="DiscountPercentage2" HeaderStyle-CssClass="thRight" HeaderText="Diskon 2 [%]" ItemStyle-HorizontalAlign="Right"
                                                 HeaderStyle-Width="100px" DataFormatString="{0:N}" />
                                             <asp:BoundField DataField="LineAmount" HeaderStyle-CssClass="thRight" HeaderText="SubTotal" ItemStyle-HorizontalAlign="Right"
-                                                HeaderStyle-Width="150px" DataFormatString="{0:N}" />
+                                                HeaderStyle-Width="130px" DataFormatString="{0:N}" />
+                                            <asp:BoundField DataField="OutstandingAmount" HeaderStyle-CssClass="thRight" HeaderText="Outstanding" ItemStyle-HorizontalAlign="Right"
+                                                HeaderStyle-Width="130px" DataFormatString="{0:N}" />
                                         </Columns>
                                         <EmptyDataTemplate>
                                             <%=GetLabel("No Data To Display")%>

@@ -22,15 +22,6 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnProcess;
         
         /// <summary>
-        /// hdnParam control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParam;
-        
-        /// <summary>
         /// hdnID control.
         /// </summary>
         /// <remarks>
@@ -40,22 +31,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// hdnIsDiscountAppliedToAveragePrice control.
+        /// hdnIsVATAppliedToAveragePrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsDiscountAppliedToAveragePrice;
-        
-        /// <summary>
-        /// hdnIsDiscountAppliedToUnitPrice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsDiscountAppliedToUnitPrice;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsVATAppliedToAveragePrice;
         
         /// <summary>
         /// hdnFilterExpression control.

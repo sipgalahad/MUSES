@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.Finance.MasterPage {
+namespace CodeX.Web.Finance.MasterPage {
     
     
     public partial class SupplierBannerDtCtl {

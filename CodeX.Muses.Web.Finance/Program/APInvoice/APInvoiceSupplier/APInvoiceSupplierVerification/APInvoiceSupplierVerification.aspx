@@ -137,7 +137,7 @@
         $('.lblPurchaseInvoiceNo').live('click', function () {
             $tr = $(this).closest('tr');
             var id = $tr.find('.keyField').val();
-            var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
+            var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
             openUserControlPopup(url, id, 'Detail Information', 1100, 600);
         });
             
@@ -248,7 +248,7 @@
                                                 <td><label class="lblLink lblPurchaseInvoiceNo"><%# Eval("PurchaseInvoiceNo") %></label></td>
                                                 <td align="center"><%# Eval("DueDateInString") %></td>
                                                 <td align="center"><%# Eval("CustomUmur") %></td>
-                                                <td align="center"><%# Eval("NumberOfPayment") %></td>
+                                                <td align="center"><%# Convert.ToInt32(Eval("NumberOfPayment")) + 1 %></td>
                                                 <td align="right"><%# Eval("TotalNetTransactionAmount", "{0:N}")%></td>
                                             </tr>
                                         </ItemTemplate>

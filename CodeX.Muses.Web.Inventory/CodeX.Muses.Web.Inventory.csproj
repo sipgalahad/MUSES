@@ -104,6 +104,10 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalDtCtl.ascx" />
+    <Content Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalList.aspx" />
+    <Content Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetEntry.aspx" />
+    <Content Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetQuickPicksCtl.ascx" />
     <Content Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalDetail.aspx" />
     <Content Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalList.aspx" />
     <Content Include="Program\Consignment\ConsignmentOrder\ConsignmentOrderAddFromReceiveCtl.ascx" />
@@ -120,13 +124,19 @@
     <Content Include="Program\Consignment\ConsignmentReturn\Approval\ConsignmentReturnApprovalDetail.aspx" />
     <Content Include="Program\Consignment\ConsignmentReturn\Approval\ConsignmentReturnApprovalList.aspx" />
     <Content Include="Program\Consignment\ConsignmentReturn\ConsignmentReturnEntry.aspx" />
+    <Content Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationDtCtl.ascx" />
+    <Content Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationEditDtCtl.ascx" />
+    <Content Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationList.aspx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseEntry.aspx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseReturnEntry.aspx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseReturnEntryPicksCtl.ascx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchasePRDtCtl.ascx" />
     <Content Include="Program\Procurement\PurchaseOrder\Approval\PurchaseOrderApprovalDetail.aspx" />
     <Content Include="Program\Procurement\PurchaseOrder\Approval\PurchaseOrderApprovalList.aspx" />
+    <Content Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderCloseNewCtl.ascx" />
+    <Content Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderCopyCtl.ascx" />
     <Content Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderOutstandingDetail.aspx" />
+    <Content Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderOutstandingDtCtl.ascx" />
     <Content Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderOutstandingList.aspx" />
     <Content Include="Program\Procurement\PurchaseOrder\PurchaseOrderEntry.aspx" />
     <Content Include="Program\Procurement\PurchaseOrder\PurchaseOrderPRDtCtl.ascx" />
@@ -136,6 +146,7 @@
     <Content Include="Program\Procurement\PurchaseRequest\Approval\PurchaseRequestApprovalList.aspx" />
     <Content Include="Program\Information\ItemBalanceDtCtl.ascx" />
     <Content Include="Program\Procurement\PurchaseRequest\Outstanding\PODPQtyOnOrderCtl.ascx" />
+    <Content Include="Program\Procurement\PurchaseRequest\Outstanding\PurchaseBudgetDtCtl.ascx" />
     <Content Include="Program\Procurement\PurchaseRequest\Outstanding\PurchaseRequestAddToPOCtl.ascx" />
     <Content Include="Program\Procurement\PurchaseRequest\Outstanding\PurchaseRequestOutstandingDetail.aspx" />
     <Content Include="Program\Procurement\PurchaseRequest\Outstanding\PurchaseRequestOutstandingDetail2.aspx" />
@@ -391,6 +402,34 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalDtCtl.ascx.cs">
+      <DependentUpon>PurchaseBudgetApprovalDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalDtCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseBudgetApprovalDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalList.aspx.cs">
+      <DependentUpon>PurchaseBudgetApprovalList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\Approval\PurchaseBudgetApprovalList.aspx.designer.cs">
+      <DependentUpon>PurchaseBudgetApprovalList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetEntry.aspx.cs">
+      <DependentUpon>PurchaseBudgetEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetEntry.aspx.designer.cs">
+      <DependentUpon>PurchaseBudgetEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetQuickPicksCtl.ascx.cs">
+      <DependentUpon>PurchaseBudgetQuickPicksCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Budgeting\PurchaseBudget\PurchaseBudgetQuickPicksCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseBudgetQuickPicksCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalDetail.aspx.cs">
       <DependentUpon>ConsignmentOrderApprovalDetail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -503,6 +542,27 @@
     <Compile Include="Program\Consignment\ConsignmentReturn\ConsignmentReturnEntry.aspx.designer.cs">
       <DependentUpon>ConsignmentReturnEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationDtCtl.ascx.cs">
+      <DependentUpon>DirectPurchaseConfirmationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationDtCtl.ascx.designer.cs">
+      <DependentUpon>DirectPurchaseConfirmationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationEditDtCtl.ascx.cs">
+      <DependentUpon>DirectPurchaseConfirmationEditDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationEditDtCtl.ascx.designer.cs">
+      <DependentUpon>DirectPurchaseConfirmationEditDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationList.aspx.cs">
+      <DependentUpon>DirectPurchaseConfirmationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\DirectPurchase\Confirmation\DirectPurchaseConfirmationList.aspx.designer.cs">
+      <DependentUpon>DirectPurchaseConfirmationList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Procurement\DirectPurchase\DirectPurchaseEntry.aspx.cs">
       <DependentUpon>DirectPurchaseEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -545,12 +605,33 @@
     <Compile Include="Program\Procurement\PurchaseOrder\Approval\PurchaseOrderApprovalList.aspx.designer.cs">
       <DependentUpon>PurchaseOrderApprovalList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderCloseNewCtl.ascx.cs">
+      <DependentUpon>PurchaseOrderCloseNewCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderCloseNewCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseOrderCloseNewCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderCopyCtl.ascx.cs">
+      <DependentUpon>PurchaseOrderCopyCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderCopyCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseOrderCopyCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderOutstandingDetail.aspx.cs">
       <DependentUpon>PurchaseOrderOutstandingDetail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderOutstandingDetail.aspx.designer.cs">
       <DependentUpon>PurchaseOrderOutstandingDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderOutstandingDtCtl.ascx.cs">
+      <DependentUpon>PurchaseOrderOutstandingDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderOutstandingDtCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseOrderOutstandingDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Procurement\PurchaseOrder\Outstanding\PurchaseOrderOutstandingList.aspx.cs">
       <DependentUpon>PurchaseOrderOutstandingList.aspx</DependentUpon>
@@ -614,6 +695,13 @@
     </Compile>
     <Compile Include="Program\Procurement\PurchaseRequest\Outstanding\PODPQtyOnOrderCtl.ascx.designer.cs">
       <DependentUpon>PODPQtyOnOrderCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Procurement\PurchaseRequest\Outstanding\PurchaseBudgetDtCtl.ascx.cs">
+      <DependentUpon>PurchaseBudgetDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Procurement\PurchaseRequest\Outstanding\PurchaseBudgetDtCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseBudgetDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Procurement\PurchaseRequest\Outstanding\PurchaseRequestAddToPOCtl.ascx.cs">
       <DependentUpon>PurchaseRequestAddToPOCtl.ascx</DependentUpon>

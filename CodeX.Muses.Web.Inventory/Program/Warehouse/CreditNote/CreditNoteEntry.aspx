@@ -90,6 +90,7 @@
                     if (result != null) {
                         $('#<%=hdnPurchaseReturnID.ClientID %>').val(result.PurchaseReturnID);
                         $('#<%=txtCNAmount.ClientID %>').val(result.TotalNetTransactionAmount).trigger('changeValue');
+                        $('#<%=txtReturnAmount.ClientID %>').val(result.TotalNetTransactionAmount).trigger('changeValue');
                         $('#<%=hdnPurchaseReturnAmount.ClientID %>').val(result.TotalNetTransactionAmount);
                         if ($('#<%=hdnSupplierID.ClientID %>').val() == '') {
                             $('#<%=hdnSupplierID.ClientID %>').val(result.BusinessPartnerID);
@@ -104,6 +105,7 @@
                         $('#<%=txtPurchaseReturnNo.ClientID %>').val('');
                         $('#<%=hdnPurchaseReturnAmount.ClientID %>').val('0');
                         $('#<%=txtCNAmount.ClientID %>').val('0').trigger('changeValue');
+                        $('#<%=txtReturnAmount.ClientID %>').val('0').trigger('changeValue');
                         $('#<%=chkPPN.ClientID %>').prop('checked', false);
                     }
                 });
@@ -181,6 +183,10 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td><asp:CheckBox ID="chkPPN" Width="100%" runat="server" />&nbsp;<%=GetLabel("PPN")%></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nilai Retur")%></label></td>
+                        <td><asp:TextBox ID="txtReturnAmount" ReadOnly="true" Width="150px" CssClass="txtCurrency" runat="server" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Total (Setelah PPN)")%></label></td>

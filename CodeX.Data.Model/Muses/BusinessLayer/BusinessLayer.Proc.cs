@@ -40,7 +40,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region FillStockTakingDt
-        public static void FillStockTakingDt(Int32 StockTakingID, Int32 LocationID, DateTime Date, String Time, int UserID, IDbContext ctx = null)
+        public static void FillStockTakingDt(Int32 StockTakingID, Int32 LocationID, Int32? RackID, DateTime Date, String Time, int UserID, IDbContext ctx = null)
         {
             bool IsCtxNull = false;
             if (ctx == null)
@@ -52,6 +52,7 @@ namespace CodeX.Data.Model
             ctx.CommandType = CommandType.StoredProcedure;
             ctx.Command.Parameters.Add(new SqlParameter("@StockTakingID", StockTakingID));
             ctx.Command.Parameters.Add(new SqlParameter("@LocationID", LocationID));
+            ctx.Command.Parameters.Add(new SqlParameter("@RackID", RackID));
             ctx.Command.Parameters.Add(new SqlParameter("@Date", Date));
             ctx.Command.Parameters.Add(new SqlParameter("@Time", Time));
             ctx.Command.Parameters.Add(new SqlParameter("@UserID", UserID));
@@ -1248,7 +1249,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetItemUsageItemRequestROPList
-        public static List<GetItemUsageItemRequestROPList> GetItemUsageItemRequestROPList(String LstLocationID, string itemName, Int32 PageIndex, Int32 NumRows)
+        public static List<GetItemUsageItemRequestROPList> GetItemUsageItemRequestROPList(Int32 FromLocationID, String LstLocationID, string itemName, string itemGroupID, string viewType, Int32 PageIndex, Int32 NumRows)
         {
             List<GetItemUsageItemRequestROPList> result = new List<GetItemUsageItemRequestROPList>();
             IDbContext ctx = DbFactory.Configure();
@@ -1258,8 +1259,11 @@ namespace CodeX.Data.Model
                 ctx.CommandText = "GetItemUsageItemRequestROPList";
                 ctx.CommandType = CommandType.StoredProcedure;
                 //Add Parameter
+                ctx.Add("FromLocationID", FromLocationID);
                 ctx.Add("LstLocationID", LstLocationID);
                 ctx.Add("ItemName", itemName);
+                ctx.Add("ItemGroupID", itemGroupID);
+                ctx.Add("ViewType", viewType);
                 ctx.Add("PageIndex", PageIndex);
                 ctx.Add("NumRows", NumRows);
 
@@ -1280,7 +1284,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetItemUsageItemRequestROPRowCount
-        public static Int32 GetItemUsageItemRequestROPRowCount(String LstLocationID, string itemName)
+        public static Int32 GetItemUsageItemRequestROPRowCount(Int32 FromLocationID, String LstLocationID, string itemName, string itemGroupID, string viewType)
         {
             SqlParameter param = new SqlParameter();
             IDbContext ctx = DbFactory.Configure();
@@ -1289,8 +1293,11 @@ namespace CodeX.Data.Model
                 ctx.CommandText = "GetItemUsageItemRequestROPRowCount";
                 ctx.CommandType = CommandType.StoredProcedure;
                 //Add Parameter
+                ctx.Add("FromLocationID", FromLocationID);
                 ctx.Add("LstLocationID", LstLocationID);
                 ctx.Add("ItemName", itemName);
+                ctx.Add("ItemGroupID", itemGroupID);
+                ctx.Add("ViewType", viewType);
 
                 param.ParameterName = "@Result";
                 param.SqlDbType = SqlDbType.Int;
@@ -1312,7 +1319,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetItemUsagePurchaseRequestROPList
-        public static List<GetItemUsagePurchaseRequestROPList> GetItemUsagePurchaseRequestROPList(String LstLocationID, string itemName, Int32 PageIndex, Int32 NumRows)
+        public static List<GetItemUsagePurchaseRequestROPList> GetItemUsagePurchaseRequestROPList(String LstLocationID, string itemName, string itemGroupID, string viewType, Int32 PageIndex, Int32 NumRows)
         {
             List<GetItemUsagePurchaseRequestROPList> result = new List<GetItemUsagePurchaseRequestROPList>();
             IDbContext ctx = DbFactory.Configure();
@@ -1324,6 +1331,8 @@ namespace CodeX.Data.Model
                 //Add Parameter
                 ctx.Add("LstLocationID", LstLocationID);
                 ctx.Add("ItemName", itemName);
+                ctx.Add("ItemGroupID", itemGroupID);
+                ctx.Add("ViewType", viewType);
                 ctx.Add("PageIndex", PageIndex);
                 ctx.Add("NumRows", NumRows);
 
@@ -1344,7 +1353,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetItemUsagePurchaseRequestROPRowCount
-        public static Int32 GetItemUsagePurchaseRequestROPRowCount(String LstLocationID, string itemName)
+        public static Int32 GetItemUsagePurchaseRequestROPRowCount(String LstLocationID, string itemName, string itemGroupID, string viewType)
         {
             SqlParameter param = new SqlParameter();
             IDbContext ctx = DbFactory.Configure();
@@ -1355,6 +1364,8 @@ namespace CodeX.Data.Model
                 //Add Parameter
                 ctx.Add("LstLocationID", LstLocationID);
                 ctx.Add("ItemName", itemName);
+                ctx.Add("ItemGroupID", itemGroupID);
+                ctx.Add("ViewType", viewType);
 
                 param.ParameterName = "@Result";
                 param.SqlDbType = SqlDbType.Int;
@@ -1373,6 +1384,66 @@ namespace CodeX.Data.Model
                 ctx.Close();
             }
             return (Int32)param.Value;
+        }
+        #endregion
+        #region GetServiceUnitUserList
+        public static List<GetServiceUnitUserList> GetServiceUnitUserList(String siteID, int userID, String filterExpression)
+        {
+            List<GetServiceUnitUserList> result = new List<GetServiceUnitUserList>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetServiceUnitUserList));
+                ctx.CommandText = "GetServiceUnitUserList";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("p_SiteID", siteID);
+                ctx.Add("p_UserID", userID);
+                ctx.Add("p_AdditionalFilterExpression", filterExpression);
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetServiceUnitUserList)helper.IDataReaderToObject(reader, new GetServiceUnitUserList()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GetServiceUnitUserRoleList
+        public static List<GetServiceUnitUserRoleList> GetServiceUnitUserRoleList(String siteID, int userID, String filterExpression)
+        {
+            List<GetServiceUnitUserRoleList> result = new List<GetServiceUnitUserRoleList>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetServiceUnitUserRoleList));
+                ctx.CommandText = "GetServiceUnitUserRoleList";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("p_SiteID", siteID);
+                ctx.Add("p_UserID", userID);
+                ctx.Add("p_AdditionalFilterExpression", filterExpression);
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetServiceUnitUserRoleList)helper.IDataReaderToObject(reader, new GetServiceUnitUserRoleList()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
         #endregion
         #region GetStudentReceiveSummary
@@ -1589,6 +1660,70 @@ namespace CodeX.Data.Model
             ctx.Command.Parameters.Add(new SqlParameter("@lstStudentID", lstStudentID));
             ctx.Command.Parameters.Add(new SqlParameter("@NextSchoolPeriodID", NextSchoolPeriodID));
             ctx.Command.Parameters.Add(new SqlParameter("@UserID", UserID));
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+        }
+        #endregion
+        #region UpdateChargesCostAmount
+        public static void UpdateChargesCostAmount(Int32 PurchaseReceiveID, Int32 ItemID, Decimal CostAmount, Boolean IsUpdateCostAmount, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "UpdateChargesCostAmount";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@PurchaseReceiveID", PurchaseReceiveID));
+            ctx.Command.Parameters.Add(new SqlParameter("@ItemID", ItemID));
+            ctx.Command.Parameters.Add(new SqlParameter("@CostAmount", CostAmount));
+            ctx.Command.Parameters.Add(new SqlParameter("@IsUpdateCostAmount", IsUpdateCostAmount));
+            ctx.Command.CommandTimeout = 1000;
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+        }
+        #endregion
+        #region UpdateChargesCostAmountDirectPurchase
+        public static void UpdateChargesCostAmountDirectPurchase(Int32 DirectPurchaseID, Int32 ItemID, Decimal CostAmount, Boolean IsUpdateCostAmount, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "UpdateChargesCostAmountDirectPurchase";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@DirectPurchaseID", DirectPurchaseID));
+            ctx.Command.Parameters.Add(new SqlParameter("@ItemID", ItemID));
+            ctx.Command.Parameters.Add(new SqlParameter("@CostAmount", CostAmount));
+            ctx.Command.Parameters.Add(new SqlParameter("@IsUpdateCostAmount", IsUpdateCostAmount));
+            ctx.Command.CommandTimeout = 1000;
 
             try
             {

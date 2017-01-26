@@ -720,6 +720,20 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Purchase Budget-->
+  <searchdialog type="purchasebudgethd" methodname="GetvPurchaseBudgetHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="TransactionNo" headertext="Transaction No" width="100px" />
+      <gridcolumn datafield="TransactionDateInString" headertext="Transaction Date" width="100px" horizontalalign="center" />
+      <gridcolumn datafield="ServiceUnitName" headertext="Bagian" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="TransactionNo" headertext="Transaction No" description="" />
+      <intellisensetext datafield="TransactionDateInString" headertext="Transaction Date" description="" />
+      <intellisensetext datafield="ServiceUnitName" headertext="Bagian" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Purchase Invoice HD-->
   <searchdialog type="purchaseinvoicehd" methodname="GetvPurchaseInvoiceHdList" keyfieldname="PurchaseInvoiceNo" orderbyexpression="PurchaseInvoiceID DESC">
     <gridcolumns>
@@ -992,6 +1006,18 @@
     <intellisensetexts>
       <intellisensetext datafield="SchoolPeriodCode" headertext="Nama" description="" />
       <intellisensetext datafield="SchoolPeriodName" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Service Unit Per Role User -->
+  <searchdialog type="serviceunitroleuser" methodname="GetServiceUnitUserAccessList" keyfieldname="ServiceUnitCode">
+    <gridcolumns>
+      <gridcolumn datafield="ServiceUnitCode" headertext="Kode Unit Pelayanan" width="100px" />
+      <gridcolumn datafield="ServiceUnitName" headertext="Nama Unit Pelayanan" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ServiceUnitName" headertext="Nama Unit Pelayanan" description="" />
+      <intellisensetext datafield="ServiceUnitCode" headertext="Kode Unit Pelayanan" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

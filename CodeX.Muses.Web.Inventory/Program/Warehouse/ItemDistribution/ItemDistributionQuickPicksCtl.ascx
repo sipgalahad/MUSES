@@ -33,7 +33,7 @@
         addItemFilterRow();
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         if (IsValid(null, 'fsDrugsQuickPicks', 'mpDrugsQuickPicks')) {
             getCheckedMember();
             if ($('#<%=hdnSelectedMember.ClientID %>').val() != '')
@@ -71,7 +71,7 @@
 
         //#region Item Group
         function onGetItemGroupPopupFilterExpression() {
-            var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+            var filterExpression = "<%=OnGetFilterExpressionItemGroup() %>";
             if ($('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() != '')
                 filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() + ")";
             if ($('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() != '')

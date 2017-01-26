@@ -23,10 +23,14 @@
 
             function onTxtItemGroupCodeChanged(value) {
                 var filterExpression = "ItemGroupCode = '" + value + "'";
-                Methods.getObject('GetItemGroupMasterList', filterExpression, function (result) {
+                Methods.getObject('GetvItemGroupMasterList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnItemGroupID.ClientID %>').val(result.ItemGroupID);
                         $('#<%=txtItemGroupName.ClientID %>').val(result.ItemGroupName1);
+                        $('#<%=hdnProductLineID.ClientID %>').val(result.ProductLineID);
+                        $('#<%=txtProductLineCode.ClientID %>').val(result.ProductLineCode);
+                        $('#<%=txtProductLineName.ClientID %>').val(result.ProductLineName);
+                        $('#<%=chkIsControlExpired.ClientID %>').prop('checked', result.IsControlExpired);
                     }
                     else {
                         $('#<%=hdnItemGroupID.ClientID %>').val('');

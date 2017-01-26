@@ -53,11 +53,11 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvPurchaseOrderHdRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvPurchaseOrderHdOutstandingRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vPurchaseOrderHd> lstEntity = BusinessLayer.GetvPurchaseOrderHdList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "OrderDate DESC");
+            List<vPurchaseOrderHdOutstanding> lstEntity = BusinessLayer.GetvPurchaseOrderHdOutstandingList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "OrderDate DESC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -89,6 +89,8 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         private void CopyToEntityHd(PurchaseOrderHd newEntity, PurchaseOrderHd oldEntity)
         {
+            newEntity.SiteServiceUnitID = oldEntity.SiteServiceUnitID;
+            newEntity.ToSiteServiceUnitID = oldEntity.ToSiteServiceUnitID;
             newEntity.DeliveryDate = oldEntity.DeliveryDate;
             newEntity.POExpiredDate = oldEntity.POExpiredDate;
             newEntity.BusinessPartnerID = oldEntity.BusinessPartnerID;
@@ -103,7 +105,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             else
                 newEntity.VATPercentage = 0;
             newEntity.VATAmount = oldEntity.VATAmount;
-            newEntity.OrderDate = Helper.GetDatePickerValue(DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT));
+            newEntity.OrderDate = DateTime.Now;
             newEntity.GCPurchaseOrderType = oldEntity.GCPurchaseOrderType;
             newEntity.TermID = oldEntity.TermID;
             newEntity.GCFrancoRegion = oldEntity.GCFrancoRegion;
@@ -113,51 +115,68 @@ namespace CodeX.Muses.Web.Inventory.Program
             newEntity.LocationID = oldEntity.LocationID;
             newEntity.GCCurrencyCode = oldEntity.GCCurrencyCode;
             newEntity.CurrencyRate = oldEntity.CurrencyRate;
-            newEntity.TotalNetTransactionAmount = oldEntity.TotalNetTransactionAmount;
+            newEntity.ReferencePurchaseOrderID = oldEntity.PurchaseOrderID;
         }
 
-        private void CopyToEntityDt(PurchaseOrderDt newEntityDt, PurchaseOrderDt oldEntityDt)
+        private void CopyToEntityDtFinal(PurchaseOrderDt newEntityDt, PurchaseOrderDt oldEntityDt, PurchaseReceiveDt purchaseReceiveDt)
         {
             newEntityDt.ItemID = oldEntityDt.ItemID;
-            newEntityDt.Quantity = oldEntityDt.Quantity;
+            newEntityDt.ReceivedQuantity = newEntityDt.Quantity = purchaseReceiveDt.Quantity;
+            newEntityDt.ReceivedInformation = "|" + purchaseReceiveDt.PurchaseReceiveID + "|";
+            newEntityDt.GCPurchaseUnit = purchaseReceiveDt.GCItemUnit;
+            newEntityDt.GCBaseUnit = purchaseReceiveDt.GCBaseUnit;
+            newEntityDt.ConversionFactor = purchaseReceiveDt.ConversionFactor;
+            newEntityDt.PurchaseRequestID = oldEntityDt.PurchaseRequestID;
+            newEntityDt.UnitPrice = purchaseReceiveDt.UnitPrice;
+            newEntityDt.DiscountPercentage1 = purchaseReceiveDt.DiscountPercentage1;
+            newEntityDt.DiscountAmount1 = purchaseReceiveDt.DiscountAmount1;
+            newEntityDt.DiscountPercentage2 = purchaseReceiveDt.DiscountPercentage2;
+            newEntityDt.DiscountAmount2 = purchaseReceiveDt.DiscountAmount2;
+            newEntityDt.LineAmount = purchaseReceiveDt.LineAmount;
+            newEntityDt.IsBonusItem = purchaseReceiveDt.IsBonusItem;
+            newEntityDt.Remarks = oldEntityDt.Remarks;
+            newEntityDt.GCItemDetailStatus = Constant.TransactionStatus.CLOSED;
+        }
+
+        private void CopyToEntityDtTemp(PurchaseOrderDt newEntityDt, PurchaseOrderDt oldEntityDt)
+        {
+            newEntityDt.ItemID = oldEntityDt.ItemID;
+            newEntityDt.Quantity = oldEntityDt.Quantity - oldEntityDt.ReceivedQuantity;
             newEntityDt.GCPurchaseUnit = oldEntityDt.GCPurchaseUnit;
             newEntityDt.GCBaseUnit = oldEntityDt.GCBaseUnit;
             newEntityDt.ConversionFactor = oldEntityDt.ConversionFactor;
             newEntityDt.PurchaseRequestID = oldEntityDt.PurchaseRequestID;
             newEntityDt.UnitPrice = oldEntityDt.UnitPrice;
+
+            decimal amount = newEntityDt.UnitPrice * newEntityDt.Quantity;
             newEntityDt.DiscountPercentage1 = oldEntityDt.DiscountPercentage1;
-            newEntityDt.DiscountAmount1 = oldEntityDt.DiscountAmount1;
             newEntityDt.DiscountPercentage2 = oldEntityDt.DiscountPercentage2;
-            newEntityDt.DiscountAmount2 = oldEntityDt.DiscountAmount2;
-            newEntityDt.LineAmount = oldEntityDt.LineAmount;
+
+            newEntityDt.DiscountAmount1 = amount * newEntityDt.DiscountPercentage1 / 100;
+            newEntityDt.DiscountAmount2 = (amount - newEntityDt.DiscountAmount1) * newEntityDt.DiscountPercentage2 / 100;
+            newEntityDt.LineAmount = amount - newEntityDt.DiscountAmount1 - newEntityDt.DiscountAmount2;
             newEntityDt.IsBonusItem = oldEntityDt.IsBonusItem;
             newEntityDt.Remarks = oldEntityDt.Remarks;
             newEntityDt.LineAmount = oldEntityDt.CustomSubTotal;
             newEntityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
         }
 
-        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        protected override bool OnCustomButtonClick(string type, ref string errMessage, ref string retval)
         {
-            bool result = true;
-            int OrderID;
-            IDbContext ctx = DbFactory.Configure(true);
-            PurchaseOrderHdDao POHdDao = new PurchaseOrderHdDao(ctx);
-            PurchaseOrderDtDao PODtDao = new PurchaseOrderDtDao(ctx);
             if (type == "close")
             {
+                bool result = true;
+                IDbContext ctx = DbFactory.Configure(true);
+                PurchaseOrderHdDao POHdDao = new PurchaseOrderHdDao(ctx);
+                PurchaseOrderDtDao PODtDao = new PurchaseOrderDtDao(ctx);
                 try
                 {
-                    string filterExpressionPOHd = String.Format("PurchaseOrderID = {0}", hdnID.Value);
+                    PurchaseOrderHd purchaseOrderHd = POHdDao.Get(Convert.ToInt32(hdnID.Value));
+                    purchaseOrderHd.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
+                    purchaseOrderHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    POHdDao.Update(purchaseOrderHd);
 
-                    List<PurchaseOrderHd> lstPurchaseOrderHd = BusinessLayer.GetPurchaseOrderHdList(filterExpressionPOHd, ctx);
-                    foreach (PurchaseOrderHd POHd in lstPurchaseOrderHd)
-                    {
-                        POHd.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
-                        POHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                        POHdDao.Update(POHd);
-                    }
-
-                    List<PurchaseOrderDt> lstPurchaseOrderDt = BusinessLayer.GetPurchaseOrderDtList(filterExpressionPOHd, ctx);
+                    List<PurchaseOrderDt> lstPurchaseOrderDt = BusinessLayer.GetPurchaseOrderDtList(String.Format("PurchaseOrderID = {0} AND IsDeleted = 0", hdnID.Value), ctx);
                     foreach (PurchaseOrderDt PODt in lstPurchaseOrderDt)
                     {
                         PODt.GCItemDetailStatus = Constant.TransactionStatus.CLOSED;
@@ -168,6 +187,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 }
                 catch (Exception ex)
                 {
+                    Helper.InsertErrorLog(ex);
                     errMessage = ex.Message;
                     result = false;
                     ctx.RollBackTransaction();
@@ -176,55 +196,94 @@ namespace CodeX.Muses.Web.Inventory.Program
                 {
                     ctx.Close();
                 }
+                return result;
             }
             else
             {
+                bool result = true;
+                IDbContext ctx = DbFactory.Configure(true);
+                PurchaseOrderHdDao POHdDao = new PurchaseOrderHdDao(ctx);
+                PurchaseOrderDtDao PODtDao = new PurchaseOrderDtDao(ctx);
+                PurchaseReceiveHdDao PRHdDao = new PurchaseReceiveHdDao(ctx);
+                PurchaseReceiveDtDao PRDtDao = new PurchaseReceiveDtDao(ctx);
                 try
                 {
-                    string filterExpressionPOHd = String.Format("PurchaseOrderID = {0}", hdnID.Value);
+                    PurchaseOrderHd purchaseOrderHd = POHdDao.Get(Convert.ToInt32(hdnID.Value));
 
-                    List<PurchaseOrderHd> lstPurchaseOrderHd = BusinessLayer.GetPurchaseOrderHdList(filterExpressionPOHd, ctx);
-                    foreach (PurchaseOrderHd POHd in lstPurchaseOrderHd)
+                    PurchaseReceiveHd purchaseReceiveHd = BusinessLayer.GetPurchaseReceiveHdList(string.Format("PurchaseOrderID = {0}", purchaseOrderHd.PurchaseOrderID), ctx).FirstOrDefault();
+                    if (purchaseReceiveHd == null)
                     {
-                        POHd.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
-                        POHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                        POHdDao.Update(POHd);
+                        result = false;
+                        errMessage = "Belum Ada Penerimaan Untuk Pemesanan Dengan No <b>" + purchaseOrderHd.PurchaseOrderNo + "</b>";
                     }
-
-                    List<PurchaseOrderDt> lstPurchaseOrderDt = BusinessLayer.GetPurchaseOrderDtList(filterExpressionPOHd, ctx);
-                    foreach (PurchaseOrderDt PODt in lstPurchaseOrderDt)
+                    else
                     {
-                        PODt.GCItemDetailStatus = Constant.TransactionStatus.CLOSED;
-                        PODt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                        PODtDao.Update(PODt);
-                    }
+                        purchaseOrderHd.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
+                        purchaseOrderHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        POHdDao.Update(purchaseOrderHd);
 
-                    PurchaseOrderHd entityHd = new PurchaseOrderHd();
-                    CopyToEntityHd(entityHd, lstPurchaseOrderHd[0]);
-                    entityHd.TransactionCode = Constant.TransactionCode.PURCHASE_ORDER;
-                    entityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.OrderDate, ctx);
-                    entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                        List<PurchaseOrderDt> lstPurchaseOrderDt = BusinessLayer.GetPurchaseOrderDtList(String.Format("PurchaseOrderID = {0} AND IsDeleted = 0", hdnID.Value), ctx);
+                        foreach (PurchaseOrderDt PODt in lstPurchaseOrderDt)
+                        {
+                            PODt.GCItemDetailStatus = Constant.TransactionStatus.CLOSED;
+                            PODt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            PODtDao.Update(PODt);
+                        }
 
-                    ctx.CommandType = CommandType.Text;
-                    ctx.Command.Parameters.Clear();
-                    entityHd.CreatedBy = AppSession.UserLogin.UserID;
-                    POHdDao.Insert(entityHd);
-                    OrderID = BusinessLayer.GetPurchaseOrderHdMaxID(ctx);
-                    ctx.Command.Parameters.Clear();
-                    string filterExpressionPODt = String.Format("PurchaseOrderID = {0} AND ReceivedInformation IS NULL", hdnID.Value);
-                    List<PurchaseOrderDt> lstPurchaseOrderDtnew = BusinessLayer.GetPurchaseOrderDtList(filterExpressionPODt, ctx);
-                    foreach (PurchaseOrderDt entity in lstPurchaseOrderDtnew)
-                    {
-                        PurchaseOrderDt entityDt = new PurchaseOrderDt();
-                        CopyToEntityDt(entityDt, entity);
-                        entityDt.PurchaseOrderID = OrderID;
-                        entityDt.CreatedBy = AppSession.UserLogin.UserID;
-                        PODtDao.Insert(entityDt);
+                        PurchaseOrderHd finalEntityHd = new PurchaseOrderHd();
+                        CopyToEntityHd(finalEntityHd, purchaseOrderHd);
+                        finalEntityHd.TransactionCode = Constant.TransactionCode.PURCHASE_ORDER;
+                        finalEntityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(finalEntityHd.TransactionCode, finalEntityHd.OrderDate, ctx);
+                        finalEntityHd.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
+                        finalEntityHd.IsFinalPO = true;
+                        ctx.CommandType = CommandType.Text;
+                        ctx.Command.Parameters.Clear();
+                        finalEntityHd.CreatedBy = AppSession.UserLogin.UserID;
+                        finalEntityHd.PurchaseOrderID = POHdDao.Insert(finalEntityHd);
+
+
+                        PurchaseOrderHd outstandingEntityHd = new PurchaseOrderHd();
+                        CopyToEntityHd(outstandingEntityHd, purchaseOrderHd);
+                        outstandingEntityHd.TransactionCode = Constant.TransactionCode.PURCHASE_ORDER;
+                        outstandingEntityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(outstandingEntityHd.TransactionCode, outstandingEntityHd.OrderDate, ctx);
+                        outstandingEntityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                        ctx.CommandType = CommandType.Text;
+                        ctx.Command.Parameters.Clear();
+                        outstandingEntityHd.CreatedBy = AppSession.UserLogin.UserID;
+                        outstandingEntityHd.PurchaseOrderID = POHdDao.Insert(outstandingEntityHd);
+
+                        purchaseReceiveHd.PurchaseOrderID = finalEntityHd.PurchaseOrderID;
+                        purchaseReceiveHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        PRHdDao.Update(purchaseReceiveHd);
+
+                        List<PurchaseReceiveDt> lstPurchaseReceiveDt = BusinessLayer.GetPurchaseReceiveDtList(string.Format("PurchaseReceiveID = {0} AND GCItemDetailStatus != '{1}'", purchaseReceiveHd.PurchaseReceiveID, Constant.TransactionStatus.VOID), ctx);
+                        foreach (PurchaseOrderDt entity in lstPurchaseOrderDt)
+                        {
+                            if (entity.ReceivedQuantity > 0) //final
+                            {
+                                PurchaseReceiveDt prDt = lstPurchaseReceiveDt.FirstOrDefault(p => p.ItemID == entity.ItemID);
+                                PurchaseOrderDt entityDt = new PurchaseOrderDt();
+                                CopyToEntityDtFinal(entityDt, entity, prDt);
+                                entityDt.PurchaseOrderID = finalEntityHd.PurchaseOrderID;
+                                entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                                PODtDao.Insert(entityDt);
+                            }
+                            if (entity.ReceivedQuantity < entity.Quantity) //outstanding
+                            {
+                                PurchaseOrderDt entityDt = new PurchaseOrderDt();
+                                CopyToEntityDtTemp(entityDt, entity);
+                                entityDt.PurchaseOrderID = outstandingEntityHd.PurchaseOrderID;
+                                entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                                PODtDao.Insert(entityDt);
+                            }
+                        }
+                        retval = finalEntityHd.PurchaseOrderNo + "|" + outstandingEntityHd.PurchaseOrderNo;
                     }
                     ctx.CommitTransaction();
                 }
                 catch (Exception ex)
                 {
+                    Helper.InsertErrorLog(ex);
                     errMessage = ex.Message;
                     result = false;
                     ctx.RollBackTransaction();
@@ -233,9 +292,8 @@ namespace CodeX.Muses.Web.Inventory.Program
                 {
                     ctx.Close();
                 }
-
+                return result;
             }
-            return result;
         }
     }
 }

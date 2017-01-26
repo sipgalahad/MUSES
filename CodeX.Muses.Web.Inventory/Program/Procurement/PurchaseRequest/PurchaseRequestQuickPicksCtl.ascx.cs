@@ -24,6 +24,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             get { return (PurchaseRequestEntry)Page; }
         }
+        protected string OnGetFilterExpressionItemGroup()
+        {
+            return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
+        }
         protected string OnGetFilterExpressionItemProduct()
         {
             return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
@@ -67,11 +71,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = "";
 
             if (hdnItemGroupID.Value != "")
-                filterExpression += string.Format("GCItemType = '{0}' AND ItemName1 LIKE '%{1}%' AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/{2}/%') AND IsDeleted = 0", Constant.ItemType.PRODUCT, hdnFilterItem.Value, hdnItemGroupID.Value);
+                filterExpression += string.Format("GCItemType = '{0}' AND GCItemStatus = '{1}' AND ItemName1 LIKE '%{2}%' AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/{3}/%') AND IsDeleted = 0", Constant.ItemType.PRODUCT, Constant.ItemStatus.ACTIVE, hdnFilterItem.Value, hdnItemGroupID.Value);
             else if (hdnLstFilterLocationItemGroup.Value == "")
-                filterExpression += string.Format("GCItemType = '{0}' AND ItemName1 LIKE '%{1}%' AND IsDeleted = 0", Constant.ItemType.PRODUCT, hdnFilterItem.Value);
+                filterExpression += string.Format("GCItemType = '{0}' AND GCItemStatus = '{1}' AND ItemName1 LIKE '%{2}%' AND IsDeleted = 0", Constant.ItemType.PRODUCT, Constant.ItemStatus.ACTIVE, hdnFilterItem.Value);
             else
-                filterExpression += string.Format("GCItemType = '{0}' AND ItemName1 LIKE '%{1}%' AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE {2}) AND IsDeleted = 0", Constant.ItemType.PRODUCT, hdnFilterItem.Value, hdnLstFilterLocationItemGroup.Value);
+                filterExpression += string.Format("GCItemType = '{0}' AND GCItemStatus = '{1}' AND ItemName1 LIKE '%{2}%' AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE {3}) AND IsDeleted = 0", Constant.ItemType.PRODUCT, Constant.ItemStatus.ACTIVE, hdnFilterItem.Value, hdnLstFilterLocationItemGroup.Value);
 
             return filterExpression;
         }

@@ -9,13 +9,13 @@ using CodeX.Data.Model;
 using CodeX.Common;
 using CodeX.Web.Common;
 
-namespace CodeX.Muses.Web.Finance.MasterPage
+namespace CodeX.Web.Finance.MasterPage
 {
     public partial class SupplierBannerDtCtl : BaseContentPopupCtl
     {
-        public void InitializeBanner()
+        public void InitializeBanner(int businessPartnerID)
         {
-            vSupplier entity = BusinessLayer.GetvSupplierList(string.Format("BusinessPartnerID = {0}", AppSession.BusinessPartnerID))[0];
+            vSupplier entity = BusinessLayer.GetvSupplierList(string.Format("BusinessPartnerID = {0}", businessPartnerID))[0];
             hdnTitleText.Value = entity.BusinessPartnerName;
             divBusinessPartnerCode.InnerHtml = entity.BusinessPartnerCode;
             divContactPerson.InnerHtml = entity.ContactPerson;

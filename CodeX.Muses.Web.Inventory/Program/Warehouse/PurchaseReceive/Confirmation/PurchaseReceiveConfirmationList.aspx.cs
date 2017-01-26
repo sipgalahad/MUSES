@@ -10,6 +10,7 @@ using CodeX.Data.Model;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
+using System.Data;
 
 namespace CodeX.Muses.Web.Inventory.Program
 {
@@ -35,12 +36,10 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}','{1}')",
-                                                                                               Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_AVERAGE_PRICE,
-                                                                                               Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_UNIT_PRICE));
+            List<SettingParameter> lstSettingParameter = BusinessLayer.GetSettingParameterList(string.Format("ParameterCode IN ('{0}')",
+                                                                                               Constant.SettingParameter.IS_VAT_APPLIED_TO_AVERAGE_PRICE));
 
-            hdnIsDiscountAppliedToAveragePrice.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_AVERAGE_PRICE).ParameterValue;
-            hdnIsDiscountAppliedToUnitPrice.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.IS_DISCOUNT_APPLIED_TO_UNIT_PRICE).ParameterValue;
+            hdnIsVATAppliedToAveragePrice.Value = lstSettingParameter.FirstOrDefault(p => p.ParameterCode == Constant.SettingParameter.IS_VAT_APPLIED_TO_AVERAGE_PRICE).ParameterValue;
             List<Variable> lstVariable = new List<Variable>();
             lstVariable.Add(new Variable { Code = "0", Value = "Semua" });
             lstVariable.Add(new Variable { Code = "1", Value = "Belum Diproses" });
@@ -58,9 +57,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             if (filterExpression != "")
                 filterExpression += " AND ";
             filterExpression += String.Format("TransactionCode = '{0}'", Constant.TransactionCode.PURCHASE_RECEIVE);
-            if (cboViewType.Value.ToString() == "0")
+            if (cboViewType.Value != null && cboViewType.Value.ToString() == "0")
                 filterExpression += String.Format(" AND GCTransactionStatus IN ('{0}','{1}')", Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED);
-            else if (cboViewType.Value.ToString() == "1")
+            else if (cboViewType.Value != null && cboViewType.Value.ToString() == "1")
                 filterExpression += String.Format(" AND GCTransactionStatus = '{0}'", Constant.TransactionStatus.APPROVED);
             else
                 filterExpression += String.Format(" AND GCTransactionStatus = '{0}'", Constant.TransactionStatus.PROCESSED);
@@ -80,10 +79,6 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                vPurchaseReceiveHd entity = e.Row.DataItem as vPurchaseReceiveHd;
-                CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
-                if (entity.GCTransactionStatus != Constant.TransactionStatus.APPROVED)
-                    chkIsSelected.Visible = false;
             }
         }
 
@@ -120,85 +115,125 @@ namespace CodeX.Muses.Web.Inventory.Program
             ItemPlanningDao itemPlanningDao = new ItemPlanningDao(ctx);
             try
             {
-                string filterExpressionPurchaseReceiveHd = String.Format("PurchaseReceiveID IN ({0})", hdnParam.Value);
-                List<PurchaseReceiveHd> lstPurchaseReceiveHd = BusinessLayer.GetPurchaseReceiveHdList(filterExpressionPurchaseReceiveHd, ctx);
-                foreach (PurchaseReceiveHd purchaseHd in lstPurchaseReceiveHd)
-                {
-                    purchaseHd.GCTransactionStatus = Constant.TransactionStatus.PROCESSED;
-                    purchaseHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    purchaseHdDao.Update(purchaseHd);
-                }
+                PurchaseReceiveHd purchaseReceiveHd = purchaseHdDao.Get(Convert.ToInt32(hdnID.Value));
+                List<PurchaseReceiveDt> lstPurchaseReceiveDt = BusinessLayer.GetPurchaseReceiveDtList(String.Format("PurchaseReceiveID = {0} AND GCItemDetailStatus != '{1}'", hdnID.Value, Constant.TransactionStatus.VOID), ctx);
 
-                filterExpressionPurchaseReceiveHd = String.Format("PurchaseReceiveID IN ({0}) AND GCItemDetailStatus != '{1}'", hdnParam.Value, Constant.TransactionStatus.VOID);
-                List<PurchaseReceiveDt> lstPurchaseReceiveDt = BusinessLayer.GetPurchaseReceiveDtList(filterExpressionPurchaseReceiveHd, ctx);
-                foreach (PurchaseReceiveDt purchaseDt in lstPurchaseReceiveDt)
-                {
-                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.PROCESSED;
-                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    purchaseDtDao.Update(purchaseDt);
-                }
+                List<String> lstRequiredPurchaseReceiveID = new List<String>();
+                String lstItemID = String.Join(",", lstPurchaseReceiveDt.Select(p => p.ItemID).ToList());
 
-                string lstPurchaseReceiveID = string.Join(",", lstPurchaseReceiveHd.Select(p => p.PurchaseReceiveID).ToList());
-                if (lstPurchaseReceiveID != "")
-                {
-                    String lstItemID = String.Join(",", lstPurchaseReceiveDt.Select(p => p.ItemID).ToList());
+                string filterExpression = String.Format("SiteID = '{0}' AND ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID);
+                List<ItemPlanning> lstItemPlanning = BusinessLayer.GetItemPlanningList(filterExpression, ctx);
+                List<ItemMaster> lstItemMaster = BusinessLayer.GetItemMasterList(string.Format("ItemID IN ({0})", lstItemID), ctx);
+                String lstProductLineID = String.Join(",", lstItemMaster.Select(p => p.ProductLineID).ToList());
+                List<ProductLine> lstProductLine = BusinessLayer.GetProductLineList(string.Format("ProductLineID IN (SELECT ProductLineID FROM ItemProduct WHERE ItemID IN ({0}) AND ProductLineID IS NOT NULL)", lstItemID), ctx);
 
-                    string filterExpression = String.Format("SiteID = '{0}' AND ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID);
-                    List<ItemPlanning> lstItemPlanning = BusinessLayer.GetItemPlanningList(filterExpression, ctx);
-                    filterExpression = String.Format("SiteID = '{0}' AND ItemID IN ({1}) AND LocationIsDeleted = 0 AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID);
-                    List<vItemBalance> lstItemBalance = BusinessLayer.GetvItemBalanceList(filterExpression, ctx);
-                    foreach (PurchaseReceiveHd purchaseHd in lstPurchaseReceiveHd)
+                foreach (ItemPlanning itemPlanning in lstItemPlanning)
+                {
+                    if (itemPlanning.ListPendingPurchaseReceiveID != "")
                     {
-                        List<PurchaseReceiveDt> lstPurchaseReceiveDt1 = lstPurchaseReceiveDt.Where(p => p.PurchaseReceiveID == purchaseHd.PurchaseReceiveID).ToList();
-                        foreach (PurchaseReceiveDt purchaseDt in lstPurchaseReceiveDt1)
+                        string temp = itemPlanning.ListPendingPurchaseReceiveID.Substring(1, itemPlanning.ListPendingPurchaseReceiveID.Length - 2);
+                        string[] lstPendingPurchaseReceiveID = temp.Split(new string[] { "||" }, StringSplitOptions.None);
+                        if (lstPendingPurchaseReceiveID[0] != hdnID.Value)
                         {
-                            purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.CLOSED;
-                            purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-
-                            ItemPlanning entityItemPlanning = lstItemPlanning.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
-
-                            decimal purchaseUnitPrice = purchaseDt.UnitPrice;
-                            decimal unitPrice = 0;
-                            if (hdnIsDiscountAppliedToAveragePrice.Value == "1")
-                            {
-                                decimal discountAmount1 = (purchaseUnitPrice * purchaseDt.DiscountPercentage1) / 100;
-                                decimal discountAmount2 = ((purchaseUnitPrice - discountAmount1) * purchaseDt.DiscountPercentage2) / 100;
-                                purchaseUnitPrice = purchaseUnitPrice - (discountAmount1 + discountAmount2);
-                            }
-
-                            unitPrice = purchaseUnitPrice / purchaseDt.ConversionFactor;
-                            if (hdnIsDiscountAppliedToUnitPrice.Value == "1")
-                            {
-                                decimal discountAmount1 = (unitPrice * purchaseDt.DiscountPercentage1) / 100;
-                                decimal discountAmount2 = ((unitPrice - discountAmount1) * purchaseDt.DiscountPercentage2) / 100;
-                                unitPrice = unitPrice - (discountAmount1 + discountAmount2);
-                            }
-
-                            if (entityItemPlanning.LastPurchasePrice < unitPrice)
-                            {
-                                entityItemPlanning.LastPurchasePrice = unitPrice;
-                                entityItemPlanning.PurchaseUnitPrice = purchaseUnitPrice;
-                                if (entityItemPlanning.UnitPrice < unitPrice)
-                                    entityItemPlanning.UnitPrice = unitPrice;
-                            }
-
-                            entityItemPlanning.LastBusinessPartnerID = purchaseHd.BusinessPartnerID;
-                            entityItemPlanning.LastPurchaseDiscount = purchaseDt.DiscountPercentage1;
-
-                            decimal qtyEnd = lstItemBalance.Where(p => p.ItemID == purchaseDt.ItemID).Sum(p => p.QuantityEND);
-                            decimal tempQty = (qtyEnd + (purchaseDt.Quantity * purchaseDt.ConversionFactor));
-                            if (tempQty > 0)
-                                entityItemPlanning.AveragePrice = ((entityItemPlanning.AveragePrice * qtyEnd) + (purchaseUnitPrice * purchaseDt.Quantity)) / tempQty;
-                            else
-                                entityItemPlanning.AveragePrice = 0;
-
-                            entityItemPlanning.LastUpdatedBy = AppSession.UserLogin.UserID;
-                            itemPlanningDao.Update(entityItemPlanning);
-                            purchaseDtDao.Update(purchaseDt);
+                            if (lstRequiredPurchaseReceiveID.Count(p => p == lstPendingPurchaseReceiveID[0]) == 0)
+                                lstRequiredPurchaseReceiveID.Add(lstPendingPurchaseReceiveID[0]);
                         }
                     }
                 }
+                if (lstRequiredPurchaseReceiveID.Count > 0)
+                {
+                    string lstPurchaseReceiveID = String.Join(",", lstRequiredPurchaseReceiveID.Where(p => !p.Contains("D")).Select(p => p).ToList());
+                    String lstPurchaseReceiveNo = "";
+                    if (lstPurchaseReceiveID != "")
+                    {
+                        List<PurchaseReceiveHd> lstRequiredPurchaseReceiveHd = BusinessLayer.GetPurchaseReceiveHdList(String.Format("PurchaseReceiveID IN ({0})", lstPurchaseReceiveID), ctx);
+                        lstPurchaseReceiveNo = String.Join(",", lstRequiredPurchaseReceiveHd.Select(p => string.Format("<b>{0}</b>", p.PurchaseReceiveNo)).ToList());
+                    }
 
+                    string lstDirectPurchaseID = String.Join(",", lstRequiredPurchaseReceiveID.Where(p => p.Contains("D")).Select(p => p.Substring(1)).ToList());
+                    String lstDirectPurchaseNo = "";
+                    if (lstDirectPurchaseID != "")
+                    {
+                        List<DirectPurchaseHd> lstRequiredDirectPurchaseHd = BusinessLayer.GetDirectPurchaseHdList(String.Format("DirectPurchaseID IN ({0})", lstDirectPurchaseID), ctx);
+                        lstDirectPurchaseNo = String.Join(",", lstRequiredDirectPurchaseHd.Select(p => string.Format("<b>{0}</b>", p.DirectPurchaseNo)).ToList());
+                    }
+                    if (lstPurchaseReceiveNo != "")
+                    {
+                        errMessage = string.Format("Harap Proses Penerimaan Dengan Nomor {0} Terlebih Dahulu", lstPurchaseReceiveNo);
+                        if (lstDirectPurchaseNo != "")
+                            errMessage += "<br/>";
+                    }
+                    if (lstDirectPurchaseNo != "")
+                        errMessage += string.Format("Harap Proses Pembelian Tunai Dengan Nomor {0} Terlebih Dahulu", lstDirectPurchaseNo);
+                    result = false;
+                }
+                else
+                {
+                    purchaseReceiveHd.GCTransactionStatus = Constant.TransactionStatus.PROCESSED;
+                    purchaseReceiveHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    purchaseHdDao.Update(purchaseReceiveHd);
+
+                    foreach (PurchaseReceiveDt purchaseDt in lstPurchaseReceiveDt)
+                    {
+                        purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.PROCESSED;
+                        purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        purchaseDtDao.Update(purchaseDt);
+                    }
+
+                    foreach (PurchaseReceiveDt purchaseDt in lstPurchaseReceiveDt)
+                    {
+                        decimal qtyEnd = purchaseDt.QtyBeforeApproved;
+                        purchaseDt.QtyBeforeApproved = 0;
+                        purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.CLOSED;
+                        purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+
+                        bool isAllowProcess = true;
+                        if (purchaseDt.IsBonusItem)
+                            if (lstPurchaseReceiveDt.Count(p => p.ItemID == purchaseDt.ItemID && !p.IsBonusItem && p.GCItemDetailStatus != Constant.TransactionStatus.VOID) > 0)
+                                isAllowProcess = false;
+
+                        if (isAllowProcess)
+                        {
+                            decimal bonusQty = 0;
+                            if (!purchaseDt.IsBonusItem)
+                                bonusQty = lstPurchaseReceiveDt.Where(p => p.ItemID == purchaseDt.ItemID && p.IsBonusItem && p.GCItemDetailStatus != Constant.TransactionStatus.VOID).Sum(p => p.Quantity * p.ConversionFactor);
+
+                            ItemPlanning entityItemPlanning = lstItemPlanning.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
+                            ItemMaster entityItemMaster = lstItemMaster.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
+
+                            bool isVATAppliedToAveragePrice = hdnIsVATAppliedToAveragePrice.Value == "1";
+                            if (entityItemMaster.ProductLineID != null)
+                            {
+                                ProductLine productLine = lstProductLine.Where(x => x.ProductLineID == entityItemMaster.ProductLineID).FirstOrDefault();
+                                isVATAppliedToAveragePrice = productLine.IsIncludeVAT;
+                            }
+
+                            entityItemPlanning.LastBusinessPartnerID = purchaseReceiveHd.BusinessPartnerID;
+                            entityItemPlanning.LastPurchaseDiscount = purchaseDt.DiscountPercentage1;
+                            entityItemPlanning.DiscountPercentage = purchaseDt.DiscountPercentage1;
+
+                            decimal qtyPurchase = (purchaseDt.Quantity * purchaseDt.ConversionFactor);
+
+                            decimal purchasePrice = purchaseDt.LineAmount;
+                            if (isVATAppliedToAveragePrice)
+                            {
+                                if (purchaseReceiveHd.IsIncludeVAT)
+                                    purchasePrice = purchasePrice * (100 + purchaseReceiveHd.VATPercentage) / 100;
+                            }
+                            if ((qtyEnd + qtyPurchase + bonusQty) > 0)
+                                entityItemPlanning.AveragePrice = ((entityItemPlanning.AveragePrice * qtyEnd) + (purchasePrice)) / (qtyEnd + qtyPurchase + bonusQty);
+                            else
+                                entityItemPlanning.AveragePrice = 0;
+                            entityItemPlanning.ListPendingPurchaseReceiveID = entityItemPlanning.ListPendingPurchaseReceiveID.Replace(string.Format("|{0}|", purchaseDt.PurchaseReceiveID), "");
+                            entityItemPlanning.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            itemPlanningDao.Update(entityItemPlanning);
+                            purchaseDtDao.Update(purchaseDt);
+                            BusinessLayer.UpdateChargesCostAmount(purchaseReceiveHd.PurchaseReceiveID, purchaseDt.ItemID, entityItemPlanning.AveragePrice, true, ctx);
+                            ctx.CommandType = CommandType.Text;
+                            ctx.Command.Parameters.Clear();
+                        }
+                    }
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

@@ -1327,6 +1327,38 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPurchaseBudgetDt
+    public partial class vPurchaseBudgetDt
+    {
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+        public String Conversion
+        {
+            get { return string.Format("1 {0} = {1} {2}", _BaseUnit, _ConversionFactor, _ItemUnit); }
+        }
+        public String CustomItemUnit
+        {
+            get
+            {
+                return _Quantity + " " + _ItemUnit;
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseBudgetHd
+    public partial class vPurchaseBudgetHd
+    {
+        public String TransactionDateInString
+        {
+            get { return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region vPurchaseInvoiceDt
     public partial class vPurchaseInvoiceDt
     {
@@ -1573,6 +1605,76 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPurchaseOrderDtOutstandingInfo
+    public partial class vPurchaseOrderDtOutstandingInfo
+    {
+        public String CustomTotalPurchaseUnit
+        {
+            get
+            {
+                return (_Quantity * _ConversionFactor).ToString("#,##0.00") + " " + _BaseUnit;
+            }
+        }
+
+        public Decimal CustomTotal
+        {
+            get
+            {
+                return _Quantity * _ConversionFactor;
+            }
+        }
+
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public String CustomConversion
+        {
+            get
+            {
+                return "1.00 " + _PurchaseUnit + " = " + ConversionFactor.ToString("G29") + " " + _BaseUnit;
+            }
+        }
+
+        public String CustomPurchaseUnit
+        {
+            get
+            {
+                return _Quantity + " " + _PurchaseUnit;
+            }
+        }
+
+        public String CustomUnitPrice
+        {
+            get
+            {
+                return UnitPrice.ToString("N2") + " / " + _PurchaseUnit;
+            }
+        }
+
+        public String CustomQtyRemaining
+        {
+            get
+            {
+                return string.Format("{0:N}", (_Quantity - _ReceivedQuantity));
+            }
+        }
+
+        public String OrderDateInString
+        {
+            get { return _OrderDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public Boolean IsReceived
+        {
+            get { return _ReceivedInformation != "" ? true : false; }
+        }
+    }
+    #endregion
     #region vPurchaseOrderHd
     public partial class vPurchaseOrderHd
     {
@@ -1585,6 +1687,34 @@ namespace CodeX.Data.Model
                 return "";
             }
         }
+        public string OrderDateInString
+        {
+            get
+            {
+                return _OrderDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public string DeliveryDateInString
+        {
+            get
+            {
+                return _DeliveryDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public string ExpiredDateInString
+        {
+            get
+            {
+                return _POExpiredDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseOrderHdOutstanding
+    public partial class vPurchaseOrderHdOutstanding
+    {
         public string OrderDateInString
         {
             get
@@ -1756,6 +1886,13 @@ namespace CodeX.Data.Model
     #region vPurchaseRequestDt
     public partial class vPurchaseRequestDt
     {
+        public String cfIsFromMasterSupplier
+        {
+            get
+            {
+                return _ProcessBusinessPartnerID > 0 ? "1" : "0";
+            }
+        }
         public Boolean IsAllowEditItem
         {
             get
@@ -1780,7 +1917,7 @@ namespace CodeX.Data.Model
         {
             get
             {
-                return "1.00 " + _PurchaseUnit + " = " + ConversionFactor + " " + _BaseUnit;
+                return "1.00 " + _PurchaseUnit + " = " + ConversionFactor.ToString("G29") + " " + _BaseUnit;
             }
         }
 
@@ -1919,6 +2056,50 @@ namespace CodeX.Data.Model
             get
             {
                 return _Quantity * _UnitPrice;
+            }
+        }
+
+        public String CustomPurchaseRequest
+        {
+            get
+            {
+                return string.Format("{0:N} {1}", CustomTotal, _BaseUnit);
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseRequestDtQtyOnOrder
+    public partial class vPurchaseRequestDtQtyOnOrder
+    {
+        public String CustomConversion
+        {
+            get
+            {
+                return "1.00 " + _PurchaseUnit + " = " + ConversionFactor.ToString("G29") + " " + _BaseUnit;
+            }
+        }
+
+        public String CustomPurchaseUnit
+        {
+            get
+            {
+                return _Quantity + " " + _PurchaseUnit;
+            }
+        }
+
+        public String CustomReceived
+        {
+            get
+            {
+                return _ReceivedQuantity + " " + _PurchaseUnit;
+            }
+        }
+
+        public decimal CustomTotal
+        {
+            get
+            {
+                return _Quantity * _ConversionFactor;
             }
         }
 

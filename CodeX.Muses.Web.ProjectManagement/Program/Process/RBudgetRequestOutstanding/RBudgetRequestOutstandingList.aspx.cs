@@ -23,11 +23,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             return Constant.MenuCode.ProjectManagement.RBUDGET_REQUEST_OUTSTANDING;
         }
 
-        public override bool IsShowRightPanel()
-        {
-            return false;
-        }
-
         public override void SetCRUDMode(ref bool IsAllowAdd, ref bool IsAllowEdit, ref bool IsAllowDelete)
         {
             IsAllowAdd = IsAllowEdit = IsAllowDelete = false;

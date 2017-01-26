@@ -33,7 +33,7 @@
         addItemFilterRow();
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         if (IsValid(null, 'fsDrugsQuickPicks', 'mpDrugsQuickPicks')) {
             getCheckedMember();
             if ($('#<%=hdnSelectedMember.ClientID %>').val() != '')
@@ -124,6 +124,9 @@
             $newTr = $newTr.replace(/\$\{ItemName1}/g, $selectedTr.find('.tdItemName1').html());
             $newTr = $newTr.replace(/\$\{ItemID}/g, $selectedTr.find('.keyField').html());
             $newTr = $($newTr);
+
+            var maxQty = $selectedTr.find('.hdnQuantityEND').val();
+            $newTr.find('.txtQty').attr('max', maxQty);
             $newTr.insertBefore($('#trFooter'));
         }
         else {
@@ -166,7 +169,7 @@
                 <input type="hidden" class="keyField" value='${ItemID}' />
             </td>
             <td>${ItemName1}</td>
-            <td><input type="text" validationgroup="mpDrugsQuickPicks" class="txtQty number min" min="1" value="1" style="width:60px" /></td>
+            <td><input type="text" validationgroup="mpDrugsQuickPicks" class="txtQty number min max" min="1" value="1" style="width:60px" /></td>
         </tr>
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
@@ -222,6 +225,7 @@
                                         <asp:BoundField DataField="ItemID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField"/>
                                         <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
                                             <ItemTemplate>
+                                                <input type="hidden" class="hdnQuantityEND" value='<%#Eval("QuantityEND") %>' />
                                                 <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
                                             </ItemTemplate>
                                         </asp:TemplateField>

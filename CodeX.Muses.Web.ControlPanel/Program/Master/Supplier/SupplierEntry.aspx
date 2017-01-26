@@ -144,6 +144,10 @@
                             <td><asp:TextBox ID="txtMaxPOAmount" Width="100%" CssClass="txtCurrency" runat="server" /></td>
                         </tr>
                         <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Max PO Item")%></label></td>
+                            <td><asp:CheckBox ID="chkIsSetMaxPOItem" runat="server" /> <asp:TextBox ID="txtMaxPOItem" Width="80px" CssClass="number" runat="server" /></td>
+                        </tr>
+                        <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Lead Time")%></label></td>
                             <td><asp:TextBox ID="txtLeadTime" CssClass="number" Width="100%" runat="server" /></td>
                         </tr>
@@ -161,6 +165,38 @@
                                         <td><asp:TextBox runat="server" ID="txtSupplierLineCode" Width="100%" /></td>
                                         <td>&nbsp;</td>
                                         <td><asp:TextBox runat="server" ID="txtSupplierLineName" Width="100%" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Pembulatan Total Per Item")%></label></td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width:5px" />
+                                        <col style="width:100px" />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:CheckBox ID="chkIsLineAmountRounded" runat="server" /></td>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Format") %></label></td>
+                                        <td><asp:TextBox ID="txtLineAmountRoundedFormat" Width="80px" CssClass="number" runat="server" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Pembulatan Total Pembelian")%></label></td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width:5px" />
+                                        <col style="width:100px" />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:CheckBox ID="chkIsTotalAmountRounded" runat="server" /></td>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Format") %></label></td>
+                                        <td><asp:TextBox ID="txtTotalAmountRoundedFormat" Width="80px" CssClass="number" runat="server" /></td>
                                     </tr>
                                 </table>
                             </td>

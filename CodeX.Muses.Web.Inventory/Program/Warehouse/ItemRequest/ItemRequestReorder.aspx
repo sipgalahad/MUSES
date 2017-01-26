@@ -34,6 +34,43 @@
                 }
             });
 
+            //#region Item Group
+            function onGetItemGroupFilterExpression() {
+                var filterExpression = "<%=OnGetFilterExpressionItemGroup() %>";
+                if ($('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() != '')
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() + ")";
+                if ($('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() != '')
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() + ")";
+                return filterExpression;
+            }
+
+            $('#lblItemGroup.lblLink').live('click', function () {
+                openSearchDialog('itemgroup', onGetItemGroupFilterExpression(), function (value) {
+                    $('#<%=txtItemGroupCode.ClientID %>').val(value);
+                    onTxtItemGroupCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtItemGroupCode.ClientID %>').live('change', function () {
+                onTxtItemGroupCodeChanged($(this).val());
+            });
+
+            function onTxtItemGroupCodeChanged(value) {
+                var filterExpression = onGetItemGroupFilterExpression() + " AND ItemGroupCode = '" + value + "'";
+                Methods.getObject('GetItemGroupMasterList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnItemGroupID.ClientID %>').val(result.ItemGroupID);
+                        $('#<%=txtItemGroupName.ClientID %>').val(result.ItemGroupName1);
+                    }
+                    else {
+                        $('#<%=hdnItemGroupID.ClientID %>').val('');
+                        $('#<%=txtItemGroupCode.ClientID %>').val('');
+                        $('#<%=txtItemGroupName.ClientID %>').val('');
+                    }
+                });
+            }
+            //#endregion
+
             //#region From Service Unit
             function onGetFromServiceUnitFilterExpression() {
                 var filterExpression = "<%=OnGetFilterExpressionFromServiceUnit() %>";
@@ -54,9 +91,24 @@
             function onTxtFromServiceUnitCodeChanged(value) {
                 var filterExpression = onGetFromServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
                 Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    $('#<%=hdnFromLocationID.ClientID %>').val('');
+                    $('#<%=txtFromLocationCode.ClientID %>').val('');
+                    $('#<%=txtFromLocationName.ClientID %>').val('');
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
                     if (result != null) {
                         $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
                         $('#<%=txtFromServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+
+                        var filterExpression = onGetLocationFilterExpression();
+
+                        Methods.getListObject('GetLocationUserAccessList', filterExpression, function (result1) {
+                            if (result1.length == 1) {
+                                var loc = result1[0];
+                                $('#<%=txtFromLocationCode.ClientID %>').val(loc.LocationCode);
+                                entityToControlLocation(loc);
+                            }
+                        });
+
                         cbpLocation.PerformCallback();
                     }
                     else {
@@ -64,10 +116,6 @@
                         $('#<%=txtFromServiceUnitCode.ClientID %>').val('');
                         $('#<%=txtFromServiceUnitName.ClientID %>').val('');
                     }
-                    $('#<%=hdnFromLocationID.ClientID %>').val('');
-                    $('#<%=txtFromLocationCode.ClientID %>').val('');
-                    $('#<%=txtFromLocationName.ClientID %>').val('');
-                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
                     cbpLocation.PerformCallback();
                 });
             }
@@ -97,22 +145,7 @@
                 var filterExpression = onGetLocationFilterExpression() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnFromLocationID.ClientID %>').val(result.LocationID);
-                        $('#<%=txtFromLocationName.ClientID %>').val(result.LocationName);
-
-                        filterExpression = "LocationID = " + result.LocationID;
-                        Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
-                            var filterLocationItemGroup = '';
-                            for (var i = 0; i < result.length; ++i) {
-                                if (filterLocationItemGroup != '')
-                                    filterLocationItemGroup += ' OR ';
-                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
-                            }
-                            if (filterLocationItemGroup != '')
-                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
-                            else
-                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
-                        });
+                        entityToControlLocation(result);
                     }
                     else {
                         $('#<%=hdnFromLocationID.ClientID %>').val('');
@@ -200,9 +233,36 @@
                 cbpView.PerformCallback('refresh');
             });
 
+            $('#<%=txtItemName.ClientID %>').keydown(function (e) {
+                if (e.keyCode == 13) { //Enter
+                    getCheckedMember();
+                    cbpView.PerformCallback('refresh');
+                    e.preventDefault();
+                }
+            });
+
             setDdeLocationText();
 
             $('#btnRefresh').click();
+        }
+
+        function entityToControlLocation(entity) {
+            $('#<%=hdnFromLocationID.ClientID %>').val(entity.LocationID);
+            $('#<%=txtFromLocationName.ClientID %>').val(entity.LocationName);
+
+            filterExpression = "LocationID = " + entity.LocationID;
+            Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result2) {
+                var filterLocationItemGroup = '';
+                for (var i = 0; i < result2.length; ++i) {
+                    if (filterLocationItemGroup != '')
+                        filterLocationItemGroup += ' OR ';
+                    filterLocationItemGroup += "DisplayPath LIKE '%/" + result2[i].ItemGroupID + "/%'";
+                }
+                if (filterLocationItemGroup != '')
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                else
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
+            });
         }
 
         $('.lblEndingBalance').live('click', function () {
@@ -266,7 +326,7 @@
             var lstConversionFactor = $('#<%=hdnListConversionFactor.ClientID %>').val().split('|');
             var result = '';
             $grdView = null;
-            if (cboReorderType.GetValue() == '1')
+            if (cboReorderType.GetValue() == '<%=OnGetReorderTypeStatic() %>')
                 $grdView = $('#<%=grdView.ClientID %>');
             else
                 $grdView = $('#<%=grdView2.ClientID %>');
@@ -367,6 +427,7 @@
                 var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
                 setNumEntriesText($('#informationNumEntries'), rowCount, 1, rowCountPerPage);
                 setPaging($("#paging"), pageCount, function (page) {
+                    getCheckedMember();
                     cbpView.PerformCallback('changepage|' + page);
                     setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
@@ -402,6 +463,17 @@
             hideLoadingPanel();
             setDdeLocationText();
         }
+
+        function onCboReorderTypeValueChanged() {
+            if (cboReorderType.GetValue() == '<%=OnGetReorderTypeStatic() %>') {
+                $('#trViewTypeDynamic').attr('style', 'display:none');
+                $('#trViewTypeStatic').removeAttr('style');
+            }
+            else {
+                $('#trViewTypeDynamic').removeAttr('style');
+                $('#trViewTypeStatic').attr('style', 'display:none');
+            }
+        }
     </script>
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
@@ -419,7 +491,7 @@
     <input type="hidden" value="" id="hdnDefaultLocationCode" runat="server" />
     <input type="hidden" value="" id="hdnDefaultLocationName" runat="server" />
     <input type="hidden" value="" id="hdnLstLocationID" runat="server" />
-    <div style="height: 495px; overflow-y: auto; overflow-x: hidden;">
+    <div style="height: 485px; overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
             <colgroup>
                 <col style="width: 50%" />
@@ -495,7 +567,19 @@
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Reorder")%></label></td>
-                            <td><dxe:ASPxComboBox runat="server" ID="cboReorderType" ClientInstanceName="cboReorderType" Width="300px" /></td>
+                            <td>
+                                <dxe:ASPxComboBox runat="server" ID="cboReorderType" ClientInstanceName="cboReorderType" Width="300px">
+                                    <ClientSideEvents ValueChanged="function(s,e){ onCboReorderTypeValueChanged() }" />
+                                </dxe:ASPxComboBox>
+                            </td>
+                        </tr>
+                        <tr id="trViewTypeDynamic">
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Tampilan")%></label></td>
+                            <td><dxe:ASPxComboBox runat="server" ID="cboViewType" ClientInstanceName="cboViewType" Width="300px" /></td>
+                        </tr>
+                        <tr id="trViewTypeStatic">
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Tampilan")%></label></td>
+                            <td><dxe:ASPxComboBox runat="server" ID="cboViewTypeStatic" ClientInstanceName="cboViewTypeStatic" Width="300px" /></td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
@@ -543,6 +627,28 @@
                         <tr>
                             <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><%=GetLabel("Keterangan") %></td>
                             <td><asp:TextBox ID="txtNotes" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblLink" id="lblItemGroup"><%=GetLabel("Kelompok Item")%></label></td>
+                            <td>
+                                <input type="hidden" value="" id="hdnItemGroupID" runat="server" />
+                                <table cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 120px" />
+                                        <col style="width: 3px" />
+                                        <col style="width: 250px" />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtItemGroupCode" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtItemGroupName" ReadOnly="true" Width="100%" runat="server" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label><%=GetLabel("Nama Item")%></label></td>
+                            <td><asp:TextBox runat="server" ID="txtItemName" Width="300px" /></td>
                         </tr>
                     </table>
                 </td>
@@ -696,8 +802,20 @@
                                                     </table>  
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="AvgQuantityOut" HeaderStyle-CssClass="thRight" HeaderText="Qty Rata-Rata / Hari" DataFormatString="{0:N}" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" />
-                                            <asp:TemplateField HeaderStyle-Width="10px" />
+                                            <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Qty Rata-Rata / Hari" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                                                        <colgroup>
+                                                            <col />
+                                                            <col style="width:80px" />
+                                                        </colgroup>
+                                                        <tr>
+                                                            <td align="right" class="lblReadOnlyText"><%#Eval("AvgQuantityOut", "{0:N}")%></td>
+                                                            <td>&nbsp<%# Eval("ItemUnit")%></td>
+                                                        </tr>
+                                                    </table>  
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <input type="hidden" value="0" class="hdnGCItemUnit" id="hdnGCItemUnit" runat="server"/>

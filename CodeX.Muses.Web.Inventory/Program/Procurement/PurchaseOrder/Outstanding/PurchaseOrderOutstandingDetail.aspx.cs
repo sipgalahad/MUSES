@@ -80,14 +80,23 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvPurchaseOrderDtRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvPurchaseOrderDtOutstandingInfoRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vPurchaseOrderDt> lstEntity = BusinessLayer.GetvPurchaseOrderDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vPurchaseOrderDtOutstandingInfo> lstEntity = BusinessLayer.GetvPurchaseOrderDtOutstandingInfoList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
+        }
 
+        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vPurchaseOrderDtOutstandingInfo entity = e.Row.DataItem as vPurchaseOrderDtOutstandingInfo;
+                if (entity.ReceivedQuantity != entity.Quantity)
+                    e.Row.CssClass = "trOutstanding";
+            }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

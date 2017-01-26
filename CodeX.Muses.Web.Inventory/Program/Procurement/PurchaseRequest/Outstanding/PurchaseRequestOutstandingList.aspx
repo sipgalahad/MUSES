@@ -80,7 +80,8 @@ CodeBehind="PurchaseRequestOutstandingList.aspx.cs" Inherits="CodeX.Muses.Web.In
                             <Columns>
                                 <asp:BoundField DataField="PurchaseRequestID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="PurchaseRequestNo" HeaderText="No Permintaan" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="ServiceUnitName" HeaderText="Bagian" HeaderStyle-Width="200px"/>
+                                <asp:BoundField DataField="ServiceUnitName" HeaderText="Dari Bagian" HeaderStyle-Width="150px"/>
+                                <asp:BoundField DataField="ToServiceUnitName" HeaderText="Ke Bagian" HeaderStyle-Width="150px"/>
                                 <asp:BoundField DataField="TransactionDateInString" HeaderStyle-CssClass="thCenter" HeaderText="Tanggal Permintaan" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="TransactionTime" HeaderStyle-CssClass="thCenter" HeaderText="Jam Permintaan" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="CreatedByName" HeaderText="Dibuat Oleh" HeaderStyle-Width="200px"/>

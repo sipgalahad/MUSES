@@ -1137,7 +1137,7 @@
     <Content Include="SQLJobScripts\AutoBedCharges.txt" />
     <Content Include="Styles\common.css" />
     <Content Include="Styles\excel.css" />
-    <Content Include="Styles\MetroBlue\medinfras.css" />
+    <Content Include="Styles\MetroBlue\codex.css" />
     <Content Include="Styles\MetroGreen\jquery\images\animated-overlay.gif" />
     <Content Include="Styles\MetroGreen\jquery\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Styles\MetroGreen\jquery\images\ui-bg_flat_100_3399FF_40x100.png" />

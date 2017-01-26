@@ -8,6 +8,7 @@
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnSavePurchaseRequest" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Simpan")%></div></li>
     <li id="btnProcessPurchaseRequest" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/list.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Process")%></div></li>
     <li id="btnAddToPOPurchaseRequest" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/list.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Add To PO")%></div></li>
     <li id="btnOrderListBack" runat="server" crudmode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/back.png")%>' alt="" /><div><%=GetLabel("Back")%></div></li>
@@ -15,13 +16,98 @@
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
-        var flag = true;
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#<%=hdnUploadedFile1.ClientID %>').val(e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function validateSaveData(errMessage) {
+            var lstGCPurchaseUnit = $('#<%=hdnListGCPurchaseUnit.ClientID %>').val().split('|');
+            var lstPurchaseUnit = $('#<%=hdnListPurchaseUnit.ClientID %>').val().split('|');
+            var lstSupplierID = $('#<%=hdnListSupplierID.ClientID %>').val().split('|');
+            var lstSupplierName = $('#<%=hdnListSupplierName.ClientID %>').val().split('|');
+            var lstSelectedMember = $('#<%=hdnSelectedMember.ClientID %>').val().split('|');
+            var lstPurchaseOrderQty = $('#<%=hdnPurchaseOrderQty.ClientID %>').val().split('|');
+            var lstPrice = $('#<%=hdnPrice.ClientID %>').val().split('|');
+            var lstDiscount1 = $('#<%=hdnDiscount1.ClientID %>').val().split('|');
+            var lstDiscount2 = $('#<%=hdnDiscount2.ClientID %>').val().split('|');
+            var lstConversionFactor = $('#<%=hdnListConversionFactor.ClientID %>').val().split('|');
+            var lstTermID = $('#<%=hdnListTermID.ClientID %>').val().split('|');
+            var lstSupplierItemName = $('#<%=hdnListSupplierItemName.ClientID %>').val().split('|');
+            var lstGCPurchaseMethod = $('#<%=hdnListGCPurchaseMethod.ClientID %>').val().split('|');
+            var lstNonMasterSupplierName = $('#<%=hdnListNonMasterSupplierName.ClientID %>').val().split('|');
+            var lstIsFromMasterSupplier = $('#<%=hdnListIsFromMasterSupplier.ClientID %>').val().split('|');
+            var lstItemName = $('#<%=hdnListItemName.ClientID %>').val().split('|');
+
+            var itemEmptySupplier = '';
+            var itemEmptyQty = '';
+            for (var i = 0; i < lstSupplierID.length; ++i) {
+                if (lstSupplierID[i] == '0') {
+                    if (itemEmptySupplier != '')
+                        itemEmptySupplier += ', ';
+                    itemEmptySupplier += '<b>' + lstItemName[i] + '</b>';
+                }
+                if (lstPurchaseOrderQty[i] == '0') {
+                    if (itemEmptyQty != '')
+                        itemEmptyQty += ', ';
+                    itemEmptyQty += '<b>' + lstItemName[i] + '</b>';
+                }
+            }
+            if (errMessage != null) {
+                if (itemEmptySupplier != '')
+                    errMessage.text = 'Silakan Pilih Supplier Untuk Item ' + itemEmptySupplier + ' Terlebih Dahulu';
+                if (itemEmptyQty != '') {
+                    if (errMessage.text != '')
+                        errMessage.text += '<br>';
+                    errMessage.text += 'Silakan Isi Qty Untuk Item ' + itemEmptySupplier + ' Terlebih Dahulu';
+                }
+
+                var isDirectPurchaseExists = false;
+                for (var i = 1; i < lstGCPurchaseMethod.length; ++i) {
+                    if (lstGCPurchaseMethod[i] == "<%=OnGetPurchaseMethodDirectPurchase() %>") {
+                        isDirectPurchaseExists = true;
+                        break;
+                    }
+                }
+                if (isDirectPurchaseExists && $('#<%=hdnLocationID.ClientID %>').val() == '')
+                    errMessage.text += 'Lokasi Pembelian Tunai Wajib Diisi';
+            }
+        }
+
         function onLoad() {
+            $('#btnUploadFile').click(function () {
+                cbpProcess.PerformCallback('upload');
+            });
+
+            $('#<%=FileUpload1.ClientID %>').change(function () {
+                readURL(this);
+            });	
+
             $('.txtNonMasterSupplierName').hide();
+
+            $('#<%=btnSavePurchaseRequest.ClientID %>').click(function () {
+                var errMessage = { text: '' };
+                getCheckedMember();
+                validateSaveData(errMessage);
+                if (errMessage.text == '') {
+                    if ($('#<%=hdnSelectedMember.ClientID %>').val() == '')
+                        showToast('Warning', 'Please Select Item First');
+                    else
+                        onCustomButtonClick('save');
+                }
+                else
+                    showToast('Warning', errMessage.text);
+            });
 
             $('#<%=btnProcessPurchaseRequest.ClientID %>').click(function () {
                 var errMessage = { text: '' };
-                getCheckedMember(errMessage);
+                getCheckedMember();
+                validateSaveData(errMessage);
                 if (errMessage.text == '') {
                     if ($('#<%=hdnSelectedMember.ClientID %>').val() == '')
                         showToast('Warning', 'Please Select Item First');
@@ -57,8 +143,8 @@
 
             //#region Location
             function getLocationFilterExpression() {
-                if ($('#<%=hdnSiteServiceUnitID.ClientID %>').val() != "") {
-                    var filterExpression = "<%=OnGetFilterExpressionLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
+                if ($('#<%=hdnToSiteServiceUnitID.ClientID %>').val() != "") {
+                    var filterExpression = "<%=OnGetFilterExpressionLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnToSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
                     return filterExpression;
                 }
                 return "1 = 0";
@@ -92,7 +178,7 @@
             //#endregion
         }
 
-        function getCheckedMember(errMessage) {
+        function getCheckedMember() {
             var lstGCPurchaseUnit = $('#<%=hdnListGCPurchaseUnit.ClientID %>').val().split('|');
             var lstPurchaseUnit = $('#<%=hdnListPurchaseUnit.ClientID %>').val().split('|');
             var lstSupplierID = $('#<%=hdnListSupplierID.ClientID %>').val().split('|');
@@ -108,22 +194,21 @@
             var lstGCPurchaseMethod = $('#<%=hdnListGCPurchaseMethod.ClientID %>').val().split('|');
             var lstNonMasterSupplierName = $('#<%=hdnListNonMasterSupplierName.ClientID %>').val().split('|');
             var lstIsFromMasterSupplier = $('#<%=hdnListIsFromMasterSupplier.ClientID %>').val().split('|');
+            var lstItemName = $('#<%=hdnListItemName.ClientID %>').val().split('|'); 
 
             var result = '';
-            var itemEmptySupplier = '';
-            var itemEmptyQty = '';
 
             $('.grdPurchaseRequest .chkIsSelected input').each(function () {
                 if ($(this).is(':checked')) {
                     $tr = $(this).closest('tr');
                     var key = $tr.find('.keyField').html();
                     var supplierID = $tr.find('.hdnSupplierID').val();
-                    var itemName = $tr.find('.tdItemName').html();
+                    var itemName = $tr.find('.lblItemName').html();
                     var supplierName = $tr.find('.lblSupplier').html();
                     var GCPurchaseUnit = $tr.find('.hdnGCPurchaseUnit').val();
                     var purchaseUnit = $tr.find('.lblPurchaseUnit').html();
-                    var purchaseQty = $tr.find('.txtPurchaseQty').val();
-                    var price = $tr.find('.txtPrice').val();
+                    var purchaseQty = $tr.find('.txtPurchaseQty').attr('hiddenVal');
+                    var price = $tr.find('.txtPrice').attr('hiddenVal');
                     var discount1 = $tr.find('.txtDiscount1').val();
                     var discount2 = $tr.find('.txtDiscount2').val();
                     var conversionFactor = $tr.find('.hdnConversionFactor').val();
@@ -134,7 +219,7 @@
                     var purchaseMethod = cboPurchaseMethod.GetValue();
                     var nonMasterSupplierName = $tr.find('.txtNonMasterSupplierName').val();
                     var isFromMasterSupplier = $tr.find('.chkIsFromMasterSupplier input').is(':checked') ? '1' : '0';
-                    
+
                     var idx = lstSelectedMember.indexOf(key);
                     if (idx < 0) {
                         lstSelectedMember.push(key);
@@ -152,6 +237,7 @@
                         lstGCPurchaseMethod.push(purchaseMethod);
                         lstNonMasterSupplierName.push(nonMasterSupplierName);
                         lstIsFromMasterSupplier.push(isFromMasterSupplier);
+                        lstItemName.push(itemName);
                     }
                     else {
                         lstDiscount1[idx] = discount1;
@@ -168,16 +254,7 @@
                         lstGCPurchaseMethod[idx] = purchaseMethod;
                         lstNonMasterSupplierName[idx] = nonMasterSupplierName;
                         lstIsFromMasterSupplier[idx] = isFromMasterSupplier;
-                    }
-                    if (supplierID == '0') {
-                        if (itemEmptySupplier != '')
-                            itemEmptySupplier += ', ';
-                        itemEmptySupplier += '<b>' + itemName + '</b>';
-                    }
-                    if (purchaseQty == '0') {
-                        if (itemEmptyQty != '')
-                            itemEmptyQty += ', ';
-                        itemEmptyQty += '<b>' + itemName + '</b>';
+                        lstItemName[idx] = itemName;
                     }
                 }
                 else {
@@ -199,28 +276,10 @@
                         lstGCPurchaseMethod.splice(idx, 1);
                         lstNonMasterSupplierName.splice(idx, 1);
                         lstIsFromMasterSupplier.splice(idx, 1);
+                        lstItemName.splice(idx, 1);
                     }
                 }
             });
-            if (errMessage != null) {
-                if (itemEmptySupplier != '')
-                    errMessage.text = 'Silakan Pilih Supplier Untuk Item ' + itemEmptySupplier + ' Terlebih Dahulu';
-                if (itemEmptyQty != '') {
-                    if (errMessage.text != '')
-                        errMessage.text += '<br>';
-                    errMessage.text += 'Silakan Isi Qty Untuk Item ' + itemEmptySupplier + ' Terlebih Dahulu';
-                }
-
-                var isDirectPurchaseExists = false;
-                for (var i = 1; i < lstGCPurchaseMethod.length; ++i) {
-                    if (lstGCPurchaseMethod[i] == "<%=OnGetPurchaseMethodDirectPurchase() %>") {
-                        isDirectPurchaseExists = true;
-                        break;
-                    }
-                }
-                if (isDirectPurchaseExists && $('#<%=hdnLocationID.ClientID %>').val() == '')
-                    errMessage.text += 'Lokasi Pembelian Tunai Wajib Diisi';
-            }
             $('#<%=hdnListGCPurchaseUnit.ClientID %>').val(lstGCPurchaseUnit.join('|'));
             $('#<%=hdnListPurchaseUnit.ClientID %>').val(lstPurchaseUnit.join('|'));
             $('#<%=hdnListSupplierID.ClientID %>').val(lstSupplierID.join('|'));
@@ -236,9 +295,10 @@
             $('#<%=hdnListGCPurchaseMethod.ClientID %>').val(lstGCPurchaseMethod.join('|'));
             $('#<%=hdnListNonMasterSupplierName.ClientID %>').val(lstNonMasterSupplierName.join('|'));
             $('#<%=hdnListIsFromMasterSupplier.ClientID %>').val(lstIsFromMasterSupplier.join('|'));
+            $('#<%=hdnListItemName.ClientID %>').val(lstItemName.join('|'));
         }
 
-        function onAfterCustomClickSuccess(type,retval) {
+        function onAfterCustomClickSuccess(type, retval) {
             var param = retval.split('|');
             var orderPerSupplier = param[0].split(';');
             var tempText = "";
@@ -252,23 +312,25 @@
                     tempText += "Pembelian Tunai Untuk Supplier <b>" + paramDetail[2] + "</b> Dengan Nomor Pembelian <b>" + paramDetail[1] + "</b>";
             }
             showToast('Save Success', tempText, function () {
-                $('#<%=hdnSelectedMember.ClientID %>').val('');
-                $('#<%=hdnListSupplierID.ClientID %>').val('');
-                $('#<%=hdnListConversionFactor.ClientID %>').val('');
-                $('#<%=hdnListSupplierName.ClientID %>').val('');
-                $('#<%=hdnListGCPurchaseUnit.ClientID %>').val('');
-                $('#<%=hdnListPurchaseUnit.ClientID %>').val('');
-                $('#<%=hdnPurchaseOrderQty.ClientID %>').val('');
-                $('#<%=hdnDiscount1.ClientID %>').val('');
-                $('#<%=hdnDiscount2.ClientID %>').val('');
-                $('#<%=hdnPrice.ClientID %>').val('');
-                $('#<%=hdnListTermID.ClientID %>').val('');
-                $('#<%=hdnListSupplierItemName.ClientID %>').val('');
-                $('#<%=hdnListGCPurchaseMethod.ClientID %>').val('');
-                $('#<%=hdnListNonMasterSupplierName.ClientID %>').val('');
-                $('#<%=hdnListIsFromMasterSupplier.ClientID %>').val('');
-                if (param[1] == '0') $('#<%=btnOrderListBack.ClientID %>').click();
-                cbpView.PerformCallback('refresh');
+                if (type != 'save') {
+                    $('#<%=hdnSelectedMember.ClientID %>').val('');
+                    $('#<%=hdnListSupplierID.ClientID %>').val('');
+                    $('#<%=hdnListConversionFactor.ClientID %>').val('');
+                    $('#<%=hdnListSupplierName.ClientID %>').val('');
+                    $('#<%=hdnListGCPurchaseUnit.ClientID %>').val('');
+                    $('#<%=hdnListPurchaseUnit.ClientID %>').val('');
+                    $('#<%=hdnPurchaseOrderQty.ClientID %>').val('');
+                    $('#<%=hdnDiscount1.ClientID %>').val('');
+                    $('#<%=hdnDiscount2.ClientID %>').val('');
+                    $('#<%=hdnPrice.ClientID %>').val('');
+                    $('#<%=hdnListTermID.ClientID %>').val('');
+                    $('#<%=hdnListSupplierItemName.ClientID %>').val('');
+                    $('#<%=hdnListGCPurchaseMethod.ClientID %>').val('');
+                    $('#<%=hdnListNonMasterSupplierName.ClientID %>').val('');
+                    $('#<%=hdnListIsFromMasterSupplier.ClientID %>').val('');
+                    if (param[1] == '0') $('#<%=btnOrderListBack.ClientID %>').click();
+                    cbpView.PerformCallback('refresh');
+                }
             });
         }
 
@@ -298,7 +360,9 @@
             var cboPurchaseMethod = eval('cboPurchaseMethod' + idx);
             if ($(this).find('input').is(':checked')) {
                 $tr.find('.lblSupplier').show();
+                $tr.find('.hdnSupplierID').val($tr.find('.hdnOriginalSupplierID').val());
                 $tr.find('.txtNonMasterSupplierName').hide();
+                $tr.find('.txtNonMasterSupplierName').val('');
                 cboPurchaseMethod.SetEnabled(true);
             }
             else {
@@ -376,8 +440,22 @@
                     setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
             }
+
+            $('.grdPurchaseRequest .txtCurrency').each(function () {
+                $(this).trigger('changeValue');
+            });
         }
         //#endregion
+
+        $('.lblItemName.lblLink').live('click', function () {
+            var itemID = $(this).closest('tr').parent().closest('tr').find('.hdnItemID').val();
+            var siteServiceUnitID = $('#<%=hdnSiteServiceUnitID.ClientID %>').val();
+            if (itemID != '' && siteServiceUnitID != '') {
+                var param = siteServiceUnitID + '|' + itemID;
+                var url = ResolveUrl("~/Program/Procurement/PurchaseRequest/Outstanding/PurchaseBudgetDtCtl.ascx");
+                openUserControlPopup(url, param, 'Anggaran', 1200, 500);
+            }
+        });
 
         $('.lblStock.lblLink').live('click', function () {
             var itemID = $(this).closest('tr').parent().closest('tr').find('.hdnItemID').val();
@@ -391,7 +469,7 @@
 
         $('.lblQtyOnOrder.lblLink').live('click', function () {
             var itemID = $(this).closest('tr').parent().closest('tr').find('.hdnItemID').val();
-            var siteServiceUnitID = $('#<%=hdnSiteServiceUnitID.ClientID %>').val();
+            var siteServiceUnitID = $('#<%=hdnToSiteServiceUnitID.ClientID %>').val();
             if (itemID != '' && siteServiceUnitID != '') {
                 var param = siteServiceUnitID + '|' + itemID;
                 var url = ResolveUrl("~/Program/Procurement/PurchaseRequest/Outstanding/PODPQtyOnOrderCtl.ascx");
@@ -406,7 +484,7 @@
         }
 
         $('.lblSupplier.lblLink').live('click', function () {
-            $tr = $(this).closest('tr').parent().closest('tr');
+            $tr = $(this).closest('tr');
             openSearchDialog('businesspartners', getSupplierFilterExpression(), function (value) {
                 onTxtSupplierChanged(value);
             });
@@ -417,6 +495,7 @@
             Methods.getObject('GetBusinessPartnersList', filterExpression, function (result) {
                 if (result != null) {
                     $tr.find('.hdnSupplierID').val(result.BusinessPartnerID);
+                    $tr.find('.hdnOriginalSupplierID').val(result.BusinessPartnerID); 
                     $tr.find('.hdnTermID').val(result.TermID);
                     $tr.find('.lblSupplier').html(result.BusinessPartnerName);
 
@@ -431,6 +510,7 @@
                 }
                 else {
                     $tr.find('.hdnSupplierID').val('0');
+                    $tr.find('.hdnOriginalSupplierID').val('0');
                     $tr.find('.hdnTermID').val('0');
                     $tr.find('.lblSupplier').html('');
                     $tr.find('.tdSupplierItemName').html('');
@@ -507,6 +587,33 @@
             hideLoadingPanel();
             setDdeLocationText();
         }
+
+        function onCbpProcesEndCallback(s) {
+            hideLoadingPanel();
+            var param = s.cpResult.split('|');
+            if (param[0] == 'upload') {
+                if (param[1] == 'fail')
+                    showToast('Import Gagal', 'Error Message : ' + param[2]);
+                else {
+                    $('#<%=hdnSelectedMember.ClientID %>').val(s.cpListID);
+                    $('#<%=hdnListSupplierID.ClientID %>').val(s.cpListBusinessPartnerID);
+                    $('#<%=hdnListConversionFactor.ClientID %>').val(s.cpListConversionFactor);
+                    $('#<%=hdnListSupplierName.ClientID %>').val(s.cpListBusinessPartnerName);
+                    $('#<%=hdnListGCPurchaseUnit.ClientID %>').val(s.cpListGCPurchaseUnit);
+                    $('#<%=hdnListPurchaseUnit.ClientID %>').val(s.cpListPurchaseUnit);
+                    $('#<%=hdnPurchaseOrderQty.ClientID %>').val(s.cpListPurchaseQty);
+                    $('#<%=hdnDiscount1.ClientID %>').val(s.cpListDiscount1);
+                    $('#<%=hdnDiscount2.ClientID %>').val(s.cpListDiscount2);
+                    $('#<%=hdnPrice.ClientID %>').val(s.cpListPrice);
+                    $('#<%=hdnListTermID.ClientID %>').val(s.cpListTermID);
+                    $('#<%=hdnListSupplierItemName.ClientID %>').val(s.cpListSupplierName);
+                    $('#<%=hdnListGCPurchaseMethod.ClientID %>').val(s.cpListGCPurchaseMethod);
+                    $('#<%=hdnListIsFromMasterSupplier.ClientID %>').val(s.cpListIsFromMasterSupplier);
+                    $('#<%=hdnListNonMasterSupplierName.ClientID %>').val(s.cpListNonMasterSupplierName); 
+                    cbpView.PerformCallback('refresh');
+                }
+            }
+        }
     </script>
     <input type="hidden" value="" id="hdnNonMasterSupplierID" runat="server" />
     <input type="hidden" value="" id="hdnDefaultDirectPurchaseType" runat="server" />
@@ -519,6 +626,7 @@
     <input type="hidden" value="" id="hdnDiscount1" runat="server" />
     <input type="hidden" value="" id="hdnDiscount2" runat="server" />
     <input type="hidden" value="" id="hdnPrice" runat="server" />
+    <input type="hidden" value="" id="hdnListItemName" runat="server" />
     <input type="hidden" value="" id="hdnListSupplierID" runat="server" />
     <input type="hidden" value="" id="hdnListSupplierName" runat="server" />
     <input type="hidden" value="" id="hdnListIsFromMasterSupplier" runat="server" />
@@ -550,7 +658,7 @@
                             <td><asp:TextBox ID="txtOrderNo" Width="150px" ReadOnly="true" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal" runat="server"><%=GetLabel("Bagian")%></label></td>
+                            <td class="tdLabel"><label class="lblNormal" runat="server"><%=GetLabel("Dari Bagian")%></label></td>
                             <td>
                                 <input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
@@ -563,6 +671,24 @@
                                         <td><asp:TextBox ID="txtServiceUnitCode" Width="100%" runat="server" ReadOnly="true" /></td>
                                         <td>&nbsp;</td>
                                         <td><asp:TextBox ID="txtServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label id="lblNormal" class="lblNormal" runat="server"><%=GetLabel("Ke Bagian")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnToSiteServiceUnitID" value="" runat="server" />
+                                <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 30%" />
+                                        <col style="width: 3px" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtToServiceUnitCode" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtToServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
                             </td>
@@ -609,6 +735,15 @@
                                 </table>
                             </td>
                             <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+						    <td>
+							    <input type="hidden" id="hdnFileName" runat="server" value="" />
+							    <input type="hidden" id="hdnUploadedFile1" runat="server" value="" />
+							    <asp:FileUpload ID="FileUpload1" runat="server" />
+							    <input type="button" id="btnUploadFile" value="Upload" />
+						    </td>
                         </tr>
                     </table>
                 </td>
@@ -708,7 +843,7 @@
                                             <tr>
                                                 <td class="keyField"><%# Eval("ID")%></td>
                                                 <td align="center"><asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" /></td>
-                                                <td class="tdItemName"><%# Eval("ItemName1")%></td>
+                                                <td><label id="lblItemName" class="lblItemName lblLink" runat="server"></label></td>
                                                 <td align="right" style="padding-top:10px">
                                                     <table cellpadding="0" cellspacing="0" style="width:100%">
                                                         <colgroup>
@@ -749,6 +884,7 @@
                                                 </td>
                                                 <td align="center">
                                                     <asp:CheckBox ID="chkIsFromMasterSupplier" CssClass="chkIsFromMasterSupplier" runat="server" Text="Dari Master" /><br />
+                                                    <input type="hidden" value="0" class="hdnOriginalSupplierID" id="hdnOriginalSupplierID" runat="server"/>
                                                     <input type="hidden" value="0" class="hdnSupplierID" id="hdnSupplierID" runat="server"/>
                                                     <input type="hidden" value="0" class="hdnTermID" id="hdnTermID" runat="server"/>
                                                     <label runat="server" id="lblSupplier" class="lblSupplier"></label>
@@ -768,7 +904,7 @@
                                                             <col style="width:50px" />
                                                         </colgroup>
                                                         <tr>
-                                                            <td><asp:TextBox ID="txtPurchaseQty" Width="50px" runat="server" value="0" CssClass="number txtPurchaseQty" ReadOnly="true"/></td>
+                                                            <td><asp:TextBox ID="txtPurchaseQty" Width="50px" runat="server" value="0" CssClass="txtCurrency txtPurchaseQty" ReadOnly="true"/></td>
                                                             <td>&nbsp;<label runat="server" id="lblPurchaseUnit" class="lblPurchaseUnit"></label> </td>
                                                         </tr>
                                                     </table>                                                    
@@ -804,5 +940,11 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <div style="display:none">
+        <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
+            ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
+            <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
+        </dxcp:ASPxCallbackPanel>
     </div>
 </asp:Content>

@@ -1,164 +1,190 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ExpiredDatePerItemCtl.ascx.cs"
-    Inherits="CodeX.Muses.Web.Inventory.Program.ExpiredDatePerItemCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ExpiredDatePerItemCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.PatientManagement.Program.ExpiredDatePerItemCtl" %>
+
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
-
-<script type="text/javascript" id="dxss_serviceunithealthcareentryctl">
+<script type="text/javascript" id="dxss_generatebilldtctl">
     $(function () {
         setDatePicker('<%=txtExpiredDate.ClientID %>');
-        $('#btnPopupCancel').click(function () {
-            $('#trEditEntry').hide();
+
+        $('#divTransactionAddPopup').click(function () {
+            $('#<%=hdnIsAdd.ClientID %>').val('1');
+            $('#<%=txtBatchNumber.ClientID %>').removeAttr('readonly');
+            $('#<%=txtBatchNumber.ClientID %>').val('');
+            $('#<%=txtQuantity.ClientID %>').val('');
+            $('#<%=txtExpiredDate.ClientID %>').val('');
+
+            $('#entryDetailContainerPopup').show();
         });
 
-        $('#btnPopupSave').click(function () {
-            cbpPopupProcess.PerformCallback('save');
+        $('#btnCancelPopup').click(function () {
+            $('#entryDetailContainerPopup').hide();
         });
-    });
 
-    $('#lblPopupAddData').die('click');
-    $('#lblPopupAddData').live('click', function () {
-        $('#<%=txtBatchNumber.ClientID %>').removeAttr('ReadOnly');
-        $('#<%=hdnBatchNumber.ClientID %>').val('');
-        $('#<%=txtBatchNumber.ClientID %>').val('');
-        $('#<%=txtQuantity.ClientID %>').val('');
-        $('#<%=txtExpiredDate.ClientID %>').val('');
-        $('#trEditEntry').show();
+        $('#btnSavePopup').click(function (evt) {
+            if (IsValid(evt, 'fsTrxPopup', 'mpTrxPopup'))
+                cbpProcessPopup.PerformCallback('save');
+        });
     });
     
-    $('.imgEdit').die('click');
-    $('.imgEdit').live('click', function () {
-        $tr = $(this).closest('tr');
-        var id = $tr.find('.keyField').html();
-        var batchNumber = $tr.find('.batchNumber').html();
-        var filterExpression = "ID = " + id + " AND BatchNumber = " + batchNumber;
-        Methods.getObject('GetPurchaseReceiveDtExpiredList', filterExpression, function (result) {
-            if (result != null) {
-                $('#trEditEntry').show();
-                $('#<%=hdnID.ClientID %>').val(result.ID);
-                $('#<%=txtBatchNumber.ClientID %>').val(result.BatchNumber);
-                $('#<%=txtBatchNumber.ClientID %>').attr('ReadOnly', 'true');
-                $('#<%=hdnBatchNumber.ClientID %>').val(result.BatchNumber);
-                $('#<%=txtExpiredDate.ClientID %>').val(result.ExpiredDateInDatePickerFormat);
-                $('#<%=txtQuantity.ClientID %>').val(result.Quantity);
+    //#region Paging
+    var pageCount = parseInt('<%=PageCount %>');
+    var rowCount = parseInt('<%=RowCount %>');
+    var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
+    var currPage = parseInt('<%=CurrPage %>');
+    $(function () {
+        setNumEntriesText($('#informationNumEntriesPopup'), rowCount, currPage, rowCountPerPage);
+        setPaging($("#pagingPopup"), pageCount, function (page) {
+            cbpViewPopup.PerformCallback('changepage|' + page);
+            setNumEntriesText($('#informationNumEntriesPopup'), rowCount, page, rowCountPerPage);
+        }, null, currPage);
+    });
+
+    function onCbpViewPopupEndCallback(s) {
+        hideLoadingPanel();
+        var param = s.cpResult.split('|');
+        if (param[0] == 'refresh') {
+            var pageCount = parseInt(param[1]);
+            var rowCount = parseInt(param[2]);
+            setNumEntriesText($('#informationNumEntriesPopup'), rowCount, currPage, rowCountPerPage);
+            setPaging($("#pagingPopup"), pageCount, function (page) {
+                cbpViewPopup.PerformCallback('changepage|' + page);
+                setNumEntriesText($('#informationNumEntriesPopup'), rowCount, page, rowCountPerPage);
+            });
+        }
+    }
+    //#endregion
+
+    $('#<%=grdView.ClientID %> .divDetailDelete').die('click');
+    $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
+        $row = $(this).closest('tr');
+        showToastConfirmation('Are You Sure Want To Delete?', function (result) {
+            if (result) {
+                var entity = rowToObject($row);
+                $('#<%=txtBatchNumber.ClientID %>').val(entity.BatchNumber);
+                cbpProcessPopup.PerformCallback('delete');
             }
         });
     });
 
-    $('.imgDelete').die('click');
-    $('.imgDelete').live('click', function () {
-        $tr = $(this).closest('tr');
-        var id = $tr.find('.keyField').html();
-        $('#<%=hdnID.ClientID %>').val($tr.find('.keyField').html());
-        $('#<%=txtBatchNumber.ClientID %>').val($tr.find('.batchNumber').html());
-        cbpPopupProcess.PerformCallback('delete');
+    $('#<%=grdView.ClientID %> .divDetailEdit').die('click');
+    $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
+        $row = $(this).closest('tr');
+        var entity = rowToObject($row);
+
+        $('#<%=hdnIsAdd.ClientID %>').val('0');
+        $('#<%=txtBatchNumber.ClientID %>').attr('readonly', 'readonly');
+        $('#<%=txtBatchNumber.ClientID %>').val(entity.BatchNumber);
+        $('#<%=txtQuantity.ClientID %>').val(entity.Quantity);
+        $('#<%=txtExpiredDate.ClientID %>').val(entity.ExpiredDateInDatePickerFormat);
+
+        $('#entryDetailContainerPopup').show();
     });
 
-    function onCbpPopupProcesEndCallback(s) {
+    function onCbpProcesPopupEndCallback(s) {
         hideLoadingPanel();
-        $('#<%=txtBatchNumber.ClientID %>').removeAttr('ReadOnly');
-        $('#<%=hdnBatchNumber.ClientID %>').val('');
-        $('#<%=txtBatchNumber.ClientID %>').val('');
-        $('#<%=txtQuantity.ClientID %>').val('');
-        $('#<%=txtExpiredDate.ClientID %>').val('');
-        cbpPopupView.PerformCallback();
+
+        var param = s.cpResult.split('|');
+        if (param[0] == 'save') {
+            if (param[1] == 'fail')
+                showToast('Save Failed', 'Error Message : ' + param[2]);
+            else {
+                $('#divTransactionAddPopup').click();
+                cbpViewPopup.PerformCallback('refresh');
+            }
+        }
+        else if (param[0] == 'delete') {
+            if (param[1] == 'fail')
+                showToast('Delete Failed', 'Error Message : ' + param[2]);
+            else
+                cbpViewPopup.PerformCallback('refresh');
+        }
     }
 </script>
-
-<input type="hidden" runat="server" id="hdnID" value=""/>
-<input type="hidden" runat="server" id="hdnBatchNumber" value=""/>
-<div class="pageTitle">
-    <%=GetLabel("Expired Date Per Item")%></div>
-<table class="tblContentArea">
-    <tr id="trEditEntry" style="display:none;">
-        <td>
-            <div class="pageTitle"><%=GetLabel("Entry")%></div>
-            <div>
-                <table class="tblEntryDetail" style="width: 100%">
+       
+<div style="height:440px; overflow-y:auto; overflow-x:hidden"> 
+    <table class="tblEntryContent" style="width:70%">
+        <colgroup>
+            <col style="width:200px"/>
+            <col/>
+        </colgroup>
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Item")%></label></td>
+            <td><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="200px" runat="server" /></td>
+        </tr> 
+    </table>
+    <input type="hidden" id="hdnID" value="" runat="server" />        
+    <div class="divTransactionEntry">   
+        <span id="divTransactionAddPopup" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
+        <div id="entryDetailContainerPopup" class="entryDetailContainer" style="display: none">
+            <fieldset id="fsTrxPopup" style="margin:0"> 
+                <input type="hidden" id="hdnIsAdd" runat="server" value="" />
+                <table>
                     <colgroup>
-                        <col width="120px" />
-                        <col />
+                        <col style="width:150px"/>
                     </colgroup>
                     <tr>
-                        <td><label class="lblMandatory"><%=GetLabel("Batch Number") %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtBatchNumber"  /></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Batch Number")%></label></td>
+                        <td><asp:TextBox ID="txtBatchNumber" Width="100px" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td><label class="lblNormal"><%=GetLabel("Expired Date") %></label></td>
-                        <td><asp:TextBox ID="txtExpiredDate" Width="120px" CssClass="datepicker" runat="server" /></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Expired Date")%></label></td>
+                        <td><asp:TextBox ID="txtExpiredDate" CssClass="datepicker" Width="120px" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td><label class="lblNormal"><%=GetLabel("Quantity") %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtQuantity" Width="70px" /></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Quantity")%></label></td>
+                        <td><asp:TextBox ID="txtQuantity" CssClass="number" Width="50px" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <input type="button" id="btnPopupSave" value='<%= GetLabel("Save")%>' />
-                                    </td>
-                                    <td>
-                                        <input type="button" id="btnPopupCancel" value='<%= GetLabel("Cancel")%>' />
-                                    </td>
-                                </tr>
-                            </table>
+                        <td> 
+                            <input type="button" id="btnSavePopup" class="btnWhite" value="Commit"/>
+                            <input type="button" id="btnCancelPopup" class="btnWhite" value="Cancel"/>
                         </td>
                     </tr>
                 </table>
-            </div>
-            
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <dxcp:ASPxCallbackPanel ID="cbpPopupView" runat="server" Width="100%" ClientInstanceName="cbpPopupView"
-                ShowLoadingPanel="false" OnCallback="cbpPopupView_Callback">
-                <PanelCollection>
-                    <dx:PanelContent ID="PanelContent1" runat="server">
-                        <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
-                            position: relative; font-size: 0.95em;">
-                            <asp:GridView ID="grdView" runat="server" CssClass="grdNormal"
-                                AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
-                                <Columns>
-                                    <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                    <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="70px" ItemStyle-Width="70px" >
-                                        <ItemTemplate>
-                                            <img class="imgEdit" title='<%=GetLabel("Edit")%>' alt="" src='<%= ResolveUrl("~/Libs/Images/Button/edit.png")%>' />&nbsp;
-                                            <img class="imgDelete" title='<%=GetLabel("Delete")%>' alt="" src='<%= ResolveUrl("~/Libs/Images/Button/delete.png")%>' />
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
-                                    <asp:BoundField DataField="BatchNumber" HeaderStyle-CssClass="batchNumber" ItemStyle-CssClass="batchNumber" HeaderText = "Batch Number"  />
-                                    <asp:BoundField DataField="ExpiredDateInString" HeaderText = "Expired Date"  />
-                                </Columns>
-                                <EmptyDataTemplate>
-                                    <%=GetLabel("No Data To Display")%>
-                                </EmptyDataTemplate>
-                            </asp:GridView>
-                        </asp:Panel>
-                        <div style="width:100%;text-align:center">
-                            <span class="lblLink" id="lblPopupAddData" style=" text-align:center"><%= GetLabel("Add Data")%></span>
-                        </div>
-                    </dx:PanelContent>
-                </PanelCollection>
-            </dxcp:ASPxCallbackPanel>
-            <div class="imgLoadingGrdView" id="containerImgLoadingView">
-                <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
-            </div>
-            <div class="containerPaging">
-                <div class="wrapperPaging">
-                    <div id="paging">
-                    </div>
-                </div>
-            </div>
-        </td>
-    </tr>
-    <dxcp:ASPxCallbackPanel ID="cbpPopupProcess" runat="server" Width="100%" ClientInstanceName="cbpPopupProcess"
-        ShowLoadingPanel="false" OnCallback="cbpPopupProcess_Callback">
-        <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpPopupProcesEndCallback(s); }" />
+            </fieldset>
+        </div>
+    </div>
+    <dxcp:ASPxCallbackPanel ID="cbpViewPopup" runat="server" Width="100%" ClientInstanceName="cbpViewPopup"
+        ShowLoadingPanel="false" OnCallback="cbpViewPopup_Callback">
+        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+            EndCallback="function(s,e) { onCbpViewPopupEndCallback(s); }" />
+        <PanelCollection>
+            <dx:PanelContent ID="PanelContent1" runat="server">
+                <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                    <Columns>
+                        <asp:BoundField DataField="BatchNumber" HeaderText="No. Batch" HeaderStyle-Width="100px" />
+                        <asp:BoundField DataField="ExpiredDateInString" HeaderText="Tanggal Expired" />
+                        <asp:BoundField DataField="Quantity" HeaderText="Jumlah" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="50px" />
+                        <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
+                            <ItemTemplate>
+                                <div style='float:right;' class="divDetailDelete"></div>
+                                <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                <input type="hidden" value="<%#Eval("BatchNumber") %>" bindingfield="BatchNumber" />
+                                <input type="hidden" value="<%#Eval("ExpiredDateInDatePickerFormat") %>" bindingfield="ExpiredDateInDatePickerFormat" />
+                                <input type="hidden" value="<%#Eval("Quantity") %>" bindingfield="Quantity" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                    <EmptyDataTemplate>
+                        <%=GetLabel("No Data To Display")%>
+                    </EmptyDataTemplate>
+                </asp:GridView>
+            </dx:PanelContent>
+        </PanelCollection>
     </dxcp:ASPxCallbackPanel>
-</table>
+    <div class="containerPaging">
+        <div class="divInformationNumEntries" id="informationNumEntriesPopup"></div>
+        <div class="wrapperPaging">
+            <div id="pagingPopup"></div>
+        </div>
+    </div> 
+    <dxcp:ASPxCallbackPanel ID="cbpProcessPopup" runat="server" Width="100%" ClientInstanceName="cbpProcessPopup"
+        ShowLoadingPanel="false" OnCallback="cbpProcessPopup_Callback">
+        <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesPopupEndCallback(s); }" />
+    </dxcp:ASPxCallbackPanel>
+</div>

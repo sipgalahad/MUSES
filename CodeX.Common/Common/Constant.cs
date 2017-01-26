@@ -127,6 +127,7 @@ namespace CodeX.Common
             public const string EMPLOYEE_OCCUPATION = "X193";
             public const string DEPARTMENT = "X194";
             public const string EMPLOYEE_OCCUPATION_LEVEL = "X195";
+            public const string EMPLOYEE_TYPE = "X196";
             public const string PREFIX_TYPE = "X302";
             public const string BANK_TRANSACTION_TYPE = "X305";
             public const string CLIENT_TYPE = "X306";
@@ -135,6 +136,7 @@ namespace CodeX.Common
             public const string PURCHASE_METHOD = "X309";
             public const string REORDER_TYPE = "X310";
             public const string DISTRIBUTION_TYPE = "X311";
+            public const string SUPPLIER_PAYMENT_FEE_TYPE = "X312";
             public const string RENUMERATION_COMP_TYPE = "X314";
             public const string POSITION_LEVEL = "X315";
             public const string POSITION_TYPE = "X316";
@@ -184,6 +186,12 @@ namespace CodeX.Common
             public const string MONTHLY = "X330^001";
             public const string YEARLY = "X330^002";
          
+        }
+
+        public static class CheckCountType
+        {
+            public const string CYCLE_COUNT = "X177^001";
+            public const string CYCLE_RECOUNT = "X177^002";
         }
 
         public static class Attendance 

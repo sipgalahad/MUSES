@@ -73,8 +73,17 @@
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
                     showLoadingPanel();
                     var id = $('#<%=hdnPurchaseInvoiceID.ClientID %>').val() + '|' + cboItemType.GetValue() + '|' + cboPurchaseType.GetValue();
-                    var url = ResolveUrl('~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCtl.ascx');
+                    var url = ResolveUrl('~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCtl.ascx');
                     openUserControlPopup(url, id, 'Pilih Penerimaan Pembelian', 1000, 600);
+                }
+            });
+
+            $('#divCopyPurchaseReturn').click(function () {
+                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                    showLoadingPanel();
+                    var id = $('#<%=hdnPurchaseInvoiceID.ClientID %>').val() + '|' + cboItemType.GetValue() + '|' + cboPurchaseType.GetValue();
+                    var url = ResolveUrl('~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessPurchaseReturnCtl.ascx');
+                    openUserControlPopup(url, id, 'Pilih Retur Pembelian', 1000, 600);
                 }
             });
 
@@ -175,7 +184,11 @@
             var entity = rowToObject($row);
             if (entity.PurchaseReceiveNo != "") {
                 var id = entity.ID + '|' + entity.PurchaseReceiveID;
-                var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessEditCtl.ascx");
+                var url = '';
+                if ($(this).attr('isalloweditpurchasereceive') == '1')
+                    url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessEditCtl.ascx");
+                else
+                    url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessEdit2Ctl.ascx");
                 openUserControlPopup(url, id, 'Ubah Penerimaan Pembelian', 1250, 600);
             }
             else {
@@ -264,7 +277,6 @@
         }
 
         function onAfterSaveRecordDtSuccess(PurchaseInvoiceID) {
-            var purchaseInvoiceNo;
             if ($('#<%=hdnPurchaseInvoiceID.ClientID %>').val() == '0') {
                 $('#<%=hdnPurchaseInvoiceID.ClientID %>').val(PurchaseInvoiceID);
                 var filterExpression = 'PurchaseInvoiceID = ' + PurchaseInvoiceID;
@@ -321,7 +333,7 @@
             var entity = rowToObject($tr);
             var id = entity.ID + '|' + entity.PurchaseReceiveID;
 
-            var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessDtCtl.ascx");
+            var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessDtCtl.ascx");
             openUserControlPopup(url, id, 'Detail Penerimaan Pembelian', 1250, 600);
         });
 
@@ -331,19 +343,43 @@
             var entity = rowToObject($tr);
             var id = entity.ID;
 
-            var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCreditNoteCtl.ascx");
-            openUserControlPopup(url, id, 'Nota Kredit', 700, 500);
+            if (entity.IsCreditNoteOnly == "True") {
+                var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCreditNoteCtl2.ascx");
+                openUserControlPopup(url, id, 'Nota Kredit', 700, 500);
+            }
+            else {
+                var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCreditNoteCtl.ascx");
+                openUserControlPopup(url, id, 'Nota Kredit', 1000, 500);
+            }
         });
 
+        function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
+            var purchaseInvoiceID = $('#<%=hdnPurchaseInvoiceID.ClientID %>').val();
+            var printStatus = $('#<%=hdnPrintStatus.ClientID %>').val();
+            if (printStatus == 'true') {
+                if (purchaseInvoiceID == '' || purchaseInvoiceID == '0') {
+                    errMessage.text = 'Please Set Transaction First!';
+                    return false;
+                }
+                else {
+                    filterExpression.text = "PurchaseInvoiceID = " + purchaseInvoiceID;
+                    return true;
+                }
+            }
+            else {
+                errMessage.text = "Data Doesn't Approved or Closed";
+                return false;
+            }
+        }
     </script>
     <input type="hidden" value="" id="hdnIsDiscountAppliedToAveragePrice" runat="server" />
     <input type="hidden" value="" id="hdnIsDiscountAppliedToUnitPrice" runat="server" />
-    <input type="hidden" value="" id="hdnPurchaseInvoiceID" runat="server" />
+    <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
+    <input type="hidden" id="hdnPurchaseInvoiceID" runat="server" value="0" />
     <input type="hidden" value="" id="hdnBusinessPartnerID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
     <input type="hidden" value="" id="hdnPPNPctg" runat="server" />
-    <input type="hidden" value="" id="Hidden1" runat="server" />
     <input type="hidden" value="" id="hdnStampPI" runat="server" />
     <input type="hidden" value="" id="hdnFinalDiscountPI" runat="server" />
     <input type="hidden" value="" id="hdnPPHPctg" runat="server" />
@@ -358,13 +394,13 @@
                 <td style="padding: 5px; vertical-align: top">
                     <table class="tblEntryContent" style="width: 100%">
                         <colgroup>
-                            <col style="width: 135px" />
+                            <col style="width: 175px" />
                             <col style="width: 150px" />
                             <col style="width: 135px" />
                             <col />
                         </colgroup>
                         <tr>
-                            <td class="tdLabel"><label id="lblPurchaseInvoiceNo" class="lblLink"><%=GetLabel("No. Invoice")%></label></td>
+                            <td class="tdLabel"><label id="lblPurchaseInvoiceNo" class="lblLink"><%=GetLabel("No. Tanda Terima Faktur")%></label></td>
                             <td><asp:TextBox ID="txtPurchaseInvoiceNo" Width="150px" ReadOnly="true" runat="server" /></td>
                         </tr>
                         <tr>
@@ -425,6 +461,7 @@
                     <div class="divTransactionEntry">
                         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Faktur Tanpa No. BPB")%></span>
                         <span id="divCopyPurchaseReceive" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Salin Penerimaan Pembelian")%></span>
+                        <span id="divCopyPurchaseReturn" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Salin Retur Pembelian")%></span>
                         <br />
                         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                             <fieldset id="fsTrx" style="margin: 0">
@@ -528,7 +565,7 @@
                                         <tr>
                                             <th class="keyField"></th>
                                             <th><%=GetLabel("No BPB") %></th>
-                                            <th style="width:80px"><%=GetLabel("No Faktur") %></th>
+                                            <th style="width:160px"><%=GetLabel("No Faktur") %></th>
                                             <th style="width:80px" class="thRight"><%=GetLabel("Jumlah") %></th>
                                             <th style="width:90px" class="thRight"><%=GetLabel("Diskon Final") %></th>
                                             <th style="width:80px" class="thRight"><%=GetLabel("PPN") %></th>
@@ -556,12 +593,12 @@
                                                     <td align="right"><%#Eval("ChargesAmount", "{0:N}")%></td>
                                                     <td align="right"><%#Eval("DownPaymentAmount", "{0:N}")%></td>
                                                     <td align="right"><img height="14" title="<%=GetLabel("Ada Nota Kredit Yang Belum Diproses") %>" src='<%= ResolveUrl("~/Libs/Images/Button/warning.png")%>' alt='' <%#Eval("IsHasCreditNote").ToString() == "True" && Convert.ToDecimal(Eval("CreditNoteAmount")) == 0 ? "" : "style='display:none'" %> />
-                                                        <%#Eval("CreditNoteAmount", "{0:N}")%>
+                                                        <label class="<%# Convert.ToDecimal(Eval("CreditNoteAmount").ToString()) != 0 ? "lblLink lblCreditNote" : ""%>"><%#Eval("CreditNoteAmount", "{0:N}")%></label>
                                                     </td>
                                                     <td align="right"><%#Eval("LineAmount", "{0:N}")%></td>
                                                     <td>
                                                         <div style='float:right;<%=IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailDelete"></div>
-                                                        <div style='float:right;margin-right:10px;<%=IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                                        <div style='float:right;margin-right:10px;<%#IsEditable().ToString() == "0" || Eval("IsCreditNoteOnly").ToString() == "True" ? "display:none" : "" %>' <%=IsAllowEditPurchaseReceive() ? "isalloweditpurchasereceive='1'" : "isalloweditpurchasereceive='0'" %> class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                                         <input type="hidden" bindingfield="PurchaseInvoiceID" value='<%# Eval("PurchaseInvoiceID")%>' />
                                                         <input type="hidden" bindingfield="PurchaseReceiveID" value='<%# Eval("PurchaseReceiveID")%>' />
                                                         <input type="hidden" bindingfield="PurchaseReceiveNo" value='<%# Eval("PurchaseReceiveNo")%>' />
@@ -579,6 +616,7 @@
                                                         <input type="hidden" bindingfield="StampAmount" value='<%# Eval("StampAmount")%>' />
                                                         <input type="hidden" bindingfield="ChargesAmount" value='<%# Eval("ChargesAmount")%>' />
                                                         <input type="hidden" bindingfield="CustomSubTotal" value='<%# Eval("LineAmount")%>' />
+                                                        <input type="hidden" bindingfield="IsCreditNoteOnly" value='<%# Eval("IsCreditNoteOnly")%>' />
                                                         <input type="hidden" bindingfield="ID" value='<%# Eval("ID")%>' />
                                                     </td>
                                                 </tr>

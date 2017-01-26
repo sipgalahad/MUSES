@@ -18,7 +18,9 @@
         var lastTransactionAmount = 0;
         var editedLineAmount = 0;
 
+        var isInit = false;
         function onLoad() {
+            isInit = true;
             if ($('#<%=hdnIsEditable.ClientID %>').val() == '1')
                 $('#divTransactionAdd').show();
             else
@@ -53,11 +55,16 @@
             });
 
             function onTxtSupplierChanged(value) {
-                var filterExpression = getSupplierFilterExpression() + " AND BusinessPartnerCode = '" + value + "'";
-                Methods.getObject('GetBusinessPartnersList', filterExpression, function (result) {
+                var filterExpression = "BusinessPartnerCode = '" + value + "'";
+                Methods.getObject('GetvSupplierList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnSupplierID.ClientID %>').val(result.BusinessPartnerID);
                         $('#<%=txtSupplierName.ClientID %>').val(result.BusinessPartnerName);
+                        $('#<%=hdnIsLineAmountRounded.ClientID %>').val(result.IsLineAmountRounded ? '1' : '0');
+                        $('#<%=hdnLineAmountRoundedFormat.ClientID %>').val(result.LineAmountRoundedFormat);
+                        $('#<%=hdnIsTotalAmountRounded.ClientID %>').val(result.IsTotalAmountRounded ? '1' : '0');
+                        $('#<%=hdnTotalAmountRoundedFormat.ClientID %>').val(result.TotalAmountRoundedFormat);
+
                         cboTerm.SetValue(result.TermID);
                     }
                     else {
@@ -149,7 +156,7 @@
 
             //#region Item Group
             function onGetItemGroupFilterExpression() {
-                var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+                var filterExpression = "<%=OnGetFilterExpressionItemGroup() %>";
                 return filterExpression;
             }
 
@@ -187,9 +194,9 @@
                 var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
                 var receiveID = $('#<%=hdnPRID.ClientID %>').val();
                 if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
-                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
-                if (receiveID != '')
-                    filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM PurchaseReceiveDt WHERE PurchaseReceiveID = " + receiveID + ")";
+                    filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath LIKE '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
+                //if (receiveID != '')
+                //    filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM PurchaseReceiveDt WHERE PurchaseReceiveID = " + receiveID + ")";
                 return filterExpression;
             }
 
@@ -215,35 +222,47 @@
                         $('#<%=hdnItemGroupID.ClientID %>').val(result.ItemGroupID);
                         $('#<%=txtItemGroupCode.ClientID %>').val(result.ItemGroupCode);
                         $('#<%=txtItemGroupName.ClientID %>').val(result.ItemGroupName1);
-                        Methods.getItemMasterPurchase(result.ItemID, $('#<%=hdnSupplierID.ClientID %>').val(), function (result2) {
-                            if (result2 != null) {
-                                $('#<%=hdnItemGroupID.ClientID %>').val(result2.ItemGroupID);
-                                $('#<%=txtItemGroupCode.ClientID %>').val(result2.ItemGroupCode);
-                                $('#<%=txtItemGroupName.ClientID %>').val(result2.ItemGroupName1);
-                                $('#<%=txtSupplierItemCode.ClientID %>').val(result2.SupplierItemCode);
-                                $('#<%=txtSupplierItemName.ClientID %>').val(result2.SupplierItemName);
-                                $('#<%=txtDiscountPercentage1.ClientID %>').val(result2.Discount);
-                                $('#<%=hdnUnitPrice.ClientID %>').val(result2.Price).trigger('changeValue');
-                                $('#<%=hdnGCBaseUnit.ClientID %>').val(result2.ItemUnit);
-                                $('#<%=hdnGCItemUnit.ClientID %>').val(result2.PurchaseUnit);
-                                $('#<%=hdnConversionFactor.ClientID %>').val(result2.ConversionFactor);
 
-                                var qty = parseFloat($('#<%=txtQuantity.ClientID %>').val());
-                                var discountAmount = qty * result2.Price * result2.Discount / 100;
-                                $('#<%=txtDiscountAmount1.ClientID %>').val(discountAmount).trigger('changeValue');
-                                $('#<%=txtDiscountPercentage2.ClientID %>').val('0');
-                                $('#<%=txtDiscountAmount2.ClientID %>').val('0').trigger('changeValue');
-                            }
-                            else {
-                                $('#<%=txtSupplierItemCode.ClientID %>').val('');
-                                $('#<%=txtSupplierItemName.ClientID %>').val('');
-                                $('#<%=txtDiscountPercentage1.ClientID %>').val('0');
-                                $('#<%=txtDiscountAmount1.ClientID %>').val('0').trigger('changeValue');
-                                $('#<%=txtDiscountPercentage2.ClientID %>').val('0');
-                                $('#<%=txtDiscountAmount2.ClientID %>').val('0').trigger('changeValue');
-                                $('#<%=hdnUnitPrice.ClientID %>').val('0').trigger('changeValue');
-                            }
-                        });
+                        if (!$('#<%=chkIsBonus.ClientID %>').is(':checked')) {
+                            Methods.getItemMasterPurchase(result.ItemID, $('#<%=hdnSupplierID.ClientID %>').val(), function (result2) {
+                                if (result2 != null) {
+                                    $('#<%=hdnItemGroupID.ClientID %>').val(result2.ItemGroupID);
+                                    $('#<%=txtItemGroupCode.ClientID %>').val(result2.ItemGroupCode);
+                                    $('#<%=txtItemGroupName.ClientID %>').val(result2.ItemGroupName1);
+                                    $('#<%=txtSupplierItemCode.ClientID %>').val(result2.SupplierItemCode);
+                                    $('#<%=txtSupplierItemName.ClientID %>').val(result2.SupplierItemName);
+                                    $('#<%=txtDiscountPercentage1.ClientID %>').val(result2.Discount);
+                                    $('#<%=hdnUnitPrice.ClientID %>').val(result2.Price).trigger('changeValue');
+                                    $('#<%=hdnGCBaseUnit.ClientID %>').val(result2.ItemUnit);
+                                    $('#<%=hdnGCItemUnit.ClientID %>').val(result2.PurchaseUnit);
+                                    $('#<%=hdnConversionFactor.ClientID %>').val(result2.ConversionFactor);
+
+                                    var qty = parseFloat($('#<%=txtQuantity.ClientID %>').val());
+                                    var discountAmount = qty * result2.Price * result2.Discount / 100;
+                                    $('#<%=txtDiscountAmount1.ClientID %>').val(discountAmount).trigger('changeValue');
+                                    $('#<%=txtDiscountPercentage2.ClientID %>').val('0');
+                                    $('#<%=txtDiscountAmount2.ClientID %>').val('0').trigger('changeValue');
+                                }
+                                else {
+                                    $('#<%=txtSupplierItemCode.ClientID %>').val('');
+                                    $('#<%=txtSupplierItemName.ClientID %>').val('');
+                                    $('#<%=txtDiscountPercentage1.ClientID %>').val('0');
+                                    $('#<%=txtDiscountAmount1.ClientID %>').val('0').trigger('changeValue');
+                                    $('#<%=txtDiscountPercentage2.ClientID %>').val('0');
+                                    $('#<%=txtDiscountAmount2.ClientID %>').val('0').trigger('changeValue');
+                                    $('#<%=hdnUnitPrice.ClientID %>').val('0').trigger('changeValue');
+                                }
+                            });
+                        }
+                        else {
+                            $('#<%=txtSupplierItemCode.ClientID %>').val('');
+                            $('#<%=txtSupplierItemName.ClientID %>').val('');
+                            $('#<%=txtDiscountPercentage1.ClientID %>').val('0');
+                            $('#<%=txtDiscountAmount1.ClientID %>').val('0').trigger('changeValue');
+                            $('#<%=txtDiscountPercentage2.ClientID %>').val('0');
+                            $('#<%=txtDiscountAmount2.ClientID %>').val('0').trigger('changeValue');
+                            $('#<%=hdnUnitPrice.ClientID %>').val('0').trigger('changeValue');
+                        }
                         cboItemUnit.PerformCallback();
                     }
                     else {
@@ -253,6 +272,56 @@
                         $('#<%=hdnItemGroupID.ClientID %>').val('');
                         $('#<%=txtItemGroupCode.ClientID %>').val('');
                         $('#<%=txtItemGroupName.ClientID %>').val('');
+                    }
+                });
+            }
+            //#endregion
+
+            //#region Purchase Order No
+            function onGetPurchaseOrderFilterExpression() {
+                if ($('#<%=hdnSiteServiceUnitID.ClientID %>').val() != "" && $('#<%=hdnSiteServiceUnitID.ClientID %>').val() != "0") {
+                    var filterExpression = "<%=OnGetPurchaseOrderFilterExpression() %>";
+                    filterExpression += " AND ToSiteServiceUnitID = " + $('#<%=hdnSiteServiceUnitID.ClientID %>').val();
+                    if ($('#<%=hdnSupplierID.ClientID %>').val() != "" && $('#<%=hdnSupplierID.ClientID %>').val() != "0")
+                        filterExpression += " AND BusinessPartnerID = " + $('#<%=hdnSupplierID.ClientID %>').val();
+                    return filterExpression;
+                }
+                return "1 = 0";
+            }
+
+            $('#<%=lblPurchaseOrderNo.ClientID %>.lblLink').click(function () {
+                openSearchDialog('purchaseorderhd', onGetPurchaseOrderFilterExpression(), function (value) {
+                    $('#<%=txtPurchaseOrderNo.ClientID %>').val(value);
+                    onTxtPurchaseOrderNoChanged(value);
+                });
+            });
+
+            $('#<%=txtPurchaseOrderNo.ClientID %>').change(function () {
+                onTxtPurchaseOrderNoChanged($(this).val());
+            });
+
+            function onTxtPurchaseOrderNoChanged(value) {
+                var filterExpression = onGetPurchaseOrderFilterExpression() + " AND PurchaseOrderNo = '" + value + "'";
+                Methods.getObject('GetvPurchaseOrderHdList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnPurchaseOrderID.ClientID %>').val(result.PurchaseOrderID);
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
+                        $('#<%=txtServiceUnitCode.ClientID %>').val(result.ServiceUnitCode);
+                        $('#<%=txtServiceUnitCode.ClientID %>').val(result.ServiceUnitName);
+                        $('#<%=chkPPN.ClientID %>').prop('checked', result.IsIncludeVAT);
+                        if ($('#<%=txtSupplierCode.ClientID %>').val() == '') {
+                            $('#<%=hdnSupplierID.ClientID %>').val(result.BusinessPartnerID);
+                            $('#<%=txtSupplierCode.ClientID %>').val(result.BusinessPartnerCode);
+                            $('#<%=txtSupplierName.ClientID %>').val(result.BusinessPartnerName);
+                            $('#<%=hdnIsLineAmountRounded.ClientID %>').val(result.IsLineAmountRounded ? '1' : '0');
+                            $('#<%=hdnLineAmountRoundedFormat.ClientID %>').val(result.LineAmountRoundedFormat);
+                            $('#<%=hdnIsTotalAmountRounded.ClientID %>').val(result.IsTotalAmountRounded ? '1' : '0');
+                            $('#<%=hdnTotalAmountRoundedFormat.ClientID %>').val(result.TotalAmountRoundedFormat);
+                            cboTerm.SetValue(result.TermID);
+                        }
+                    }
+                    else {
+                        $('#<%=hdnPurchaseOrderID.ClientID %>').val('0');
                     }
                 });
             }
@@ -280,6 +349,32 @@
             }
             //#endregion
 
+            $('#<%=chkIsBonus.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#<%=txtPrice.ClientID %>').val('0');
+                    $('#<%=txtDiscountPercentage1.ClientID %>').val('0');
+                    $('#<%=txtDiscountAmount1.ClientID %>').val('0').trigger('changeValue');
+                    $('#<%=txtDiscountPercentage2.ClientID %>').val('0');
+                    $('#<%=txtDiscountAmount2.ClientID %>').val('0').trigger('changeValue');
+                    $('#<%=txtLineAmount.ClientID %>').val('0').trigger('changeValue');
+
+                    $('#<%=txtPrice.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtDiscountPercentage1.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtDiscountAmount1.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtDiscountPercentage2.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtDiscountAmount2.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtLineAmount.ClientID %>').attr('readonly', 'readonly');
+                }
+                else {
+                    $('#<%=txtPrice.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtDiscountPercentage1.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtDiscountAmount1.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtDiscountPercentage2.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtDiscountAmount2.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtLineAmount.ClientID %>').removeAttr('readonly');
+                }
+            });
+
             $('#divTransactionAdd').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
                     $('#<%=txtQuantity.ClientID %>').val('1.00');
@@ -301,6 +396,7 @@
                     $('#<%=hdnUnitPrice.ClientID %>').val('0');
                     $('#<%=txtBaseUnit.ClientID %>').val('');
                     $('#<%=txtPrice.ClientID %>').val('0');
+                    $('#<%=hdnConversionFactor.ClientID %>').val('1');
                     $('#<%=txtDiscountPercentage1.ClientID %>').val('0');
                     $('#<%=txtDiscountAmount1.ClientID %>').val('0').trigger('changeValue');
                     $('#<%=txtDiscountPercentage2.ClientID %>').val('0');
@@ -317,13 +413,14 @@
                     cboItemUnit.SetValue('');
                     //cboCurrency.SetEnabled(false);
                     cboTerm.SetEnabled(false);
+                    $('#<%=chkIsBonus.ClientID %>').change();
                     $('#<%=txtConversion.ClientID %>').val('');
                     $('#entryDetailContainer').show();
                 }
             });
 
             $('#<%=txtQuantity.ClientID %>').change(function () {
-                calculateSubTotal();
+                $('#<%=txtDiscountPercentage1.ClientID %>').change();
             });
 
             $('#<%=txtDiscountPercentage1.ClientID %>').change(function () {
@@ -376,9 +473,16 @@
                 calculateSubTotal();
             });
 
+            $('#<%=txtLineAmount.ClientID %>').change(function () {
+                $(this).blur();
+                var totalPurchase = lastTransactionAmount - editedLineAmount + parseFloat($(this).attr('hiddenVal'));
+                $('#<%=txtTransactionAmount.ClientID %>').val(totalPurchase).trigger('changeValue');
+                calculateTotal();
+            });
+
             $('#<%=txtPrice.ClientID %>').change(function () {
                 $(this).blur();
-                calculateSubTotal();
+                $('#<%=txtDiscountPercentage1.ClientID %>').change();
             });
 
             $('#<%=chkPPN.ClientID %>').change(function () {
@@ -411,7 +515,7 @@
 
             $('#btnCancel').click(function () {
                 var lineAmount = parseFloat($('#<%=txtLineAmount.ClientID %>').attr('hiddenVal'));
-                var transactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
+                var transactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal')); ;
                 transactionAmount = transactionAmount - lineAmount + editedLineAmount;
                 $('#<%=txtTransactionAmount.ClientID %>').val(transactionAmount).trigger('changeValue');
                 $('#entryDetailContainer').hide();
@@ -424,15 +528,6 @@
             });
 
             calculateTotal();
-
-            $('.lblExpiredDate').click(function () {
-                if ($('#<%=hdnIsEditable.ClientID %>').val() == '1'){
-                    $tr = $(this).closest('tr');
-                    var param = $tr.find('.keyField').html();
-                    var url = ResolveUrl("~/Program/WareHouse/PurchaseReceive/ExpiredDatePerItemCtl.ascx");
-                    openUserControlPopup(url, param, 'Expired Date Per Item', 550, 450);
-                }
-            });
 
             var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
             var rowCount = parseInt($('#<%=hdnRowCount.ClientID %>').val());
@@ -448,12 +543,15 @@
             else {
                 $('#btnPurchaseReceive').click(function () {
                     if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
-                        var param = $('#<%=hdnSiteServiceUnitID.ClientID %>').val() + '|' + $('#<%=hdnSupplierID.ClientID %>').val();
+                        var param = $('#<%=hdnSiteServiceUnitID.ClientID %>').val() + '|' + $('#<%=hdnSupplierID.ClientID %>').val() + '|' + $('#<%=hdnPurchaseOrderID.ClientID %>').val()
+                            + '|' + $('#<%=hdnIsLineAmountRounded.ClientID %>').val() + '|' + $('#<%=hdnLineAmountRoundedFormat.ClientID %>').val() + '|' + $('#<%=hdnIsTotalAmountRounded.ClientID %>').val() + '|' + $('#<%=hdnTotalAmountRoundedFormat.ClientID %>').val();
                         var url = ResolveUrl("~/Program/Warehouse/PurchaseReceive/PurchaseReceiveDetailCtl.ascx");
                         openUserControlPopup(url, param, 'Penerimaan Pembelian Detail', 1200, 550);
                     }
                 });
             }
+
+            isInit = false;
         }
 
         //#region edit and delete
@@ -478,6 +576,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.ID);
             $('#<%=txtOrderNo.ClientID %>').val(entity.PurchaseOrderNo);
             $('#<%=chkIsBonus.ClientID %>').prop('checked', (entity.IsBonusItem == 'True'));
+            $('#<%=chkIsBonus.ClientID %>').change();
             $('#<%=hdnItemID.ClientID %>').val(entity.ItemID);
             $('#<%=txtItemCode.ClientID %>').val(entity.ItemCode);
             $('#<%=txtItemName.ClientID %>').val(entity.ItemName1);
@@ -507,7 +606,7 @@
                 $('#lblItem').attr('class', 'lblNormal');
             }
             lastTransactionAmount = $('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal');
-            editedLineAmount = entity.LineAmount;
+            editedLineAmount = parseFloat(entity.LineAmount);
             cboItemUnit.PerformCallback();
             $('#entryDetailContainer').show();
         });
@@ -521,8 +620,11 @@
             var discount1 = parseFloat($('#<%=txtDiscountAmount1.ClientID %>').attr('hiddenVal'));
             var discount2 = parseFloat($('#<%=txtDiscountAmount2.ClientID %>').attr('hiddenVal'));
             var subTotal = totalBeforeDisc - discount1 - discount2;
+            if ($('#<%=hdnIsLineAmountRounded.ClientID %>').val() == '1') {
+                var format = parseFloat($('#<%=hdnLineAmountRoundedFormat.ClientID %>').val());
+                subTotal = Math.ceil(subTotal / format) * format;
+            }
             $('#<%=txtLineAmount.ClientID %>').val(subTotal).trigger('changeValue');
-
             var totalPurchase = lastTransactionAmount - editedLineAmount + subTotal;
             $('#<%=txtTransactionAmount.ClientID %>').val(totalPurchase).trigger('changeValue');
             calculateTotal();
@@ -549,7 +651,12 @@
             var DP = parseFloat($('#<%=txtDP.ClientID %>').attr('hiddenVal'));
             var Charge = parseFloat($('#<%=txtCharges.ClientID %>').attr('hiddenVal'));
             totalHarga = totalHarga - discountAmount - DP + Charge;
-            $('#<%=txtTotalNetTransactionAmount.ClientID %>').val(totalHarga).trigger('changeValue');
+            if ($('#<%=hdnIsTotalAmountRounded.ClientID %>').val() == '1') {
+                var format = parseFloat($('#<%=hdnTotalAmountRoundedFormat.ClientID %>').val());
+                totalHarga = Math.ceil(totalHarga / format) * format;
+            }
+            if (!isInit)
+                $('#<%=txtTotalNetTransactionAmount.ClientID %>').val(totalHarga).trigger('changeValue');
         }
 
         //#region Paging
@@ -608,6 +715,15 @@
             }
         }
 
+        $('.lblExpiredDate.lblLink').live('click', function () {
+            if ($('#<%=hdnIsEditable.ClientID %>').val() == '1') {
+                $tr = $(this).closest('tr');
+                var param = $tr.find('.keyField').html();
+                var url = ResolveUrl("~/Program/WareHouse/PurchaseReceive/ExpiredDatePerItemCtl.ascx");
+                openUserControlPopup(url, param, 'Expired Date Per Item', 550, 450);
+            }
+        });
+
         //#region cbo Item Unit
         function onCboItemUnitEndCallBack() {
             if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '')
@@ -654,8 +770,18 @@
 
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
             var purchaseReceiveID = $('#<%=hdnPRID.ClientID %>').val();
-            var printStatus = $('#<%=hdnPrintStatus.ClientID %>').val();
-            if (printStatus == 'true') {
+            var printStatus = $('#<%=hdnIsAllowPrintTemporary.ClientID %>').val();
+            var isAllowPrint = false;
+            var errMessageText = '';
+            if (code == 'IM-00020' || code == 'IM-00018') {
+                isAllowPrint = $('#<%=hdnIsAllowPrintTemporary.ClientID %>').val() == '1';
+                errMessageText = 'Data Belum Diapproved';
+            }
+            else {
+                isAllowPrint = $('#<%=hdnIsAllowPrintFinal.ClientID %>').val() == '1';
+                errMessageText = 'Data Belum Dikonfirmasi';
+            }
+            if (isAllowPrint) {
                 if (purchaseReceiveID == '' || purchaseReceiveID == '0') {
                     errMessage.text = 'Please Set Transaction First!';
                     return false;
@@ -665,24 +791,28 @@
                     return true;
                 }
             } else {
-                errMessage.text = "Data Doesn't Approved or Closed";
+                errMessage.text = errMessageText;
                 return false;
             }
         }
     </script>
-    <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
+    <input type="hidden" value="" id="hdnIsAllowPrintTemporary" runat="server" />
+    <input type="hidden" value="" id="hdnIsAllowPrintFinal" runat="server" />
     <input type="hidden" value="" id="hdnVATPercentage" runat="server" />
     <input type="hidden" value="" id="hdnPRID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
-    <input type="hidden" value="0" id="hdnNeedConfirmation" runat="server" />
-    <input type="hidden" value="0" id="hdnIsDiscountAppliedToAveragePrice" runat="server" />
     <input type="hidden" value="0" id="hdnIsDiscountAppliedToUnitPrice" runat="server" />
+    <input type="hidden" value="0" id="hdnIsAllowMultiPO" runat="server" />
     <input type="hidden" value="" id="hdnDefaultSiteServiceUnitID" runat="server" />
     <input type="hidden" value="" id="hdnDefaultServiceUnitCode" runat="server" />
     <input type="hidden" value="" id="hdnDefaultServiceUnitName" runat="server" />
     <input type="hidden" value="" id="hdnListSiteServiceUnitID" runat="server" />
+    <input type="hidden" value="" id="hdnIsLineAmountRounded" runat="server" />
+    <input type="hidden" value="" id="hdnLineAmountRoundedFormat" runat="server" />
+    <input type="hidden" value="" id="hdnIsTotalAmountRounded" runat="server" />
+    <input type="hidden" value="" id="hdnTotalAmountRoundedFormat" runat="server" />
     <div style="overflow-x: hidden;">
         <table class="tblContentArea">
             <colgroup>
@@ -797,6 +927,13 @@
                                         <td><asp:TextBox ID="txtLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
+                            </td>
+                        </tr>
+                        <tr id="trPurchaseOrder" runat="server">
+                            <td class="tdLabel"><label class="lblMandatory lblLink" id="lblPurchaseOrderNo" runat="server"><%=GetLabel("No. Pemesanan")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnPurchaseOrderID" runat="server" />
+                                <asp:TextBox ID="txtPurchaseOrderNo" Width="200px" ReadOnly="true" runat="server" />
                             </td>
                         </tr>
                         <tr style="display: none">
@@ -1009,7 +1146,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Total Harga")%></label></td>
-                                                    <td><asp:TextBox ID="txtLineAmount" Width="180px" ReadOnly="true" runat="server" CssClass="txtCurrency" /></td>
+                                                    <td><asp:TextBox ID="txtLineAmount" Width="180px" runat="server" CssClass="txtCurrency" /></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -1083,7 +1220,7 @@
                                                 HeaderStyle-Width="100px" DataFormatString="{0:N}" />
                                             <asp:TemplateField HeaderStyle-Width="90px">
                                                 <ItemTemplate>
-                                                    <label <%# IsEditable() == "1" ? "class='lblExpiredDate lblLink'":"class='lblExpiredDate lblLink lblDisabled'" %> ><%=GetLabel("Expired Date")%></label>
+                                                    <label <%# Eval("IsControlExpired").ToString() == "False" ? "style='display:none'":"" %> <%# IsEditable() == "1" ? "class='lblExpiredDate lblLink'":"class='lblExpiredDate lblLink lblDisabled'" %> ><%=GetLabel("Expired Date")%></label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="UserName" HeaderText="Penerima" HeaderStyle-Width="40px"/>
@@ -1217,7 +1354,7 @@
                                                 <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Total Nilai Penerimaan")%></label></td>
                                                 <td>&nbsp;</td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox ID="txtTotalNetTransactionAmount" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
+                                                <td><asp:TextBox ID="txtTotalNetTransactionAmount" CssClass="txtCurrency" Width="180px" runat="server" /></td>
                                             </tr>
                                         </table>
                                     </td>

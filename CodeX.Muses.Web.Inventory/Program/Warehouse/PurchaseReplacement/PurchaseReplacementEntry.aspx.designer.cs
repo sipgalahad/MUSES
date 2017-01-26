@@ -31,6 +31,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRecordFilterExpression;
         
         /// <summary>
+        /// hdnIsVATAppliedToAveragePrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsVATAppliedToAveragePrice;
+        
+        /// <summary>
         /// hdnPageCount control.
         /// </summary>
         /// <remarks>

@@ -8,9 +8,8 @@ CodeBehind="PurchaseReceiveApprovalList.aspx.cs" Inherits="CodeX.Muses.Web.Inven
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnPurchaseReceiveHdItem" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/list.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Item")%></div></li>
     <li id="btnPurchaseReceiveHdApprove" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Approve")%></div></li>
-    <li id="btnPurchaseReceiveHdDecline" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Decline")%></div></li>
+    <li id="btnPurchaseReceiveHdDecline" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/redo.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Decline")%></div></li>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
@@ -20,45 +19,18 @@ CodeBehind="PurchaseReceiveApprovalList.aspx.cs" Inherits="CodeX.Muses.Web.Inven
             var grd = new customGridView();
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 
-            $('#<%=btnPurchaseReceiveHdItem.ClientID %>').click(function () {
-                showLoadingPanel();
-                var id = $('#<%=hdnID.ClientID %>').val();
-                var url = ResolveUrl('~/Program/Warehouse/PurchaseReceive/Approval/PurchaseReceiveApprovalDetail.aspx?id=' + id);
-                document.location = url;
-            });
-
             $('#<%=btnPurchaseReceiveHdApprove.ClientID %>').click(function () {
-                if ($('.chkIsSelected input:checked').length < 1) {
-                    showToast('Warning', 'Please Select Purchase Request First');
-                }
-                else {
-                    var param = '';
-                    $('.chkIsSelected input:checked').each(function () {
-                        var purchaseOrderHdID = $(this).closest('tr').find('.keyField').html();
-                        if (param != '')
-                            param += ',';
-                        param += purchaseOrderHdID;
-                    });
-                    $('#<%=hdnParam.ClientID %>').val(param);
+                if ($('#<%=hdnID.ClientID %>').val() == ''')
+                    showToast('Warning', 'Silakan Pilih No Penerimaan Terlebih Dahulu');
+                else 
                     onCustomButtonClick('approve');
-                }
             });
 
             $('#<%=btnPurchaseReceiveHdDecline.ClientID %>').click(function () {
-                if ($('.chkIsSelected input:checked').length < 1) {
-                    showToast('Warning', 'Please Select Purchase Request First');
-                }
-                else {
-                    var param = '';
-                    $('.chkIsSelected input:checked').each(function () {
-                        var purchaseOrderHdID = $(this).closest('tr').find('.keyField').html();
-                        if (param != '')
-                            param += ',';
-                        param += purchaseOrderHdID;
-                    });
-                    $('#<%=hdnParam.ClientID %>').val(param);
+                if ($('#<%=hdnID.ClientID %>').val() == ''')
+                    showToast('Warning', 'Silakan Pilih No Penerimaan Terlebih Dahulu');
+                else 
                     onCustomButtonClick('decline');
-                }
             });
         });
 
@@ -95,8 +67,16 @@ CodeBehind="PurchaseReceiveApprovalList.aspx.cs" Inherits="CodeX.Muses.Web.Inven
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
+
+        $('.lnkPurchaseReceive a').live('click', function () {
+            $tr = $(this).closest('tr');
+            var param = $tr.find('.keyField').html();
+            var transactionStatus = $tr.find('.hdnGCTransactionStatus').val();
+            var url = ResolveUrl("~/Program/Warehouse/PurchaseReceive/Confirmation/PurchaseReceiveConfirmationDtCtl.ascx");
+            openUserControlPopup(url, param, 'Detil Penerimaan Pembelian', 1000, 600);
+        });
     </script>
-    <input type="hidden" value="" id="hdnParam" runat="server" />
+    <input type="hidden" value="" id="hdnIsDiscountAppliedToUnitPrice" runat="server" />
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <div style="position: relative;">
@@ -110,16 +90,12 @@ CodeBehind="PurchaseReceiveApprovalList.aspx.cs" Inherits="CodeX.Muses.Web.Inven
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="PurchaseReceiveID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
-                                    <ItemTemplate>
-                                        <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:BoundField DataField="PurchaseReceiveNo" HeaderText="No. Penerimaan" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="ReceivedDateInString" HeaderText="Tanggal Penerimaan" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
-                                <asp:BoundField DataField="SupplierName" HeaderText="Nama Supplier" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="300px" />
-                                <asp:BoundField DataField="PaymentDueDateInString" HeaderText="Tanggal Jatuh Tempo" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
-                                <asp:BoundField DataField="TransactionAmount" HeaderText="Jumlah Transaksi Kotor" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
+                                <asp:HyperLinkField HeaderText="No. Penerimaan" DataTextField="PurchaseReceiveNo" ItemStyle-CssClass="lnkPurchaseReceive" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="ReceivedDateInString" HeaderText="Tanggal Penerimaan" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="120px" />
+                                <asp:BoundField DataField="SupplierName" HeaderText="Nama Supplier" HeaderStyle-Width="250px" />
+                                <asp:BoundField DataField="ReferenceNo" HeaderText="No Faktur" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="PaymentDueDateInString" HeaderText="Tanggal Jatuh Tempo" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="180px" />
+                                <asp:BoundField DataField="TotalNetTransactionAmount" HeaderText="Jumlah Transaksi" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

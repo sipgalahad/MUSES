@@ -536,6 +536,7 @@ namespace CodeX.Common
                 public const string PERFORMANCE_INDICATOR = "CP010512";
                 public const string JOB_LEVEL_WORK_YEARS = "CP010513";
                 public const string JOB_LEVEL_PERFORMANCE_INDICATOR = "CP010514";
+                public const string EMPLOYEE_TYPE = "CP010515";
 
                 public const string HOLIDAY = "CP010901";
 
@@ -596,6 +597,7 @@ namespace CodeX.Common
 
                 public const string SITE_SERVICE_UNIT_PAGE = "CP99040000";
                 public const string SSU_LOCATION = "CP99040100";
+                public const string SSU_ITEM_LOGISTIC = "CP99040200";
             }
             #endregion
 
@@ -763,6 +765,9 @@ namespace CodeX.Common
                 public const string ITEM_DISTRIBUTION_CROSS_SITE = "IM050202";
                 public const string ITEM_DISTRIBUTION_CONFIRMED_CROSS_SITE = "IM050203";
 
+                public const string PURCHASE_BUDGET = "IM060100";
+                public const string PURCHASE_BUDGET_APPROVAL = "IM060200";
+
                 public const string ITEM_REQUEST_APPROVAL = "IM070101";
                 public const string ITEM_DISTRIBUTION_APPROVAL = "IM070102";
                 public const string ITEM_ADJUSTMENT_APPROVAL = "IM070103";
@@ -775,6 +780,7 @@ namespace CodeX.Common
 
                 public const string PURCHASE_REQUEST_APPROVAL = "IM070201";
                 public const string PURCHASE_ORDER_APPROVAL = "IM070202";
+                public const string DIRECT_PURCHASE_CONFIRMED = "IM070203";
 
                 public const string CONSIGNMENT_ORDER_APPROVAL = "IM070301";
                 public const string CONSIGNMENT_RECEIVE_CONFIRMED = "IM070302";
@@ -997,6 +1003,7 @@ namespace CodeX.Common
             public const string CONSIGNMENT_RETURN = "4215";
             public const string ITEM_REQUEST_CROSS_SITE = "4301";
             public const string ITEM_DISTRIBUTION_CROSS_SITE = "4302";
+            public const string PURCHASE_BUDGET = "4701";
 
             public const string AR_INVOICE_PROSPECTIVE_STUDENT = "5101";
             public const string AR_RECEIVE_PROSPECTIVE_STUDENT = "5102";
@@ -1060,8 +1067,12 @@ namespace CodeX.Common
             public const string RANGE_EXPIRED_DATE = "MSSIM0004";
             public const string IS_DISCOUNT_APPLIED_TO_AVERAGE_PRICE = "MSSIM0005";
             public const string IS_DISCOUNT_APPLIED_TO_UNIT_PRICE = "MSSIM0006";
-            public const string NON_MASTER_SUPPLIER = "MSSIM0007";
-            public const string NON_MASTER_ITEM = "MSSIM0008";
+            public const string IS_VAT_APPLIED_TO_AVERAGE_PRICE = "MSSIM0007";
+            public const string IS_PURCHASE_RECEIVE_ALLOW_MULTI_PURCHASE_ORDER = "MSSIM0008";
+            public const string IS_ALLOW_REOPEN_OUTSTANDING_PO = "MSSIM0009";
+
+            public const string NON_MASTER_SUPPLIER = "MSSFN0003";
+            public const string NON_MASTER_ITEM = "MSSFN0004";
         }
         #endregion
 

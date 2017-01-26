@@ -70,10 +70,11 @@
                                 <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                                     AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
-                                        <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:BoundField DataField="PurchaseRequestNo" HeaderText="No Permintaan" HeaderStyle-Width="180px" />
-                                        <asp:BoundField DataField="CustomPurchaseUnit" HeaderText="Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
-                                        <asp:BoundField DataField="CustomUnitPrice" HeaderText="Harga / Satuan" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" />
+                                        <asp:BoundField DataField="PurchaseOrderNo" HeaderText="No Pemesanan" HeaderStyle-Width="180px" />
+                                        <asp:BoundField DataField="TransactionStatus" HeaderText="Status PO" HeaderStyle-Width="120px" />
+                                        <asp:BoundField DataField="CustomPurchaseUnit" HeaderText="Diminta" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
+                                        <asp:BoundField DataField="CustomReceived" HeaderText="Diterima" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                         <asp:BoundField DataField="CustomConversion" HeaderText="Konversi" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" />
                                         <asp:BoundField DataField="CustomPurchaseRequest" HeaderText="Total Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                     </Columns>

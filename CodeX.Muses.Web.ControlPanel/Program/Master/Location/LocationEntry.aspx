@@ -89,6 +89,34 @@
                 });
             }
             //#endregion
+            //#region Site Service Unit
+            $('#lblSiteServiceUnit.lblLink').click(function () {
+                var filterExpression = "<%=OnGetSiteServiceUnitFilterExpression() %>";
+                openSearchDialog('serviceunitpersite', filterExpression, function (value) {
+                    $('#<%=txtServiceUnitCode.ClientID %>').val(value);
+                    onTxtServiceUnitCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtServiceUnitCode.ClientID %>').change(function () {
+                onTxtServiceUnitCodeChanged($(this).val());
+            });
+
+            function onTxtServiceUnitCodeChanged(value) {
+                var filterExpression = "ServiceUnitCode = '" + value + "' AND <%=OnGetSiteServiceUnitFilterExpression() %>";
+                Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
+                        $('#<%=txtServiceUnitName.ClientID %>').val(result.SiteServiceUnitName);
+                    }
+                    else {
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val('');
+                        $('#<%=txtServiceUnitCode.ClientID %>').val('');
+                        $('#<%=txtServiceUnitName.ClientID %>').val('');
+                    }
+                });
+            }
+            //#endregion
         }
 
         function onBeforeGoToListPage(mapForm) {
@@ -180,6 +208,24 @@
                     <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Base Site")%></label></td>
                         <td><dxe:ASPxComboBox ID="cboSite" ClientInstanceName="cboSite" Width="120px" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblLink" id="lblSiteServiceUnit"><%=GetLabel("Base Unit Pelayanan")%></label></td>
+                        <td>
+                            <input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />
+                            <table style="width:100%" cellpadding="0" cellspacing="0">
+                                <colgroup>
+                                    <col style="width:30%"/>
+                                    <col style="width:3px"/>
+                                    <col/>
+                                </colgroup>
+                                <tr>
+                                    <td><asp:TextBox ID="txtServiceUnitCode" Width="100%" runat="server" /></td>
+                                    <td>&nbsp;</td>
+                                    <td><asp:TextBox ID="txtServiceUnitName" Width="100%" runat="server" /></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </td>

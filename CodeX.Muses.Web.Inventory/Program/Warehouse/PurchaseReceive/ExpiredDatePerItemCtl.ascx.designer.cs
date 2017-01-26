@@ -7,10 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.Inventory.Program {
+namespace CodeX.Muses.Web.PatientManagement.Program {
     
     
     public partial class ExpiredDatePerItemCtl {
+        
+        /// <summary>
+        /// txtHeaderText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtHeaderText;
         
         /// <summary>
         /// hdnID control.
@@ -22,13 +31,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// hdnBatchNumber control.
+        /// hdnIsAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnBatchNumber;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsAdd;
         
         /// <summary>
         /// txtBatchNumber control.
@@ -58,13 +67,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtQuantity;
         
         /// <summary>
-        /// cbpPopupView control.
+        /// cbpViewPopup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopupView;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopup;
         
         /// <summary>
         /// PanelContent1 control.
@@ -76,15 +85,6 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// pnlView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
-        
-        /// <summary>
         /// grdView control.
         /// </summary>
         /// <remarks>
@@ -94,12 +94,12 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.GridView grdView;
         
         /// <summary>
-        /// cbpPopupProcess control.
+        /// cbpProcessPopup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopupProcess;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcessPopup;
     }
 }

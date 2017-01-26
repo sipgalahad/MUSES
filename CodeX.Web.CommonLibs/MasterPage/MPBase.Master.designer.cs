@@ -22,6 +22,24 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         protected global::System.Web.UI.HtmlControls.HtmlHead Head1;
         
         /// <summary>
+        /// cssCodex control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlLink cssCodex;
+        
+        /// <summary>
+        /// cssJquery control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlLink cssJquery;
+        
+        /// <summary>
         /// myForm control.
         /// </summary>
         /// <remarks>
@@ -37,7 +55,7 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CommonLibs.Controls.GeneralCtl ctlGeneral;
+        protected global::System.Web.UI.UserControl ctlGeneral;
         
         /// <summary>
         /// plhMPBase control.
@@ -47,5 +65,14 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder plhMPBase;
+        
+        /// <summary>
+        /// divStyle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divStyle;
     }
 }

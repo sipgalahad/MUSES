@@ -22,12 +22,12 @@ namespace CodeX.Web.Common.UI
         {
             get
             {
-                if (Session["__ControlEntryList"] == null)
-                    Session["__ControlEntryList"] = new Hashtable();
+                if (ViewState["__ControlEntryList"] == null)
+                    ViewState["__ControlEntryList"] = new Hashtable();
 
-                return (Hashtable)Session["__ControlEntryList"];
+                return (Hashtable)ViewState["__ControlEntryList"];
             }
-            set { Session["__ControlEntryList"] = value; }
+            set { ViewState["__ControlEntryList"] = value; }
         }
         #endregion
 
@@ -164,6 +164,18 @@ namespace CodeX.Web.Common.UI
                 result += string.Format("fail|{0}", errMessage);
         }
 
+        public void OnBtnVoidClick(ref string result, string GCVoidReason, string VoidReasonOther)
+        {
+            result = "void|";
+            string errMessage = "";
+            if (OnVoidRecord(ref errMessage))
+                result += "success";
+            else if (OnVoidRecord(ref errMessage, GCVoidReason, VoidReasonOther))
+                result += "success";
+            else
+                result += string.Format("fail|{0}", errMessage);
+        }
+
         public void OnBtnProposeClick(ref string result)
         {
             result = "propose|";
@@ -186,7 +198,7 @@ namespace CodeX.Web.Common.UI
 
         public void OnBtnReopenClick(ref string result)
         {
-            result = "approve|";
+            result = "reopen|";
             string errMessage = "";
             if (OnReopenRecord(ref errMessage))
                 result += "success";
@@ -346,6 +358,12 @@ namespace CodeX.Web.Common.UI
                     tac.Value = varValue.Code;
                     tac.Text = varValue.Value;
                 }
+                else
+                {
+                    CodeXAutoCompleteTextBox tac = ctrl as CodeXAutoCompleteTextBox;
+                    tac.Value = "";
+                    tac.Text = "";
+                }
             }
             else if (ctrl is DropDownList)
                 Helper.SetDropDownListValue((DropDownList)ctrl, value.ToString());
@@ -363,6 +381,10 @@ namespace CodeX.Web.Common.UI
         #endregion
 
         #region Virtual Function
+        public virtual string GetCustomLang()
+        {
+            return "";
+        }
         public virtual string OnGetMenuCaption()
         {
             return "";
@@ -412,6 +434,11 @@ namespace CodeX.Web.Common.UI
         {
         }
 
+        public virtual bool IsVoidNeedReason(ref string voidReasonParentID)
+        {
+            return false;
+        }
+
         protected virtual bool OnBeforeSaveAddRecord(ref string errMessage)
         {
             return true;
@@ -431,6 +458,10 @@ namespace CodeX.Web.Common.UI
             return false;
         }
         protected virtual bool OnVoidRecord(ref string errMessage)
+        {
+            return false;
+        }
+        protected virtual bool OnVoidRecord(ref string errMessage, string GCVoidReason, string VoidReasonOther)
         {
             return false;
         }
@@ -454,13 +485,11 @@ namespace CodeX.Web.Common.UI
         {
             return false;
         }
-
-        public virtual Control OnGetExportControl(ref bool isShowTitle, ref string fileName)
+        public virtual Control OnGetExportControl()
         {
             return null;
         }
-
-        public virtual Control OnGetExportControl()
+        public virtual Control OnGetExportControl(ref bool isShowTitle, ref string fileName)
         {
             return null;
         }

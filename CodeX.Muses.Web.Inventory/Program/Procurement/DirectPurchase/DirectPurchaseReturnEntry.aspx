@@ -53,7 +53,7 @@
                 onLoadObject(value);
             }
             //#endregion
-            
+
             //#region Direct Purchase No
             function getDirectPurchaseFilterExpression() {
                 var filterExpression = ""; ;
@@ -171,7 +171,7 @@
             $('#<%=txtFinalDiscountAmount.ClientID %>').change(function () {
                 $(this).blur();
                 calculateTotal();
-            });           
+            });
 
             $('#btnCancel').click(function () {
                 $('#entryDetailContainer').hide();
@@ -247,7 +247,7 @@
             }
 
             lastTransactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
-            editedLineAmount = entity.LineAmount;
+            editedLineAmount = parseFloat(entity.LineAmount);
             $('#entryDetailContainer').show();
         });
         //#endregion
@@ -352,21 +352,21 @@
             var isEnabled = false;
             if (cboReturnType.GetValue() != null
                 && $('#<%=txtDirectPurchaseNo.ClientID %>').val() != ''
-                && ($('#<%=hdnGCTransactionStatus.ClientID %>').val() != 'X121^003' 
+                && ($('#<%=hdnGCTransactionStatus.ClientID %>').val() != 'X121^003'
                 && $('#<%=hdnGCTransactionStatus.ClientID %>').val() != 'X121^999'))
                 isEnabled = true;
 
-            if (!isEnabled) 
+            if (!isEnabled)
                 $('#btnSalinItem').attr('enabled', 'false');
-            else 
+            else
                 $('#btnSalinItem').removeAttr('enabled');
         }
 
         //#region cboItemUnit
         function onCboItemUnitEndCallBack() {
-            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '') 
+            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '')
                 cboItemUnit.SetValue($('#<%=hdnGCBaseUnit.ClientID %>').val());
-            else 
+            else
                 cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val());
             onCboItemUnitChanged();
         }
@@ -477,7 +477,7 @@
                             <col style="width: 30%" />
                         </colgroup>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory" runat="server"><%=GetLabel("Bagian")%></label>
+                            <td class="tdLabel"><label id="Label1" class="lblMandatory" runat="server"><%=GetLabel("Bagian")%></label>
                             </td>
                             <td>
                                 <input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />

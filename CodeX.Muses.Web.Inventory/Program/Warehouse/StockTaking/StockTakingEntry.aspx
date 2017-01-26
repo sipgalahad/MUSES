@@ -16,7 +16,25 @@
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#<%=hdnUploadedFile1.ClientID %>').val(e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function onLoad() {
+            $('#btnUploadFile').click(function () {
+                cbpProcess.PerformCallback('upload');
+            });
+
+            $('#<%=FileUpload1.ClientID %>').change(function () {
+                readURL(this);
+            });	
+
             if ($('#<%=txtFormDate.ClientID %>').attr('readonly') == null) {
                 setDatePicker('<%=txtFormDate.ClientID %>');
                 $('#<%=txtFormDate.ClientID %>').datepicker('option', 'minDate', '0');
@@ -68,12 +86,45 @@
                         $('#<%=txtLocationCode.ClientID %>').val('');
                         $('#<%=txtLocationName.ClientID %>').val('');
                     }
+                    $('#<%=hdnRackID.ClientID %>').val('');
+                    $('#<%=txtRackName.ClientID %>').val('');
+                });
+            }
+            //#endregion
+
+            //#region Rack
+            function getRackFilterExpression() {
+                var filterExpression = "1 = 0";
+                if ($('#<%=hdnLocationID.ClientID %>').val() != '')
+                    filterExpression = "LocationID = " + $('#<%=hdnLocationID.ClientID %>').val() + " AND IsDeleted = 0";
+                return filterExpression;
+            }
+
+            $('#<%=lblRack.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('locationrack', getRackFilterExpression(), function (value) {
+                    $('#<%=hdnRackID.ClientID %>').val(value);
+                    onTxtRackIDChanged(value);
+                });
+            });
+
+            function onTxtRackIDChanged(value) {
+                var filterExpression = getRackFilterExpression() + " AND ID = '" + value + "'";
+                Methods.getObject('GetLocationRackList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnRackID.ClientID %>').val(result.ID);
+                        $('#<%=txtRackName.ClientID %>').val(result.RackName);
+                    }
+                    else {
+                        $('#<%=hdnRackID.ClientID %>').val('');
+                        $('#<%=txtRackName.ClientID %>').val('');
+                    }
                 });
             }
             //#endregion
 
             $('#<%=btnStartCalculate.ClientID %>').click(function () {
-                cbpProcess.PerformCallback('calculate');
+                if ($(this).attr('enabled') != 'false')
+                    cbpProcess.PerformCallback('calculate');
             });
 
             $('.txtCurrency').each(function () {
@@ -100,6 +151,12 @@
                     $('#<%=btnStartCalculate.ClientID %>').attr('enabled', 'false');
                     cbpView.PerformCallback('refresh');
                 }
+            }
+            else if (param[0] == 'upload') {
+                if (param[1] == 'fail')
+                    showToast('Import Gagal', 'Error Message : ' + param[2]);
+                else 
+                    cbpView.PerformCallback('refresh');
             }
             else {
                 var result = s.cpResult.split('|');
@@ -180,7 +237,7 @@
                 var adjustment = $tr.find('.txtAdjustment').val();
                 $txtQuantityEND = $tr.find('.txtQuantityEND');
                 var quantityEND = $txtQuantityEND.attr('hiddenVal');
-                if (quantityEND > 0) {
+                if (quantityEND > -1) {
                     $txtQuantityEND.removeClass('error');
                     var idx = $tr.find('.hdnItemIndex').val();
                     cboCheckCountType = eval('cboCheckCountType' + idx);
@@ -294,6 +351,13 @@
                             </table>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal lblLink" runat="server" id="lblRack"><%=GetLabel("Rak")%></label></td>
+                        <td>
+                            <input type="hidden" id="hdnRackID" value="" runat="server" />
+                            <asp:TextBox ID="txtRackName" ReadOnly="true" Width="100%" runat="server" />
+                        </td>
+                    </tr>
                 </table>
             </td>
             <td valign="top">
@@ -317,6 +381,15 @@
                                 </IntellisenseHints>
                             </qis:QISIntellisenseTextBox>
                         </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+						<td>
+							<input type="hidden" id="hdnFileName" runat="server" value="" />
+							<input type="hidden" id="hdnUploadedFile1" runat="server" value="" />
+							<asp:FileUpload ID="FileUpload1" runat="server" />
+							<input type="button" id="btnUploadFile" value="Upload" />
+						</td>
                     </tr>
                 </table>
             </td>
@@ -392,7 +465,7 @@
                                                 <input type="hidden" class="hdnQuantityBSO" value='<%#Eval("QuantityBSO") %>' />
                                                 <input type="text" runat="server" value='<%#Eval("QuantityAdjustment") %>' id="txtAdjustment" class="txtAdjustment number" style="width:100%" />
                                             </td>
-                                            <td><input type="text" class="txtQuantityEND txtCurrency min" min="0" id="txtQuantityEND" runat="server" style="width:100%" /></td>
+                                            <td><input type="text" class="txtQuantityEND txtCurrency" id="txtQuantityEND" runat="server" style="width:100%" /></td>
                                             <td><%# Eval("ItemUnit")%></td>
                                             <td><div id="divPurchaseUnit" runat="server"></div></td>
                                             <td align="center"><div id="divConversionFactor" runat="server"></div></td>

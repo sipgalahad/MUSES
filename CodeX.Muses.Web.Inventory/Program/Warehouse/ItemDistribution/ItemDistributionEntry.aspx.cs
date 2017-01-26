@@ -54,6 +54,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             return string.Format("{0};0;{1};", AppSession.UserLogin.SiteID, hdnTransactionCodeItemRequest.Value);
         }
+        protected string OnGetFilterExpressionItemGroup()
+        {
+            return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
+        }
         protected string OnGetFilterExpressionItemProduct()
         {
             return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
@@ -310,9 +314,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemDistributionHd entity = BusinessLayer.GetItemDistributionHd(Convert.ToInt32(hdnDistributionID.Value));
-                entity.DeliveryRemarks = txtNotes.Text;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateItemDistributionHd(entity);
+                if (entity.GCDistributionStatus == Constant.DistributionStatus.OPEN)
+                {
+                    entity.DeliveryRemarks = txtNotes.Text;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdateItemDistributionHd(entity);
+                }
                 return true;
             }
             catch (Exception ex)
@@ -336,18 +343,21 @@ namespace CodeX.Muses.Web.Inventory.Program
                 if (hdnIsAutoReceived.Value == "1")
                     GCDistributionStatus = Constant.DistributionStatus.RECEIVED;
                 ItemDistributionHd itemHd = itemHdDao.Get(Convert.ToInt32(hdnDistributionID.Value));
-                ControlToEntityHd(itemHd);
-                itemHd.GCDistributionStatus = GCDistributionStatus;
-                itemHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                itemHdDao.Update(itemHd);
-
-                string filterExpressionItemDistributionHd = String.Format("DistributionID = {0} AND IsDeleted = 0", hdnDistributionID.Value);
-                List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionItemDistributionHd, ctx);
-                foreach (ItemDistributionDt itemDt in lstItemDistributionDt)
+                if (itemHd.GCDistributionStatus == Constant.DistributionStatus.OPEN || itemHd.GCDistributionStatus == Constant.DistributionStatus.WAIT_FOR_APPROVAL)
                 {
-                    itemDt.GCItemDetailStatus = GCDistributionStatus;
-                    itemDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    itemDtDao.Update(itemDt);
+                    ControlToEntityHd(itemHd);
+                    itemHd.GCDistributionStatus = GCDistributionStatus;
+                    itemHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemHdDao.Update(itemHd);
+
+                    string filterExpressionItemDistributionHd = String.Format("DistributionID = {0} AND IsDeleted = 0", hdnDistributionID.Value);
+                    List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionItemDistributionHd, ctx);
+                    foreach (ItemDistributionDt itemDt in lstItemDistributionDt)
+                    {
+                        itemDt.GCItemDetailStatus = GCDistributionStatus;
+                        itemDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        itemDtDao.Update(itemDt);
+                    }
                 }
 
                 ctx.CommitTransaction();
@@ -375,18 +385,21 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemDistributionHd itemHd = itemHdDao.Get(Convert.ToInt32(hdnDistributionID.Value));
-                ControlToEntityHd(itemHd);
-                itemHd.GCDistributionStatus = Constant.DistributionStatus.WAIT_FOR_APPROVAL;
-                itemHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                itemHdDao.Update(itemHd);
-
-                string filterExpressionItemDistributionHd = String.Format("DistributionID = {0} AND IsDeleted = 0", hdnDistributionID.Value);
-                List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionItemDistributionHd, ctx);
-                foreach (ItemDistributionDt itemDt in lstItemDistributionDt)
+                if (itemHd.GCDistributionStatus == Constant.DistributionStatus.OPEN)
                 {
-                    itemDt.GCItemDetailStatus = Constant.DistributionStatus.WAIT_FOR_APPROVAL;
-                    itemDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    itemDtDao.Update(itemDt);
+                    ControlToEntityHd(itemHd);
+                    itemHd.GCDistributionStatus = Constant.DistributionStatus.WAIT_FOR_APPROVAL;
+                    itemHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemHdDao.Update(itemHd);
+
+                    string filterExpressionItemDistributionHd = String.Format("DistributionID = {0} AND IsDeleted = 0", hdnDistributionID.Value);
+                    List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionItemDistributionHd, ctx);
+                    foreach (ItemDistributionDt itemDt in lstItemDistributionDt)
+                    {
+                        itemDt.GCItemDetailStatus = Constant.DistributionStatus.WAIT_FOR_APPROVAL;
+                        itemDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        itemDtDao.Update(itemDt);
+                    }
                 }
 
                 ctx.CommitTransaction();
@@ -414,20 +427,22 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemDistributionHd itemHd = itemHdDao.Get(Convert.ToInt32(hdnDistributionID.Value));
-                ControlToEntityHd(itemHd);
-                itemHd.GCDistributionStatus = Constant.DistributionStatus.VOID;
-                itemHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                itemHdDao.Update(itemHd);
-
-                string filterExpressionItemDistributionHd = String.Format("DistributionID = {0} AND IsDeleted = 0", hdnDistributionID.Value);
-                List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionItemDistributionHd, ctx);
-                foreach (ItemDistributionDt itemDt in lstItemDistributionDt)
+                if (itemHd.GCDistributionStatus == Constant.DistributionStatus.OPEN)
                 {
-                    itemDt.GCItemDetailStatus = Constant.DistributionStatus.VOID;
-                    itemDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    itemDtDao.Update(itemDt);
-                }
+                    ControlToEntityHd(itemHd);
+                    itemHd.GCDistributionStatus = Constant.DistributionStatus.VOID;
+                    itemHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemHdDao.Update(itemHd);
 
+                    string filterExpressionItemDistributionHd = String.Format("DistributionID = {0} AND IsDeleted = 0", hdnDistributionID.Value);
+                    List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionItemDistributionHd, ctx);
+                    foreach (ItemDistributionDt itemDt in lstItemDistributionDt)
+                    {
+                        itemDt.GCItemDetailStatus = Constant.DistributionStatus.VOID;
+                        itemDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        itemDtDao.Update(itemDt);
+                    }
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -534,9 +549,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemDistributionDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                ControlToEntity(entityDt);
-                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDtDao.Update(entityDt);
+                if (!entityDt.IsDeleted)
+                {
+                    ControlToEntity(entityDt);
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -561,9 +579,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemDistributionDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                entityDt.IsDeleted = true;
-                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDtDao.Update(entityDt);
+                if (!entityDt.IsDeleted)
+                {
+                    entityDt.IsDeleted = true;
+                    entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

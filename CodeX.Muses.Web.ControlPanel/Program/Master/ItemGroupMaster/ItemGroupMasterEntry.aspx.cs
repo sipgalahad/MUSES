@@ -57,6 +57,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(hdnParentID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtParentCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtParentName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(hdnProductLineID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtProductLineCode, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtProductLineName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(chkIsControlExpired, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsHeader, new ControlEntrySetting(true, true, false));
         }
 
@@ -70,6 +74,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             hdnParentID.Value = entity.ParentID.ToString();
             txtParentCode.Text = entity.ParentCode;
             txtParentName.Text = entity.ParentName;
+            hdnProductLineID.Value = entity.ProductLineID.ToString();
+            txtProductLineCode.Text = entity.ProductLineCode;
+            txtProductLineName.Text = entity.ProductLineName;
+            chkIsControlExpired.Checked = entity.IsControlExpired;
             chkIsHeader.Checked = entity.IsHeader;
         }
 
@@ -84,6 +92,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.ParentID = null;
             else
                 entity.ParentID = Convert.ToInt32(hdnParentID.Value);
+            entity.ProductLineID = Convert.ToInt32(hdnProductLineID.Value);
+            entity.IsControlExpired = chkIsControlExpired.Checked;
             entity.IsHeader = chkIsHeader.Checked;
         }
 

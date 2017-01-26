@@ -28,9 +28,13 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_ADJUSTMENT);
         }
+        protected string OnGetFilterExpressionItemGroup()
+        {
+            return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
+        }
         protected string OnGetFilterExpressionItemProduct()
         {
-            return string.Format("IsDeleted = 0");
+            return string.Format("GCItemType = '{0}' AND GCItemStatus = '{1}' AND IsDeleted = 0", Constant.ItemType.PRODUCT, Constant.ItemStatus.ACTIVE);
         }
         public string GetAdjusmentTypeReceipts()
         {
@@ -246,13 +250,16 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemTransactionHd entityHd = BusinessLayer.GetItemTransactionHd(Convert.ToInt32(hdnAdjustmentID.Value));
-                entityHd.TransactionDate = Helper.GetDatePickerValue(txtAdjustmentDate.Text);
-                entityHd.FromLocationID = Convert.ToInt32(hdnLocationID.Value);
-                entityHd.ToLocationID = null;
-                entityHd.GCAdjustmentType = cboGCAdjustmentType.Value.ToString();
-                entityHd.Remarks = txtRemarks.Text;
-                entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateItemTransactionHd(entityHd);
+                if (entityHd.GCTransactionStatus == Constant.TransactionStatus.OPEN)
+                {
+                    entityHd.TransactionDate = Helper.GetDatePickerValue(txtAdjustmentDate.Text);
+                    entityHd.FromLocationID = Convert.ToInt32(hdnLocationID.Value);
+                    entityHd.ToLocationID = null;
+                    entityHd.GCAdjustmentType = cboGCAdjustmentType.Value.ToString();
+                    entityHd.Remarks = txtRemarks.Text;
+                    entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdateItemTransactionHd(entityHd);
+                }
                 return true;
             }
             catch (Exception ex)
@@ -272,17 +279,20 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnAdjustmentID.Value));
-                itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                itemTransactionHdDao.Update(itemTransactionHd);
-
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnAdjustmentID.Value, Constant.TransactionStatus.VOID);
-                List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                if (itemTransactionHd.GCTransactionStatus == Constant.TransactionStatus.OPEN || itemTransactionHd.GCTransactionStatus == Constant.TransactionStatus.WAIT_FOR_APPROVAL)
                 {
-                    itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
-                    itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    itemTransactionDtDao.Update(itemTransactionDt);
+                    itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                    itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemTransactionHdDao.Update(itemTransactionHd);
+
+                    string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnAdjustmentID.Value, Constant.TransactionStatus.VOID);
+                    List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
+                    foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                    {
+                        itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
+                        itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        itemTransactionDtDao.Update(itemTransactionDt);
+                    }
                 }
                 ctx.CommitTransaction();
             }
@@ -309,17 +319,20 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnAdjustmentID.Value));
-                itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
-                itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                itemTransactionHdDao.Update(itemTransactionHd);
-
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnAdjustmentID.Value, Constant.TransactionStatus.VOID);
-                List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                if (itemTransactionHd.GCTransactionStatus == Constant.TransactionStatus.OPEN)
                 {
-                    itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
-                    itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    itemTransactionDtDao.Update(itemTransactionDt);
+                    itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                    itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemTransactionHdDao.Update(itemTransactionHd);
+
+                    string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnAdjustmentID.Value, Constant.TransactionStatus.VOID);
+                    List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
+                    foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                    {
+                        itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                        itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        itemTransactionDtDao.Update(itemTransactionDt);
+                    }
                 }
                 ctx.CommitTransaction();
             }
@@ -346,17 +359,20 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnAdjustmentID.Value));
-                itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                itemTransactionHdDao.Update(itemTransactionHd);
-
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnAdjustmentID.Value, Constant.TransactionStatus.VOID);
-                List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                if (itemTransactionHd.GCTransactionStatus == Constant.TransactionStatus.APPROVED)
                 {
-                    itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
-                    itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    itemTransactionDtDao.Update(itemTransactionDt);
+                    itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemTransactionHdDao.Update(itemTransactionHd);
+
+                    string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnAdjustmentID.Value, Constant.TransactionStatus.VOID);
+                    List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
+                    foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                    {
+                        itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+                        itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        itemTransactionDtDao.Update(itemTransactionDt);
+                    }
                 }
                 ctx.CommitTransaction();
             }
@@ -383,17 +399,20 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnAdjustmentID.Value));
-                itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                itemTransactionHdDao.Update(itemTransactionHd);
-
-                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnAdjustmentID.Value, Constant.TransactionStatus.VOID);
-                List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
-                foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                if (itemTransactionHd.GCTransactionStatus == Constant.TransactionStatus.OPEN)
                 {
-                    itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
-                    itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    itemTransactionDtDao.Update(itemTransactionDt);
+                    itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                    itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemTransactionHdDao.Update(itemTransactionHd);
+
+                    string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnAdjustmentID.Value, Constant.TransactionStatus.VOID);
+                    List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
+                    foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                    {
+                        itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                        itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        itemTransactionDtDao.Update(itemTransactionDt);
+                    }
                 }
                 ctx.CommitTransaction();
             }
@@ -504,9 +523,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemTransactionDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                ControlToEntity(entityDt);
-                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDtDao.Update(entityDt);
+                if (entityDt.GCItemDetailStatus == Constant.TransactionStatus.OPEN)
+                {
+                    ControlToEntity(entityDt);
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -531,9 +553,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 ItemTransactionDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
-                entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDtDao.Update(entityDt);
+                if (entityDt.GCItemDetailStatus == Constant.TransactionStatus.OPEN)
+                {
+                    entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

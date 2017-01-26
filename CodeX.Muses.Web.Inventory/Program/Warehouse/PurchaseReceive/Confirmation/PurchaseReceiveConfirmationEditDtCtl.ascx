@@ -13,11 +13,19 @@
     });
     setDatePicker('<%=txtDateReferrence.ClientID %>');
 
+    $(function () {
+        setBtnSavePopupEnabled(false);
+    });
+    $('#<%=txtTotalNetTransactionAmount.ClientID %>').change(function () {
+        setBtnSavePopupEnabled(true);
+    });
+
+    var isInit = true;
     //#region Inside Grid
     $('.txtUnitPrice').change(function () {
         $(this).trigger('changeValue');
         $tr = $(this).closest('tr').parent().closest('tr');
-        calculateSubTotal($tr);
+        $tr.find('.txtDiscountPercentage1').change();
     });
 
     $('.txtDiscountPercentage1').change(function () {
@@ -32,7 +40,7 @@
         var discountAmount1 = subTotal * discountPercentage1 / 100;
         $tr.find('.txtDiscountAmount1').val(discountAmount1).trigger('changeValue');
 
-        calculateSubTotal($tr);
+        $tr.find('.txtDiscountPercentage2').change();
     });
 
     $('.txtDiscountAmount1').change(function () {
@@ -47,7 +55,7 @@
         var discountPercentage1 = discountAmount1 * 100 / subTotal;
         $tr.find('.txtDiscountPercentage1').val(discountPercentage1).trigger('changeValue');
 
-        calculateSubTotal($tr);
+        $tr.find('.txtDiscountPercentage2').change();
     });
 
     $('.txtDiscountPercentage2').change(function () {
@@ -90,6 +98,10 @@
         var discountAmount2 = parseFloat($tr.find('.txtDiscountAmount2').attr('hiddenVal'));
 
         var subTotal = (qty * unitPrice) - discountAmount1 - discountAmount2;
+        if ($('#<%=hdnIsLineAmountRounded.ClientID %>').val() == '1') {
+            var format = parseFloat($('#<%=hdnLineAmountRoundedFormat.ClientID %>').val());
+            subTotal = Math.ceil(subTotal / format) * format;
+        }
         $tr.find('.txtLineAmount').val(subTotal).trigger('changeValue');
 
         var total = 0;
@@ -155,10 +167,19 @@
         var DP = parseFloat($('#<%=txtDP.ClientID %>').attr('hiddenVal'));
         var Charge = parseFloat($('#<%=txtCharges.ClientID %>').attr('hiddenVal'));
         totalHarga = totalHarga - discountAmount - DP + Charge;
-        $('#<%=txtTotalNetTransactionAmount.ClientID %>').val(totalHarga).trigger('changeValue');
+        if ($('#<%=hdnIsTotalAmountRounded.ClientID %>').val() == '1') {
+            var format = parseFloat($('#<%=hdnTotalAmountRoundedFormat.ClientID %>').val());
+            totalHarga = Math.ceil(totalHarga / format) * format;
+        }
+        if (isInit)
+            isInit = false;
+        else {
+            setBtnSavePopupEnabled(true);
+            $('#<%=txtTotalNetTransactionAmount.ClientID %>').val(totalHarga).trigger('changeValue');
+        }
     }
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         var result = '';
         var lstID = '';
         $('.grdPurchaseReceive > tbody > tr:gt(1)').each(function () {
@@ -186,6 +207,11 @@
 <input type="hidden" id="hdnVATPercentage" runat="server" />
 <input type="hidden" id="hdnSaveValue" runat="server" />
 <input type="hidden" id="hdnLstID" runat="server" />
+<input type="hidden" id="hdnIsRevision" runat="server" />
+<input type="hidden" id="hdnIsLineAmountRounded" value="" runat="server" />
+<input type="hidden" id="hdnLineAmountRoundedFormat" value="" runat="server" />
+<input type="hidden" id="hdnIsTotalAmountRounded" value="" runat="server" />
+<input type="hidden" id="hdnTotalAmountRoundedFormat" value="" runat="server" />
 
 <div style="max-height: 500px; overflow-y: auto" id="containerPopup">
     <table style="width:100%">
@@ -212,6 +238,10 @@
                             </table>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Supplier")%></label></td>
+                        <td><asp:TextBox ID="txtSupplier" ReadOnly="true" Width="200px" runat="server" /></td>
+                    </tr>  
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("No.Faktur/Kirim")%></label></td>
                         <td><asp:TextBox ID="txtReferenceNo" CssClass="required" ValidationGroup="mpEntry" Width="100px" runat="server" /></td>
@@ -342,7 +372,7 @@
                                                 <td align="center"><asp:TextBox ID="txtDiscountAmount1" runat="server" Width="100%" CssClass="txtCurrency txtDiscountAmount1"/></td>
                                                 <td align="center"><asp:TextBox ID="txtDiscountPercentage2" runat="server" Width="100%" CssClass="txtCurrency txtDiscountPercentage2"/></td>
                                                 <td align="center"><asp:TextBox ID="txtDiscountAmount2" runat="server" Width="100%" CssClass="txtCurrency txtDiscountAmount2"/></td>
-                                                <td align="center"><asp:TextBox ID="txtLineAmount" ReadOnly="true" runat="server" Width="100%" CssClass="txtCurrency txtLineAmount"/></td>
+                                                <td align="center"><asp:TextBox ID="txtLineAmount" runat="server" Width="100%" CssClass="txtCurrency txtLineAmount"/></td>
                                                 <td><%# Eval("Username")%></td>
                                             </tr>
                                         </ItemTemplate>
@@ -420,7 +450,7 @@
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Total Nilai Penerimaan")%></label></td>
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
-                                    <td><asp:TextBox ID="txtTotalNetTransactionAmount" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
+                                    <td><asp:TextBox ID="txtTotalNetTransactionAmount" CssClass="txtCurrency" Width="180px" runat="server" /></td>
                                 </tr>
                             </table>
                         </td>

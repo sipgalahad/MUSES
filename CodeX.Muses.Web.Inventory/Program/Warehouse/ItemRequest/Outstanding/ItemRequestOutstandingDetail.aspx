@@ -8,6 +8,7 @@
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnItemReqHdSave" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Simpan")%></div></li>
     <li id="btnItemReqHdProcess" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/list.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Process")%></div></li>
     <li id="btnItemReqHdDecline" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Decline")%></div></li>
     <li id="btnOrderListBack" runat="server" crudmode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/back.png")%>' alt="" /><div><%=GetLabel("Back")%></div></li>
@@ -22,6 +23,21 @@
                 }
                 else {
                     onCustomButtonClick('decline');
+                }
+            });
+
+            $('#<%=btnItemReqHdSave.ClientID %>').click(function () {
+                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                    getCheckedMember();
+                    if ($('#<%=hdnSelectedMember.ClientID %>').val() == '')
+                        showToast('Warning', 'Please Select Item First');
+                    else {
+                        if ($('#<%=hdnIsItemDistributionExist.ClientID %>').val() == '1' && $('#<%=hdnToLocationID.ClientID %>').val() == '')
+                            showToast('Warning', 'Lokasi Distribusi Wajib Diisi');
+                        else if ($('#<%=hdnIsItemConsumptionExist.ClientID %>').val() == '1' && $('#<%=hdnToLocationID.ClientID %>').val() == '')
+                            showToast('Warning', 'Lokasi Pemakaian Wajib Diisi');
+                        onCustomButtonClick('save');
+                    }
                 }
             });
 
@@ -205,13 +221,15 @@
                 messageText += 'Pemakaian Berhasil Dibuat Dengan No Transaksi <b>' + param[3] + '</b>';
             }
             showToast('Save Success', messageText, function () {
-                $('#<%=hdnSelectedMember.ClientID %>').val('');
-                $('#<%=hdnParamDistribution.ClientID %>').val('');
-                $('#<%=hdnParamConsumption.ClientID %>').val('');
-                $('#<%=hdnParamPurchaseRequest.ClientID %>').val('');
-                if (param[0] == '0')
-                    $('#<%=btnOrderListBack.ClientID %>').click();
-                cbpView.PerformCallback('refresh');
+                if (type != 'save') {
+                    $('#<%=hdnSelectedMember.ClientID %>').val('');
+                    $('#<%=hdnParamDistribution.ClientID %>').val('');
+                    $('#<%=hdnParamConsumption.ClientID %>').val('');
+                    $('#<%=hdnParamPurchaseRequest.ClientID %>').val('');
+                    if (param[0] == '0')
+                        $('#<%=btnOrderListBack.ClientID %>').click();
+                    cbpView.PerformCallback('refresh');
+                }
             });
         }
 
@@ -238,9 +256,9 @@
                     var itemRequestDtDistribution = $tr.find('.txtDistribution').val();
                     var itemRequestDtConsumption = $tr.find('.txtConsumption').val();
                     var itemRequestDtPR = $tr.find('.txtPurchaseRequest').val();
-                    var itemRequestDtDistributionGCItemUnit = $tr.find('.hdnGCDistributionGCItemUnit').val();
-                    var itemRequestDtConsumptionGCItemUnit = $tr.find('.hdnGCConsumptionGCItemUnit').val();
-                    var itemRequestDtPurchaseRequestGCItemUnit = $tr.find('.hdnPurchaseRequestGCItemUnit').val();
+                    var itemRequestDtDistributionGCItemUnit = $tr.find('.hdnGCDistributionItemUnit').val();
+                    var itemRequestDtConsumptionGCItemUnit = $tr.find('.hdnGCConsumptionItemUnit').val();
+                    var itemRequestDtPurchaseRequestGCItemUnit = $tr.find('.hdnGCPurchaseRequestItemUnit').val();
                     var itemRequestDtDistributionItemUnit = $tr.find('.hdnDistributionItemUnit').val();
                     var itemRequestDtConsumptionItemUnit = $tr.find('.hdnConsumptionItemUnit').val();
                     var itemRequestDtPurchaseRequestItemUnit = $tr.find('.hdnPurchaseRequestItemUnit').val();
@@ -351,25 +369,25 @@
             $tr = $(this).closest('tr').parent().closest('tr');
             itemID = $tr.find('.hdnItemID').val();
             openSearchDialog('itemalternateunit', getItemUnitFilterExpression(), function (value) {
-                onTxtItemUnitChanged(value, 'hdnGCDistributionItemUnit', 'hdnDistributionItemUnit', 'lblDistributionItemUnit', 'hdnDistributionConversionFactor');
+                onTxtItemUnitChanged(value, 'hdnGCDistributionItemUnit', 'hdnDistributionItemUnit', 'lblDistributionItemUnit', 'hdnDistributionConversionFactor', 'txtDistribution');
             });
         });
         $('.lblConsumptionItemUnit.lblLink').live('click', function () {
             $tr = $(this).closest('tr').parent().closest('tr');
             itemID = $tr.find('.hdnItemID').val();
             openSearchDialog('itemalternateunit', getItemUnitFilterExpression(), function (value) {
-                onTxtItemUnitChanged(value, 'hdnGCConsumptionItemUnit', 'hdnConsumptionItemUnit', 'lblConsumptionItemUnit', 'hdnConsumptionConversionFactor');
+                onTxtItemUnitChanged(value, 'hdnGCConsumptionItemUnit', 'hdnConsumptionItemUnit', 'lblConsumptionItemUnit', 'hdnConsumptionConversionFactor', 'txtConsumption');
             });
         });
         $('.lblPurchaseRequestItemUnit.lblLink').live('click', function () {
             $tr = $(this).closest('tr').parent().closest('tr');
             itemID = $tr.find('.hdnItemID').val();
             openSearchDialog('itemalternateunit', getItemUnitFilterExpression(), function (value) {
-                onTxtItemUnitChanged(value, 'hdnGCPurchaseRequestItemUnit', 'hdnPurchaseRequestItemUnit', 'lblPurchaseRequestItemUnit', 'hdnPurchaseRequestConversionFactor');
+                onTxtItemUnitChanged(value, 'hdnGCPurchaseRequestItemUnit', 'hdnPurchaseRequestItemUnit', 'lblPurchaseRequestItemUnit', 'hdnPurchaseRequestConversionFactor', 'txtPurchaseRequest');
             });
         });
 
-        function onTxtItemUnitChanged(value, hdnGCItemUnit, hdnItemUnit, lblItemUnit, hdnConversionFactor) {
+        function onTxtItemUnitChanged(value, hdnGCItemUnit, hdnItemUnit, lblItemUnit, hdnConversionFactor, txtClass) {
             var temp = value.split('|');
             var filterExpression = getItemUnitFilterExpression() + " AND GCAlternateUnit = '" + temp[0] + "' AND ConversionFactor = " + temp[1];
             Methods.getObject('GetvItemAlternateUnitCustomList', filterExpression, function (result) {
@@ -378,6 +396,8 @@
                     $tr.find('.' + hdnItemUnit).val(result.AlternateUnit);
                     $tr.find('.' + lblItemUnit).html(result.cfAlternateUnit);
                     $tr.find('.' + hdnConversionFactor).val(result.ConversionFactor);
+                    if (txtClass != 'txtPurchaseRequest')
+                        $tr.find('.' + txtClass).attr('max', result.ConversionFactor * parseFloat($tr.parent().closest('tr').find('.hdnQuantityEND').val()));
                 }
                 else {
                     $tr.find('.' + hdnGCItemUnit).val('');
@@ -423,7 +443,7 @@
             $tr = $(this).closest('tr').parent().closest('tr');
             var itemID = $tr.find('.hdnItemID').val();
             var stock = $tr.find('.hdnQuantityEND').val();
-            var itemUnit = $tr.find('.hdnItemUnit').val();
+            var itemUnit = $tr.find('.hdnBaseUnit').val();
             var orderID = $('#<%=hdnOrderID.ClientID %>').val();
             var param = orderID + '|' + itemID + '|' + stock + '|' + itemUnit;
             var url = ResolveUrl("~/Program/Warehouse/ItemRequest/Outstanding/ItemRequestProcessedDtCtl.ascx");
@@ -492,7 +512,6 @@
                             <td class="tdLabel"><label class="lblNormal" runat="server" id="lblLocation"><%=GetLabel("Dari Lokasi")%></label></td>
                             <td>
                                 <input type="hidden" id="hdnFromLocationID" value="" runat="server" />
-                                <input type="hidden" id="hdnLstFilterFromLocationItemGroup" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -656,8 +675,9 @@
                                                 </td>
                                                 <td>
                                                     <input type="hidden" value='<%#Eval("ItemID") %>' class="hdnItemID" />
+                                                    <input type="hidden" value='<%#Eval("BaseUnit") %>' class="hdnBaseUnit" />
                                                     <input type="hidden" value='<%#Eval("ItemUnit") %>' class="hdnItemUnit" />
-                                                    <input type="hidden" value='<%#Eval("EndingBalance") %>' class="hdnQuantityEND" /> 
+                                                    <input type="hidden" id="hdnQuantityEND" class="hdnQuantityEND" runat="server" /> 
                                                     <%# Eval("ItemName1")%>
                                                 </td>
                                                 <td align="right">

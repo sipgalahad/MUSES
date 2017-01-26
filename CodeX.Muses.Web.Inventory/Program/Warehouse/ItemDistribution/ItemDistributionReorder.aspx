@@ -53,26 +53,35 @@
             function onTxtFromServiceUnitCodeChanged(value) {
                 var filterExpression = onGetFromServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
                 Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    $('#<%=hdnFromLocationID.ClientID %>').val('');
+                    $('#<%=txtFromLocationCode.ClientID %>').val('');
+                    $('#<%=txtFromLocationName.ClientID %>').val('');
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
                     if (result != null) {
                         $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
                         $('#<%=txtFromServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+                        var filterExpression = onGetFromLocationFilterExpression();
+
+                        Methods.getListObject('GetLocationUserAccessList', filterExpression, function (result1) {
+                            if (result1.length == 1) {
+                                var loc = result1[0];
+                                $('#<%=txtFromLocationCode.ClientID %>').val(loc.LocationCode);
+                                entityToControlFromLocation(loc);
+                            }
+                        });
                     }
                     else {
                         $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val('');
                         $('#<%=txtFromServiceUnitCode.ClientID %>').val('');
                         $('#<%=txtFromServiceUnitName.ClientID %>').val('');
                     }
-                    $('#<%=hdnFromLocationID.ClientID %>').val('');
-                    $('#<%=txtFromLocationCode.ClientID %>').val('');
-                    $('#<%=txtFromLocationName.ClientID %>').val('');
-                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
                     cbpView.PerformCallback('refresh');
                 });
             }
             //#endregion
 
             //#region Location From
-            function getLocationFilterExpression() {
+            function onGetFromLocationFilterExpression() {
                 if ($('#<%=hdnFromSiteServiceUnitID.ClientID %>').val() != "") {
                     var filterExpression = "<%=OnGetFilterExpressionFromLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnFromSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
                     return filterExpression;
@@ -81,7 +90,7 @@
             }
 
             $('#<%=lblFromLocation.ClientID %>.lblLink').live('click', function () {
-                openSearchDialog('locationroleuser', getLocationFilterExpression(), function (value) {
+                openSearchDialog('locationroleuser', onGetFromLocationFilterExpression(), function (value) {
                     $('#<%=txtFromLocationCode.ClientID %>').val(value);
                     onTxtLocationCodeChanged(value);
                 });
@@ -92,25 +101,10 @@
             });
 
             function onTxtLocationCodeChanged(value) {
-                var filterExpression = getLocationFilterExpression() + " AND LocationCode = '" + value + "'";
+                var filterExpression = onGetFromLocationFilterExpression() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnFromLocationID.ClientID %>').val(result.LocationID);
-                        $('#<%=txtFromLocationName.ClientID %>').val(result.LocationName);
-                        filterExpression = "LocationID = " + result.LocationID;
-                        Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
-                            var filterLocationItemGroup = '';
-                            for (var i = 0; i < result.length; ++i) {
-                                if (filterLocationItemGroup != '')
-                                    filterLocationItemGroup += ' OR ';
-                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
-                            }
-                            if (filterLocationItemGroup != '')
-                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
-                            else
-                                $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
-                            cbpView.PerformCallback('refresh');
-                        });
+                        entityToControlFromLocation(result);
                     }
                     else {
                         $('#<%=hdnFromLocationID.ClientID %>').val('');
@@ -145,9 +139,22 @@
             function onTxtToServiceUnitCodeChanged(value) {
                 var filterExpression = onGetToServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
                 Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    $('#<%=hdnToLocationID.ClientID %>').val('');
+                    $('#<%=txtToLocationCode.ClientID %>').val('');
+                    $('#<%=txtToLocationName.ClientID %>').val('');
+                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
                     if (result != null) {
                         $('#<%=hdnToSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
                         $('#<%=txtToServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+                        var filterExpression = onGetToLocationFilterExpression();
+
+                        Methods.getListObject('GetLocationUserAccessList', filterExpression, function (result1) {
+                            if (result1.length == 1) {
+                                var loc = result1[0];
+                                $('#<%=txtToLocationCode.ClientID %>').val(loc.LocationCode);
+                                entityToControlToLocation(loc);
+                            }
+                        });
                     }
                     else {
                         $('#<%=hdnToSiteServiceUnitID.ClientID %>').val('');
@@ -155,17 +162,13 @@
                         $('#<%=txtToServiceUnitName.ClientID %>').val('');
                         $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val('');
                     }
-                    $('#<%=hdnToLocationID.ClientID %>').val('');
-                    $('#<%=txtToLocationCode.ClientID %>').val('');
-                    $('#<%=txtToLocationName.ClientID %>').val('');
-                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
                     cbpView.PerformCallback('refresh');
                 });
             }
             //#endregion
 
             //#region Location To
-            function getLocationFilterExpressionTo() {
+            function onGetToLocationFilterExpression() {
                 if ($('#<%=hdnToSiteServiceUnitID.ClientID %>').val() != "") {
                     var filterExpression = "<%=OnGetFilterExpressionToLocation() %>LocationID IN (SELECT LocationID FROM vServiceUnitLocationCustom WHERE SiteServiceUnitID = " + $('#<%=hdnToSiteServiceUnitID.ClientID %>').val() + " AND IsHeader = 0)";
                     return filterExpression;
@@ -174,7 +177,7 @@
             }
 
             $('#<%=lblToLocation.ClientID %>.lblLink').live('click', function () {
-                openSearchDialog('locationroleuser', getLocationFilterExpressionTo(), function (value) {
+                openSearchDialog('locationroleuser', onGetToLocationFilterExpression(), function (value) {
                     $('#<%=txtToLocationCode.ClientID %>').val(value);
                     onTxtLocationToCodeChanged(value);
                 });
@@ -185,25 +188,10 @@
             });
 
             function onTxtLocationToCodeChanged(value) {
-                var filterExpression = getLocationFilterExpressionTo() + " AND LocationCode = '" + value + "'";
+                var filterExpression = onGetToLocationFilterExpression() + " AND LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnToLocationID.ClientID %>').val(result.LocationID);
-                        $('#<%=txtToLocationName.ClientID %>').val(result.LocationName);
-                        filterExpression = "LocationID = " + result.LocationID;
-                        Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result) {
-                            var filterLocationItemGroup = '';
-                            for (var i = 0; i < result.length; ++i) {
-                                if (filterLocationItemGroup != '')
-                                    filterLocationItemGroup += ' OR ';
-                                filterLocationItemGroup += "DisplayPath LIKE '%/" + result[i].ItemGroupID + "/%'";
-                            }
-                            if (filterLocationItemGroup != '')
-                                $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
-                            else
-                                $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
-                            cbpView.PerformCallback('refresh');
-                        });
+                        entityToControlToLocation(result);
                     }
                     else {
                         $('#<%=hdnToLocationID.ClientID %>').val('');
@@ -227,6 +215,52 @@
             setPaging($("#paging"), pageCount, function (page) {
                 cbpView.PerformCallback('changepage|' + page);
                 setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
+            });
+
+            $('#<%=txtItemName.ClientID %>').keydown(function (e) {
+                if (e.keyCode == 13) { //Enter
+                    getCheckedMember();
+                    cbpView.PerformCallback('refresh');
+                    e.preventDefault();
+                }
+            });
+        }
+
+        function entityToControlFromLocation(entity) {
+            $('#<%=hdnFromLocationID.ClientID %>').val(entity.LocationID);
+            $('#<%=txtFromLocationName.ClientID %>').val(entity.LocationName);
+            filterExpression = "LocationID = " + entity.LocationID;
+            Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result2) {
+                var filterLocationItemGroup = '';
+                for (var i = 0; i < result2.length; ++i) {
+                    if (filterLocationItemGroup != '')
+                        filterLocationItemGroup += ' OR ';
+                    filterLocationItemGroup += "DisplayPath LIKE '%/" + result2[i].ItemGroupID + "/%'";
+                }
+                if (filterLocationItemGroup != '')
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                else
+                    $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val("");
+                cbpView.PerformCallback('refresh');
+            });
+        }
+
+        function entityToControlToLocation(entity) {
+            $('#<%=hdnToLocationID.ClientID %>').val(entity.LocationID);
+            $('#<%=txtToLocationName.ClientID %>').val(entity.LocationName);
+            filterExpression = "LocationID = " + entity.LocationID;
+            Methods.getListObject('GetLocationItemGroupList', filterExpression, function (result2) {
+                var filterLocationItemGroup = '';
+                for (var i = 0; i < result2.length; ++i) {
+                    if (filterLocationItemGroup != '')
+                        filterLocationItemGroup += ' OR ';
+                    filterLocationItemGroup += "DisplayPath LIKE '%/" + result2[i].ItemGroupID + "/%'";
+                }
+                if (filterLocationItemGroup != '')
+                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("(" + filterLocationItemGroup + ")");
+                else
+                    $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val("");
+                cbpView.PerformCallback('refresh');
             });
         }
 
@@ -281,7 +315,7 @@
             var lstConversionFactor = $('#<%=hdnListConversionFactor.ClientID %>').val().split('|');
             var result = '';
             $grdView = null;
-            if (cboReorderType.GetValue() == '1')
+            if (cboReorderType.GetValue() == '<%=OnGetReorderTypeStatic() %>')
                 $grdView = $('#<%=grdView.ClientID %>');
             else
                 $grdView = $('#<%=grdView2.ClientID %>');
@@ -333,6 +367,43 @@
             var qty = parseFloat($tr.find('.txtQty').val());
             $tr.find('.txtTotalQty').val(qty * conversionFactor);
         });
+
+        //#region Item Group
+        function onGetItemGroupFilterExpression() {
+            var filterExpression = "<%=OnGetFilterExpressionItemGroup() %>";
+            if ($('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() != '')
+                filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterFromLocationItemGroup.ClientID %>').val() + ")";
+            if ($('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() != '')
+                filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE " + $('#<%=hdnLstFilterToLocationItemGroup.ClientID %>').val() + ")";
+            return filterExpression;
+        }
+
+        $('#lblItemGroup.lblLink').live('click', function () {
+            openSearchDialog('itemgroup', onGetItemGroupFilterExpression(), function (value) {
+                $('#<%=txtItemGroupCode.ClientID %>').val(value);
+                onTxtItemGroupCodeChanged(value);
+            });
+        });
+
+        $('#<%=txtItemGroupCode.ClientID %>').live('change', function () {
+            onTxtItemGroupCodeChanged($(this).val());
+        });
+
+        function onTxtItemGroupCodeChanged(value) {
+            var filterExpression = onGetItemGroupFilterExpression() + " AND ItemGroupCode = '" + value + "'";
+            Methods.getObject('GetItemGroupMasterList', filterExpression, function (result) {
+                if (result != null) {
+                    $('#<%=hdnItemGroupID.ClientID %>').val(result.ItemGroupID);
+                    $('#<%=txtItemGroupName.ClientID %>').val(result.ItemGroupName1);
+                }
+                else {
+                    $('#<%=hdnItemGroupID.ClientID %>').val('');
+                    $('#<%=txtItemGroupCode.ClientID %>').val('');
+                    $('#<%=txtItemGroupName.ClientID %>').val('');
+                }
+            });
+        }
+        //#endregion
 
         //#region Item Unit
         function getItemUnitFilterExpression() {
@@ -390,6 +461,17 @@
             }
         }
         //#endregion
+
+        function onCboReorderTypeValueChanged() {
+            if (cboReorderType.GetValue() == '<%=OnGetReorderTypeStatic() %>') {
+                $('#trViewTypeDynamic').attr('style', 'display:none');
+                $('#trViewTypeStatic').removeAttr('style');
+            }
+            else {
+                $('#trViewTypeDynamic').removeAttr('style');
+                $('#trViewTypeStatic').attr('style', 'display:none');
+            }
+        }
     </script>
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
@@ -406,7 +488,7 @@
     <input type="hidden" value="" id="hdnDefaultLocationID" runat="server" />
     <input type="hidden" value="" id="hdnDefaultLocationCode" runat="server" />
     <input type="hidden" value="" id="hdnDefaultLocationName" runat="server" />
-    <div style="height: 495px; overflow-y: auto; overflow-x: hidden;">
+    <div style="height: 485px; overflow-y: auto; overflow-x: hidden;">
         <table class="tblContentArea">
             <colgroup>
                 <col style="width: 50%" />
@@ -458,7 +540,19 @@
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Reorder")%></label></td>
-                            <td><dxe:ASPxComboBox runat="server" ID="cboReorderType" ClientInstanceName="cboReorderType" Width="300px" /></td>
+                            <td>
+                                <dxe:ASPxComboBox runat="server" ID="cboReorderType" ClientInstanceName="cboReorderType" Width="300px">
+                                    <ClientSideEvents ValueChanged="function(s,e){ onCboReorderTypeValueChanged() }" />
+                                </dxe:ASPxComboBox>
+                            </td>
+                        </tr>
+                        <tr id="trViewTypeDynamic">
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Tampilan")%></label></td>
+                            <td><dxe:ASPxComboBox runat="server" ID="cboViewType" ClientInstanceName="cboViewType" Width="300px" /></td>
+                        </tr>
+                        <tr id="trViewTypeStatic">
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Tampilan")%></label></td>
+                            <td><dxe:ASPxComboBox runat="server" ID="cboViewTypeStatic" ClientInstanceName="cboViewTypeStatic" Width="300px" /></td>
                         </tr>
                         <tr>
                             <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><%=GetLabel("Keterangan") %></td>
@@ -524,6 +618,28 @@
                                     </tr>
                                 </table>
                             </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblLink" id="lblItemGroup"><%=GetLabel("Kelompok Item")%></label></td>
+                            <td>
+                                <input type="hidden" value="" id="hdnItemGroupID" runat="server" />
+                                <table cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width: 120px" />
+                                        <col style="width: 3px" />
+                                        <col style="width: 250px" />
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtItemGroupCode" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtItemGroupName" ReadOnly="true" Width="100%" runat="server" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label><%=GetLabel("Nama Item")%></label></td>
+                            <td><asp:TextBox runat="server" ID="txtItemName" Width="300px" /></td>
                         </tr>
                     </table>
                 </td>
@@ -705,8 +821,20 @@
                                                     </table>  
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="AvgQuantityOut" HeaderStyle-CssClass="thRight" HeaderText="Qty Rata-Rata / Hari" DataFormatString="{0:N}" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" />
-                                            <asp:TemplateField HeaderStyle-Width="10px" />
+                                            <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Qty Rata-Rata / Hari" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                                                        <colgroup>
+                                                            <col />
+                                                            <col style="width:80px" />
+                                                        </colgroup>
+                                                        <tr>
+                                                            <td align="right" class="lblReadOnlyText"><%#Eval("AvgQuantityOut", "{0:N}")%></td>
+                                                            <td>&nbsp<%# Eval("ItemUnit")%></td>
+                                                        </tr>
+                                                    </table>  
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:TemplateField HeaderStyle-CssClass="thCenter" HeaderText="Didistribusi" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <input type="hidden" value="0" class="hdnGCItemUnit" id="hdnGCItemUnit" runat="server"/>
