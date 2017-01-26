@@ -493,6 +493,21 @@
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
+	<!-- #Region JobLevelWorkYears -->
+	<searchdialog type="joblevelworkyears" methodname="GetJobLevelWorkYearsList" keyfieldname="JobLevelWorkYearsID" orderbyexpression="JobLevelWorkYearsName ASC">
+		<gridcolumns>
+			<gridcolumn datafield="JobLevelWorkYearsName" headertext="Nama" width="300px" />
+			<gridcolumn datafield="FromWorkYears" headertext="Waktu Mulai" width="150px" />
+			<gridcolumn datafield="ToWorkYears" headertext="Waktu Berakhir" width="150px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="JobLevelWorkYearsName" headertext="Nama" description="" />
+			<intellisensetext datafield="FromWorkYears" headertext="Waktu Mulai" description="" />
+			<intellisensetext datafield="ToWorkYears" headertext="Waktu Berakhir" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
+	
   <!-- #Region Location -->
   <searchdialog type="location" methodname="GetvLocationList" keyfieldname="LocationCode" istreeview="1">
     <gridcolumns>
@@ -560,6 +575,30 @@
 		<intellisensetexts>
 			<intellisensetext datafield="OrganizationPositionName" headertext="Nama" description="" />
 			<intellisensetext datafield="Positionlevel" headertext="Level" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
+	<!-- #Region JobLevelPerformanceIndicator -->
+	<searchdialog type="joblevelperformanceindicator" methodname="GetJobLevelPerformanceIndicatorList" keyfieldname="JobLevelPerformanceIndicatorID" orderbyexpression="JobLevelPerformanceIndicatorName ASC">
+		<gridcolumns>
+			<gridcolumn datafield="JobLevelPerformanceIndicatorName" headertext="Nama" width="300px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="JobLevelPerformanceIndicatorName" headertext="Nama" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
+	<!-- #Region PerformanceIndicator -->
+	<searchdialog type="performanceindicator" methodname="GetvPerformanceIndicatorHdList" keyfieldname="PerformanceIndicatorID" orderbyexpression="PerformanceIndicatorName ASC">
+		<gridcolumns>
+			<gridcolumn datafield="PerformanceIndicatorName" headertext="Nama" width="300px"/>
+			<gridcolumn datafield="IndicatorMarkPeriod" headertext="Periode" width="150px" />
+			<gridcolumn datafield="IndicatorMarkType" headertext="Tipe" width="150px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="PerformanceIndicatorName"  headertext="Nama" description="" />
+			<intellisensetext datafield="IndicatorMarkPeriod" headertext="Periode" description="" />
+			<intellisensetext datafield="IndicatorMarkType" headertext="Tipe" description=""/>
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->

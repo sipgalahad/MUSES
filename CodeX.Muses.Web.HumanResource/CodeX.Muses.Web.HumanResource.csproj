@@ -112,7 +112,9 @@
     <Content Include="Program\Master\UpdateEmployeeJobLevel\UpdateEmployeeJobLevelEntryCtl.ascx" />
     <Content Include="Program\Master\UpdateEmployeeRenumeration\UpdateEmployeeRenumerationEntry.aspx" />
     <Content Include="Program\Master\UpdateEmployeeSite\UpdateEmployeeSiteEntry.aspx" />
+    <Content Include="Program\Master\UpdateJobLevelPerformanceIndicatorRenumeration\UpdateJobLevelPerformanceIndicatorRenumerationEntry.aspx" />
     <Content Include="Program\Master\UpdateJobLevelPositionRenumeration\UpdateJobLevelPositionRenumerationEntry.aspx" />
+    <Content Include="Program\Master\UpdateJobLevelWorkYearsRenumeration\UpdateJobLevelWorkYearsRenumerationEntry.aspx" />
     <Content Include="Program\Master\UpdateRenumerationFamilyStatus\UpdateRenumerationFamilyStatusEntry.aspx" />
     <Content Include="Program\Master\UpdateRenumerationJobLevel\UpdateRenumerationJobLevelEntry.aspx" />
     <Content Include="Program\Transaction\AbsenceProposal\AbsenceProposalEntry.aspx" />
@@ -419,12 +421,26 @@
     <Compile Include="Program\Master\UpdateEmployeeSite\UpdateEmployeeSiteEntry.aspx.designer.cs">
       <DependentUpon>UpdateEmployeeSiteEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\UpdateJobLevelPerformanceIndicatorRenumeration\UpdateJobLevelPerformanceIndicatorRenumerationEntry.aspx.cs">
+      <DependentUpon>UpdateJobLevelPerformanceIndicatorRenumerationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateJobLevelPerformanceIndicatorRenumeration\UpdateJobLevelPerformanceIndicatorRenumerationEntry.aspx.designer.cs">
+      <DependentUpon>UpdateJobLevelPerformanceIndicatorRenumerationEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\UpdateJobLevelPositionRenumeration\UpdateJobLevelPositionRenumerationEntry.aspx.cs">
       <DependentUpon>UpdateJobLevelPositionRenumerationEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Master\UpdateJobLevelPositionRenumeration\UpdateJobLevelPositionRenumerationEntry.aspx.designer.cs">
       <DependentUpon>UpdateJobLevelPositionRenumerationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\UpdateJobLevelWorkYearsRenumeration\UpdateJobLevelWorkYearsRenumerationEntry.aspx.cs">
+      <DependentUpon>UpdateJobLevelWorkYearsRenumerationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\UpdateJobLevelWorkYearsRenumeration\UpdateJobLevelWorkYearsRenumerationEntry.aspx.designer.cs">
+      <DependentUpon>UpdateJobLevelWorkYearsRenumerationEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\UpdateRenumerationFamilyStatus\UpdateRenumerationFamilyStatusEntry.aspx.cs">
       <DependentUpon>UpdateRenumerationFamilyStatusEntry.aspx</DependentUpon>

@@ -148,8 +148,10 @@
     <Content Include="Program\Master\HRWeeklySchedule\HRWeeklyScheduleList.aspx" />
     <Content Include="Program\Master\HRWeeklySchedule\HRWeeklyScheduleEntry.aspx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupPlanningEntryCtl.ascx" />
+    <Content Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorDtIndicatorEntryCtl.ascx" />
     <Content Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorList.aspx" />
     <Content Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorEntry.aspx" />
+    <Content Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorDtEntryCtl.ascx" />
     <Content Include="Program\Master\JobLevelPosition\JobLevelPositionEntry.aspx" />
     <Content Include="Program\Master\JobLevelPosition\JobLevelPositionList.aspx" />
     <Content Include="Program\Master\JobLevelWorkYears\JobLevelWorkYearsList.aspx" />
@@ -813,6 +815,13 @@
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupPlanningEntryCtl.ascx.designer.cs">
       <DependentUpon>ItemGroupPlanningEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorDtIndicatorEntryCtl.ascx.cs">
+      <DependentUpon>JobLevelPerformanceIndicatorDtIndicatorEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorDtIndicatorEntryCtl.ascx.designer.cs">
+      <DependentUpon>JobLevelPerformanceIndicatorDtIndicatorEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorList.aspx.cs">
       <DependentUpon>JobLevelPerformanceIndicatorList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -826,6 +835,13 @@
     </Compile>
     <Compile Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorEntry.aspx.designer.cs">
       <DependentUpon>JobLevelPerformanceIndicatorEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorDtEntryCtl.ascx.cs">
+      <DependentUpon>JobLevelPerformanceIndicatorDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\JobLevelPerformanceIndicator\JobLevelPerformanceIndicatorDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>JobLevelPerformanceIndicatorDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\JobLevelPosition\JobLevelPositionEntry.aspx.cs">
       <DependentUpon>JobLevelPositionEntry.aspx</DependentUpon>

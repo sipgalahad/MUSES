@@ -661,6 +661,8 @@ namespace CodeX.Common
                 public const string UPDATE_RENUMERATION_POSITION = "HR010202";
                 public const string UPDATE_RENUMERATION_FAMILY_STATUS = "HR010203";
                 public const string UPDATE_RENUMERATION_JOB_LEVEL_POSITION = "HR010204";
+                public const string UPDATE_JOB_LEVEL_WORKS_YEARS_RENUMERATION = "HR010205";
+                public const string UPDATE_JOB_LEVEL_PERFORMANCE_INDICATOR_RENUMERATION = "HR010206";
 
                 public const string UPDATE_EMPLOYEE_JOB_LEVEL = "HR010301";
                 public const string UPDATE_EMPLOYEE_POSITION = "HR010302";
@@ -668,6 +670,7 @@ namespace CodeX.Common
                 public const string UPDATE_EMPLOYEE_SITE = "HR010304";
                 public const string HR_SCHEDULE_GRUP_HD = "HR010305";
                 public const string UPDATE_EMPLOYEE_RENUMERATION = "HR010306";
+
 
                 public const string OVERTIME_PROPOSAL = "HR020100";
                 public const string ABSENCE_PROPOSAL = "HR020200";
@@ -1036,6 +1039,9 @@ namespace CodeX.Common
             public const string EMPLOYEE_RENUMERATION = "8214";
             public const string EMPLOYEE_SITE = "8215";
             public const string JOB_LEVEL_POSITION_RENUMERATION = "8216";
+            public const string JOB_LEVEL_WORK_YEARS = "8217";
+            public const string JOB_LEVEL_PERFORMANCE_INDICATOR = "8217";
+
 
             public const string TEACHER_PROFILE = "9101";
         }

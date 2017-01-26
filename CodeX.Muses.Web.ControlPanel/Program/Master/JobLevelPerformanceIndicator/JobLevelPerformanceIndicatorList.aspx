@@ -63,7 +63,19 @@
 //            var id = $(this).closest('tr').find('.keyField').html();
 //            var url = ResolveUrl("~/Program/Master/JobLevelWorkYears/JobLevelWorkYearsCtl.ascx");
 //            openUserControlPopup(url, id, 'Golongan Masa Kerja', 600, 500);
-//        });
+        //        });
+
+        $('.lnkDetail a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/JobLevelPerformanceIndicator/JobLevelPerformanceIndicatorDtEntryCtl.ascx");
+            openUserControlPopup(url, id, 'JobLevel Performance Indicator Dt', 600, 500);
+        });
+
+        $('.lnkIndicator a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/JobLevelPerformanceIndicator/JobLevelPerformanceIndicatorDtIndicatorEntryCtl.ascx");
+            openUserControlPopup(url, id, 'JobLevel Performance Indicator Dt Indicator', 600, 500);
+        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -77,10 +89,11 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="JobLevelWorkYearsID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="JobLevelPerformanceIndicatorID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="JobLevelPerformanceIndicatorName" HeaderText="Nama" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Catatan" HeaderStyle-Width="250px" />
-                                <%--<asp:HyperLinkField HeaderText="Detail" Text="Details" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />--%>
+                                <asp:HyperLinkField HeaderText="Details" Text="Details" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Indicator" Text="Indicator" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkIndicator" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>
