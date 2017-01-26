@@ -386,6 +386,7 @@
     <Content Include="Images\patient_female.png" />
     <Content Include="Images\patient_male.png" />
     <Content Include="Images\QuickSearchIcon.PNG" />
+    <Content Include="Images\report.png" />
     <Content Include="Images\Report\export.png" />
     <Content Include="Images\Report\movefirst.png" />
     <Content Include="Images\Report\movelast.png" />
@@ -416,6 +417,7 @@
     <Content Include="ErrorPage.aspx" />
     <Content Include="Program\Main.aspx" />
     <Content Include="Program\RemoteLogon.aspx" />
+    <Content Include="Program\Report.aspx" />
     <Content Include="Program\ReportPage.aspx" />
     <Content Include="Program\ReportViewer.aspx" />
     <Content Include="Scripts\Constant.js" />
@@ -1385,6 +1387,13 @@
     </Compile>
     <Compile Include="Program\RemoteLogon.aspx.designer.cs">
       <DependentUpon>RemoteLogon.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Report.aspx.cs">
+      <DependentUpon>Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Report.aspx.designer.cs">
+      <DependentUpon>Report.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ReportPage.aspx.cs">
       <DependentUpon>ReportPage.aspx</DependentUpon>

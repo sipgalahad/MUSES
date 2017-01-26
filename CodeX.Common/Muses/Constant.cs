@@ -26,6 +26,7 @@ namespace CodeX.Common
             public const string PROJECT_MANAGEMENT = "PM";
             public const string STUDENT_MANAGEMENT = "SM";
             public const string MOBILE = "MB";
+            public const string REPORT = "RP";
         }
         #endregion
 

@@ -22,6 +22,15 @@ namespace CodeX.Web.CommonLibs.Program {
         protected global::System.Web.UI.HtmlControls.HtmlHead Head1;
         
         /// <summary>
+        /// ttlTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTitle ttlTitle;
+        
+        /// <summary>
         /// myForm control.
         /// </summary>
         /// <remarks>
@@ -65,6 +74,24 @@ namespace CodeX.Web.CommonLibs.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParam;
+        
+        /// <summary>
+        /// hdnLang control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLang;
+        
+        /// <summary>
+        /// hdnFacility control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFacility;
         
         /// <summary>
         /// btnTemp control.
@@ -121,13 +148,13 @@ namespace CodeX.Web.CommonLibs.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPageHeader;
         
         /// <summary>
-        /// divPhoneFaxNo control.
+        /// divPrintDateTime control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPhoneFaxNo;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPrintDateTime;
         
         /// <summary>
         /// tdImageLogo control.
@@ -164,6 +191,15 @@ namespace CodeX.Web.CommonLibs.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAddressLine2;
+        
+        /// <summary>
+        /// divPhoneFaxNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPhoneFaxNo;
         
         /// <summary>
         /// headerText control.
@@ -218,6 +254,15 @@ namespace CodeX.Web.CommonLibs.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptReport;
+        
+        /// <summary>
+        /// divContainerReportItem control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divContainerReportItem;
         
         /// <summary>
         /// divContainerReportFooter control.
