@@ -306,6 +306,7 @@
     <Content Include="Images\Button\unlock.png" />
     <Content Include="Images\Button\warning.png" />
     <Content Include="Images\calendar.gif" />
+    <Content Include="Images\Client\logo_ricci.png" />
     <Content Include="Images\close-icon.png" />
     <Content Include="Images\ColorPicker\arrow.gif" />
     <Content Include="Images\ColorPicker\arrow.png" />
@@ -321,7 +322,7 @@
     <Content Include="Images\help.png" />
     <Content Include="Images\home.png" />
     <Content Include="Images\homephone.png" />
-    <Content Include="Images\icon.ico" />
+    <Content Include="Images\AppIcon\general\icon.ico" />
     <Content Include="Images\Icon\add.png" />
     <Content Include="Images\Icon\arrow-down.png" />
     <Content Include="Images\Icon\back.png" />
