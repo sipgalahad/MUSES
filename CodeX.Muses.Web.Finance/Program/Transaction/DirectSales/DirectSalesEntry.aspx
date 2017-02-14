@@ -44,7 +44,7 @@
                     showToast('Warning', 'Silakan Pilih No Faktur Terlebih Dahulu');
                 else {
                     var url = '';
-                    if ($('#<%=hdnIsClosed.ClientID %>').val() == '0')
+                    if (!isShowWatermark())
                         url = ResolveUrl("~/Program/Transaction/DirectSales/DirectPaymentEntryCtl.ascx");
                     else
                         url = ResolveUrl("~/Program/Transaction/DirectSales/DirectPaymentViewCtl.ascx");

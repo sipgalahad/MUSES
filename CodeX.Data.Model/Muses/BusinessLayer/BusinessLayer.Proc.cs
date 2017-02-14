@@ -1125,6 +1125,42 @@ namespace CodeX.Data.Model
             return GetGLBalanceProfitLossPerPeriodPerLevelList(SiteID, JournalYear, JournalMonth, AccountLevel, PageIndex, NumRows, ctx);
         }
         #endregion
+        #region GetGLBalanceProfitLossPerPeriodPerSite
+        public static List<GetGLBalanceProfitLossPerPeriodPerSite> GetGLBalanceProfitLossPerPeriodPerSiteList(Int32 JournalYear, Int32 JournalMonth, Int32 AccountLevel, Int32 PageIndex, Int32 NumRows, IDbContext ctx)
+        {
+            List<GetGLBalanceProfitLossPerPeriodPerSite> result = new List<GetGLBalanceProfitLossPerPeriodPerSite>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetGLBalanceProfitLossPerPeriodPerSite));
+                ctx.CommandText = "GetGLBalanceProfitLossPerPeriodPerSite";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("JournalYear", JournalYear);
+                ctx.Add("JournalMonth", JournalMonth);
+                ctx.Add("AccountLevel", AccountLevel);
+                ctx.Add("PageIndex", PageIndex);
+                ctx.Add("NumRows", NumRows);
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetGLBalanceProfitLossPerPeriodPerSite)helper.IDataReaderToObject(reader, new GetGLBalanceProfitLossPerPeriodPerSite()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<GetGLBalanceProfitLossPerPeriodPerSite> GetGLBalanceProfitLossPerPeriodPerSiteList(Int32 JournalYear, Int32 JournalMonth, Int32 AccountLevel, Int32 PageIndex = 1, Int32 NumRows = 5000)
+        {
+            IDbContext ctx = DbFactory.Configure();
+            return GetGLBalanceProfitLossPerPeriodPerSiteList(JournalYear, JournalMonth, AccountLevel, PageIndex, NumRows, ctx);
+        }
+        #endregion
         #region GetItemMasterSales
         public static List<GetItemMasterSales> GetItemMasterSalesList(string siteID, int itemID, int studentID, int locationID, int type, DateTime transactionDate, IDbContext ctx)
         {

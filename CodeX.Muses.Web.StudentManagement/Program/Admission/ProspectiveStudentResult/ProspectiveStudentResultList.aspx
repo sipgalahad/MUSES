@@ -85,7 +85,8 @@
                             GCMajor = cboGCMajor.GetValue();
                         lstSelectedMember.push(key);
                         lstGCMajor.push(GCMajor);
-                        if (GCMajor == '')
+                        var isSelectMajor = $tr.find('.hdnIsSelectMajor').val();
+                        if (GCMajor == '' && isSelectMajor == '1')
                             isAllowSave = false;
                     }
                 }
@@ -260,7 +261,10 @@
                                 <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
                                     <ItemTemplate>
                                         <tr>
-                                            <td align="center"><asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" /></td>
+                                            <td align="center">
+                                                <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
+                                                <input type="hidden" class="hdnIsSelectMajor" id="hdnIsSelectMajor" runat="server" />
+                                            </td>
                                             <td class="keyField"><%#Eval("RegistrationID")%></td>
                                             <td><%#Eval("RegistrationNo")%></td>
                                             <td><%#Eval("ProspectiveStudentName") %></td>

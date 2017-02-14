@@ -11,12 +11,12 @@
     <group fieldname="GLAccountType" orderby="GLAccountType" orderbytype="ASC" headertext="Tipe Akun : [GroupName]" isshowsubtotal="1" subtotaltext="Total : [GroupName]" />
   </groups>
   <fields>
-    <field headertext="Kode Perkiraan" fieldtype="customfield" align="left">
+    <field headertext="Kode Perkiraan" fieldtype="customfield" align="left" width="8">
       <![CDATA[ 
         <div style="margin-left:{Level}0px;">{GLAccountNo}</div>
       ]]>
     </field>
-    <field headertext="Nama Perkiraan" fieldtype="customfield" align="left">
+    <field headertext="Nama Perkiraan" fieldtype="customfield" align="left" width="8">
       <![CDATA[ 
         <div style="margin-left:{Level}0px">{GLAccountName}</div>
       ]]>

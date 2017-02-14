@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetGLBalanceProfitLossPerPeriodPerLevel" headertext="Laporan  Laba / (Rugi)" papertype="A4_portrait" fontsize="8pt" isdatasourcefromsp="1" isshowtotal="1" totaltext="Total" subheadertext="Periode : {CS001} {YR001}" />
+  <table datasource="GetGLBalanceProfitLossPerPeriodPerLevel" headertext="Laporan Aktivitas" papertype="A4_portrait" fontsize="8pt" isdatasourcefromsp="1" isshowtotal="1" totaltext="Total" subheadertext="Periode : {CS001} {YR001}" />
   <parameters>
     <parameter code="CT001" isrequired="1"/>
     <parameter code="YR001" isrequired="1"/>
@@ -8,18 +8,18 @@
     <parameter code="CS002" isrequired="1"/>
   </parameters>
   <fields>
-    <field headertext="Kd. Akun" width="12" fieldtype="customfield" align="left">
+    <field headertext="Kd. Akun" width="4" fieldtype="customfield" align="left">
       <![CDATA[ 
         <div style="margin-left:{Level}0px">{GLAccountNo}</div>
       ]]>
     </field>
-    <field headertext="Nama Akun" fieldtype="customfield" align="left">
+    <field headertext="Nama Akun" fieldtype="customfield" align="left" width="8">
       <![CDATA[ 
         <div style="margin-left:{Level}0px">{GLAccountName}</div>
       ]]>
     </field>
-    <field fieldname="BalanceENDLastMonth" headertext="Bulan Lalu" width="12" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="ProfitLoss" headertext="Bulan ini" width="12" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="BalanceEND" headertext="s/d Bulan ini" width="12" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="BalanceENDLastMonth" headertext="Bulan Lalu" width="4" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="ProfitLoss" headertext="Bulan ini" width="4" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="BalanceEND" headertext="s/d Bulan ini" width="4" fieldtype="currency" isshowsubtotal="1" />
   </fields>
 </root>

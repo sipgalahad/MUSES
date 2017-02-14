@@ -28,7 +28,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
             if (!Page.IsPostBack)
             {
                 if (AppSession.UserLogin == null)
-                    Response.Redirect("~/../ControlPanel/Login2.aspx");
+                    Response.Redirect("~/../ControlPanel/Login.aspx");
 
                 hdnLoginData.Value = string.Format("{0}|{1}|{2}", AppSession.UserLogin.UserName, "fromprogram", AppSession.UserLogin.SiteID);
 
