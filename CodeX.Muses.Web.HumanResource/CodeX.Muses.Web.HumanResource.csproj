@@ -120,6 +120,7 @@
     <Content Include="Program\Transaction\AbsenceProposal\AbsenceProposalEntry.aspx" />
     <Content Include="Program\Transaction\EmployeeDailyAttendance\EmployeeDailyAttendanceEntry.aspx" />
     <Content Include="Program\Transaction\EmployeeDailyAttendance\EmployeeDailyAttendanceDetailsCtl.ascx" />
+    <Content Include="Program\Transaction\EmployeePerformanceIndicator\EmployeePerformanceIndicatorEntry.aspx" />
     <Content Include="Program\Transaction\EmployeeRevenue\EmployeeRevenueEntry.aspx" />
     <Content Include="Program\Transaction\OvertimeProposal\OvertimeProposalEntry.aspx" />
     <Content Include="Program\Master\UpdateEmployeePosition\UpdateEmployeePositionEntry.aspx" />
@@ -476,6 +477,13 @@
     </Compile>
     <Compile Include="Program\Transaction\EmployeeDailyAttendance\EmployeeDailyAttendanceDetailsCtl.ascx.designer.cs">
       <DependentUpon>EmployeeDailyAttendanceDetailsCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Transaction\EmployeePerformanceIndicator\EmployeePerformanceIndicatorEntry.aspx.cs">
+      <DependentUpon>EmployeePerformanceIndicatorEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\EmployeePerformanceIndicator\EmployeePerformanceIndicatorEntry.aspx.designer.cs">
+      <DependentUpon>EmployeePerformanceIndicatorEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Transaction\EmployeeRevenue\EmployeeRevenueEntry.aspx.cs">
       <DependentUpon>EmployeeRevenueEntry.aspx</DependentUpon>

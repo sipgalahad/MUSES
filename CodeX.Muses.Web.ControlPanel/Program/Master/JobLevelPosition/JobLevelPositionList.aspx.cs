@@ -39,6 +39,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
+
+            
         }
 
         private string GetFilterExpression()

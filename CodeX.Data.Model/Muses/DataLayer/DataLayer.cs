@@ -10844,6 +10844,93 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region EmployeePerformanceIndicator
+    [Serializable]
+    [Table(Name = "EmployeePerformanceIndicator")]
+    public class EmployeePerformanceIndicator : DbDataModel
+    {
+        private Int32 _EmployeeID;
+        private Int32 _RevenuePeriodID;
+        private Int32 _PerformanceIndicatorID;
+        private Int32? _PerformanceIndicatorDtID;
+        private Int32? _Value;
+
+        [Column(Name = "EmployeeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "RevenuePeriodID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 RevenuePeriodID
+        {
+            get { return _RevenuePeriodID; }
+            set { _RevenuePeriodID = value; }
+        }
+        [Column(Name = "PerformanceIndicatorID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PerformanceIndicatorID
+        {
+            get { return _PerformanceIndicatorID; }
+            set { _PerformanceIndicatorID = value; }
+        }
+        [Column(Name = "PerformanceIndicatorDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? PerformanceIndicatorDtID
+        {
+            get { return _PerformanceIndicatorDtID; }
+            set { _PerformanceIndicatorDtID = value; }
+        }
+        [Column(Name = "Value", DataType = "Int32", IsNullable = true)]
+        public Int32? Value
+        {
+            get { return _Value; }
+            set { _Value = value; }
+        }
+    }
+
+    public class EmployeePerformanceIndicatorDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(EmployeePerformanceIndicator));
+        private bool _isAuditLog = false;
+        private const string p_EmployeeID = "@p_EmployeeID";
+        private const string p_PerformanceIndicatorID = "@p_PerformanceIndicatorID";
+        private const string p_RevenuePeriodID = "@p_RevenuePeriodID";
+        public EmployeePerformanceIndicatorDao() { }
+        public EmployeePerformanceIndicatorDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public EmployeePerformanceIndicator Get(Int32 EmployeeID, Int32 RevenuePeriodID, Int32 PerformanceIndicatorID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_EmployeeID, EmployeeID);
+            _ctx.Add(p_PerformanceIndicatorID, PerformanceIndicatorID);
+            _ctx.Add(p_RevenuePeriodID, RevenuePeriodID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (EmployeePerformanceIndicator)_helper.DataRowToObject(row, new EmployeePerformanceIndicator());
+        }
+        public int Insert(EmployeePerformanceIndicator record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(EmployeePerformanceIndicator record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 EmployeeID, Int32 RevenuePeriodID, Int32 PerformanceIndicatorID)
+        {
+            EmployeePerformanceIndicator record;
+            if (_ctx.Transaction == null)
+                record = new EmployeePerformanceIndicatorDao().Get(EmployeeID, RevenuePeriodID, PerformanceIndicatorID);
+            else
+                record = Get(EmployeeID, RevenuePeriodID, PerformanceIndicatorID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ExamClassSchedule
     [Serializable]
     [Table(Name = "ExamClassSchedule")]

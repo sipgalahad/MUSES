@@ -76,20 +76,20 @@
 
 
 
-    //#region PerFormanceIndicator
+    //#region PerFormanceIndicatorDt
     function onGetJobLevelFilterExpression() {
         var filterExpression = " IsDeleted = 0 ";
         return filterExpression;
     }
 
     function ontacJobLevelIDSearchClick() {
-        openSearchDialog('performanceindicator', onGetJobLevelFilterExpression(), function (value) {
+        openSearchDialog('performanceindicatordt', onGetJobLevelFilterExpression(), function (value) {
             var filterExpression = onGetJobLevelFilterExpression() + " AND PerformanceIndicatorID = '" + value + "'";
-            Methods.getObject('GetvPerformanceIndicatorHdList', filterExpression, function (result) {
+            Methods.getObject('GetPerformanceIndicatorDtList', filterExpression, function (result) {
                 if (result != null) {
                     $('#<%=hdnInput.ClientID %>').val(result.PerformanceIndicatorID);
-                    tacJobLevelID.setValue(result.PerformanceIndicatorID);
-                    tacJobLevelID.setText(result.PerformanceIndicatorName);
+                    tacJobLevelID.setValue(result.PerformanceIndicatorDtID);
+                    tacJobLevelID.setText(result.PerformanceIndicatorDtName);
                 }
                 else {
                     tacJobLevelID.setValue('');
@@ -133,8 +133,8 @@
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory" id="lblPosition"><%=GetLabel("Performance")%></label></td>
                         <td>
-                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacJobLevelID" ClientInstanceName="tacJobLevelID" MethodName="GetvPerformanceIndicatorHdList" GetFilterExpressionFunction="onGetJobLevelFilterExpression"
-                                SearchFields="PerformanceIndicatorName,PerformanceIndicatorID" TextField="PerformanceIndicatorName" ValueField="PerformanceIndicatorID" SearchText="${PerformanceIndicatorName} (<b>${IndicatorMarkPeriod}</b>) (<b>${IndicatorMarkType}</b>)" OrderByExpression="PerformanceIndicatorName">
+                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacJobLevelID" ClientInstanceName="tacJobLevelID" MethodName="GetPerformanceIndicatorDtList" GetFilterExpressionFunction="onGetJobLevelFilterExpression"
+                                SearchFields="PerformanceIndicatorDtName,PerformanceIndicatorDtID" TextField="PerformanceIndicatorDtName" ValueField="PerformanceIndicatorDtID" SearchText="${PerformanceIndicatorDtName} (<b>${DisplayOrder}</b>)" OrderByExpression="PerformanceIndicatorDtName">
                                 <ClientSideEvents ButtonSearchClick="function(){ ontacJobLevelIDSearchClick(); }"
                                     ValueChanged="function(){ ontacJobLevelIDValueChanged(); }" />
                             </cdx:CodeXAutoCompleteTextBox>   
@@ -161,13 +161,13 @@
                 <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                         <Columns>
-                            <asp:BoundField DataField="PerformanceIndicatorName" HeaderText="Nama" />
+                            <asp:BoundField DataField="PerformanceIndicatorDtName" HeaderText="Nama" />
                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                    <%-- <<div style='float:right;<%#IsEditable().ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>--%>
                                     <div style='float:right;' class="divDetailDelete"></div>
-                                    <input type="hidden" value="<%#Eval("PerformanceIndicatorID") %>" bindingfield="PerformanceIndicatorID" />
-                                    <input type="hidden" value="<%#Eval("PerformanceIndicatorName") %>" bindingfield="PerformanceIndicatorName" />
+                                    <input type="hidden" value="<%#Eval("PerformanceIndicatorDtID") %>" bindingfield="PerformanceIndicatorDtID" />
+                                    <input type="hidden" value="<%#Eval("PerformanceIndicatorDtName") %>" bindingfield="PerformanceIndicatorDtName" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
