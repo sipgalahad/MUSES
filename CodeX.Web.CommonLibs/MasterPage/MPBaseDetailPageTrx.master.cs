@@ -10,6 +10,7 @@ using CodeX.Data.Model;
 using System.Web.UI.HtmlControls;
 using System.Text;
 using CodeX.Common;
+using CodeX.Web.Common;
 
 namespace CodeX.Web.CommonLibs.MasterPage
 {
@@ -86,6 +87,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 menu = ((MPBaseDetailPage)Master).ListMenu.FirstOrDefault(p => p.MenuCode == menuCode);
                 string CRUDMode = menu.CRUDMode;
 
+                hdnMenuCaption.Value = menu.MenuCaption;
                 if (!IsAllowAdd) CRUDMode = CRUDMode.Replace("C", "");
                 if (!IsAllowEdit) CRUDMode = CRUDMode.Replace("U", "");
                 if (!IsAllowVoid) CRUDMode = CRUDMode.Replace("D", "");
@@ -272,5 +274,57 @@ namespace CodeX.Web.CommonLibs.MasterPage
             panel.JSProperties["cpResult"] = result;
         }
         #endregion
+
+        protected void btnExport_Click(object sender, EventArgs e)
+        {
+            bool isShowTitle = true;
+            string fileName = "";
+            Control controlHtml = BasePageEntry.OnGetExportControl(ref isShowTitle, ref fileName);
+            if (controlHtml == null)
+                controlHtml = BasePageEntry.OnGetExportControl();
+            if (fileName == "")
+                fileName = hdnMenuCaption.Value;
+            Helper.ExportExcel(hdnMenuCaption.Value, hdnMenuCaption.Value, controlHtml, this, isShowTitle);
+            //Control control = BasePageList.OnGetExportControl();
+
+            //HtmlGenericControl div = new HtmlGenericControl("DIV");
+            //HtmlGenericControl h1Title = new HtmlGenericControl("h1");
+            //h1Title.InnerHtml = hdnMenuCaption.Value;
+            //div.Controls.Add(h1Title);
+            //div.Controls.Add(control);
+
+            ////Response.AddHeader("content-disposition", string.Format("attachment;filename=\"{0}.xls\"", hdnMenuCaption.Value));
+            ////Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            ////Response.ContentType = "application/vnd.xls";
+            ////System.IO.StringWriter stringWrite = new System.IO.StringWriter();
+            ////System.Web.UI.HtmlTextWriter htmlWrite = new HtmlTextWriter(stringWrite);
+            ////div.RenderControl(htmlWrite);
+            //////Response.Write(stringWrite.ToString());
+            ////Response.Write("<html><head><style type='text/css'>.grdView > tbody > tr > td {color:green; border:1px solid;}</style></head>" + stringWrite.ToString() + "</html>");
+            ////Response.End();
+
+
+            //string attachment = string.Format("attachment;filename=\"{0}.xls\"", hdnMenuCaption.Value);
+            //HttpContext.Current.Response.ClearContent();
+            //HttpContext.Current.Response.AddHeader("content-disposition", attachment);
+            //HttpContext.Current.Response.ContentType = "application/ms-excel";
+            //StringWriter stw = new StringWriter();
+            //HtmlTextWriter htextw = new HtmlTextWriter(stw);
+            //div.RenderControl(htextw);
+            //HttpContext.Current.Response.Write(stw.ToString());
+            //FileInfo fi = new FileInfo(Server.MapPath(ResolveUrl("~/Libs/Styles/excel.css")));
+            //System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            //StreamReader sr = fi.OpenText();
+            //while (sr.Peek() >= 0)
+            //{
+            //    sb.Append(sr.ReadLine());
+            //}
+            //sr.Close();
+            //Response.Write("<html><head><style type='text/css'>" + sb.ToString() + "</style></head>" + stw.ToString() + "</html>");
+            //stw = null;
+            //htextw = null;
+            //Response.Flush();
+            //Response.End();
+        }
     }
 }

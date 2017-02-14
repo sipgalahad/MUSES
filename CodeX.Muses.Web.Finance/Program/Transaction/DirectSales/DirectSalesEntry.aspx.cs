@@ -69,7 +69,7 @@ namespace CodeX.Muses.Web.Finance.Program
         #region Filter Expression Search Dialog
         protected string OnGetFilterExpressionStudent()
         {
-            return string.Format("SiteID = '{0}' AND GCStudentStatus = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.StudentStatus.ACTIVE);
+            return string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND GCStudentStatus = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.StudentStatus.ACTIVE);
         }
         protected string OnGetFilterExpressionLocation()
         {

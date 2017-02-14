@@ -1435,6 +1435,139 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetGLBalanceProfitLossPerPeriodPerSite
+    public partial class GetGLBalanceProfitLossPerPeriodPerSite
+    {
+        private Int32 _GLAccountID;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private String _GCGLAccountType;
+        private String _GLAccountType;
+        private String _Position;
+        private Boolean _IsHeader;
+        private Int32 _Level;
+        private Decimal _Col1;
+        private Decimal _Col2;
+        private Decimal _Col3;
+        private Decimal _Col4;
+        private Decimal _Col5;
+        private Decimal _Col6;
+        private Decimal _Col7;
+        private Decimal _Col8;
+        private Decimal _Col9;
+        private Decimal _Col10;
+        private Decimal _Col11;
+
+        [Column(Name = "GLAccountID", DataType = "Int32")]
+        public Int32 GLAccountID
+        {
+            get { return _GLAccountID; }
+            set { _GLAccountID = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "GCGLAccountType", DataType = "String")]
+        public String GCGLAccountType
+        {
+            get { return _GCGLAccountType; }
+            set { _GCGLAccountType = value; }
+        }
+        [Column(Name = "GLAccountType", DataType = "String")]
+        public String GLAccountType
+        {
+            get { return _GLAccountType; }
+            set { _GLAccountType = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "Col2", DataType = "Decimal")]
+        public Decimal Col2
+        {
+            get { return _Col2; }
+            set { _Col2 = value; }
+        }
+        [Column(Name = "Col3", DataType = "Decimal")]
+        public Decimal Col3
+        {
+            get { return _Col3; }
+            set { _Col3 = value; }
+        }
+        [Column(Name = "Col4", DataType = "Decimal")]
+        public Decimal Col4
+        {
+            get { return _Col4; }
+            set { _Col4 = value; }
+        }
+        [Column(Name = "Col5", DataType = "Decimal")]
+        public Decimal Col5
+        {
+            get { return _Col5; }
+            set { _Col5 = value; }
+        }
+        [Column(Name = "Col6", DataType = "Decimal")]
+        public Decimal Col6
+        {
+            get { return _Col6; }
+            set { _Col6 = value; }
+        }
+        [Column(Name = "Col7", DataType = "Decimal")]
+        public Decimal Col7
+        {
+            get { return _Col7; }
+            set { _Col7 = value; }
+        }
+        [Column(Name = "Col8", DataType = "Decimal")]
+        public Decimal Col8
+        {
+            get { return _Col8; }
+            set { _Col8 = value; }
+        }
+        [Column(Name = "Col9", DataType = "Decimal")]
+        public Decimal Col9
+        {
+            get { return _Col9; }
+            set { _Col9 = value; }
+        }
+        [Column(Name = "Col10", DataType = "Decimal")]
+        public Decimal Col10
+        {
+            get { return _Col10; }
+            set { _Col10 = value; }
+        }
+        [Column(Name = "Col11", DataType = "Decimal")]
+        public Decimal Col11
+        {
+            get { return _Col11; }
+            set { _Col11 = value; }
+        }
+    }
+    #endregion
     #region GetItemMasterSales
     [Serializable]
     [Table(Name = "GetItemMasterSales")]

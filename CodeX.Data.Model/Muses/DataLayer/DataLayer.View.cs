@@ -22121,6 +22121,14 @@ namespace CodeX.Data.Model
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerCode;
         private String _BusinessPartnerName;
+        private String _ContactPerson;
+        private String _ContactPersonMobilePhoneNo;
+        private String _EmailAddress1;
+        private String _EmailAddress2;
+        private String _PhoneNo1;
+        private String _PhoneNo2;
+        private String _FaxNo1;
+        private String _FaxNo2;
         private Boolean _IsLineAmountRounded;
         private Decimal _LineAmountRoundedFormat;
         private Boolean _IsTotalAmountRounded;
@@ -22278,6 +22286,54 @@ namespace CodeX.Data.Model
         {
             get { return _BusinessPartnerName; }
             set { _BusinessPartnerName = value; }
+        }
+        [Column(Name = "ContactPerson", DataType = "String")]
+        public String ContactPerson
+        {
+            get { return _ContactPerson; }
+            set { _ContactPerson = value; }
+        }
+        [Column(Name = "ContactPersonMobilePhoneNo", DataType = "String")]
+        public String ContactPersonMobilePhoneNo
+        {
+            get { return _ContactPersonMobilePhoneNo; }
+            set { _ContactPersonMobilePhoneNo = value; }
+        }
+        [Column(Name = "EmailAddress1", DataType = "String")]
+        public String EmailAddress1
+        {
+            get { return _EmailAddress1; }
+            set { _EmailAddress1 = value; }
+        }
+        [Column(Name = "EmailAddress2", DataType = "String")]
+        public String EmailAddress2
+        {
+            get { return _EmailAddress2; }
+            set { _EmailAddress2 = value; }
+        }
+        [Column(Name = "PhoneNo1", DataType = "String")]
+        public String PhoneNo1
+        {
+            get { return _PhoneNo1; }
+            set { _PhoneNo1 = value; }
+        }
+        [Column(Name = "PhoneNo2", DataType = "String")]
+        public String PhoneNo2
+        {
+            get { return _PhoneNo2; }
+            set { _PhoneNo2 = value; }
+        }
+        [Column(Name = "FaxNo1", DataType = "String")]
+        public String FaxNo1
+        {
+            get { return _FaxNo1; }
+            set { _FaxNo1 = value; }
+        }
+        [Column(Name = "FaxNo2", DataType = "String")]
+        public String FaxNo2
+        {
+            get { return _FaxNo2; }
+            set { _FaxNo2 = value; }
         }
         [Column(Name = "IsLineAmountRounded", DataType = "Boolean")]
         public Boolean IsLineAmountRounded

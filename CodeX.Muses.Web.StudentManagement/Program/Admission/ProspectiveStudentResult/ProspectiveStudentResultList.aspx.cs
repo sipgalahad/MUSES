@@ -118,13 +118,22 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 rptStudentMark.DataSource = lstAdmissionSelection;
                 rptStudentMark.DataBind();
 
+                HtmlInputHidden hdnIsSelectMajor = (HtmlInputHidden)e.Item.FindControl("hdnIsSelectMajor");
                 ASPxComboBox cboGCMajor = (ASPxComboBox)e.Item.FindControl("cboGCMajor");
                 cboGCMajor.ClientInstanceName = string.Format("cboGCMajor{0}", e.Item.ItemIndex);
-                List<vPeriodClassType> lst = lstPeriodClassType.Where(p => p.GCGrade == entity.GCGrade).ToList();
+                List<vPeriodClassType> lst = lstPeriodClassType.Where(p => p.GCGrade == entity.GCGrade && p.GCMajor != "").ToList();
                 Methods.SetComboBoxField<vPeriodClassType>(cboGCMajor, lst, "Major", "GCMajor");
                 cboGCMajor.Value = entity.GCMajor;
                 if (lst.Count > 0)
+                {
                     Helper.SetControlEntrySetting(cboGCMajor, new ControlEntrySetting(true, true, true), "mpEntry");
+                    hdnIsSelectMajor.Value = "1";
+                }
+                else
+                {
+                    cboGCMajor.ClientVisible = false;
+                    hdnIsSelectMajor.Value = "0";
+                }
 
                 CheckBox chkIsSelected = e.Item.FindControl("chkIsSelected") as CheckBox;
                 if (entity.GCRegistrationStatus == Constant.RegistrationStatus.AR_PROCESSED || entity.GCRegistrationStatus == Constant.RegistrationStatus.PAID || entity.GCRegistrationStatus == Constant.RegistrationStatus.SETTLED || entity.GCRegistrationStatus == Constant.RegistrationStatus.CLOSED)

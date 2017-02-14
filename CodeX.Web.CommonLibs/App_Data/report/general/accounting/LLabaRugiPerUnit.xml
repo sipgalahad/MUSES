@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetGLBalanceProfitLossPerPeriodPerSite" headertext="Laporan Aktivitas Per Unit" papertype="A4_landscape" fontsize="8pt" isdatasourcefromsp="1" isshowtotal="1" totaltext="Total" subheadertext="Periode : {CS001} {YR001}" />
+  <parameters>
+    <parameter code="YR001" isrequired="1"/>
+    <parameter code="CS001" isrequired="1"/>
+    <parameter code="CS002" isrequired="1"/>
+  </parameters>
+  <groups>
+    <group fieldname="GLAccountType" orderby="GCGLAccountType" orderbytype="ASC" headertext="Tipe : [GroupName]" isshowsubtotal="1" subtotaltext="Sub Total [GroupName] : "/>
+  </groups>
+  <fields>
+    <field fieldname="GLAccountNo" headertext="Kd. Akun" width="4" />
+    <field fieldname="GLAccountName" headertext="Nama Akun" width="8" />
+    <field fieldname="Col3" headertext="SMA 1" width="4" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="Col4" headertext="SMP 1" width="4" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="Col5" headertext="SD 1" width="4" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="Col6" headertext="TK 1" width="4" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="Col8" headertext="SMA 2" width="4" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="Col9" headertext="SMP 2" width="4" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="Col10" headertext="SD 2" width="4" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="Col11" headertext="TK 2" width="4" fieldtype="currency" isshowsubtotal="1" />
+  </fields>
+</root>

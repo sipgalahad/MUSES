@@ -36,6 +36,7 @@
     <input type="hidden" runat="server" id="hdnPageIndex" value="-1" />
     <input type="hidden" runat="server" id="hdnWatermark" value="" />
     <input type="hidden" runat="server" id="hdnProposeText" value="" />
+    <input type="hidden" runat="server" id="hdnMenuCaption" value="" />
     <div style="position:relative;">
         <div runat="server" id="pnlWatermark" style="pointer-events:none;display:none; position:absolute; z-index:1000; height:170px;width:100%;text-align:center; padding-top: 50px; margin-top:180px;font-size: 40px;background-color: transparent; opacity: 0.45; color: #FF0000; overflow-y:hidden;" class="borderBox">
             <div style="-webkit-transform: rotate(-10deg); -moz-transform: rotate(-10deg); filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);">
@@ -286,6 +287,13 @@
                             });
                         }
                     });
+                    $('#<%=btnMPEntryPrint.ClientID %>').click(function () {
+                        showLoadingPanel();
+                        $('#<%=btnExport.ClientID%>').click();
+                        setTimeout(function () {
+                            hideLoadingPanel();
+                        }, 1000);
+                    });
                     $('#<%=btnMPEntryReopen.ClientID %>').click(function () {
                         showToastConfirmation('Are You Sure Want To Reopen?', function (result) {
                             if (result) cbpMPEntryProcess.PerformCallback('reopen');
@@ -417,6 +425,10 @@
             </script>
             <asp:ContentPlaceHolder ID="plhHeader" runat="server">                
             </asp:ContentPlaceHolder>
+            <div style="display:none;">
+                <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />
+                <asp:Button ID="btnExport" Visible="true" runat="server" OnClick="btnExport_Click" Text="Export" />
+            </div>
 
             <dxcp:ASPxCallbackPanel ID="cbpMPEntryContent" runat="server" Width="100%" ClientInstanceName="cbpMPEntryContent"
                 ShowLoadingPanel="false" OnCallback="cbpMPEntryContent_Callback">
@@ -609,6 +621,7 @@
         <li id="btnMPEntrySave" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
         <li id="btnMPEntryPropose" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetProposeText()%></div></li>
         <li id="btnMPEntryVoid" runat="server" CRUDMode="V"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><div><%=GetLabel("Void")%></div></li>
+        <li id="btnMPEntryPrint" runat="server" CRUDMode="E"><img src='<%=ResolveUrl("~/Libs/Images/Icon/download.png")%>' alt="" /><div><%=GetLabel("Export")%></div></li>
         <li id="btnMPEntryReopen" runat="server" CRUDMode="O"><img src='<%=ResolveUrl("~/Libs/Images/Icon/redo.png")%>' alt="" /><div><%=GetLabel("Reopen")%></div></li>
         <li id="btnMPEntryPrev" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/prev.png")%>' alt="" /><div><%=GetLabel("Prev")%></div></li>
         <li id="btnMPEntryNext" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/next.png")%>' alt="" /><div><%=GetLabel("Next")%></div></li>

@@ -20,7 +20,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
         }
         protected string OnGetAppIcon()
         {
-            return "../Images/AppIcon/general/icon.ico";
+            return "../Images/AppIcon/general/icon.ico?1";
         }
         protected override void OnInit(EventArgs e)
         {

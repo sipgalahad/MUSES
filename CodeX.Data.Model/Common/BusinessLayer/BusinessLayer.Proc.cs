@@ -8,6 +8,36 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region GetDailyReportUserList
+        public static List<GetDailyReportUserList> GetDailyReportUserList(string siteID, int userID)
+        {
+            List<GetDailyReportUserList> result = new List<GetDailyReportUserList>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetDailyReportUserList));
+                ctx.CommandText = "GetDailyReportUserList";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("p_SiteID", siteID);
+                ctx.Add("p_UserID", userID);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetDailyReportUserList)helper.IDataReaderToObject(reader, new GetDailyReportUserList()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GenerateTransactionNo
         public static string GenerateTransactionNo(string transactionCode, DateTime transactionDate)
         {

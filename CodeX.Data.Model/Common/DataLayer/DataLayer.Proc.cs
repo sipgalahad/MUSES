@@ -11,6 +11,49 @@ using CodeX.Data.Core.Dal;
  ***************************************************************************/
 namespace CodeX.Data.Model
 {
+    #region GetDailyReportUserList
+    [Serializable]
+    [Table(Name = "GetDailyReportUserList")]
+    public class GetDailyReportUserList
+    {
+        private Int32 _ReportID;
+        private String _ReportCode;
+        private String _ReportName;
+        private String _GCDailyReportType;
+        private Int16 _DisplayOrder;
+
+        [Column(Name = "ReportID", DataType = "Int32")]
+        public Int32 ReportID
+        {
+            get { return _ReportID; }
+            set { _ReportID = value; }
+        }
+        [Column(Name = "ReportCode", DataType = "String")]
+        public String ReportCode
+        {
+            get { return _ReportCode; }
+            set { _ReportCode = value; }
+        }
+        [Column(Name = "ReportName", DataType = "String")]
+        public String ReportName
+        {
+            get { return _ReportName; }
+            set { _ReportName = value; }
+        }
+        [Column(Name = "GCDailyReportType", DataType = "String")]
+        public String GCDailyReportType
+        {
+            get { return _GCDailyReportType; }
+            set { _GCDailyReportType = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+    }
+    #endregion
     #region GetItemMasterPurchase
     [Serializable]
     [Table(Name = "GetItemMasterPurchase")]
