@@ -1409,6 +1409,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Treasury Book -->
+  <searchdialog type="treasurybook" methodname="GetvTreasuryBookList" keyfieldname="BookCode" orderbyexpression="BookCode ASC">
+    <gridcolumns>
+      <gridcolumn datafield="BookCode" headertext="Kode" width="120px" />
+      <gridcolumn datafield="BookName" headertext="Nama" width="150px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="BookCode" headertext="Kode" description="" />
+      <intellisensetext datafield="BookName" headertext="Nama" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Treasury Hd -->
   <searchdialog type="treasuryhd" methodname="GetvTreasuryHdList" keyfieldname="TransactionNo" orderbyexpression="TreasuryID DESC">
     <gridcolumns>

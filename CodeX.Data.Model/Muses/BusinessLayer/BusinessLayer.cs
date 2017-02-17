@@ -23255,6 +23255,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<TreasuryDt> GetTreasuryDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TreasuryDt> result = new List<TreasuryDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TreasuryDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TreasuryDt)helper.IDataReaderToObject(reader, new TreasuryDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region TreasuryHd
         public static TreasuryHd GetTreasuryHd(Int32 TransactionID)

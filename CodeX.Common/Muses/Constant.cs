@@ -460,6 +460,7 @@ namespace CodeX.Common
                 public const string JOURNAL_ENTRY = "AC050100";
                 public const string JOURNAL_LIST = "AC050200";
                 public const string INTERFACE_JOURNAL_PROCESS = "AC050300";
+                public const string TREASURY_ENTRY = "AC050400";
 
                 public const string JOURNAL_POSTING = "AC060100";
 
