@@ -23063,6 +23063,166 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TreasuryBook
+        public static TreasuryBook GetTreasuryBook(Int32 BookID)
+        {
+            return new TreasuryBookDao().Get(BookID);
+        }
+        public static int InsertTreasuryBook(TreasuryBook record)
+        {
+            return new TreasuryBookDao().Insert(record);
+        }
+        public static int UpdateTreasuryBook(TreasuryBook record)
+        {
+            return new TreasuryBookDao().Update(record);
+        }
+        public static int DeleteTreasuryBook(Int32 BookID)
+        {
+            return new TreasuryBookDao().Delete(BookID);
+        }
+        public static List<TreasuryBook> GetTreasuryBookList(string filterExpression)
+        {
+            List<TreasuryBook> result = new List<TreasuryBook>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TreasuryBook));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TreasuryBook)helper.IDataReaderToObject(reader, new TreasuryBook()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TreasuryBookCOA
+        public static TreasuryBookCOA GetTreasuryBookCOA(Int32 BookID, Int32 GLAccount)
+        {
+            return new TreasuryBookCOADao().Get(BookID, GLAccount);
+        }
+        public static int InsertTreasuryBookCOA(TreasuryBookCOA record)
+        {
+            return new TreasuryBookCOADao().Insert(record);
+        }
+        public static int UpdateTreasuryBookCOA(TreasuryBookCOA record)
+        {
+            return new TreasuryBookCOADao().Update(record);
+        }
+        public static int DeleteTreasuryBookCOA(Int32 BookID, Int32 GLAccount)
+        {
+            return new TreasuryBookCOADao().Delete(BookID, GLAccount);
+        }
+        public static List<TreasuryBookCOA> GetTreasuryBookCOAList(string filterExpression)
+        {
+            List<TreasuryBookCOA> result = new List<TreasuryBookCOA>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TreasuryBookCOA));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TreasuryBookCOA)helper.IDataReaderToObject(reader, new TreasuryBookCOA()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TreasuryDt
+        public static TreasuryDt GetTreasuryDt(Int32 TransactionDtID)
+        {
+            return new TreasuryDtDao().Get(TransactionDtID);
+        }
+        public static int InsertTreasuryDt(TreasuryDt record)
+        {
+            return new TreasuryDtDao().Insert(record);
+        }
+        public static int UpdateTreasuryDt(TreasuryDt record)
+        {
+            return new TreasuryDtDao().Update(record);
+        }
+        public static int DeleteTreasuryDt(Int32 TransactionDtID)
+        {
+            return new TreasuryDtDao().Delete(TransactionDtID);
+        }
+        public static List<TreasuryDt> GetTreasuryDtList(string filterExpression)
+        {
+            List<TreasuryDt> result = new List<TreasuryDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TreasuryDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TreasuryDt)helper.IDataReaderToObject(reader, new TreasuryDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TreasuryHd
+        public static TreasuryHd GetTreasuryHd(Int32 TransactionID)
+        {
+            return new TreasuryHdDao().Get(TransactionID);
+        }
+        public static int InsertTreasuryHd(TreasuryHd record)
+        {
+            return new TreasuryHdDao().Insert(record);
+        }
+        public static int UpdateTreasuryHd(TreasuryHd record)
+        {
+            return new TreasuryHdDao().Update(record);
+        }
+        public static int DeleteTreasuryHd(Int32 TransactionID)
+        {
+            return new TreasuryHdDao().Delete(TransactionID);
+        }
+        public static List<TreasuryHd> GetTreasuryHdList(string filterExpression)
+        {
+            List<TreasuryHd> result = new List<TreasuryHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TreasuryHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TreasuryHd)helper.IDataReaderToObject(reader, new TreasuryHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
 
         #region Project Management
         #region ActivityHistory

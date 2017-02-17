@@ -187,6 +187,60 @@ namespace CodeX.Web.CommonLibs.Controls
             return result;
         }
         #endregion
+        #region Treasury Book COA
+        private void InitializeTreasuryBookCOA(string queryString)
+        {
+            lblHeader.InnerText = "Buku";
+
+            TreasuryBook entity = BusinessLayer.GetTreasuryBook(Convert.ToInt32(queryString));
+            txtHeader.Text = entity.BookName;
+
+            List<vChartOfAccount> ListAvailableMember = BusinessLayer.GetvChartOfAccountList(string.Format("GLAccountID NOT IN (SELECT GLAccount FROM TreasuryBookCOA WHERE BookID = {0}) AND IsHeader = 0 AND IsDeleted = 0", queryString));
+            List<vChartOfAccount> ListSelectedMember = BusinessLayer.GetvChartOfAccountList(string.Format("GLAccountID IN (SELECT GLAccount FROM TreasuryBookCOA WHERE BookID = {0}) AND IsDeleted = 0", queryString));
+
+            ListAvailable = (from p in ListAvailableMember
+                             select new CMatrix { IsChecked = false, ID = p.GLAccountID.ToString(), Name = p.GLAccountName }).OrderBy(p => p.Name).ToList();
+
+            ListSelected = (from p in ListSelectedMember
+                            select new CMatrix { IsChecked = false, ID = p.GLAccountID.ToString(), Name = p.GLAccountName }).OrderBy(p => p.Name).ToList();
+        }
+
+        private bool SaveTreasuryBookCOA(string queryString, ref string errMessage)
+        {
+            IDbContext ctx = DbFactory.Configure(true);
+            bool result = false;
+            try
+            {
+                int ID = Convert.ToInt32(queryString);
+                TreasuryBookCOADao entityDao = new TreasuryBookCOADao(ctx);
+                foreach (ProceedEntity row in ListProceedEntity)
+                {
+                    if (row.Status == ProceedEntity.ProceedEntityStatus.Add)
+                    {
+                        TreasuryBookCOA entity = new TreasuryBookCOA();
+                        entity.BookID = ID;
+                        entity.GLAccount = Convert.ToInt32(row.ID);
+                        entityDao.Insert(entity);
+                    }
+                    else
+                        entityDao.Delete(ID, Convert.ToInt32(row.ID));
+                }
+                ctx.CommitTransaction();
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                ctx.RollBackTransaction();
+                result = false;
+                errMessage = ex.Message;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         
         private void InitializeListMatrix(string type, string queryString)
         {
@@ -195,6 +249,7 @@ namespace CodeX.Web.CommonLibs.Controls
                 case "GLAccountPayable": InitializeGLAccountPayable(queryString); break;
                 case "GLWarehouseProductLineAccountDt": InitializeGLWarehouseProductLineAccountDt(queryString); break;
                 case "ModuleMenu": InitializeModuleMenu(queryString); break;
+                case "TreasuryBookCOA": InitializeTreasuryBookCOA(queryString); break;
             }
         }
 
@@ -205,6 +260,7 @@ namespace CodeX.Web.CommonLibs.Controls
                 case "GLAccountPayable": return SaveGLAccountPayable(queryString, ref errMessage);
                 case "GLWarehouseProductLineAccountDt": return SaveGLWarehouseProductLineAccountDt(queryString, ref errMessage);
                 case "ModuleMenu": return SaveModuleMenu(queryString, ref errMessage);
+                case "TreasuryBookCOA": return SaveTreasuryBookCOA(queryString, ref errMessage);
             }                
             return false;
         }

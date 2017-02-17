@@ -2982,6 +2982,44 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTreasuryDt
+    public partial class vTreasuryDt
+    {
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public String TransactionDateInMonth
+        {
+            get
+            {
+                return _TransactionDate.ToString("MMMM yyyy");
+            }
+        }
+    }
+    #endregion
+    #region vTreasuryHd
+    public partial class vTreasuryHd
+    {
+        public string TransactionDateInString
+        {
+            get { return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+        public string LastUpdatedDateInString
+        {
+            get { return _LastUpdatedDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public string TransactionDateInMonth
+        {
+            get { return _TransactionDate.ToString("MMMM yyyy"); }
+        }
+    }
+    #endregion
     #region Project Management
     #region vActivityHistory
     public partial class vActivityHistory

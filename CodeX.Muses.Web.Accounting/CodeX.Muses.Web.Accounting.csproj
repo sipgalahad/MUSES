@@ -137,6 +137,8 @@
     <Content Include="Program\Master\ChartOfAccount\ChartOfAccountList.aspx" />
     <Content Include="Program\Master\COAGroup\COAGroupEntry.aspx" />
     <Content Include="Program\Master\COAGroup\COAGroupList.aspx" />
+    <Content Include="Program\Master\TreasuryBook\TreasuryBookEntry.aspx" />
+    <Content Include="Program\Master\TreasuryBook\TreasuryBookList.aspx" />
     <Content Include="Program\Master\JournalTemplate\JournalTemplateDtEntryCtl.ascx" />
     <Content Include="Program\Master\JournalTemplate\JournalTemplateDtViewCtl.ascx" />
     <Content Include="Program\Master\JournalTemplate\JournalTemplateEntry.aspx" />
@@ -596,6 +598,20 @@
     </Compile>
     <Compile Include="Program\Master\COAGroup\COAGroupList.aspx.designer.cs">
       <DependentUpon>COAGroupList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\TreasuryBook\TreasuryBookEntry.aspx.cs">
+      <DependentUpon>TreasuryBookEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\TreasuryBook\TreasuryBookEntry.aspx.designer.cs">
+      <DependentUpon>TreasuryBookEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\TreasuryBook\TreasuryBookList.aspx.cs">
+      <DependentUpon>TreasuryBookList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\TreasuryBook\TreasuryBookList.aspx.designer.cs">
+      <DependentUpon>TreasuryBookList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\JournalTemplate\JournalTemplateDtEntryCtl.ascx.cs">
       <DependentUpon>JournalTemplateDtEntryCtl.ascx</DependentUpon>

@@ -153,7 +153,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Penbayaran")%></label></td>
+                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Pembayaran")%></label></td>
                 <td><asp:TextBox ID="txtReceivedDate" runat="server" Width="120px" CssClass="datepicker" /></td>
             </tr>
             <tr>

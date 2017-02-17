@@ -442,6 +442,7 @@ namespace CodeX.Common
                 public const string SUB_LEDGER = "AC010400";
                 public const string JOURNAL_TEMPLATE = "AC010500";
                 public const string PRODUCT_LINE = "AC010600";
+                public const string TREASURY_BOOK = "AC010700";
 
                 public const string GL_SETTING = "AC020100";
                 public const string GL_PRODUCT_LINE = "AC020201";
