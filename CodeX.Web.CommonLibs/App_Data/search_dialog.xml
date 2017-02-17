@@ -588,17 +588,15 @@
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
-	<!-- #Region PerformanceIndicator -->
-	<searchdialog type="performanceindicator" methodname="GetvPerformanceIndicatorHdList" keyfieldname="PerformanceIndicatorID" orderbyexpression="PerformanceIndicatorName ASC">
+	<!-- #Region PerformanceIndicatorDt -->
+	<searchdialog type="performanceindicatordt" methodname="GetPerformanceIndicatorDtList" keyfieldname="PerformanceIndicatorDtID" orderbyexpression="PerformanceIndicatorDtName ASC">
 		<gridcolumns>
-			<gridcolumn datafield="PerformanceIndicatorName" headertext="Nama" width="300px"/>
-			<gridcolumn datafield="IndicatorMarkPeriod" headertext="Periode" width="150px" />
-			<gridcolumn datafield="IndicatorMarkType" headertext="Tipe" width="150px" />
+			<gridcolumn datafield="PerformanceIndicatorDtName" headertext="Nama" width="300px"/>
+			<gridcolumn datafield="DisplayOrder" headertext="Order" width="150px" />
 		</gridcolumns>
 		<intellisensetexts>
-			<intellisensetext datafield="PerformanceIndicatorName"  headertext="Nama" description="" />
-			<intellisensetext datafield="IndicatorMarkPeriod" headertext="Periode" description="" />
-			<intellisensetext datafield="IndicatorMarkType" headertext="Tipe" description=""/>
+			<intellisensetext datafield="PerformanceIndicatorDtName"  headertext="Nama" description="" />
+			<intellisensetext datafield="DisplayOrder" headertext="Order" description="" />
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
@@ -905,6 +903,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+	<!-- #Region Revenue Period Type -->
+	<searchdialog type="revenueperiod" methodname="GetRevenuePeriodList" keyfieldname="RevenuePeriodID" orderbyexpression="StartDate ASC">
+		<gridcolumns>
+			<gridcolumn datafield="StartDate" headertext="Tanggal Awal" width="100px" />
+			<gridcolumn datafield="EndDate" headertext="Tanggal Akhir" width="100px" />
+		</gridcolumns>
+		<intellisensetexts>
+			<intellisensetext datafield="StartDate" headertext="Tanggal Awal" description="" />
+			<intellisensetext datafield="EndDate" headertext="Tanggal Akhir" description="" />
+		</intellisensetexts>
+	</searchdialog>
+	<!-- #EndRegion -->
   <!-- #Region Report Master -->
   <searchdialog type="reportmaster" methodname="GetvReportMasterList" keyfieldname="ReportCode" istreeview="1">
     <gridcolumns>

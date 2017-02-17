@@ -5467,6 +5467,79 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region EmployeePerformanceIndicator
+        public static EmployeePerformanceIndicator GetEmployeePerformanceIndicator(Int32 EmployeeID, Int32 RevenuePeriodID, Int32 PerformanceIndicatorID)
+        {
+            return new EmployeePerformanceIndicatorDao().Get(EmployeeID, RevenuePeriodID, PerformanceIndicatorID);
+        }
+        public static int InsertEmployeePerformanceIndicator(EmployeePerformanceIndicator record)
+        {
+            return new EmployeePerformanceIndicatorDao().Insert(record);
+        }
+        public static int UpdateEmployeePerformanceIndicator(EmployeePerformanceIndicator record)
+        {
+            return new EmployeePerformanceIndicatorDao().Update(record);
+        }
+        public static int DeleteEmployeePerformanceIndicator(Int32 EmployeeID, Int32 RevenuePeriodID, Int32 PerformanceIndicatorID)
+        {
+            return new EmployeePerformanceIndicatorDao().Delete(EmployeeID, RevenuePeriodID, PerformanceIndicatorID);
+        }
+        public static List<EmployeePerformanceIndicator> GetEmployeePerformanceIndicatorList(string filterExpression)
+        {
+            List<EmployeePerformanceIndicator> result = new List<EmployeePerformanceIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(EmployeePerformanceIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((EmployeePerformanceIndicator)helper.IDataReaderToObject(reader, new EmployeePerformanceIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<EmployeePerformanceIndicator> GetEmployeePerformanceIndicatorList(string filterExpression, IDbContext ctx)
+        {
+            List<EmployeePerformanceIndicator> result = new List<EmployeePerformanceIndicator>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(EmployeePerformanceIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((EmployeePerformanceIndicator)helper.IDataReaderToObject(reader, new EmployeePerformanceIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetEmployeePerformanceIndicatorMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(EmployeePerformanceIndicator));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ExamClassSchedule
         public static ExamClassSchedule GetExamClassSchedule(Int32 ExamScheduleDtID, Int32 SchoolClassID)
         {

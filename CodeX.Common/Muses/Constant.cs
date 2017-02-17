@@ -681,6 +681,7 @@ namespace CodeX.Common
                 public const string EMPLOYEE_LOAN = "HR020300";
                 public const string EMPLOYEE_DAILY_ATTENDANCE = "HR020400";
                 public const string EMPLOYEE_REVENUE = "HR020500";
+                public const string EMPLOYEE_PERFORMANCE_INDICATOR = "HR020600";
             }
             #endregion
 

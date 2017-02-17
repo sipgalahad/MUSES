@@ -7571,6 +7571,49 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vEmployeePerformanceIndicator
+    [Serializable]
+    [Table(Name = "vEmployeePerformanceIndicator")]
+    public class vEmployeePerformanceIndicator
+    {
+        private Int32 _EmployeeID;
+        private Int32 _RevenuePeriodID;
+        private Int32 _PerformanceIndicatorDtID;
+        private String _PerformanceIndicatorDtName;
+        private Int32 _Value;
+
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "RevenuePeriodID", DataType = "Int32")]
+        public Int32 RevenuePeriodID
+        {
+            get { return _RevenuePeriodID; }
+            set { _RevenuePeriodID = value; }
+        }
+        [Column(Name = "PerformanceIndicatorDtID", DataType = "Int32")]
+        public Int32 PerformanceIndicatorDtID
+        {
+            get { return _PerformanceIndicatorDtID; }
+            set { _PerformanceIndicatorDtID = value; }
+        }
+        [Column(Name = "PerformanceIndicatorDtName", DataType = "String")]
+        public String PerformanceIndicatorDtName
+        {
+            get { return _PerformanceIndicatorDtName; }
+            set { _PerformanceIndicatorDtName = value; }
+        }
+        [Column(Name = "Value", DataType = "Int32")]
+        public Int32 Value
+        {
+            get { return _Value; }
+            set { _Value = value; }
+        }
+    }
+    #endregion
     #region vExamScheduleDt
     [Serializable]
     [Table(Name = "vExamScheduleDt")]
