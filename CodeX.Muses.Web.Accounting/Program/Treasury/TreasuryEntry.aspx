@@ -22,6 +22,7 @@
                 $('#divSaveTemplate').hide();
             }
 
+            setDatePicker('<%=txtReferenceDate.ClientID %>');
             if (getIsAdd()) {
                 setDatePicker('<%=txtTransactionDate.ClientID %>');
                 $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'maxDate', '0');
@@ -190,6 +191,17 @@
         }
 
         function entityToControlBook(entity) {
+            if (entity != null) {
+                $('#<%=txtGLAccountName.ClientID %>').val(entity.GLAccountName + ' (' + entity.GLAccountNo + ')');
+                if (entity.SubLedgerCode != '')
+                    $('#<%=txtSubLedgerName.ClientID %>').val(entity.SubLedgerName + ' (' + entity.SubLedgerCode + ')');
+                else
+                    $('#<%=txtSubLedgerName.ClientID %>').val('');
+            }
+            else {
+                $('#<%=txtGLAccountName.ClientID %>').val('');
+                $('#<%=txtSubLedgerName.ClientID %>').val('');
+            }
         }
         //#endregion
 
@@ -198,7 +210,9 @@
         $tacTr = null;
         //#region COA
         function onGetCOAFilterExpression() {
-            var filterExpression = "IsHeader = 0 AND IsDeleted = 0";
+            if (tacBook.getValue() == '')
+                return "1 = 0";
+            var filterExpression = "GLAccountID IN (SELECT GLAccount FROM TreasuryBookCOA WHERE BookID = " + tacBook.getValue() + ") AND IsHeader = 0 AND IsDeleted = 0";
             return filterExpression;
         }
 
@@ -558,17 +572,6 @@
         });
         //#endregion
 
-        function onCboTransactionCodeValueChanged(s) {
-            var value = s.GetValue();
-            var filterExpression = "TransactionCode = '" + value + "'";
-            Methods.getObject('GetTransactionTypeList', filterExpression, function (result) {
-                if (result != null)
-                    $('#<%=txtJournalPrefix.ClientID %>').val(result.TransactionInitial);
-                else
-                    $('#<%=txtJournalPrefix.ClientID %>').val('');
-            });
-        }
-
         function onAfterSaveAddRecordEntryPopup(param) {
             if (popupType == 'templatePick') {
                 var temp = param.split('|');
@@ -791,7 +794,7 @@
     <input type="hidden" value="" id="hdnRecordFilterExpression" runat="server" />
     <table class="tblContentArea">
         <colgroup>
-            <col style="width:50%"/>
+            <col style="width:55%"/>
         </colgroup>
         <tr>
             <td style="padding:5px;vertical-align:top">
@@ -800,30 +803,8 @@
                         <col style="width:120px"/>
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Sumber Data") %></label></td>
-                        <td colspan="4">
-                            <dxe:ASPxComboBox ID="cboTransactionCode" ClientInstanceName="cboTransactionCode" Width="100%" runat="server">
-                                <ClientSideEvents ValueChanged="function(s,e){ onCboTransactionCodeValueChanged(s); }" />
-                            </dxe:ASPxComboBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblMandatory lblLink" id="lblTransactionNo"><%=GetLabel("Nomor Jurnal") %></label></td>
-                        <td id="tdTransactionNoAdd" runat="server">
-                            <table  cellpadding="0" cellspacing="0">
-                                <colgroup>
-                                    <col style="width: 50px" />
-                                    <col style="width: 3px" />
-                                    <col style="width: 170px"/>
-                                </colgroup>
-                                <tr>
-                                    <td><asp:TextBox ID="txtJournalPrefix" Width="100%" runat="server" /></td>
-                                    <td>&nbsp;</td>
-                                    <td><asp:TextBox ID="txtTransactionNo1" Width="100%" runat="server" ReadOnly="true" /></td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td style="display:none;" id="tdTransactionNoEdit" runat="server"><asp:TextBox runat="server" ID="txtTransactionNo" Width="220px" /></td>
+                        <td class="tdLabel"><label class="lblMandatory lblLink" id="lblTransactionNo"><%=GetLabel("No Voucher")%></label></td>
+                        <td ><asp:TextBox runat="server" ID="txtTransactionNo" Width="220px" /></td>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal") %></label></td>
                         <td><asp:TextBox runat="server" ID="txtTransactionDate" CssClass="datepicker" Width="120px" /></td>
                     </tr>
@@ -837,6 +818,16 @@
                             </cdx:CodeXAutoCompleteTextBox>   
                         </td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Perkiraan") %></label></td>
+                        <td><asp:TextBox runat="server" ID="txtGLAccountName" Width="220px" /></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Sub")%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtSubLedgerName" Width="220px" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Voucher") %></label></td>
+                        <td colspan="4"><dxe:ASPxComboBox ID="cboVoucherGroup" ClientInstanceName="cboVoucherGroup" Width="220px" runat="server" /></td>
+                    </tr>
                 </table>
             </td>
             <td style="padding:5px;vertical-align:top">
@@ -845,8 +836,14 @@
                         <col style="width:150px"/>
                     </colgroup>
                     <tr>
-                        <td class="tdLabel" style="width: 150px; vertical-align:top; padding-top:5px; "><label class="lblNormal"><%=GetLabel("Keterangan Jurnal")%></label></td>
-                        <td><asp:TextBox ID="txtRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("No Referensi") %></label></td>
+                        <td><asp:TextBox runat="server" ID="txtReferenceNo" Width="150px" /></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal") %></label></td>
+                        <td><asp:TextBox runat="server" ID="txtReferenceDate" CssClass="datepicker" Width="120px" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel" style="width: 150px; vertical-align:top; padding-top:5px; "><label class="lblNormal"><%=GetLabel("Keterangan")%></label></td>
+                        <td colspan="4"><asp:TextBox ID="txtRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                     </tr>
                 </table>
             </td>

@@ -39857,6 +39857,8 @@ namespace CodeX.Data.Model
         private Int32 _SubLedger;
         private String _SubLedgerCode;
         private String _SubLedgerName;
+        private String _JournalTransactionCode;
+        private String _JournalTransactionName;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -39955,6 +39957,18 @@ namespace CodeX.Data.Model
         {
             get { return _SubLedgerName; }
             set { _SubLedgerName = value; }
+        }
+        [Column(Name = "JournalTransactionCode", DataType = "String")]
+        public String JournalTransactionCode
+        {
+            get { return _JournalTransactionCode; }
+            set { _JournalTransactionCode = value; }
+        }
+        [Column(Name = "JournalTransactionName", DataType = "String")]
+        public String JournalTransactionName
+        {
+            get { return _JournalTransactionName; }
+            set { _JournalTransactionName = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -40213,6 +40227,8 @@ namespace CodeX.Data.Model
         private Int32 _SubLedgerID;
         private String _SubLedgerCode;
         private String _SubLedgerName;
+        private String _JournalTransactionCode;
+        private String _JournalTransactionName;
         private String _GCVoucherGroup;
         private String _VoucherGroup;
         private String _GCJournalGroup;
@@ -40226,7 +40242,8 @@ namespace CodeX.Data.Model
         private Int32 _CustomerID;
         private String _CustomerCode;
         private String _CustomerName;
-        private Decimal _TotalAmount;
+        private Decimal _CreditAmount;
+        private Decimal _DebitAmount;
         private String _Remarks;
         private Boolean _IsGeneratedBySystem;
         private String _GCTransactionStatus;
@@ -40319,6 +40336,18 @@ namespace CodeX.Data.Model
             get { return _SubLedgerName; }
             set { _SubLedgerName = value; }
         }
+        [Column(Name = "JournalTransactionCode", DataType = "String")]
+        public String JournalTransactionCode
+        {
+            get { return _JournalTransactionCode; }
+            set { _JournalTransactionCode = value; }
+        }
+        [Column(Name = "JournalTransactionName", DataType = "String")]
+        public String JournalTransactionName
+        {
+            get { return _JournalTransactionName; }
+            set { _JournalTransactionName = value; }
+        }
         [Column(Name = "GCVoucherGroup", DataType = "String")]
         public String GCVoucherGroup
         {
@@ -40397,11 +40426,17 @@ namespace CodeX.Data.Model
             get { return _CustomerName; }
             set { _CustomerName = value; }
         }
-        [Column(Name = "TotalAmount", DataType = "Decimal")]
-        public Decimal TotalAmount
+        [Column(Name = "CreditAmount", DataType = "Decimal")]
+        public Decimal CreditAmount
         {
-            get { return _TotalAmount; }
-            set { _TotalAmount = value; }
+            get { return _CreditAmount; }
+            set { _CreditAmount = value; }
+        }
+        [Column(Name = "DebitAmount", DataType = "Decimal")]
+        public Decimal DebitAmount
+        {
+            get { return _DebitAmount; }
+            set { _DebitAmount = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

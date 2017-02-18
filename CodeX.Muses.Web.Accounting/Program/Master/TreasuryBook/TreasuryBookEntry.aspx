@@ -112,25 +112,37 @@
         }
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
-    <table class="tblContentArea" style="width:50%">
+    <table class="tblContentArea" style="width:100%">
         <tr>
-            <td style="padding:5px;vertical-align:top">
-                <table class="tblEntryContent">
+            <td>
+                <table width="100%">
                     <colgroup>
-                        <col style="width:30%"/>
-                        <col />
+                        <col style="width: 50%"/>
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode Buku")%></label></td>
-                        <td><asp:TextBox ID="txtBookCode" Width="150px" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Buku")%></label></td>
-                        <td><asp:TextBox ID="txtBookName" Width="300px" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Remarks")%></label></td>
-                        <td><asp:TextBox ID="txtRemarks" Width="300px" TextMode="MultiLine" Rows="2" runat="server" /></td>
+                        <td>
+                            <table width="100%">
+                                <colgroup>
+                                    <col width="230px" />
+                                </colgroup>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode Buku")%></label></td>
+                                    <td><asp:TextBox ID="txtBookCode" Width="150px" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Buku")%></label></td>
+                                    <td><asp:TextBox ID="txtBookName" Width="300px" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Sumber Data Jurnal") %></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboTransactionCode" ClientInstanceName="cboTransactionCode" Width="300px" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Remarks")%></label></td>
+                                    <td><asp:TextBox ID="txtRemarks" Width="300px" TextMode="MultiLine" Rows="2" runat="server" /></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </td>

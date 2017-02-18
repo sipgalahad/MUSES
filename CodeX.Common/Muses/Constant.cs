@@ -442,7 +442,7 @@ namespace CodeX.Common
                 public const string SUB_LEDGER = "AC010400";
                 public const string JOURNAL_TEMPLATE = "AC010500";
                 public const string PRODUCT_LINE = "AC010600";
-                public const string TREASURY_BOOK = "AC010700";
+                public const string TREASURY_BOOK = "AC010800";
 
                 public const string GL_SETTING = "AC020100";
                 public const string GL_PRODUCT_LINE = "AC020201";
@@ -1029,6 +1029,7 @@ namespace CodeX.Common
             public const string JOURNAL_MEMORIAL = "7201";
             public const string JOURNAL = "72%";
             public const string JOURNAL_MEMORIAL_IKHTISAR = "7299";
+            public const string TREASURY = "7301";
 
             public const string PROPOSED_BUDGET = "8101";
             public const string BUDGET_REQUEST = "8102";

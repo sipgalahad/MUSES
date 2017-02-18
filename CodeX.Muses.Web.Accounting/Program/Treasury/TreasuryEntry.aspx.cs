@@ -58,19 +58,21 @@ namespace CodeX.Muses.Web.Accounting.Program
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(hdnID, new ControlEntrySetting(false, false, false, "0"));
-            SetControlEntrySetting(txtJournalPrefix, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(txtTransactionNo, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtTransactionNo, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(cboVoucherGroup, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(tacBook, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtTransactionDate, new ControlEntrySetting(true, false, true, Constant.DefaultValueEntry.DATE_NOW));
+            SetControlEntrySetting(txtGLAccountName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtSubLedgerName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
-
-            SetControlEntrySetting(cboTransactionCode, new ControlEntrySetting(true, false, true));
         }
 
         protected override void SetControlProperties()
         {
-            List<TransactionType> lstTransactionType = BusinessLayer.GetTransactionTypeList("TransactionCode LIKE '72%'");
-            Methods.SetComboBoxField<TransactionType>(cboTransactionCode, lstTransactionType.Where(p => Convert.ToInt32(p.TransactionCode) > 7280 && Convert.ToInt32(p.TransactionCode) < 7290).ToList(), "TransactionName", "TransactionCode");
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.VOUCHER_GROUP));
+            Methods.SetComboBoxField<StandardCode>(cboVoucherGroup, lstSc, "StandardCodeName", "StandardCodeID");
         }
 
         #region Load Entity
@@ -78,8 +80,6 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             hdnID.Value = "0";
             hdnIsEditable.Value = "1";
-            tdTransactionNoEdit.Style.Add("display", "none");
-            tdTransactionNoAdd.Style.Remove("display");
 
             divCreatedBy.InnerHtml = "";
             divLastUpdatedBy.InnerHtml = "";
@@ -137,14 +137,21 @@ namespace CodeX.Muses.Web.Accounting.Program
             }
             else
                 hdnIsEditable.Value = "1";
-            tdTransactionNoAdd.Style.Add("display", "none");
-            tdTransactionNoEdit.Style.Remove("display");
             hdnID.Value = entity.TransactionID.ToString();
             txtTransactionNo.Text = entity.TransactionNo;
-            cboTransactionCode.Value = entity.TransactionCode;
             tacBook.Value = entity.BookID.ToString();
             tacBook.Text = entity.BookName;
-
+            cboVoucherGroup.Value = entity.GCVoucherGroup;
+            txtGLAccountName.Text = string.Format("{0} ({1})", entity.GLAccountName, entity.GLAccountNo);
+            if (entity.SubLedgerCode != "")
+                txtSubLedgerName.Text = string.Format("{0} ({1})", entity.SubLedgerName, entity.SubLedgerCode);
+            else
+                txtSubLedgerName.Text = "";
+            txtReferenceNo.Text = entity.ReferenceNo;
+            if (entity.ReferenceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) != Constant.ConstantDate.DEFAULT_NULL)
+                txtReferenceDate.Text = entity.ReferenceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            else
+                txtReferenceDate.Text = "";
             txtTransactionDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtRemarks.Text = entity.Remarks;
 
@@ -172,6 +179,17 @@ namespace CodeX.Muses.Web.Accounting.Program
         }
         #endregion
 
+        private void ControlToEntity(TreasuryHd entityHd)
+        {
+            entityHd.GCVoucherGroup = cboVoucherGroup.Value.ToString();
+            entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
+            entityHd.BookID = Convert.ToInt32(tacBook.Value);
+            entityHd.ReferenceNo = txtReferenceNo.Text;
+            entityHd.ReferenceDate = Helper.GetDatePickerValue(Request.Form[txtReferenceDate.UniqueID]);
+
+            entityHd.Remarks = txtRemarks.Text;
+        }
+
         public void SaveTreasuryHd(IDbContext ctx, ref int TransactionID)
         {
             TreasuryHdDao entityHdDao = new TreasuryHdDao(ctx);
@@ -189,13 +207,10 @@ namespace CodeX.Muses.Web.Accounting.Program
                 if (isAllowSave)
                 {
                     TreasuryHd entityHd = new TreasuryHd();
-                    entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                     entityHd.GCJournalGroup = Constant.JournalGroup.MEMORIAL;
-                    entityHd.TransactionCode = cboTransactionCode.Value.ToString();
-                    entityHd.BookID = Convert.ToInt32(tacBook.Value);
-
-                    entityHd.Remarks = txtRemarks.Text;
-                    entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.TransactionDate, txtJournalPrefix.Text, ctx);
+                    entityHd.TransactionCode = Constant.TransactionCode.TREASURY;
+                    ControlToEntity(entityHd);
+                    entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.TransactionDate, ctx);
                     entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
 
                     ctx.CommandType = CommandType.Text;
@@ -225,13 +240,10 @@ namespace CodeX.Muses.Web.Accounting.Program
             try
             {
                 TreasuryHd entityHd = new TreasuryHd();
-                entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                 entityHd.GCJournalGroup = Constant.JournalGroup.MEMORIAL;
-                entityHd.TransactionCode = cboTransactionCode.Value.ToString();
-                entityHd.BookID = Convert.ToInt32(tacBook.Value);
-
-                entityHd.Remarks = txtRemarks.Text;
-                entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.TransactionDate, txtJournalPrefix.Text, ctx);
+                entityHd.TransactionCode = Constant.TransactionCode.TREASURY;
+                ControlToEntity(entityHd);
+                entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.TransactionDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
 
                 ctx.CommandType = CommandType.Text;
@@ -291,10 +303,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             try
             {
                 TreasuryHd entityHd = entityHdDao.Get(Convert.ToInt32(hdnID.Value));
-                entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
-                entityHd.GCJournalGroup = Constant.JournalGroup.MEMORIAL;
-                entityHd.TransactionCode = cboTransactionCode.Value.ToString();
-                entityHd.Remarks = txtRemarks.Text;
+                ControlToEntity(entityHd);
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityHdDao.Update(entityHd);
 

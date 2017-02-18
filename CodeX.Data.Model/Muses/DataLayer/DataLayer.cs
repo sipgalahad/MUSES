@@ -45824,6 +45824,7 @@ namespace CodeX.Data.Model
         private String _BookName;
         private Int32 _GLAccount;
         private Int32? _SubLedger;
+        private String _JournalTransactionCode;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32 _CreatedBy;
@@ -45860,6 +45861,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubLedger; }
             set { _SubLedger = value; }
+        }
+        [Column(Name = "JournalTransactionCode", DataType = "String")]
+        public String JournalTransactionCode
+        {
+            get { return _JournalTransactionCode; }
+            set { _JournalTransactionCode = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
@@ -46184,7 +46191,8 @@ namespace CodeX.Data.Model
         private DateTime _DueDate;
         private Int32? _SupplierID;
         private Int32? _CustomerID;
-        private Decimal _TotalAmount;
+        private Decimal _DebitAmount;
+        private Decimal _CreditAmount;
         private String _Remarks;
         private Boolean _IsGeneratedBySystem;
         private String _GCTransactionStatus;
@@ -46267,11 +46275,17 @@ namespace CodeX.Data.Model
             get { return _CustomerID; }
             set { _CustomerID = value; }
         }
-        [Column(Name = "TotalAmount", DataType = "Decimal")]
-        public Decimal TotalAmount
+        [Column(Name = "DebitAmount", DataType = "Decimal")]
+        public Decimal DebitAmount
         {
-            get { return _TotalAmount; }
-            set { _TotalAmount = value; }
+            get { return _DebitAmount; }
+            set { _DebitAmount = value; }
+        }
+        [Column(Name = "CreditAmount", DataType = "Decimal")]
+        public Decimal CreditAmount
+        {
+            get { return _CreditAmount; }
+            set { _CreditAmount = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

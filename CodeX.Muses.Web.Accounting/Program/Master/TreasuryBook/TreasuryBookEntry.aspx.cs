@@ -38,11 +38,18 @@ namespace CodeX.Muses.Web.Accounting.Program
             txtBookCode.Focus();
         }
 
+        protected override void SetControlProperties()
+        {
+            List<TransactionType> lstTransactionType = BusinessLayer.GetTransactionTypeList("TransactionCode LIKE '72%'");
+            Methods.SetComboBoxField<TransactionType>(cboTransactionCode, lstTransactionType.Where(p => Convert.ToInt32(p.TransactionCode) > 7280 && Convert.ToInt32(p.TransactionCode) < 7290).ToList(), "TransactionName", "TransactionCode");
+        }
+
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(txtBookCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtBookName, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboTransactionCode, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
 
             #region Pengaturan Perkiraan untuk Aktiva Tetap
             SetControlEntrySetting(hdnGLAccount1ID, new ControlEntrySetting(true, true));
@@ -61,6 +68,7 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             txtBookCode.Text = entity.BookCode;
             txtBookName.Text = entity.BookName;
+            cboTransactionCode.Value = entity.JournalTransactionCode;
             txtRemarks.Text = entity.Remarks;
 
             #region Pengaturan Perkiraan untuk Aktiva Tetap
@@ -89,6 +97,7 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             entity.BookCode = txtBookCode.Text;
             entity.BookName = txtBookName.Text;
+            entity.JournalTransactionCode = cboTransactionCode.Value.ToString();
             entity.Remarks = txtRemarks.Text;
 
             #region Pengaturan Perkiraan untuk Aktiva Tetap

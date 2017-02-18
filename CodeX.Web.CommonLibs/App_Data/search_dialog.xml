@@ -1422,15 +1422,15 @@
   </searchdialog>
   <!-- #EndRegion -->
   <!-- #Region Treasury Hd -->
-  <searchdialog type="treasuryhd" methodname="GetvTreasuryHdList" keyfieldname="TransactionNo" orderbyexpression="TreasuryID DESC">
+  <searchdialog type="treasuryhd" methodname="GetvTreasuryHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
     <gridcolumns>
-      <gridcolumn datafield="TransactionNo" headertext="No Jurnal" width="150px" />
+      <gridcolumn datafield="TransactionNo" headertext="No Voucher" width="150px" />
       <gridcolumn datafield="TransactionDateInString" headertext="Tanggal" width="220px" />
       <gridcolumn datafield="TransactionStatus" headertext="Status" width="150px" />
       <gridcolumn datafield="Remarks" headertext="Catatan" width="200px" />
     </gridcolumns>
     <intellisensetexts>
-      <intellisensetext datafield="TransactionNo" headertext="No Jurnal" description="" />
+      <intellisensetext datafield="TransactionNo" headertext="No Voucher" description="" />
       <intellisensetext datafield="TransactionDateInString" headertext="Tanggal" description="" />
       <intellisensetext datafield="TransactionStatus" headertext="Status" description="" />
       <intellisensetext datafield="Remarks" headertext="Catatan" description="" />
