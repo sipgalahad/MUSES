@@ -31,23 +31,12 @@
                     $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'minDate', '-' + minDate);
             }
 
-            $('#divSaveTemplate').click(function () {
-                popupType = 'templateSave';
-                onBeforeSaveRecord();
-                showLoadingPanel();
-                var url = ResolveUrl('~/Program/Journal/JournalTemplateSaveCtl.ascx');
-                var id = $('#<%=hdnSaveParam.ClientID %>').val();
-                openUserControlPopup(url, id, 'Save As Template', 600, 300);
-            });
-
-            $('#divTemplatePick').click(function () {
+            $('#divQuickPicks').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
-                    popupType = 'templatePick';
                     showLoadingPanel();
-                    var url = ResolveUrl('~/Program/Journal/JournalTemplateCtl.ascx');
-                    var glTransactionID = $('#<%=hdnID.ClientID %>').val();
-                    var id = glTransactionID;
-                    openUserControlPopup(url, id, 'Template', 600, 300);
+                    var url = ResolveUrl('~/Program/Treasury/TreasuryQuickPicksCtl.ascx');
+                    var id = '';
+                    openUserControlPopup(url, id, 'Quick Picks', 1000, 600);
                 }
             });
 
@@ -204,11 +193,74 @@
         }
         //#endregion
 
+        function fillTransactionDt(GLAccountID, sLstSubCOAID, sLstSubCOAName, sLstAmount) {
+            var filterExpression = "GLAccountID = " + GLAccountID;
+            Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
+
+                var lstSubCOAID = sLstSubCOAID.split(',');
+                var lstSubCOAName = sLstSubCOAName.split(',');
+                var lstSubCOAAmount = sLstAmount.split(',');
+                $('.trJournalEntry:last').remove();
+                for (var i = 0; i < lstSubCOAID.length; ++i) {
+                    $newTr = $('#tmplEntity').html().replace('script1', 'script').replace('script1', 'script');
+                    $newTr = $newTr.replace(/\$\{idx}/g, idx);
+                    $newTr = $($newTr);
+
+                    $newTr.insertBefore($('#trFooter'));
+
+                    $newTr.find('.txtCurrency').each(function () {
+                        $(this).trigger('changeValue');
+                    });
+
+                    var tempHelper = new CodeXClientAutoCompleteHelper();
+                    tempHelper.init("COA" + idx, "GLAccountNo,GLAccountName", "GetChartOfAccountList", "", "onGetCOAFilterExpression", "GLAccountNo");
+                    tempHelper.setClientSideEvents(onGLAccountIDValueChanged);
+                    tempHelper.initializeControl();
+                    tempHelper.setValue(result.GLAccountID);
+                    tempHelper.setText(result.GLAccountName);
+
+                    $newTr.find('.txtTotal').val(lstSubCOAAmount[i]).trigger('changeValue');
+
+                    $newTr.find('.btnDocumentDetail').attr('enabled', false);
+
+                    $newTr.find('.hdnSubLedgerID').val(result.SubLedgerID);
+                    $newTr.find('.hdnSearchDialogTypeName').val(result.SearchDialogTypeName);
+                    $newTr.find('.hdnFilterExpression').val(result.FilterExpression.replace('@SubLedgerID', result.SubLedgerID));
+                    $newTr.find('.hdnIDFieldName').val(result.IDFieldName);
+                    $newTr.find('.hdnCodeFieldName').val(result.CodeFieldName);
+                    $newTr.find('.hdnDisplayFieldName').val(result.DisplayFieldName);
+                    $newTr.find('.hdnMethodName').val(result.MethodName);
+
+                    var template = "<script class='tmpltAutoComplete' type='text/x-jquery-tmpl'><div>";
+                    template += "${" + result.DisplayFieldName + "} (<b>${" + result.CodeFieldName + "}</b>";
+                    template += "<input type='hidden' value='${" + result.DisplayFieldName + "}' class='hdnAutoCompleteRowText'/>";
+                    template += "<input type='hidden' value='${" + result.IDFieldName + "}' class='hdnAutoCompleteRowValue'/>";
+                    template += "<\/div><\/script>";
+
+                    $newTr.find('.divSubLedgerTemplate').html(template);
+
+                    var tempHelper = new CodeXClientAutoCompleteHelper();
+                    tempHelper.init("SubCOA" + idx, result.CodeFieldName + "," + result.DisplayFieldName, result.MethodName, result.FilterExpression, "", result.CodeFieldName);
+                    tempHelper.setClientSideEvents(onSubLedgerIDValueChanged);
+                    tempHelper.initializeControl();
+                    tempHelper.setValue(lstSubCOAID[i]);
+                    tempHelper.setText(lstSubCOAName[i]);
+
+                    $newTr.find('.tacSubCOA').find('.txtAutoComplete').removeAttr('readonly');
+                    $newTr.find('.tacSubCOA').find('.btnAutoCompleteSearchMore').removeAttr('enabled');
+
+                    idx++;
+                }
+                calculateTotalAmount();
+                addEntityRow();
+            });
+        }
+
         var popupType = '';
 
         $tacTr = null;
         //#region COA
-        function onGetCOAFilterExpression() {
+        window.onGetCOAFilterExpression = function() {
             if (tacBook.getValue() == '')
                 return "1 = 0";
             var filterExpression = "GLAccountID IN (SELECT GLAccount FROM TreasuryBookCOA WHERE BookID = " + tacBook.getValue() + ") AND IsHeader = 0 AND IsDeleted = 0";
@@ -734,8 +786,7 @@
         <tr>
             <td colspan="2">
                 <div class="divTransactionEntry">
-                    <span id="divTemplatePick" class="divAdd"><%=GetLabel("Template")%></span>
-                    <span id="divSaveTemplate" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Save As Template")%></span>
+                    <span id="divQuickPicks" class="divAdd"><%=GetLabel("Quick Picks")%></span>
                     <table id="tblJournalEntry" style="display:none" class="grdView grdBorder notAllowSelect" cellspacing="0" rules="all" >
                         <tr id="trHeader2">
                             <th style="width:30px;"></th>
