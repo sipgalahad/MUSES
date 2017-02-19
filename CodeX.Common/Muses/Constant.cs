@@ -1028,6 +1028,10 @@ namespace CodeX.Common
 
             public const string JOURNAL_MEMORIAL = "7201";
             public const string JOURNAL = "72%";
+            public const string JOURNAL_MEMORIAL_CASH_OUT = "7282";
+            public const string JOURNAL_MEMORIAL_CASH_IN = "7283";
+            public const string JOURNAL_MEMORIAL_BANK_OUT = "7284";
+            public const string JOURNAL_MEMORIAL_BANK_IN = "7285";
             public const string JOURNAL_MEMORIAL_IKHTISAR = "7299";
             public const string TREASURY = "7301";
 

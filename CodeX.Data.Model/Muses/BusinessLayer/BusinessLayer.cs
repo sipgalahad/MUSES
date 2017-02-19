@@ -23175,6 +23175,49 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetTreasuryBookRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TreasuryBook));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TreasuryBook> GetTreasuryBookList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<TreasuryBook> result = new List<TreasuryBook>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TreasuryBook));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TreasuryBook)helper.IDataReaderToObject(reader, new TreasuryBook()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region TreasuryBookCOA
         public static TreasuryBookCOA GetTreasuryBookCOA(Int32 BookID, Int32 GLAccount)
@@ -23309,6 +23352,120 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region UserRoleTreasuryBook
+        public static UserRoleTreasuryBook GetUserRoleTreasuryBook(Int32 RoleID, String SiteID, Int32 BookID)
+        {
+            return new UserRoleTreasuryBookDao().Get(RoleID, SiteID, BookID);
+        }
+        public static int InsertUserRoleTreasuryBook(UserRoleTreasuryBook record)
+        {
+            return new UserRoleTreasuryBookDao().Insert(record);
+        }
+        public static int UpdateUserRoleTreasuryBook(UserRoleTreasuryBook record)
+        {
+            return new UserRoleTreasuryBookDao().Update(record);
+        }
+        public static int DeleteUserRoleTreasuryBook(Int32 RoleID, String SiteID, Int32 BookID)
+        {
+            return new UserRoleTreasuryBookDao().Delete(RoleID, SiteID, BookID);
+        }
+        public static List<UserRoleTreasuryBook> GetUserRoleTreasuryBookList(string filterExpression)
+        {
+            List<UserRoleTreasuryBook> result = new List<UserRoleTreasuryBook>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(UserRoleTreasuryBook));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((UserRoleTreasuryBook)helper.IDataReaderToObject(reader, new UserRoleTreasuryBook()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<UserRoleTreasuryBook> GetUserRoleTreasuryBookList(string filterExpression, IDbContext ctx)
+        {
+            List<UserRoleTreasuryBook> result = new List<UserRoleTreasuryBook>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(UserRoleTreasuryBook));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((UserRoleTreasuryBook)helper.IDataReaderToObject(reader, new UserRoleTreasuryBook()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region UserTreasuryBook
+        public static UserTreasuryBook GetUserTreasuryBook(Int32 UserID, String SiteID, Int32 BookID)
+        {
+            return new UserTreasuryBookDao().Get(UserID, SiteID, BookID);
+        }
+        public static int InsertUserTreasuryBook(UserTreasuryBook record)
+        {
+            return new UserTreasuryBookDao().Insert(record);
+        }
+        public static int UpdateUserTreasuryBook(UserTreasuryBook record)
+        {
+            return new UserTreasuryBookDao().Update(record);
+        }
+        public static int DeleteUserTreasuryBook(Int32 UserID, String SiteID, Int32 BookID)
+        {
+            return new UserTreasuryBookDao().Delete(UserID, SiteID, BookID);
+        }
+        public static List<UserTreasuryBook> GetUserTreasuryBookList(string filterExpression)
+        {
+            List<UserTreasuryBook> result = new List<UserTreasuryBook>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(UserTreasuryBook));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((UserTreasuryBook)helper.IDataReaderToObject(reader, new UserTreasuryBook()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<UserTreasuryBook> GetUserTreasuryBookList(string filterExpression, IDbContext ctx)
+        {
+            List<UserTreasuryBook> result = new List<UserTreasuryBook>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(UserTreasuryBook));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((UserTreasuryBook)helper.IDataReaderToObject(reader, new UserTreasuryBook()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

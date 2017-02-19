@@ -18721,6 +18721,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vTreasuryBook> GetvTreasuryBookList(string filterExpression, IDbContext ctx)
+        {
+            List<vTreasuryBook> result = new List<vTreasuryBook>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTreasuryBook));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTreasuryBook)helper.IDataReaderToObject(reader, new vTreasuryBook()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static List<vTreasuryBook> GetvTreasuryBookList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
         {
             List<vTreasuryBook> result = new List<vTreasuryBook>();
@@ -18986,6 +19003,30 @@ namespace CodeX.Data.Model
             if (result.Count > 0)
                 return result[0];
             return null;
+        }
+        #endregion
+        #region vUserRoleTreasuryBook
+        public static List<vUserRoleTreasuryBook> GetvUserRoleTreasuryBookList(string filterExpression)
+        {
+            List<vUserRoleTreasuryBook> result = new List<vUserRoleTreasuryBook>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vUserRoleTreasuryBook));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vUserRoleTreasuryBook)helper.IDataReaderToObject(reader, new vUserRoleTreasuryBook()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
         #endregion
 

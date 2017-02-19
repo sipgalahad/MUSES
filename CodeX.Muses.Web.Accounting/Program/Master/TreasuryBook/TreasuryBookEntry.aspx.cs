@@ -40,15 +40,15 @@ namespace CodeX.Muses.Web.Accounting.Program
 
         protected override void SetControlProperties()
         {
-            List<TransactionType> lstTransactionType = BusinessLayer.GetTransactionTypeList("TransactionCode LIKE '72%'");
-            Methods.SetComboBoxField<TransactionType>(cboTransactionCode, lstTransactionType.Where(p => Convert.ToInt32(p.TransactionCode) > 7280 && Convert.ToInt32(p.TransactionCode) < 7290).ToList(), "TransactionName", "TransactionCode");
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.TREASURY_BOOK_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboTreasuryBookType, lstSc, "StandardCodeName", "StandardCodeID");
         }
 
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(txtBookCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtBookName, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboTransactionCode, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboTreasuryBookType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
 
             #region Pengaturan Perkiraan untuk Aktiva Tetap
@@ -68,7 +68,7 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             txtBookCode.Text = entity.BookCode;
             txtBookName.Text = entity.BookName;
-            cboTransactionCode.Value = entity.JournalTransactionCode;
+            cboTreasuryBookType.Value = entity.GCTreasuryBookType;
             txtRemarks.Text = entity.Remarks;
 
             #region Pengaturan Perkiraan untuk Aktiva Tetap
@@ -97,7 +97,7 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             entity.BookCode = txtBookCode.Text;
             entity.BookName = txtBookName.Text;
-            entity.JournalTransactionCode = cboTransactionCode.Value.ToString();
+            entity.GCTreasuryBookType = cboTreasuryBookType.Value.ToString();
             entity.Remarks = txtRemarks.Text;
 
             #region Pengaturan Perkiraan untuk Aktiva Tetap
@@ -129,7 +129,7 @@ namespace CodeX.Muses.Web.Accounting.Program
         protected override bool OnBeforeSaveEditRecord(ref string errMessage)
         {
             errMessage = string.Empty;
-            string FilterExpression = string.Format("BookCode = '{0}' AND TreasuryBookID != {1}", txtBookCode.Text, hdnID.Value);
+            string FilterExpression = string.Format("BookCode = '{0}' AND BookID != {1}", txtBookCode.Text, hdnID.Value);
             List<TreasuryBook> lst = BusinessLayer.GetTreasuryBookList(FilterExpression);
 
             if (lst.Count > 0)

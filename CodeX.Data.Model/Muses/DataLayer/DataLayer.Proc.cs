@@ -2222,4 +2222,33 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetTreasuryBookUserList
+    [Serializable]
+    [Table(Name = "GetTreasuryBookUserList")]
+    public class GetTreasuryBookUserList
+    {
+        private Int32 _BookID;
+        private String _BookCode;
+        private String _BookName;
+
+        [Column(Name = "BookID", DataType = "Int32")]
+        public Int32 BookID
+        {
+            get { return _BookID; }
+            set { _BookID = value; }
+        }
+        [Column(Name = "BookCode", DataType = "String")]
+        public String BookCode
+        {
+            get { return _BookCode; }
+            set { _BookCode = value; }
+        }
+        [Column(Name = "BookName", DataType = "String")]
+        public String BookName
+        {
+            get { return _BookName; }
+            set { _BookName = value; }
+        }
+    }
+    #endregion
 }

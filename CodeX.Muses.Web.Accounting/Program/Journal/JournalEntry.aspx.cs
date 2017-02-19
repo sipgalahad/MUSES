@@ -232,8 +232,7 @@ namespace CodeX.Muses.Web.Accounting.Program
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
                 entityHd.CreatedBy = AppSession.UserLogin.UserID;
-                entityHdDao.Insert(entityHd);
-                int GLTransactionID = BusinessLayer.GetGLTransactionMaxID(ctx);
+                int GLTransactionID = entityHdDao.Insert(entityHd);
 
                 JavaScriptSerializer json = new JavaScriptSerializer();
                 List<string[]> lstSaveParam = json.Deserialize<List<string[]>>(hdnSaveParam.Value);

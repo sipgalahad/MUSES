@@ -134,8 +134,8 @@
                                     <td><asp:TextBox ID="txtBookName" Width="300px" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Sumber Data Jurnal") %></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboTransactionCode" ClientInstanceName="cboTransactionCode" Width="300px" runat="server" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Buku") %></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboTreasuryBookType" ClientInstanceName="cboTreasuryBookType" Width="300px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Remarks")%></label></td>

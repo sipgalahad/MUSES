@@ -45824,7 +45824,7 @@ namespace CodeX.Data.Model
         private String _BookName;
         private Int32 _GLAccount;
         private Int32? _SubLedger;
-        private String _JournalTransactionCode;
+        private String _GCTreasuryBookType;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32 _CreatedBy;
@@ -45862,11 +45862,11 @@ namespace CodeX.Data.Model
             get { return _SubLedger; }
             set { _SubLedger = value; }
         }
-        [Column(Name = "JournalTransactionCode", DataType = "String")]
-        public String JournalTransactionCode
+        [Column(Name = "GCTreasuryBookType", DataType = "String", IsNullable = true)]
+        public String GCTreasuryBookType
         {
-            get { return _JournalTransactionCode; }
-            set { _JournalTransactionCode = value; }
+            get { return _GCTreasuryBookType; }
+            set { _GCTreasuryBookType = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
@@ -46024,6 +46024,7 @@ namespace CodeX.Data.Model
         private String _Position;
         private Decimal _DebitAmount;
         private Decimal _CreditAmount;
+        private Decimal _TotalAmount;
         private String _ReferenceNo;
         private Int16 _DisplayOrder;
         private String _Remarks;
@@ -46075,6 +46076,12 @@ namespace CodeX.Data.Model
         {
             get { return _CreditAmount; }
             set { _CreditAmount = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
         }
         [Column(Name = "ReferenceNo", DataType = "String", IsNullable = true)]
         public String ReferenceNo
@@ -46193,8 +46200,10 @@ namespace CodeX.Data.Model
         private Int32? _CustomerID;
         private Decimal _DebitAmount;
         private Decimal _CreditAmount;
+        private Decimal _TotalAmount;
         private String _Remarks;
         private Boolean _IsGeneratedBySystem;
+        private Int32? _GLTransactionID;
         private String _GCTransactionStatus;
         private String _GCVoidReason;
         private String _VoidReason;
@@ -46287,6 +46296,12 @@ namespace CodeX.Data.Model
             get { return _CreditAmount; }
             set { _CreditAmount = value; }
         }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
         {
@@ -46298,6 +46313,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsGeneratedBySystem; }
             set { _IsGeneratedBySystem = value; }
+        }
+        [Column(Name = "GLTransactionID", DataType = "Int32", IsNullable = true)]
+        public Int32? GLTransactionID
+        {
+            get { return _GLTransactionID; }
+            set { _GLTransactionID = value; }
         }
         [Column(Name = "GCTransactionStatus", DataType = "String")]
         public String GCTransactionStatus
@@ -46380,6 +46401,152 @@ namespace CodeX.Data.Model
                 record = new TreasuryHdDao().Get(TransactionID);
             else
                 record = Get(TransactionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region UserRoleTreasuryBook
+    [Serializable]
+    [Table(Name = "UserRoleTreasuryBook")]
+    public class UserRoleTreasuryBook : DbDataModel
+    {
+        private Int32 _RoleID;
+        private String _SiteID;
+        private Int32 _BookID;
+
+        [Column(Name = "RoleID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 RoleID
+        {
+            get { return _RoleID; }
+            set { _RoleID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "BookID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 BookID
+        {
+            get { return _BookID; }
+            set { _BookID = value; }
+        }
+    }
+
+    public class UserRoleTreasuryBookDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(UserRoleTreasuryBook));
+        private bool _isAuditLog = false;
+        private const string p_BookID = "@p_BookID";
+        private const string p_RoleID = "@p_RoleID";
+        private const string p_SiteID = "@p_SiteID";
+        public UserRoleTreasuryBookDao() { }
+        public UserRoleTreasuryBookDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public UserRoleTreasuryBook Get(Int32 RoleID, String SiteID, Int32 BookID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BookID, BookID);
+            _ctx.Add(p_RoleID, RoleID);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (UserRoleTreasuryBook)_helper.DataRowToObject(row, new UserRoleTreasuryBook());
+        }
+        public int Insert(UserRoleTreasuryBook record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(UserRoleTreasuryBook record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 RoleID, String SiteID, Int32 BookID)
+        {
+            UserRoleTreasuryBook record;
+            if (_ctx.Transaction == null)
+                record = new UserRoleTreasuryBookDao().Get(RoleID, SiteID, BookID);
+            else
+                record = Get(RoleID, SiteID, BookID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region UserTreasuryBook
+    [Serializable]
+    [Table(Name = "UserTreasuryBook")]
+    public class UserTreasuryBook : DbDataModel
+    {
+        private Int32 _UserID;
+        private String _SiteID;
+        private Int32 _BookID;
+
+        [Column(Name = "UserID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 UserID
+        {
+            get { return _UserID; }
+            set { _UserID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "BookID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 BookID
+        {
+            get { return _BookID; }
+            set { _BookID = value; }
+        }
+    }
+
+    public class UserTreasuryBookDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(UserTreasuryBook));
+        private bool _isAuditLog = false;
+        private const string p_BookID = "@p_BookID";
+        private const string p_SiteID = "@p_SiteID";
+        private const string p_UserID = "@p_UserID";
+        public UserTreasuryBookDao() { }
+        public UserTreasuryBookDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public UserTreasuryBook Get(Int32 UserID, String SiteID, Int32 BookID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BookID, BookID);
+            _ctx.Add(p_SiteID, SiteID);
+            _ctx.Add(p_UserID, UserID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (UserTreasuryBook)_helper.DataRowToObject(row, new UserTreasuryBook());
+        }
+        public int Insert(UserTreasuryBook record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(UserTreasuryBook record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 UserID, String SiteID, Int32 BookID)
+        {
+            UserTreasuryBook record;
+            if (_ctx.Transaction == null)
+                record = new UserTreasuryBookDao().Get(UserID, SiteID, BookID);
+            else
+                record = Get(UserID, SiteID, BookID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

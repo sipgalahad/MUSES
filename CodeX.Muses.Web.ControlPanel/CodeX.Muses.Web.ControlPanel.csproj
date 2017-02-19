@@ -123,11 +123,13 @@
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\SiteParameter\SiteParameterEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\SiteParameter\SiteParameterList.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserTreasuryBookEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserInRoleEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserLocationEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserLoginAttributeEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserReportEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserServiceUnitEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesTreasuryBookEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLocationEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLoginAttributeEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesReportEntryCtl.ascx" />
@@ -648,6 +650,13 @@
     <Compile Include="Program\ControlPanel\SystemConfiguration\SiteParameter\SiteParameterList.aspx.designer.cs">
       <DependentUpon>SiteParameterList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserTreasuryBookEntryCtl.ascx.cs">
+      <DependentUpon>UserTreasuryBookEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserTreasuryBookEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserTreasuryBookEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserInRoleEntryCtl.ascx.cs">
       <DependentUpon>UserInRoleEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -682,6 +691,13 @@
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserServiceUnitEntryCtl.ascx.designer.cs">
       <DependentUpon>UserServiceUnitEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesTreasuryBookEntryCtl.ascx.cs">
+      <DependentUpon>UserRolesTreasuryBookEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesTreasuryBookEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserRolesTreasuryBookEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLocationEntryCtl.ascx.cs">
       <DependentUpon>UserRolesLocationEntryCtl.ascx</DependentUpon>

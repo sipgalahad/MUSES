@@ -154,6 +154,7 @@ namespace CodeX.Common
             public const string INDICATOR_MARK_PERIOD = "X330";
             public const string INDICATOR_MARK_TYPE = "X331";
             public const string VOUCHER_GROUP = "X332";
+            public const string TREASURY_BOOK_TYPE = "X333";
 
         }
 
@@ -163,6 +164,18 @@ namespace CodeX.Common
             public const string DAYLY = "X314^002";
             public const string OVERTIME = "X314^003";
             public const string DEDUCTION = "X314^005";
+        }
+
+        public static class VoucherGroup
+        {
+            public const string RECEIVE = "X332^001";
+            public const string EXPENSE = "X332^002";
+        }
+
+        public static class TreasuryBookType
+        {
+            public const string CASH = "X333^001";
+            public const string BANK = "X333^002";
         }
 
         public static class RenumerationCompSource

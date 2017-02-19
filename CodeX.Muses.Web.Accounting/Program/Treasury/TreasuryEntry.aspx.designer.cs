@@ -31,6 +31,15 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListTransactionDtID;
         
         /// <summary>
+        /// hdnLstBookID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstBookID;
+        
+        /// <summary>
         /// hdnGCTransactionStatus control.
         /// </summary>
         /// <remarks>
@@ -130,6 +139,24 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboVoucherGroup;
         
         /// <summary>
+        /// trJournalNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trJournalNo;
+        
+        /// <summary>
+        /// txtJournalNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtJournalNo;
+        
+        /// <summary>
         /// txtReferenceNo control.
         /// </summary>
         /// <remarks>
@@ -166,22 +193,13 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::System.Web.UI.WebControls.Repeater rptJournalViewDt;
         
         /// <summary>
-        /// txtTotalDebitView control.
+        /// txtTotalView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtTotalDebitView;
-        
-        /// <summary>
-        /// txtTotalKreditView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtTotalKreditView;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtTotalView;
         
         /// <summary>
         /// divCreatedBy control.

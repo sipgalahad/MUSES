@@ -96,8 +96,7 @@
                             tempHelper.setText(entity.GLAccountName);
 
                             $newTr.find('.txtRemarks').val(entity.Remarks);
-                            $newTr.find('.txtDebit').val(entity.DebitAmount).trigger('changeValue');
-                            $newTr.find('.txtKredit').val(entity.CreditAmount).trigger('changeValue');
+                            $newTr.find('.txtTotal').val(entity.TotalAmount).trigger('changeValue');
                             $newTr.find('.txtDocumentNo').val(entity.ReferenceNo);
                             $newTr.find('.hdnTransactionDtID').val(entity.TransactionDtID);
 
@@ -136,13 +135,13 @@
 
                             idx++;
                         }
-                        calculateTotalDebitKredit();
+                        calculateTotalAmount();
                         addEntityRow();
                     });
                 }
                 else {
                     addEntityRow();
-                    calculateTotalDebitKredit();
+                    calculateTotalAmount();
                 }
             }
             else {
@@ -158,7 +157,7 @@
 
         //#region Book
         function onGetTreasuryBookFilterExpression() {
-            var filterExpression = "IsDeleted = 0";
+            var filterExpression = "<%=GetTreasuryBookFilterExpression() %>";
             return filterExpression;
         }
 
@@ -387,26 +386,13 @@
         }
         //#endregion
 
-        //#region calculateTotalDebitKredit
-        function calculateTotalDebit() {
-            var totalDebit = 0;
-            $('#tblJournalEntry .txtDebit').each(function () {
-                totalDebit += parseFloat($(this).attr('hiddenVal'));
+        //#region calculateTotalAmount
+        function calculateTotalAmount() {
+            var total = 0;
+            $('#tblJournalEntry .txtTotal').each(function () {
+                total += parseFloat($(this).attr('hiddenVal'));
             });
-            $('#txtTotalDebit').val(totalDebit).trigger('changeValue');
-        }
-
-        function calculateTotalKredit() {
-            var totalKredit = 0;
-            $('#tblJournalEntry .txtKredit').each(function () {
-                totalKredit += parseFloat($(this).attr('hiddenVal'));
-            });
-            $('#txtTotalKredit').val(totalKredit).trigger('changeValue');
-        }
-
-        function calculateTotalDebitKredit() {
-            calculateTotalDebit();
-            calculateTotalKredit();
+            $('#txtTotalAmount').val(total).trigger('changeValue');
         }
         //#endregion
 
@@ -419,7 +405,7 @@
                     if (result) {
                         $tr.remove();
 
-                        calculateTotalDebitKredit();
+                        calculateTotalAmount();
                     }
                 });
 
@@ -447,39 +433,10 @@
         });
         //#endregion
 
-        //#region Debit Kredit
-        $('.txtDebit').live('blur', function () {
+        //#region Total
+        $('.txtTotal').live('blur', function () {
             $(this).trigger('changeValue');
-            var value = parseFloat($(this).attr('hiddenVal'));
-            if (value != 0)
-                $(this).closest('tr').find('.txtKredit').val('0').trigger('changeValue');
-            calculateTotalDebitKredit();
-        });
-
-        $('.txtKredit').live('blur', function () {
-            $(this).trigger('changeValue');
-            var value = parseFloat($(this).attr('hiddenVal'));
-            if (value != 0)
-                $(this).closest('tr').find('.txtDebit').val('0').trigger('changeValue');
-            calculateTotalDebitKredit();
-        });
-
-        $('.txtKredit').live('focus', function () {
-            var value = parseFloat($(this).attr('hiddenVal'));
-            if (value == 0) {
-                var debit = parseFloat($(this).closest('tr').find('.txtDebit').attr('hiddenVal'));
-                if (debit == 0) {
-                    var totalDebit = 0;
-                    $('#tblJournalEntry .txtDebit').each(function () {
-                        totalDebit += parseFloat($(this).attr('hiddenVal'));
-                    });
-                    var totalKredit = 0;
-                    $('#tblJournalEntry .txtKredit').each(function () {
-                        totalKredit += parseFloat($(this).attr('hiddenVal'));
-                    });
-                    $(this).val(totalDebit - totalKredit).trigger('changeValue');
-                }
-            }
+            calculateTotalAmount();
         });
         //#endregion
 
@@ -573,83 +530,6 @@
         //#endregion
 
         function onAfterSaveAddRecordEntryPopup(param) {
-            if (popupType == 'templatePick') {
-                var temp = param.split('|');
-                var templateID = temp[0];
-                var amount = parseFloat(temp[1]);
-                var filterExpression = "TemplateID = " + templateID + " AND IsDeleted = 0 ORDER BY DisplayOrder";
-                Methods.getListObject('GetvJournalTemplateDtList', filterExpression, function (result) {
-                    if (result != null) {
-                        $('.trJournalEntry:last').remove();
-                        for (var i = 0; i < result.length; ++i) {
-                            var entity = result[i];
-                            $newTr = $('#tmplEntity').html().replace('script1', 'script').replace('script1', 'script');
-                            $newTr = $newTr.replace(/\$\{idx}/g, idx);
-                            $newTr = $($newTr);
-
-                            $newTr.insertBefore($('#trFooter'));
-
-                            $newTr.find('.txtCurrency').each(function () {
-                                $(this).trigger('changeValue');
-                            });
-
-                            var tempHelper = new CodeXClientAutoCompleteHelper();
-                            tempHelper.init("COA" + idx, "GLAccountNo,GLAccountName", "GetChartOfAccountList", "", "onGetCOAFilterExpression", "GLAccountNo");
-                            tempHelper.setClientSideEvents(onGLAccountIDValueChanged);
-                            tempHelper.initializeControl();
-                            tempHelper.setValue(entity.GLAccountID);
-                            tempHelper.setText(entity.GLAccountName);
-
-                            var debitAmount = 0;
-                            var creditAmount = 0;
-                            if (entity.Position == 'D')
-                                debitAmount = amount * entity.AmountPercentage / 100;
-                            else
-                                creditAmount = amount * entity.AmountPercentage / 100;
-
-                            $newTr.find('.txtDebit').val(debitAmount).trigger('changeValue');
-                            $newTr.find('.txtKredit').val(creditAmount).trigger('changeValue');
-
-                            if (entity.ReferenceNo == '')
-                                $newTr.find('.btnDocumentDetail').attr('enabled', false);
-                            else
-                                $newTr.find('.btnDocumentDetail').removeAttr('enabled');
-
-                            $newTr.find('.hdnSubLedgerID').val(entity.SubLedgerID);
-                            $newTr.find('.hdnSearchDialogTypeName').val(entity.SearchDialogTypeName);
-                            $newTr.find('.hdnFilterExpression').val(entity.FilterExpression.replace('@SubLedgerID', entity.SubLedgerID));
-                            $newTr.find('.hdnIDFieldName').val(entity.IDFieldName);
-                            $newTr.find('.hdnCodeFieldName').val(entity.CodeFieldName);
-                            $newTr.find('.hdnDisplayFieldName').val(entity.DisplayFieldName);
-                            $newTr.find('.hdnMethodName').val(entity.MethodName);
-
-                            if (entity.SubLedgerID != '0') {
-                                var template = "<script class='tmpltAutoComplete' type='text/x-jquery-tmpl'><div>";
-                                template += "${" + entity.DisplayFieldName + "} (<b>${" + entity.CodeFieldName + "}</b>";
-                                template += "<input type='hidden' value='${" + entity.DisplayFieldName + "}' class='hdnAutoCompleteRowText'/>";
-                                template += "<input type='hidden' value='${" + entity.IDFieldName + "}' class='hdnAutoCompleteRowValue'/>";
-                                template += "<\/div><\/script>";
-
-                                $newTr.find('.divSubLedgerTemplate').html(template);
-
-                                var tempHelper = new CodeXClientAutoCompleteHelper();
-                                tempHelper.init("SubCOA" + idx, entity.CodeFieldName + "," + entity.DisplayFieldName, entity.MethodName, entity.FilterExpression, "", entity.CodeFieldName);
-                                tempHelper.setClientSideEvents(onSubLedgerIDValueChanged);
-                                tempHelper.initializeControl();
-                                tempHelper.setValue(entity.SubLedger);
-                                tempHelper.setText(entity.SubLedgerName);
-
-                                $newTr.find('.tacSubCOA').find('.txtAutoComplete').removeAttr('readonly');
-                                $newTr.find('.tacSubCOA').find('.btnAutoCompleteSearchMore').removeAttr('enabled');
-                            }
-
-                            idx++;
-                        }
-                        calculateTotalDebitKredit();
-                        addEntityRow();
-                    }
-                });
-            }
         }
 
         function onBeforeSaveRecord() {
@@ -660,8 +540,7 @@
                 if (glAccountID != '') {
                     var subLedgerID = $(this).find('.tacSubCOA').find('.hdnAutoCompleteValue').val();
                     var remarks = $(this).find('.txtRemarks').val();
-                    var debit = $(this).find('.txtDebit').attr('hiddenVal');
-                    var kredit = $(this).find('.txtKredit').attr('hiddenVal');
+                    var total = $(this).find('.txtTotal').attr('hiddenVal');
                     var documentNo = $(this).find('.txtDocumentNo').val();
                     var transactionDtID = $(this).find('.hdnTransactionDtID').val();
 
@@ -671,7 +550,7 @@
                         lstTransactionDtID += transactionDtID;
                     }
 
-                    objList.push(new Array(transactionDtID, glAccountID, subLedgerID, remarks, debit, kredit, documentNo));
+                    objList.push(new Array(transactionDtID, glAccountID, subLedgerID, remarks, total, documentNo));
                 }
             });
 
@@ -704,6 +583,7 @@
     </style>
     <input type="hidden" id="hdnSaveParam" runat="server" />
     <input type="hidden" id="hdnListTransactionDtID" runat="server" />
+    <input type="hidden" id="hdnLstBookID" runat="server" />
     <script id="tmplEntity" type="text/x-jquery-tmpl">
         <tr class="trJournalEntry">
             <td align="center">
@@ -777,8 +657,7 @@
                 </div>
             </td>
             <td align="center"><input type="text" validationgroup="mpTrx" class="txtRemarks" value="" style="width:99%" /></td>
-            <td align="center"><input type="text" validationgroup="mpTrx" class="txtCurrency txtDebit" value="0" style="width:99%" /></td>
-            <td align="center"><input type="text" validationgroup="mpTrx" class="txtCurrency txtKredit" value="0" style="width:99%" /></td>
+            <td align="center"><input type="text" validationgroup="mpTrx" class="txtCurrency txtTotal" value="0" style="width:99%" /></td>
             <td align="center">
                 <input type="text" validationgroup="mpTrx" class="txtDocumentNo" value="" style="width:125px" />
                 <input type="button" class="btnSearchDocument btnSearch"/>
@@ -828,6 +707,10 @@
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Voucher") %></label></td>
                         <td colspan="4"><dxe:ASPxComboBox ID="cboVoucherGroup" ClientInstanceName="cboVoucherGroup" Width="220px" runat="server" /></td>
                     </tr>
+                    <tr id="trJournalNo" runat="server" style="display:none">
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("No Jurnal")%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtJournalNo" Width="220px" /></td>
+                    </tr>
                 </table>
             </td>
             <td style="padding:5px;vertical-align:top">
@@ -860,14 +743,12 @@
                             <th style="width:250px"><%=GetLabel("Perkiraan")%></th> 
                             <th style="width:250px"><%=GetLabel("Sub Perkiraan")%></th> 
                             <th><%=GetLabel("Keterangan")%></th> 
-                            <th class="thRight" style="width:110px"><%=GetLabel("DEBET")%></th> 
-                            <th class="thRight" style="width:110px"><%=GetLabel("KREDIT")%></th> 
+                            <th class="thRight" style="width:110px"><%=GetLabel("Total")%></th> 
                             <th style="width:200px"><%=GetLabel("No. Dokumen")%></th> 
                         </tr>
                         <tr id="trFooter">
                             <td colspan="5" align="right"><%=GetLabel("Total") %> : </td>
-                            <td align="center"><input id="txtTotalDebit" type="text" validationgroup="mpTrx" readonly="readonly" class="txtCurrency" value="0" style="width:99%" /></td>
-                            <td align="center"><input id="txtTotalKredit" type="text" validationgroup="mpTrx" readonly="readonly" class="txtCurrency" value="0" style="width:99%" /></td>
+                            <td align="center"><input id="txtTotalAmount" type="text" validationgroup="mpTrx" readonly="readonly" class="txtCurrency" value="0" style="width:99%" /></td>
                             <td>&nbsp;</td>
                         </tr>
                     </table>
@@ -876,8 +757,7 @@
                             <th style="width:250px"><%=GetLabel("Perkiraan")%></th> 
                             <th style="width:250px"><%=GetLabel("Sub Perkiraan")%></th> 
                             <th><%=GetLabel("Keterangan")%></th> 
-                            <th class="thRight" style="width:110px"><%=GetLabel("DEBET")%></th> 
-                            <th class="thRight" style="width:110px"><%=GetLabel("KREDIT")%></th> 
+                            <th class="thRight" style="width:110px"><%=GetLabel("Total")%></th> 
                             <th style="width:150px"><%=GetLabel("No. Dokumen")%></th> 
                         </tr>
                         <asp:Repeater ID="rptJournalViewDt" runat="server">
@@ -886,16 +766,14 @@
                                     <td><%#Eval("GLAccountName") %></td>
                                     <td><%#Eval("SubLedgerName")%></td>
                                     <td><%#Eval("Remarks") %></td>
-                                    <td align="right"><%#Eval("DebitAmount", "{0:N2}") %></td>
-                                    <td align="right"><%#Eval("CreditAmount", "{0:N2}")%></td>
+                                    <td align="right"><%#Eval("TotalAmount", "{0:N2}") %></td>
                                     <td><%#Eval("ReferenceNo") %></td>
                                 </tr>
                             </ItemTemplate>
                         </asp:Repeater>
                         <tr id="tr2">
                             <td colspan="3" align="right"><%=GetLabel("Total") %> : </td>
-                            <td align="center"><input id="txtTotalDebitView" runat="server" type="text" readonly="readonly" class="txtCurrency" value="0" style="width:99%" /></td>
-                            <td align="center"><input id="txtTotalKreditView" runat="server" type="text" readonly="readonly" class="txtCurrency" value="0" style="width:99%" /></td>
+                            <td align="center"><input id="txtTotalView" runat="server" type="text" readonly="readonly" class="txtCurrency" value="0" style="width:99%" /></td>
                             <td>&nbsp;</td>
                         </tr>
                     </table>

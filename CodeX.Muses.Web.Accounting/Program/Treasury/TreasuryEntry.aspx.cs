@@ -23,24 +23,11 @@ namespace CodeX.Muses.Web.Accounting.Program
         }
 
         #region Html Getter
-        protected string GetJournalGroupPendapatanPenerimaan()
+        protected string GetTreasuryBookFilterExpression()
         {
-            return string.Empty;
-            //return Constant.JournalGroup.PENDAPATAN_PENERIMAAN;
-        }
-        protected string GetJournalGroupHutangPiutang()
-        {
-            return string.Empty;
-            //return Constant.JournalGroup.HUTANG_PIUTANG;
-        }
-        protected string GetJournalGroupInventory()
-        {
-            return string.Empty;
-            //return Constant.JournalGroup.INVENTORY;
-        }
-        protected string GetJournalGroupMemorial()
-        {
-            return Constant.JournalGroup.MEMORIAL;
+            if (hdnLstBookID.Value == "")
+                return "1 = 0";
+            return string.Format("BookID IN ({0}) AND IsDeleted = 0", hdnLstBookID.Value);
         }
         #endregion
 
@@ -53,6 +40,11 @@ namespace CodeX.Muses.Web.Accounting.Program
                 hdnLastPostingDate.Value = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
                 minDate = (DateTime.Now - entity.TransactionDate).Days - 1;
             }
+
+            List<GetTreasuryBookUserList> lst = BusinessLayer.GetTreasuryBookUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, "");
+            hdnLstBookID.Value = "";
+            if (lst.Count > 0)
+                hdnLstBookID.Value = string.Join(",", lst.Select(p => p.BookID).ToList());
         }
 
         protected override void OnControlEntrySetting()
@@ -67,6 +59,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtJournalNo, new ControlEntrySetting(false, false, false));
         }
 
         protected override void SetControlProperties()
@@ -83,6 +76,7 @@ namespace CodeX.Muses.Web.Accounting.Program
 
             divCreatedBy.InnerHtml = "";
             divLastUpdatedBy.InnerHtml = "";
+            trJournalNo.Style.Add("display", "none");
         }
 
         public string GetGCTransactionStatusOpen()
@@ -137,6 +131,15 @@ namespace CodeX.Muses.Web.Accounting.Program
             }
             else
                 hdnIsEditable.Value = "1";
+
+            if (entity.GCTransactionStatus == Constant.TransactionStatus.APPROVED)
+            {
+                txtJournalNo.Text = entity.JournalNo;
+                trJournalNo.Style.Remove("display");
+            }
+            else
+                trJournalNo.Style.Add("display", "none");
+            
             hdnID.Value = entity.TransactionID.ToString();
             txtTransactionNo.Text = entity.TransactionNo;
             tacBook.Value = entity.BookID.ToString();
@@ -168,13 +171,11 @@ namespace CodeX.Muses.Web.Accounting.Program
                 string filterExpression = string.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}' ORDER BY DisplayOrder ASC", hdnID.Value, Constant.TransactionStatus.VOID);
 
                 List<vTreasuryDt> lstEntity = BusinessLayer.GetvTreasuryDtList(filterExpression);
-                decimal totalDebet = lstEntity.Sum(x => x.DebitAmount);
-                decimal totalKredit = lstEntity.Sum(x => x.CreditAmount);
+                decimal totalAmount = lstEntity.Sum(x => x.TotalAmount);
                 rptJournalViewDt.DataSource = lstEntity;
                 rptJournalViewDt.DataBind();
 
-                txtTotalDebitView.Value = totalDebet.ToString();
-                txtTotalKreditView.Value = totalKredit.ToString();
+                txtTotalView.Value = totalAmount.ToString();
             }
         }
         #endregion
@@ -265,9 +266,20 @@ namespace CodeX.Muses.Web.Accounting.Program
                     else
                         entityDt.SubLedger = Convert.ToInt32(param[2]);
                     entityDt.Remarks = param[3];
-                    entityDt.DebitAmount = Convert.ToDecimal(param[4]);
-                    entityDt.CreditAmount = Convert.ToDecimal(param[5]);
-                    entityDt.ReferenceNo = param[6];
+                    entityDt.TotalAmount = Convert.ToDecimal(param[4]);                    
+                    entityDt.ReferenceNo = param[5];
+
+                    if (entityHd.GCVoucherGroup == Constant.VoucherGroup.RECEIVE && entityDt.TotalAmount > 0)
+                    {
+                        entityDt.CreditAmount = entityDt.TotalAmount;
+                        entityDt.DebitAmount = 0;
+                    }
+                    else
+                    {
+                        entityDt.DebitAmount = entityDt.TotalAmount;
+                        entityDt.CreditAmount = 0;
+                    }
+
                     if (entityDt.CreditAmount == 0)
                         entityDt.Position = "D";
                     else
@@ -326,9 +338,20 @@ namespace CodeX.Muses.Web.Accounting.Program
                         else
                             entityDt.SubLedger = Convert.ToInt32(param[2]);
                         entityDt.Remarks = param[3];
-                        entityDt.DebitAmount = Convert.ToDecimal(param[4]);
-                        entityDt.CreditAmount = Convert.ToDecimal(param[5]);
-                        entityDt.ReferenceNo = param[6];
+                        entityDt.TotalAmount = Convert.ToDecimal(param[4]);
+                        entityDt.ReferenceNo = param[5];
+
+                        if (entityHd.GCVoucherGroup == Constant.VoucherGroup.RECEIVE && entityDt.TotalAmount > 0)
+                        {
+                            entityDt.CreditAmount = entityDt.TotalAmount;
+                            entityDt.DebitAmount = 0;
+                        }
+                        else
+                        {
+                            entityDt.DebitAmount = entityDt.TotalAmount;
+                            entityDt.CreditAmount = 0;
+                        }
+
                         if (entityDt.CreditAmount == 0)
                             entityDt.Position = "D";
                         else
@@ -349,10 +372,20 @@ namespace CodeX.Muses.Web.Accounting.Program
                             entityDt.SubLedger = null;
                         else
                             entityDt.SubLedger = Convert.ToInt32(param[2]);
-                        entityDt.Remarks = param[3];
-                        entityDt.DebitAmount = Convert.ToDecimal(param[4]);
-                        entityDt.CreditAmount = Convert.ToDecimal(param[5]);
-                        entityDt.ReferenceNo = param[6];
+                        entityDt.Remarks = param[3]; 
+                        entityDt.TotalAmount = Convert.ToDecimal(param[4]);
+                        entityDt.ReferenceNo = param[5];
+
+                        if (entityHd.GCVoucherGroup == Constant.VoucherGroup.RECEIVE && entityDt.TotalAmount > 0)
+                        {
+                            entityDt.CreditAmount = entityDt.TotalAmount;
+                            entityDt.DebitAmount = 0;
+                        }
+                        else
+                        {
+                            entityDt.DebitAmount = entityDt.TotalAmount;
+                            entityDt.CreditAmount = 0;
+                        }
                         if (entityDt.CreditAmount == 0)
                             entityDt.Position = "D";
                         else
@@ -392,25 +425,104 @@ namespace CodeX.Muses.Web.Accounting.Program
             IDbContext ctx = DbFactory.Configure(true);
             TreasuryHdDao TreasuryHdDao = new TreasuryHdDao(ctx);
             TreasuryDtDao GlTransactionDtDao = new TreasuryDtDao(ctx);
+            GLTransactionHdDao entityHdDao = new GLTransactionHdDao(ctx);
+            GLTransactionDtDao entityDtDao = new GLTransactionDtDao(ctx);
+            TreasuryBookDao entityBookDao = new TreasuryBookDao(ctx);
+            TransactionTypeDao entityTransactionTypeDao = new TransactionTypeDao(ctx);
             try
             {
                 TreasuryHd itemTransactionHd = TreasuryHdDao.Get(Convert.ToInt32(hdnID.Value));
-                itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                TreasuryHdDao.Update(itemTransactionHd);
-
-                string filterExpression = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}' ORDER BY DisplayOrder", hdnID.Value, Constant.TransactionStatus.VOID);
-                List<TreasuryDt> lstTreasuryDt = BusinessLayer.GetTreasuryDtList(filterExpression, ctx);
-                foreach (TreasuryDt GlTransactionDt in lstTreasuryDt)
+                if (itemTransactionHd.GCTransactionStatus == Constant.TransactionStatus.OPEN)
                 {
-                    GlTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
-                    GlTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    GlTransactionDtDao.Update(GlTransactionDt);
+                    TreasuryBook entityBook = entityBookDao.Get(itemTransactionHd.BookID);
+
+                    GLTransactionHd entityHd = new GLTransactionHd();
+                    entityHd.JournalDate = itemTransactionHd.TransactionDate;
+                    entityHd.GCJournalGroup = Constant.JournalGroup.MEMORIAL;
+                    if (entityBook.GCTreasuryBookType == Constant.TreasuryBookType.CASH)
+                    {
+                        if (itemTransactionHd.GCVoucherGroup == Constant.VoucherGroup.RECEIVE)
+                            entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_CASH_IN;
+                        else
+                            entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_CASH_OUT;
+                    }
+                    else
+                    {
+                        if (itemTransactionHd.GCVoucherGroup == Constant.VoucherGroup.RECEIVE)
+                            entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_BANK_IN;
+                        else
+                            entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_BANK_OUT;
+                    }
+                    TransactionType entityTransactionType = entityTransactionTypeDao.Get(entityHd.TransactionCode);
+
+                    entityHd.IsGeneratedBySystem = true;
+                    entityHd.Remarks = txtRemarks.Text;
+                    entityHd.JournalNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.JournalDate, entityTransactionType.TransactionInitial, ctx);
+                    entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+
+                    ctx.CommandType = CommandType.Text;
+                    ctx.Command.Parameters.Clear();
+                    entityHd.CreatedBy = AppSession.UserLogin.UserID;
+                    int GLTransactionID = entityHdDao.Insert(entityHd);
+
+                    itemTransactionHd.GLTransactionID = GLTransactionID;
+                    itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                    itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    TreasuryHdDao.Update(itemTransactionHd);
+
+                    {
+                        GLTransactionDt entityDt = new GLTransactionDt();
+                        entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+                        entityDt.GLTransactionID = GLTransactionID;
+                        entityDt.GLAccount = entityBook.GLAccount;
+                        entityDt.SubLedger = entityBook.SubLedger;
+                        entityDt.Remarks = "";
+                        if (itemTransactionHd.GCVoucherGroup == Constant.VoucherGroup.RECEIVE && itemTransactionHd.TotalAmount > 0)
+                        {
+                            entityDt.DebitAmount = itemTransactionHd.TotalAmount;
+                            entityHd.CreditAmount = 0;
+                            entityDt.Position = "D";
+                        }
+                        else
+                        {
+                            entityDt.CreditAmount = itemTransactionHd.TotalAmount;
+                            entityHd.DebitAmount = 0;
+                            entityDt.Position = "K";
+                        }
+                        entityDt.ReferenceNo = "";
+                        entityDt.DisplayOrder = 1;
+                        entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                        entityDtDao.Insert(entityDt);
+                    }
+
+                    string filterExpression = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}' ORDER BY DisplayOrder", hdnID.Value, Constant.TransactionStatus.VOID);
+                    List<TreasuryDt> lstTreasuryDt = BusinessLayer.GetTreasuryDtList(filterExpression, ctx);
+                    foreach (TreasuryDt GlTransactionDt in lstTreasuryDt)
+                    {
+                        GlTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
+                        GlTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        GlTransactionDtDao.Update(GlTransactionDt);
+
+                        GLTransactionDt entityDt = new GLTransactionDt();
+                        entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+                        entityDt.GLTransactionID = GLTransactionID;
+                        entityDt.GLAccount = GlTransactionDt.GLAccount;
+                        entityDt.SubLedger = GlTransactionDt.SubLedger;
+                        entityDt.Remarks = GlTransactionDt.Remarks;
+                        entityDt.DebitAmount = GlTransactionDt.DebitAmount;
+                        entityDt.CreditAmount = GlTransactionDt.CreditAmount;
+                        entityDt.ReferenceNo = GlTransactionDt.ReferenceNo;
+                        entityDt.Position = GlTransactionDt.Position;
+                        entityDt.DisplayOrder = (short)(GlTransactionDt.DisplayOrder + 1);
+                        entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                        entityDtDao.Insert(entityDt);
+                    }
                 }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

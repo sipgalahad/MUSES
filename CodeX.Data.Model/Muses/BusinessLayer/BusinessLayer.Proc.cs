@@ -1574,6 +1574,37 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GetTreasuryBookUserList
+        public static List<GetTreasuryBookUserList> GetTreasuryBookUserList(string siteID, int userID, string filterExpression)
+        {
+            List<GetTreasuryBookUserList> result = new List<GetTreasuryBookUserList>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetTreasuryBookUserList));
+                ctx.CommandText = "GetTreasuryBookUserList";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("p_SiteID", siteID);
+                ctx.Add("p_UserID", userID);
+                ctx.Add("p_AdditionalFilterExpression", filterExpression);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetTreasuryBookUserList)helper.IDataReaderToObject(reader, new GetTreasuryBookUserList()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PostingJournal
         public static bool PostingJournal(String SiteID, String PeriodNo, Int32 CreatedBy, IDbContext ctx = null)
         {

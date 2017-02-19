@@ -39857,8 +39857,8 @@ namespace CodeX.Data.Model
         private Int32 _SubLedger;
         private String _SubLedgerCode;
         private String _SubLedgerName;
-        private String _JournalTransactionCode;
-        private String _JournalTransactionName;
+        private String _GCTreasuryBookType;
+        private String _TreasuryBookType;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -39958,17 +39958,17 @@ namespace CodeX.Data.Model
             get { return _SubLedgerName; }
             set { _SubLedgerName = value; }
         }
-        [Column(Name = "JournalTransactionCode", DataType = "String")]
-        public String JournalTransactionCode
+        [Column(Name = "GCTreasuryBookType", DataType = "String")]
+        public String GCTreasuryBookType
         {
-            get { return _JournalTransactionCode; }
-            set { _JournalTransactionCode = value; }
+            get { return _GCTreasuryBookType; }
+            set { _GCTreasuryBookType = value; }
         }
-        [Column(Name = "JournalTransactionName", DataType = "String")]
-        public String JournalTransactionName
+        [Column(Name = "TreasuryBookType", DataType = "String")]
+        public String TreasuryBookType
         {
-            get { return _JournalTransactionName; }
-            set { _JournalTransactionName = value; }
+            get { return _TreasuryBookType; }
+            set { _TreasuryBookType = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -40012,6 +40012,7 @@ namespace CodeX.Data.Model
         private String _Position;
         private Decimal _DebitAmount;
         private Decimal _CreditAmount;
+        private Decimal _TotalAmount;
         private String _ReferenceNo;
         private Int16 _DisplayOrder;
         private String _Remarks;
@@ -40159,6 +40160,12 @@ namespace CodeX.Data.Model
             get { return _CreditAmount; }
             set { _CreditAmount = value; }
         }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
         [Column(Name = "ReferenceNo", DataType = "String")]
         public String ReferenceNo
         {
@@ -40227,8 +40234,8 @@ namespace CodeX.Data.Model
         private Int32 _SubLedgerID;
         private String _SubLedgerCode;
         private String _SubLedgerName;
-        private String _JournalTransactionCode;
-        private String _JournalTransactionName;
+        private String _GCTreasuryBookType;
+        private String _TreasuryBookType;
         private String _GCVoucherGroup;
         private String _VoucherGroup;
         private String _GCJournalGroup;
@@ -40244,8 +40251,11 @@ namespace CodeX.Data.Model
         private String _CustomerName;
         private Decimal _CreditAmount;
         private Decimal _DebitAmount;
+        private Decimal _TotalAmount;
         private String _Remarks;
         private Boolean _IsGeneratedBySystem;
+        private Int32 _GLTransactionID;
+        private String _JournalNo;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
         private String _TransactionStatusWatermark;
@@ -40336,17 +40346,17 @@ namespace CodeX.Data.Model
             get { return _SubLedgerName; }
             set { _SubLedgerName = value; }
         }
-        [Column(Name = "JournalTransactionCode", DataType = "String")]
-        public String JournalTransactionCode
+        [Column(Name = "GCTreasuryBookType", DataType = "String")]
+        public String GCTreasuryBookType
         {
-            get { return _JournalTransactionCode; }
-            set { _JournalTransactionCode = value; }
+            get { return _GCTreasuryBookType; }
+            set { _GCTreasuryBookType = value; }
         }
-        [Column(Name = "JournalTransactionName", DataType = "String")]
-        public String JournalTransactionName
+        [Column(Name = "TreasuryBookType", DataType = "String")]
+        public String TreasuryBookType
         {
-            get { return _JournalTransactionName; }
-            set { _JournalTransactionName = value; }
+            get { return _TreasuryBookType; }
+            set { _TreasuryBookType = value; }
         }
         [Column(Name = "GCVoucherGroup", DataType = "String")]
         public String GCVoucherGroup
@@ -40438,6 +40448,12 @@ namespace CodeX.Data.Model
             get { return _DebitAmount; }
             set { _DebitAmount = value; }
         }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
         {
@@ -40449,6 +40465,18 @@ namespace CodeX.Data.Model
         {
             get { return _IsGeneratedBySystem; }
             set { _IsGeneratedBySystem = value; }
+        }
+        [Column(Name = "GLTransactionID", DataType = "Int32")]
+        public Int32 GLTransactionID
+        {
+            get { return _GLTransactionID; }
+            set { _GLTransactionID = value; }
+        }
+        [Column(Name = "JournalNo", DataType = "String")]
+        public String JournalNo
+        {
+            get { return _JournalNo; }
+            set { _JournalNo = value; }
         }
         [Column(Name = "GCTransactionStatus", DataType = "String")]
         public String GCTransactionStatus
@@ -40515,6 +40543,56 @@ namespace CodeX.Data.Model
         {
             get { return _LastUpdatedDate; }
             set { _LastUpdatedDate = value; }
+        }
+    }
+    #endregion
+    #region vUserRoleTreasuryBook
+    [Serializable]
+    [Table(Name = "vUserRoleTreasuryBook")]
+    public class vUserRoleTreasuryBook
+    {
+        private Int32 _RoleID;
+        private String _SiteID;
+        private Int32 _BookID;
+        private String _BookCode;
+        private String _BookName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "RoleID", DataType = "Int32")]
+        public Int32 RoleID
+        {
+            get { return _RoleID; }
+            set { _RoleID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "BookID", DataType = "Int32")]
+        public Int32 BookID
+        {
+            get { return _BookID; }
+            set { _BookID = value; }
+        }
+        [Column(Name = "BookCode", DataType = "String")]
+        public String BookCode
+        {
+            get { return _BookCode; }
+            set { _BookCode = value; }
+        }
+        [Column(Name = "BookName", DataType = "String")]
+        public String BookName
+        {
+            get { return _BookName; }
+            set { _BookName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion
