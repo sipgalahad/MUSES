@@ -45,7 +45,7 @@
         addItemFilterRow();
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         getCheckedMember();
         if ($('#<%=hdnSelectedMember.ClientID %>').val() != '')
             return true;

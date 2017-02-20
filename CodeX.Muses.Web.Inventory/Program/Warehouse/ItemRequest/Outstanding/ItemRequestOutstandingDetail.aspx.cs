@@ -251,6 +251,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 hdnQuantityEND.Value = endingBalance.ToString();
 
                 ItemBalance itemBalanceFrom = lstFromItemBalance.FirstOrDefault(p => p.ItemID == entity.ItemID);
+                ItemBalance itemBalanceTo = lstItemBalance.FirstOrDefault(p => p.ItemID == entity.ItemID);
 
                 decimal availableQty = 0;
                 vItemRequestDtRealizationPerItem itemRequestDtRealizationPerItem = lstItemRequestDtRealizationPerItem.FirstOrDefault(p => p.ItemID == entity.ItemID);
@@ -275,6 +276,8 @@ namespace CodeX.Muses.Web.Inventory.Program
                 {
                     if (itemBalanceFrom != null && itemBalanceFrom.GCDistributionType == Constant.DistributionType.CONSUMPTION)
                         txtConsumption.Text = dist.ToString();
+                    else if (itemBalanceTo != null && itemBalanceTo.GCDistributionType == Constant.DistributionType.CONSUMPTION)
+                        txtConsumption.Text = dist.ToString();
                     else
                         txtDistribution.Text = dist.ToString();
                     if (hdnIsAllowPurchaseRequest.Value == "1" && entity.PurchaseRequestQty == 0)
@@ -283,6 +286,8 @@ namespace CodeX.Muses.Web.Inventory.Program
                 else
                 {
                     if (itemBalanceFrom != null && itemBalanceFrom.GCDistributionType == Constant.DistributionType.CONSUMPTION)
+                        txtConsumption.Text = entity.Quantity.ToString();
+                    else if (itemBalanceTo != null && itemBalanceTo.GCDistributionType == Constant.DistributionType.CONSUMPTION)
                         txtConsumption.Text = entity.Quantity.ToString();
                     else
                         txtDistribution.Text = entity.Quantity.ToString();

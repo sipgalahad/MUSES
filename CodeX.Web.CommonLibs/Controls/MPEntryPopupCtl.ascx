@@ -31,8 +31,8 @@
                 $('#<%=btnMPEntryPopupSave.ClientID %>').click(function (evt) {
                     var errMessage = { text: "" };
                     var isAllowSave = true;
-                    if (typeof onBeforeSaveRecord != 'undefined')
-                        isAllowSave = onBeforeSaveRecord(errMessage);
+                    if (typeof onBeforeSaveRecordPopup != 'undefined')
+                        isAllowSave = onBeforeSaveRecordPopup(errMessage);
                     if (isAllowSave) {
                         if (IsValid(evt, 'fsMPEntryPopup', 'mpEntryPopup'))
                             cbpMPEntryPopupProcess.PerformCallback('save');

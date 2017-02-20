@@ -58,7 +58,7 @@
     }
     //#endregion
 
-    function onBeforeSaveRecord() {
+    function onBeforeSaveRecordPopup() {
         var result = '';
         $('.tacSubjectIndicator').each(function () {
             if (result != "")

@@ -33,7 +33,7 @@
         addItemFilterRow();
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         if (IsValid(null, 'fsDrugsQuickPicks', 'mpDrugsQuickPicks')) {
             getCheckedMember();
             if ($('#<%=hdnSelectedMember.ClientID %>').val() != '')

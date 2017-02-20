@@ -74,7 +74,7 @@
     }
     //#endregion
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         var isRoomAllowSave = true;
         var isTeacherAllowSave = true;
 

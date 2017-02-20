@@ -11,7 +11,7 @@
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <script type="text/javascript" id="dxss_serviceunitsiteentryctl">
-    function onBeforeSaveRecord() {
+    function onBeforeSaveRecordPopup() {
         var result = '';
         $('.txtDescriptionText').each(function () {
             if (result != "")

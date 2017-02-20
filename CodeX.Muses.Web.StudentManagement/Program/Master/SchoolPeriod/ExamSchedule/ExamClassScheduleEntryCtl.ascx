@@ -74,7 +74,7 @@
     }
     //#endregion
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         var result = '';
         var lstID = '';
         $('#grdClassSchedule tr:gt(1)').each(function () {

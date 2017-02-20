@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvTreasuryDtList" datasourcehd="GetvTreasuryHdList" filterexpressionhd="" headertext="KAS DAN BANK VOUCHER" filterexpression="IsDeleted  = 0 AND GCItemDetailStatus != 'X121^999' ORDER BY DisplayOrder ASC" papertype="A4_portrait" fontsize="8pt" isshowtotal="1" totaltext="Total" />
+  <parameters>
+    <parameter code="FP001"/>
+  </parameters>
+  <fields>
+    <field fieldtype="autonumber" headertext="No" width="5"/>
+    <field fieldname="AccountForJournalVoucher" headertext="Perkiraan dan Keterangan"/>
+    <field fieldname="GLAccountNo" headertext="No Perkiraan" width="15"/>
+    <field fieldname="TotalAmount" headertext="Debit" width="13" fieldtype="currency" isshowsubtotal="1"/>
+  </fields>
+  <headertemplate>
+    <![CDATA[
+    <table style="width:100%" cellspacing="0" cellpadding="0">
+      <colgroup>
+        <col style="width:60%"/>
+      </colgroup>
+      <tr>
+        <td valign="top">
+          <table cellspacing="0" cellpadding="0">
+            <colgroup>
+              <col style="width:110px"/>
+              <col style="width:20px"/>
+            </colgroup>      
+            <tr><td>No Voucher</td><td align="center">:</td><td>{TransactionNo}</td></tr>
+            <tr><td>Tanggal Voucher</td><td align="center">:</td><td>{TransactionDateInString}</td></tr>
+            <tr><td>Buku</td><td align="center">:</td><td>{BookName}</td></tr>
+            <tr><td>Perkiraan</td><td align="center">:</td><td>{cfGLAccount}</td></tr>
+            <tr><td>Sub Perkiraan</td><td align="center">:</td><td>{cfSubLedger}</td></tr>
+          </table>
+        </td>
+        <td valign="top">
+          <table cellspacing="0" cellpadding="0">
+            <colgroup>
+              <col style="width:110px"/>
+              <col style="width:20px"/>
+            </colgroup>      
+            <tr><td>No Referensi</td><td align="center">:</td><td>{ReferenceNo}</td></tr>
+            <tr><td>Tanggal Referensi</td><td align="center">:</td><td>{ReferenceDateInString}</td></tr>
+            <tr><td>Keterangan</td><td align="center">:</td><td>{Remarks}</td></tr>
+          </table>
+           	
+        </td>
+      </tr>
+    </table>
+    ]]>
+  </headertemplate>
+  <footertemplate>
+    <![CDATA[
+     <table style="width:100%" cellspacing="0" cellpadding="0">
+      <colgroup>
+        <col style="width:50%"/>
+      </colgroup>
+      <tr>
+        <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top" align="center">Menyetujui</td>
+        <td valign="top" align="center">Dibuat Oleh</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="tdSignature">&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top" align="center">
+          <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
+        </td>
+        <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div></td>
+      </tr>
+    </table>
+    ]]>
+  </footertemplate>
+</root>

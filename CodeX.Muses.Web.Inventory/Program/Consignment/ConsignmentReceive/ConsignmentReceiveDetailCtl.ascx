@@ -146,7 +146,7 @@
         $tr.find('.txtDiscountAmount2').val(discountAmount).trigger('changeValue');
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         var result = '';
         var lstPurchaseOrderDtID = '';
 

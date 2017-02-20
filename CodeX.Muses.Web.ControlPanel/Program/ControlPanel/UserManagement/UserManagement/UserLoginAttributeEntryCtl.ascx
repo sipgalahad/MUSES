@@ -124,7 +124,7 @@
         }
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         if (IsValid(null, 'fsTrxPopup', 'mpTrxPopup')) {
             getCheckedMember();
             return true;

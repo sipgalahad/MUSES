@@ -269,7 +269,7 @@
 
     }
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         var isAllowSave = true;
         var paymentType = cboPaymentType.GetValue();
         var cashBackAmount = parseFloat($('#<%=hdnCashbackAmount.ClientID %>').val());

@@ -8,7 +8,7 @@
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <script type="text/javascript" id="dxss_generatebilldtctl">
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         var result = '';
         $('#<%=grdView.ClientID %> > tbody > tr:gt(0)').each(function () {
             $tr = $(this);

@@ -45,7 +45,7 @@
         addItemFilterRow();
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         if (IsValid(null, 'fsDrugsQuickPicks', 'mpDrugsQuickPicks')) {
             getCheckedMember();
             if ($('#<%=hdnSelectedMember.ClientID %>').val() != '')
@@ -137,7 +137,7 @@
         }
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         if (IsValid(null, 'fsTrxPopup', 'mpTrxPopup')) {
             getCheckedMember();
             if ($('#<%=hdnSelectedMember.ClientID %>').val() != '')

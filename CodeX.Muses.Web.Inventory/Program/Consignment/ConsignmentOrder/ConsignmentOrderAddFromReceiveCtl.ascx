@@ -19,7 +19,7 @@
         });
     })
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         var count = 0;
         var data = "";
         $('.chkIsSelected input').each(function () {

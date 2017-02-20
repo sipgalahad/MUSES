@@ -3000,6 +3000,17 @@ namespace CodeX.Data.Model
                 return _TransactionDate.ToString("MMMM yyyy");
             }
         }
+
+        public String AccountForJournalVoucher
+        {
+            get
+            {
+                string text = _GLAccountName;
+                if (_SubLedgerName != null && _SubLedgerName != "") text += "-" + _SubLedgerName;
+                text += " " + _Remarks;
+                return text;
+            }
+        }
     }
     #endregion
     #region vTreasuryHd
@@ -3009,6 +3020,15 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
+        public string ReferenceDateInString
+        {
+            get
+            {
+                if (_ReferenceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _ReferenceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
         public string LastUpdatedDateInString
         {
             get { return _LastUpdatedDate.ToString(Constant.FormatString.DATE_FORMAT); }
@@ -3017,6 +3037,24 @@ namespace CodeX.Data.Model
         public string TransactionDateInMonth
         {
             get { return _TransactionDate.ToString("MMMM yyyy"); }
+        }
+
+        public String cfGLAccount
+        {
+            get
+            {
+                return string.Format("{0} ({1})", _GLAccountName, _GLAccountNo);
+            }
+        }
+
+        public String cfSubLedger
+        {
+            get
+            {
+                if (_SubLedgerCode != "")
+                    return string.Format("{0} ({1})", _SubLedgerName, _SubLedgerCode);
+                return "";
+            }
         }
     }
     #endregion

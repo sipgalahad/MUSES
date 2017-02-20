@@ -38,7 +38,7 @@
         }, 500);
     });
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         getCheckedItem();
         if ($('#<%=hdnSelectedItem.ClientID %>').val() == '') {
             errMessage.text = 'Please Select Item First';

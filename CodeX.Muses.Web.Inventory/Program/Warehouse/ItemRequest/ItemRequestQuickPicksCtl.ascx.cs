@@ -129,7 +129,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             else
                 lstItemBalance = new List<ItemBalance>();
             if (lstItemID != "")
-                lstItemPlanning = BusinessLayer.GetvItemPlanningCustomList(string.Format("SiteID = '{0}' AND ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID));
+                lstItemPlanning = BusinessLayer.GetvItemPlanningCustomList(string.Format("ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID));
             else
                 lstItemPlanning = new List<vItemPlanningCustom>();
             grdView.DataSource = lstEntity;
@@ -151,7 +151,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 DetailPage.SaveItemRequestHd(ctx, ref TransactionID);
 
                 List<ItemMaster> lstItemMaster = BusinessLayer.GetItemMasterList(string.Format("ItemID IN ({0})", hdnSelectedMember.Value), ctx);
-                lstItemPlanning = BusinessLayer.GetvItemPlanningCustomList(string.Format("SiteID = '{0}' AND ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, hdnSelectedMember.Value), ctx);
+                lstItemPlanning = BusinessLayer.GetvItemPlanningCustomList(string.Format("ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, hdnSelectedMember.Value), ctx);
                 int ct = 0;
                 foreach (String itemID in lstSelectedMember)
                 {

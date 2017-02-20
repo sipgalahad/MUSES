@@ -6,7 +6,7 @@
   </parameters>
   <fields>
     <field fieldtype="autonumber" headertext="No" width="3"/>
-    <field fieldname="ItemCode" width="10" headertext="Kode Barang"/>
+    <field fieldname="ItemCode" width="15" headertext="Kode Barang"/>
     <field fieldname="ItemName1" headertext="Nama Barang"/>
     <field headertext="Quantity" width="10" fieldtype="customfield" align="right">
       <![CDATA[

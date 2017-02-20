@@ -41,7 +41,7 @@
         $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
     }
 
-    function onBeforeSaveRecord(errMessage) {
+    function onBeforeSaveRecordPopup(errMessage) {
         getCheckedMember();
         if ($('#<%=hdnSelectedMember.ClientID %>').val() == '') {
             errMessage.text = 'Silakan Pilih Piutang Terlebih Dahulu';
