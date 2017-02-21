@@ -13864,6 +13864,7 @@ namespace CodeX.Data.Model
         private String _TransactionCode;
         private String _JournalNo;
         private DateTime _JournalDate;
+        private Int32? _SiteServiceUnitID;
         private Decimal _DebitAmount;
         private Decimal _CreditAmount;
         private String _Remarks;
@@ -13905,6 +13906,12 @@ namespace CodeX.Data.Model
         {
             get { return _JournalDate; }
             set { _JournalDate = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
         }
         [Column(Name = "DebitAmount", DataType = "Decimal")]
         public Decimal DebitAmount
@@ -46196,6 +46203,7 @@ namespace CodeX.Data.Model
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
         private DateTime _DueDate;
+        private Int32? _SiteServiceUnitID;
         private Int32? _SupplierID;
         private Int32? _CustomerID;
         private Decimal _DebitAmount;
@@ -46271,6 +46279,12 @@ namespace CodeX.Data.Model
         {
             get { return _DueDate; }
             set { _DueDate = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
         }
         [Column(Name = "SupplierID", DataType = "Int32", IsNullable = true)]
         public Int32? SupplierID

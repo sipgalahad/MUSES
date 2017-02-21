@@ -7,6 +7,8 @@
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
@@ -45,6 +47,15 @@
                     var glTransactionID = $('#<%=hdnID.ClientID %>').val();
                     var id = glTransactionID;
                     openUserControlPopup(url, id, 'Template', 600, 300);
+                }
+            });
+
+            $('#divQuickPicks').click(function () {
+                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                    showLoadingPanel();
+                    var url = ResolveUrl('~/Program/Journal/JournalQuickPicksCtl.ascx');
+                    var id = '';
+                    openUserControlPopup(url, id, 'Quick Picks', 1000, 600);
                 }
             });
 
@@ -151,6 +162,99 @@
                 });
             }
             //#endregion
+        }
+
+        //#region Service Unit
+        function onGetServiceUnitFilterExpression() {
+            var filterExpression = "<%=GetServiceUnitFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacServiceUnitButtonSearchClick() {
+            openSearchDialog('serviceunitpersite', onGetServiceUnitFilterExpression(), function (value) {
+                var filterExpression = onGetServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
+                Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacServiceUnit.setValue(result.SiteServiceUnitID);
+                        tacServiceUnit.setText(result.ServiceUnitName);
+                    }
+                    else {
+                        tacServiceUnit.setValue('');
+                        tacServiceUnit.setText('');
+                    }
+                });
+            });
+
+        }
+
+        function onTacServiceUnitValueChanged() {
+        }
+        //#endregion
+
+        function fillTransactionDt(GLAccountID, sLstSubCOAID, sLstSubCOAName, sLstAmount, position) {
+            var filterExpression = "GLAccountID = " + GLAccountID;
+            Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
+
+                var lstSubCOAID = sLstSubCOAID.split(',');
+                var lstSubCOAName = sLstSubCOAName.split(',');
+                var lstSubCOAAmount = sLstAmount.split(',');
+                $('.trJournalEntry:last').remove();
+                for (var i = 0; i < lstSubCOAID.length; ++i) {
+                    $newTr = $('#tmplEntity').html().replace('script1', 'script').replace('script1', 'script');
+                    $newTr = $newTr.replace(/\$\{idx}/g, idx);
+                    $newTr = $($newTr);
+
+                    $newTr.insertBefore($('#trFooter'));
+
+                    $newTr.find('.txtCurrency').each(function () {
+                        $(this).trigger('changeValue');
+                    });
+
+                    var tempHelper = new CodeXClientAutoCompleteHelper();
+                    tempHelper.init("COA" + idx, "GLAccountNo,GLAccountName", "GetChartOfAccountList", "", "onGetCOAFilterExpression", "GLAccountNo");
+                    tempHelper.setClientSideEvents(onGLAccountIDValueChanged);
+                    tempHelper.initializeControl();
+                    tempHelper.setValue(result.GLAccountID);
+                    tempHelper.setText(result.GLAccountName);
+
+                    if (position == 'D')
+                        $newTr.find('.txtDebit').val(lstSubCOAAmount[i]).trigger('changeValue');
+                    else
+                        $newTr.find('.txtCredit').val(lstSubCOAAmount[i]).trigger('changeValue');
+
+                    $newTr.find('.btnDocumentDetail').attr('enabled', false);
+
+                    $newTr.find('.hdnSubLedgerID').val(result.SubLedgerID);
+                    $newTr.find('.hdnSearchDialogTypeName').val(result.SearchDialogTypeName);
+                    $newTr.find('.hdnFilterExpression').val(result.FilterExpression.replace('@SubLedgerID', result.SubLedgerID));
+                    $newTr.find('.hdnIDFieldName').val(result.IDFieldName);
+                    $newTr.find('.hdnCodeFieldName').val(result.CodeFieldName);
+                    $newTr.find('.hdnDisplayFieldName').val(result.DisplayFieldName);
+                    $newTr.find('.hdnMethodName').val(result.MethodName);
+
+                    var template = "<script class='tmpltAutoComplete' type='text/x-jquery-tmpl'><div>";
+                    template += "${" + result.DisplayFieldName + "} (<b>${" + result.CodeFieldName + "}</b>";
+                    template += "<input type='hidden' value='${" + result.DisplayFieldName + "}' class='hdnAutoCompleteRowText'/>";
+                    template += "<input type='hidden' value='${" + result.IDFieldName + "}' class='hdnAutoCompleteRowValue'/>";
+                    template += "<\/div><\/script>";
+
+                    $newTr.find('.divSubLedgerTemplate').html(template);
+
+                    var tempHelper = new CodeXClientAutoCompleteHelper();
+                    tempHelper.init("SubCOA" + idx, result.CodeFieldName + "," + result.DisplayFieldName, result.MethodName, result.FilterExpression, "", result.CodeFieldName);
+                    tempHelper.setClientSideEvents(onSubLedgerIDValueChanged);
+                    tempHelper.initializeControl();
+                    tempHelper.setValue(lstSubCOAID[i]);
+                    tempHelper.setText(lstSubCOAName[i]);
+
+                    $newTr.find('.tacSubCOA').find('.txtAutoComplete').removeAttr('readonly');
+                    $newTr.find('.tacSubCOA').find('.btnAutoCompleteSearchMore').removeAttr('enabled');
+
+                    idx++;
+                }
+                calculateTotalDebitKredit();
+                addEntityRow();
+            });
         }
 
         var popupType = '';
@@ -787,6 +891,16 @@
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal") %></label></td>
                         <td><asp:TextBox runat="server" ID="txtJournalDate" CssClass="datepicker" Width="120px" /></td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Bagian")%></label></td>
+                        <td>
+                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacServiceUnit" ClientInstanceName="tacServiceUnit" MethodName="GetvSiteServiceUnitList" GetFilterExpressionFunction="onGetServiceUnitFilterExpression"
+                                SearchFields="ServiceUnitName,ServiceUnitCode" TextField="ServiceUnitName" ValueField="SiteServiceUnitID" SearchText="${ServiceUnitName} (<b>${ServiceUnitCode}</b>)" OrderByExpression="ServiceUnitName">
+                                <ClientSideEvents ButtonSearchClick="function(){ onTacServiceUnitButtonSearchClick(); }"
+                                    ValueChanged="function(){ onTacServiceUnitValueChanged(); }" />
+                            </cdx:CodeXAutoCompleteTextBox>   
+                        </td>
+                    </tr>
                 </table>
             </td>
             <td style="padding:5px;vertical-align:top">
@@ -806,6 +920,7 @@
                 <div class="divTransactionEntry">
                     <span id="divTemplatePick" class="divAdd"><%=GetLabel("Template")%></span>
                     <span id="divSaveTemplate" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Save As Template")%></span>
+                    <span id="divQuickPicks" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Quick Picks")%></span>
                     <table id="tblJournalEntry" style="display:none" class="grdView grdBorder notAllowSelect" cellspacing="0" rules="all" >
                         <tr id="trHeader2">
                             <th style="width:30px;"></th>

@@ -29,6 +29,10 @@ namespace CodeX.Muses.Web.Accounting.Program
                 return "1 = 0";
             return string.Format("BookID IN ({0}) AND IsDeleted = 0", hdnLstBookID.Value);
         }
+        protected string GetServiceUnitFilterExpression()
+        {
+            return string.Format("SiteID = '{0}' AND DepartmentID = 'OFFICE'", AppSession.UserLogin.SiteID);
+        }
         #endregion
 
         protected int minDate = -1;
@@ -58,6 +62,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             SetControlEntrySetting(txtSubLedgerName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(tacServiceUnit, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtJournalNo, new ControlEntrySetting(false, false, false));
         }
@@ -156,6 +161,8 @@ namespace CodeX.Muses.Web.Accounting.Program
             else
                 txtReferenceDate.Text = "";
             txtTransactionDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            tacServiceUnit.Value = entity.SiteServiceUnitID.ToString();
+            tacServiceUnit.Text = entity.ServiceUnitName;
             txtRemarks.Text = entity.Remarks;
 
             divCreatedBy.InnerHtml = string.Format(@"{0} / {1}", entity.CreatedByName, entity.CreatedDate.ToString(Constant.FormatString.DATE_FORMAT));
@@ -187,6 +194,10 @@ namespace CodeX.Muses.Web.Accounting.Program
             entityHd.BookID = Convert.ToInt32(tacBook.Value);
             entityHd.ReferenceNo = txtReferenceNo.Text;
             entityHd.ReferenceDate = Helper.GetDatePickerValue(Request.Form[txtReferenceDate.UniqueID]);
+            if (tacServiceUnit.Value != "" && tacServiceUnit.Value != "0")
+                entityHd.SiteServiceUnitID = Convert.ToInt32(tacServiceUnit.Value);
+            else
+                entityHd.SiteServiceUnitID = null;
 
             entityHd.Remarks = txtRemarks.Text;
         }
@@ -457,6 +468,7 @@ namespace CodeX.Muses.Web.Accounting.Program
 
                     entityHd.IsGeneratedBySystem = true;
                     entityHd.Remarks = txtRemarks.Text;
+                    entityHd.SiteServiceUnitID = itemTransactionHd.SiteServiceUnitID;
                     entityHd.JournalNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.JournalDate, entityTransactionType.TransactionInitial, ctx);
                     entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
 

@@ -1443,8 +1443,12 @@ namespace CodeX.Data.Model
         private String _GLAccountName;
         private String _GCGLAccountType;
         private String _GLAccountType;
+        private Int32 _COAGroupID;
+        private String _COAGroupCode;
+        private String _COAGroupName;
         private String _Position;
         private Boolean _IsHeader;
+        private Int16 _AccountLevel;
         private Int32 _Level;
         private Decimal _Col1;
         private Decimal _Col2;
@@ -1457,6 +1461,13 @@ namespace CodeX.Data.Model
         private Decimal _Col9;
         private Decimal _Col10;
         private Decimal _Col11;
+        private Decimal _ColSU9;
+        private Decimal _ColSU10;
+        private Decimal _ColSU11;
+        private Decimal _ColSU12;
+        private Decimal _ColSU13;
+        private Decimal _ColSU14;
+        private Decimal _ColSU15;
 
         [Column(Name = "GLAccountID", DataType = "Int32")]
         public Int32 GLAccountID
@@ -1488,6 +1499,24 @@ namespace CodeX.Data.Model
             get { return _GLAccountType; }
             set { _GLAccountType = value; }
         }
+        [Column(Name = "COAGroupID", DataType = "Int32")]
+        public Int32 COAGroupID
+        {
+            get { return _COAGroupID; }
+            set { _COAGroupID = value; }
+        }
+        [Column(Name = "COAGroupCode", DataType = "String")]
+        public String COAGroupCode
+        {
+            get { return _COAGroupCode; }
+            set { _COAGroupCode = value; }
+        }
+        [Column(Name = "COAGroupName", DataType = "String")]
+        public String COAGroupName
+        {
+            get { return _COAGroupName; }
+            set { _COAGroupName = value; }
+        }
         [Column(Name = "Position", DataType = "String")]
         public String Position
         {
@@ -1500,6 +1529,12 @@ namespace CodeX.Data.Model
             get { return _IsHeader; }
             set { _IsHeader = value; }
         }
+        [Column(Name = "AccountLevel", DataType = "Int16")]
+        public Int16 AccountLevel
+        {
+            get { return _AccountLevel; }
+            set { _AccountLevel = value; }
+        }
         [Column(Name = "Level", DataType = "Int32")]
         public Int32 Level
         {
@@ -1508,6 +1543,12 @@ namespace CodeX.Data.Model
         }
         [Column(Name = "Col2", DataType = "Decimal")]
         public Decimal Col2
+        {
+            get { return _Col2; }
+            set { _Col2 = value; }
+        }
+        [Column(Name = "Col1", DataType = "Decimal")]
+        public Decimal Col1
         {
             get { return _Col2; }
             set { _Col2 = value; }
@@ -1565,6 +1606,48 @@ namespace CodeX.Data.Model
         {
             get { return _Col11; }
             set { _Col11 = value; }
+        }
+        [Column(Name = "ColSU9", DataType = "Decimal")]
+        public Decimal ColSU9
+        {
+            get { return _ColSU9; }
+            set { _ColSU9 = value; }
+        }
+        [Column(Name = "ColSU10", DataType = "Decimal")]
+        public Decimal ColSU10
+        {
+            get { return _ColSU10; }
+            set { _ColSU10 = value; }
+        }
+        [Column(Name = "ColSU11", DataType = "Decimal")]
+        public Decimal ColSU11
+        {
+            get { return _ColSU11; }
+            set { _ColSU11 = value; }
+        }
+        [Column(Name = "ColSU12", DataType = "Decimal")]
+        public Decimal ColSU12
+        {
+            get { return _ColSU12; }
+            set { _ColSU12 = value; }
+        }
+        [Column(Name = "ColSU13", DataType = "Decimal")]
+        public Decimal ColSU13
+        {
+            get { return _ColSU13; }
+            set { _ColSU13 = value; }
+        }
+        [Column(Name = "ColSU14", DataType = "Decimal")]
+        public Decimal ColSU14
+        {
+            get { return _ColSU14; }
+            set { _ColSU14 = value; }
+        }
+        [Column(Name = "ColSU15", DataType = "Decimal")]
+        public Decimal ColSU15
+        {
+            get { return _ColSU15; }
+            set { _ColSU15 = value; }
         }
     }
     #endregion

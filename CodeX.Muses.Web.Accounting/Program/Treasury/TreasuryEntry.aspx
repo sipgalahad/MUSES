@@ -144,6 +144,33 @@
             //#endregion
         }
 
+        //#region Service Unit
+        function onGetServiceUnitFilterExpression() {
+            var filterExpression = "<%=GetServiceUnitFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacServiceUnitButtonSearchClick() {
+            openSearchDialog('serviceunitpersite', onGetServiceUnitFilterExpression(), function (value) {
+                var filterExpression = onGetServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
+                Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacServiceUnit.setValue(result.SiteServiceUnitID);
+                        tacServiceUnit.setText(result.ServiceUnitName);
+                    }
+                    else {
+                        tacServiceUnit.setValue('');
+                        tacServiceUnit.setText('');
+                    }
+                });
+            });
+
+        }
+
+        function onTacServiceUnitValueChanged() {
+        }
+        //#endregion
+
         //#region Book
         function onGetTreasuryBookFilterExpression() {
             var filterExpression = "<%=GetTreasuryBookFilterExpression() %>";
@@ -775,6 +802,16 @@
                         <td><asp:TextBox runat="server" ID="txtReferenceNo" Width="150px" /></td>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal") %></label></td>
                         <td><asp:TextBox runat="server" ID="txtReferenceDate" CssClass="datepicker" Width="120px" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Bagian")%></label></td>
+                        <td colspan="4">
+                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacServiceUnit" ClientInstanceName="tacServiceUnit" MethodName="GetvSiteServiceUnitList" GetFilterExpressionFunction="onGetServiceUnitFilterExpression"
+                                SearchFields="ServiceUnitName,ServiceUnitCode" TextField="ServiceUnitName" ValueField="SiteServiceUnitID" SearchText="${ServiceUnitName} (<b>${ServiceUnitCode}</b>)" OrderByExpression="ServiceUnitName">
+                                <ClientSideEvents ButtonSearchClick="function(){ onTacServiceUnitButtonSearchClick(); }"
+                                    ValueChanged="function(){ onTacServiceUnitValueChanged(); }" />
+                            </cdx:CodeXAutoCompleteTextBox>   
+                        </td>
                     </tr>
                     <tr>
                         <td class="tdLabel" style="width: 150px; vertical-align:top; padding-top:5px; "><label class="lblNormal"><%=GetLabel("Keterangan")%></label></td>

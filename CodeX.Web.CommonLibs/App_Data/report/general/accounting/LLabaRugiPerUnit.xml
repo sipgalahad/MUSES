@@ -1,24 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetGLBalanceProfitLossPerPeriodPerSite" headertext="Laporan Aktivitas Per Unit" papertype="A4_landscape" fontsize="8pt" isdatasourcefromsp="1" isshowtotal="1" totaltext="Total" subheadertext="Periode : {CS001} {YR001}" />
+  <table datasource="GetGLBalanceProfitLossPerPeriodPerSite" headertext="Laporan Aktivitas Per Unit" papertype="F4_landscape" fontsize="6pt" isdatasourcefromsp="1" isshowtotal="1" totaltext="Total" subheadertext="Periode : {CS001} {YR001}" isshowheaderborder="1"/>
   <parameters>
     <parameter code="YR001" isrequired="1"/>
     <parameter code="CS001" isrequired="1"/>
     <parameter code="CS002" isrequired="1"/>
   </parameters>
   <groups>
-    <group fieldname="GLAccountType" orderby="GCGLAccountType" orderbytype="ASC" headertext="Tipe : [GroupName]" isshowsubtotal="1" subtotaltext="Sub Total [GroupName] : "/>
+    <group fieldname="COAGroupName" orderby="COAGroupCode" orderbytype="ASC" headertext="Tipe : [GroupName]" isshowsubtotal="1" subtotaltext="Sub Total [GroupName] : "/>
   </groups>
   <fields>
-    <field fieldname="GLAccountNo" headertext="Kd. Akun" width="4" />
-    <field fieldname="GLAccountName" headertext="Nama Akun" width="8" />
-    <field fieldname="Col3" headertext="SMA 1" width="4" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="Col4" headertext="SMP 1" width="4" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="Col5" headertext="SD 1" width="4" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="Col6" headertext="TK 1" width="4" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="Col8" headertext="SMA 2" width="4" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="Col9" headertext="SMP 2" width="4" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="Col10" headertext="SD 2" width="4" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="Col11" headertext="TK 2" width="4" fieldtype="currency" isshowsubtotal="1" />
+    <field headertext="Kode" width="4" fieldtype="customfield" align="left" rowspan="2">
+      <![CDATA[ 
+        <div style="margin-left:{Level}0px">{GLAccountNo}</div>
+      ]]>
+    </field>
+    <field headertext="Nama Akun" width="12" fieldtype="customfield" align="left" rowspan="2">
+      <![CDATA[ 
+        <div style="margin-left:{Level}0px">{GLAccountName}</div>
+      ]]>
+    </field>
+    <boundfield text="Unit" colspan="8" width="35">
+      <field fieldname="Col3" totalfieldname="cfCol3" headertext="SMA 1" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="Col4" totalfieldname="cfCol4" headertext="SMP 1" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="Col5" totalfieldname="cfCol5" headertext="SD 1" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="Col6" totalfieldname="cfCol6" headertext="TK 1" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="Col8" totalfieldname="cfCol8" headertext="SMA 2" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="Col9" totalfieldname="cfCol9" headertext="SMP 2" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="Col10" totalfieldname="cfCol10" headertext="SD 2" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="Col11" totalfieldname="cfCol11" headertext="TK 2" width="4" fieldtype="currency" isshowsubtotal="1" />
+    </boundfield>
+    <boundfield text="Yayasan" colspan="7" width="35">
+      <field fieldname="ColSU9" totalfieldname="cfColSU9" headertext="IT" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="ColSU10" totalfieldname="cfColSU10" headertext="GA/RT" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="ColSU11" totalfieldname="cfColSU11" headertext="OPSDIK" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="ColSU12" totalfieldname="cfColSU12" headertext="KEUANGAN" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="ColSU13" totalfieldname="cfColSU13" headertext="ACCOUNTING" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="ColSU14" totalfieldname="cfColSU14" headertext="HRD" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="ColSU15" totalfieldname="cfColSU15" headertext="PENGADAAN" width="4" fieldtype="currency" isshowsubtotal="1" />
+    </boundfield>
   </fields>
 </root>

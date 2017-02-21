@@ -23,20 +23,9 @@ namespace CodeX.Muses.Web.Accounting.Program
         }
 
         #region Html Getter
-        protected string GetJournalGroupPendapatanPenerimaan()
+        protected string GetServiceUnitFilterExpression()
         {
-            return string.Empty;
-            //return Constant.JournalGroup.PENDAPATAN_PENERIMAAN;
-        }
-        protected string GetJournalGroupHutangPiutang()
-        {
-            return string.Empty;
-            //return Constant.JournalGroup.HUTANG_PIUTANG;
-        }
-        protected string GetJournalGroupInventory()
-        {
-            return string.Empty;
-            //return Constant.JournalGroup.INVENTORY;
+            return string.Format("SiteID = '{0}' AND DepartmentID = 'OFFICE'", AppSession.UserLogin.SiteID);
         }
         protected string GetJournalGroupMemorial()
         {
@@ -61,6 +50,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             SetControlEntrySetting(txtJournalPrefix, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtJournalNo, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtJournalDate, new ControlEntrySetting(true, false, true, Constant.DefaultValueEntry.DATE_NOW));
+            SetControlEntrySetting(tacServiceUnit, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
 
             SetControlEntrySetting(cboTransactionCode, new ControlEntrySetting(true, false, true));
@@ -141,7 +131,8 @@ namespace CodeX.Muses.Web.Accounting.Program
             hdnID.Value = entity.GLTransactionID.ToString();
             txtJournalNo.Text = entity.JournalNo;
             cboTransactionCode.Value = entity.TransactionCode;
-
+            tacServiceUnit.Value = entity.SiteServiceUnitID.ToString();
+            tacServiceUnit.Text = entity.ServiceUnitName;
             txtJournalDate.Text = entity.JournalDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtRemarks.Text = entity.Remarks;
 
@@ -189,6 +180,10 @@ namespace CodeX.Muses.Web.Accounting.Program
                     entityHd.JournalDate = Helper.GetDatePickerValue(Request.Form[txtJournalDate.UniqueID]);
                     entityHd.GCJournalGroup = Constant.JournalGroup.MEMORIAL;
                     entityHd.TransactionCode = cboTransactionCode.Value.ToString();
+                    if (tacServiceUnit.Value != "" && tacServiceUnit.Value != "0")
+                        entityHd.SiteServiceUnitID = Convert.ToInt32(tacServiceUnit.Value);
+                    else
+                        entityHd.SiteServiceUnitID = null;
 
                     entityHd.Remarks = txtRemarks.Text;
                     entityHd.JournalNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.JournalDate, txtJournalPrefix.Text, ctx);
@@ -224,6 +219,10 @@ namespace CodeX.Muses.Web.Accounting.Program
                 entityHd.JournalDate = Helper.GetDatePickerValue(Request.Form[txtJournalDate.UniqueID]);
                 entityHd.GCJournalGroup = Constant.JournalGroup.MEMORIAL;
                 entityHd.TransactionCode = cboTransactionCode.Value.ToString();
+                if (tacServiceUnit.Value != "" && tacServiceUnit.Value != "0")
+                    entityHd.SiteServiceUnitID = Convert.ToInt32(tacServiceUnit.Value);
+                else
+                    entityHd.SiteServiceUnitID = null;
 
                 entityHd.Remarks = txtRemarks.Text;
                 entityHd.JournalNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.JournalDate, txtJournalPrefix.Text, ctx);
@@ -289,6 +288,10 @@ namespace CodeX.Muses.Web.Accounting.Program
                 entityHd.JournalDate = Helper.GetDatePickerValue(Request.Form[txtJournalDate.UniqueID]);
                 entityHd.GCJournalGroup = Constant.JournalGroup.MEMORIAL;
                 entityHd.TransactionCode = cboTransactionCode.Value.ToString();
+                if (tacServiceUnit.Value != "" && tacServiceUnit.Value != "0")
+                    entityHd.SiteServiceUnitID = Convert.ToInt32(tacServiceUnit.Value);
+                else
+                    entityHd.SiteServiceUnitID = null;
                 entityHd.Remarks = txtRemarks.Text;
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityHdDao.Update(entityHd);
@@ -405,6 +408,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

@@ -18,8 +18,8 @@
         <div style="margin-left:{Level}0px">{GLAccountName}</div>
       ]]>
     </field>
-    <field fieldname="BalanceENDLastMonth" headertext="Bulan Lalu" width="4" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="ProfitLoss" headertext="Bulan ini" width="4" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="BalanceEND" headertext="s/d Bulan ini" width="4" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="BalanceENDLastMonth" additionalclassfieldname="cfClassHeader" totalfieldname="cfBalanceENDLastMonth" headertext="Bulan Lalu" width="12" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="ProfitLoss" additionalclassfieldname="cfClassHeader" totalfieldname="cfProfitLoss" headertext="Bulan ini" width="12" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="BalanceEND" additionalclassfieldname="cfClassHeader" totalfieldname="cfBalanceEND" headertext="s/d Bulan ini" width="12" fieldtype="currency" isshowsubtotal="1" />
   </fields>
 </root>

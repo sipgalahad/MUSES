@@ -175,6 +175,15 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::System.Web.UI.WebControls.TextBox txtReferenceDate;
         
         /// <summary>
+        /// tacServiceUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacServiceUnit;
+        
+        /// <summary>
         /// txtRemarks control.
         /// </summary>
         /// <remarks>

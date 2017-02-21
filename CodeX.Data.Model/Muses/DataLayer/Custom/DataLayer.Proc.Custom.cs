@@ -150,6 +150,47 @@ namespace CodeX.Data.Model
         {
             get { return _BalanceENDLastMonth + _ProfitLoss; }
         }
+        public String cfClassHeader
+        {
+            get
+            {
+                if (_IsHeader) return "tdEntityHeader";
+                return "tdEntityDetail";
+            }
+        }
+    }
+    #endregion
+    #region GetGLBalanceProfitLossPerPeriodPerSite
+    public partial class GetGLBalanceProfitLossPerPeriodPerSite
+    {
+        public Decimal cfCol1 { get { if (_AccountLevel == 1) return _Col1; return 0; } }
+        public Decimal cfCol2 { get { if (_AccountLevel == 1) return _Col2; return 0; } }
+        public Decimal cfCol3 { get { if (_AccountLevel == 1) return _Col3; return 0; } }
+        public Decimal cfCol4 { get { if (_AccountLevel == 1) return _Col4; return 0; } }
+        public Decimal cfCol5 { get { if (_AccountLevel == 1) return _Col5; return 0; } }
+        public Decimal cfCol6 { get { if (_AccountLevel == 1) return _Col6; return 0; } }
+        public Decimal cfCol7 { get { if (_AccountLevel == 1) return _Col7; return 0; } }
+        public Decimal cfCol8 { get { if (_AccountLevel == 1) return _Col8; return 0; } }
+        public Decimal cfCol9 { get { if (_AccountLevel == 1) return _Col9; return 0; } }
+        public Decimal cfCol10 { get { if (_AccountLevel == 1) return _Col10; return 0; } }
+        public Decimal cfCol11 { get { if (_AccountLevel == 1) return _Col11; return 0; } }
+        public Decimal cfColSU9 { get { if (_AccountLevel == 1) return _ColSU9; return 0; } }
+        public Decimal cfColSU10 { get { if (_AccountLevel == 1) return _ColSU10; return 0; } }
+        public Decimal cfColSU11 { get { if (_AccountLevel == 1) return _ColSU11; return 0; } }
+        public Decimal cfColSU12 { get { if (_AccountLevel == 1) return _ColSU12; return 0; } }
+        public Decimal cfColSU13 { get { if (_AccountLevel == 1) return _ColSU13; return 0; } }
+        public Decimal cfColSU14 { get { if (_AccountLevel == 1) return _ColSU14; return 0; } }
+        public Decimal cfColSU15 { get { if (_AccountLevel == 1) return _ColSU15; return 0; } }
+
+
+        public String cfClassHeader
+        {
+            get
+            {
+                if (_IsHeader) return "tdEntityHeader";
+                return "tdEntityDetail";
+            }
+        }
     }
     #endregion
     #region GetItemMovementPerPeriodeDetail
