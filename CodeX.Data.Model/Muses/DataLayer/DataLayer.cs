@@ -18350,6 +18350,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ItemTransactionHdSite
+    [Serializable]
+    [Table(Name = "ItemTransactionHdSite")]
+    public class ItemTransactionHdSite : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private String _SiteID;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+    }
+
+    public class ItemTransactionHdSiteDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ItemTransactionHdSite));
+        private bool _isAuditLog = false;
+        private const string p_SiteID = "@p_SiteID";
+        private const string p_TransactionID = "@p_TransactionID";
+        public ItemTransactionHdSiteDao() { }
+        public ItemTransactionHdSiteDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ItemTransactionHdSite Get(Int32 TransactionID, String SiteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SiteID, SiteID);
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ItemTransactionHdSite)_helper.DataRowToObject(row, new ItemTransactionHdSite());
+        }
+        public int Insert(ItemTransactionHdSite record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ItemTransactionHdSite record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID, String SiteID)
+        {
+            ItemTransactionHdSite record;
+            if (_ctx.Transaction == null)
+                record = new ItemTransactionHdSiteDao().Get(TransactionID, SiteID);
+            else
+                record = Get(TransactionID, SiteID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region JobLevel
     [Serializable]
     [Table(Name = "JobLevel")]

@@ -175,6 +175,24 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtServiceUnitName;
         
         /// <summary>
+        /// hdnLstSiteID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstSiteID;
+        
+        /// <summary>
+        /// ddeSite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeSite;
+        
+        /// <summary>
         /// cboGCConsumptionType control.
         /// </summary>
         /// <remarks>

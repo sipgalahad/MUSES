@@ -45,7 +45,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override void InitializeDataControl()
         {
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
-
+            
             SetControlProperties();
             hdnIsEditable.Value = "1";
 
@@ -69,8 +69,24 @@ namespace CodeX.Muses.Web.Inventory.Program
             Helper.SetControlEntrySetting(txtConversion, new ControlEntrySetting(false, false, true), "mpTrx");
         }
 
+        protected void rptSite_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Site obj = (Site)e.Item.DataItem;
+                CheckBox chkSite = (CheckBox)e.Item.FindControl("chkSite");
+                chkSite.Attributes.Add("sitename", obj.SiteName);
+                chkSite.Attributes.Add("siteid", obj.SiteID);
+            }
+        }
+
         protected override void SetControlProperties()
         {
+            Repeater rptSite = (Repeater)ddeSite.FindControl("rptSite");
+            List<Site> lstSite = BusinessLayer.GetSiteList(string.Format("IsHeader = 0"));
+            rptSite.DataSource = lstSite;
+            rptSite.DataBind();
+
             List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CONSUMPTION_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboGCConsumptionType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CONSUMPTION_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
         }
@@ -87,6 +103,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, false, true, ""));
             SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, false, ""));
             SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(false, false));
+            SetControlEntrySetting(hdnLstSiteID, new ControlEntrySetting(false, false));
 
             SetControlEntrySetting(cboGCConsumptionType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false,""));
@@ -156,6 +173,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnSiteServiceUnitID.Value = entity.SiteServiceUnitID.ToString();
             txtServiceUnitCode.Text = entity.ServiceUnitCode;
             txtServiceUnitName.Text = entity.ServiceUnitName;
+            hdnLstSiteID.Value = entity.ListSiteID;
 
             cboGCConsumptionType.Value = entity.GCConsumptionType;
             txtRemarks.Text = entity.Remarks;
@@ -186,6 +204,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         public void SaveItemConsumptionHd(IDbContext ctx, ref int ConsumptionID)
         {
             ItemTransactionHdDao entityHdDao = new ItemTransactionHdDao(ctx);
+            ItemTransactionHdSiteDao entityHdSiteDao = new ItemTransactionHdSiteDao(ctx);
             if (hdnConsumptionID.Value == "0")
             {
                 ItemTransactionHd entityHd = new ItemTransactionHd();
@@ -204,6 +223,15 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entityHd.CreatedBy = AppSession.UserLogin.UserID;
                 entityHdDao.Insert(entityHd);
                 ConsumptionID = BusinessLayer.GetItemTransactionHdMaxID(ctx);
+
+                string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                foreach (string siteID in lstSiteID)
+                {
+                    ItemTransactionHdSite entityDt = new ItemTransactionHdSite();
+                    entityDt.TransactionID = ConsumptionID;
+                    entityDt.SiteID = siteID;
+                    entityHdSiteDao.Insert(entityDt);
+                }
             }
             else
             {
@@ -217,9 +245,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             IDbContext ctx = DbFactory.Configure(true);
             try
             {
-                int OrderID = 0;
-                SaveItemConsumptionHd(ctx, ref OrderID);
-                retval = OrderID.ToString();
+                int ConsumptionID = 0;
+                SaveItemConsumptionHd(ctx, ref ConsumptionID);
+
+                retval = ConsumptionID.ToString();
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -238,6 +267,10 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage, ref string retval)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ItemTransactionHdDao entityHdDao = new ItemTransactionHdDao(ctx);
+            ItemTransactionHdSiteDao entityHdSiteDao = new ItemTransactionHdSiteDao(ctx);
             try
             {
                 ItemTransactionHd entityHd = BusinessLayer.GetItemTransactionHd(Convert.ToInt32(hdnConsumptionID.Value));
@@ -251,15 +284,42 @@ namespace CodeX.Muses.Web.Inventory.Program
                     entityHd.Remarks = txtRemarks.Text;
                     entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                     BusinessLayer.UpdateItemTransactionHd(entityHd);
+
+                    List<ItemTransactionHdSite> lstEntityDt = BusinessLayer.GetItemTransactionHdSiteList(string.Format("TransactionID = {0}", entityHd.TransactionID), ctx);
+                    string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                    foreach (string siteID in lstSiteID)
+                    {
+                        ItemTransactionHdSite entityDt = lstEntityDt.FirstOrDefault(p => p.SiteID == siteID);
+                        if (entityDt == null)
+                        {
+                            entityDt = new ItemTransactionHdSite();
+                            entityDt.TransactionID = entityHd.TransactionID;
+                            entityDt.SiteID = siteID;
+                            entityHdSiteDao.Insert(entityDt);
+                        }
+                        else
+                            lstEntityDt.Remove(entityDt);
+                    }
+
+                    foreach (ItemTransactionHdSite entityDt in lstEntityDt)
+                    {
+                        entityHdSiteDao.Delete(entityDt.TransactionID, entityDt.SiteID);
+                    }
                 }
-                return true;
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
                 errMessage = ex.Message;
-                return false;
+                result = false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         protected override bool OnApproveRecord(ref string errMessage)

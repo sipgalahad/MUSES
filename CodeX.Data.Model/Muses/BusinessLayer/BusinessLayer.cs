@@ -9033,6 +9033,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ItemTransactionHdSite
+        public static ItemTransactionHdSite GetItemTransactionHdSite(Int32 TransactionID, String SiteID)
+        {
+            return new ItemTransactionHdSiteDao().Get(TransactionID, SiteID);
+        }
+        public static int InsertItemTransactionHdSite(ItemTransactionHdSite record)
+        {
+            return new ItemTransactionHdSiteDao().Insert(record);
+        }
+        public static int UpdateItemTransactionHdSite(ItemTransactionHdSite record)
+        {
+            return new ItemTransactionHdSiteDao().Update(record);
+        }
+        public static int DeleteItemTransactionHdSite(Int32 TransactionID, String SiteID)
+        {
+            return new ItemTransactionHdSiteDao().Delete(TransactionID, SiteID);
+        }
+        public static List<ItemTransactionHdSite> GetItemTransactionHdSiteList(string filterExpression)
+        {
+            List<ItemTransactionHdSite> result = new List<ItemTransactionHdSite>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemTransactionHdSite));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemTransactionHdSite)helper.IDataReaderToObject(reader, new ItemTransactionHdSite()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ItemTransactionHdSite> GetItemTransactionHdSiteList(string filterExpression, IDbContext ctx)
+        {
+            List<ItemTransactionHdSite> result = new List<ItemTransactionHdSite>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemTransactionHdSite));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemTransactionHdSite)helper.IDataReaderToObject(reader, new ItemTransactionHdSite()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region JobLevel
         public static JobLevel GetJobLevel(Int32 JobLevelID)
         {

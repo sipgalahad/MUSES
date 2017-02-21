@@ -15877,6 +15877,8 @@ namespace CodeX.Data.Model
         private String _Remarks;
         private String _GCTransactionStatus;
         private String _TransactionStatusWatermark;
+        private String _ListSiteID;
+        private String _ListSiteName;
         private Int32 _NumberOfItems;
         private Int32 _NumberOfApprovedItems;
         private String _CreatedByName;
@@ -16006,6 +16008,18 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionStatusWatermark; }
             set { _TransactionStatusWatermark = value; }
+        }
+        [Column(Name = "ListSiteID", DataType = "String")]
+        public String ListSiteID
+        {
+            get { return _ListSiteID; }
+            set { _ListSiteID = value; }
+        }
+        [Column(Name = "ListSiteName", DataType = "String")]
+        public String ListSiteName
+        {
+            get { return _ListSiteName; }
+            set { _ListSiteName = value; }
         }
         [Column(Name = "NumberOfItems", DataType = "Int32")]
         public Int32 NumberOfItems
