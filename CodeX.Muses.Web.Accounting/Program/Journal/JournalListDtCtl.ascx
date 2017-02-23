@@ -44,7 +44,7 @@
                             <asp:Panel runat="server" ID="pnlEntryPopupGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;">
                                 <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
-                                        <asp:TemplateField HeaderStyle-Width="80px">
+                                        <asp:TemplateField HeaderStyle-Width="130px">
                                             <HeaderTemplate><%=GetLabel("Perkiraan")%></HeaderTemplate>
                                             <ItemTemplate>
                                                 <div><%#Eval("GLAccountNo")%></div>

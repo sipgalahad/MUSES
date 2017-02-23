@@ -114,6 +114,15 @@
     }
     //#endregion
 
+    $('#<%=grdView.ClientID %> .chkSelectAll input').die('change');
+    $('#<%=grdView.ClientID %> .chkSelectAll input').live('change', function () {
+        var checked = $(this).is(':checked');
+        $('#<%=grdView.ClientID %> .chkIsSelected').each(function () {
+            $(this).find('input').prop('checked', checked).change();
+        });
+        setSelectedItemAmount();
+    });
+
     $('#<%=grdView.ClientID %> .chkIsSelected input').die('change');
     $('#<%=grdView.ClientID %> .chkIsSelected input').live('change', function () {
         if ($(this).is(':checked')) {
@@ -180,7 +189,7 @@
             showToast('Warning', 'Harap Pilih Perkiraan Terlebih Dahulu');
         else {
             getCheckedMember();
-            fillTransactionDt(tacQPCOA.getValue(), $('#<%=hdnSelectedMember.ClientID %>').val(), $('#<%=hdnSelectedMemberName.ClientID %>').val(), $('#<%=hdnSelectedMemberQty.ClientID %>').val());
+            fillTransactionDt(tacQPCOA.getValue(), $('#<%=hdnSelectedMember.ClientID %>').val(), $('#<%=hdnSelectedMemberName.ClientID %>').val(), $('#<%=hdnSelectedMemberQty.ClientID %>').val(), $('#<%=txtRemarks.ClientID %>').val());
             pcRightPanelContent.Hide();
         }
     });
@@ -223,6 +232,10 @@
             <td class="tdLabel"><label><%=GetLabel("Total")%></label></td>
             <td><asp:TextBox ID="txtTotalAmount" runat="server" CssClass="txtCurrency" Width="120px" /></td>
         </tr>
+        <tr>
+            <td class="tdLabel" valign="top" style="padding-top:5px"><label><%=GetLabel("Remarks")%></label></td>
+            <td><asp:TextBox ID="txtRemarks" runat="server" TextMode="MultiLine" Width="300px" /></td>
+        </tr>
     </table>
     <table style="width:100%">
         <colgroup>
@@ -243,7 +256,10 @@
                                 OnRowDataBound="grdView_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="ReferenceID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField"/>
-                                        <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                        <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
+                                            <HeaderTemplate>
+                                                <asp:CheckBox ID="chkSelectAll" runat="server" CssClass="chkSelectAll" />
+                                            </HeaderTemplate>
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
                                             </ItemTemplate>

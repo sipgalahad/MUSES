@@ -220,7 +220,7 @@
         }
         //#endregion
 
-        function fillTransactionDt(GLAccountID, sLstSubCOAID, sLstSubCOAName, sLstAmount) {
+        function fillTransactionDt(GLAccountID, sLstSubCOAID, sLstSubCOAName, sLstAmount, remarks) {
             var filterExpression = "GLAccountID = " + GLAccountID;
             Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
 
@@ -257,6 +257,7 @@
                     $newTr.find('.hdnCodeFieldName').val(result.CodeFieldName);
                     $newTr.find('.hdnDisplayFieldName').val(result.DisplayFieldName);
                     $newTr.find('.hdnMethodName').val(result.MethodName);
+                    $newTr.find('.txtRemarks').val(remarks);
 
                     var template = "<script class='tmpltAutoComplete' type='text/x-jquery-tmpl'><div>";
                     template += "${" + result.DisplayFieldName + "} (<b>${" + result.CodeFieldName + "}</b>";

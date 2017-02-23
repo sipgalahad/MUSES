@@ -94,6 +94,15 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::System.Web.UI.WebControls.TextBox txtTotalAmount;
         
         /// <summary>
+        /// txtRemarks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
+        
+        /// <summary>
         /// cbpPopup control.
         /// </summary>
         /// <remarks>

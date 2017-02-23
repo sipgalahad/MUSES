@@ -16,10 +16,12 @@
             if (!isShowWatermark()) {
                 $('#divTemplatePick').show();
                 $('#divSaveTemplate').show();
+                $('#divQuickPicks').show();
             }
             else {
                 $('#divTemplatePick').hide();
                 $('#divSaveTemplate').hide();
+                $('#divQuickPicks').hide();
             }
 
             if (getIsAdd()) {
@@ -191,7 +193,7 @@
         }
         //#endregion
 
-        function fillTransactionDt(GLAccountID, sLstSubCOAID, sLstSubCOAName, sLstAmount, position) {
+        function fillTransactionDt(GLAccountID, sLstSubCOAID, sLstSubCOAName, sLstAmount, position, remarks) {
             var filterExpression = "GLAccountID = " + GLAccountID;
             Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
 
@@ -231,6 +233,7 @@
                     $newTr.find('.hdnCodeFieldName').val(result.CodeFieldName);
                     $newTr.find('.hdnDisplayFieldName').val(result.DisplayFieldName);
                     $newTr.find('.hdnMethodName').val(result.MethodName);
+                    $newTr.find('.txtRemarks').val(remarks);
 
                     var template = "<script class='tmpltAutoComplete' type='text/x-jquery-tmpl'><div>";
                     template += "${" + result.DisplayFieldName + "} (<b>${" + result.CodeFieldName + "}</b>";

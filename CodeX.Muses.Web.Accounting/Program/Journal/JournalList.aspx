@@ -9,7 +9,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
     <li id="btnApprove" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Approve")%></div></li>
-    <li id="btnUnapprove" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/cancel.png")%>' alt="" /><div><%=GetLabel("Decline")%></div></li>
+    <li id="btnReopen" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/redo.png")%>' alt="" /><div><%=GetLabel("Reopen")%></div></li>
     <li id="btnVoid" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><div><%=GetLabel("Void")%></div></li>
 </asp:Content>
 
@@ -108,7 +108,7 @@
                 cbpView.PerformCallback('refresh');
             });
 
-            $('#<%=btnUnapprove.ClientID %>').click(function () {
+            $('#<%=btnReopen.ClientID %>').click(function () {
                 var date = $('#<%=txtToJournalDate.ClientID %>').val().split('-');
                 var filterExpression = "JournalDate LIKE '" + date[2] + "-" + date[1] + "%' AND TransactionCode = '7299'";
                 Methods.getObject('GetGLTransactionHdList', filterExpression, function (result) {

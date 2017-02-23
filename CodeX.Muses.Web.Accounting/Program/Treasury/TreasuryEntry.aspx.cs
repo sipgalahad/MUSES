@@ -467,7 +467,8 @@ namespace CodeX.Muses.Web.Accounting.Program
                     TransactionType entityTransactionType = entityTransactionTypeDao.Get(entityHd.TransactionCode);
 
                     entityHd.IsGeneratedBySystem = true;
-                    entityHd.Remarks = txtRemarks.Text;
+                    //entityHd.Remarks = txtRemarks.Text;
+                    entityHd.Remarks = "";
                     entityHd.SiteServiceUnitID = itemTransactionHd.SiteServiceUnitID;
                     entityHd.JournalNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.JournalDate, entityTransactionType.TransactionInitial, ctx);
                     entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
@@ -488,7 +489,7 @@ namespace CodeX.Muses.Web.Accounting.Program
                         entityDt.GLTransactionID = GLTransactionID;
                         entityDt.GLAccount = entityBook.GLAccount;
                         entityDt.SubLedger = entityBook.SubLedger;
-                        entityDt.Remarks = "";
+                        entityDt.Remarks = entityHd.Remarks;
                         if (itemTransactionHd.GCVoucherGroup == Constant.VoucherGroup.RECEIVE && itemTransactionHd.TotalAmount > 0)
                         {
                             entityDt.DebitAmount = itemTransactionHd.TotalAmount;

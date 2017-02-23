@@ -22,13 +22,13 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnApprove;
         
         /// <summary>
-        /// btnUnapprove control.
+        /// btnReopen control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnUnapprove;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnReopen;
         
         /// <summary>
         /// btnVoid control.
