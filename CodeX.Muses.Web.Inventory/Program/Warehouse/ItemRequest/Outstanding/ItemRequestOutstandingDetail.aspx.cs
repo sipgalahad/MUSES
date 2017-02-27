@@ -117,12 +117,6 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnIsAllowPurchaseRequest.Value = lstUserLocation.Count > 0 ? "1" : "0";
 
             EntityToControl(entityItemRequest);
-
-            List<StandardCode> lstGCConsumptionType = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CONSUMPTION_TYPE));
-            StandardCode GCConsumptionType = lstGCConsumptionType.FirstOrDefault(p => p.IsDefault);
-            if (GCConsumptionType == null)
-                GCConsumptionType = lstGCConsumptionType.FirstOrDefault();
-            hdnDefaultGCConsumptionType.Value = GCConsumptionType.StandardCodeID;
         }
 
         private void EntityToControl(vItemRequestHd entity)
@@ -142,6 +136,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnToSiteServiceUnitID.Value = entity.ToSiteServiceUnitID.ToString();
             txtToServiceUnitCode.Text = entity.ToServiceUnitCode;
             txtToServiceUnitName.Text = entity.ToServiceUnitName;
+            txtConsumptionType.Text = entity.ConsumptionType;
+            hdnDefaultGCConsumptionType.Value = entity.GCConsumptionType;
             txtNotes.Text = entity.Remarks;
 
             List<vItemRequestDt> lstEntityDt = BusinessLayer.GetvItemRequestDtList(string.Format("ItemRequestID = {0} AND GCItemDetailStatus = '{1}' AND IsSelected = 1 AND IsDeleted = 0", hdnOrderID.Value, Constant.TransactionStatus.APPROVED));

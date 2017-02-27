@@ -537,7 +537,7 @@
                             <col />
                         </colgroup>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pemakaian")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Persediaan")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboGCConsumptionType" ClientInstanceName="cboGCConsumptionType" Width="100%" runat="server" /></td>
                         </tr>
                         <tr>

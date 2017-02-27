@@ -105,7 +105,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(false, false));
             SetControlEntrySetting(hdnLstSiteID, new ControlEntrySetting(false, false));
 
-            SetControlEntrySetting(cboGCConsumptionType, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(cboGCConsumptionType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false,""));
         }
 

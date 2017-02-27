@@ -23,8 +23,8 @@
             }
 
             setDatePicker('<%=txtReferenceDate.ClientID %>');
+            setDatePicker('<%=txtTransactionDate.ClientID %>');
             if (getIsAdd()) {
-                setDatePicker('<%=txtTransactionDate.ClientID %>');
                 $('#<%=txtTransactionDate.ClientID %>').datepicker('option', 'maxDate', '0');
                 var minDate = parseInt('<%=minDate %>');
                 if (minDate > -1)

@@ -57,7 +57,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             SetControlEntrySetting(txtTransactionNo, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(cboVoucherGroup, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(tacBook, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(txtTransactionDate, new ControlEntrySetting(true, false, true, Constant.DefaultValueEntry.DATE_NOW));
+            SetControlEntrySetting(txtTransactionDate, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtGLAccountName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtSubLedgerName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, true, false));

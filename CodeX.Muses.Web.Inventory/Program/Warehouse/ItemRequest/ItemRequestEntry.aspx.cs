@@ -118,6 +118,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
+        protected override void SetControlProperties()
+        {
+            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CONSUMPTION_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboGCConsumptionType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CONSUMPTION_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+        }
+
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(hdnOrderID, new ControlEntrySetting(false, false, false, "0"));
@@ -128,6 +134,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtFromLocationName, new ControlEntrySetting(false, false, true, hdnDefaultLocationName.Value));
             SetControlEntrySetting(hdnLstFilterFromLocationItemGroup, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(hdnLstFilterToLocationItemGroup, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(cboGCConsumptionType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtNotes, new ControlEntrySetting(true, true, false));
 
             SetControlEntrySetting(txtItemOrderDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
@@ -217,6 +224,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtToServiceUnitCode.Text = entity.ToServiceUnitCode;
             txtToServiceUnitName.Text = entity.ToServiceUnitName;
 
+            cboGCConsumptionType.Value = entity.GCConsumptionType;
             txtNotes.Text = entity.Remarks;
             BindLocation();
 
@@ -278,6 +286,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.ToLocationID = null;
             entityHd.TransactionDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
             entityHd.TransactionTime = txtItemOrderTime.Text;
+            entityHd.GCConsumptionType = cboGCConsumptionType.Value.ToString();
             entityHd.Remarks = txtNotes.Text;
         }
 

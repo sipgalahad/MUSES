@@ -707,8 +707,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><%=GetLabel("Keterangan") %></td>
-                            <td><asp:TextBox ID="txtNotes" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Persediaan")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboGCConsumptionType" ClientInstanceName="cboGCConsumptionType" Width="100%" runat="server" /></td>
                         </tr>
                     </table>
                 </td>
@@ -748,6 +748,10 @@
                                     </tr>
                                 </table>
                             </td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><%=GetLabel("Keterangan") %></td>
+                            <td><asp:TextBox ID="txtNotes" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                         </tr>
                     </table>
                 </td>

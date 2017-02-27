@@ -1468,6 +1468,7 @@ namespace CodeX.Data.Model
         private Decimal _ColSU13;
         private Decimal _ColSU14;
         private Decimal _ColSU15;
+        private Decimal _ColSU16;
 
         [Column(Name = "GLAccountID", DataType = "Int32")]
         public Int32 GLAccountID
@@ -1648,6 +1649,12 @@ namespace CodeX.Data.Model
         {
             get { return _ColSU15; }
             set { _ColSU15 = value; }
+        }
+        [Column(Name = "ColSU16", DataType = "Decimal")]
+        public Decimal ColSU16
+        {
+            get { return _ColSU16; }
+            set { _ColSU16 = value; }
         }
     }
     #endregion

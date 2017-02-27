@@ -100,7 +100,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtCountInterval, new ControlEntrySetting(true, true, true, 0));
             SetControlEntrySetting(cboTransactionRestriction, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsBatchControl, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(chkIsInventoryItem, new ControlEntrySetting(true, true, false, true));
+            SetControlEntrySetting(chkIsInventoryItem, new ControlEntrySetting(true, true, false, true, true));
             SetControlEntrySetting(chkIsProductionItem, new ControlEntrySetting(true, true, false));
             #endregion
 

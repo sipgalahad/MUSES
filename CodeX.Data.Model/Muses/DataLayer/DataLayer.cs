@@ -17536,6 +17536,7 @@ namespace CodeX.Data.Model
         private Int32? _FromLocationID;
         private Int32? _ToSiteServiceUnitID;
         private Int32? _ToLocationID;
+        private String _GCConsumptionType;
         private String _Remarks;
         private String _GCTransactionStatus;
         private Int32 _CreatedBy;
@@ -17602,6 +17603,12 @@ namespace CodeX.Data.Model
         {
             get { return _ToLocationID; }
             set { _ToLocationID = value; }
+        }
+        [Column(Name = "GCConsumptionType", DataType = "String", IsNullable = true)]
+        public String GCConsumptionType
+        {
+            get { return _GCConsumptionType; }
+            set { _GCConsumptionType = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

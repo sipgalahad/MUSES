@@ -8,7 +8,7 @@
     <field fieldtype="autonumber" headertext="No" width="5"/>
     <field fieldname="AccountForJournalVoucher" headertext="Perkiraan dan Keterangan"/>
     <field fieldname="GLAccountNo" headertext="No Perkiraan" width="15"/>
-    <field fieldname="TotalAmount" headertext="Debit" width="13" fieldtype="currency" isshowsubtotal="1"/>
+    <field fieldname="TotalAmount" headertext="Total" width="13" fieldtype="currency" isshowsubtotal="1"/>
   </fields>
   <headertemplate>
     <![CDATA[

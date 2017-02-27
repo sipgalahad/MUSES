@@ -37,6 +37,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void CopyToEntityHd(PurchaseOrderHd newEntity, PurchaseOrderHd oldEntity)
         {
             newEntity.SiteServiceUnitID = oldEntity.SiteServiceUnitID;
+            newEntity.ToSiteServiceUnitID = oldEntity.ToSiteServiceUnitID;
             newEntity.DeliveryDate = oldEntity.DeliveryDate;
             newEntity.POExpiredDate = oldEntity.POExpiredDate;
             newEntity.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);

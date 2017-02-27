@@ -122,7 +122,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             return result;
         }
 
-        private void ApproveJournal (ref bool result,ref string errMessage)
+        private void ApproveJournal(ref bool result, ref string errMessage)
         {
             IDbContext ctx = DbFactory.Configure(true);
             GLTransactionHdDao glTransactionhdDao = new GLTransactionHdDao(ctx);
@@ -154,6 +154,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
@@ -165,12 +166,14 @@ namespace CodeX.Muses.Web.Accounting.Program
             IDbContext ctx = DbFactory.Configure(true);
             GLTransactionHdDao glTransactionhdDao = new GLTransactionHdDao(ctx);
             GLTransactionDtDao glTransactionDtDao = new GLTransactionDtDao(ctx);
+            TreasuryHdDao entityTreasuryHdDao = new TreasuryHdDao(ctx);
+            TreasuryDtDao entityTreasuryDtDao = new TreasuryDtDao(ctx);
             try
             {
                 GLTransactionHd entityHD = glTransactionhdDao.Get(Convert.ToInt32(hdnID.Value));
                 entityHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
 
-                List<GLTransactionDt> lstEntityDt = BusinessLayer.GetGLTransactionDtList(String.Format("GLTransactionID = {0} AND GCItemDetailStatus IN ('{1}','{2}') AND IsDeleted = 0", hdnID.Value, Constant.TransactionStatus.OPEN,Constant.TransactionStatus.WAIT_FOR_APPROVAL), ctx);
+                List<GLTransactionDt> lstEntityDt = BusinessLayer.GetGLTransactionDtList(String.Format("GLTransactionID = {0} AND GCItemDetailStatus IN ('{1}','{2}') AND IsDeleted = 0", hdnID.Value, Constant.TransactionStatus.OPEN, Constant.TransactionStatus.WAIT_FOR_APPROVAL), ctx);
                 foreach (GLTransactionDt entityDt in lstEntityDt)
                 {
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
@@ -180,14 +183,37 @@ namespace CodeX.Muses.Web.Accounting.Program
                 }
                 entityHD.LastUpdatedBy = AppSession.UserLogin.UserID;
                 glTransactionhdDao.Update(entityHD);
+
+                TreasuryHd entityTreasuryHd = BusinessLayer.GetTreasuryHdList(string.Format("GLTransactionID = {0} AND GCTransactionStatus = '{1}'", entityHD.GLTransactionID, Constant.TransactionStatus.APPROVED)).FirstOrDefault();
+                if (entityTreasuryHd != null)
+                {
+                    entityTreasuryHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    entityTreasuryHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityTreasuryHdDao.Update(entityTreasuryHd);
+
+                    string filterExpression = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnID.Value, Constant.TransactionStatus.VOID);
+                    List<TreasuryDt> lstTreasuryDt = BusinessLayer.GetTreasuryDtList(filterExpression, ctx);
+                    foreach (TreasuryDt entityTreasuryDt in lstTreasuryDt)
+                    {
+                        entityTreasuryDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+                        entityTreasuryDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityTreasuryDtDao.Update(entityTreasuryDt);
+                    }
+                }
+
                 ctx.CommitTransaction();
                 result = true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
+            }
+            finally
+            {
+                ctx.Close();
             }
         }
 
@@ -215,6 +241,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;

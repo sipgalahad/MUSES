@@ -15335,6 +15335,8 @@ namespace CodeX.Data.Model
         private String _ToLocationCode;
         private String _ToLocationName;
         private Int32 _ToLocationItemGroupID;
+        private String _GCConsumptionType;
+        private String _ConsumptionType;
         private String _Remarks;
         private String _GCTransactionStatus;
         private String _TransactionStatusWatermark;
@@ -15473,6 +15475,18 @@ namespace CodeX.Data.Model
         {
             get { return _ToLocationItemGroupID; }
             set { _ToLocationItemGroupID = value; }
+        }
+        [Column(Name = "GCConsumptionType", DataType = "String")]
+        public String GCConsumptionType
+        {
+            get { return _GCConsumptionType; }
+            set { _GCConsumptionType = value; }
+        }
+        [Column(Name = "ConsumptionType", DataType = "String")]
+        public String ConsumptionType
+        {
+            get { return _ConsumptionType; }
+            set { _ConsumptionType = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

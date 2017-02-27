@@ -34,10 +34,11 @@
       <field fieldname="ColSU9" totalfieldname="cfColSU9" headertext="IT" width="4" fieldtype="currency" isshowsubtotal="1" />
       <field fieldname="ColSU10" totalfieldname="cfColSU10" headertext="GA/RT" width="4" fieldtype="currency" isshowsubtotal="1" />
       <field fieldname="ColSU11" totalfieldname="cfColSU11" headertext="OPSDIK" width="4" fieldtype="currency" isshowsubtotal="1" />
-      <field fieldname="ColSU12" totalfieldname="cfColSU12" headertext="KEUANGAN" width="4" fieldtype="currency" isshowsubtotal="1" />
-      <field fieldname="ColSU13" totalfieldname="cfColSU13" headertext="ACCOUNTING" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="ColSU12" totalfieldname="cfColSU12" headertext="KEU" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="ColSU13" totalfieldname="cfColSU13" headertext="ACC" width="4" fieldtype="currency" isshowsubtotal="1" />
       <field fieldname="ColSU14" totalfieldname="cfColSU14" headertext="HRD" width="4" fieldtype="currency" isshowsubtotal="1" />
-      <field fieldname="ColSU15" totalfieldname="cfColSU15" headertext="PENGADAAN" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="ColSU15" totalfieldname="cfColSU15" headertext="GDNG" width="4" fieldtype="currency" isshowsubtotal="1" />
+      <field fieldname="ColSU16" totalfieldname="cfColSU15" headertext="SEKRE" width="4" fieldtype="currency" isshowsubtotal="1" />
     </boundfield>
   </fields>
 </root>

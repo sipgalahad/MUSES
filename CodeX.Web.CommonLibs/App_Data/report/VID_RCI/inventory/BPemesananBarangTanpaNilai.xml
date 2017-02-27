@@ -5,7 +5,7 @@
     <parameter code="FP001"/>
   </parameters>
   <fields>
-    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldtype="autonumber" headertext="No" width="5"/>
     <field fieldname="ItemName1" headertext="Item"/>
     <field fieldname="Quantity" headertext="Quantity" width="10" fieldtype="number"/>
     <field fieldname="PurchaseUnit" headertext="Satuan" width="10" />

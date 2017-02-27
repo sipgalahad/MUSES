@@ -527,6 +527,10 @@
                             </td>
                         </tr>
                         <tr>
+                            <td class="tdLabel"><%=GetLabel("Jenis Persediaan") %></td>
+                            <td><asp:TextBox ID="txtConsumptionType" ReadOnly="true" Width="100%" runat="server" /></td>
+                        </tr>
+                        <tr>
                             <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><%=GetLabel("Keterangan") %></td>
                             <td><asp:TextBox ID="txtNotes" ReadOnly="true" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                         </tr>

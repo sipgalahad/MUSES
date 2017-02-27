@@ -292,13 +292,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeLocation;
         
         /// <summary>
-        /// txtNotes control.
+        /// cboGCConsumptionType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNotes;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCConsumptionType;
         
         /// <summary>
         /// txtItemOrderDate control.
@@ -362,6 +362,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtToServiceUnitName;
+        
+        /// <summary>
+        /// txtNotes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNotes;
         
         /// <summary>
         /// hdnEntryID control.
