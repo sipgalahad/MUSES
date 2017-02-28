@@ -801,7 +801,8 @@ namespace CodeX.Common
             #region Mobile
             public static class Mobile
             {
-                public const string STUDENT_BILL_INFO = "MB010100";
+                public const string STUDENT_CLASS_INFO = "MB010100";
+                public const string STUDENT_BILL_INFO = "MB010200";
             }
             #endregion
 

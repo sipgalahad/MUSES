@@ -1257,6 +1257,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vClassStudentDailyAttendance
+        public static List<vClassStudentDailyAttendance> GetvClassStudentDailyAttendanceList(string filterExpression)
+        {
+            List<vClassStudentDailyAttendance> result = new List<vClassStudentDailyAttendance>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassStudentDailyAttendance));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassStudentDailyAttendance)helper.IDataReaderToObject(reader, new vClassStudentDailyAttendance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vClassStudentRegistration
         public static List<vClassStudentRegistration> GetvClassStudentRegistrationList(string filterExpression)
         {

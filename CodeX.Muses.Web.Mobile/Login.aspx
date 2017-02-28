@@ -19,7 +19,7 @@
         });
 
         function onLoginSuccess(loginData) {
-            window.location = ResolveUrl('~/Program/StudentBillInformation.aspx');
+            window.location = ResolveUrl('~/Program/StudentClassInformation.aspx');
         }
     </script>
     

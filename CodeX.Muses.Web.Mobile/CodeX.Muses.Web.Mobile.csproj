@@ -69,6 +69,7 @@
     <Content Include="Controls\ChangePasswordCtl.ascx" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="Program\StudentClassInformation.aspx" />
     <Content Include="Program\StudentBillInformation.aspx" />
     <Content Include="Program\RemoteLogon.aspx" />
     <Content Include="Web.config" />
@@ -151,6 +152,13 @@
     </Compile>
     <Compile Include="MasterPage\MPMain.master.designer.cs">
       <DependentUpon>MPMain.master</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentClassInformation.aspx.cs">
+      <DependentUpon>StudentClassInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentClassInformation.aspx.designer.cs">
+      <DependentUpon>StudentClassInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentBillInformation.aspx.cs">
       <DependentUpon>StudentBillInformation.aspx</DependentUpon>

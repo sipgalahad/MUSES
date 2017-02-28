@@ -2009,6 +2009,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassMeetingID;
         private Int32 _ClassSubjectID;
+        private String _SubjectName;
         private Int32 _PeriodSectionID;
         private Int32 _SchoolClassID;
         private Int32 _PeriodClassTypeSubjectID;
@@ -2039,6 +2040,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
         }
         [Column(Name = "PeriodSectionID", DataType = "Int32")]
         public Int32 PeriodSectionID
@@ -2916,6 +2923,63 @@ namespace CodeX.Data.Model
         {
             get { return _TeacherName; }
             set { _TeacherName = value; }
+        }
+    }
+    #endregion
+    #region vClassStudentDailyAttendance
+    [Serializable]
+    [Table(Name = "vClassStudentDailyAttendance")]
+    public class vClassStudentDailyAttendance
+    {
+        private Int32 _SchoolClassID;
+        private Int32 _PeriodSectionID;
+        private Int32 _StudentID;
+        private DateTime _SchoolDate;
+        private String _GCAttendanceStatus;
+        private String _AttendanceStatus;
+        private String _Remarks;
+
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "SchoolDate", DataType = "DateTime")]
+        public DateTime SchoolDate
+        {
+            get { return _SchoolDate; }
+            set { _SchoolDate = value; }
+        }
+        [Column(Name = "GCAttendanceStatus", DataType = "String")]
+        public String GCAttendanceStatus
+        {
+            get { return _GCAttendanceStatus; }
+            set { _GCAttendanceStatus = value; }
+        }
+        [Column(Name = "AttendanceStatus", DataType = "String")]
+        public String AttendanceStatus
+        {
+            get { return _AttendanceStatus; }
+            set { _AttendanceStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
     }
     #endregion
