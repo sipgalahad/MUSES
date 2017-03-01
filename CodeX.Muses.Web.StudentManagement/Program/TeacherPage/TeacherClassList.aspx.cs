@@ -38,7 +38,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
                 cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
 
-            if (cboSchoolPeriod.Value != "")
+            if (cboSchoolPeriod.Value.ToString() != "")
             {
                 List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("SchoolPeriodID = {0} AND '{1}' BETWEEN StartDate AND EndDate", cboSchoolPeriod.Value, DateTime.Now.ToString("yyyyMMdd")));
                 if (lstPeriodSection.Count > 0)

@@ -18,6 +18,8 @@ namespace CodeX.Common
         static private string _CDXSiteName;
         static private string _CDXStudentImagePath;
         static private string _CDXDotMatrixDPI;
+        static private string _CDXUserHelpVirtualDirectory;
+        static private string _CDXUserHelpPhysicalDirectory;
         static public string CDXAppClientID { get { return _CDXAppClientID; } }
         static public string CDXTableLogFolder { get { return _CDXTableLogFolder; } }
         static public string CDXNameFormat { get { return _CDXNameFormat; } }
@@ -28,6 +30,8 @@ namespace CodeX.Common
         static public string CDXSiteName { get { return _CDXSiteName; } }
         static public string CDXStudentImagePath { get { return _CDXStudentImagePath; } }
         static public string CDXDotMatrixDPI { get { return _CDXDotMatrixDPI; } }
+        static public string CDXUserHelpVirtualDirectory { get { return _CDXUserHelpVirtualDirectory; } }
+        static public string CDXUserHelpPhysicalDirectory { get { return _CDXUserHelpPhysicalDirectory; } }
 
         static AppConfigManager()
         {
@@ -42,6 +46,8 @@ namespace CodeX.Common
             _CDXSiteName = ConfigurationManager.AppSettings["CDXSiteName"];
             _CDXStudentImagePath = ConfigurationManager.AppSettings["CDXStudentImagePath"];
             _CDXDotMatrixDPI = ConfigurationManager.AppSettings["CDXDotMatrixDPI"];
+            _CDXUserHelpVirtualDirectory = ConfigurationManager.AppSettings["CDXUserHelpVirtualDirectory"];
+            _CDXUserHelpPhysicalDirectory = ConfigurationManager.AppSettings["CDXUserHelpPhysicalDirectory"];
         }
     }
 }

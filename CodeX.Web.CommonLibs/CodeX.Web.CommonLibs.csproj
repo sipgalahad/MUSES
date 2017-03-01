@@ -428,6 +428,7 @@
     <Content Include="Program\Report.aspx" />
     <Content Include="Program\ReportPage.aspx" />
     <Content Include="Program\ReportViewer.aspx" />
+    <Content Include="Program\UserHelp.aspx" />
     <Content Include="Scripts\Constant.js" />
     <Content Include="Scripts\CustomControl\CodeXClientAutoComplete.js" />
     <Content Include="Scripts\CustomControl\QISClientGridView.js" />
@@ -1448,6 +1449,12 @@
     </Compile>
     <Compile Include="Program\ReportViewer.aspx.designer.cs">
       <DependentUpon>ReportViewer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\UserHelp.aspx.cs">
+      <DependentUpon>UserHelp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\UserHelp.aspx.designer.cs">
+      <DependentUpon>UserHelp.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\MethodService.asmx.cs">
