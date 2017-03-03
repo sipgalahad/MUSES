@@ -10058,7 +10058,7 @@ namespace CodeX.Data.Model
         private Int32? _CurrentTransScheduleID;
         private DateTime _LastProcessedScheduleDate;
         private Int32? _CurrentTransRenumerationID;
-        private DateTime _LastProcessedRenumerationID;
+        private DateTime _LastProcessedRenumerationDate;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32 _CreatedBy;
@@ -10300,11 +10300,11 @@ namespace CodeX.Data.Model
             get { return _CurrentTransRenumerationID; }
             set { _CurrentTransRenumerationID = value; }
         }
-        [Column(Name = "LastProcessedRenumerationID", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastProcessedRenumerationID
+        [Column(Name = "LastProcessedRenumerationDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastProcessedRenumerationDate
         {
-            get { return _LastProcessedRenumerationID; }
-            set { _LastProcessedRenumerationID = value; }
+            get { return _LastProcessedRenumerationDate; }
+            set { _LastProcessedRenumerationDate = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

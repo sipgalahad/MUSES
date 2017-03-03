@@ -738,6 +738,7 @@
     <Content Include="..\CodeX.Web.CommonLibs\AppSetting.config">
       <Link>AppSetting.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="..\CodeX.Web.CommonLibs\ConnectionString.config">
       <Link>ConnectionString.config</Link>

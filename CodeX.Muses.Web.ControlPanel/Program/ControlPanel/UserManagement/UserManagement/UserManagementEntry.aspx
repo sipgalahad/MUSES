@@ -27,8 +27,8 @@
 
         function onTacUserButtonSearchClick() {
             openSearchDialog('user', onGetUserFilterExpression(), function (value) {
-                var filterExpression = onGetUserFilterExpression() + " AND UserName = '" + value + "'";
-                Methods.getObject('GevtUserList', filterExpression, function (result) {
+                var filterExpression = onGetUserFilterExpression() + " AND UserID = '" + value + "'";
+                Methods.getObject('GetvUserList', filterExpression, function (result) {
                     if (result != null) {
                         tacCopyFromUser.setValue(result.UserID);
                         tacCopyFromUser.setText(result.FullName);

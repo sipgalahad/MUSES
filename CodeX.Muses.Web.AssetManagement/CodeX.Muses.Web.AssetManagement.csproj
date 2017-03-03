@@ -289,6 +289,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Program\UserHelp.aspx.cs">
       <Link>SharedLibs\Program\UserHelp.aspx.cs</Link>
       <DependentUpon>UserHelp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Program\UserHelp.aspx.designer.cs">
       <Link>SharedLibs\Program\UserHelp.aspx.designer.cs</Link>

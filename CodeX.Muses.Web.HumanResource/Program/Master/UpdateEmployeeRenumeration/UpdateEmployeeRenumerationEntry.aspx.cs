@@ -263,7 +263,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     foreach (Employee employee in lstEmpl)
                     {
                         employee.CurrentTransRenumerationID = Convert.ToInt32(hdnTransactionID.Value);
-                        employee.LastProcessedRenumerationID = DateTime.Now;
+                        employee.LastProcessedRenumerationDate = DateTime.Now;
                         employeeDao.Update(employee);
                     }
                 }

@@ -236,6 +236,8 @@
     <Content Include="Program\Master\ServiceUnit\SiteServiceUnitPageLauncher.aspx" />
     <Content Include="Program\Master\EmployeeType\EmployeeTypeEntry.aspx" />
     <Content Include="Program\Master\EmployeeType\EmployeeTypeList.aspx" />
+    <Content Include="Program\Master\StandardCodePerHd\StandardCodePerHdEntry.aspx" />
+    <Content Include="Program\Master\StandardCodePerHd\StandardCodePerHdList.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypeDueDateEntryCtl.ascx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypePaymentEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
@@ -523,6 +525,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.cs">
       <Link>SharedLibs\Program\ReportViewer.aspx.cs</Link>
       <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.designer.cs">
       <Link>SharedLibs\Program\ReportViewer.aspx.designer.cs</Link>
@@ -531,6 +534,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Program\UserHelp.aspx.cs">
       <Link>SharedLibs\Program\UserHelp.aspx.cs</Link>
       <DependentUpon>UserHelp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Program\UserHelp.aspx.designer.cs">
       <Link>SharedLibs\Program\UserHelp.aspx.designer.cs</Link>
@@ -1420,6 +1424,20 @@
     </Compile>
     <Compile Include="Program\Master\EmployeeType\EmployeeTypeList.aspx.designer.cs">
       <DependentUpon>EmployeeTypeList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\StandardCodePerHd\StandardCodePerHdEntry.aspx.cs">
+      <DependentUpon>StandardCodePerHdEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\StandardCodePerHd\StandardCodePerHdEntry.aspx.designer.cs">
+      <DependentUpon>StandardCodePerHdEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\StandardCodePerHd\StandardCodePerHdList.aspx.cs">
+      <DependentUpon>StandardCodePerHdList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\StandardCodePerHd\StandardCodePerHdList.aspx.designer.cs">
+      <DependentUpon>StandardCodePerHdList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\StudentFeeComp\StudentFeeCompTypeDueDateEntryCtl.ascx.cs">
       <DependentUpon>StudentFeeCompTypeDueDateEntryCtl.ascx</DependentUpon>

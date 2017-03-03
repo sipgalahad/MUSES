@@ -51,16 +51,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             else
             {
-                if (entityDt.GCCurriculumSyllabusType != Constant.CurriculumSyllabusType.INDICATOR)
+                if (entityDt.GCCurriculumSyllabusType == Constant.CurriculumSyllabusType.INDICATOR)
                 {
                     trCodeStandardCode.Style.Add("display", "none");
-                    trIsAllowTask.Style.Add("display", "none");
                 }
                 else
                 {
-                    List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_INDICATOR_TYPE));
-                    lblStandardCode.InnerHtml = "Klasifikasi";
-                    Methods.SetComboBoxField<StandardCode>(cboStandardCode, lstSc, "StandardCodeName", "StandardCodeID");
+                    trIsAllowTask.Style.Add("display", "none");
+                    if (entityDt.GCCurriculumSyllabusType == Constant.CurriculumSyllabusType.INDICATOR_DT)
+                    {
+                        List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_INDICATOR_TYPE));
+                        lblStandardCode.InnerHtml = "Klasifikasi";
+                        Methods.SetComboBoxField<StandardCode>(cboStandardCode, lstSc, "StandardCodeName", "StandardCodeID");
+                    }
+                    else
+                    {
+                        trCodeStandardCode.Style.Add("display", "none");
+                    }
                 }
             }            
 

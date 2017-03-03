@@ -267,6 +267,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entityAddress.ZipCode = null;
             else
                 entityAddress.ZipCode = Convert.ToInt32(hdnZipCode.Value);
+            entityAddress.PhoneNo1 = txtTelephoneNo.Text;
             #endregion
 
             #region Other Information

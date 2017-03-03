@@ -92,7 +92,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.ParentID = null;
             else
                 entity.ParentID = Convert.ToInt32(hdnParentID.Value);
-            entity.ProductLineID = Convert.ToInt32(hdnProductLineID.Value);
+            if (hdnProductLineID.Value == "" || hdnProductLineID.Value == "0")
+                entity.ProductLineID = null;
+            else
+                entity.ProductLineID = Convert.ToInt32(hdnProductLineID.Value);
             entity.IsControlExpired = chkIsControlExpired.Checked;
             entity.IsHeader = chkIsHeader.Checked;
         }
@@ -134,14 +137,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 ItemGroupMaster entity = new ItemGroupMaster();
                 ControlToEntity(entity);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                entityDao.Insert(entity);
-                entity.ItemGroupID = BusinessLayer.GetItemGroupMasterMaxID(ctx);
+                entity.ItemGroupID = entityDao.Insert(entity);
 
-                SiteItemGroup siteItemGroup = new SiteItemGroup();
-                siteItemGroup.ItemGroupID = entity.ItemGroupID;
-                siteItemGroup.SiteID = AppSession.UserLogin.SiteID;
-                siteItemGroup.CreatedBy = AppSession.UserLogin.UserID;
-                entitySiteItemGroupDao.Insert(siteItemGroup);
+                //SiteItemGroup siteItemGroup = new SiteItemGroup();
+                //siteItemGroup.ItemGroupID = entity.ItemGroupID;
+                //siteItemGroup.SiteID = AppSession.UserLogin.SiteID;
+                //siteItemGroup.CreatedBy = AppSession.UserLogin.UserID;
+                //entitySiteItemGroupDao.Insert(siteItemGroup);
 
                 ItemGroupPlanning ip = new ItemGroupPlanning();
                 ip.BusinessPartnerID = null;
@@ -156,6 +158,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 result = false;
                 errMessage = ex.Message;
@@ -179,6 +182,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }

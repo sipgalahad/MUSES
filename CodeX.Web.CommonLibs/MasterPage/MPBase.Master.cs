@@ -16,7 +16,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
     {
         protected string OnGetTitle()
         {
-            return "VIDA";
+            return "I-SMART";
         }
         protected string OnGetAppIcon()
         {

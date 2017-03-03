@@ -267,6 +267,7 @@ namespace CodeX.Common
             public const string INDICATOR = "MS033^001";
             public const string STANDARD_CODE = "MS033^002";
             public const string MAIN_COMPETENCY = "MS033^003";
+            public const string INDICATOR_DT = "MS033^004";
             public const string OTHER = "MS034^999";
         }
 
@@ -513,6 +514,7 @@ namespace CodeX.Common
                 public const string LOCATION = "CP010305";
                 public const string LOCATION_PERMISSION = "CP010306";
                 public const string LOCATION_ITEM = "CP010307";
+                public const string ITEM_UNIT = "CP010308";
 
                 public const string COVERAGE_TYPE = "CP010401";
                 public const string CUSTOMER = "CP010402";

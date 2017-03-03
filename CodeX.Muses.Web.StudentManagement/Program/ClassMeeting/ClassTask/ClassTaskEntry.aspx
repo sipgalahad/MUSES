@@ -158,6 +158,18 @@
                 }
             }
         });
+
+        $('.txtMark').live('change', function () {
+            $element = $(this);
+            var text = $element.val();
+            var data = text.split(' ');
+            for (var i = 0; i < data.length; ++i) {
+                $element.val(data[i]);
+                $element = $element.closest('.trStudent').next().find('.txtMark');
+            }
+
+            // do something with text
+        });
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnClassSubjectTaskID" runat="server" />

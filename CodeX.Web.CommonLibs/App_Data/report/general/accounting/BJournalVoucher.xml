@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvGLTransactionDtCustomList" datasourcehd="GetvGLTransactionHdList" filterexpressionhd="" headertext="JOURNAL VOUCHER" filterexpression="IsDeleted  = 0 AND GCItemDetailStatus != 'X121^999' ORDER BY DisplayOrder ASC" papertype="A5_portrait" fontsize="8pt" isshowtotal="1" totaltext="Total" />
+  <table datasource="GetvGLTransactionDtCustomList" datasourcehd="GetvGLTransactionHdList" filterexpressionhd="" headertext="JOURNAL VOUCHER" filterexpression="IsDeleted  = 0 AND GCItemDetailStatus != 'X121^999' ORDER BY DisplayOrder ASC" papertype="A4_portrait" fontsize="8pt" isshowtotal="1" totaltext="Total" />
   <parameters>
     <parameter code="FP001"/>
   </parameters>
   <fields>
-    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldtype="autonumber" headertext="No" width="4"/>
     <field fieldname="AccountForJournalVoucher" headertext="Perkiraan dan Keterangan"/>
     <field fieldname="GLAccountNo" headertext="No Perkiraan" width="15"/>
     <field fieldname="DebitAmount" headertext="Debit" width="13" fieldtype="currency" isshowsubtotal="1"/>
