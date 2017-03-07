@@ -9,6 +9,7 @@
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <script type="text/javascript" id="dxss_serviceunitsiteentryctl">
+    $('#ulMeetingViewList li').die('click');
     $('#ulMeetingViewList li').live('click', function () {
         var id = $(this).find('.hdnClassMeetingID').val();
         $('#<%=hdnClassMeetingID.ClientID %>').val(id);

@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<vClassSubjectTaskIndicator> lstClassSubjectTaskIndicator = null;
         protected override void InitializeDataControl()
         {
-            List<vClassSubject> lstClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND IsDeleted = 0", AppSession.SchoolClass.SchoolClassID));
+            List<vClassSubject> lstClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolClass.SchoolClassID, Constant.ClassStudyType.REGULAR));
             Methods.SetComboBoxField<vClassSubject>(cboSubject, lstClassSubject, "SubjectName", "ClassSubjectID");
 
             BindGridView();

@@ -988,11 +988,15 @@ namespace CodeX.Common
                 public const string SC_STUDENT_MARK = "SM99090101";
                 public const string SC_STUDENT_MARK_PER_INDICATOR = "SM99090102";
                 public const string SC_STUDENT_MARK_PER_INDICATOR_ALL = "SM99090103";
+                public const string SC_CLASS_MEETING = "SM99090104";
+                public const string SC_STUDENT_NOTE = "SM99090105";
 
                 public const string TEACHER_SCHOOL_CLASS_PAGE = "SM99100000";
                 public const string MTSC_STUDENT_MARK = "SM99100101";
                 public const string MTSC_STUDENT_MARK_PER_INDICATOR = "SM99100102";
                 public const string MTSC_STUDENT_MARK_PER_INDICATOR_ALL = "SM99100103";
+                public const string MTSC_CLASS_MEETING = "SM99100104";
+                public const string MTSC_STUDENT_NOTE = "SM99100105";
             }
             #endregion
             #endregion
