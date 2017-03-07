@@ -20,8 +20,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         public override string OnGetMenuCode()
         {
             string id = Request.QueryString["id"];
-            //if (id == "cs")
-            return Constant.MenuCode.StudentManagement.SC_STUDENT_MARK_PER_INDICATOR;
+            if (id == "cs")
+                return Constant.MenuCode.StudentManagement.SC_STUDENT_MARK_PER_INDICATOR;
+            return Constant.MenuCode.StudentManagement.MTSC_STUDENT_MARK_PER_INDICATOR;
         }
 
         List<vClassStudentSubjectTaskMark> lstStudentMark = null;

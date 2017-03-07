@@ -886,7 +886,8 @@ namespace CodeX.Common
 
                 public const string TEACHER_WEEKLY_SCHEDULE = "SM120100";
                 public const string TEACHER_CLASS = "SM120200";
-                public const string TEACHER_STUDENT_FINAL_MARK = "SM120300"; 
+                public const string TEACHER_STUDENT_FINAL_MARK = "SM120300";
+                public const string TEACHER_SCHOOL_CLASS = "SM120400";
 
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
@@ -987,6 +988,11 @@ namespace CodeX.Common
                 public const string SC_STUDENT_MARK = "SM99090101";
                 public const string SC_STUDENT_MARK_PER_INDICATOR = "SM99090102";
                 public const string SC_STUDENT_MARK_PER_INDICATOR_ALL = "SM99090103";
+
+                public const string TEACHER_SCHOOL_CLASS_PAGE = "SM99100000";
+                public const string MTSC_STUDENT_MARK = "SM99100101";
+                public const string MTSC_STUDENT_MARK_PER_INDICATOR = "SM99100102";
+                public const string MTSC_STUDENT_MARK_PER_INDICATOR_ALL = "SM99100103";
             }
             #endregion
             #endregion

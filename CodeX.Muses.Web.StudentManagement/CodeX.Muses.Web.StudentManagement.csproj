@@ -125,6 +125,7 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx" />
+    <Content Include="Program\SchoolClass\TeacherSchoolClassList.aspx" />
     <Content Include="Program\SchoolClass\SchoolClassList.aspx" />
     <Content Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx" />
     <Content Include="Program\ClassMeeting\ClassAttendanceSummaryInformation\ClassAttendanceSummaryDtCtl.ascx" />
@@ -663,6 +664,13 @@
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\SchoolClass\TeacherSchoolClassList.aspx.cs">
+      <DependentUpon>TeacherSchoolClassList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\SchoolClass\TeacherSchoolClassList.aspx.designer.cs">
+      <DependentUpon>TeacherSchoolClassList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\SchoolClass\SchoolClassList.aspx.cs">
       <DependentUpon>SchoolClassList.aspx</DependentUpon>

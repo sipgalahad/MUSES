@@ -32,6 +32,7 @@ namespace CodeX.Data.Model
         public Int32 PeriodSectionID { get; set; }
         public String GCPeriodSection { get; set; }
         public Int32 CurriculumID { get; set; }
+        public Boolean IsTeacherPage { get; set; }
     }
     #endregion
     #region SubjectModel
