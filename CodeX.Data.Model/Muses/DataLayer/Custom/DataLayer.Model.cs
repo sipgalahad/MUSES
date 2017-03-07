@@ -25,6 +25,15 @@ namespace CodeX.Data.Model
         public Int32 PeriodSectionID { get; set; }
     }
     #endregion
+    #region ClassStudentModel
+    public partial class SchoolClassModel
+    {
+        public Int32 SchoolClassID { get; set; }
+        public Int32 PeriodSectionID { get; set; }
+        public String GCPeriodSection { get; set; }
+        public Int32 CurriculumID { get; set; }
+    }
+    #endregion
     #region SubjectModel
     public partial class SubjectModel
     {

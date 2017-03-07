@@ -877,6 +877,7 @@ namespace CodeX.Common
                 public const string TSB_TEACHER_SUBSTITUTION_PER_DATE = "SM031002";
                 public const string STUDENT_MARK_LEDGER = "SM031100";
                 public const string STUDENT_MOVE_OUT = "SM031200";
+                public const string SCHOOL_CLASS = "SM031300";
 
                 public const string TEACHER_PROFILE = "SM040100";
 
@@ -981,6 +982,11 @@ namespace CodeX.Common
                 public const string SBM_SUBJECT_CURRICULUM = "SM99080100";
                 public const string SBM_SUBJECT_CURRICULUM_SYLLABUS = "SM99080200";
                 public const string SBM_SUBJECT_CURRICULUM_MEETING_PLAN = "SM99080300";
+
+                public const string SCHOOL_CLASS_PAGE = "SM99090000";
+                public const string SC_STUDENT_MARK = "SM99090101";
+                public const string SC_STUDENT_MARK_PER_INDICATOR = "SM99090102";
+                public const string SC_STUDENT_MARK_PER_INDICATOR_ALL = "SM99090103";
             }
             #endregion
             #endregion

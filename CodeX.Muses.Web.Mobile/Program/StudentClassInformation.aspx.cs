@@ -28,31 +28,44 @@ namespace CodeX.Muses.Web.Mobile.Program
             {
                 hdnStudentID.Value = AppSession.StudentLogin.UserID.ToString();
                 Student student = BusinessLayer.GetStudent(Convert.ToInt32(hdnStudentID.Value));
-                vClassStudentDailyAttendance entityAttendance = BusinessLayer.GetvClassStudentDailyAttendanceList(string.Format("StudentID = {0} AND SchoolDate = '{1}'", hdnStudentID.Value, DateTime.Now.ToString("yyyyMMdd"))).FirstOrDefault();
-                if (entityAttendance != null)
-                    spnAttendanceStatus.InnerHtml = entityAttendance.AttendanceStatus;
+                hdnSiteID.Value = student.SiteID;
+                txtSchoolDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+                BindGridView();
+            }
+        }
 
-                SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}' AND '{2}' BETWEEN StartDate AND EndDate", student.SiteID, Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"))).FirstOrDefault();
-                if (entitySchoolPeriod != null)
+        private void BindGridView()
+        {
+            DateTime schoolDate = Helper.GetDatePickerValue(txtSchoolDate.Text);
+            vClassStudentDailyAttendance entityAttendance = BusinessLayer.GetvClassStudentDailyAttendanceList(string.Format("StudentID = {0} AND SchoolDate = '{1}'", hdnStudentID.Value, schoolDate.ToString("yyyyMMdd"))).FirstOrDefault();
+            if (entityAttendance != null)
+                spnAttendanceStatus.InnerHtml = entityAttendance.AttendanceStatus;
+
+            SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}' AND '{2}' BETWEEN StartDate AND EndDate", hdnSiteID.Value, Constant.SchoolPeriodStatus.VOID, schoolDate.ToString("yyyyMMdd"))).FirstOrDefault();
+            if (entitySchoolPeriod != null)
+            {
+                vClassStudent classStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolPeriodID = {0} AND StudentID = {1}", entitySchoolPeriod.SchoolPeriodID, hdnStudentID.Value)).FirstOrDefault();
+                if (classStudent != null)
                 {
-                    vClassStudent classStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolPeriodID = {0} AND StudentID = {1}", entitySchoolPeriod.SchoolPeriodID, hdnStudentID.Value)).FirstOrDefault();
-                    if (classStudent != null)
+                    List<vClassMeeting> lstClassMeeting = BusinessLayer.GetvClassMeetingList(string.Format("SchoolClassID = {0} AND MeetingDate = '{1}' AND IsDeleted = 0", classStudent.SchoolClassID, schoolDate.ToString("yyyyMMdd"))); ;
+
+                    if (lstClassMeeting.Count > 0)
                     {
-                        List<vClassMeeting> lstClassMeeting = BusinessLayer.GetvClassMeetingList(string.Format("SchoolClassID = {0} AND MeetingDate = '{1}' AND IsDeleted = 0", classStudent.SchoolClassID, DateTime.Now.ToString("yyyyMMdd")));;
-
-                        if (lstClassMeeting.Count > 0)
-                        {
-                            string lstClassMeetingID = string.Join(",", lstClassMeeting.Select(p => p.ClassMeetingID).ToList());
-                            lstAttendance = BusinessLayer.GetvClassMeetingAttendanceList(string.Format("ClassMeetingID IN ({0}) AND StudentID = {1}", lstClassMeetingID, hdnStudentID.Value));
-                        }
-                        else
-                            lstAttendance = new List<vClassMeetingAttendance>();
-
-                        rptClassMeeting.DataSource = lstClassMeeting;
-                        rptClassMeeting.DataBind();
+                        string lstClassMeetingID = string.Join(",", lstClassMeeting.Select(p => p.ClassMeetingID).ToList());
+                        lstAttendance = BusinessLayer.GetvClassMeetingAttendanceList(string.Format("ClassMeetingID IN ({0}) AND StudentID = {1}", lstClassMeetingID, hdnStudentID.Value));
                     }
+                    else
+                        lstAttendance = new List<vClassMeetingAttendance>();
+
+                    rptClassMeeting.DataSource = lstClassMeeting;
+                    rptClassMeeting.DataBind();
                 }
             }
+        }
+
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridView();
         }
 
         protected void rptClassMeeting_ItemDataBound(object sender, RepeaterItemEventArgs e)

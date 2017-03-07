@@ -19,16 +19,22 @@ namespace CodeX.Muses.Web.Information.Program
     {
         protected int PageCount = 1;
         protected int CurrPage = 1;
+        private StudentMarkPerClassInfo DetailPage
+        {
+            get { return (StudentMarkPerClassInfo)Page; }
+        }
 
         public override void InitializeDataControl(string param)
         {
             String[] lstParam = param.Split('|');
             hdnSchoolClassID.Value = lstParam[0];
+            DateTime dateFrom = DetailPage.OnGetDateFrom();
+            DateTime dateTo = DetailPage.OnGetDateTo();
 
             SchoolClass entity = BusinessLayer.GetSchoolClass(Convert.ToInt32(hdnSchoolClassID.Value));
             txtHeaderText3.Text = entity.SchoolClassName;
 
-            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("SchoolClassID = {0} AND Mark < PassingGrade", hdnSchoolClassID.Value));
+            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("SchoolClassID = {0} AND TaskDate BETWEEN '{1}' AND '{2}' AND Mark < PassingGrade", hdnSchoolClassID.Value, dateFrom.ToString("yyyyMMdd"), dateFrom.ToString("yyyyMMdd")));
 
             string lstTaskID = string.Join(",", lstStudentMark.Select(p => p.ClassSubjectTaskID).ToList());
             if (lstTaskID != "")
@@ -38,7 +44,7 @@ namespace CodeX.Muses.Web.Information.Program
             rptHeader.DataSource = lstClassTask;
             rptHeader.DataBind();
 
-            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0} AND StudentID IN (SELECT StudentID FROM vClassStudentSubjectTaskMark WHERE SchoolClassID = {0} AND Mark < PassingGrade)", entity.SchoolClassID));
+            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0} AND StudentID IN (SELECT StudentID FROM vClassStudentSubjectTaskMark WHERE SchoolClassID = {0} AND TaskDate BETWEEN '{1}' AND '{2}' AND Mark < PassingGrade)", entity.SchoolClassID, dateFrom.ToString("yyyyMMdd"), dateFrom.ToString("yyyyMMdd")));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
         }

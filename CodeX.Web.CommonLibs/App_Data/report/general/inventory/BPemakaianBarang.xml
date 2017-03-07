@@ -5,7 +5,7 @@
     <parameter code="FP001"/>
   </parameters>
   <fields>
-    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldtype="autonumber" headertext="No" width="4"/>
     <field fieldname="ItemCode" width="15" headertext="Kode Barang"/>
     <field fieldname="ItemName1" headertext="Nama Barang"/>
     <field headertext="Quantity" width="10" fieldtype="customfield" align="right">
@@ -31,6 +31,15 @@
             <tr><td>Tanggal Pemakaian</td><td align="center">:</td><td>{TransactionDateInString}</td></tr>
             <tr><td>Lokasi</td><td align="center">:</td><td>{FromLocationName}</td></tr>
             <tr><td>Bagian</td><td align="center">:</td><td>{ServiceUnitName}</td></tr>
+          </table>
+        </td>
+        <td valign="top">
+          <table cellspacing="0" cellpadding="0">
+            <colgroup>
+              <col style="width:110px"/>
+              <col style="width:20px"/>
+            </colgroup>      
+            <tr><td>Catatan</td><td align="center">:</td><td>{Remarks}</td></tr>
           </table>
         </td>
       </tr>

@@ -20,11 +20,18 @@ namespace CodeX.Muses.Web.Information.Program
         protected int PageCount = 1;
         protected int CurrPage = 1;
 
+        private StudentMarkPerTeacherInfo DetailPage
+        {
+            get { return (StudentMarkPerTeacherInfo)Page; }
+        }
+
         public override void InitializeDataControl(string param)
         {
             String[] lstParam = param.Split('|');
             hdnTeacherID.Value = lstParam[0];
             hdnClassSubjectID.Value = lstParam[1];
+            DateTime dateFrom = DetailPage.OnGetDateFrom();
+            DateTime dateTo = DetailPage.OnGetDateTo();
 
             Employee emp = BusinessLayer.GetEmployee(Convert.ToInt32(hdnTeacherID.Value));
             txtHeaderText.Text = emp.FullName;
@@ -34,7 +41,7 @@ namespace CodeX.Muses.Web.Information.Program
             txtHeaderText2.Text = entity.SubjectName;
             txtHeaderText3.Text = entity.SchoolClassName;
 
-            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0} AND Mark < PassingGrade", hdnClassSubjectID.Value));
+            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0} AND TaskDate BETWEEN '{1}' AND '{2}' AND Mark < PassingGrade", hdnClassSubjectID.Value, dateFrom.ToString("yyyyMMdd"), dateFrom.ToString("yyyyMMdd")));
 
             string lstTaskID = string.Join(",", lstStudentMark.Select(p => p.ClassSubjectTaskID).ToList());
             if (lstTaskID != "")
@@ -44,7 +51,7 @@ namespace CodeX.Muses.Web.Information.Program
             rptHeader.DataSource = lstClassTask;
             rptHeader.DataBind();
 
-            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0} AND StudentID IN (SELECT StudentID FROM vClassStudentSubjectTaskMark WHERE ClassSubjectID = {1} AND Mark < PassingGrade)", entity.SchoolClassID, hdnClassSubjectID.Value));
+            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0} AND StudentID IN (SELECT StudentID FROM vClassStudentSubjectTaskMark WHERE ClassSubjectID = {1} AND TaskDate BETWEEN '{2}' AND '{3}' AND Mark < PassingGrade)", entity.SchoolClassID, hdnClassSubjectID.Value, dateFrom.ToString("yyyyMMdd"), dateFrom.ToString("yyyyMMdd")));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
         }

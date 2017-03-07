@@ -33,7 +33,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             lstClassMeetingAttendance = BusinessLayer.GetClassMeetingAttendanceList(string.Format("ClassMeetingID = {0}", AppSession.ClassSubject.ClassMeetingID));
 
+            ClassMeeting classMeeting = BusinessLayer.GetClassMeeting(AppSession.ClassSubject.ClassMeetingID);
+            hdnMeetingDate.Value = classMeeting.MeetingDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            hdnPeriodSectionID.Value = classMeeting.PeriodSectionID.ToString();
             ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
+            hdnSchoolClassID.Value = classSubject.SchoolClassID.ToString();
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
@@ -71,11 +75,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             ClassMeetingAttendanceDao entityDtDao = new ClassMeetingAttendanceDao(ctx);
+            ClassStudentDailyAttendanceDao entityStudentAttendanceDao = new ClassStudentDailyAttendanceDao(ctx);
             try
             {
                 string[] lstSaveValue = hdnListSaveValue.Value.Split('|');
 
+                DateTime meetingDate = Helper.GetDatePickerValue(hdnMeetingDate.Value);
+
                 List<ClassMeetingAttendance> lstClassMeetingAttendance = BusinessLayer.GetClassMeetingAttendanceList(string.Format("ClassMeetingID = {0}", AppSession.ClassSubject.ClassMeetingID), ctx);
+                List<ClassStudentDailyAttendance> lstClassStudentDailyAttendance = null;
+
+                List<vClassMeeting> lstClassMeeting = BusinessLayer.GetvClassMeetingList(String.Format("SchoolClassID = {0} AND MeetingDate = '{1}' AND IsDeleted = 0", hdnSchoolClassID.Value, meetingDate.ToString("yyyyMMdd")), ctx);
+                if (lstClassMeeting.Count == 1)
+                    lstClassStudentDailyAttendance = BusinessLayer.GetClassStudentDailyAttendanceList(string.Format("SchoolClassID = {0} AND SchoolDate = '{1}'", hdnSchoolClassID.Value, meetingDate.ToString("yyyyMMdd")), ctx);
+                else
+                    lstClassStudentDailyAttendance = new List<ClassStudentDailyAttendance>();
                 foreach (String saveValue in lstSaveValue)
                 {
                     string[] temp = saveValue.Split(',');
@@ -99,6 +113,28 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entityDt.GCAttendanceStatus = GCAttendanceStatus;
                             entityDt.Remarks = Remarks;
                             entityDtDao.Update(entityDt);
+                        }
+
+                        if (lstClassMeeting.Count == 1)
+                        {
+                            ClassStudentDailyAttendance entityDtAttendance = lstClassStudentDailyAttendance.FirstOrDefault(p => p.StudentID == studentID);
+                            if (entityDtAttendance == null)
+                            {
+                                entityDtAttendance = new ClassStudentDailyAttendance();
+                                entityDtAttendance.PeriodSectionID = Convert.ToInt32(hdnPeriodSectionID.Value);
+                                entityDtAttendance.SchoolDate = meetingDate;
+                                entityDtAttendance.SchoolClassID = Convert.ToInt32(hdnSchoolClassID.Value);
+                                entityDtAttendance.StudentID = studentID;
+                                entityDtAttendance.GCAttendanceStatus = GCAttendanceStatus;
+                                entityDtAttendance.Remarks = Remarks;
+                                entityStudentAttendanceDao.Insert(entityDtAttendance);
+                            }
+                            else
+                            {
+                                entityDtAttendance.GCAttendanceStatus = GCAttendanceStatus;
+                                entityDtAttendance.Remarks = Remarks;
+                                entityStudentAttendanceDao.Update(entityDtAttendance);
+                            }
                         }
                     }
                 }

@@ -127,6 +127,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     string summaryType = Request.Form[hdnCboSummaryType.UniqueID];
                     if (summaryType == "")
+                        summaryType = hdnCboSummaryType.Value;
+                    if (summaryType == "")
                         summaryType = cboSummaryType.Value.ToString();
                     if (summaryType == "0")
                         divStudentMark.InnerHtml = lstStudentMark1.Average(p => p.Mark).ToString("N");

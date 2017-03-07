@@ -1009,6 +1009,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vClassMeeting> GetvClassMeetingList(string filterExpression, IDbContext ctx)
+        {
+            List<vClassMeeting> result = new List<vClassMeeting>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassMeeting));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassMeeting)helper.IDataReaderToObject(reader, new vClassMeeting()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static List<vClassMeeting> GetvClassMeetingList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
         {
             List<vClassMeeting> result = new List<vClassMeeting>();

@@ -30,7 +30,7 @@
       <field fieldname="Col10" totalfieldname="cfCol10" headertext="SD 2" width="4" fieldtype="currency" isshowsubtotal="1" />
       <field fieldname="Col11" totalfieldname="cfCol11" headertext="TK 2" width="4" fieldtype="currency" isshowsubtotal="1" />
     </boundfield>
-    <boundfield text="Yayasan" colspan="7" width="35">
+    <boundfield text="Yayasan" colspan="8" width="35">
       <field fieldname="ColSU9" totalfieldname="cfColSU9" headertext="IT" width="4" fieldtype="currency" isshowsubtotal="1" />
       <field fieldname="ColSU10" totalfieldname="cfColSU10" headertext="GA/RT" width="4" fieldtype="currency" isshowsubtotal="1" />
       <field fieldname="ColSU11" totalfieldname="cfColSU11" headertext="OPSDIK" width="4" fieldtype="currency" isshowsubtotal="1" />

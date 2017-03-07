@@ -7,81 +7,63 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Program {
+namespace CodeX.Muses.Web.StudentManagement.MasterPage {
     
     
-    public partial class ClassAttendanceEntry {
+    public partial class SchoolClassBannerDtCtl {
         
         /// <summary>
-        /// btnSave control.
+        /// hdnTitleText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnSave;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTitleText;
         
         /// <summary>
-        /// hdnListSaveValue control.
+        /// imgPatientImage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
+        protected global::System.Web.UI.HtmlControls.HtmlImage imgPatientImage;
         
         /// <summary>
-        /// hdnSchoolClassID control.
+        /// divStudentCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSchoolClassID;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divStudentCode;
         
         /// <summary>
-        /// hdnMeetingDate control.
+        /// divDateOfBirth control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMeetingDate;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDateOfBirth;
         
         /// <summary>
-        /// hdnPeriodSectionID control.
+        /// divPhoneNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPeriodSectionID;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPhoneNo;
         
         /// <summary>
-        /// thHeaderAttendance control.
+        /// divAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thHeaderAttendance;
-        
-        /// <summary>
-        /// rptHeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeader;
-        
-        /// <summary>
-        /// rptStudent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudent;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAddress;
     }
 }

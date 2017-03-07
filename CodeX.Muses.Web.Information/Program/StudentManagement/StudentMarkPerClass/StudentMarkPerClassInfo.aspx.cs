@@ -18,7 +18,15 @@ using System.Web.UI.HtmlControls;
 namespace CodeX.Muses.Web.Information.Program
 {
     public partial class StudentMarkPerClassInfo : BasePageList
-    {  
+    {
+        public DateTime OnGetDateFrom()
+        {
+            return Helper.GetDatePickerValue(Request.Form[txtDateFrom.UniqueID]);
+        }
+        public DateTime OnGetDateTo()
+        {
+            return Helper.GetDatePickerValue(Request.Form[txtDateTo.UniqueID]);
+        }
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.Information.STUDENT_MARK_PER_CLASS_INFO;
@@ -29,6 +37,11 @@ namespace CodeX.Muses.Web.Information.Program
             return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
         }
 
+        protected string OnGetPeriodSectionNowFilterExpression()
+        {
+            return string.Format("GCPeriodSectionStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
+        }
+
         protected string OnGetSchoolPeriodNowFilterExpression()
         {
             return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
@@ -36,6 +49,9 @@ namespace CodeX.Muses.Web.Information.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            txtDateFrom.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            txtDateTo.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+
             List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.SelectedIndex = 0;
@@ -57,8 +73,8 @@ namespace CodeX.Muses.Web.Information.Program
                 string lstSchoolClassID = string.Join(",", lstEntity.Select(p => p.SchoolClassID).ToList());
                 if (tacPeriodSection.Value != "")
                 {
-                    lstClassMeeting = BusinessLayer.GetvClassMeetingList(string.Format("SchoolClassID IN ({0}) AND PeriodSectionID = {1} AND IsDeleted = 0", lstSchoolClassID, tacPeriodSection.Value));
-                    lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("SchoolClassID IN ({0}) AND IsDeleted = 0", lstSchoolClassID));
+                    lstClassMeeting = BusinessLayer.GetvClassMeetingList(string.Format("SchoolClassID IN ({0}) AND PeriodSectionID = {1} AND MeetingDate BETWEEN '{2}' AND '{3}' AND IsDeleted = 0", lstSchoolClassID, tacPeriodSection.Value, Helper.GetDatePickerValue(txtDateFrom).ToString("yyyyMMdd"), Helper.GetDatePickerValue(txtDateTo).ToString("yyyyMMdd")));
+                    lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("SchoolClassID IN ({0}) AND PeriodSectionID = {1} AND TaskDate BETWEEN '{2}' AND '{3}' AND IsDeleted = 0", lstSchoolClassID, tacPeriodSection.Value, Helper.GetDatePickerValue(txtDateFrom).ToString("yyyyMMdd"), Helper.GetDatePickerValue(txtDateTo).ToString("yyyyMMdd")));
                 }
                 else
                 {

@@ -3194,6 +3194,7 @@ namespace CodeX.Data.Model
     public class vClassStudentSubjectTaskMark
     {
         private Int32 _ClassSubjectTaskID;
+        private DateTime _TaskDate;
         private Int32 _ClassSubjectID;
         private Int32 _PeriodSectionID;
         private Int32 _StudentID;
@@ -3210,6 +3211,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectTaskID; }
             set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "TaskDate", DataType = "DateTime")]
+        public DateTime TaskDate
+        {
+            get { return _TaskDate; }
+            set { _TaskDate = value; }
         }
         [Column(Name = "ClassSubjectID", DataType = "Int32")]
         public Int32 ClassSubjectID

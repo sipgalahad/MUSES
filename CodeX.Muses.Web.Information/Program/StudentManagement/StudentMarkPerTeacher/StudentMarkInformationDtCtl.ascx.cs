@@ -17,6 +17,11 @@ namespace CodeX.Muses.Web.Information.Program
 {
     public partial class StudentMarkInformationDtCtl : BaseViewPopupCtl
     {
+
+        private StudentMarkPerTeacherInfo DetailPage
+        {
+            get { return (StudentMarkPerTeacherInfo)Page; }
+        }
         List<vClassSubjectTask> lstClassTask = null;
         public override void InitializeDataControl(string param)
         {
@@ -28,13 +33,15 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView()
         {
-            lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1} AND IsDeleted = 0", hdnClassSubjectID.Value, hdnPeriodSection.Value));
+            DateTime dateFrom = DetailPage.OnGetDateFrom();
+            DateTime dateTo = DetailPage.OnGetDateTo();
+            lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1} AND TaskDate BETWEEN '{2}' AND '{3}' AND IsDeleted = 0", hdnClassSubjectID.Value, hdnPeriodSection.Value, dateFrom.ToString("yyyyMMdd"), dateTo.ToString("yyyyMMdd")));
             rptHeader.DataSource = lstClassTask;
             rptHeader.DataBind();
 
             thMark.ColSpan = lstClassTask.Count;
 
-            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1}", hdnClassSubjectID.Value, hdnPeriodSection.Value));
+            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1} AND TaskDate BETWEEN '{2}' AND '{3}'", hdnClassSubjectID.Value, hdnPeriodSection.Value, dateFrom.ToString("yyyyMMdd"), dateTo.ToString("yyyyMMdd")));
 
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", hdnClassSubjectID.Value)).FirstOrDefault();
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));

@@ -18,6 +18,10 @@ namespace CodeX.Muses.Web.Information.Program
         protected int RowCount = 1;
         protected int RowCountPerPage = 5;
         protected int CurrPage = 1;
+        private StudentMarkPerTeacherInfo DetailPage
+        {
+            get { return (StudentMarkPerTeacherInfo)Page; }
+        }
         public override void InitializeDataControl(string param)
         {
             string[] temp = param.Split('|');
@@ -29,7 +33,9 @@ namespace CodeX.Muses.Web.Information.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", hdnPeriodSection.Value, hdnClassSubjectID.Value);
+            DateTime dateFrom = DetailPage.OnGetDateFrom();
+            DateTime dateTo = DetailPage.OnGetDateTo();
+            string filterExpression = string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1} AND MeetingDate BETWEEN '{2}' AND '{3}'", hdnPeriodSection.Value, hdnClassSubjectID.Value, dateFrom.ToString("yyyyMMdd"), dateTo.ToString("yyyyMMdd"));
 
             if (isCountPageCount)
             {

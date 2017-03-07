@@ -57,6 +57,9 @@
         });
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
+    <input type="hidden" id="hdnSchoolClassID" runat="server" />
+    <input type="hidden" id="hdnMeetingDate" runat="server" />
+    <input type="hidden" id="hdnPeriodSectionID" runat="server" />
     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
         <tr>
             <th rowspan="2"><%=GetLabel("Siswa") %></th>

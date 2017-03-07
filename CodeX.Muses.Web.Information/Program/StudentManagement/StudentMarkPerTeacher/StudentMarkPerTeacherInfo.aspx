@@ -16,6 +16,18 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server">
     <script type="text/javascript">
+        $(function () {
+            setDatePicker('<%=txtDateFrom.ClientID %>');
+            setDatePicker('<%=txtDateTo.ClientID %>');
+
+            $('#<%=txtDateFrom.ClientID %>').change(function () {
+                cbpView.PerformCallback('refresh');
+            });
+            $('#<%=txtDateTo.ClientID %>').change(function () {
+                cbpView.PerformCallback('refresh');
+            });
+        });
+
         function onCboSiteValueChanged() {
             var filterExpression = "SiteID = '" + cboSite.GetValue() + "' AND <%=OnGetSchoolPeriodNowFilterExpression() %>";
             Methods.getObject('GetSchoolPeriodList', filterExpression, function (result) {
@@ -62,7 +74,19 @@
         function onTacSchoolPeriodValueChanged() {
             tacPeriodSection.setValue('');
             tacPeriodSection.setText('');
-            cbpView.PerformCallback('refresh');
+
+            var filterExpression = "SchoolPeriodID = '" + tacSchoolPeriod.getValue() + "' AND <%=OnGetPeriodSectionNowFilterExpression() %>";
+            Methods.getObject('GetPeriodSectionList', filterExpression, function (result) {
+                if (result != null) {
+                    tacPeriodSection.setValue(result.PeriodSectionID);
+                    tacPeriodSection.setText(result.PeriodSectionName);
+                }
+                else {
+                    tacPeriodSection.setValue('');
+                    tacPeriodSection.setText('');
+                }
+                onTacPeriodSectionValueChanged();
+            });
         }
         //#endregion
 
@@ -190,6 +214,18 @@
                     <ClientSideEvents ButtonSearchClick="function(){ onTacPeriodSectionButtonSearchClick(); }"
                         ValueChanged="function(){ onTacPeriodSectionValueChanged(); }" />
                 </cdx:CodeXAutoCompleteTextBox>   
+            </td>
+        </tr>
+        <tr>
+            <td class="tdLabel"><label><%=GetLabel("Tanggal") %></label></td>
+            <td>
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td><asp:TextBox runat="server" CssClass="datepicker" ID="txtDateFrom" Width="120px" /></td>
+                        <td>&nbsp;</td>
+                        <td><asp:TextBox runat="server" CssClass="datepicker" ID="txtDateTo" Width="120px" /></td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>

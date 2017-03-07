@@ -343,6 +343,45 @@ namespace CodeX.Web.Common
         }
         #endregion
 
+        #region SchoolClass
+        public static SchoolClassModel SchoolClass
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_SchoolClass"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_SchoolClass"] != null)
+                        {
+                            string[] temp = HttpContext.Current.Request.Cookies["Muses"]["_SchoolClass"].Split('|');
+                            SchoolClassModel entity = new SchoolClassModel();
+                            entity.PeriodSectionID = Convert.ToInt32(temp[0]);
+                            entity.SchoolClassID = Convert.ToInt32(temp[1]);
+                            entity.CurriculumID = Convert.ToInt32(temp[2]);
+                            entity.GCPeriodSection = temp[3];
+                            HttpContext.Current.Session["_SchoolClass"] = entity;
+                            return entity;
+                        }
+                    }
+                    return null;
+                }
+                return ((SchoolClassModel)(HttpContext.Current.Session["_SchoolClass"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_SchoolClass"] = string.Format("{0}|{1}|{2}|{3}", value.PeriodSectionID, value.SchoolClassID, value.CurriculumID, value.GCPeriodSection);
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+
+                HttpContext.Current.Session["_SchoolClass"] = value;
+            }
+        }
+        #endregion
+
         #region SchoolTypeID
         public static String SchoolTypeID
         {

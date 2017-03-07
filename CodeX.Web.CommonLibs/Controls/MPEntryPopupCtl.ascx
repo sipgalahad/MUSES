@@ -15,10 +15,16 @@
                 else
                     $('#<%=hdnIsAdd.ClientID %>').val('0');
             }
+            window.clickMPEntryPopupSave = function () {
+                $('#<%=btnMPEntryPopupSave.ClientID %>').click();
+            }
             window.getEntryPopupIsAdd = function () {
                 return ($('#<%=hdnIsAdd.ClientID %>').val() == '1');
             }
 
+            function clickSavePopup() {
+                $('#<%=btnMPEntryPopupSave.ClientID %>').click();
+            }
             $(function () {
                 $('#<%=btnMPEntryPopupSave.ClientID %>').show();
                 /*if ($('#<%=hdnIsAdd.ClientID %>').val() == '1') {
@@ -28,20 +34,35 @@
                 $('#<%=btnMPEntryPopupNew.ClientID %>').click(function () {
                     cbpMPEntryPopupContent.PerformCallback('new');
                 });
-                $('#<%=btnMPEntryPopupSave.ClientID %>').click(function (evt) {
-                    var errMessage = { text: "" };
-                    var isAllowSave = true;
-                    if (typeof onBeforeSaveRecordPopup != 'undefined')
-                        isAllowSave = onBeforeSaveRecordPopup(errMessage);
-                    if (isAllowSave) {
-                        if (IsValid(evt, 'fsMPEntryPopup', 'mpEntryPopup'))
-                            cbpMPEntryPopupProcess.PerformCallback('save');
+                $('#<%=btnMPEntryPopupSave.ClientID %>').click(function () {
+                    if ($(this).attr('enabled') == null) {
+                        if (typeof onCustomSavePopupClick != 'undefined')
+                            onCustomSavePopupClick();
+                        else {
+                            var errMessage = { text: "" };
+                            var isShowErrorMessage = { val: true };
+                            var isAllowSave = true;
+
+                            if (typeof onBeforeSaveRecordPopup != 'undefined')
+                                isAllowSave = onBeforeSaveRecordPopup(errMessage, isShowErrorMessage);
+                            if (isAllowSave) {
+                                if (IsValid(null, 'fsMPEntryPopup', 'mpEntryPopup'))
+                                    cbpMPEntryPopupProcess.PerformCallback('save');
+                            }
+                            else if (isShowErrorMessage.val != '')
+                                showToast('Warning', errMessage.text);
+                        }
                     }
-                    else
-                        showToast('Warning', errMessage.text);
                 });
 
             });
+
+            function setBtnSavePopupEnabled(isEnabled) {
+                if (!isEnabled)
+                    $('#<%=btnMPEntryPopupSave.ClientID %>').attr('enabled', false);
+                else
+                    $('#<%=btnMPEntryPopupSave.ClientID %>').removeAttr('enabled');
+            }
         </script>
         <dxcp:ASPxCallbackPanel ID="cbpMPEntryPopupContent" runat="server" Width="100%" ClientInstanceName="cbpMPEntryPopupContent"
             ShowLoadingPanel="false" OnCallback="cbpMPEntryPopupContent_Callback">
