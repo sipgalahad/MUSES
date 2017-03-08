@@ -64,6 +64,7 @@
     <input type="hidden" id="hdnPeriodSection" runat="server" />
     <input type="hidden" id="hdnClassSubjectID" runat="server" />
     <input type="hidden" id="hdnClassMeetingID" runat="server" />
+    <input type="hidden" id="hdnSchoolClassID" runat="server" />
     <style type="text/css">
         #ulMeetingViewList .divMeetingDate        { float: left; width: 66px; margin: 3px 10px 0 0; background-color: #6BBD46; padding: 3px 10px; font-size: 20px; color: White; vertical-align: middle; text-align: center; }
         #ulMeetingViewList li                          { padding: 5px 3px; cursor: pointer; list-style-type:none; margin-bottom: 1px; }
@@ -136,6 +137,53 @@
                                         </tr>
                                     </table>
                                 </div>
+                                <h4 class="h4expanded"><%=GetLabel("Kehadiran")%></h4>                    
+                                <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
+                                    <tr>
+                                        <th rowspan="2"><%=GetLabel("Siswa") %></th>
+                                        <th id="thHeaderAttendance" runat="server" class="thCenter"><%=GetLabel("STATUS KEHADIRAN") %></th>
+                                        <th rowspan="2" style="width:200px"><%=GetLabel("Keterangan") %></th>
+                                    </tr>
+                                    <tr>
+                                        <asp:Repeater ID="rptHeader" runat="server">
+                                            <ItemTemplate>
+                                                <th class="thCenter" style="width:50px">
+                                                    <%#Eval("StandardCodeName") %><br />
+                                                </th>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </tr>
+                                    <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
+                                        <ItemTemplate>
+                                            <tr class="trStudent">
+                                                <td class="keyField"><%#Eval("StudentID") %></td>
+                                                <td>
+                                                    <table cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="width: 35px;">
+                                                                <img class="imgStudentImage" src='<%#Eval("StudentImageUrl") %>' alt="" height="25px" width="20px" style="float:left;margin-right: 10px; display:none" />
+                                                                <input type="hidden" value='<%# Eval("GCGender")%>' class="hdnStudentGender" />
+                                                                <div class="gridCircle divStudentImage"></div>
+                                                            </td>
+                                                            <td>
+                                                                <%#Eval("StudentName") %>
+                                                                <input type="hidden" id="hdnAttendance" class="hdnAttendance" runat="server" value="" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <asp:Repeater ID="rptStudentAttendance" runat="server" OnItemDataBound="rptStudentAttendance_ItemDataBound">
+                                                    <ItemTemplate>
+                                                        <td align="center">
+                                                            <div id="divAttendance" runat="server"></div>
+                                                        </td>
+                                                    </ItemTemplate>
+                                                </asp:Repeater>
+                                                <td><asp:TextBox ID="txtRemarks" CssClass="txtRemarks" runat="server" Width="100%" /></td>
+                                            </tr>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </table>
                             </div>
                         </dx:PanelContent>
                     </PanelCollection>

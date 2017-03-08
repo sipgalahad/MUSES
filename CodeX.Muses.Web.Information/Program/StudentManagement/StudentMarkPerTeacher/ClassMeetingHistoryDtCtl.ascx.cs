@@ -9,6 +9,7 @@ using CodeX.Data.Model;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Web.Common;
 using CodeX.Common;
+using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.Information.Program
 {
@@ -27,6 +28,8 @@ namespace CodeX.Muses.Web.Information.Program
             string[] temp = param.Split('|');
             hdnPeriodSection.Value = temp[0];
             hdnClassSubjectID.Value = temp[1];
+            ClassSubject classSubject = BusinessLayer.GetClassSubject(Convert.ToInt32(hdnClassSubjectID.Value));
+            hdnSchoolClassID.Value = classSubject.SchoolClassID.ToString();
 
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);            
         }
@@ -77,6 +80,52 @@ namespace CodeX.Muses.Web.Information.Program
             ClassMeeting entityClassMeeting = BusinessLayer.GetClassMeeting(Convert.ToInt32(hdnClassMeetingID.Value));
             txtRemarks.Text = entityClassMeeting.Remarks;
             txtNextMeetingRemarks.Text = entityClassMeeting.NextMeetingRemarks;
+
+            lstClassMeetingAttendance = BusinessLayer.GetClassMeetingAttendanceList(string.Format("ClassMeetingID = {0}", hdnClassMeetingID.Value));
+            lstAttendanceStatus = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.STUDENT_ATTENDANCE));
+            thHeaderAttendance.ColSpan = lstAttendanceStatus.Count;
+            rptHeader.DataSource = lstAttendanceStatus;
+            rptHeader.DataBind();
+
+            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", hdnSchoolClassID.Value));
+            rptStudent.DataSource = lstStudent;
+            rptStudent.DataBind();
+        }
+
+        List<StandardCode> lstAttendanceStatus = null;
+        List<ClassMeetingAttendance> lstClassMeetingAttendance = null;
+
+        protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vClassStudent entity = (vClassStudent)e.Item.DataItem;
+                TextBox txtRemarks = (TextBox)e.Item.FindControl("txtRemarks");
+
+                ClassMeetingAttendance attendance = lstClassMeetingAttendance.FirstOrDefault(p => p.StudentID == entity.StudentID);
+                if (attendance != null)
+                    txtRemarks.Text = attendance.Remarks;
+
+                Repeater rptStudentAttendance = (Repeater)e.Item.FindControl("rptStudentAttendance");
+                rptStudentAttendance.DataSource = lstAttendanceStatus;
+                rptStudentAttendance.DataBind();
+            }
+        }
+
+        protected void rptStudentAttendance_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vClassStudent entity = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
+                StandardCode entityStatus = (StandardCode)e.Item.DataItem;
+                HtmlGenericControl divAttendance = (HtmlGenericControl)e.Item.FindControl("divAttendance");
+                TextBox txtRemarks = (TextBox)e.Item.FindControl("txtRemarks");
+
+                ClassMeetingAttendance attendance = lstClassMeetingAttendance.FirstOrDefault(p => p.StudentID == entity.StudentID && p.GCAttendanceStatus == entityStatus.StandardCodeID);
+                if (attendance != null)
+                    divAttendance.InnerHtml = entityStatus.StandardCodeName.Substring(0, 1);
+
+            }
         }
     }
 }

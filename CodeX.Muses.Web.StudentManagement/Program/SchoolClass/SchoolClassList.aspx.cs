@@ -28,35 +28,33 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
         }
 
+        protected string OnGetPeriodSectionNowFilterExpression()
+        {
+            return string.Format("GCPeriodSectionStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
+        }
+
+        protected string OnGetSchoolPeriodNowFilterExpression()
+        {
+            return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
+        }
+
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
-            Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
-            if (selectedSchoolPeriod == null)
-                cboSchoolPeriod.SelectedIndex = 0;
-            else
-                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
 
-            if (cboSchoolPeriod.Value != "")
-            {
-                List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("SchoolPeriodID = {0} AND '{1}' BETWEEN StartDate AND EndDate", cboSchoolPeriod.Value, DateTime.Now.ToString("yyyyMMdd")));
-                if (lstPeriodSection.Count > 0)
-                {
-                    PeriodSection periodSection = lstPeriodSection.FirstOrDefault();
-                    tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
-                    tacPeriodSection.Text = periodSection.PeriodSectionName;
-                }
-            }
             BindGridView();
         }
 
         private string GetFilterExpression()
         {
+            if (tacSchoolPeriod.Value == "")
+                return "1 = 0";
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", cboSchoolPeriod.Value);
+            filterExpression += string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", tacSchoolPeriod.Value);
             return filterExpression;
         }
 

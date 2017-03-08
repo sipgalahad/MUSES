@@ -21,10 +21,12 @@
             setDatePicker('<%=txtDateTo.ClientID %>');
 
             $('#<%=txtDateFrom.ClientID %>').change(function () {
-                cbpView.PerformCallback('refresh');
+                cbpTeacher.PerformCallback('refresh');
+                $('#tdDetail').attr('style', 'display:none');
             });
             $('#<%=txtDateTo.ClientID %>').change(function () {
-                cbpView.PerformCallback('refresh');
+                cbpTeacher.PerformCallback('refresh');
+                $('#tdDetail').attr('style', 'display:none');
             });
         });
 
@@ -115,38 +117,10 @@
         }
 
         function onTacPeriodSectionValueChanged() {
-            cbpView.PerformCallback('refresh');
+            cbpTeacher.PerformCallback('refresh');
+            $('#tdDetail').attr('style', 'display:none');
         }
         //#endregion
-
-        //#region Teacher
-         function onGetTeacherFilterExpression() {
-             var filterExpression = "TeacherID IN (SELECT TeacherID FROM TeacherSubject WHERE SiteID = '" + cboSite.GetValue() + "') AND IsDeleted = 0";
-             return filterExpression;
-         }
-
-         function onTacTeacherButtonSearchClick() {
-             openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
-                 var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
-                 Methods.getObject('GetvTeacherList', filterExpression, function (result) {
-                     if (result != null) {
-                         tacTeacher.setValue(result.TeacherID);
-                         tacTeacher.setText(result.TeacherName);
-                     }
-                     else {
-                         tacTeacher.setValue('');
-                         tacTeacher.setText('');
-                     }
-                     onTacTeacherValueChanged();
-                 });
-             });
-
-         }
-
-         function onTacTeacherValueChanged() {
-             cbpView.PerformCallback('refresh');
-         }
-         //#endregion
 
          $('.lblTaskCount').live('click', function () {
              $tr = $(this).closest('tr');
@@ -173,7 +147,16 @@
              var url = ResolveUrl("~/Program/StudentManagement/StudentMarkPerTeacher/StudentMarkPerTeacherInfoDtCtl.ascx");
              openUserControlPopup(url, itemID, 'Detail Informasi', 1200, 550);
          });
+
+         $('#<%=grdTeacher.ClientID %> tr:gt(0)').live('click', function () {
+             $('#<%=hdnTeacherID.ClientID %>').val($(this).find('.keyField').html());
+             $('#<%=grdTeacher.ClientID %> tr.selected').removeClass('selected');
+             $(this).addClass('selected');
+             cbpView.PerformCallback('refresh');
+             $('#tdDetail').removeAttr('style');
+         });
     </script>
+    <input type="hidden" id="hdnTeacherID" runat="server" />
     <table>
         <colgroup>
             <col style="width: 120px" />
@@ -184,16 +167,6 @@
                 <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="200px">
                     <ClientSideEvents Init="function(s,e){ onCboSiteValueChanged(); }"  ValueChanged="function(s,e){ onCboSiteValueChanged() }" />
                 </dxe:ASPxComboBox>
-            </td>
-        </tr>
-        <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Guru")%></label></td>
-            <td>
-                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTeacher" ClientInstanceName="tacTeacher" MethodName="GetTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
-                    SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
-                    <ClientSideEvents ButtonSearchClick="function(){ onTacTeacherButtonSearchClick(); }"
-                        ValueChanged="function(){ onTacTeacherValueChanged(); }" />
-                </cdx:CodeXAutoCompleteTextBox>   
             </td>
         </tr>
         <tr>
@@ -230,55 +203,90 @@
         </tr>
     </table>
     <div style="position: relative;">
-        <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
-            ShowLoadingPanel="false" OnCallback="cbpView_Callback">
-            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-                EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
-            <PanelCollection>
-                <dx:PanelContent ID="PanelContent1" runat="server">
-                    <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
-                        <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
-                            <Columns>
-                                <asp:BoundField DataField="ClassSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="SchoolClassName" HeaderText="Nama Kelas"/>
-                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" HeaderStyle-Width="250px" />
-                                <asp:TemplateField HeaderStyle-Width="150px" HeaderText="Jmlh Pertemuan" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
-                                    <ItemTemplate>
-                                        <label class="lblLink lblMeetingCount"><div id="divMeetingCount" runat="server"></div></label>
-                                    </ItemTemplate>
-                                </asp:TemplateField> 
-                                <asp:TemplateField HeaderStyle-Width="150px" HeaderText="Jmlh Penilaian" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
-                                    <ItemTemplate>
-                                        <label class="lblLink lblTaskCount"><div id="divTaskCount" runat="server"></div></label>
-                                    </ItemTemplate>
-                                </asp:TemplateField> 
-                                <asp:TemplateField HeaderStyle-Width="100px" HeaderText="< KKM" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
-                                    <ItemTemplate>
-                                        <label class="lblLink lblBelowPassingGradeCount"><div id="divBelowPassingGradeCount" runat="server"></div></label>
-                                    </ItemTemplate>
-                                </asp:TemplateField> 
-                                <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Jmlh Siswa" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
-                                    <ItemTemplate>
-                                        <div id="divStudentCount" runat="server"></div>
-                                    </ItemTemplate>
-                                </asp:TemplateField> 
-                            </Columns>
-                            <EmptyDataTemplate>
-                                <%=GetLabel("Data Tidak Tersedia")%>
-                            </EmptyDataTemplate>
-                        </asp:GridView>
-                    </asp:Panel>
-                </dx:PanelContent>
-            </PanelCollection>
-        </dxcp:ASPxCallbackPanel>    
-        <div class="imgLoadingGrdView" id="containerImgLoadingView" >
-            <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
-        </div>
-        <div class="containerPaging">
-            <div class="divInformationNumEntries" id="informationNumEntries"></div>
-            <div class="wrapperPaging">
-                <div id="paging"></div>
-            </div>
-        </div> 
+        <table style="width:100%">
+            <tr>
+                <td style="vertical-align:top; width:400px">
+                    <dxcp:ASPxCallbackPanel ID="cbpTeacher" runat="server" Width="100%" ClientInstanceName="cbpTeacher"
+                        ShowLoadingPanel="false" OnCallback="cbpTeacher_Callback">
+                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                            EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
+                        <PanelCollection>
+                            <dx:PanelContent ID="PanelContent2" runat="server">
+                                <asp:Panel runat="server" ID="Panel1" CssClass="pnlContainerGrid">
+                                    <asp:GridView ID="grdTeacher" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdTeacher_RowDataBound">
+                                        <Columns>
+                                            <asp:BoundField DataField="TeacherID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                            <asp:BoundField DataField="TeacherName" HeaderText="Nama Guru"/>
+                                            <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Pertemuan" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
+                                                <ItemTemplate>
+                                                    <div id="divMeetingCount" runat="server"></div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField> 
+                                        </Columns>
+                                        <EmptyDataTemplate>
+                                            <%=GetLabel("Data Tidak Tersedia")%>
+                                        </EmptyDataTemplate>
+                                    </asp:GridView>
+                                </asp:Panel>
+                            </dx:PanelContent>
+                        </PanelCollection>
+                    </dxcp:ASPxCallbackPanel>  
+                </td>
+                <td style="vertical-align:top;">
+                    <div id="tdDetail">
+                        <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
+                            ShowLoadingPanel="false" OnCallback="cbpView_Callback">
+                            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                                EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
+                            <PanelCollection>
+                                <dx:PanelContent ID="PanelContent1" runat="server">
+                                    <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
+                                        <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
+                                            <Columns>
+                                                <asp:BoundField DataField="ClassSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                <asp:BoundField DataField="SchoolClassName" HeaderText="Nama Kelas"/>
+                                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" HeaderStyle-Width="250px" />
+                                                <asp:TemplateField HeaderStyle-Width="120px" HeaderText="Jmlh Pertemuan" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
+                                                    <ItemTemplate>
+                                                        <label class="lblLink lblMeetingCount"><div id="divMeetingCount" runat="server"></div></label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField> 
+                                                <asp:TemplateField HeaderStyle-Width="120px" HeaderText="Jmlh Penilaian" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
+                                                    <ItemTemplate>
+                                                        <label class="lblLink lblTaskCount"><div id="divTaskCount" runat="server"></div></label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField> 
+                                                <asp:TemplateField HeaderStyle-Width="100px" HeaderText="< KKM" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
+                                                    <ItemTemplate>
+                                                        <label class="lblLink lblBelowPassingGradeCount"><div id="divBelowPassingGradeCount" runat="server"></div></label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField> 
+                                                <asp:TemplateField HeaderStyle-Width="100px" HeaderText="Jmlh Siswa" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
+                                                    <ItemTemplate>
+                                                        <div id="divStudentCount" runat="server"></div>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField> 
+                                            </Columns>
+                                            <EmptyDataTemplate>
+                                                <%=GetLabel("Data Tidak Tersedia")%>
+                                            </EmptyDataTemplate>
+                                        </asp:GridView>
+                                    </asp:Panel>
+                                </dx:PanelContent>
+                            </PanelCollection>
+                        </dxcp:ASPxCallbackPanel>    
+                        <div class="imgLoadingGrdView" id="containerImgLoadingView" >
+                            <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
+                        </div>
+                        <div class="containerPaging">
+                            <div class="divInformationNumEntries" id="informationNumEntries"></div>
+                            <div class="wrapperPaging">
+                                <div id="paging"></div>
+                            </div>
+                        </div> 
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 </asp:Content>

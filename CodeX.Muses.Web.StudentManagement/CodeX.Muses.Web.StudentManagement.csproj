@@ -125,6 +125,8 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx" />
+    <Content Include="Program\SchoolClass\SchoolClassAttendanceSummaryInformation\SchoolClassAttendanceSummaryDtCtl.ascx" />
+    <Content Include="Program\SchoolClass\SchoolClassAttendanceSummaryInformation\SchoolClassAttendanceSummaryInformation.aspx" />
     <Content Include="Program\SchoolClass\SchoolClassMeetingInformation\SchoolClassMeetingInformation.aspx" />
     <Content Include="Program\SchoolClass\SchoolClassStudentNoteInformation\SchoolClassStudentNoteInformation.aspx" />
     <Content Include="Program\SchoolClass\SchoolClassStudentNoteInformation\SchoolClassStudentNoteViewDtCtl.ascx" />
@@ -667,6 +669,20 @@
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\SchoolClass\SchoolClassAttendanceSummaryInformation\SchoolClassAttendanceSummaryDtCtl.ascx.cs">
+      <DependentUpon>SchoolClassAttendanceSummaryDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\SchoolClass\SchoolClassAttendanceSummaryInformation\SchoolClassAttendanceSummaryDtCtl.ascx.designer.cs">
+      <DependentUpon>SchoolClassAttendanceSummaryDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\SchoolClass\SchoolClassAttendanceSummaryInformation\SchoolClassAttendanceSummaryInformation.aspx.cs">
+      <DependentUpon>SchoolClassAttendanceSummaryInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\SchoolClass\SchoolClassAttendanceSummaryInformation\SchoolClassAttendanceSummaryInformation.aspx.designer.cs">
+      <DependentUpon>SchoolClassAttendanceSummaryInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\SchoolClass\SchoolClassMeetingInformation\SchoolClassMeetingInformation.aspx.cs">
       <DependentUpon>SchoolClassMeetingInformation.aspx</DependentUpon>

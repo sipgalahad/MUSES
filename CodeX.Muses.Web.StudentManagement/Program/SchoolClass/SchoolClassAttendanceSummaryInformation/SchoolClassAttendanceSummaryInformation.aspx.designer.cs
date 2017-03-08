@@ -7,82 +7,46 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.Information.Program {
+namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ClassMeetingHistoryDtCtl {
+    public partial class SchoolClassAttendanceSummaryInformation {
         
         /// <summary>
-        /// hdnPeriodSection control.
+        /// hdnListSaveValue control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPeriodSection;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
         
         /// <summary>
-        /// hdnClassSubjectID control.
+        /// hdnSubject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassSubjectID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubject;
         
         /// <summary>
-        /// hdnClassMeetingID control.
+        /// cboSubject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassMeetingID;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSubject;
         
         /// <summary>
-        /// hdnSchoolClassID control.
+        /// cbpView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSchoolClassID;
-        
-        /// <summary>
-        /// cbpViewPopup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopup;
-        
-        /// <summary>
-        /// PanelContent2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent2;
-        
-        /// <summary>
-        /// rptMeetingView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMeetingView;
-        
-        /// <summary>
-        /// cbpMeetingDetail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpMeetingDetail;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
         
         /// <summary>
         /// PanelContent1 control.
@@ -94,22 +58,13 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// txtRemarks control.
+        /// pnlView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
-        
-        /// <summary>
-        /// txtNextMeetingRemarks control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNextMeetingRemarks;
+        protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
         /// thHeaderAttendance control.
@@ -137,5 +92,41 @@ namespace CodeX.Muses.Web.Information.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptStudent;
+        
+        /// <summary>
+        /// pnlPrint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlPrint;
+        
+        /// <summary>
+        /// thHeaderAttendancePrint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thHeaderAttendancePrint;
+        
+        /// <summary>
+        /// rptHeaderPrint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderPrint;
+        
+        /// <summary>
+        /// rptStudentPrint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptStudentPrint;
     }
 }

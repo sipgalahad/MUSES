@@ -990,6 +990,7 @@ namespace CodeX.Common
                 public const string SC_STUDENT_MARK_PER_INDICATOR_ALL = "SM99090103";
                 public const string SC_CLASS_MEETING = "SM99090104";
                 public const string SC_STUDENT_NOTE = "SM99090105";
+                public const string SC_STUDENT_ATTENDANCE = "SM99090106";
 
                 public const string TEACHER_SCHOOL_CLASS_PAGE = "SM99100000";
                 public const string MTSC_STUDENT_MARK = "SM99100101";
@@ -997,6 +998,7 @@ namespace CodeX.Common
                 public const string MTSC_STUDENT_MARK_PER_INDICATOR_ALL = "SM99100103";
                 public const string MTSC_CLASS_MEETING = "SM99100104";
                 public const string MTSC_STUDENT_NOTE = "SM99100105";
+                public const string MTSC_STUDENT_ATTENDANCE = "SM99100106";
             }
             #endregion
             #endregion

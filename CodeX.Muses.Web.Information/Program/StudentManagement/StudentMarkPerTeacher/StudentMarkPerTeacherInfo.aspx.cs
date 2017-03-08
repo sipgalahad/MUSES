@@ -65,8 +65,8 @@ namespace CodeX.Muses.Web.Information.Program
         private void BindGridView()
         {
             string filterExpression = "1 = 0";
-            if (tacTeacher.Value != "" && tacSchoolPeriod.Value != "")
-                filterExpression = string.Format("SchoolPeriodID = {0} AND (TeacherID = {1} OR AssistantTeacherID = {1})", tacSchoolPeriod.Value, tacTeacher.Value);
+            if (hdnTeacherID.Value != "" && tacSchoolPeriod.Value != "")
+                filterExpression = string.Format("SchoolPeriodID = {0} AND (TeacherID = {1} OR AssistantTeacherID = {1})", tacSchoolPeriod.Value, hdnTeacherID.Value);
             List<vTeacherClassSubject> lstEntity = BusinessLayer.GetvTeacherClassSubjectList(filterExpression);
 
             if (lstEntity.Count > 0)
@@ -118,6 +118,32 @@ namespace CodeX.Muses.Web.Information.Program
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             BindGridView();
+        }
+
+        protected void cbpTeacher_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridViewTeacher();
+        }
+
+        private void BindGridViewTeacher()
+        {
+            if (tacPeriodSection.Value != "")
+                lstClassMeeting = BusinessLayer.GetvClassMeetingList(string.Format("PeriodSectionID = {0} AND MeetingDate BETWEEN '{1}' AND '{2}' AND IsDeleted = 0", tacPeriodSection.Value, Helper.GetDatePickerValue(txtDateFrom).ToString("yyyyMMdd"), Helper.GetDatePickerValue(txtDateTo).ToString("yyyyMMdd")));
+            else
+                lstClassMeeting = new List<vClassMeeting>();
+            List<vTeacher> lstEntity = BusinessLayer.GetvTeacherList(string.Format("TeacherID IN (SELECT TeacherID FROM TeacherSubject WHERE SiteID = '{0}') AND IsDeleted = 0", cboSite.Value));
+            grdTeacher.DataSource = lstEntity;
+            grdTeacher.DataBind();
+        }
+
+        protected void grdTeacher_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vTeacher entity = (vTeacher)e.Row.DataItem;
+                HtmlGenericControl divMeetingCount = (HtmlGenericControl)e.Row.FindControl("divMeetingCount");
+                divMeetingCount.InnerHtml = lstClassMeeting.Count(p => p.TeacherID == entity.TeacherID).ToString();
+            }
         }
     }
 }
