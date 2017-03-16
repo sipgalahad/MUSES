@@ -14226,8 +14226,13 @@ namespace CodeX.Data.Model
         private String _SiteID;
         private String _SiteName;
         private Int32 _ItemID;
+        private String _ItemCode;
         private String _ItemName1;
         private String _GCItemUnit;
+        private String _ItemUnit;
+        private Int32 _ItemGroupID;
+        private String _ItemGroupCode;
+        private String _ItemGroupName1;
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerCode;
         private String _BusinessPartnerName;
@@ -14237,6 +14242,7 @@ namespace CodeX.Data.Model
         private Int16 _SafetyTime;
         private Decimal _SafetyStock;
         private String _GCPurchaseUnit;
+        private String _PurchaseUnit;
         private Decimal _PurchaseUnitConversionFactor;
         private String _GCDistributionUnit;
         private Decimal _DistributionUnitConversionFactor;
@@ -14278,6 +14284,12 @@ namespace CodeX.Data.Model
             get { return _ItemID; }
             set { _ItemID = value; }
         }
+        [Column(Name = "ItemCode", DataType = "String")]
+        public String ItemCode
+        {
+            get { return _ItemCode; }
+            set { _ItemCode = value; }
+        }
         [Column(Name = "ItemName1", DataType = "String")]
         public String ItemName1
         {
@@ -14289,6 +14301,30 @@ namespace CodeX.Data.Model
         {
             get { return _GCItemUnit; }
             set { _GCItemUnit = value; }
+        }
+        [Column(Name = "ItemUnit", DataType = "String")]
+        public String ItemUnit
+        {
+            get { return _ItemUnit; }
+            set { _ItemUnit = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32")]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "ItemGroupCode", DataType = "String")]
+        public String ItemGroupCode
+        {
+            get { return _ItemGroupCode; }
+            set { _ItemGroupCode = value; }
+        }
+        [Column(Name = "ItemGroupName1", DataType = "String")]
+        public String ItemGroupName1
+        {
+            get { return _ItemGroupName1; }
+            set { _ItemGroupName1 = value; }
         }
         [Column(Name = "BusinessPartnerID", DataType = "Int32")]
         public Int32 BusinessPartnerID
@@ -14343,6 +14379,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCPurchaseUnit; }
             set { _GCPurchaseUnit = value; }
+        }
+        [Column(Name = "PurchaseUnit", DataType = "String")]
+        public String PurchaseUnit
+        {
+            get { return _PurchaseUnit; }
+            set { _PurchaseUnit = value; }
         }
         [Column(Name = "PurchaseUnitConversionFactor", DataType = "Decimal")]
         public Decimal PurchaseUnitConversionFactor
@@ -24396,6 +24438,10 @@ namespace CodeX.Data.Model
         private Decimal _LineAmountRoundedFormat;
         private Boolean _IsTotalAmountRounded;
         private Decimal _TotalAmountRoundedFormat;
+        private String _BankReferenceNo;
+        private String _GCBank;
+        private String _Bank;
+        private String _BankAccountHolder;
         private Int32 _TermID;
         private String _TermName;
         private Int32 _PurchaseOrderID;
@@ -24544,6 +24590,30 @@ namespace CodeX.Data.Model
         {
             get { return _TotalAmountRoundedFormat; }
             set { _TotalAmountRoundedFormat = value; }
+        }
+        [Column(Name = "BankReferenceNo", DataType = "String")]
+        public String BankReferenceNo
+        {
+            get { return _BankReferenceNo; }
+            set { _BankReferenceNo = value; }
+        }
+        [Column(Name = "GCBank", DataType = "String")]
+        public String GCBank
+        {
+            get { return _GCBank; }
+            set { _GCBank = value; }
+        }
+        [Column(Name = "Bank", DataType = "String")]
+        public String Bank
+        {
+            get { return _Bank; }
+            set { _Bank = value; }
+        }
+        [Column(Name = "BankAccountHolder", DataType = "String")]
+        public String BankAccountHolder
+        {
+            get { return _BankAccountHolder; }
+            set { _BankAccountHolder = value; }
         }
         [Column(Name = "TermID", DataType = "Int32")]
         public Int32 TermID
@@ -33917,6 +33987,8 @@ namespace CodeX.Data.Model
         private String _ShortName;
         private Int32 _TermID;
         private String _ContactPerson;
+        private String _EmailAddress1;
+        private String _EmailAddress2;
         private Decimal _MaxPOAmount;
         private Decimal _MinPOAmount;
         private Int32 _MaxPOItem;
@@ -33924,15 +33996,22 @@ namespace CodeX.Data.Model
         private Boolean _IsLogisticSupplier;
         private Boolean _IsPharmacySupplier;
         private Boolean _IsPaymentHold;
+        private String _BankReferenceNo;
+        private String _GCBank;
+        private String _Bank;
+        private String _BankAccountHolder;
         private String _AddressID;
         private String _PhoneNo1;
         private String _PhoneNo2;
+        private String _FaxNo1;
+        private String _FaxNo2;
         private String _StreetName;
         private String _County;
         private String _District;
         private String _City;
         private String _GCState;
         private String _State;
+        private Boolean _IsDeleted;
 
         [Column(Name = "BusinessPartnerID", DataType = "Int32")]
         public Int32 BusinessPartnerID
@@ -34018,6 +34097,18 @@ namespace CodeX.Data.Model
             get { return _ContactPerson; }
             set { _ContactPerson = value; }
         }
+        [Column(Name = "EmailAddress1", DataType = "String")]
+        public String EmailAddress1
+        {
+            get { return _EmailAddress1; }
+            set { _EmailAddress1 = value; }
+        }
+        [Column(Name = "EmailAddress2", DataType = "String")]
+        public String EmailAddress2
+        {
+            get { return _EmailAddress2; }
+            set { _EmailAddress2 = value; }
+        }
         [Column(Name = "MaxPOAmount", DataType = "Decimal")]
         public Decimal MaxPOAmount
         {
@@ -34060,6 +34151,30 @@ namespace CodeX.Data.Model
             get { return _IsPaymentHold; }
             set { _IsPaymentHold = value; }
         }
+        [Column(Name = "BankReferenceNo", DataType = "String")]
+        public String BankReferenceNo
+        {
+            get { return _BankReferenceNo; }
+            set { _BankReferenceNo = value; }
+        }
+        [Column(Name = "GCBank", DataType = "String")]
+        public String GCBank
+        {
+            get { return _GCBank; }
+            set { _GCBank = value; }
+        }
+        [Column(Name = "Bank", DataType = "String")]
+        public String Bank
+        {
+            get { return _Bank; }
+            set { _Bank = value; }
+        }
+        [Column(Name = "BankAccountHolder", DataType = "String")]
+        public String BankAccountHolder
+        {
+            get { return _BankAccountHolder; }
+            set { _BankAccountHolder = value; }
+        }
         [Column(Name = "AddressID", DataType = "String")]
         public String AddressID
         {
@@ -34077,6 +34192,18 @@ namespace CodeX.Data.Model
         {
             get { return _PhoneNo2; }
             set { _PhoneNo2 = value; }
+        }
+        [Column(Name = "FaxNo1", DataType = "String")]
+        public String FaxNo1
+        {
+            get { return _FaxNo1; }
+            set { _FaxNo1 = value; }
+        }
+        [Column(Name = "FaxNo2", DataType = "String")]
+        public String FaxNo2
+        {
+            get { return _FaxNo2; }
+            set { _FaxNo2 = value; }
         }
         [Column(Name = "StreetName", DataType = "String")]
         public String StreetName
@@ -34113,6 +34240,12 @@ namespace CodeX.Data.Model
         {
             get { return _State; }
             set { _State = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion

@@ -201,6 +201,18 @@
                                 </table>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("No Rekening")%></label></td>
+                            <td><asp:TextBox ID="txtBankReferenceNo" Width="100%" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Bank")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboBank" Width="100%" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Nama Pemilik Rekening")%></label></td>
+                            <td><asp:TextBox ID="txtBankAccountHolder" Width="100%" runat="server" /></td>
+                        </tr>
                     </table>
                 </div>
                 <h4 class="h4expanded"><%=GetLabel("Supplier Status")%></h4>

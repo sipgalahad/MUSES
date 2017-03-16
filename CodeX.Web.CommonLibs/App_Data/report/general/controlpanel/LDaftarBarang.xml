@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvItemPlanningList" headertext="Laporan Data Barang" filterexpression="IsDeleted = 0 ORDER BY ItemName1" papertype="A4_landscape" fontsize="8pt" isallowexportexcel="1" isallowprint="0"/>
+  <fields>
+    <field fieldtype="autonumber" headertext="No" width="4"/>
+    <field fieldname="ItemCode" headertext="Kode"  width="10"/>
+    <field fieldname="ItemName1" headertext="Nama Item" />
+    <field fieldname="ItemGroupName1" headertext="Kelompok" width="10"/>
+    <field fieldname="ItemUnit" headertext="Satuan Kecil" width="10"/>
+    <field fieldname="PurchaseUnit" headertext="Satuan Besar" width="10"/>
+    <field fieldname="PurchaseUnitConversionFactor" headertext="Konversi" width="10"/>
+    <field fieldname="BusinessPartnerName" headertext="Supplier" width="20"/>
+  </fields>
+</root>

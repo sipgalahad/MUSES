@@ -5,7 +5,7 @@
     <parameter code="FP001"/>
   </parameters>
   <fields>
-    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldtype="autonumber" headertext="No" width="4"/>
     <field fieldname="ItemName1" headertext="Item"/>
     <field fieldname="Quantity" headertext="Quantity" width="10" fieldtype="number"/>
     <field fieldname="ItemUnit" headertext="Satuan" width="10"/>
@@ -18,7 +18,7 @@
     <![CDATA[
     <table style="width:100%" cellspacing="0" cellpadding="0">
       <colgroup>
-        <col style="width:60%"/>
+        <col style="width:50%"/>
       </colgroup>
       <tr>
         <td valign="top">
@@ -30,9 +30,19 @@
             <tr><td>No Penerimaan</td><td align="center">:</td><td>{PurchaseReceiveNo}</td></tr>
             <tr><td>Tanggal Penerimaan</td><td align="center">:</td><td>{ReceivedDateInString}</td></tr>
             <tr><td>Lokasi</td><td align="center">:</td><td>{LocationName}</td></tr>
-            <tr><td>Supplier</td><td align="center">:</td><td>{SupplierName}</td></tr>
           </table>
-           	
+        </td>
+        <td valign="top">
+          <table cellspacing="0" cellpadding="0">
+            <colgroup>
+              <col style="width:110px"/>
+              <col style="width:20px"/>
+            </colgroup>      
+            <tr><td>Supplier</td><td align="center">:</td><td>{SupplierName}</td></tr>
+            <tr><td>Bank</td><td align="center">:</td><td>{Bank}</td></tr>
+            <tr><td>No Rekening</td><td align="center">:</td><td>{BankReferenceNo}</td></tr>
+            <tr><td>Nama Pemegang</td><td align="center">:</td><td>{BankAccountHolder}</td></tr>
+          </table>
         </td>
       </tr>
     </table>

@@ -155,6 +155,7 @@ namespace CodeX.Common
             public const string INDICATOR_MARK_TYPE = "X331";
             public const string VOUCHER_GROUP = "X332";
             public const string TREASURY_BOOK_TYPE = "X333";
+            public const string BANK = "X334";
 
         }
 

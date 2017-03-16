@@ -127,6 +127,12 @@
     <Content Include="App_Data\report\general\accounting\LDaftarSubAkun.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\report\general\controlpanel\LDaftarSupplier.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\controlpanel\LDaftarBarang.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\report\general\inventory\BPemesananBarangTanpaNilai.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

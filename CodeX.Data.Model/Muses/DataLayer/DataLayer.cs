@@ -38053,6 +38053,9 @@ namespace CodeX.Data.Model
         private Decimal _LineAmountRoundedFormat;
         private Boolean _IsTotalAmountRounded;
         private Decimal _TotalAmountRoundedFormat;
+        private String _BankReferenceNo;
+        private String _GCBank;
+        private String _BankAccountHolder;
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
 
@@ -38139,6 +38142,24 @@ namespace CodeX.Data.Model
         {
             get { return _TotalAmountRoundedFormat; }
             set { _TotalAmountRoundedFormat = value; }
+        }
+        [Column(Name = "BankReferenceNo", DataType = "String", IsNullable = true)]
+        public String BankReferenceNo
+        {
+            get { return _BankReferenceNo; }
+            set { _BankReferenceNo = value; }
+        }
+        [Column(Name = "GCBank", DataType = "String", IsNullable = true)]
+        public String GCBank
+        {
+            get { return _GCBank; }
+            set { _GCBank = value; }
+        }
+        [Column(Name = "BankAccountHolder", DataType = "String", IsNullable = true)]
+        public String BankAccountHolder
+        {
+            get { return _BankAccountHolder; }
+            set { _BankAccountHolder = value; }
         }
         [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
         public Int32? LastUpdatedBy

@@ -53,12 +53,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUPPLIER_TYPE));
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUPPLIER_TYPE, Constant.StandardCode.BANK));
             Methods.SetComboBoxField<StandardCode>(cboSupplierType, lstSc, "StandardCodeName", "StandardCodeID");
 
             List<Term> listTerm = BusinessLayer.GetTermList("IsDeleted = 0");
             listTerm.Insert(0, new Term { TermID = 0, TermName = "" });
             Methods.SetComboBoxField<Term>(cboTerm, listTerm, "TermName", "TermID");
+
+            lstSc.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
+            Methods.SetComboBoxField<StandardCode>(cboBank, lstSc.Where(p => p.StandardCodeID == "" || p.ParentID == Constant.StandardCode.BANK).ToList(), "StandardCodeName", "StandardCodeID");
 
             List<Site> listSite = BusinessLayer.GetSiteList("");
             listSite.Insert(0, new Site { SiteID = "", SiteName = "" });
@@ -90,6 +93,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtLineAmountRoundedFormat, new ControlEntrySetting(true, true, true, "0"));
             SetControlEntrySetting(chkIsTotalAmountRounded, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtTotalAmountRoundedFormat, new ControlEntrySetting(true, true, true, "0"));
+            SetControlEntrySetting(txtBankReferenceNo, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(cboBank, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtBankAccountHolder, new ControlEntrySetting(true, true, false));
             #endregion
 
             #region Supplier Status
@@ -157,6 +163,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             chkIsLineAmountRounded.Checked = entitySup.IsLineAmountRounded;
             txtTotalAmountRoundedFormat.Text = entitySup.TotalAmountRoundedFormat.ToString();
             chkIsTotalAmountRounded.Checked = entitySup.IsTotalAmountRounded;
+            txtBankAccountHolder.Text = entitySup.BankAccountHolder;
+            cboBank.Value = entitySup.GCBank;
+            txtBankReferenceNo.Text = entitySup.BankReferenceNo;
             #endregion
 
             #region Supplier Status
@@ -242,6 +251,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entitySup.TotalAmountRoundedFormat = Convert.ToDecimal(txtTotalAmountRoundedFormat.Text);
             else
                 entitySup.TotalAmountRoundedFormat = 0;
+            entitySup.BankAccountHolder = txtBankAccountHolder.Text;
+            if (cboBank.Value != null && cboBank.Value.ToString() != "")
+                entitySup.GCBank = cboBank.Value.ToString();
+            else
+                entitySup.GCBank = null;
+            entitySup.BankReferenceNo = txtBankReferenceNo.Text;
             #endregion
 
             #region Supplier Status

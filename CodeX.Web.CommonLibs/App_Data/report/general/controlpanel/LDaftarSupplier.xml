@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvSupplierList" headertext="Laporan Data Supplier" filterexpression="IsDeleted = 0 ORDER BY BusinessPartnerName" papertype="A4_landscape" fontsize="8pt" isallowexportexcel="1" isallowprint="0"/>
+  <fields>
+    <field fieldtype="autonumber" headertext="No" width="4"/>
+    <field fieldname="BusinessPartnerCode" headertext="Kode"  width="10"/>
+    <field fieldname="BusinessPartnerName" headertext="Nama" />
+    <field fieldname="ContactPerson" headertext="PIC" width="10"/>
+    <field fieldname="StreetName" headertext="Alamat" width="10"/>
+    <field fieldname="EmailAddress1" headertext="Email 1" width="10"/>
+    <field fieldname="EmailAddress2" headertext="Email 2" width="10"/>
+    <field fieldname="PhoneNo1" headertext="Phone 1" width="10"/>
+    <field fieldname="PhoneNo2" headertext="Phone 2" width="10"/>
+    <field fieldname="Bank" headertext="Bank" width="10"/>
+    <field fieldname="BankReferenceNo" headertext="No Rekening Bank" width="10"/>
+    <field fieldname="BankAccountHolder" headertext="Pemegang Rekening" width="10"/>
+  </fields>
+</root>
