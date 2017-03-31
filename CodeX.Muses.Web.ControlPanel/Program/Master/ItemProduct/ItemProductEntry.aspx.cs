@@ -61,12 +61,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             lstRestrictionHd.Insert(0, new RestrictionHd { RestrictionID = 0, RestrictionName = "" });
             Methods.SetComboBoxField<RestrictionHd>(cboTransactionRestriction, lstRestrictionHd, "RestrictionName", "RestrictionID");
 
-            string filterExpression = string.Format("ParentID IN ('{0}','{1}') AND IsDeleted = 0", Constant.StandardCode.ITEM_UNIT, Constant.StandardCode.ABC_CLASS);
+            string filterExpression = string.Format("ParentID IN ('{0}','{1}','{2}') AND IsDeleted = 0", Constant.StandardCode.ITEM_UNIT, Constant.StandardCode.ABC_CLASS, Constant.StandardCode.ITEM_STATUS);
 
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
             lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
 
             Methods.SetComboBoxField<StandardCode>(cboItemUnit, lstStandardCode.Where(sc => sc.ParentID == Constant.StandardCode.ITEM_UNIT).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboItemStatus, lstStandardCode.Where(sc => sc.ParentID == Constant.StandardCode.ITEM_STATUS).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetRadioButtonListField<StandardCode>(rblABCClass, lstStandardCode.Where(sc => sc.ParentID == Constant.StandardCode.ABC_CLASS).ToList(), "StandardCodeName", "StandardCodeID");
         }
 
@@ -82,6 +83,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(hdnProductBrandID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtProductBrandCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtProductBrandName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(cboItemStatus, new ControlEntrySetting(true, true, true));
             #endregion
 
             #region Finance Information
@@ -132,6 +134,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             hdnProductBrandID.Value = entity.ProductBrandID.ToString();
             txtProductBrandCode.Text = entity.ProductBrandCode;
             txtProductBrandName.Text = entity.ProductBrandName;
+            cboItemStatus.Value = entity.GCItemStatus;
             #endregion
 
             #region Finance Information
@@ -179,6 +182,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entityProduct.ProductBrandID = null;
             else
                 entityProduct.ProductBrandID = Convert.ToInt32(hdnProductBrandID.Value);
+            entity.GCItemStatus = cboItemStatus.Value.ToString();
             #endregion
 
             #region Finance Information

@@ -6118,6 +6118,8 @@ namespace CodeX.Data.Model
         private Decimal _TransactionAmountBeforeRounded;
         private Decimal _RoundedAmount;
         private Decimal _TotalNetTransactionAmount;
+        private String _ListSiteID;
+        private String _ListSiteName;
         private String _Remarks;
         private String _GCTransactionStatus;
         private String _TransactionStatusWatermark;
@@ -6322,6 +6324,18 @@ namespace CodeX.Data.Model
         {
             get { return _TotalNetTransactionAmount; }
             set { _TotalNetTransactionAmount = value; }
+        }
+        [Column(Name = "ListSiteID", DataType = "String")]
+        public String ListSiteID
+        {
+            get { return _ListSiteID; }
+            set { _ListSiteID = value; }
+        }
+        [Column(Name = "ListSiteName", DataType = "String")]
+        public String ListSiteName
+        {
+            get { return _ListSiteName; }
+            set { _ListSiteName = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -14747,6 +14761,7 @@ namespace CodeX.Data.Model
         private Decimal _CycleCountInterval;
         private Decimal _HETAmount;
         private String _Remarks;
+        private String _GCItemStatus;
         private Boolean _IsDeleted;
 
         [Column(Name = "ItemID", DataType = "Int32")]
@@ -14946,6 +14961,12 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
+        }
+        [Column(Name = "GCItemStatus", DataType = "String")]
+        public String GCItemStatus
+        {
+            get { return _GCItemStatus; }
+            set { _GCItemStatus = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -23032,9 +23053,15 @@ namespace CodeX.Data.Model
         private String _PurchaseInvoiceNo;
         private Int32 _PurchaseReceiveID;
         private String _PurchaseReceiveNo;
+        private Int32 _PurchaseReturnID;
+        private Int32 _CreditNoteID;
+        private Boolean _IsCreditNoteOnly;
         private Int32 _GLAPOtherID;
         private String _APOtherCode;
         private String _APOtherName;
+        private Int32 _SiteServiceUnitID;
+        private String _ServiceUnitCode;
+        private String _ServiceUnitName;
         private DateTime _PurchaseInvoiceDate;
         private DateTime _ReceivedDate;
         private DateTime _PaymentDueDate;
@@ -23056,9 +23083,11 @@ namespace CodeX.Data.Model
         private Boolean _IsDeleted;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
-        private Int32 _PurchaseReturnID;
         private Decimal _LineAmount;
+        private String _Remarks;
         private Boolean _IsHasCreditNote;
+        private String _ListSiteID;
+        private String _ListSiteName;
         private String _CreatedByUserName;
 
         [Column(Name = "ID", DataType = "Int32")]
@@ -23091,6 +23120,24 @@ namespace CodeX.Data.Model
             get { return _PurchaseReceiveNo; }
             set { _PurchaseReceiveNo = value; }
         }
+        [Column(Name = "PurchaseReturnID", DataType = "Int32")]
+        public Int32 PurchaseReturnID
+        {
+            get { return _PurchaseReturnID; }
+            set { _PurchaseReturnID = value; }
+        }
+        [Column(Name = "CreditNoteID", DataType = "Int32")]
+        public Int32 CreditNoteID
+        {
+            get { return _CreditNoteID; }
+            set { _CreditNoteID = value; }
+        }
+        [Column(Name = "IsCreditNoteOnly", DataType = "Boolean")]
+        public Boolean IsCreditNoteOnly
+        {
+            get { return _IsCreditNoteOnly; }
+            set { _IsCreditNoteOnly = value; }
+        }
         [Column(Name = "GLAPOtherID", DataType = "Int32")]
         public Int32 GLAPOtherID
         {
@@ -23108,6 +23155,24 @@ namespace CodeX.Data.Model
         {
             get { return _APOtherName; }
             set { _APOtherName = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32")]
+        public Int32 SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
+        }
+        [Column(Name = "ServiceUnitCode", DataType = "String")]
+        public String ServiceUnitCode
+        {
+            get { return _ServiceUnitCode; }
+            set { _ServiceUnitCode = value; }
+        }
+        [Column(Name = "ServiceUnitName", DataType = "String")]
+        public String ServiceUnitName
+        {
+            get { return _ServiceUnitName; }
+            set { _ServiceUnitName = value; }
         }
         [Column(Name = "PurchaseInvoiceDate", DataType = "DateTime")]
         public DateTime PurchaseInvoiceDate
@@ -23235,23 +23300,35 @@ namespace CodeX.Data.Model
             get { return _TransactionStatus; }
             set { _TransactionStatus = value; }
         }
-        [Column(Name = "PurchaseReturnID", DataType = "Int32")]
-        public Int32 PurchaseReturnID
-        {
-            get { return _PurchaseReturnID; }
-            set { _PurchaseReturnID = value; }
-        }
         [Column(Name = "LineAmount", DataType = "Decimal")]
         public Decimal LineAmount
         {
             get { return _LineAmount; }
             set { _LineAmount = value; }
         }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
         [Column(Name = "IsHasCreditNote", DataType = "Boolean")]
         public Boolean IsHasCreditNote
         {
             get { return _IsHasCreditNote; }
             set { _IsHasCreditNote = value; }
+        }
+        [Column(Name = "ListSiteID", DataType = "String")]
+        public String ListSiteID
+        {
+            get { return _ListSiteID; }
+            set { _ListSiteID = value; }
+        }
+        [Column(Name = "ListSiteName", DataType = "String")]
+        public String ListSiteName
+        {
+            get { return _ListSiteName; }
+            set { _ListSiteName = value; }
         }
         [Column(Name = "CreatedByUserName", DataType = "String")]
         public String CreatedByUserName

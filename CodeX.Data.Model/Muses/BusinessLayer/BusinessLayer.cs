@@ -4923,6 +4923,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region DirectPurchaseHdSite
+        public static DirectPurchaseHdSite GetDirectPurchaseHdSite(Int32 DirectPurchaseID, String SiteID)
+        {
+            return new DirectPurchaseHdSiteDao().Get(DirectPurchaseID, SiteID);
+        }
+        public static int InsertDirectPurchaseHdSite(DirectPurchaseHdSite record)
+        {
+            return new DirectPurchaseHdSiteDao().Insert(record);
+        }
+        public static int UpdateDirectPurchaseHdSite(DirectPurchaseHdSite record)
+        {
+            return new DirectPurchaseHdSiteDao().Update(record);
+        }
+        public static int DeleteDirectPurchaseHdSite(Int32 DirectPurchaseID, String SiteID)
+        {
+            return new DirectPurchaseHdSiteDao().Delete(DirectPurchaseID, SiteID);
+        }
+        public static List<DirectPurchaseHdSite> GetDirectPurchaseHdSiteList(string filterExpression)
+        {
+            List<DirectPurchaseHdSite> result = new List<DirectPurchaseHdSite>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(DirectPurchaseHdSite));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((DirectPurchaseHdSite)helper.IDataReaderToObject(reader, new DirectPurchaseHdSite()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<DirectPurchaseHdSite> GetDirectPurchaseHdSiteList(string filterExpression, IDbContext ctx)
+        {
+            List<DirectPurchaseHdSite> result = new List<DirectPurchaseHdSite>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(DirectPurchaseHdSite));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((DirectPurchaseHdSite)helper.IDataReaderToObject(reader, new DirectPurchaseHdSite()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region DirectPurchaseReturnDt
         public static DirectPurchaseReturnDt GetDirectPurchaseReturnDt(Int32 ID)
         {
@@ -12813,6 +12870,63 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region PurchaseInvoiceDtSite
+        public static PurchaseInvoiceDtSite GetPurchaseInvoiceDtSite(Int32 PurchaseInvoiceDtID, String SiteID)
+        {
+            return new PurchaseInvoiceDtSiteDao().Get(PurchaseInvoiceDtID, SiteID);
+        }
+        public static int InsertPurchaseInvoiceDtSite(PurchaseInvoiceDtSite record)
+        {
+            return new PurchaseInvoiceDtSiteDao().Insert(record);
+        }
+        public static int UpdatePurchaseInvoiceDtSite(PurchaseInvoiceDtSite record)
+        {
+            return new PurchaseInvoiceDtSiteDao().Update(record);
+        }
+        public static int DeletePurchaseInvoiceDtSite(Int32 PurchaseInvoiceDtID, String SiteID)
+        {
+            return new PurchaseInvoiceDtSiteDao().Delete(PurchaseInvoiceDtID, SiteID);
+        }
+        public static List<PurchaseInvoiceDtSite> GetPurchaseInvoiceDtSiteList(string filterExpression)
+        {
+            List<PurchaseInvoiceDtSite> result = new List<PurchaseInvoiceDtSite>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseInvoiceDtSite));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseInvoiceDtSite)helper.IDataReaderToObject(reader, new PurchaseInvoiceDtSite()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<PurchaseInvoiceDtSite> GetPurchaseInvoiceDtSiteList(string filterExpression, IDbContext ctx)
+        {
+            List<PurchaseInvoiceDtSite> result = new List<PurchaseInvoiceDtSite>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseInvoiceDtSite));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseInvoiceDtSite)helper.IDataReaderToObject(reader, new PurchaseInvoiceDtSite()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

@@ -160,6 +160,10 @@
                                 </table>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Status Item")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboItemStatus" Width="130px" runat="server" /></td>
+                        </tr>
                     </table>
                 </div>
                 <h4 class="h4expanded"><%=GetLabel("Informasi Persediaan")%></h4>

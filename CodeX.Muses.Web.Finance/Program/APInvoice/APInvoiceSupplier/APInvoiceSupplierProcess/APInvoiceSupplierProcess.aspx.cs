@@ -30,6 +30,10 @@ namespace CodeX.Muses.Web.Finance.Program
                 return (MPSupplierPageTrx)Master;
             }
         }
+        protected string OnGetFilterExpressionServiceUnit()
+        {
+            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+        }
 
         protected override void InitializeDataControl()
         {
@@ -53,6 +57,7 @@ namespace CodeX.Muses.Web.Finance.Program
             Helper.SetControlEntrySetting(txtPurchaseInvoiceDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtSupplierInvoiceDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtTaxInvoiceDate, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtInvoiceNo, new ControlEntrySetting(true, true, true), "mpTrxPopup");
 
             txtDueDate.Text = DateTime.Today.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
@@ -62,8 +67,24 @@ namespace CodeX.Muses.Web.Finance.Program
             txtTaxInvoiceDate.Text = DateTime.Today.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
         }
 
+        protected void rptSite_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Site obj = (Site)e.Item.DataItem;
+                CheckBox chkSite = (CheckBox)e.Item.FindControl("chkSite");
+                chkSite.Attributes.Add("sitename", obj.SiteName);
+                chkSite.Attributes.Add("siteid", obj.SiteID);
+            }
+        }
+
         protected override void SetControlProperties()
         {
+            Repeater rptSite = (Repeater)ddeSite.FindControl("rptSite");
+            List<Site> lstSite = BusinessLayer.GetSiteList(string.Format("IsHeader = 0"));
+            rptSite.DataSource = lstSite;
+            rptSite.DataBind();
+
             List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_TYPE, Constant.StandardCode.CURRENCY_CODE, Constant.StandardCode.PURCHASE_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboItemType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_TYPE && (p.StandardCodeID == Constant.ItemType.PRODUCT)).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             cboItemType.SelectedIndex = 0;
@@ -491,6 +512,7 @@ namespace CodeX.Muses.Web.Finance.Program
         private void ControlToEntity(PurchaseInvoiceDt entityDt)
         {
             entityDt.GLAPOtherID = Convert.ToInt32(cboGLAPOther.Value);
+            entityDt.SiteServiceUnitID = Convert.ToInt32(hdnSiteServiceUnitID.Value);
             entityDt.TransactionAmount = Convert.ToDecimal(Request.Form[txtTransactionAmount.UniqueID]);
             entityDt.FinalDiscountAmount = Convert.ToDecimal(Request.Form[txtDiscountAmount.UniqueID]);
             entityDt.VATAmount = Convert.ToDecimal(Request.Form[txtVAT.UniqueID]);
@@ -503,6 +525,7 @@ namespace CodeX.Muses.Web.Finance.Program
             entityDt.ReferenceNo = txtInvoiceNo.Text;
             entityDt.ReferenceDate = Helper.GetDatePickerValue(txtInvoiceDate.Text);
             entityDt.LineAmount = entityDt.TransactionAmount - entityDt.DiscountAmount - entityDt.FinalDiscountAmount + entityDt.VATAmount + entityDt.PPH23Amount + entityDt.PPH25Amount + entityDt.StampAmount + entityDt.ChargesAmount - entityDt.DownPaymentAmount - entityDt.CreditNoteAmount;
+            entityDt.Remarks = txtRemarksDt.Text;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int PurchaseInvoiceID)
@@ -510,6 +533,7 @@ namespace CodeX.Muses.Web.Finance.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             PurchaseInvoiceDtDao entityDtDao = new PurchaseInvoiceDtDao(ctx);
+            PurchaseInvoiceDtSiteDao entityDtSiteDao = new PurchaseInvoiceDtSiteDao(ctx);
             try
             {
                 SavePurchaseInvoiceHd(ctx, ref PurchaseInvoiceID);
@@ -517,7 +541,16 @@ namespace CodeX.Muses.Web.Finance.Program
                 ControlToEntity(entityDt);
                 entityDt.PurchaseInvoiceID = PurchaseInvoiceID;
                 entityDt.CreatedBy = AppSession.UserLogin.UserID;
-                entityDtDao.Insert(entityDt);
+                entityDt.ID = entityDtDao.Insert(entityDt);
+
+                string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                foreach (string siteID in lstSiteID)
+                {
+                    PurchaseInvoiceDtSite entityDtSite = new PurchaseInvoiceDtSite();
+                    entityDtSite.PurchaseInvoiceDtID = entityDt.ID;
+                    entityDtSite.SiteID = siteID;
+                    entityDtSiteDao.Insert(entityDtSite);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -539,12 +572,34 @@ namespace CodeX.Muses.Web.Finance.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             PurchaseInvoiceDtDao entityDtDao = new PurchaseInvoiceDtDao(ctx);
+            PurchaseInvoiceDtSiteDao entityDtSiteDao = new PurchaseInvoiceDtSiteDao(ctx);
             try
             {
                 PurchaseInvoiceDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entityDt);
                 entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDtDao.Update(entityDt);
+
+                List<PurchaseInvoiceDtSite> lstEntityDtSite = BusinessLayer.GetPurchaseInvoiceDtSiteList(string.Format("PurchaseInvoiceDtID = {0}", entityDt.ID), ctx);
+                string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                foreach (string siteID in lstSiteID)
+                {
+                    PurchaseInvoiceDtSite entityDtSite = lstEntityDtSite.FirstOrDefault(p => p.SiteID == siteID);
+                    if (entityDtSite == null)
+                    {
+                        entityDtSite = new PurchaseInvoiceDtSite();
+                        entityDtSite.PurchaseInvoiceDtID = entityDt.ID;
+                        entityDtSite.SiteID = siteID;
+                        entityDtSiteDao.Insert(entityDtSite);
+                    }
+                    else
+                        lstEntityDtSite.Remove(entityDtSite);
+                }
+
+                foreach (PurchaseInvoiceDtSite entityDtSite in lstEntityDtSite)
+                {
+                    entityDtSiteDao.Delete(entityDtSite.PurchaseInvoiceDtID, entityDtSite.SiteID);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

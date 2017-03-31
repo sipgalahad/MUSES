@@ -274,6 +274,60 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGLAPOther;
         
         /// <summary>
+        /// lblSiteServiceUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSiteServiceUnit;
+        
+        /// <summary>
+        /// hdnSiteServiceUnitID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteServiceUnitID;
+        
+        /// <summary>
+        /// txtServiceUnitCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtServiceUnitCode;
+        
+        /// <summary>
+        /// txtServiceUnitName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtServiceUnitName;
+        
+        /// <summary>
+        /// hdnLstSiteID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstSiteID;
+        
+        /// <summary>
+        /// ddeSite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeSite;
+        
+        /// <summary>
         /// txtPurchaseRcvNo control.
         /// </summary>
         /// <remarks>
@@ -389,6 +443,15 @@ namespace CodeX.Muses.Web.Finance.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCreditNote;
+        
+        /// <summary>
+        /// txtRemarksDt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRemarksDt;
         
         /// <summary>
         /// cbpView control.

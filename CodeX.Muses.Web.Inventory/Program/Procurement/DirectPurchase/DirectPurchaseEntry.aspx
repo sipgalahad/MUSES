@@ -348,6 +348,7 @@
                     $('#<%=hdnItemID.ClientID %>').val('');
                     $('#<%=hdnGCItemUnit.ClientID %>').val('');
                     $('#<%=hdnGCBaseUnit.ClientID %>').val('');
+                    $('#<%=hdnItemGroupID.ClientID %>').val('');
                     $('#<%=txtItemGroupCode.ClientID %>').val('');
                     $('#<%=txtItemGroupName.ClientID %>').val('');
                     $('#<%=txtItemCode.ClientID %>').val('');
@@ -506,6 +507,25 @@
                 $(this).trigger('changeValue');
             });
 
+            $('.chkSite input').change(function () {
+                setDdeSiteText();
+            });
+
+            $('.chkSite input:checked').each(function () {
+                $(this).prop('checked', false);
+            });
+
+            if ($('#<%=hdnLstSiteID.ClientID %>').val() != '') {
+                var lstSiteID = $('#<%=hdnLstSiteID.ClientID %>').val().split(',');
+                for (var i = 0; i < lstSiteID.length; ++i) {
+                    $('.chkSite').each(function () {
+                        if ($(this).attr('siteID') == lstSiteID[i])
+                            $(this).find('input').prop('checked', true);
+                    });
+                }
+            }
+            setDdeSiteText();
+
             var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
             var rowCount = parseInt($('#<%=hdnRowCount.ClientID %>').val());
             var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
@@ -541,6 +561,9 @@
             $('#<%=txtDiscountPercentage.ClientID %>').val(entity.DiscountPercentage).trigger('changeValue');
             $('#<%=txtDiscountAmount.ClientID %>').val(entity.DiscountAmount).trigger('changeValue');
             $('#<%=hdnItemID.ClientID %>').val(entity.ItemID);
+            $('#<%=hdnItemGroupID.ClientID %>').val(entity.ItemGroupID);
+            $('#<%=txtItemGroupCode.ClientID %>').val(entity.ItemGroupCode);
+            $('#<%=txtItemGroupName.ClientID %>').val(entity.ItemGroupName1);
             $('#<%=txtQuantity.ClientID %>').val(entity.Quantity);
 
             var isNonMasterItem = entity.ItemID == $('#<%=hdnNonMasterItemID.ClientID %>').val();
@@ -722,6 +745,21 @@
         }
         //#endregion
 
+        function setDdeSiteText() {
+            var lstSiteID = '';
+            var lstSiteName = '';
+            $('.chkSite input:checked').each(function () {
+                if (lstSiteName != '') {
+                    lstSiteName += ', ';
+                    lstSiteID += ',';
+                }
+                lstSiteID += $(this).parent().attr('siteid');
+                lstSiteName += $(this).parent().attr('sitename');
+            });
+            $('#<%=hdnLstSiteID.ClientID %>').val(lstSiteID);
+            ddeSite.SetText(lstSiteName);
+        }
+
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
             var ID = $('#<%=hdnDirectPurchaseID.ClientID %>').val();
             var printStatus = $('#<%=hdnPrintStatus.ClientID %>').val();
@@ -848,6 +886,23 @@
                             </td>
                         </tr>
                         <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Unit")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnLstSiteID" value="" runat="server" />
+                                <dxe:ASPxDropDownEdit ClientInstanceName="ddeSite" ID="ddeSite"
+                                    Width="300px" runat="server" EnableAnimation="False">
+                                    <DropDownWindowStyle BackColor="#EDEDED" />
+                                    <DropDownWindowTemplate>
+                                        <asp:Repeater ID="rptSite" runat="server" OnItemDataBound="rptSite_ItemDataBound">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkSite" CssClass="chkSite" runat="server"  /> <%#Eval("SiteName") %><br />
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </DropDownWindowTemplate>
+                                </dxe:ASPxDropDownEdit>
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblLocation"><%=GetLabel("Lokasi")%></label></td>
                             <td>
                                 <input type="hidden" id="hdnLocationID" value="" runat="server" />
@@ -907,11 +962,11 @@
                                         <td valign="top">
                                             <table>
                                                 <colgroup>
-                                                    <col style="width: 120px" />
+                                                    <col style="width: 130px" />
                                                     <col  style="width: 300px"/>
                                                 </colgroup>
                                                 <tr>
-                                                    <td class="tdLabel"><label class="lblLink" id="lblItemGroup"><%=GetLabel("Kelompok Item")%></label></td>
+                                                    <td class="tdLabel"><label class="lblLink lblMandatory" id="lblItemGroup"><%=GetLabel("Kelompok Item")%></label></td>
                                                     <td>
                                                         <input type="hidden" value="" id="hdnItemGroupID" runat="server" />
                                                         <table style="width:100%" cellpadding="0" cellspacing="0">

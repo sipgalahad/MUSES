@@ -119,6 +119,7 @@ namespace CodeX.Common
             public const string CHECK_COUNT_TYPE = "X177";
             public const string SUPPLIER_PAYMENT_METHOD = "X178";
             public const string GLACCOUNT_TYPE = "X180";
+            public const string ITEM_STATUS = "X181";
             public const string WRITE_OFF_TYPE = "X182";
             public const string ASSET_SALES_TYPE = "X183";
             public const string SUPPLIER_TYPE = "X186";

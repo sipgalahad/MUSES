@@ -9050,6 +9050,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ID;
         private Int32 _DirectPurchaseID;
+        private Int32? _ItemGroupID;
         private Int32 _ItemID;
         private String _ItemName1;
         private Int32? _PurchaseRequestID;
@@ -9082,6 +9083,12 @@ namespace CodeX.Data.Model
         {
             get { return _DirectPurchaseID; }
             set { _DirectPurchaseID = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32", IsNullable = true)]
+        public Int32? ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
         }
         [Column(Name = "ItemID", DataType = "Int32")]
         public Int32 ItemID
@@ -9495,6 +9502,70 @@ namespace CodeX.Data.Model
                 record = new DirectPurchaseHdDao().Get(DirectPurchaseID);
             else
                 record = Get(DirectPurchaseID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region DirectPurchaseHdSite
+    [Serializable]
+    [Table(Name = "DirectPurchaseHdSite")]
+    public class DirectPurchaseHdSite : DbDataModel
+    {
+        private Int32 _DirectPurchaseID;
+        private String _SiteID;
+
+        [Column(Name = "DirectPurchaseID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 DirectPurchaseID
+        {
+            get { return _DirectPurchaseID; }
+            set { _DirectPurchaseID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+    }
+
+    public class DirectPurchaseHdSiteDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(DirectPurchaseHdSite));
+        private bool _isAuditLog = false;
+        private const string p_DirectPurchaseID = "@p_DirectPurchaseID";
+        private const string p_SiteID = "@p_SiteID";
+        public DirectPurchaseHdSiteDao() { }
+        public DirectPurchaseHdSiteDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public DirectPurchaseHdSite Get(Int32 DirectPurchaseID, String SiteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_DirectPurchaseID, DirectPurchaseID);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (DirectPurchaseHdSite)_helper.DataRowToObject(row, new DirectPurchaseHdSite());
+        }
+        public int Insert(DirectPurchaseHdSite record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(DirectPurchaseHdSite record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 DirectPurchaseID, String SiteID)
+        {
+            DirectPurchaseHdSite record;
+            if (_ctx.Transaction == null)
+                record = new DirectPurchaseHdSiteDao().Get(DirectPurchaseID, SiteID);
+            else
+                record = Get(DirectPurchaseID, SiteID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -24931,6 +25002,7 @@ namespace CodeX.Data.Model
         private Int32? _CreditNoteID;
         private Boolean _IsCreditNoteOnly;
         private Int32? _GLAPOtherID;
+        private Int32? _SiteServiceUnitID;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
         private Decimal _TransactionAmount;
@@ -24945,6 +25017,7 @@ namespace CodeX.Data.Model
         private Decimal _DownPaymentAmount;
         private Decimal _LineAmount;
         private Decimal _PaymentAmount;
+        private String _Remarks;
         private Boolean _IsDeleted;
         private Int32 _CreatedBy;
         private DateTime _CreatedDate;
@@ -24992,6 +25065,12 @@ namespace CodeX.Data.Model
         {
             get { return _GLAPOtherID; }
             set { _GLAPOtherID = value; }
+        }
+        [Column(Name = "SiteServiceUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? SiteServiceUnitID
+        {
+            get { return _SiteServiceUnitID; }
+            set { _SiteServiceUnitID = value; }
         }
         [Column(Name = "ReferenceNo", DataType = "String")]
         public String ReferenceNo
@@ -25076,6 +25155,12 @@ namespace CodeX.Data.Model
         {
             get { return _PaymentAmount; }
             set { _PaymentAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -25302,6 +25387,70 @@ namespace CodeX.Data.Model
                 record = new PurchaseInvoiceDtPaymentDao().Get(ID);
             else
                 record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PurchaseInvoiceDtSite
+    [Serializable]
+    [Table(Name = "PurchaseInvoiceDtSite")]
+    public class PurchaseInvoiceDtSite : DbDataModel
+    {
+        private Int32 _PurchaseInvoiceDtID;
+        private String _SiteID;
+
+        [Column(Name = "PurchaseInvoiceDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PurchaseInvoiceDtID
+        {
+            get { return _PurchaseInvoiceDtID; }
+            set { _PurchaseInvoiceDtID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+    }
+
+    public class PurchaseInvoiceDtSiteDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PurchaseInvoiceDtSite));
+        private bool _isAuditLog = false;
+        private const string p_PurchaseInvoiceDtID = "@p_PurchaseInvoiceDtID";
+        private const string p_SiteID = "@p_SiteID";
+        public PurchaseInvoiceDtSiteDao() { }
+        public PurchaseInvoiceDtSiteDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PurchaseInvoiceDtSite Get(Int32 PurchaseInvoiceDtID, String SiteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PurchaseInvoiceDtID, PurchaseInvoiceDtID);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PurchaseInvoiceDtSite)_helper.DataRowToObject(row, new PurchaseInvoiceDtSite());
+        }
+        public int Insert(PurchaseInvoiceDtSite record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PurchaseInvoiceDtSite record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PurchaseInvoiceDtID, String SiteID)
+        {
+            PurchaseInvoiceDtSite record;
+            if (_ctx.Transaction == null)
+                record = new PurchaseInvoiceDtSiteDao().Get(PurchaseInvoiceDtID, SiteID);
+            else
+                record = Get(PurchaseInvoiceDtID, SiteID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

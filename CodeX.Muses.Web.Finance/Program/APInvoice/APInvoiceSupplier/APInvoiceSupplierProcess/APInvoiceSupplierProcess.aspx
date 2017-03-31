@@ -64,6 +64,16 @@
                     $('#<%=txtDownPayment.ClientID %>').val('').trigger('changeValue');
                     $('#<%=txtCreditNote.ClientID %>').val('').trigger('changeValue');
 
+                    $('#<%=hdnSiteServiceUnitID.ClientID %>').val('');
+                    $('#<%=txtServiceUnitCode.ClientID %>').val('');
+                    $('#<%=txtServiceUnitName.ClientID %>').val('');
+                    $('#<%=txtRemarksDt.ClientID %>').val('');
+
+                    $('.chkSite input:checked').each(function () {
+                        $(this).prop('checked', false);
+                    });
+                    setDdeSiteText();
+
                     $('#entryDetailContainer').show();
                 }
             });
@@ -73,7 +83,7 @@
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
                     showLoadingPanel();
                     var id = $('#<%=hdnPurchaseInvoiceID.ClientID %>').val() + '|' + cboItemType.GetValue() + '|' + cboPurchaseType.GetValue();
-                    var url = ResolveUrl('~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCtl.ascx');
+                    var url = ResolveUrl('~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCtl.ascx');
                     openUserControlPopup(url, id, 'Pilih Penerimaan Pembelian', 1000, 600);
                 }
             });
@@ -82,7 +92,7 @@
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
                     showLoadingPanel();
                     var id = $('#<%=hdnPurchaseInvoiceID.ClientID %>').val() + '|' + cboItemType.GetValue() + '|' + cboPurchaseType.GetValue();
-                    var url = ResolveUrl('~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessPurchaseReturnCtl.ascx');
+                    var url = ResolveUrl('~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessPurchaseReturnCtl.ascx');
                     openUserControlPopup(url, id, 'Pilih Retur Pembelian', 1000, 600);
                 }
             });
@@ -146,6 +156,39 @@
             }
             //#endregion
 
+            //#region Site Service Unit
+            function getSiteServiceUnitFilterExpression() {
+                var filterExpression = "<%=OnGetFilterExpressionServiceUnit() %>";
+                return filterExpression;
+            }
+
+            $('#<%=lblSiteServiceUnit.ClientID %>.lblLink').live('click', function () {
+                openSearchDialog('serviceunitpersite', getSiteServiceUnitFilterExpression(), function (value) {
+                    $('#<%=txtServiceUnitCode.ClientID %>').val(value);
+                    onTxtServiceUnitCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtServiceUnitCode.ClientID %>').live('change', function () {
+                onTxtServiceUnitCodeChanged($(this).val());
+            });
+
+            function onTxtServiceUnitCodeChanged(value) {
+                var filterExpression = getSiteServiceUnitFilterExpression() + " AND ServiceUnitCode = '" + value + "'";
+                Methods.getObject('GetvSiteServiceUnitList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
+                        $('#<%=txtServiceUnitName.ClientID %>').val(result.ServiceUnitName);
+                    }
+                    else {
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val('');
+                        $('#<%=txtServiceUnitCode.ClientID %>').val('');
+                        $('#<%=txtServiceUnitName.ClientID %>').val('');
+                    }
+                });
+            }
+            //#endregion
+
             $('.txtCurrency').each(function () {
                 $(this).trigger('changeValue');
             });
@@ -186,9 +229,9 @@
                 var id = entity.ID + '|' + entity.PurchaseReceiveID;
                 var url = '';
                 if ($(this).attr('isalloweditpurchasereceive') == '1')
-                    url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessEditCtl.ascx");
+                    url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessEditCtl.ascx");
                 else
-                    url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessEdit2Ctl.ascx");
+                    url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessEdit2Ctl.ascx");
                 openUserControlPopup(url, id, 'Ubah Penerimaan Pembelian', 1250, 600);
             }
             else {
@@ -206,6 +249,23 @@
                 $('#<%=txtChargesAmount.ClientID %>').val(entity.ChargesAmount).trigger('changeValue');
                 $('#<%=txtDownPayment.ClientID %>').val(entity.DownPaymentAmount).trigger('changeValue');
                 $('#<%=txtCreditNote.ClientID %>').val(entity.CreditNoteAmount).trigger('changeValue');
+                $('#<%=hdnSiteServiceUnitID.ClientID %>').val(entity.SiteServiceUnitID);
+                $('#<%=txtServiceUnitCode.ClientID %>').val(entity.ServiceUnitCode);
+                $('#<%=txtServiceUnitName.ClientID %>').val(entity.ServiceUnitName);
+                $('#<%=txtRemarksDt.ClientID %>').val(entity.Remarks);
+
+                $('.chkSite input:checked').each(function () {
+                    $(this).prop('checked', false);
+                });
+
+                var lstSiteID = entity.ListSiteID.split(',');
+                for (var i = 0; i < lstSiteID.length; ++i) {
+                    $('.chkSite').each(function () {
+                        if ($(this).attr('siteid') == lstSiteID[i])
+                            $(this).find('input').prop('checked', true);
+                    });
+                }
+                setDdeSiteText();
 
                 $('#entryDetailContainer').show();
             }
@@ -333,7 +393,7 @@
             var entity = rowToObject($tr);
             var id = entity.ID + '|' + entity.PurchaseReceiveID;
 
-            var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessDtCtl.ascx");
+            var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessDtCtl.ascx");
             openUserControlPopup(url, id, 'Detail Penerimaan Pembelian', 1250, 600);
         });
 
@@ -344,14 +404,33 @@
             var id = entity.ID;
 
             if (entity.IsCreditNoteOnly == "True") {
-                var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCreditNoteCtl2.ascx");
+                var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCreditNoteCtl2.ascx");
                 openUserControlPopup(url, id, 'Nota Kredit', 700, 500);
             }
             else {
-                var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCreditNoteCtl.ascx");
+                var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCreditNoteCtl.ascx");
                 openUserControlPopup(url, id, 'Nota Kredit', 1000, 500);
             }
         });
+
+        $('.chkSite input').live('change', function () {
+            setDdeSiteText();
+        });
+
+        function setDdeSiteText() {
+            var lstSiteID = '';
+            var lstSiteName = '';
+            $('.chkSite input:checked').each(function () {
+                if (lstSiteName != '') {
+                    lstSiteName += ', ';
+                    lstSiteID += ',';
+                }
+                lstSiteID += $(this).parent().attr('siteid');
+                lstSiteName += $(this).parent().attr('sitename');
+            });
+            $('#<%=hdnLstSiteID.ClientID %>').val(lstSiteID);
+            ddeSite.SetText(lstSiteName);
+        }
 
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
             var purchaseInvoiceID = $('#<%=hdnPurchaseInvoiceID.ClientID %>').val();
@@ -480,6 +559,43 @@
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe") %></label></td>
                                                     <td><dxe:ASPxComboBox id="cboGLAPOther" ClientInstanceName="cboGLAPOther" runat="server" Width="150px" /></td>
                                                 </tr>
+                                                <tr>
+                                                    <td class="tdLabel">
+                                                        <label class="lblMandatory lblLink" runat="server" id="lblSiteServiceUnit"><%=GetLabel("Bagian")%></label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" id="hdnSiteServiceUnitID" value="" runat="server" />
+                                                        <table style="width: 100%" cellpadding="0" cellspacing="0">
+                                                            <colgroup>
+                                                                <col style="width: 30%" />
+                                                                <col style="width: 3px" />
+                                                                <col />
+                                                            </colgroup>
+                                                            <tr>
+                                                                <td><asp:TextBox ID="txtServiceUnitCode" Width="100%" runat="server" /></td>
+                                                                <td>&nbsp;</td>
+                                                                <td><asp:TextBox ID="txtServiceUnitName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Unit")%></label></td>
+                                                    <td>
+                                                        <input type="hidden" id="hdnLstSiteID" value="" runat="server" />
+                                                        <dxe:ASPxDropDownEdit ClientInstanceName="ddeSite" ID="ddeSite"
+                                                            Width="300px" runat="server" EnableAnimation="False">
+                                                            <DropDownWindowStyle BackColor="#EDEDED" />
+                                                            <DropDownWindowTemplate>
+                                                                <asp:Repeater ID="rptSite" runat="server" OnItemDataBound="rptSite_ItemDataBound">
+                                                                    <ItemTemplate>
+                                                                        <asp:CheckBox ID="chkSite" CssClass="chkSite" runat="server"  /> <%#Eval("SiteName") %><br />
+                                                                    </ItemTemplate>
+                                                                </asp:Repeater>
+                                                            </DropDownWindowTemplate>
+                                                        </dxe:ASPxDropDownEdit>
+                                                    </td>
+                                                </tr>
                                                 <tr style="display:none">
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("No. BPB") %></label></td>
                                                     <td><asp:TextBox id="txtPurchaseRcvNo" runat="server" Width="150px" ReadOnly="true"/></td>
@@ -538,6 +654,10 @@
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nota Kredit") %></label></td>
                                                     <td><asp:TextBox id="txtCreditNote" runat="server"  Width="150px" CssClass="txtCurrency" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="tdLabel" style="vertical-align:top; padding-top:5px;"><%=GetLabel("Catatan") %></td>
+                                                    <td colspan="3"><asp:TextBox ID="txtRemarksDt" Width="300px" runat="server" TextMode="MultiLine" Rows="2" /></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -618,6 +738,11 @@
                                                         <input type="hidden" bindingfield="CustomSubTotal" value='<%# Eval("LineAmount")%>' />
                                                         <input type="hidden" bindingfield="IsCreditNoteOnly" value='<%# Eval("IsCreditNoteOnly")%>' />
                                                         <input type="hidden" bindingfield="ID" value='<%# Eval("ID")%>' />
+                                                        <input type="hidden" bindingfield="ListSiteID" value='<%# Eval("ListSiteID")%>' />
+                                                        <input type="hidden" bindingfield="SiteServiceUnitID" value='<%# Eval("SiteServiceUnitID")%>' />
+                                                        <input type="hidden" bindingfield="ServiceUnitCode" value='<%# Eval("ServiceUnitCode")%>' />
+                                                        <input type="hidden" bindingfield="ServiceUnitName" value='<%# Eval("ServiceUnitName")%>' />
+                                                        <input type="hidden" bindingfield="Remarks" value='<%# Eval("Remarks")%>' />
                                                     </td>
                                                 </tr>
                                             </ItemTemplate>

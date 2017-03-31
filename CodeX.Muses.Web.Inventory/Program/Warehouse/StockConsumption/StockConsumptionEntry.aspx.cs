@@ -221,8 +221,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
                 entityHd.CreatedBy = AppSession.UserLogin.UserID;
-                entityHdDao.Insert(entityHd);
-                ConsumptionID = BusinessLayer.GetItemTransactionHdMaxID(ctx);
+                ConsumptionID = entityHdDao.Insert(entityHd);
 
                 string[] lstSiteID = hdnLstSiteID.Value.Split(',');
                 foreach (string siteID in lstSiteID)

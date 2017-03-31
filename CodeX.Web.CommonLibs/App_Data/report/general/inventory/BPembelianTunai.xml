@@ -5,9 +5,9 @@
     <parameter code="FP001"/>
   </parameters>
   <fields>
-    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldtype="autonumber" headertext="No" width="4"/>
     <field fieldname="ItemName1" headertext="Item"/>
-    <field headertext="Quantity" width="10" fieldtype="customfield" align="right">
+    <field headertext="Quantity" width="15" fieldtype="customfield" align="right">
       <![CDATA[
         {Quantity} {ItemUnit}
       ]]>

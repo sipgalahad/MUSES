@@ -69,6 +69,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
             Helper.SetControlEntrySetting(txtNonMasterItemName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtItemGroupCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboNonMasterItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -113,8 +114,24 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
         #endregion
 
+        protected void rptSite_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Site obj = (Site)e.Item.DataItem;
+                CheckBox chkSite = (CheckBox)e.Item.FindControl("chkSite");
+                chkSite.Attributes.Add("sitename", obj.SiteName);
+                chkSite.Attributes.Add("siteid", obj.SiteID);
+            }
+        }
+
         protected override void SetControlProperties()
         {
+            Repeater rptSite = (Repeater)ddeSite.FindControl("rptSite");
+            List<Site> lstSite = BusinessLayer.GetSiteList(string.Format("IsHeader = 0"));
+            rptSite.DataSource = lstSite;
+            rptSite.DataBind();
+
             List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.DIRECT_PURCHASE_TYPE, Constant.StandardCode.ITEM_UNIT));
             Methods.SetComboBoxField<StandardCode>(cboDirectPurchaseType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.DIRECT_PURCHASE_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             cboDirectPurchaseType.SelectedIndex = 0;
@@ -135,11 +152,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtNonMasterSupplierName, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, false, true, hdnDefaultServiceUnitCode.Value));
-            SetControlEntrySetting(lblSiteServiceUnit, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtServiceUnitCode, new ControlEntrySetting(true, true, true, hdnDefaultServiceUnitCode.Value));
+            SetControlEntrySetting(lblSiteServiceUnit, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtServiceUnitName, new ControlEntrySetting(false, false, true, hdnDefaultServiceUnitName.Value));
-            SetControlEntrySetting(txtToServiceUnitCode, new ControlEntrySetting(true, false, true, hdnDefaultToServiceUnitCode.Value));
-            SetControlEntrySetting(lblToSiteServiceUnit, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtToServiceUnitCode, new ControlEntrySetting(true, true, true, hdnDefaultToServiceUnitCode.Value));
+            SetControlEntrySetting(lblToSiteServiceUnit, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtToServiceUnitName, new ControlEntrySetting(false, false, true, hdnDefaultToServiceUnitName.Value));
 
             SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(true, true));
@@ -273,6 +290,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 else
                     hdnLstFilterLocationItemGroup.Value = "";
             }
+            hdnLstSiteID.Value = entity.ListSiteID;
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount, ref decimal transactionAmount)
@@ -323,6 +341,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         public void SaveDirectPurchaseHd(IDbContext ctx, ref int DirectPurchaseID)
         {
             DirectPurchaseHdDao entityHdDao = new DirectPurchaseHdDao(ctx);
+            DirectPurchaseHdSiteDao entityHdSiteDao = new DirectPurchaseHdSiteDao(ctx);
             if (hdnDirectPurchaseID.Value == "0")
             {
                 DirectPurchaseHd entityHd = new DirectPurchaseHd();
@@ -333,6 +352,15 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ctx.Command.Parameters.Clear();
                 entityHd.CreatedBy = AppSession.UserLogin.UserID;
                 DirectPurchaseID = entityHdDao.Insert(entityHd);
+
+                string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                foreach (string siteID in lstSiteID)
+                {
+                    DirectPurchaseHdSite entityDt = new DirectPurchaseHdSite();
+                    entityDt.DirectPurchaseID = DirectPurchaseID;
+                    entityDt.SiteID = siteID;
+                    entityHdSiteDao.Insert(entityDt);
+                }
             }
             else
             {
@@ -341,6 +369,27 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ControlToEntity(entityHd);
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityHdDao.Update(entityHd);
+
+                List<DirectPurchaseHdSite> lstEntityDt = BusinessLayer.GetDirectPurchaseHdSiteList(string.Format("DirectPurchaseID = {0}", entityHd.DirectPurchaseID), ctx);
+                string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                foreach (string siteID in lstSiteID)
+                {
+                    DirectPurchaseHdSite entityDt = lstEntityDt.FirstOrDefault(p => p.SiteID == siteID);
+                    if (entityDt == null)
+                    {
+                        entityDt = new DirectPurchaseHdSite();
+                        entityDt.DirectPurchaseID = entityHd.DirectPurchaseID;
+                        entityDt.SiteID = siteID;
+                        entityHdSiteDao.Insert(entityDt);
+                    }
+                    else
+                        lstEntityDt.Remove(entityDt);
+                }
+
+                foreach (DirectPurchaseHdSite entityDt in lstEntityDt)
+                {
+                    entityHdSiteDao.Delete(entityDt.DirectPurchaseID, entityDt.SiteID);
+                }
             }
         }
 
@@ -371,6 +420,10 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage, ref string retval)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            DirectPurchaseHdDao entityHdDao = new DirectPurchaseHdDao(ctx);
+            DirectPurchaseHdSiteDao entityHdSiteDao = new DirectPurchaseHdSiteDao(ctx);
             try
             {
                 DirectPurchaseHd entity = BusinessLayer.GetDirectPurchaseHd(Convert.ToInt32(hdnDirectPurchaseID.Value));
@@ -379,15 +432,42 @@ namespace CodeX.Muses.Web.Inventory.Program
                     ControlToEntity(entity);
                     entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                     BusinessLayer.UpdateDirectPurchaseHd(entity);
+
+                    List<DirectPurchaseHdSite> lstEntityDt = BusinessLayer.GetDirectPurchaseHdSiteList(string.Format("DirectPurchaseID = {0}", entity.DirectPurchaseID), ctx);
+                    string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                    foreach (string siteID in lstSiteID)
+                    {
+                        DirectPurchaseHdSite entityDt = lstEntityDt.FirstOrDefault(p => p.SiteID == siteID);
+                        if (entityDt == null)
+                        {
+                            entityDt = new DirectPurchaseHdSite();
+                            entityDt.DirectPurchaseID = entity.DirectPurchaseID;
+                            entityDt.SiteID = siteID;
+                            entityHdSiteDao.Insert(entityDt);
+                        }
+                        else
+                            lstEntityDt.Remove(entityDt);
+                    }
+
+                    foreach (DirectPurchaseHdSite entityDt in lstEntityDt)
+                    {
+                        entityHdSiteDao.Delete(entityDt.DirectPurchaseID, entityDt.SiteID);
+                    }
                 }
-                return true;
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
                 errMessage = ex.Message;
-                return false;
+                result = false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         protected override bool OnApproveRecord(ref string errMessage)
@@ -703,6 +783,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         private void ControlToEntity(DirectPurchaseDt entityDt)
         {
+            entityDt.ItemGroupID = Convert.ToInt32(hdnItemGroupID.Value);
             entityDt.ItemID = Convert.ToInt32(hdnItemID.Value);
             if (chkIsFromMasterItem.Checked)
             {
