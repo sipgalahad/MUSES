@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPMain.master" AutoEventWireup="true" 
-    CodeBehind="StudentClassInformation.aspx.cs" Inherits="CodeX.Muses.Web.Mobile.Program.StudentClassInformation" %>
+    CodeBehind="StudentClassInformation2.aspx.cs" Inherits="CodeX.Muses.Web.Mobile.Program.StudentClassInformation2" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -14,19 +14,6 @@
             $('#<%=txtSchoolDate.ClientID %>').change(function () {
                 cbpView.PerformCallback('refresh');
             });
-
-            var imgUrlM = ResolveUrl("~/Libs/Images/patient_male.png");
-            var imgUrlF = ResolveUrl("~/Libs/Images/patient_female.png");
-            $('#<%=imgPatientImage.ClientID %>').each(function () {
-                $('#divImageHeaderBannerPreview').attr('style', "background-image:url('" + this.src + "')");
-                $(this).error(function () {
-                    var gender = $(this).attr('gender');
-                    if (gender == '0003^F')
-                        $('#divImageHeaderBannerPreview').attr('style', "background-image:url('" + imgUrlF + "')")
-                    else 
-                        $('#divImageHeaderBannerPreview').attr('style', "background-image:url('" + imgUrlM + "')");
-                }).attr('src', this.src);
-            });
         });
     </script>
     <style type="text/css">
@@ -36,35 +23,6 @@
     </style>
     <input type="hidden" runat="server" id="hdnStudentID" />
     <input type="hidden" runat="server" id="hdnSiteID" />
-
-       
-    <table>
-        <tr>
-            <td>
-                <img src="" id="imgPatientImage" style="display:none" runat="server" />
-                <table cellpadding="0" cellspacing="0" style="">
-                    <tr>
-                        <td class="tdPatientPhotoContainer1">
-                            <div class="circleBanner" id="divImageHeaderBannerPreview"></div>
-                            <input type="hidden" id="hdnPatientGender" runat="server" class="hdnPatientGender" />
-                            <img id="imgPatientProfilePicture" class="imgPatientProfilePicture" runat="server" src='' alt="" width="240" height="280" style="position:absolute; top: 10px; display: none" />
-                        </td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <div>Parent Of</div>
-                <h3 id="h3Title" runat="server" style="font-weight:normal;"></h3>
-                <table cellpadding="0" cellspacing="0" id="tblMPBaseDetailPageTitle">
-                    <tr>
-                        <td><div id="divClass" runat="server" /></td>
-                        <td style="padding-left:2px;"><div id="divPeriodSection" runat="server" /></td>
-                        <td style="padding-left:2px;"><div id="divSchoolPeriod" runat="server" /></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
     <table>        
         <tr>
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal")%></label></td>

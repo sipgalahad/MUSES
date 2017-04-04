@@ -16114,6 +16114,110 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SchoolAnnouncement
+        public static SchoolAnnouncement GetSchoolAnnouncement(Int32 SchoolAnnouncementID)
+        {
+            return new SchoolAnnouncementDao().Get(SchoolAnnouncementID);
+        }
+        public static int InsertSchoolAnnouncement(SchoolAnnouncement record)
+        {
+            return new SchoolAnnouncementDao().Insert(record);
+        }
+        public static int UpdateSchoolAnnouncement(SchoolAnnouncement record)
+        {
+            return new SchoolAnnouncementDao().Update(record);
+        }
+        public static int DeleteSchoolAnnouncement(Int32 SchoolAnnouncementID)
+        {
+            return new SchoolAnnouncementDao().Delete(SchoolAnnouncementID);
+        }
+        public static List<SchoolAnnouncement> GetSchoolAnnouncementList(string filterExpression)
+        {
+            List<SchoolAnnouncement> result = new List<SchoolAnnouncement>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolAnnouncement));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolAnnouncement)helper.IDataReaderToObject(reader, new SchoolAnnouncement()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSchoolAnnouncementRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolAnnouncement));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SchoolAnnouncement> GetSchoolAnnouncementList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<SchoolAnnouncement> result = new List<SchoolAnnouncement>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolAnnouncement));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolAnnouncement)helper.IDataReaderToObject(reader, new SchoolAnnouncement()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSchoolAnnouncementRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolAnnouncement));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "SchoolAnnouncementID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SchoolClass
         public static SchoolClass GetSchoolClass(Int32 SchoolClassID)
         {

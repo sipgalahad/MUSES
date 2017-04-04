@@ -12,8 +12,8 @@
         {Quantity} {ItemUnit}
       ]]>
     </field>
-    <field fieldname="UnitPrice" headertext="Harga" width="10" fieldtype="currency"/>
-    <field fieldname="DiscountPercentage" headertext="Disc %" width="10" fieldtype="currency"/>
+    <field fieldname="UnitPrice" headertext="Harga" width="15" fieldtype="currency"/>
+    <field fieldname="DiscountPercentage" headertext="Disc %" width="15" fieldtype="currency"/>
     <field fieldname="LineAmount" headertext="Total" width="15" fieldtype="currency" isshowsubtotal="1"/>
   </fields>
   <headertemplate>
@@ -31,6 +31,7 @@
             </colgroup>      
             <tr><td>No Permintaan</td><td align="center">:</td><td>{DirectPurchaseNo}</td></tr>
             <tr><td>Bagian</td><td align="center">:</td><td>{ServiceUnitName}</td></tr>
+            <tr><td>Ke Bagian</td><td align="center">:</td><td>{ToServiceUnitName}</td></tr>
             <tr><td>Lokasi</td><td align="center">:</td><td>{LocationName}</td></tr>
           </table>
         </td>
@@ -76,16 +77,22 @@
         <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
       </tr>
       <tr>
-        <td valign="top" align="center">&nbsp;</td>
+        <td colspan="2" valign="top"><div style="word-wrap: break-word; white-space: normal">{cfRemarks}</div></td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
+      </tr>
+      <tr>
         <td valign="top" align="center">Dibuat Oleh</td>
+        <td valign="top" align="center">Diterima Oleh</td>
       </tr>
       <tr>
         <td colspan="2" class="tdSignature">&nbsp;</td>
       </tr>
       <tr>
-        <td valign="top" align="center"></td>
+        <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div></td>
         <td valign="top" align="center">
-          <div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div>
+          <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
         </td>
       </tr>
     </table>

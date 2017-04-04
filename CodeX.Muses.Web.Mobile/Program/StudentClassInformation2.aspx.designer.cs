@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.Mobile.Program {
     
     
-    public partial class StudentClassInformation {
+    public partial class StudentClassInformation2 {
         
         /// <summary>
         /// hdnStudentID control.
@@ -29,69 +29,6 @@ namespace CodeX.Muses.Web.Mobile.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteID;
-        
-        /// <summary>
-        /// imgPatientImage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imgPatientImage;
-        
-        /// <summary>
-        /// hdnPatientGender control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPatientGender;
-        
-        /// <summary>
-        /// imgPatientProfilePicture control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imgPatientProfilePicture;
-        
-        /// <summary>
-        /// h3Title control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl h3Title;
-        
-        /// <summary>
-        /// divClass control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divClass;
-        
-        /// <summary>
-        /// divPeriodSection control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPeriodSection;
-        
-        /// <summary>
-        /// divSchoolPeriod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSchoolPeriod;
         
         /// <summary>
         /// txtSchoolDate control.

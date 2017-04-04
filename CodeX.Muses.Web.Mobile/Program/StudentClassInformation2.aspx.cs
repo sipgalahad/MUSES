@@ -14,7 +14,7 @@ using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.Mobile.Program
 {
-    public partial class StudentClassInformation : BasePageContent
+    public partial class StudentClassInformation2 : BasePageContent
     {
         public override string OnGetMenuCode()
         {
@@ -27,17 +27,9 @@ namespace CodeX.Muses.Web.Mobile.Program
             if (!Page.IsPostBack)
             {
                 hdnStudentID.Value = AppSession.StudentLogin.UserID.ToString();
-                vStudent student = BusinessLayer.GetvStudentList(string.Format("StudentID = {0}", hdnStudentID.Value)).FirstOrDefault();
+                Student student = BusinessLayer.GetStudent(Convert.ToInt32(hdnStudentID.Value));
                 hdnSiteID.Value = student.SiteID;
                 txtSchoolDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-
-                h3Title.InnerHtml = student.StudentName;
-                divClass.InnerHtml = student.SchoolClassName;
-
-
-                imgPatientImage.Src = student.StudentImageUrl;
-                imgPatientImage.Attributes.Add("gender", student.GCGender);
-
                 BindGridView();
             }
         }

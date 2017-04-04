@@ -860,6 +860,7 @@ namespace CodeX.Common
                 public const string STUDENT = "SM010100";
                 public const string SCHOOL_PERIOD = "SM010200";
                 public const string SCHOLARSHIP = "SM010300";
+                public const string SCHOOL_ANNOUNCEMENT = "SM010400";
 
                 public const string PERIOD_ADMISSION = "SM020100";
 

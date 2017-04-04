@@ -413,6 +413,15 @@ namespace CodeX.Data.Model
     #region vDirectPurchaseHd
     public partial class vDirectPurchaseHd
     {
+        public string cfRemarks
+        {
+            get
+            {
+                if (_Remarks != "")
+                    return string.Format("Catatan :<br/>{0}", _Remarks.Replace("\n", "<br/>"));
+                return "";
+            }
+        }
         public string PurchaseDateInString
         {
             get
