@@ -415,6 +415,7 @@
     <Content Include="Images\Scroll\ad_scroll_forward.png" />
     <Content Include="Images\Scroll\opa75.png" />
     <Content Include="Images\Scroll\trans.gif" />
+    <Content Include="Images\setting.gif" />
     <Content Include="Images\teacher_female.png" />
     <Content Include="Images\teacher_male.png" />
     <Content Include="Images\Toolbar\browseFile.png" />

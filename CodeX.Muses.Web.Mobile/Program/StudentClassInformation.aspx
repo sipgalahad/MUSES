@@ -171,7 +171,7 @@
     <input type="hidden" id="hdnYear" runat="server" />
     <input type="hidden" id="hdnMaxDate" runat="server" />
     <input type="hidden" id="hdnMinDate" runat="server" />
-
+    
     <div id="divContainerBanner" style="margin: -10px;padding:10px; padding-bottom:0px; margin-bottom:0px;">
         <table style="width:100%;">
             <tr>
@@ -187,7 +187,7 @@
                         </tr>
                     </table>
                 </td>
-                <td style="width:250px">
+                <td style="width:400px">
                     <div>Parent Of</div>
                     <h3 id="h3Title" runat="server" style="font-weight:normal;"></h3>
                     <table cellpadding="0" cellspacing="0" id="tblMPBaseDetailPageTitle">
@@ -203,7 +203,7 @@
                         <ul class="ulTabMenuLevel2" id="ulTabMenuLevel2" style="">
                             <li class="selected" contentid="divContentOverview">Overview</li>
                             <li>Task</li>
-                            <li>Attendance</li>
+                            <li contentid="divContentViewAttendance">Attendance</li>
                             <li contentid="divContentAnnouncement">Announcement</li>
                             <li contentid="divContentTimetable">Timetable</li>
                             <li contentid="divContentAcademicSchedule">Academic Calender</li>
@@ -380,6 +380,43 @@
                 </table>
             </FooterTemplate>
         </asp:Repeater>
+    </div>
+
+    <div class="divContent" id="divContentViewAttendance" style="display:none">    
+        <div style="width:1250px; overflow-x: auto;"> 
+            <asp:Panel runat="server" ID="Panel2">
+                <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
+                    <tr>
+                        <th rowspan="2"><%=GetLabel("Mata Pelajaran") %></th>
+                        <th id="thHeaderAttendance" runat="server" class="thCenter"><%=GetLabel("STATUS KEHADIRAN") %></th>
+                    </tr>
+                    <tr>
+                        <asp:Repeater ID="rptHeader" runat="server">
+                            <ItemTemplate>
+                                <th class="thCenter" style="width:100px">
+                                    <%#Eval("StandardCodeName") %><br />
+                                </th>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </tr>
+                    <asp:Repeater ID="rptSubject" runat="server" OnItemDataBound="rptSubject_ItemDataBound">
+                        <ItemTemplate>
+                            <tr>
+                                <td><%#Eval("SubjectName") %></td>
+                                <asp:Repeater ID="rptStudentAttendance" runat="server" OnItemDataBound="rptStudentAttendance_ItemDataBound">
+                                    <ItemTemplate>
+                                        <td align="center">
+                                            <input type="hidden" class="hdnAttendanceStatus" value='<%#Eval("StandardCodeID") %>' />
+                                            <label class="lblAttendance lblLink"><div id="divStudentAttendance" runat="server"></div></label>
+                                        </td>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </table>
+            </asp:Panel>
+        </div>
     </div>
     
     <div class="divContent" id="divContentOverview">

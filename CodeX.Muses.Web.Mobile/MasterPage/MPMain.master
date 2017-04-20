@@ -17,7 +17,7 @@
 
 
 
-            $('#userlogininfo').click(function (evt) {
+            $('#imgSetting').click(function (evt) {
                 if ($('#userlogininfodetail').is(":visible")) {
                     $('#userlogininfodetail').slideUp(function () {
                         $('#userlogininfo').removeClass('opened');
@@ -47,7 +47,7 @@
                 }
             });
 
-            $('#lnkMPMainChangePassword').click(function () {
+            $('#imgChangePassword').click(function () {
                 var url = ResolveUrl("~/Controls/ChangePasswordCtl.ascx");
                 openUserControlPopup(url, '', '<%=GetLabel("Change Password") %>', 400, 200);
             });
@@ -57,14 +57,8 @@
                 document.location = ResolveUrl($(this).attr('menuurl'));
             });
 
-
-
-            $('#<%=imgOpenModule.ClientID %>').click(function () {
-                $('#divLeftPaneMenu').show();
-            });
-
-            $('#<%=imgCloseLeftPane.ClientID %>').click(function () {
-                $('#divLeftPaneMenu').hide();
+            $('#imgLogout').click(function () {
+                cbpCloseWindow.PerformCallback();
             });
         });
 
@@ -119,63 +113,29 @@
 
     </style>
     <input type="hidden" runat="server" id="hdnLoginData" />
-
-    <div class="applicationTopBar" style="height: 33px;">
-        <div id="divLeftPaneMenu" class="leftPane2" style="width: 280px;">
-            <div style="padding:10px;">
-                <img height="32" id="imgCloseLeftPane" runat="server" style="float: right; cursor: pointer; margin-top: 7px;" />
-                <h6>Menu</h6>
-            </div>
-            <br style="clear: both; margin-bottom: 1px;" />
-            <asp:Repeater ID="rptMenuLevel1" runat="server" OnItemDataBound="rptMenuLevel1_ItemDataBound">
-                <ItemTemplate>
-                    <h7><%#Eval("MenuCaption") %></h7>
-                    <ul>
-                        <asp:Repeater ID="rptMenuLevel2" runat="server" OnItemDataBound="rptMenuLevel2_ItemDataBound">
-                            <ItemTemplate>
-                                <li class="ulLinkMenu" id="ulLinkMenu" runat="server" menuurl='<%#Eval("MenuUrl") %>'><%#Eval("MenuCaption") %></li>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </ul>
-                </ItemTemplate>
-            </asp:Repeater>
-        </div>
-        <div class="containeruserlogininfo">
-            <table cellpadding="0" cellspacing="0" style="height:100%" >
-                <tr>
-                    <td class="tdImgModuleHome"><img id="imgModuleHome" src='<%=ResolveUrl("~/Libs/Images/home.png")%>' style="cursor: pointer;" title='Home' alt="" /></td>
-                    <td style="width:10px"></td>
-                    <td>
-                        <div style="position: relative">
-                            <div class="userlogininfo borderBox" id="userlogininfo" style="height:30px; padding: 0 10px; padding-top: 2px; margin-top:2px; "><%=GetUserInfo()%></div>
-                            <div class="userlogininfodetail" id="userlogininfodetail">                                
-                                <table border="0" cellpadding="0" cellspacing="1" style="margin:10px">
-                                    <tr>
-                                        <td style="width:50px; background-color: White; border: 1px solid #AAA;">
-                                            <img src='<%=ResolveUrl("~/Libs/Images/user.png")%>' style="width:50px;height:55px" alt="" />
-                                        </td>
-                                        <td style="width:5px">&nbsp;</td>
-                                        <td style="vertical-align: top;">
-                                            <a href="javascript:void(0);" id="lnkMPMainChangePassword" ><%=GetLabel("Change Password")%></a><br />
-                                            <a href="javascript:void(0);" onclick="cbpCloseWindow.PerformCallback();" ><%=GetLabel("Sign Out")%></a><br />
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <img height="30" style="cursor: pointer; float:left; margin-left: 5px; margin-top: 1px;" runat="server" id="imgOpenModule" />
-        <div class="hospitalName" id="hospitalName" style="float:left;width:120px; margin-left: 15px;">SIM RICCI</div>
-    </div>
     <div style="position: relative;width:100%;">
         <div style="position:absolute;width:100%;z-index:1;">
         <asp:ContentPlaceHolder ID="plhMPMain" runat="server">
         
         </asp:ContentPlaceHolder>
         </div>
+    </div>
+    
+    <img src='<%=ResolveUrl("~/Libs/Images/icon/logout.png") %>' id="imgLogout" style="position:absolute; right: 60px; top:20px; cursor:pointer; z-index:30000" width="30px" />
+    <img src='<%=ResolveUrl("~/Libs/Images/setting.gif") %>' id="imgChangePassword" style="position:absolute; right: 20px; top:20px; cursor:pointer; z-index:30000" width="30px" />
+    <div class="userlogininfodetail" id="userlogininfodetail" style="top:30px">                                
+        <table border="0" cellpadding="0" cellspacing="1" style="margin:10px">
+            <tr>
+                <td style="width:50px; background-color: White; border: 1px solid #AAA;">
+                    <img src='<%=ResolveUrl("~/Libs/Images/user.png")%>' style="width:50px;height:55px" alt="" />
+                </td>
+                <td style="width:5px">&nbsp;</td>
+                <td style="vertical-align: top;">
+                    <a href="javascript:void(0);" id="lnkMPMainChangePassword" ><%=GetLabel("Change Password")%></a><br />
+                    <a href="javascript:void(0);" onclick="cbpCloseWindow.PerformCallback();" ><%=GetLabel("Sign Out")%></a><br />
+                </td>
+            </tr>
+        </table>
     </div>
     <div style="display:none;height:0px; overflow:hidden;">
         <dxcp:ASPxCallbackPanel ID="cbpCloseWindow" runat="server" Width="100%" ClientInstanceName="cbpCloseWindow"

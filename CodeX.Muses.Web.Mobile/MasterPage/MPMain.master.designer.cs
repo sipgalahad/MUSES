@@ -22,33 +22,6 @@ namespace CodeX.Muses.Web.Mobile.MasterPage {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLoginData;
         
         /// <summary>
-        /// imgCloseLeftPane control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imgCloseLeftPane;
-        
-        /// <summary>
-        /// rptMenuLevel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMenuLevel1;
-        
-        /// <summary>
-        /// imgOpenModule control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imgOpenModule;
-        
-        /// <summary>
         /// plhMPMain control.
         /// </summary>
         /// <remarks>

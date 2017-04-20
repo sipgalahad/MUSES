@@ -33,11 +33,6 @@ namespace CodeX.Muses.Web.Mobile.MasterPage
                 //lstMenu = BusinessLayer.GetUserMenuAccess(ModuleID, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, "IsShowInPullDownMenu = 1 AND IsVisible = 1");
                 //lstMenu = BusinessLayer.GetMenuList(string.Format("ModuleID = '{0}'", ModuleID));
                 
-                imgOpenModule.Src = ResolveUrl("~/Libs/Images/Icon/menu.png");
-                imgCloseLeftPane.Src = ResolveUrl("~/Libs/Images/Icon/close_pane.png");
-
-                rptMenuLevel1.DataSource = lstMenu.Where(p => p.ParentID == null).ToList();
-                rptMenuLevel1.DataBind();
             }
         }
 
