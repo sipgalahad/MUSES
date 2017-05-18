@@ -77,7 +77,7 @@ namespace CodeX.Muses.Web.Finance.Program
             else
                 filterExpression += string.Format(" AND SiteID = '{0}'", cboSite.Value);
             if (chkIsShowOnlyInvoiceAvailable.Checked)
-                filterExpression += string.Format(" AND ProspectiveStudentID IN (SELECT ProspectiveStudentID FROM vStudentFeeDt WHERE DueDate LIKE '{0}-{1}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{2}' AND StudentFeeDtID IS NOT NULL) AND IsPaid = 0 AND TotalStudentAmount > 0)", cboYear.Value, cboMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID);
+                filterExpression += string.Format(" AND ProspectiveStudentID IN (SELECT ProspectiveStudentID FROM vStudentFeeDt WHERE DueDate LIKE '{0}-{1}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{2}' AND StudentFeeDtID IS NOT NULL) AND IsPaid = 0 AND TotalStudentAmount > 0 AND IsDeleted = 0)", cboYear.Value, cboMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID);
             
             return filterExpression;
         }
@@ -97,7 +97,7 @@ namespace CodeX.Muses.Web.Finance.Program
             if (lstEntity.Count > 0)
             {
                 string lstProspectiveStudentID = string.Join(",", lstEntity.Select(p => p.ProspectiveStudentID).ToList());
-                lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("ProspectiveStudentID IN ({0}) AND DueDate LIKE '{1}-{2}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}' AND StudentFeeDtID IS NOT NULL) AND IsPaid = 0", lstProspectiveStudentID, cboYear.Value, cboMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID));
+                lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(string.Format("ProspectiveStudentID IN ({0}) AND DueDate LIKE '{1}-{2}%' AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}' AND StudentFeeDtID IS NOT NULL) AND IsPaid = 0 AND IsDeleted = 0", lstProspectiveStudentID, cboYear.Value, cboMonth.Value.ToString().PadLeft(2, '0'), Constant.TransactionStatus.VOID));
             }
             else
                 lstStudentFeeDt = new List<vStudentFeeDt>();

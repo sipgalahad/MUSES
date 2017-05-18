@@ -184,7 +184,7 @@ namespace CodeX.Muses.Web.Accounting.Program
                 entityHD.LastUpdatedBy = AppSession.UserLogin.UserID;
                 glTransactionhdDao.Update(entityHD);
 
-                TreasuryHd entityTreasuryHd = BusinessLayer.GetTreasuryHdList(string.Format("GLTransactionID = {0} AND GCTransactionStatus = '{1}'", entityHD.GLTransactionID, Constant.TransactionStatus.APPROVED)).FirstOrDefault();
+                TreasuryHd entityTreasuryHd = BusinessLayer.GetTreasuryHdList(string.Format("GLTransactionID = {0} AND GCTransactionStatus = '{1}'", entityHD.GLTransactionID, Constant.TransactionStatus.APPROVED), ctx).FirstOrDefault();
                 if (entityTreasuryHd != null)
                 {
                     entityTreasuryHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;

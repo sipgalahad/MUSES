@@ -14717,6 +14717,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RenumerationCompSource
+        public static RenumerationCompSource GetRenumerationCompSource(Int32 RenumerationCompID, String GCRenumerationCompSource)
+        {
+            return new RenumerationCompSourceDao().Get(RenumerationCompID, GCRenumerationCompSource);
+        }
+        public static int InsertRenumerationCompSource(RenumerationCompSource record)
+        {
+            return new RenumerationCompSourceDao().Insert(record);
+        }
+        public static int UpdateRenumerationCompSource(RenumerationCompSource record)
+        {
+            return new RenumerationCompSourceDao().Update(record);
+        }
+        public static int DeleteRenumerationCompSource(Int32 RenumerationCompID, String GCRenumerationCompSource)
+        {
+            return new RenumerationCompSourceDao().Delete(RenumerationCompID, GCRenumerationCompSource);
+        }
+        public static List<RenumerationCompSource> GetRenumerationCompSourceList(string filterExpression)
+        {
+            List<RenumerationCompSource> result = new List<RenumerationCompSource>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RenumerationCompSource));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RenumerationCompSource)helper.IDataReaderToObject(reader, new RenumerationCompSource()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RenumerationCompSource> GetRenumerationCompSourceList(string filterExpression, IDbContext ctx)
+        {
+            List<RenumerationCompSource> result = new List<RenumerationCompSource>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RenumerationCompSource));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RenumerationCompSource)helper.IDataReaderToObject(reader, new RenumerationCompSource()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region RenumerationHd
         public static RenumerationHd GetRenumerationHd(Int32 RenumerationID)
         {
@@ -22894,6 +22951,103 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TransRenumerationCompDt
+        public static TransRenumerationCompDt GetTransRenumerationCompDt(Int32 TransactionDtID)
+        {
+            return new TransRenumerationCompDtDao().Get(TransactionDtID);
+        }
+        public static int InsertTransRenumerationCompDt(TransRenumerationCompDt record)
+        {
+            return new TransRenumerationCompDtDao().Insert(record);
+        }
+        public static int UpdateTransRenumerationCompDt(TransRenumerationCompDt record)
+        {
+            return new TransRenumerationCompDtDao().Update(record);
+        }
+        public static int DeleteTransRenumerationCompDt(Int32 TransactionDtID)
+        {
+            return new TransRenumerationCompDtDao().Delete(TransactionDtID);
+        }
+        public static List<TransRenumerationCompDt> GetTransRenumerationCompDtList(string filterExpression)
+        {
+            List<TransRenumerationCompDt> result = new List<TransRenumerationCompDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationCompDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransRenumerationCompDt)helper.IDataReaderToObject(reader, new TransRenumerationCompDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TransRenumerationCompDt> GetTransRenumerationCompDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TransRenumerationCompDt> result = new List<TransRenumerationCompDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationCompDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransRenumerationCompDt)helper.IDataReaderToObject(reader, new TransRenumerationCompDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TransRenumerationCompHd
+        public static TransRenumerationCompHd GetTransRenumerationCompHd(Int32 TransactionID)
+        {
+            return new TransRenumerationCompHdDao().Get(TransactionID);
+        }
+        public static int InsertTransRenumerationCompHd(TransRenumerationCompHd record)
+        {
+            return new TransRenumerationCompHdDao().Insert(record);
+        }
+        public static int UpdateTransRenumerationCompHd(TransRenumerationCompHd record)
+        {
+            return new TransRenumerationCompHdDao().Update(record);
+        }
+        public static int DeleteTransRenumerationCompHd(Int32 TransactionID)
+        {
+            return new TransRenumerationCompHdDao().Delete(TransactionID);
+        }
+        public static List<TransRenumerationCompHd> GetTransRenumerationCompHdList(string filterExpression)
+        {
+            List<TransRenumerationCompHd> result = new List<TransRenumerationCompHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TransRenumerationCompHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TransRenumerationCompHd)helper.IDataReaderToObject(reader, new TransRenumerationCompHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region TransRenumerationCompFormulaHd
         public static TransRenumerationCompFormulaHd GetTransRenumerationCompFormulaHd(Int32 TransactionID)
         {
@@ -23627,6 +23781,23 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        public static List<TreasuryHd> GetTreasuryHdList(string filterExpression, IDbContext ctx)
+        {
+            List<TreasuryHd> result = new List<TreasuryHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TreasuryHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TreasuryHd)helper.IDataReaderToObject(reader, new TreasuryHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

@@ -1347,7 +1347,19 @@
 		</intellisensetexts>
 	</searchdialog>
 	<!-- #EndRegion -->
-	<!-- #Region Trans Renumeration Comp Formula-->
+  <!-- #Region Trans Renumeration Comp -->
+  <searchdialog type="transrenumerationcomphd" methodname="GetvTransRenumerationCompHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />
+      <gridcolumn datafield="RenumerationCompName" headertext="Komponen" width="120px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="TransactionNo" headertext="Kode" description="" />
+      <intellisensetext datafield="RenumerationCompName" headertext="Komponen" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Trans Employee Loan -->
 	<searchdialog type="transemployeeloanhd" methodname="GetvTransEmployeeLoanHd" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
 		<gridcolumns>
 			<gridcolumn datafield="TransactionNo" headertext="Kode" width="100px" />

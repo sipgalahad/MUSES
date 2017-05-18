@@ -10829,7 +10829,7 @@ namespace CodeX.Data.Model
         private Decimal _CreditAmount;
         private String _ReferenceNo;
         private Decimal _BalanceEND;
-        private Int16 _DisplayOrder;
+        private Int32 _DisplayOrder;
         private String _Remarks;
         private String _GCItemDetailStatus;
         private Boolean _IsDeleted;
@@ -10987,8 +10987,8 @@ namespace CodeX.Data.Model
             get { return _BalanceEND; }
             set { _BalanceEND = value; }
         }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
+        [Column(Name = "DisplayOrder", DataType = "Int32")]
+        public Int32 DisplayOrder
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
@@ -11049,7 +11049,7 @@ namespace CodeX.Data.Model
         private Decimal _DebitAmount;
         private Decimal _CreditAmount;
         private String _ReferenceNo;
-        private Int16 _DisplayOrder;
+        private Int32 _DisplayOrder;
         private String _Remarks;
         private String _GCItemDetailStatus;
         private String _ItemDetailStatus;
@@ -11141,8 +11141,8 @@ namespace CodeX.Data.Model
             get { return _ReferenceNo; }
             set { _ReferenceNo = value; }
         }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
+        [Column(Name = "DisplayOrder", DataType = "Int32")]
+        public Int32 DisplayOrder
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
@@ -27952,6 +27952,8 @@ namespace CodeX.Data.Model
         private String _RenumerationCompType;
         private String _GCRenumerationCompSource;
         private String _RenumerationCompSource;
+        private Boolean _IsApplyToAll;
+        private String _ListRenumerationCompSource;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -27997,6 +27999,18 @@ namespace CodeX.Data.Model
             get { return _RenumerationCompSource; }
             set { _RenumerationCompSource = value; }
         }
+        [Column(Name = "IsApplyToAll", DataType = "Boolean")]
+        public Boolean IsApplyToAll
+        {
+            get { return _IsApplyToAll; }
+            set { _IsApplyToAll = value; }
+        }
+        [Column(Name = "ListRenumerationCompSource", DataType = "String")]
+        public String ListRenumerationCompSource
+        {
+            get { return _ListRenumerationCompSource; }
+            set { _ListRenumerationCompSource = value; }
+        }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
         {
@@ -28008,6 +28022,42 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vRenumerationCompSource
+    [Serializable]
+    [Table(Name = "vRenumerationCompSource")]
+    public class vRenumerationCompSource
+    {
+        private Int32 _RenumerationCompID;
+        private String _GCRenumerationCompSource;
+        private Int32 _PerformanceIndicatorID;
+        private String _GCIndicatorMarkType;
+
+        [Column(Name = "RenumerationCompID", DataType = "Int32")]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "GCRenumerationCompSource", DataType = "String")]
+        public String GCRenumerationCompSource
+        {
+            get { return _GCRenumerationCompSource; }
+            set { _GCRenumerationCompSource = value; }
+        }
+        [Column(Name = "PerformanceIndicatorID", DataType = "Int32")]
+        public Int32 PerformanceIndicatorID
+        {
+            get { return _PerformanceIndicatorID; }
+            set { _PerformanceIndicatorID = value; }
+        }
+        [Column(Name = "GCIndicatorMarkType", DataType = "String")]
+        public String GCIndicatorMarkType
+        {
+            get { return _GCIndicatorMarkType; }
+            set { _GCIndicatorMarkType = value; }
         }
     }
     #endregion
@@ -39381,6 +39431,154 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTransRenumerationCompHd
+    [Serializable]
+    [Table(Name = "vTransRenumerationCompHd")]
+    public partial class vTransRenumerationCompHd
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private Int32 _RenumerationCompID;
+        private String _RenumerationCompCode;
+        private String _RenumerationCompName;
+        private DateTime _StartEffectiveDate;
+        private Boolean _IsApplyWhenLeave;
+        private String _GCRenumerationAmountSource;
+        private String _RenumerationAmountSource;
+        private Int32 _FromRenumerationCompID;
+        private String _FromRenumerationCompCode;
+        private String _FromRenumerationCompName;
+        private Boolean _IsValueFromHd;
+        private Decimal _Amount;
+        private Boolean _IsAllowChange;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "RenumerationCompID", DataType = "Int32")]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "RenumerationCompCode", DataType = "String")]
+        public String RenumerationCompCode
+        {
+            get { return _RenumerationCompCode; }
+            set { _RenumerationCompCode = value; }
+        }
+        [Column(Name = "RenumerationCompName", DataType = "String")]
+        public String RenumerationCompName
+        {
+            get { return _RenumerationCompName; }
+            set { _RenumerationCompName = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "IsApplyWhenLeave", DataType = "Boolean")]
+        public Boolean IsApplyWhenLeave
+        {
+            get { return _IsApplyWhenLeave; }
+            set { _IsApplyWhenLeave = value; }
+        }
+        [Column(Name = "GCRenumerationAmountSource", DataType = "String")]
+        public String GCRenumerationAmountSource
+        {
+            get { return _GCRenumerationAmountSource; }
+            set { _GCRenumerationAmountSource = value; }
+        }
+        [Column(Name = "RenumerationAmountSource", DataType = "String")]
+        public String RenumerationAmountSource
+        {
+            get { return _RenumerationAmountSource; }
+            set { _RenumerationAmountSource = value; }
+        }
+        [Column(Name = "FromRenumerationCompID", DataType = "Int32")]
+        public Int32 FromRenumerationCompID
+        {
+            get { return _FromRenumerationCompID; }
+            set { _FromRenumerationCompID = value; }
+        }
+        [Column(Name = "FromRenumerationCompCode", DataType = "String")]
+        public String FromRenumerationCompCode
+        {
+            get { return _FromRenumerationCompCode; }
+            set { _FromRenumerationCompCode = value; }
+        }
+        [Column(Name = "FromRenumerationCompName", DataType = "String")]
+        public String FromRenumerationCompName
+        {
+            get { return _FromRenumerationCompName; }
+            set { _FromRenumerationCompName = value; }
+        }
+        [Column(Name = "IsValueFromHd", DataType = "Boolean")]
+        public Boolean IsValueFromHd
+        {
+            get { return _IsValueFromHd; }
+            set { _IsValueFromHd = value; }
+        }
+        [Column(Name = "Amount", DataType = "Decimal")]
+        public Decimal Amount
+        {
+            get { return _Amount; }
+            set { _Amount = value; }
+        }
+        [Column(Name = "IsAllowChange", DataType = "Boolean")]
+        public Boolean IsAllowChange
+        {
+            get { return _IsAllowChange; }
+            set { _IsAllowChange = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+    }
+    #endregion
     #region vTransRenumerationDt
     [Serializable]
     [Table(Name = "vTransRenumerationDt")]
@@ -40344,7 +40542,7 @@ namespace CodeX.Data.Model
         private Decimal _CreditAmount;
         private Decimal _TotalAmount;
         private String _ReferenceNo;
-        private Int16 _DisplayOrder;
+        private Int32 _DisplayOrder;
         private String _Remarks;
         private String _GCItemDetailStatus;
         private Boolean _IsDeleted;
@@ -40502,8 +40700,8 @@ namespace CodeX.Data.Model
             get { return _ReferenceNo; }
             set { _ReferenceNo = value; }
         }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
+        [Column(Name = "DisplayOrder", DataType = "Int32")]
+        public Int32 DisplayOrder
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }

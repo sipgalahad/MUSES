@@ -186,7 +186,9 @@ namespace CodeX.Common
             public const string POSITION = "X326^002";
             public const string FAMILY_STATUS = "X326^003";
             public const string JOB_LEVEL_POSITION = "X326^004";
+            public const string WORKING_YEARS = "X326^004";
             public const string EMPLOYEE = "X326^005";
+            public const string PERFORMANCE_INDICATOR = "X326^006";
         }
 
         public static class IndicatorMarkType

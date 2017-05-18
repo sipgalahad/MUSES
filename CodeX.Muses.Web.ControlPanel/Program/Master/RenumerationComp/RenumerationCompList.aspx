@@ -76,8 +76,8 @@
                                 <asp:BoundField DataField="RenumerationCompID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="RenumerationCompCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="RenumerationCompName" HeaderText="Nama" />
-                                <asp:BoundField DataField="RenumerationCompType" HeaderText="Tipe" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="RenumerationCompSource" HeaderText="Sumber" HeaderStyle-Width="150px" />
+                                <asp:CheckBoxField DataField="IsApplyToAll" HeaderText="Apply All" HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="ListRenumerationCompSource" HeaderText="Sumber" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Remarks" HeaderStyle-Width="250px" />
                             </Columns>
                             <EmptyDataTemplate>
@@ -87,14 +87,14 @@
                     </asp:Panel>
                 </dx:PanelContent>
             </PanelCollection>
-        </dxcp:ASPxCallbackPanel>    
-        <div class="imgLoadingGrdView" id="Div1" >
+        </dxcp:ASPxCallbackPanel>       
+        <div class="imgLoadingGrdView" id="containerImgLoadingView" >
             <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
         </div>
         <div class="containerPaging">
-            <div class="divInformationNumEntries" id="Div2"></div>
+            <div class="divInformationNumEntries" id="informationNumEntries"></div>
             <div class="wrapperPaging">
-                <div id="Div3"></div>
+                <div id="paging"></div>
             </div>
         </div> 
    </div>

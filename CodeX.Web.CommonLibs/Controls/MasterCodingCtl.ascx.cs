@@ -72,7 +72,7 @@ namespace CodeX.Web.CommonLibs.Controls
             }
             else
             {
-                result = BusinessLayer.GenerateMasterCode(hdnMasterType.Value, txtCodeInitial.Text, AppSession.UserLogin.SiteID, entityName, ctx);
+                result = BusinessLayer.GenerateMasterCode(hdnMasterType.Value, Request.Form[txtCodeInitial.UniqueID], AppSession.UserLogin.SiteID, entityName, ctx);
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
             }

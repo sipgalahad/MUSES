@@ -14,7 +14,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.Inventory.Program
 {
-    public partial class UpdateEmployeeSiteEntry : BasePageTrx
+    public partial class UpdateEmployeePositionEntry2 : BasePageTrx
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -44,8 +44,8 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void SetControlProperties()
         {
-            List<vSite> listRenumerationHd = BusinessLayer.GetvSiteList(string.Format(""));
-            Methods.SetComboBoxField<vSite>(cboSiteID, listRenumerationHd, "SiteName", "SiteID");
+            List<vOrganizationPosition> listRenumerationHd = BusinessLayer.GetvOrganizationPositionList(string.Format("IsDeleted = 0"));
+            Methods.SetComboBoxField<vOrganizationPosition>(cboPositionID, listRenumerationHd, "OrganizationPositionName", "OrganizationPositionID");
         }
 
         protected override void OnControlEntrySetting()
@@ -54,7 +54,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtTransactionNo, new ControlEntrySetting(false, false, false, ""));
             SetControlEntrySetting(txtTransactionDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtStartEffectiveDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
-            SetControlEntrySetting(cboSiteID, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboPositionID, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false, ""));
         }
 
@@ -83,25 +83,25 @@ namespace CodeX.Muses.Web.Inventory.Program
         public override int OnGetRowCount()
         {
             string filterExpression = GetFilterExpression();
-            return BusinessLayer.GetvTransEmployeeSiteHdRowCount(filterExpression);
+            return BusinessLayer.GetvTransEmployeePositionHdRowCount(filterExpression);
         }
 
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
             string filterExpression = GetFilterExpression();
-            vTransEmployeeSiteHd entity = BusinessLayer.GetvTransEmployeeSiteHd(filterExpression, PageIndex, "TransactionID DESC");
+            vTransEmployeePositionHd entity = BusinessLayer.GetvTransEmployeePositionHd(filterExpression, PageIndex, "TransactionID DESC");
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
         }
 
         protected override void OnLoadEntity(string keyValue, ref int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
             string filterExpression = GetFilterExpression();
-            PageIndex = BusinessLayer.GetvTransEmployeeSiteHdRowIndex(filterExpression, keyValue, "TransactionID DESC");
-            vTransEmployeeSiteHd entity = BusinessLayer.GetvTransEmployeeSiteHd(filterExpression, PageIndex, "TransactionID DESC");
+            PageIndex = BusinessLayer.GetvTransEmployeePositionHdRowIndex(filterExpression, keyValue, "TransactionID DESC");
+            vTransEmployeePositionHd entity = BusinessLayer.GetvTransEmployeePositionHd(filterExpression, PageIndex, "TransactionID DESC");
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
         }
 
-        private void EntityToControl(vTransEmployeeSiteHd entity, ref bool isShowWatermark, ref string watermarkText)
+        private void EntityToControl(vTransEmployeePositionHd entity, ref bool isShowWatermark, ref string watermarkText)
         {
             if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN)
             {
@@ -120,7 +120,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtTransactionNo.Text = entity.TransactionNo;
             txtStartEffectiveDate.Text = entity.StartEffectiveDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtTransactionDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-            cboSiteID.Value = entity.SiteID.ToString();
+            cboPositionID.Value = entity.OrganizationPositionID.ToString();
             txtRemarks.Text = entity.Remarks;
 
             BindGridView(1, true, ref PageCount, ref RowCount);
@@ -135,35 +135,35 @@ namespace CodeX.Muses.Web.Inventory.Program
                 filterExpression = string.Format("TransactionID = {0}", hdnTransactionID.Value);
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvTransEmployeeSiteDtRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvTransEmployeePositionDtRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vTransEmployeeSiteDt> lstEntity = BusinessLayer.GetvTransEmployeeSiteDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "EmployeeName ASC");
+            List<vTransEmployeePositionDt> lstEntity = BusinessLayer.GetvTransEmployeePositionDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "EmployeeName ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
         #endregion
 
         #region Save Header
-        public void SaveTransEmployeeSiteHd(IDbContext ctx, ref int TransactionID)
+        public void SaveTransEmployeePositionHd(IDbContext ctx, ref int TransactionID)
         {
-            TransEmployeeSiteHdDao entityHdDao = new TransEmployeeSiteHdDao(ctx);
+            TransEmployeePositionHdDao entityHdDao = new TransEmployeePositionHdDao(ctx);
             if (hdnTransactionID.Value == "0")
             {
-                TransEmployeeSiteHd entityHd = new TransEmployeeSiteHd();
+                TransEmployeePositionHd entityHd = new TransEmployeePositionHd();
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                 entityHd.StartEffectiveDate = Helper.GetDatePickerValue(Request.Form[txtStartEffectiveDate.UniqueID]);
-                entityHd.SiteID = cboSiteID.Value.ToString();
+                entityHd.OrganizationPositionID = Convert.ToInt32(cboPositionID.Value);
                 entityHd.Remarks = txtRemarks.Text;
-                entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.EMPLOYEE_SITE, entityHd.TransactionDate, ctx);
+                entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.EMPLOYEE_POSITION, entityHd.TransactionDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
 
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
                 entityHd.CreatedBy = AppSession.UserLogin.UserID;
                 entityHdDao.Insert(entityHd);
-                TransactionID = BusinessLayer.GetTransEmployeeSiteHdMaxID(ctx);
+                TransactionID = BusinessLayer.GetTransEmployeePositionHdMaxID(ctx);
             }
             else
             {
@@ -178,7 +178,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 int OrderID = 0;
-                SaveTransEmployeeSiteHd(ctx, ref OrderID);
+                SaveTransEmployeePositionHd(ctx, ref OrderID);
                 retval = OrderID.ToString();
                 ctx.CommitTransaction();
             }
@@ -200,13 +200,13 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             try
             {
-                TransEmployeeSiteHd entityHd = BusinessLayer.GetTransEmployeeSiteHd(Convert.ToInt32(hdnTransactionID.Value));
+                TransEmployeePositionHd entityHd = BusinessLayer.GetTransEmployeePositionHd(Convert.ToInt32(hdnTransactionID.Value));
                 entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]);
                 entityHd.StartEffectiveDate = Helper.GetDatePickerValue(Request.Form[txtStartEffectiveDate.UniqueID]);
-                entityHd.SiteID = cboSiteID.Value.ToString();
+                entityHd.OrganizationPositionID = Convert.ToInt32(cboPositionID.Value);
                 entityHd.Remarks = txtRemarks.Text;
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateTransEmployeeSiteHd(entityHd);
+                BusinessLayer.UpdateTransEmployeePositionHd(entityHd);
                 return true;
             }
             catch (Exception ex)
@@ -222,22 +222,23 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            TransEmployeeSiteHdDao transEmployeeSiteHdDao = new TransEmployeeSiteHdDao(ctx);
+            TransEmployeePositionHdDao transEmployeePositionHdDao = new TransEmployeePositionHdDao(ctx);
             EmployeeDao employeeDao = new EmployeeDao(ctx);
             try
             {
-                TransEmployeeSiteHd transEmployeeSiteHd = transEmployeeSiteHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                transEmployeeSiteHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                transEmployeeSiteHd.Remarks = txtRemarks.Text;
-                transEmployeeSiteHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                transEmployeeSiteHdDao.Update(transEmployeeSiteHd);
+                TransEmployeePositionHd transEmployeePositionHd = transEmployeePositionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                transEmployeePositionHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                transEmployeePositionHd.Remarks = txtRemarks.Text;
+                transEmployeePositionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                transEmployeePositionHdDao.Update(transEmployeePositionHd);
 
-                if (String.Compare(transEmployeeSiteHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
+                if (String.Compare(transEmployeePositionHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
                 {
-                    List<Employee> lstEmpl = BusinessLayer.GetEmployeeList(String.Format("EmployeeID IN (SELECT EmployeeID FROM TransEmployeeSiteDt WHERE TransactionID = {0})", hdnTransactionID.Value), ctx);
+                    List<Employee> lstEmpl = BusinessLayer.GetEmployeeList(String.Format("EmployeeID IN (SELECT EmployeeID FROM TransEmployeePositionDt WHERE TransactionID = {0})", hdnTransactionID.Value), ctx);
                     foreach (Employee employee in lstEmpl)
                     {
-                        employee.SiteID = cboSiteID.Value.ToString();
+                        employee.CurrentTransPositionID = Convert.ToInt32(hdnTransactionID.Value);
+                        employee.LastProcessedPositionDate = DateTime.Now;
                         employeeDao.Update(employee);
                     }
                 }
@@ -264,14 +265,14 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            TransEmployeeSiteHdDao transEmployeeSiteHdDao = new TransEmployeeSiteHdDao(ctx);
+            TransEmployeePositionHdDao transEmployeePositionHdDao = new TransEmployeePositionHdDao(ctx);
             
             try
             {
-                TransEmployeeSiteHd transEmployeeSiteHd = transEmployeeSiteHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                transEmployeeSiteHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
-                transEmployeeSiteHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                transEmployeeSiteHdDao.Update(transEmployeeSiteHd);
+                TransEmployeePositionHd transEmployeePositionHd = transEmployeePositionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                transEmployeePositionHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                transEmployeePositionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                transEmployeePositionHdDao.Update(transEmployeePositionHd);
 
                 ctx.CommitTransaction();
             }
@@ -293,22 +294,22 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            TransEmployeeSiteHdDao transEmployeeSiteHdDao = new TransEmployeeSiteHdDao(ctx);
+            TransEmployeePositionHdDao transEmployeePositionHdDao = new TransEmployeePositionHdDao(ctx);
             
             try
             {
-                TransEmployeeSiteHd transEmployeeSiteHd = transEmployeeSiteHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                TransEmployeePositionHd transEmployeePositionHd = transEmployeePositionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
 
-                if (String.Compare(transEmployeeSiteHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
+                if (String.Compare(transEmployeePositionHd.StartEffectiveDate.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd")) <= 0)
                 {
                     result = false;
                     errMessage = "Transaksi Sudah Diproses, Tidak Dapat Diubah";
                 }
                 else
                 {
-                    transEmployeeSiteHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                    transEmployeeSiteHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    transEmployeeSiteHdDao.Update(transEmployeeSiteHd);
+                    transEmployeePositionHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    transEmployeePositionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    transEmployeePositionHdDao.Update(transEmployeePositionHd);
                 }
                 ctx.CommitTransaction();
             }
@@ -331,14 +332,14 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            TransEmployeeSiteHdDao transEmployeeSiteHdDao = new TransEmployeeSiteHdDao(ctx);
+            TransEmployeePositionHdDao transEmployeePositionHdDao = new TransEmployeePositionHdDao(ctx);
             
             try
             {
-                TransEmployeeSiteHd transEmployeeSiteHd = transEmployeeSiteHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
-                transEmployeeSiteHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                transEmployeeSiteHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                transEmployeeSiteHdDao.Update(transEmployeeSiteHd);
+                TransEmployeePositionHd transEmployeePositionHd = transEmployeePositionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                transEmployeePositionHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                transEmployeePositionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                transEmployeePositionHdDao.Update(transEmployeePositionHd);
 
                 ctx.CommitTransaction();
             }
@@ -388,7 +389,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             panel.JSProperties["cpTransactionID"] = adjustmentID.ToString();
         }
 
-        private void ControlToEntity(TransEmployeeSiteDt entityDt)
+        private void ControlToEntity(TransEmployeePositionDt entityDt)
         {
             entityDt.EmployeeID = Convert.ToInt32(tacEmployeeID.Value);
         }
@@ -397,11 +398,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            TransEmployeeSiteDtDao entityDtDao = new TransEmployeeSiteDtDao(ctx);
+            TransEmployeePositionDtDao entityDtDao = new TransEmployeePositionDtDao(ctx);
             try
             {
-                SaveTransEmployeeSiteHd(ctx, ref TransactionID);
-                TransEmployeeSiteDt entityDt = new TransEmployeeSiteDt();
+                SaveTransEmployeePositionHd(ctx, ref TransactionID);
+                TransEmployeePositionDt entityDt = new TransEmployeePositionDt();
                 ControlToEntity(entityDt);
                 entityDt.TransactionID = TransactionID;
                 entityDtDao.Insert(entityDt);
@@ -426,7 +427,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             try
             {
-                BusinessLayer.DeleteTransEmployeeSiteDt(Convert.ToInt32(hdnTransactionID.Value), Convert.ToInt32(tacEmployeeID.Value));
+                BusinessLayer.DeleteTransEmployeePositionDt(Convert.ToInt32(hdnTransactionID.Value), Convert.ToInt32(tacEmployeeID.Value));
                 return true;
             }
             catch (Exception ex)

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPTrx.master" AutoEventWireup="true" 
-    CodeBehind="UpdateEmployeeJobLevelEntry.aspx.cs" Inherits="CodeX.Muses.Web.Inventory.Program.UpdateEmployeeJobLevelEntry" %>
+    CodeBehind="UpdateEmployeePositionEntry2.aspx.cs" Inherits="CodeX.Muses.Web.Inventory.Program.UpdateEmployeePositionEntry2" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -17,7 +17,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
-        function onLoad() {
             if ($('#<%=hdnIsEditable.ClientID %>').val() == '1') {
                 $('#divTransactionAdd').show();
                 $('#divQuickPicks').show();
@@ -39,7 +38,7 @@
             }
 
             $('#lblTransactionNo.lblLink').click(function () {
-                openSearchDialog('transemployeejoblevelhd', onGetEmployeePositionFilterExpression(), function (value) {
+                openSearchDialog('transemployeepositionhd', onGetEmployeePositionFilterExpression(), function (value) {
                     $('#<%=txtTransactionNo.ClientID %>').val(value);
                     onTxtTransactionNoChanged(value);
                 });
@@ -57,7 +56,7 @@
             $('#divTemplatePicks').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
                     //showLoadingPanel();
-                    id = "JL";
+                    id = "EP";
                     var url = ResolveUrl('~/Program/Master/HRScheduleGroup/TemplateEmployeeGroupPicksCtl.ascx');
                     openUserControlPopup(url, id, 'Template Picks', 1000, 600);
                 }
@@ -80,15 +79,6 @@
                 if (IsValid(evt, 'fsTrx', 'mpTrx')) {
                     cbpProcess.PerformCallback('save');
                 }
-            });
-
-            $('#btnCancel2').click(function () {
-                $('#entryDetailContainer2').hide();
-            });
-
-            $('#btnSave2').click(function (evt) {
-                if (IsValid(evt, 'fsTrx2', 'mpTrx'))
-                    cbpProcess2.PerformCallback('save');
             });
 
             var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
@@ -138,7 +128,7 @@
             if ($('#<%=hdnTransactionID.ClientID %>').val() == '0') {
                 $('#<%=hdnTransactionID.ClientID %>').val(TransactionID);
                 var filterExpression = 'TransactionID = ' + TransactionID;
-                Methods.getObject('GetTransEmployeeJobLevelHdList', filterExpression, function (result) {
+                Methods.getObject('GetTransEmployeePositionHdList', filterExpression, function (result) {
                     $('#<%=txtTransactionNo.ClientID %>').val(result.TransactionNo);
                     cbpView.PerformCallback('refresh');
                 });
@@ -194,11 +184,8 @@
         //#region Employee
         function onGetEmployeeFilterExpression() {
             var TransactionID = $('#<%=hdnTransactionID.ClientID %>').val();
-            var filterExpression = "1 = 0";
-            if (TransactionID != '') {
-                filterExpression = "<%=OnGetEmployeeFilterExpression() %>"
-                filterExpression += " AND IsDeleted = 0 AND EmployeeID NOT IN (SELECT EmployeeID FROM TransEmployeePositionDt WHERE TransactionID = " + TransactionID + ")";
-            }
+            var filterExpression = "<%=OnGetEmployeeFilterExpression() %>"
+               
             return filterExpression;
         }
 
@@ -224,7 +211,7 @@
         //#endregion
     </script>    
     <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
-    <input type="hidden" value="" id="hdnTransactionID" runat="server" />
+    <input type="hidden" value="0" id="hdnTransactionID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
     <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
@@ -255,8 +242,20 @@
                             <td><asp:TextBox ID="txtStartEffectiveDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Golongan")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboJobLevelID" ClientInstanceName="cboJobLevelID" Width="200px" runat="server" /></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Posisi")%></label></td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <dxe:ASPxComboBox ID="cboPositionID" ClientInstanceName="cboPositionID" Width="200px" runat="server">
+                                                <ClientSideEvents ValueChanged="function(s,e) { onCboPositionIDValueChanged() }" />
+                                            </dxe:ASPxComboBox>
+                                        </td>
+                                        <td style="width:5px;"></td>
+                                        <td><input type="button" id="btnRenumerationID" class="btnMore" value="..." /></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                        <tr>
                             <td style="vertical-align:top; padding-top: 5px;" class="tdLabel"><label class="lblRemarks"><%=GetLabel("Catatan")%></label></td>

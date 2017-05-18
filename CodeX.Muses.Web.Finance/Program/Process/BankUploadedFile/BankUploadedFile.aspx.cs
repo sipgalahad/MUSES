@@ -387,6 +387,9 @@ namespace CodeX.Muses.Web.Finance.Program
                             {
                                 BankData entity = new BankData();
                                 entity.NBS = tempData.Substring(8, 6);
+                                if (entity.NBS == "217025")
+                                {
+                                }
                                 entity.StudentName = tempData.Substring(28, 16);
                                 entity.Amount = Convert.ToDecimal(tempData.Substring(51,20));
 

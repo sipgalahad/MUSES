@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvPurchaseOrderDtList" datasourcehd="GetvPurchaseOrderHdList" custompadding="0.2cm 1.3cm" filterexpressionhd="" headertext="SURAT PESANAN BARANG" filterexpression="IsDeleted = 0" papertype="A4_portrait" fontsize="9pt"/>
+  <table datasource="GetvPurchaseOrderDtList" datasourcehd="GetvPurchaseOrderHdList" custompadding="0.2cm 1.3cm" filterexpressionhd="" headertext="SURAT PESANAN BARANG" filterexpression="IsDeleted = 0" papertype="A4_portrait" fontsize="8pt"/>
   <parameters>
     <parameter code="FP001"/>
   </parameters>
@@ -10,8 +10,8 @@
     <field fieldname="Quantity" headertext="Quantity" width="10" fieldtype="number"/>
     <field fieldname="PurchaseUnit" headertext="Satuan" width="10" />
     <field fieldname="UnitPrice" headertext="Harga" width="15" fieldtype="currency"/>
-    <field fieldname="DiscountPercentage1" headertext="Disc 1" width="10" fieldtype="currency"/>
-    <field fieldname="DiscountPercentage2" headertext="Disc 2" width="10" fieldtype="currency"/>
+    <field fieldname="DiscountAmount1" headertext="Disc 1" width="10" fieldtype="currency"/>
+    <field fieldname="DiscountAmount2" headertext="Disc 2" width="10" fieldtype="currency"/>
     <field fieldname="LineAmount" headertext="Total" width="15" fieldtype="currency"/>
   </fields>
   <headertemplate>
@@ -51,6 +51,39 @@
   </headertemplate>
   <footertemplate>
     <![CDATA[
+     <table style="width:100%;" cellspacing="0" cellpadding="0">
+       <tr>
+        <td align="right" class="tdReportTotal">
+          <table>
+            <colgroup>
+             <col style="width:90px"/>
+             <col style="width:5px"/>
+             <col style="width:60px"/>
+            </colgroup> 
+            <tr>
+              <td>DPP</td>
+              <td>:</td>
+              <td align="right">{TransactionAmount,N}</td>
+            </tr>
+            <tr>
+              <td>Diskon Final</td>
+              <td>:</td>
+              <td align="right">{FinalDiscountAmount,N}</td>
+            </tr>
+            <tr>
+              <td>PPN</td>
+              <td>:</td>
+              <td align="right">{VATAmount,N}</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>:</td>
+              <td align="right">{TotalNetTransactionAmount,N}</td>
+            </tr>
+          </table>          
+        </td>
+       </tr>
+     </table>
      <table style="width:100%" cellspacing="0" cellpadding="0">
       <colgroup>
         <col style="width:50%"/>

@@ -13776,7 +13776,7 @@ namespace CodeX.Data.Model
         private Decimal _DebitAmount;
         private Decimal _CreditAmount;
         private String _ReferenceNo;
-        private Int16 _DisplayOrder;
+        private Int32 _DisplayOrder;
         private String _Remarks;
         private String _GCItemDetailStatus;
         private Boolean _IsDeleted;
@@ -13833,8 +13833,8 @@ namespace CodeX.Data.Model
             get { return _ReferenceNo; }
             set { _ReferenceNo = value; }
         }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
+        [Column(Name = "DisplayOrder", DataType = "Int32")]
+        public Int32 DisplayOrder
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
@@ -29516,8 +29516,11 @@ namespace CodeX.Data.Model
         private Int32 _RenumerationCompID;
         private String _RenumerationCompCode;
         private String _RenumerationCompName;
+        private Boolean _IsApplyToAll;
         private String _GCRenumerationCompType;
         private String _GCRenumerationCompSource;
+        private Int32? _CurrentTransactionID;
+        private DateTime _LastProcessedDate;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -29543,6 +29546,12 @@ namespace CodeX.Data.Model
             get { return _RenumerationCompName; }
             set { _RenumerationCompName = value; }
         }
+        [Column(Name = "IsApplyToAll", DataType = "Boolean")]
+        public Boolean IsApplyToAll
+        {
+            get { return _IsApplyToAll; }
+            set { _IsApplyToAll = value; }
+        }
         [Column(Name = "GCRenumerationCompType", DataType = "String")]
         public String GCRenumerationCompType
         {
@@ -29554,6 +29563,18 @@ namespace CodeX.Data.Model
         {
             get { return _GCRenumerationCompSource; }
             set { _GCRenumerationCompSource = value; }
+        }
+        [Column(Name = "CurrentTransactionID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurrentTransactionID
+        {
+            get { return _CurrentTransactionID; }
+            set { _CurrentTransactionID = value; }
+        }
+        [Column(Name = "LastProcessedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastProcessedDate
+        {
+            get { return _LastProcessedDate; }
+            set { _LastProcessedDate = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -29764,6 +29785,77 @@ namespace CodeX.Data.Model
                 record = new RenumerationCompFormulaHdDao().Get(FormulaID);
             else
                 record = Get(FormulaID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region RenumerationCompSource
+    [Serializable]
+    [Table(Name = "RenumerationCompSource")]
+    public class RenumerationCompSource : DbDataModel
+    {
+        private Int32 _RenumerationCompID;
+        private String _GCRenumerationCompSource;
+        private Int32? _PerformanceIndicatorID;
+
+        [Column(Name = "RenumerationCompID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "GCRenumerationCompSource", DataType = "String", IsPrimaryKey = true)]
+        public String GCRenumerationCompSource
+        {
+            get { return _GCRenumerationCompSource; }
+            set { _GCRenumerationCompSource = value; }
+        }
+        [Column(Name = "PerformanceIndicatorID", DataType = "Int32", IsNullable = true)]
+        public Int32? PerformanceIndicatorID
+        {
+            get { return _PerformanceIndicatorID; }
+            set { _PerformanceIndicatorID = value; }
+        }
+    }
+
+    public class RenumerationCompSourceDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RenumerationCompSource));
+        private bool _isAuditLog = false;
+        private const string p_GCRenumerationCompSource = "@p_GCRenumerationCompSource";
+        private const string p_RenumerationCompID = "@p_RenumerationCompID";
+        public RenumerationCompSourceDao() { }
+        public RenumerationCompSourceDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RenumerationCompSource Get(Int32 RenumerationCompID, String GCRenumerationCompSource)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCRenumerationCompSource, GCRenumerationCompSource);
+            _ctx.Add(p_RenumerationCompID, RenumerationCompID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RenumerationCompSource)_helper.DataRowToObject(row, new RenumerationCompSource());
+        }
+        public int Insert(RenumerationCompSource record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RenumerationCompSource record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 RenumerationCompID, String GCRenumerationCompSource)
+        {
+            RenumerationCompSource record;
+            if (_ctx.Transaction == null)
+                record = new RenumerationCompSourceDao().Get(RenumerationCompID, GCRenumerationCompSource);
+            else
+                record = Get(RenumerationCompID, GCRenumerationCompSource);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -44731,6 +44823,316 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region TransRenumerationCompDt
+    [Serializable]
+    [Table(Name = "TransRenumerationCompDt")]
+    public class TransRenumerationCompDt : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private Int32 _TransactionID;
+        private Int32? _JobLevelID;
+        private Int32? _OrganizationPositionID;
+        private Int32? _FamilyStatusID;
+        private Int32? _PerformanceIndicatorDtID;
+        private Int16 _WorkingYears;
+        private Decimal _Amount;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "JobLevelID", DataType = "Int32", IsNullable = true)]
+        public Int32? JobLevelID
+        {
+            get { return _JobLevelID; }
+            set { _JobLevelID = value; }
+        }
+        [Column(Name = "OrganizationPositionID", DataType = "Int32", IsNullable = true)]
+        public Int32? OrganizationPositionID
+        {
+            get { return _OrganizationPositionID; }
+            set { _OrganizationPositionID = value; }
+        }
+        [Column(Name = "FamilyStatusID", DataType = "Int32", IsNullable = true)]
+        public Int32? FamilyStatusID
+        {
+            get { return _FamilyStatusID; }
+            set { _FamilyStatusID = value; }
+        }
+        [Column(Name = "PerformanceIndicatorDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? PerformanceIndicatorDtID
+        {
+            get { return _PerformanceIndicatorDtID; }
+            set { _PerformanceIndicatorDtID = value; }
+        }
+        [Column(Name = "WorkingYears", DataType = "Int16", IsNullable = true)]
+        public Int16 WorkingYears
+        {
+            get { return _WorkingYears; }
+            set { _WorkingYears = value; }
+        }
+        [Column(Name = "Amount", DataType = "Decimal")]
+        public Decimal Amount
+        {
+            get { return _Amount; }
+            set { _Amount = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TransRenumerationCompDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransRenumerationCompDt));
+        private bool _isAuditLog = false;
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public TransRenumerationCompDtDao() { }
+        public TransRenumerationCompDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransRenumerationCompDt Get(Int32 TransactionDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransRenumerationCompDt)_helper.DataRowToObject(row, new TransRenumerationCompDt());
+        }
+        public int Insert(TransRenumerationCompDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransRenumerationCompDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID)
+        {
+            TransRenumerationCompDt record;
+            if (_ctx.Transaction == null)
+                record = new TransRenumerationCompDtDao().Get(TransactionDtID);
+            else
+                record = Get(TransactionDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TransRenumerationCompHd
+    [Serializable]
+    [Table(Name = "TransRenumerationCompHd")]
+    public class TransRenumerationCompHd : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private DateTime _TransactionDate;
+        private Int32 _RenumerationCompID;
+        private DateTime _StartEffectiveDate;
+        private Boolean _IsApplyWhenLeave;
+        private String _GCRenumerationAmountSource;
+        private Int32? _FromRenumerationCompID;
+        private Boolean _IsValueFromHd;
+        private Decimal _Amount;
+        private Boolean _IsAllowChange;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "RenumerationCompID", DataType = "Int32")]
+        public Int32 RenumerationCompID
+        {
+            get { return _RenumerationCompID; }
+            set { _RenumerationCompID = value; }
+        }
+        [Column(Name = "StartEffectiveDate", DataType = "DateTime")]
+        public DateTime StartEffectiveDate
+        {
+            get { return _StartEffectiveDate; }
+            set { _StartEffectiveDate = value; }
+        }
+        [Column(Name = "IsApplyWhenLeave", DataType = "Boolean")]
+        public Boolean IsApplyWhenLeave
+        {
+            get { return _IsApplyWhenLeave; }
+            set { _IsApplyWhenLeave = value; }
+        }
+        [Column(Name = "GCRenumerationAmountSource", DataType = "String")]
+        public String GCRenumerationAmountSource
+        {
+            get { return _GCRenumerationAmountSource; }
+            set { _GCRenumerationAmountSource = value; }
+        }
+        [Column(Name = "FromRenumerationCompID", DataType = "Int32", IsNullable = true)]
+        public Int32? FromRenumerationCompID
+        {
+            get { return _FromRenumerationCompID; }
+            set { _FromRenumerationCompID = value; }
+        }
+        [Column(Name = "IsValueFromHd", DataType = "Boolean")]
+        public Boolean IsValueFromHd
+        {
+            get { return _IsValueFromHd; }
+            set { _IsValueFromHd = value; }
+        }
+        [Column(Name = "Amount", DataType = "Decimal")]
+        public Decimal Amount
+        {
+            get { return _Amount; }
+            set { _Amount = value; }
+        }
+        [Column(Name = "IsAllowChange", DataType = "Boolean")]
+        public Boolean IsAllowChange
+        {
+            get { return _IsAllowChange; }
+            set { _IsAllowChange = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TransRenumerationCompHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TransRenumerationCompHd));
+        private bool _isAuditLog = false;
+        private const string p_TransactionID = "@p_TransactionID";
+        public TransRenumerationCompHdDao() { }
+        public TransRenumerationCompHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TransRenumerationCompHd Get(Int32 TransactionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TransRenumerationCompHd)_helper.DataRowToObject(row, new TransRenumerationCompHd());
+        }
+        public int Insert(TransRenumerationCompHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TransRenumerationCompHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID)
+        {
+            TransRenumerationCompHd record;
+            if (_ctx.Transaction == null)
+                record = new TransRenumerationCompHdDao().Get(TransactionID);
+            else
+                record = Get(TransactionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region TransRenumerationDt
     [Serializable]
     [Table(Name = "TransRenumerationDt")]
@@ -46401,7 +46803,7 @@ namespace CodeX.Data.Model
         private Decimal _CreditAmount;
         private Decimal _TotalAmount;
         private String _ReferenceNo;
-        private Int16 _DisplayOrder;
+        private Int32 _DisplayOrder;
         private String _Remarks;
         private String _GCItemDetailStatus;
         private Boolean _IsDeleted;
@@ -46464,8 +46866,8 @@ namespace CodeX.Data.Model
             get { return _ReferenceNo; }
             set { _ReferenceNo = value; }
         }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
+        [Column(Name = "DisplayOrder", DataType = "Int32")]
+        public Int32 DisplayOrder
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }

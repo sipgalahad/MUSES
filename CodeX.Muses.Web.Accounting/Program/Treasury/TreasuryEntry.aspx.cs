@@ -265,7 +265,7 @@ namespace CodeX.Muses.Web.Accounting.Program
 
                 JavaScriptSerializer json = new JavaScriptSerializer();
                 List<string[]> lstSaveParam = json.Deserialize<List<string[]>>(hdnSaveParam.Value);
-                short i = 1;
+                int i = 1;
                 foreach (string[] param in lstSaveParam)
                 {
                     TreasuryDt entityDt = new TreasuryDt();
@@ -332,11 +332,13 @@ namespace CodeX.Muses.Web.Accounting.Program
 
                 List<TreasuryDt> lstTreasuryDt = null;
                 if (hdnListTransactionDtID.Value != "")
-                    lstTreasuryDt = BusinessLayer.GetTreasuryDtList(string.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnID.Value, Constant.TransactionStatus.VOID));
+                    lstTreasuryDt = BusinessLayer.GetTreasuryDtList(string.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnID.Value, Constant.TransactionStatus.VOID), ctx);
+                else
+                    lstTreasuryDt = new List<TreasuryDt>();
 
                 JavaScriptSerializer json = new JavaScriptSerializer();
                 List<string[]> lstSaveParam = json.Deserialize<List<string[]>>(hdnSaveParam.Value);
-                short i = 1;
+                int i = 1;
                 foreach (string[] param in lstSaveParam)
                 {
                     int transactionDtID = Convert.ToInt32(param[0]);
@@ -526,7 +528,7 @@ namespace CodeX.Muses.Web.Accounting.Program
                         entityDt.CreditAmount = GlTransactionDt.CreditAmount;
                         entityDt.ReferenceNo = GlTransactionDt.ReferenceNo;
                         entityDt.Position = GlTransactionDt.Position;
-                        entityDt.DisplayOrder = (short)(GlTransactionDt.DisplayOrder + 1);
+                        entityDt.DisplayOrder = (int)(GlTransactionDt.DisplayOrder + 1);
                         entityDt.CreatedBy = AppSession.UserLogin.UserID;
                         entityDtDao.Insert(entityDt);
                     }

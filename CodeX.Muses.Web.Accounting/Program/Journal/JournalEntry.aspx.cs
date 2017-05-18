@@ -235,7 +235,7 @@ namespace CodeX.Muses.Web.Accounting.Program
 
                 JavaScriptSerializer json = new JavaScriptSerializer();
                 List<string[]> lstSaveParam = json.Deserialize<List<string[]>>(hdnSaveParam.Value);
-                short i = 1;
+                int i = 1;
                 foreach (string[] param in lstSaveParam)
                 {
                     GLTransactionDt entityDt = new GLTransactionDt();
@@ -298,11 +298,13 @@ namespace CodeX.Muses.Web.Accounting.Program
 
                 List<GLTransactionDt> lstGLTransactionDt = null;
                 if (hdnListTransactionDtID.Value != "")
-                    lstGLTransactionDt = BusinessLayer.GetGLTransactionDtList(string.Format("GLTransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnID.Value, Constant.TransactionStatus.VOID));
+                    lstGLTransactionDt = BusinessLayer.GetGLTransactionDtList(string.Format("GLTransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnID.Value, Constant.TransactionStatus.VOID), ctx);
+                else
+                    lstGLTransactionDt = new List<GLTransactionDt>();
 
                 JavaScriptSerializer json = new JavaScriptSerializer();
                 List<string[]> lstSaveParam = json.Deserialize<List<string[]>>(hdnSaveParam.Value);
-                short i = 1;
+                int i = 1;
                 foreach (string[] param in lstSaveParam)
                 {
                     int transactionDtID = Convert.ToInt32(param[0]);

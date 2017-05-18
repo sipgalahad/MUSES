@@ -24,6 +24,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             return Constant.RenumerationCompType.DEDUCTION;
         }
 
+        protected string OnGetRenumerationCompSourcePerformanceIndicator()
+        {
+            return Constant.RenumerationCompSource.PERFORMANCE_INDICATOR;
+        }
+
         protected override void InitializeDataControl()
         {
             if (Request.QueryString.Count > 0)
@@ -42,7 +47,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.RENUMERATION_COMP);
             ctlEntityCode.SetControlVisibility(IsAdd);
-            ctlEntityCode.SetFocus();
+            txtRenumerationCompName.Focus();
         }
 
         public override void OnAddRecord()
@@ -52,9 +57,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void SetControlProperties()
         {
+            List<PerformanceIndicatorHd> lstIndicator = BusinessLayer.GetPerformanceIndicatorHdList("IsDeleted = 0");
+            Methods.SetComboBoxField<PerformanceIndicatorHd>(ddlPerformanceIndicator, lstIndicator, "PerformanceIndicatorName", "PerformanceIndicatorID");
+
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.RENUMERATION_COMP_TYPE, Constant.StandardCode.RENUMERATION_COMP_SOURCE));
             Methods.SetComboBoxField<StandardCode>(cboRenumerationCompType, lstSc.Where(p => p.ParentID == Constant.StandardCode.RENUMERATION_COMP_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboRenumerationCompSource, lstSc.Where(p => p.ParentID == Constant.StandardCode.RENUMERATION_COMP_SOURCE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(ddlRenumerationCompSource, lstSc.Where(p => p.ParentID == Constant.StandardCode.RENUMERATION_COMP_SOURCE).ToList(), "StandardCodeName", "StandardCodeID");
         }
 
         protected override void OnControlEntrySetting()
@@ -77,11 +86,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void ControlToEntity(RenumerationComp entity, IDbContext ctx)
         {
             entity.RenumerationCompName = txtRenumerationCompName.Text;
-            entity.GCRenumerationCompType = cboRenumerationCompType.Value.ToString();
-            if (entity.GCRenumerationCompType == Constant.RenumerationCompType.DEDUCTION)
-                entity.GCRenumerationCompSource = null;
-            else
-                entity.GCRenumerationCompSource = cboRenumerationCompSource.Value.ToString();
+            entity.GCRenumerationCompType = "";
+            entity.IsApplyToAll = chkIsApllyToAll.Checked;
+            entity.GCRenumerationCompSource = null;
             entity.Remarks = txtRemarks.Text;
             entity.RenumerationCompCode = ctlEntityCode.GetCode(entity.RenumerationCompName, ctx);
         }
@@ -90,13 +97,31 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             RenumerationCompDao entityDao = new RenumerationCompDao(ctx);
+            RenumerationCompSourceDao entityDtDao = new RenumerationCompSourceDao(ctx);
             bool result = false;
             try
             {
                 RenumerationComp entity = new RenumerationComp();
                 ControlToEntity(entity, ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                retval = entityDao.Insert(entity).ToString();
+                entity.RenumerationCompID = entityDao.Insert(entity);
+
+                string[] lstSaveValue = hdnLstSaveValue.Value.Split('|');
+                foreach (string saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(';');
+                    RenumerationCompSource entityDt = new RenumerationCompSource();
+                    entityDt.RenumerationCompID = entity.RenumerationCompID;
+                    entityDt.GCRenumerationCompSource = temp[0];
+                    if (entityDt.GCRenumerationCompSource == Constant.RenumerationCompSource.PERFORMANCE_INDICATOR)
+                        entityDt.PerformanceIndicatorID = Convert.ToInt32(temp[1]);
+                    else
+                        entityDt.PerformanceIndicatorID = null;
+                    entityDtDao.Insert(entityDt);
+                }
+
+                retval = entity.RenumerationCompID.ToString();
+
                 ctx.CommitTransaction();
                 result = true;
             }
@@ -118,6 +143,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             RenumerationCompDao entityDao = new RenumerationCompDao(ctx);
+            RenumerationCompSourceDao entityDtDao = new RenumerationCompSourceDao(ctx);
             bool result = false;
             try
             {
@@ -125,6 +151,33 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 ControlToEntity(entity, ctx);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
+
+                string[] lstSaveValue = hdnLstSaveValue.Value.Split('|');
+                List<RenumerationCompSource> lstEntityDt = BusinessLayer.GetRenumerationCompSourceList(String.Format("RenumerationCompID = {0}", entity.RenumerationCompID), ctx);
+
+                foreach (string saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(';');
+                    string GCRenumerationCompSource = temp[0];
+                    RenumerationCompSource entityDt = lstEntityDt.FirstOrDefault(p => p.GCRenumerationCompSource == GCRenumerationCompSource);
+                    if (entityDt == null)
+                    {
+                        entityDt = new RenumerationCompSource();
+                        entityDt.RenumerationCompID = entity.RenumerationCompID;
+                        entityDt.GCRenumerationCompSource = GCRenumerationCompSource;
+                        if (entityDt.GCRenumerationCompSource == Constant.RenumerationCompSource.PERFORMANCE_INDICATOR)
+                            entityDt.PerformanceIndicatorID = Convert.ToInt32(temp[1]);
+                        else
+                            entityDt.PerformanceIndicatorID = null;
+                        entityDtDao.Insert(entityDt);
+                    }
+                    else
+                        lstEntityDt.Remove(entityDt);
+                }
+                foreach (RenumerationCompSource entityDt in lstEntityDt)
+                {
+                    entityDtDao.Delete(entityDt.RenumerationCompID, entityDt.GCRenumerationCompSource);
+                }
                 ctx.CommitTransaction();
                 result = true;
             }

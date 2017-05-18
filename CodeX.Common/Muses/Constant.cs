@@ -663,6 +663,7 @@ namespace CodeX.Common
             {
                 public const string UPDATE_RENUMERATION = "HR010101";
                 public const string UPDATE_RENUMERATION_COMP_FORMULA = "HR010102";
+                public const string UPDATE_RENUMERATION_COMP = "HR010103";
                 
                 public const string UPDATE_RENUMERATION_JOB_LEVEL = "HR010201";
                 public const string UPDATE_RENUMERATION_POSITION = "HR010202";
@@ -1079,7 +1080,7 @@ namespace CodeX.Common
             public const string JOB_LEVEL_POSITION_RENUMERATION = "8216";
             public const string JOB_LEVEL_WORK_YEARS = "8217";
             public const string JOB_LEVEL_PERFORMANCE_INDICATOR = "8217";
-
+            public const string RENUMERATION_COMP = "8219";
 
             public const string TEACHER_PROFILE = "9101";
         }

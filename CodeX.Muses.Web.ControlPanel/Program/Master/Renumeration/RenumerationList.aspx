@@ -91,14 +91,14 @@
                     </asp:Panel>
                 </dx:PanelContent>
             </PanelCollection>
-        </dxcp:ASPxCallbackPanel>    
-        <div class="imgLoadingGrdView" id="Div1" >
+        </dxcp:ASPxCallbackPanel>     
+        <div class="imgLoadingGrdView" id="containerImgLoadingView" >
             <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
         </div>
         <div class="containerPaging">
-            <div class="divInformationNumEntries" id="Div2"></div>
+            <div class="divInformationNumEntries" id="informationNumEntries"></div>
             <div class="wrapperPaging">
-                <div id="Div3"></div>
+                <div id="paging"></div>
             </div>
         </div> 
    </div>

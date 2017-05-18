@@ -70,14 +70,14 @@ namespace CodeX.Muses.Web.Finance.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vStudentFee entity = e.Item.DataItem as vStudentFee;
-                List<vStudentFeeDt> lstTemp = lstStudentFeeDt.Where(x => x.StudentFeeID == entity.StudentFeeID && x.GCTransactionStatus != Constant.TransactionStatus.CLOSED).ToList();
+                List<vStudentFeeDt> lstTemp = lstStudentFeeDt.Where(x => x.StudentFeeID == entity.StudentFeeID && !x.IsPaid).ToList();
                 Repeater rptStudentFee = (Repeater)e.Item.FindControl("rptStudentFee");
                 rptStudentFee.DataSource = lstTemp;
                 rptStudentFee.DataBind();
 
                 if (lstTemp.Count() > 0)
                 {
-                    decimal paymentAmount = lstStudentFeeDt.Where(x => x.StudentFeeID == entity.StudentFeeID && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.StudentAmount);
+                    decimal paymentAmount = lstStudentFeeDt.Where(x => x.StudentFeeID == entity.StudentFeeID && x.IsPaid).Sum(x => x.StudentAmount);
                     Decimal totalAmount = entity.LineAmount - paymentAmount;
 
                     TextBox txtTotalAmount = e.Item.FindControl("txtTotalAmount") as TextBox;

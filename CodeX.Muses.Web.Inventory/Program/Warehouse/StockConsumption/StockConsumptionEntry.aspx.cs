@@ -272,7 +272,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             ItemTransactionHdSiteDao entityHdSiteDao = new ItemTransactionHdSiteDao(ctx);
             try
             {
-                ItemTransactionHd entityHd = BusinessLayer.GetItemTransactionHd(Convert.ToInt32(hdnConsumptionID.Value));
+                ItemTransactionHd entityHd = entityHdDao.Get(Convert.ToInt32(hdnConsumptionID.Value));
                 if (entityHd.GCTransactionStatus == Constant.TransactionStatus.OPEN)
                 {
                     entityHd.TransactionDate = Helper.GetDatePickerValue(Request.Form[txtConsumptionDate.UniqueID]);
@@ -282,7 +282,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     entityHd.GCConsumptionType = cboGCConsumptionType.Value.ToString();
                     entityHd.Remarks = txtRemarks.Text;
                     entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    BusinessLayer.UpdateItemTransactionHd(entityHd);
+                    entityHdDao.Update(entityHd);
 
                     List<ItemTransactionHdSite> lstEntityDt = BusinessLayer.GetItemTransactionHdSiteList(string.Format("TransactionID = {0}", entityHd.TransactionID), ctx);
                     string[] lstSiteID = hdnLstSiteID.Value.Split(',');
