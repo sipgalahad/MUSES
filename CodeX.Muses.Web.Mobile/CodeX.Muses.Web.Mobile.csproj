@@ -73,6 +73,7 @@
     <Content Include="Program\StudentClassInformation.aspx" />
     <Content Include="Program\StudentBillInformation.aspx" />
     <Content Include="Program\RemoteLogon.aspx" />
+    <Content Include="Program\TemplateContentViewCtl.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -181,6 +182,13 @@
     </Compile>
     <Compile Include="Program\RemoteLogon.aspx.designer.cs">
       <DependentUpon>RemoteLogon.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\TemplateContentViewCtl.ascx.cs">
+      <DependentUpon>TemplateContentViewCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\TemplateContentViewCtl.ascx.designer.cs">
+      <DependentUpon>TemplateContentViewCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

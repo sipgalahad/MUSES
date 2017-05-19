@@ -33,12 +33,20 @@ CodeBehind="SchoolAnnouncementEntry.aspx.cs" Inherits="CodeX.Ottimo.Web.ControlP
                         <td><asp:TextBox ID="txtTitle" Width="300px" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Mulai")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Dibuat")%></label></td>
                         <td><asp:TextBox ID="txtStartDate" CssClass="datepicker" Width="120px" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Selesai")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jam Dibuat")%></label></td>
+                        <td><asp:TextBox ID="txtStartTime" CssClass="time" Width="80px" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Expired")%></label></td>
                         <td><asp:TextBox ID="txtEndDate" CssClass="datepicker" Width="120px" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bagian")%></label></td>
+                        <td><dxe:ASPxComboBox ID="cboAnnouncementType" Width="200px" runat="server" /></td>
                     </tr>
                 </table>
             </td>

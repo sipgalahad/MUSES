@@ -32303,7 +32303,9 @@ namespace CodeX.Data.Model
         private String _SiteID;
         private String _Title;
         private DateTime _StartDate;
+        private String _StartTime;
         private DateTime _EndDate;
+        private String _GCAnnouncementType;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -32335,11 +32337,23 @@ namespace CodeX.Data.Model
             get { return _StartDate; }
             set { _StartDate = value; }
         }
+        [Column(Name = "StartTime", DataType = "String", IsNullable = true)]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
         [Column(Name = "EndDate", DataType = "DateTime")]
         public DateTime EndDate
         {
             get { return _EndDate; }
             set { _EndDate = value; }
+        }
+        [Column(Name = "GCAnnouncementType", DataType = "String", IsNullable = true)]
+        public String GCAnnouncementType
+        {
+            get { return _GCAnnouncementType; }
+            set { _GCAnnouncementType = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

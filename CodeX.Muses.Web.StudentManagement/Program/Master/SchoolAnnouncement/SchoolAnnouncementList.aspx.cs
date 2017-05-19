@@ -36,7 +36,7 @@ namespace CodeX.Ottimo.Web.ControlPanel.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetSchoolAnnouncementRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetvSchoolAnnouncementRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -66,11 +66,11 @@ namespace CodeX.Ottimo.Web.ControlPanel.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetSchoolAnnouncementRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvSchoolAnnouncementRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<SchoolAnnouncement> lstEntity = BusinessLayer.GetSchoolAnnouncementList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vSchoolAnnouncement> lstEntity = BusinessLayer.GetvSchoolAnnouncementList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

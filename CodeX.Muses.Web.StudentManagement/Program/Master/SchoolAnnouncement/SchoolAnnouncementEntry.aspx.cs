@@ -41,9 +41,19 @@ namespace CodeX.Ottimo.Web.ControlPanel.Program
             txtTitle.Focus();
         }
 
+        protected override void SetControlProperties()
+        {
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ANNOUCEMENT_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboAnnouncementType, lstSc, "StandardCodeName", "StandardCodeID");
+        }
+
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(txtTitle, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboAnnouncementType, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
+            SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
+            SetControlEntrySetting(txtStartTime, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.TIME_NOW));
         }
 
         private void EntityToControl(SchoolAnnouncement entity)
@@ -52,6 +62,8 @@ namespace CodeX.Ottimo.Web.ControlPanel.Program
             txtTemplateContent.Text = entity.Remarks;
             txtStartDate.Text = entity.StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtEndDate.Text = entity.EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            txtStartTime.Text = entity.StartTime;
+            cboAnnouncementType.Value = entity.GCAnnouncementType;
         }
 
         private void ControlToEntity(SchoolAnnouncement entity)
@@ -60,6 +72,8 @@ namespace CodeX.Ottimo.Web.ControlPanel.Program
             entity.Remarks = Helper.GetHTMLEditorText(txtTemplateContent);
             entity.StartDate = Helper.GetDatePickerValue(txtStartDate);
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate);
+            entity.StartTime = txtStartTime.Text;
+            entity.GCAnnouncementType = cboAnnouncementType.Value.ToString();
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)

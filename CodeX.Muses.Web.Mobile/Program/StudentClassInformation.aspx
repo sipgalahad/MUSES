@@ -22,6 +22,12 @@
         var lstHoliday = [];
         var lstEntity = [];
         function setListEntitySchedule() {
+            lstEntity = [];
+            $('#<%=grdSchedule.ClientID %> tr:gt(0)').each(function () {
+                $row = $(this).closest('tr');
+                var entity = rowToObject($row);
+                lstEntity.push(entity);
+            });
             var year = $('#<%=hdnYear.ClientID %>').val();
             var month = $('#<%=hdnMonth.ClientID %>').val();
             if (month != '') {
@@ -41,14 +47,13 @@
 
             $('#calSchedule').datepicker({
                 inline: true,
-                minDate: minDate,
-                maxDate: maxDate,
                 beforeShowDay: function (date) {
                     var theday = date.yyyymmdd();
                     for (var i = 0; i < lstEntity.length; ++i) {
                         var entity = lstEntity[i];
-                        if (theday >= entity.StartDateyyyyMMdd && theday <= entity.EndDateyyyyMMdd)
+                        if (theday >= entity.StartDateyyyyMMdd && theday <= entity.EndDateyyyyMMdd) {
                             return [true, "date" + entity.cfGCPeriodScheduleType, entity.PeriodScheduleName];
+                        }
                     }
 
                     for (var i = 0; i < lstHoliday.length; ++i) {
@@ -71,13 +76,8 @@
         $(function () {
             Methods.getListObject('GetHolidayList', 'IsDeleted = 0', function (result) {
                 lstHoliday = result;
-
-                lstEntity = [];
-                Methods.getListObject('GetvPeriodScheduleList', "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND IsDeleted = 0", function (result) {
-                    lstEntity = result;
-                    setListEntitySchedule();
-                    setCalSchedule();
-                });
+                setListEntitySchedule();
+                setCalSchedule();
             });
 
             setDatePicker('<%=txtSchoolDate.ClientID %>');
@@ -144,11 +144,17 @@
         $(function () {
             registerCollapseExpandHandler();
         });
+
+        $('.lnkTemplateContent a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/TemplateContentViewCtl.ascx");
+            openUserControlPopup(url, id, 'Detil Pengumuman', 700, 600);
+        });
     </script>
     <style type="text/css">
-        #tblBill tr th, #tblBill tr td          { border: 1px solid #EAEAEA; font-size: 16px; padding: 2px 5px; word-wrap:break-word; }
-        #tblBill tr th                          { background-color: #AAA; }
-        #tblBill                                { table-layout: fixed; }
+        .tblBill tr th, .tblBill tr td          { border: 1px solid #EAEAEA; font-size: 16px; padding: 2px 5px; word-wrap:break-word; }
+        .tblBill tr th                          { background-color: #AAA; }
+        .tblBill                                { table-layout: fixed; }
         .tblSchedule                        { width: 100%; }
         .tblSchedule td                     { text-align: center; }
         .tblSchedule tr td                  { border: 1px solid #333; }
@@ -202,7 +208,6 @@
                     <div style="width:100%; text-align:right">
                         <ul class="ulTabMenuLevel2" id="ulTabMenuLevel2" style="">
                             <li class="selected" contentid="divContentOverview">Overview</li>
-                            <li>Task</li>
                             <li contentid="divContentViewAttendance">Attendance</li>
                             <li contentid="divContentAnnouncement">Announcement</li>
                             <li contentid="divContentTimetable">Timetable</li>
@@ -353,33 +358,95 @@
     </div>
 
     <div class="divContent" id="divContentAnnouncement" style="display:none">
-        <asp:Repeater ID="rptAnnouncement" runat="server">
-            <ItemTemplate>
-                <h4 class="h4expanded"><%#Eval("Title")%></h4>
-                <div class="containerTblEntryContent">
-                    <div><%#Eval("Remarks")%></div>
-                </div>
-            </ItemTemplate>
-        </asp:Repeater>
+        <asp:GridView ID="grdAnnouncement" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+            <Columns>
+                <asp:BoundField DataField="SchoolAnnouncementID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                <asp:BoundField DataField="Title" HeaderText="Title" />
+                <asp:BoundField DataField="AnnouncementType" HeaderText="Bagian" HeaderStyle-Width="200px" />
+                <asp:BoundField DataField="StartDate" DataFormatString="{0:dd-MMM-yyyy}" HeaderText="Tgl Dibuat" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="150px" />
+                <asp:BoundField DataField="StartTime" HeaderText="Jam Dibuat" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="70px" />
+                <asp:HyperLinkField HeaderText="Content" Text="Content" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkTemplateContent" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="150px" />
+            </Columns>
+            <EmptyDataTemplate>
+                <%=GetLabel("No Data To Display")%>
+            </EmptyDataTemplate>
+        </asp:GridView>
     </div>
 
     <div class="divContent" id="divContentAcademicSchedule" style="display:none">
-        <div id="calSchedule"></div>                
-        <div style="font-weight: bold;"><%=GetLabel("Keterangan") %> :</div>
-        <asp:Repeater ID="rptRemarks" runat="server">
-            <HeaderTemplate>
-                <table>
-            </HeaderTemplate>
-            <ItemTemplate>
-                <tr>
-                    <td><div class='nts<%#Eval("cfStandardCodeID") %>' style="width: 20px; height: 20px; border: 1px solid black;"></div></td>
-                    <td><%#Eval("StandardCodeName") %></td>
-                </tr>
-            </ItemTemplate>
-            <FooterTemplate>
-                </table>
-            </FooterTemplate>
-        </asp:Repeater>
+        <table style="width:100%">
+            <colgroup>
+                <col style="width:250px" />
+            </colgroup>
+            <tr>
+                <td valign="top">
+                    <div id="calSchedule"></div>                
+                    <div style="font-weight: bold;"><%=GetLabel("Keterangan") %> :</div>
+                    <asp:Repeater ID="rptRemarks" runat="server">
+                        <HeaderTemplate>
+                            <table>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <tr>
+                                <td><div class='nts<%#Eval("cfStandardCodeID") %>' style="width: 20px; height: 20px; border: 1px solid black;"></div></td>
+                                <td><%#Eval("StandardCodeName") %></td>
+                            </tr>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                            </table>
+                        </FooterTemplate>
+                    </asp:Repeater>
+                </td>
+                <td valign="top">
+                    <dxcp:ASPxCallbackPanel ID="cbpSchedule" runat="server" Width="100%" ClientInstanceName="cbpSchedule"
+                        ShowLoadingPanel="false" OnCallback="cbpSchedule_Callback">
+                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
+                            EndCallback="function(s,e){ setListEntitySchedule(); hideLoadingPanel(); }" />
+                        <PanelCollection>
+                            <dx:PanelContent ID="PanelContent2" runat="server">
+                                <asp:Panel runat="server" ID="Panel3" Style="width: 100%; margin-left: auto; margin-right: auto;
+                                    position: relative; font-size: 0.95em;">
+                                    <asp:GridView ID="grdSchedule" runat="server" CssClass="tblTransactionEntryResult"
+                                        AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                        <Columns>
+                                            <asp:BoundField DataField="PeriodScheduleID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                            <asp:TemplateField HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderText="Tanggal" HeaderStyle-CssClass="thCenter">
+                                                <ItemTemplate>
+                                                    <%#Eval("StartDate", "{0:dd MMM yyyy}")%> - <%#Eval("EndDate", "{0:dd MMM yyyy}")%>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="PeriodScheduleName" HeaderText="Nama"/>
+                                            <asp:BoundField DataField="PeriodScheduleType" HeaderText="Tipe" HeaderStyle-Width="150px" />
+                                            <asp:BoundField DataField="ListPeriodClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="200px"/>
+                                            <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <input type="hidden" value="<%#Eval("PeriodScheduleID") %>" bindingfield="PeriodScheduleID" />
+                                                    <input type="hidden" value="<%#Eval("PeriodScheduleCode") %>" bindingfield="PeriodScheduleCode" />
+                                                    <input type="hidden" value="<%#Eval("PeriodScheduleName") %>" bindingfield="PeriodScheduleName" />
+                                                    <input type="hidden" value="<%#Eval("StartDateInDatePickerFormat") %>" bindingfield="StartDateInDatePickerFormat" />
+                                                    <input type="hidden" value="<%#Eval("EndDateInDatePickerFormat") %>" bindingfield="EndDateInDatePickerFormat" />
+                                                    <input type="hidden" value="<%#Eval("GCPeriodScheduleType") %>" bindingfield="GCPeriodScheduleType" />
+                                                    <input type="hidden" value="<%#Eval("CurriculumMarkTypeDtID") %>" bindingfield="CurriculumMarkTypeDtID" />
+                                                    <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
+                                                    <input type="hidden" value="<%# Eval("StartDate", "{0:yyyyMMdd}")%>" bindingfield="StartDateyyyyMMdd" />
+                                                    <input type="hidden" value="<%# Eval("EndDate", "{0:yyyyMMdd}")%>" bindingfield="EndDateyyyyMMdd" />
+                                                    <input type="hidden" value="<%#Eval("ListPeriodClassTypeID") %>" bindingfield="ListPeriodClassTypeID" />
+                                                    <input type="hidden" value="<%#Eval("ListPeriodClassTypeName") %>" bindingfield="ListPeriodClassTypeName" />
+                                                    <input type="hidden" value="<%#Eval("cfGCPeriodScheduleType") %>" bindingfield="cfGCPeriodScheduleType" />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <EmptyDataTemplate>
+                                            <%=GetLabel("No Data To Display")%>
+                                        </EmptyDataTemplate>
+                                    </asp:GridView>
+                                </asp:Panel>
+                            </dx:PanelContent>
+                        </PanelCollection>
+                    </dxcp:ASPxCallbackPanel>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <div class="divContent" id="divContentViewAttendance" style="display:none">    
@@ -435,12 +502,12 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <div style="padding: 5px;" runat="server" id="divBill">
                             <div style="font-size:16px;">Status Kehadiran : <span id="spnAttendanceStatus" runat="server">-</span></div>
-                            <table cellpadding="0" cellspacing="0" id="tblBill">
+                            <table cellpadding="0" cellspacing="0" id="tblBill" class="tblBill">
                                 <colgroup>
-                                    <col style="width:100px"/>
-                                    <col style="width:200px"/>
-                                    <col style="width:200px"/>
-                                    <col style="width:80px"/>
+                                    <col style="width:180px"/>
+                                    <col style="width:350px"/>
+                                    <col style="width:350px"/>
+                                    <col style="width:150px"/>
                                 </colgroup>
                                 <tr>
                                     <th class="thLeft">Mata Pelajaran</th>
@@ -455,6 +522,33 @@
                                             <td><%#Eval("Remarks") %></td>
                                             <td><%#Eval("NextMeetingRemarks")%></td>
                                             <td><div id="divAttendanceStatus" runat="server">-</div></td>
+                                        </tr>    
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </table>
+
+                            <br />
+                            <h4>Tugas</h4>
+                            <table cellpadding="0" cellspacing="0" id="tblMark" class="tblBill">
+                                <colgroup>
+                                    <col style="width:180px"/>
+                                    <col style="width:350px"/>
+                                    <col style="width:80px"/>
+                                    <col style="width:80px"/>
+                                </colgroup>
+                                <tr>
+                                    <th class="thLeft">Mata Pelajaran</th>
+                                    <th>Topik</th>
+                                    <th>Nilai</th>
+                                    <th>Rata-Rata</th>
+                                </tr>
+                                <asp:Repeater ID="rptClassTask" runat="server" OnItemDataBound="rptClassTask_ItemDataBound">
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td><%#Eval("SubjectName") %></td>
+                                            <td><%#Eval("Topic") %></td>
+                                            <td align="right"><div id="divMark" runat="server">-</div></td>
+                                            <td align="right"><div id="divAttendanceStatus" runat="server">-</div></td>
                                         </tr>    
                                     </ItemTemplate>
                                 </asp:Repeater>

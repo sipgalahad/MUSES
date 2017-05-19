@@ -99,6 +99,7 @@ namespace CodeX.Common
             public const string STUDENT_NOTE_CATEGORY = "MS047";
             public const string STUDENT_NOTE_RATE = "MS048";
             public const string SUBJECT_INDICATOR_TYPE = "MS049";
+            public const string ANNOUCEMENT_TYPE = "MS051";
 
             public const string PROJECT_TASK_STATUS = "DT001";
             public const string PROJECT_TASK_PRIORITY = "DT002";

@@ -29750,6 +29750,84 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSchoolAnnouncement
+    [Serializable]
+    [Table(Name = "vSchoolAnnouncement")]
+    public class vSchoolAnnouncement
+    {
+        private Int32 _SchoolAnnouncementID;
+        private String _SiteID;
+        private String _Title;
+        private DateTime _StartDate;
+        private String _StartTime;
+        private DateTime _EndDate;
+        private String _GCAnnouncementType;
+        private String _AnnouncementType;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SchoolAnnouncementID", DataType = "Int32")]
+        public Int32 SchoolAnnouncementID
+        {
+            get { return _SchoolAnnouncementID; }
+            set { _SchoolAnnouncementID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "Title", DataType = "String")]
+        public String Title
+        {
+            get { return _Title; }
+            set { _Title = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "GCAnnouncementType", DataType = "String")]
+        public String GCAnnouncementType
+        {
+            get { return _GCAnnouncementType; }
+            set { _GCAnnouncementType = value; }
+        }
+        [Column(Name = "AnnouncementType", DataType = "String")]
+        public String AnnouncementType
+        {
+            get { return _AnnouncementType; }
+            set { _AnnouncementType = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vSchoolClass
     [Serializable]
     [Table(Name = "vSchoolClass")]

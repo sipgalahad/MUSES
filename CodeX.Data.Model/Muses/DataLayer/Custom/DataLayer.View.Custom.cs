@@ -1186,6 +1186,20 @@ namespace CodeX.Data.Model
                 return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             }
         }
+        public string StartDateyyyyMMdd
+        {
+            get
+            {
+                return _StartDate.ToString("yyyyMMdd");
+            }
+        }
+        public string EndDateyyyyMMdd
+        {
+            get
+            {
+                return _EndDate.ToString("yyyyMMdd");
+            }
+        }
         public string cfGCPeriodScheduleType
         {
             get { return _GCPeriodScheduleType.Split('^')[1]; }

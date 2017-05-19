@@ -132,10 +132,10 @@ namespace CodeX.Muses.Web.Mobile.Program
                     hdnMonth.Value = DateTime.Now.Month.ToString();
                 }
 
-                List<SchoolAnnouncement> lstAnnouncement = BusinessLayer.GetSchoolAnnouncementList(string.Format("SiteID = '{0}' AND EndDate <= '{1}' AND StartDate >= '{1}' AND IsDeleted = 0", hdnSiteID.Value, DateTime.Now.ToString("yyyyMMdd")));
+                List<vSchoolAnnouncement> lstAnnouncement = BusinessLayer.GetvSchoolAnnouncementList(string.Format("SiteID = '{0}' AND EndDate >= '{1}' AND StartDate <= '{1}' AND IsDeleted = 0", hdnSiteID.Value, DateTime.Now.ToString("yyyyMMdd")));
                 //List<SchoolAnnouncement> lstAnnouncement = BusinessLayer.GetSchoolAnnouncementList("");
-                rptAnnouncement.DataSource = lstAnnouncement;
-                rptAnnouncement.DataBind();
+                grdAnnouncement.DataSource = lstAnnouncement;
+                grdAnnouncement.DataBind();
 
                 
                 List<vClassSubject> lstClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND IsDeleted = 0", hdnSchoolClassID.Value, Constant.ClassStudyType.REGULAR));
@@ -154,8 +154,23 @@ namespace CodeX.Muses.Web.Mobile.Program
                 rptSubject.DataSource = lstClassSubject;
                 rptSubject.DataBind();
 
+                string filterExpression = string.Format("SiteID = '{0}' AND IsDeleted = 0", hdnSiteID.Value);
+                /*if (!chkShowAll.Checked)
+                {
+                    Int32 Month = Convert.ToInt32(hdnMonth.Value);
+                    filterExpression += String.Format(" AND (StartDate LIKE '{0}-{1}%' OR EndDate LIKE '{0}-{1}%')", hdnYear.Value, Month.ToString("00"));
+                }*/
+                List<vPeriodSchedule> lstEntity = BusinessLayer.GetvPeriodScheduleList(filterExpression);
+                grdSchedule.DataSource = lstEntity;
+                grdSchedule.DataBind();
+
                 BindGridView();
             }
+        }
+
+        protected void cbpSchedule_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridView();
         }
 
         List<StandardCode> lstAttendanceStatus = null;
@@ -263,6 +278,40 @@ namespace CodeX.Muses.Web.Mobile.Program
 
                     rptClassMeeting.DataSource = lstClassMeeting;
                     rptClassMeeting.DataBind();
+
+                    List<vClassSubjectTask> lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("SchoolClassID = {0} AND EndDate = '{1}' AND IsDeleted = 0", classStudent.SchoolClassID, schoolDate.ToString("yyyyMMdd")));
+                    if (lstClassTask.Count > 0)
+                    {
+                        string lstClassTaskID = string.Join(",", lstClassTask.Select(p => p.ClassSubjectTaskID).ToList());
+                        lstStudentTaskMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", lstClassTaskID));
+                    }
+                    else
+                        lstStudentTaskMark = new List<ClassStudentSubjectTaskMark>();
+
+                    rptClassTask.DataSource = lstClassTask;
+                    rptClassTask.DataBind();
+                }
+            }
+        }
+
+        private List<ClassStudentSubjectTaskMark> lstStudentTaskMark = null;
+        protected void rptClassTask_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                vClassSubjectTask classTask = (vClassSubjectTask)e.Item.DataItem;
+                List<ClassStudentSubjectTaskMark> lstMark = lstStudentTaskMark.Where(p => p.ClassSubjectTaskID == classTask.ClassSubjectTaskID).ToList();
+
+                ClassStudentSubjectTaskMark mark = lstMark.FirstOrDefault(p => p.StudentID == Convert.ToInt32(hdnStudentID.Value));
+                if (mark != null)
+                {
+                    HtmlGenericControl divMark = (HtmlGenericControl)e.Item.FindControl("divMark");
+                    divMark.InnerHtml = mark.Mark.ToString();
+                }
+                if (lstMark.Count > 0)
+                {
+                    HtmlGenericControl divAttendanceStatus = (HtmlGenericControl)e.Item.FindControl("divAttendanceStatus");
+                    divAttendanceStatus.InnerHtml = lstMark.Average(p => p.Mark).ToString();
                 }
             }
         }

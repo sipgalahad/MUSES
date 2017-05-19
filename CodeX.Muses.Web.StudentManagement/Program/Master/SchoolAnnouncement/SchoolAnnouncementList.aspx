@@ -101,6 +101,9 @@
                             <Columns>
                                 <asp:BoundField DataField="SchoolAnnouncementID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="Title" HeaderText="Title" />
+                                <asp:BoundField DataField="AnnouncementType" HeaderText="Bagian" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="StartDate" DataFormatString="{0:dd-MMM-yyyy}" HeaderText="Tgl Dibuat" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="StartTime" HeaderText="Jam Dibuat" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="70px" />
                                 <asp:HyperLinkField HeaderText="Content" Text="Content" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkTemplateContent" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="150px" />
                             </Columns>
                             <EmptyDataTemplate>
