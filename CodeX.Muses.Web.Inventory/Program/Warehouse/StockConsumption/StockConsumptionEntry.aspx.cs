@@ -223,13 +223,16 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entityHd.CreatedBy = AppSession.UserLogin.UserID;
                 ConsumptionID = entityHdDao.Insert(entityHd);
 
-                string[] lstSiteID = hdnLstSiteID.Value.Split(',');
-                foreach (string siteID in lstSiteID)
+                if (hdnLstSiteID.Value != "")
                 {
-                    ItemTransactionHdSite entityDt = new ItemTransactionHdSite();
-                    entityDt.TransactionID = ConsumptionID;
-                    entityDt.SiteID = siteID;
-                    entityHdSiteDao.Insert(entityDt);
+                    string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                    foreach (string siteID in lstSiteID)
+                    {
+                        ItemTransactionHdSite entityDt = new ItemTransactionHdSite();
+                        entityDt.TransactionID = ConsumptionID;
+                        entityDt.SiteID = siteID;
+                        entityHdSiteDao.Insert(entityDt);
+                    }
                 }
             }
             else
@@ -285,19 +288,22 @@ namespace CodeX.Muses.Web.Inventory.Program
                     entityHdDao.Update(entityHd);
 
                     List<ItemTransactionHdSite> lstEntityDt = BusinessLayer.GetItemTransactionHdSiteList(string.Format("TransactionID = {0}", entityHd.TransactionID), ctx);
-                    string[] lstSiteID = hdnLstSiteID.Value.Split(',');
-                    foreach (string siteID in lstSiteID)
+                    if (hdnLstSiteID.Value != "")
                     {
-                        ItemTransactionHdSite entityDt = lstEntityDt.FirstOrDefault(p => p.SiteID == siteID);
-                        if (entityDt == null)
+                        string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                        foreach (string siteID in lstSiteID)
                         {
-                            entityDt = new ItemTransactionHdSite();
-                            entityDt.TransactionID = entityHd.TransactionID;
-                            entityDt.SiteID = siteID;
-                            entityHdSiteDao.Insert(entityDt);
+                            ItemTransactionHdSite entityDt = lstEntityDt.FirstOrDefault(p => p.SiteID == siteID);
+                            if (entityDt == null)
+                            {
+                                entityDt = new ItemTransactionHdSite();
+                                entityDt.TransactionID = entityHd.TransactionID;
+                                entityDt.SiteID = siteID;
+                                entityHdSiteDao.Insert(entityDt);
+                            }
+                            else
+                                lstEntityDt.Remove(entityDt);
                         }
-                        else
-                            lstEntityDt.Remove(entityDt);
                     }
 
                     foreach (ItemTransactionHdSite entityDt in lstEntityDt)

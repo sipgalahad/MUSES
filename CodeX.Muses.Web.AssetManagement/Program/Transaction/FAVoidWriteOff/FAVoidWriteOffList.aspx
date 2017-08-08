@@ -74,14 +74,14 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="FixedAssetID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="FixedAssetCode" HeaderText="Kode" HeaderStyle-Width="180px" />
+                                <asp:BoundField DataField="FixedAssetDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="FixedAssetDtCode" HeaderText="Kode" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="FixedAssetName" HeaderText="Nama" />
                                 <asp:BoundField DataField="ItemCode" HeaderText="Kode Item" HeaderStyle-Width="100px" />
                                 <asp:BoundField DataField="ItemName1" HeaderText="Nama Item" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="SerialNumber" HeaderText="Serial No" HeaderStyle-Width="100px" />
                                 <asp:BoundField DataField="ProcurementNumber" HeaderText="No Penerimaan" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="ProcurementDateInString" HeaderText="Tgl Penerimaan" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="ProcurementDateInString" HeaderText="Tgl Penerimaan" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

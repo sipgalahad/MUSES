@@ -58,7 +58,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtTransactionDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtStartEffectiveDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(tacRenumerationComp, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(chkIsApplyWhenLeave, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(chkIsApplyWhenLeave, new ControlEntrySetting(true, true, false, true, true));
             SetControlEntrySetting(chkIsAllowChange, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(tacFromRenumerationComp, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboRenumerationAmountSource, new ControlEntrySetting(true, true, true));
@@ -151,8 +151,10 @@ namespace CodeX.Muses.Web.Inventory.Program
 
                     string propIDComp1 = "";
                     string propComp1 = "";
+                    string propFieldNameTransDt1 = "";
                     string propIDComp2 = "";
                     string propComp2 = "";
+                    string propFieldNameTransDt2 = "";
                     IEnumerable<object> lstEntity1 = null;
                     IEnumerable<object> lstEntity2 = null;
                     if (lstCompSource.Count > 0)
@@ -163,6 +165,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                             IEnumerable<object> lstEntity = null;
                             string propIDComp = "";
                             string propComp = "";
+                            string propFieldNameTransDt = "";
                             string compHeader = "";
 
                             if (compSource.GCRenumerationCompSource == Constant.RenumerationCompSource.JOB_LEVEL)
@@ -171,11 +174,12 @@ namespace CodeX.Muses.Web.Inventory.Program
                                 propComp = "JobLevelName";
                                 propIDComp = "JobLevelID";
                                 compHeader = "Golongan";
+                                propFieldNameTransDt = "JobLevelID";
                             }
                             else if (compSource.GCRenumerationCompSource == Constant.RenumerationCompSource.WORKING_YEARS)
                             {
                                 List<Variable> lstVar = new List<Variable>();
-                                for (int i = 0; i <= 35; ++i)
+                                for (int i = 0; i <= 36; ++i)
                                 {
                                     lstVar.Add(new Variable { Code = i.ToString(), Value = i.ToString() });
                                 }
@@ -183,13 +187,15 @@ namespace CodeX.Muses.Web.Inventory.Program
                                 propComp = "Code";
                                 propIDComp = "Code";
                                 compHeader = "Masa Kerja";
+                                propFieldNameTransDt = "WorkingYears";
                             }
-                            else if (compSource.GCRenumerationCompSource == Constant.RenumerationCompSource.JOB_LEVEL)
+                            else if (compSource.GCRenumerationCompSource == Constant.RenumerationCompSource.POSITION)
                             {
                                 lstEntity = BusinessLayer.GetOrganizationPositionList("IsDeleted = 0");
                                 propComp = "OrganizationPositionName";
                                 propIDComp = "OrganizationPositionID";
                                 compHeader = "Posisi";
+                                propFieldNameTransDt = "OrganizationPositionID";
                             }
                             else if (compSource.GCRenumerationCompSource == Constant.RenumerationCompSource.FAMILY_STATUS)
                             {
@@ -197,6 +203,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                                 propComp = "FamilyStatusName";
                                 propIDComp = "FamilyStatusID";
                                 compHeader = "Status Keluarga";
+                                propFieldNameTransDt = "FamilyStatusID";
                             }
                             else if (compSource.GCRenumerationCompSource == Constant.RenumerationCompSource.PERFORMANCE_INDICATOR && compSource.GCIndicatorMarkType == Constant.IndicatorMarkType.CUSTOM)
                             {
@@ -204,6 +211,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                                 propComp = "PerformanceIndicatorDtName";
                                 propIDComp = "PerformanceIndicatorDtID";
                                 compHeader = "Nilai";
+                                propFieldNameTransDt = "PerformanceIndicatorDtID";
                             }
                             if (lstEntity != null)
                             {
@@ -213,6 +221,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                                     propComp1 = propComp;
                                     propIDComp1 = propIDComp;
                                     thComp1.InnerHtml = compHeader;
+                                    propFieldNameTransDt1 = propFieldNameTransDt;
                                 }
                                 else if (ctr == 1)
                                 {
@@ -220,6 +229,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                                     propComp2 = propComp;
                                     propIDComp2 = propIDComp;
                                     thComp2.InnerHtml = compHeader;
+                                    propFieldNameTransDt2 = propFieldNameTransDt;
                                 }
                                 ctr++;
                             }
@@ -241,10 +251,10 @@ namespace CodeX.Muses.Web.Inventory.Program
                                     CCustomGridView bindGrid = new CCustomGridView();
                                     bindGrid.Comp1 = GetPropValue(obj, propComp1).ToString();
                                     bindGrid.Comp1ID = GetPropValue(obj, propIDComp1).ToString();
-                                    bindGrid.Comp1Name = propIDComp1;
+                                    bindGrid.Comp1Name = propFieldNameTransDt1;
                                     bindGrid.Comp2 = GetPropValue(obj2, propComp2).ToString();
                                     bindGrid.Comp2ID = GetPropValue(obj2, propIDComp2).ToString();
-                                    bindGrid.Comp2Name = propIDComp2;
+                                    bindGrid.Comp2Name = propFieldNameTransDt2;
                                     lstBindGrid.Add(bindGrid);
                                 }
                             }
@@ -253,7 +263,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                                 CCustomGridView bindGrid = new CCustomGridView();
                                 bindGrid.Comp1 = GetPropValue(obj, propComp1).ToString();
                                 bindGrid.Comp1ID = GetPropValue(obj, propIDComp1).ToString();
-                                bindGrid.Comp1Name = propIDComp1;
+                                bindGrid.Comp1Name = propFieldNameTransDt1;
                                 bindGrid.Comp2 = "";
                                 bindGrid.Comp2ID = "";
                                 bindGrid.Comp2Name = "";
@@ -272,7 +282,6 @@ namespace CodeX.Muses.Web.Inventory.Program
                     
                     rptView.DataSource = lstBindGrid;
                     rptView.DataBind();
-                    hdnIsApplyToAll.Value = "1";
                 }
                 else
                 {
@@ -317,6 +326,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             Type myType = src.GetType();
             PropertyInfo myPropInfo = myType.GetProperty(propName);
+            if (myPropInfo.PropertyType.FullName.Contains("Int32"))
+                value = Convert.ToInt32(value);
+            else if (myPropInfo.PropertyType.FullName.Contains("Int16"))
+                value = Convert.ToInt16(value);            
             myPropInfo.SetValue(src, value, null);
         }
 
@@ -386,11 +399,12 @@ namespace CodeX.Muses.Web.Inventory.Program
                         if (temp[4] != "")
                         {
                             TransRenumerationCompDt entityDt = new TransRenumerationCompDt();
+                            entityDt.WorkingYears = null;
                             entityDt.TransactionID = entityHd.TransactionID;
                             if (temp[0] != "")
-                                SetPropValue(entityDt, temp[0], Convert.ToInt32(temp[1]));
+                                SetPropValue(entityDt, temp[0], temp[1]);
                             if (temp[2] != "")
-                                SetPropValue(entityDt, temp[2], Convert.ToInt32(temp[3]));
+                                SetPropValue(entityDt, temp[2], temp[3]);
                             entityDt.Amount = Convert.ToDecimal(temp[4]);
                             entityDt.CreatedBy = AppSession.UserLogin.UserID;
                             entityDtDao.Insert(entityDt);
@@ -463,6 +477,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                             {
                                 entityDt = new TransRenumerationCompDt();
                                 entityDt.TransactionID = entityHd.TransactionID;
+                                entityDt.WorkingYears = null;
                                 if (temp[0] != "")
                                     SetPropValue(entityDt, Comp1Name, Convert.ToInt32(Comp1ID));
                                 if (temp[2] != "")

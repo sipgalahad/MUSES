@@ -4,6 +4,10 @@
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function onLoad() {
@@ -33,6 +37,10 @@
             $('#<%=txtWriteOffAmount.ClientID %>').change(function () {
                 calculate();
             });
+
+            $('#<%=btnSave.ClientID %>').click(function () {
+                onCustomButtonClick('save');
+            });
         }
 
         function calculate() {
@@ -43,7 +51,7 @@
         }
     </script>
     <input type="hidden" id="hdnFAWriteOffID" runat="server" value="" />
-    <input type="hidden" id="hdnFixedAssetID" runat="server" value="" />
+    <input type="hidden" id="hdnFixedAssetDtID" runat="server" value="" />
     <table class="tblContentArea">
         <colgroup>
             <col width="50%"/>
@@ -57,7 +65,7 @@
                     </colgroup>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("No. Pemusnahan") %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtFAWriteOffNo" Width="120px" ReadOnly="true" /></td>
+                        <td><asp:TextBox runat="server" ID="txtFAWriteOffNo" Width="180px" ReadOnly="true" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Pemusnahan") %></label></td>
@@ -65,11 +73,11 @@
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pemusnahan") %></label></td>
-                        <td><dxe:ASPxComboBox runat="server" ID="cboAssetWriteOffType" Width="150px" /></td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboAssetWriteOffType" Width="200px" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Cara Penjualan") %></label></td>
-                        <td><dxe:ASPxComboBox runat="server" ID="cboAssetSalesType" Width="150px" /></td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboAssetSalesType" Width="200px" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Nilai Buku") %></label></td>
@@ -85,7 +93,7 @@
                     </tr>
                     <tr>
                         <td class="tdLabel" valign="top" style="padding-top: 5px"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtRemarks" Width="220px" TextMode="MultiLine" Rows="2" /></td>
+                        <td><asp:TextBox runat="server" ID="txtRemarks" Width="300px" TextMode="MultiLine" Rows="2" /></td>
                     </tr>
                 </table>
             </td>

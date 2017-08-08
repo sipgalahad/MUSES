@@ -187,51 +187,56 @@ namespace CodeX.Muses.Web.Inventory.Program
                         purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.CLOSED;
                         purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
 
-                        bool isAllowProcess = true;
-                        if (purchaseDt.IsBonusItem)
-                            if (lstPurchaseReceiveDt.Count(p => p.ItemID == purchaseDt.ItemID && !p.IsBonusItem && p.GCItemDetailStatus != Constant.TransactionStatus.VOID) > 0)
-                                isAllowProcess = false;
-
-                        if (isAllowProcess)
+                        if (purchaseDt.ItemID > 0)
                         {
-                            decimal bonusQty = 0;
-                            if (!purchaseDt.IsBonusItem)
-                                bonusQty = lstPurchaseReceiveDt.Where(p => p.ItemID == purchaseDt.ItemID && p.IsBonusItem && p.GCItemDetailStatus != Constant.TransactionStatus.VOID).Sum(p => p.Quantity * p.ConversionFactor);
+                            bool isAllowProcess = true;
+                            if (purchaseDt.IsBonusItem)
+                                if (lstPurchaseReceiveDt.Count(p => p.ItemID == purchaseDt.ItemID && !p.IsBonusItem && p.GCItemDetailStatus != Constant.TransactionStatus.VOID) > 0)
+                                    isAllowProcess = false;
 
-                            ItemPlanning entityItemPlanning = lstItemPlanning.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
-                            ItemMaster entityItemMaster = lstItemMaster.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
-
-                            bool isVATAppliedToAveragePrice = hdnIsVATAppliedToAveragePrice.Value == "1";
-                            if (entityItemMaster.ProductLineID != null)
+                            if (isAllowProcess)
                             {
-                                ProductLine productLine = lstProductLine.Where(x => x.ProductLineID == entityItemMaster.ProductLineID).FirstOrDefault();
-                                isVATAppliedToAveragePrice = productLine.IsIncludeVAT;
+                                decimal bonusQty = 0;
+                                if (!purchaseDt.IsBonusItem)
+                                    bonusQty = lstPurchaseReceiveDt.Where(p => p.ItemID == purchaseDt.ItemID && p.IsBonusItem && p.GCItemDetailStatus != Constant.TransactionStatus.VOID).Sum(p => p.Quantity * p.ConversionFactor);
+
+                                ItemPlanning entityItemPlanning = lstItemPlanning.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
+                                ItemMaster entityItemMaster = lstItemMaster.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
+
+                                bool isVATAppliedToAveragePrice = hdnIsVATAppliedToAveragePrice.Value == "1";
+                                if (entityItemMaster.ProductLineID != null)
+                                {
+                                    ProductLine productLine = lstProductLine.Where(x => x.ProductLineID == entityItemMaster.ProductLineID).FirstOrDefault();
+                                    isVATAppliedToAveragePrice = productLine.IsIncludeVAT;
+                                }
+
+                                entityItemPlanning.LastBusinessPartnerID = purchaseReceiveHd.BusinessPartnerID;
+                                entityItemPlanning.LastPurchaseDiscount = purchaseDt.DiscountPercentage1;
+                                entityItemPlanning.DiscountPercentage = purchaseDt.DiscountPercentage1;
+
+                                decimal qtyPurchase = (purchaseDt.Quantity * purchaseDt.ConversionFactor);
+
+                                decimal purchasePrice = purchaseDt.LineAmount;
+                                if (isVATAppliedToAveragePrice)
+                                {
+                                    if (purchaseReceiveHd.IsIncludeVAT)
+                                        purchasePrice = purchasePrice * (100 + purchaseReceiveHd.VATPercentage) / 100;
+                                }
+                                if ((qtyEnd + qtyPurchase + bonusQty) > 0)
+                                    entityItemPlanning.AveragePrice = ((entityItemPlanning.AveragePrice * qtyEnd) + (purchasePrice)) / (qtyEnd + qtyPurchase + bonusQty);
+                                else
+                                    entityItemPlanning.AveragePrice = 0;
+                                entityItemPlanning.ListPendingPurchaseReceiveID = entityItemPlanning.ListPendingPurchaseReceiveID.Replace(string.Format("|{0}|", purchaseDt.PurchaseReceiveID), "");
+                                entityItemPlanning.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                itemPlanningDao.Update(entityItemPlanning);
+                                purchaseDtDao.Update(purchaseDt);
+                                BusinessLayer.UpdateChargesCostAmount(purchaseReceiveHd.PurchaseReceiveID, purchaseDt.ItemID, entityItemPlanning.AveragePrice, true, ctx);
+                                ctx.CommandType = CommandType.Text;
+                                ctx.Command.Parameters.Clear();
                             }
-
-                            entityItemPlanning.LastBusinessPartnerID = purchaseReceiveHd.BusinessPartnerID;
-                            entityItemPlanning.LastPurchaseDiscount = purchaseDt.DiscountPercentage1;
-                            entityItemPlanning.DiscountPercentage = purchaseDt.DiscountPercentage1;
-
-                            decimal qtyPurchase = (purchaseDt.Quantity * purchaseDt.ConversionFactor);
-
-                            decimal purchasePrice = purchaseDt.LineAmount;
-                            if (isVATAppliedToAveragePrice)
-                            {
-                                if (purchaseReceiveHd.IsIncludeVAT)
-                                    purchasePrice = purchasePrice * (100 + purchaseReceiveHd.VATPercentage) / 100;
-                            }
-                            if ((qtyEnd + qtyPurchase + bonusQty) > 0)
-                                entityItemPlanning.AveragePrice = ((entityItemPlanning.AveragePrice * qtyEnd) + (purchasePrice)) / (qtyEnd + qtyPurchase + bonusQty);
-                            else
-                                entityItemPlanning.AveragePrice = 0;
-                            entityItemPlanning.ListPendingPurchaseReceiveID = entityItemPlanning.ListPendingPurchaseReceiveID.Replace(string.Format("|{0}|", purchaseDt.PurchaseReceiveID), "");
-                            entityItemPlanning.LastUpdatedBy = AppSession.UserLogin.UserID;
-                            itemPlanningDao.Update(entityItemPlanning);
-                            purchaseDtDao.Update(purchaseDt);
-                            BusinessLayer.UpdateChargesCostAmount(purchaseReceiveHd.PurchaseReceiveID, purchaseDt.ItemID, entityItemPlanning.AveragePrice, true, ctx);
-                            ctx.CommandType = CommandType.Text;
-                            ctx.Command.Parameters.Clear();
                         }
+                        else
+                            purchaseDtDao.Update(purchaseDt);
                     }
                 }
                 ctx.CommitTransaction();

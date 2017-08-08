@@ -35,11 +35,11 @@ namespace Codex.Muses.Web.AssetManagement.Program
             }
 
             List<FADepreciation> entity = BusinessLayer.GetFADepreciationList(filterExpression, Constant.GridViewPageSize.GRID_POPUP, pageIndex);
-            grdPopupView.DataSource = entity;
-            grdPopupView.DataBind();
+            grdViewPopup.DataSource = entity;
+            grdViewPopup.DataBind();
         }
 
-        protected void cbpPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        protected void cbpViewPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             int pageCount = 1;
             int rowCount = 1;
@@ -63,14 +63,20 @@ namespace Codex.Muses.Web.AssetManagement.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        protected void cbpPopupProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e) 
+        protected void cbpProcessPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             string result = "";
+            string errMessage = "";
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
             if (e.Parameter != null && e.Parameter != "")
             {
                 if (e.Parameter == "process")
                 {
-                    ProsesFADepreciation(ref result);
+                    if (ProsesFADepreciation(ref errMessage))
+                        result += "success";
+                    else
+                        result += string.Format("fail|{0}", errMessage);
                 }
                 else
                 {
@@ -95,6 +101,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
@@ -120,6 +127,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;

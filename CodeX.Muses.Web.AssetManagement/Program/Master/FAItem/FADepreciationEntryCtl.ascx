@@ -11,11 +11,11 @@
 <script type="text/javascript" id="dxss_serviceunithealthcareentryctl">
     $(function () {
         $('#btnProses').click(function () {
-            cbpPopupProcess.PerformCallback('process');
+            cbpProcessPopup.PerformCallback('process');
         });
 
         $('#btnVoid').click(function () {
-            cbpPopupProcess.PerformCallback('delete');
+            cbpProcessPopup.PerformCallback('delete');
         });
     });
 
@@ -26,12 +26,12 @@
     $(function () {
         setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, 1, rowCountPerPagePopup);
         setPaging($("#pagingPopup"), pageCountPopup, function (page) {
-            cbpPopupView.PerformCallback('changepage|' + page);
+            cbpViewPopup.PerformCallback('changepage|' + page);
             setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, page, rowCountPerPagePopup);
         });
     });
 
-    function onCbpPopupViewEndCallback(s) {
+    function onCbpViewPopupEndCallback(s) {
         hideLoadingPanel();
         var param = s.cpResult.split('|');
         if (param[0] == 'refresh') {
@@ -40,13 +40,31 @@
 
             setNumEntriesText($('#informationNumEntriesPopup'), rowCountPopup, 1, rowCountPerPage);
             setPaging($("#pagingPopup"), pageCount, function (page) {
-                cbpPopupView.PerformCallback('changepage|' + page);
+                cbpViewPopup.PerformCallback('changepage|' + page);
                 setNumEntriesText($('#informationNumEntriesPopup'), rowCount, page, rowCountPerPage);
             });
 
         }
     }
     //#endregion
+
+    function onCbpProcessPopupEndCallback(s) {
+        hideLoadingPanel();
+
+        var param = s.cpResult.split('|');
+        if (param[0] == 'process') {
+            if (param[1] == 'fail')
+                showToast('Process Failed', 'Error Message : ' + param[2]);
+            else 
+                cbpViewPopup.PerformCallback('refresh');
+        }
+        else if (param[0] == 'delete') {
+            if (param[1] == 'fail')
+                showToast('Delete Failed', 'Error Message : ' + param[2]);
+            else
+                cbpViewPopup.PerformCallback('refresh');
+        }
+    }
 
 </script>
 <input type="hidden" id="hdnFixedAssetID" runat="server" />
@@ -60,18 +78,17 @@
     </tr>
 </table>
 
-<dxcp:ASPxCallbackPanel ID="cbpPopupView" runat="server" Width="100%" ClientInstanceName="cbpPopupView"
-    ShowLoadingPanel="false" OnCallback="cbpPopupView_Callback">
+<dxcp:ASPxCallbackPanel ID="cbpViewPopup" runat="server" Width="100%" ClientInstanceName="cbpViewPopup"
+    ShowLoadingPanel="false" OnCallback="cbpViewPopup_Callback">
     <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-        EndCallback="function(s,e){ onCbpPopupViewEndCallback(s); }" />
+        EndCallback="function(s,e){ onCbpViewPopupEndCallback(s); }" />
     <PanelCollection>
         <dx:PanelContent ID="PanelContent1" runat="server">
             <asp:Panel runat="server" ID="pnlView" CssClass="pnlEntryPopupGrdView">
-                <asp:GridView ID="grdPopupView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                <asp:GridView ID="grdViewPopup" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                     <Columns>
                         <asp:BoundField DataField="FADepreciationID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                        <asp:BoundField DataField="DepreciationYear" HeaderText="Tahun" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" />
-                        <asp:BoundField DataField="DepreciationPeriodNo" HeaderText="Periode" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" />
+                        <asp:BoundField DataField="cfPeriodNo" HeaderText="Periode" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" />
                         <asp:BoundField DataField="DepreciationDateInString" HeaderText="Tgl. Susut" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
                         <asp:BoundField DataField="AssetValue" HeaderText="Nilai Buku" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:n}" HeaderStyle-Width="120px" />
                         <asp:BoundField DataField="DepreciationAmount" HeaderText="Nilai Susut" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:n}" HeaderStyle-Width="120px" />
@@ -96,10 +113,10 @@
 </div> 
 
 <div style="display:none">
-    <dxcp:ASPxCallbackPanel ID="cbpPopupProcess" runat="server" Width="100%" ClientInstanceName="cbpPopupProcess"
-        ShowLoadingPanel="false" OnCallback="cbpPopupProcess_Callback">
+    <dxcp:ASPxCallbackPanel ID="cbpProcessPopup" runat="server" Width="100%" ClientInstanceName="cbpProcessPopup"
+        ShowLoadingPanel="false" OnCallback="cbpProcessPopup_Callback">
         <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-            EndCallback="function(s,e){ onCbpPopupProcessEndCallback(s); }" />
+            EndCallback="function(s,e){ onCbpProcessPopupEndCallback(s); }" />
     </dxcp:ASPxCallbackPanel>
 </div>
 

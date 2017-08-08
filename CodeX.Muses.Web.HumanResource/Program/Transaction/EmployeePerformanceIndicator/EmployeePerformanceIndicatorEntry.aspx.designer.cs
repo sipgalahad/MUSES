@@ -22,6 +22,15 @@ namespace CodeX.Muses.Web.HumanResource.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpressionQuickSearch;
         
         /// <summary>
+        /// hdnEmployeeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEmployeeID;
+        
+        /// <summary>
         /// hdnID control.
         /// </summary>
         /// <remarks>
@@ -40,22 +49,13 @@ namespace CodeX.Muses.Web.HumanResource.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnOrganizationPositionID;
         
         /// <summary>
-        /// hdnInput control.
+        /// hdnListPerformanceID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInput;
-        
-        /// <summary>
-        /// hdnPerformanceID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPerformanceID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListPerformanceID;
         
         /// <summary>
         /// hdnPeriod control.

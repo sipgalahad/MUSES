@@ -137,6 +137,10 @@
                         <td><asp:CheckBox ID="chkIsControlExpired" runat="server" /><%=GetLabel("Kontrol Tanggal Kadaluarsa")%></td>
                     </tr>
                     <tr>
+                        <td>&nbsp;</td>
+                        <td><asp:CheckBox ID="chkIsFixedAsset" runat="server" /><%=GetLabel("Fixed Asset")%></td>
+                    </tr>
+                    <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Print Order")%></label></td>
                         <td><asp:TextBox ID="txtPrintOrder" CssClass="number" Width="100px" runat="server" /></td>
                     </tr>

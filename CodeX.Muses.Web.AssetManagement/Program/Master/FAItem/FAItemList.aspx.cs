@@ -10,6 +10,7 @@ using CodeX.Data.Model;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Web.Common.UI;
 using CodeX.Common;
+using CodeX.Data.Core.Dal;
 
 namespace Codex.Muses.Web.AssetManagement.Program
 {
@@ -52,7 +53,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += String.Format("GCItemStatus = '{0}' AND IsDeleted = 0",Constant.ItemStatus.ACTIVE);
+            filterExpression += String.Format("GCItemStatus = '{0}' AND IsDeleted = 0", Constant.ItemStatus.ACTIVE);
             return filterExpression;
         }
 
@@ -114,11 +115,39 @@ namespace Codex.Muses.Web.AssetManagement.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                FAItem entity = BusinessLayer.GetFAItem(Convert.ToInt32(hdnID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateFAItem(entity);
-                return true;
+                IDbContext ctx = DbFactory.Configure(true);
+                FAItemDao entityDao = new FAItemDao(ctx);
+                FAItemDtDao entityDtDao = new FAItemDtDao(ctx);
+                bool result = true;
+                try
+                {
+                    FAItem entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                    entity.IsDeleted = true;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDao.Update(entity);
+
+                    List<FAItemDt> lstEntityDt = BusinessLayer.GetFAItemDtList(string.Format("FixedAssetID = {0} AND IsDeleted = 0", entity.FixedAssetID), ctx);
+                    foreach (FAItemDt entityDt in lstEntityDt)
+                    {
+                        entityDt.IsDeleted = true;
+                        entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityDtDao.Update(entityDt);
+                    }
+
+                    ctx.CommitTransaction();
+                }
+                catch (Exception ex)
+                {
+                    Helper.InsertErrorLog(ex);
+                    ctx.RollBackTransaction();
+                    result = false;
+                    errMessage = ex.Message;
+                }
+                finally
+                {
+                    ctx.Close();
+                }
+                return result;
             }
             return false;
         }

@@ -62,11 +62,15 @@
         }
         //#endregion
 
-        $('.lnkItem a').live('click', function () {
+        $('.lnkEdit a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/Master/FAItem/FADepreciationEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Proses Depresiasi', 900, 500);
+            var url = ResolveUrl("~/Program/Master/FAItem/PurchaseReceiveDtEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Edit Penerimaan', 600, 400);
         });
+
+        function onAfterSaveEditRecordEntryPopup() {
+            cbpView.PerformCallback('refresh');
+        }
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -84,7 +88,12 @@
                                 <asp:BoundField DataField="ItemCode" HeaderText="Kode Aktiva" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="ItemName1" HeaderText="Nama Aktiva" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="PurchaseOrderNo" HeaderText="No. Penerimaan" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="ReceivedDateInString" HeaderText="Tgl Penerimaan" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="ReceivedDateInString" HeaderText="Tgl Penerimaan" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
+                                <asp:TemplateField HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkEdit" HeaderText="Edit" HeaderStyle-Width="80px">
+                                    <ItemTemplate>
+                                        <a><%=GetLabel("Edit") %></a>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

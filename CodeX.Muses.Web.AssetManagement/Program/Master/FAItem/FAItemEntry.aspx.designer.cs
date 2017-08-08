@@ -76,6 +76,15 @@ namespace Codex.Muses.Web.AssetManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtItemName;
         
         /// <summary>
+        /// txtQuantity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtQuantity;
+        
+        /// <summary>
         /// txtSerialNumber control.
         /// </summary>
         /// <remarks>
@@ -272,6 +281,15 @@ namespace Codex.Muses.Web.AssetManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCProcurementUnit;
+        
+        /// <summary>
+        /// chkIsAllowDepreciation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsAllowDepreciation;
         
         /// <summary>
         /// hdnFADepreciationMethodID control.

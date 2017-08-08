@@ -157,7 +157,13 @@ namespace CodeX.Common
             public const string VOUCHER_GROUP = "X332";
             public const string TREASURY_BOOK_TYPE = "X333";
             public const string BANK = "X334";
+            public const string ASSET_ACCRUAL_TYPE = "X335";
+        }
 
+        public static class AssetAccrualType
+        {
+            public const string ALL_IN = "X335^001";
+            public const string PER_ITEM = "X335^002";
         }
 
         public static class RenumerationCompType
@@ -193,7 +199,7 @@ namespace CodeX.Common
 
         public static class IndicatorMarkType
         {
-            public const string TOTAL_DAYLY = "X331^001";
+            public const string TOTAL_DAILY = "X331^001";
             public const string ATTANDANCE = "X331^002";
             public const string OVERTIME = "X331^003";
             public const string CUSTOM = "X331^999";

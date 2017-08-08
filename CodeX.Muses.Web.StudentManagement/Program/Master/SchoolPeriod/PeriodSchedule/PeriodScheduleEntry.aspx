@@ -41,7 +41,7 @@
             var temp = $('#<%=hdnMaxDate.ClientID %>').val().split('-');
             var maxDate = new Date(temp[0], temp[1], temp[2]);
             temp = $('#<%=hdnMinDate.ClientID %>').val().split('-');
-            var minDate = new Date(temp[0], temp[1], temp[2]);
+            var minDate = new Date(temp[0], parseInt(temp[1]) - 1, temp[2]);
 
             $('#calSchedule').datepicker({
                 inline: true,

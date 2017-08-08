@@ -7,63 +7,54 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Codex.Muses.Web.AssetManagement.Program {
+namespace Codex.Ottimo.Web.AssetManagement.Program {
     
     
-    public partial class FADepreciationEntryCtl {
+    public partial class PurchaseReceiveDtEntryCtl {
         
         /// <summary>
-        /// hdnFixedAssetID control.
+        /// hdnPurchaseReceiveDtID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFixedAssetID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPurchaseReceiveDtID;
         
         /// <summary>
-        /// cbpViewPopup control.
+        /// txtPurchaseReceiveNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopup;
+        protected global::System.Web.UI.WebControls.TextBox txtPurchaseReceiveNo;
         
         /// <summary>
-        /// PanelContent1 control.
+        /// txtItemName1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        protected global::System.Web.UI.WebControls.TextBox txtItemName1;
         
         /// <summary>
-        /// pnlView control.
+        /// cboAssetAccrualType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboAssetAccrualType;
         
         /// <summary>
-        /// grdViewPopup control.
+        /// chkIsProcessAssetClosed control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdViewPopup;
-        
-        /// <summary>
-        /// cbpProcessPopup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcessPopup;
+        protected global::System.Web.UI.WebControls.CheckBox chkIsProcessAssetClosed;
     }
 }

@@ -31,39 +31,12 @@ namespace CodeX.Web.AssetManagement.MasterPage {
         protected global::System.Web.UI.HtmlControls.HtmlImage imgPatientImage;
         
         /// <summary>
-        /// divBusinessPartnerCode control.
+        /// divCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBusinessPartnerCode;
-        
-        /// <summary>
-        /// divContactPerson control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divContactPerson;
-        
-        /// <summary>
-        /// divPhoneNo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPhoneNo;
-        
-        /// <summary>
-        /// divAddress control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAddress;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divCode;
     }
 }

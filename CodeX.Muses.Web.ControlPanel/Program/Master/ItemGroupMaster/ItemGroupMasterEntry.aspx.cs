@@ -61,6 +61,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtProductLineCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtProductLineName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(chkIsControlExpired, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(chkIsFixedAsset, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsHeader, new ControlEntrySetting(true, true, false));
         }
 
@@ -78,6 +79,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtProductLineCode.Text = entity.ProductLineCode;
             txtProductLineName.Text = entity.ProductLineName;
             chkIsControlExpired.Checked = entity.IsControlExpired;
+            chkIsFixedAsset.Checked = entity.IsFixedAsset;
             chkIsHeader.Checked = entity.IsHeader;
         }
 
@@ -97,6 +99,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             else
                 entity.ProductLineID = Convert.ToInt32(hdnProductLineID.Value);
             entity.IsControlExpired = chkIsControlExpired.Checked;
+            entity.IsFixedAsset = chkIsFixedAsset.Checked;
             entity.IsHeader = chkIsHeader.Checked;
         }
 

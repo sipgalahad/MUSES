@@ -277,35 +277,35 @@ namespace CodeX.Web.Common
         }
         #endregion
 
-        #region FixedAssetID
-        public static Int32 FixedAssetID
+        #region FixedAssetDtID
+        public static Int32 FixedAssetDtID
         {
             get
             {
-                if (HttpContext.Current.Session["_FixedAssetID"] == null)
+                if (HttpContext.Current.Session["_FixedAssetDtID"] == null)
                 {
-                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    if (HttpContext.Current.Request.Cookies["Ottimo"] != null)
                     {
-                        if (HttpContext.Current.Request.Cookies["Muses"]["_FixedAssetID"] != null)
+                        if (HttpContext.Current.Request.Cookies["Ottimo"]["_FixedAssetDtID"] != null)
                         {
-                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_FixedAssetID"]);
-                            HttpContext.Current.Session["_FixedAssetID"] = value;
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Ottimo"]["_FixedAssetDtID"]);
+                            HttpContext.Current.Session["_FixedAssetDtID"] = value;
                             return value;
                         }
                     }
                     return 0;
                 }
-                return ((Int32)(HttpContext.Current.Session["_FixedAssetID"]));
+                return ((Int32)(HttpContext.Current.Session["_FixedAssetDtID"]));
             }
             set
             {
-                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                if (HttpContext.Current.Request.Cookies["Ottimo"] != null)
                 {
-                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
-                    myCookie.Values["_FixedAssetID"] = value.ToString();
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Ottimo"];
+                    myCookie.Values["_FixedAssetDtID"] = value.ToString();
                     HttpContext.Current.Response.Cookies.Add(myCookie);
                 }
-                HttpContext.Current.Session["_FixedAssetID"] = value;
+                HttpContext.Current.Session["_FixedAssetDtID"] = value;
             }
         }
         #endregion

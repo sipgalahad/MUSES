@@ -46,6 +46,7 @@
             var minDate = new Date(temp[0], temp[1], temp[2]);
 
             $('#calSchedule').datepicker({
+                numberOfMonths: [2, 3],
                 inline: true,
                 beforeShowDay: function (date) {
                     var theday = date.yyyymmdd();

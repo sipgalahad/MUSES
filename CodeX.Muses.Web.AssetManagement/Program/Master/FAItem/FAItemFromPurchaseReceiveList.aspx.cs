@@ -40,7 +40,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("GCItemDetailStatus = '{0}'", Constant.TransactionStatus.APPROVED);
+            filterExpression += string.Format("GCItemDetailStatus IN ('{0}','{1}')", Constant.TransactionStatus.PROCESSED, Constant.TransactionStatus.CLOSED);
             return filterExpression;
         }
 

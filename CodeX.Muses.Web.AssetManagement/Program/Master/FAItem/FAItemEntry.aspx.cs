@@ -81,6 +81,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             SetControlEntrySetting(hdnItemID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtItemName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true, "1"));
             SetControlEntrySetting(txtSerialNumber, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(hdnFAGroupID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtFAGroupCode, new ControlEntrySetting(true, true, true));
@@ -99,6 +100,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             
             #region Data Perolehan Aktiva Tetap
             SetControlEntrySetting(hdnPurchaseReceiveID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnPurchaseReceiveDtID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtProcurementNumber, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtProcurementDate, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtProcurementAmount, new ControlEntrySetting(true, true, true, "0"));
@@ -107,6 +109,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             #endregion
 
             #region Data Perhitungan Penyusutan Aktiva Tetap
+            SetControlEntrySetting(chkIsAllowDepreciation, new ControlEntrySetting(true, true, false, true, true));
             SetControlEntrySetting(hdnFADepreciationMethodID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtFADepreciationMethodCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtFADepreciationMethodName, new ControlEntrySetting(false, false, true));
@@ -181,18 +184,29 @@ namespace Codex.Muses.Web.AssetManagement.Program
         private void EntityToControl(vPurchaseReceiveDt entity)
         {
             hdnPurchaseReceiveID.Value = entity.PurchaseReceiveID.ToString();
+            hdnPurchaseReceiveDtID.Value = entity.ID.ToString();
             txtProcurementNumber.Text = entity.PurchaseReceiveNo;
             txtProcurementDate.Text = entity.ReceivedDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-            txtProcurementAmount.Text = entity.UnitPrice.ToString();
             txtProcurementQuantity.Text = entity.Quantity.ToString();
             cboGCProcurementUnit.Value = entity.GCItemUnit;
 
             hdnItemID.Value = entity.ItemID.ToString();
             txtItemCode.Text = entity.ItemCode;
             txtItemName.Text = entity.ItemName1;
+            if (entity.GCAssetAccrualType == Constant.AssetAccrualType.ALL_IN)
+            {
+                txtProcurementAmount.Text = entity.LineAmount.ToString();
+                txtQuantity.Text = entity.Quantity.ToString();
+            }
+            else
+            {
+                txtProcurementAmount.Text = (entity.LineAmount / entity.Quantity).ToString();
+                txtQuantity.Text = "1";
+            }
             hdnBusinessPartnerID.Value = entity.SupplierID.ToString();
             txtBusinessPartnerCode.Text = entity.SupplierCode;
             txtBusinessPartnerName.Text = entity.SupplierName;
+            chkIsAllowDepreciation.Checked = true;
         }
 
         private void EntityToControl(vFAItem entity, vFAItemCOA entityCOA)
@@ -203,6 +217,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             hdnItemID.Value = entity.ItemID.ToString();
             txtItemCode.Text = entity.ItemCode;
             txtItemName.Text = entity.ItemName1;
+            txtQuantity.Text = entity.Quantity.ToString();
             txtSerialNumber.Text = entity.SerialNumber;
             hdnFAGroupID.Value = entity.FAGroupID.ToString();
             txtFAGroupCode.Text = entity.FAGroupCode;
@@ -236,6 +251,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
 
             #region Data Perolehan Aktiva Tetap
             hdnPurchaseReceiveID.Value = entity.PurchaseReceiveID.ToString();
+            hdnPurchaseReceiveDtID.Value = entity.PurchaseReceiveDtID.ToString();
             txtProcurementNumber.Text = entity.ProcurementNumber;
             txtProcurementDate.Text = entity.ProcurementDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtProcurementAmount.Text = entity.ProcurementAmount.ToString();
@@ -244,6 +260,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             #endregion
 
             #region Data Perhitungan Penyusutan Aktiva Tetap
+            chkIsAllowDepreciation.Checked = entity.IsAllowDepreciation;
             hdnFADepreciationMethodID.Value = entity.MethodID.ToString();
             txtFADepreciationMethodCode.Text = entity.MethodCode;
             txtFADepreciationMethodName.Text = entity.MethodName;
@@ -371,6 +388,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
                 entity.ItemID = Convert.ToInt32(hdnItemID.Value);
             else
                 entity.ItemID = null;
+            entity.Quantity = Convert.ToInt32(Convert.ToDecimal(txtQuantity.Text));
             entity.SerialNumber = txtSerialNumber.Text;
             entity.FAGroupID = Convert.ToInt32(hdnFAGroupID.Value);
             entity.FALocationID = Convert.ToInt32(hdnFALocationID.Value);
@@ -405,14 +423,28 @@ namespace Codex.Muses.Web.AssetManagement.Program
                 entity.PurchaseReceiveID = null;
             }
             else
+            {
                 entity.PurchaseReceiveID = Convert.ToInt32(hdnPurchaseReceiveID.Value);
+                entity.PurchaseReceiveDtID = Convert.ToInt32(hdnPurchaseReceiveDtID.Value);
+            }
             #endregion
 
             #region Data Perhitungan Penyusutan Aktiva Tetap
-            entity.MethodID = Convert.ToInt32(hdnFADepreciationMethodID.Value);
-            entity.DepreciationStartDate = Helper.GetDatePickerValue(txtDepreciationStartDate.Text);
-            entity.DepreciationLength = Convert.ToInt16(txtDepreciationStartLength.Text);
-            entity.AssetFinalValue = Convert.ToDecimal(txtAssetFinalValue.Text);
+            entity.IsAllowDepreciation = chkIsAllowDepreciation.Checked;
+            if (entity.IsAllowDepreciation)
+            {
+                entity.MethodID = Convert.ToInt32(hdnFADepreciationMethodID.Value);
+                entity.DepreciationStartDate = Helper.GetDatePickerValue(txtDepreciationStartDate.Text);
+                entity.DepreciationLength = Convert.ToInt16(txtDepreciationStartLength.Text);
+                entity.AssetFinalValue = Convert.ToDecimal(txtAssetFinalValue.Text);
+            }
+            else
+            {
+                entity.MethodID = 1;
+                entity.DepreciationStartDate = DateTime.Now;
+                entity.DepreciationLength = 0;
+                entity.AssetFinalValue = 0;
+            }
             #endregion
 
             #region Pengaturan Perkiraan untuk Aktiva Tetap
@@ -488,8 +520,10 @@ namespace Codex.Muses.Web.AssetManagement.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             FAItemDao entityDao = new FAItemDao(ctx);
+            FAItemDtDao entityDtDao = new FAItemDtDao(ctx);
             FAItemCOADao entityCOADao = new FAItemCOADao(ctx);
-            bool result = false;
+            PurchaseReceiveDtDao entityPurchaseReceiveDtDao = new PurchaseReceiveDtDao(ctx);
+            bool result = true;
             try
             {
                 FAItem entity = new FAItem();
@@ -499,17 +533,49 @@ namespace Codex.Muses.Web.AssetManagement.Program
                 entity.FixedAssetCode = GenerateFixedAssetCode(ctx, entity);
                 entity.GCItemStatus = Constant.ItemStatus.ACTIVE;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                entityDao.Insert(entity);
+                entityCOA.FixedAssetID = entityDao.Insert(entity);
 
                 entityCOA.CreatedBy = AppSession.UserLogin.UserID;
-                entityCOA.FixedAssetID = BusinessLayer.GetFAItemMaxID(ctx);
                 entityCOADao.Insert(entityCOA);
+
+                for (int i = 1; i <= entity.Quantity; ++i)
+                {
+                    FAItemDt entityDt = new FAItemDt();
+                    entityDt.FixedAssetID = entityCOA.FixedAssetID;
+                    entityDt.FALocationID = entity.FALocationID;
+                    entityDt.GCItemStatus = Constant.ItemStatus.ACTIVE;
+                    entityDt.FixedAssetDtCode = string.Format("{0}.{1}", entity.FixedAssetCode, i.ToString().PadLeft(3, '0'));
+                    entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Insert(entityDt);
+                }
+
+                if (hdnPurchaseReceiveID.Value != "0" && hdnPurchaseReceiveID.Value != "")
+                {
+                    PurchaseReceiveDt purchaseReceiveDt = entityPurchaseReceiveDtDao.Get(Convert.ToInt32(hdnPurchaseReceiveDtID.Value));
+                    if (purchaseReceiveDt.GCAssetAccrualType == Constant.AssetAccrualType.ALL_IN)
+                    {
+                        purchaseReceiveDt.IsProcessAssetClosed = true;
+                        purchaseReceiveDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityPurchaseReceiveDtDao.Update(purchaseReceiveDt);
+                    }
+                    else
+                    {
+                        int count = BusinessLayer.GetFAItemRowCount(string.Format("PurchaseReceiveDtID = {0} AND IsDeleted = 0", hdnPurchaseReceiveDtID.Value), ctx);
+                        if (count == purchaseReceiveDt.Quantity)
+                        {
+                            purchaseReceiveDt.IsProcessAssetClosed = true;
+                            purchaseReceiveDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityPurchaseReceiveDtDao.Update(purchaseReceiveDt);
+                        }
+                    }
+                }
+
                 retval = entityCOA.FixedAssetID.ToString();
                 ctx.CommitTransaction();
-                result = true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 result = false;
                 errMessage = ex.Message;
@@ -526,7 +592,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             FAItemDao entityDao = new FAItemDao(ctx);
             FAItemCOADao entityCOADao = new FAItemCOADao(ctx);
-            bool result = false;
+            bool result = true;
             try
             {
                 FAItem entity = entityDao.Get(Convert.ToInt32(hdnID.Value));;
@@ -536,10 +602,10 @@ namespace Codex.Muses.Web.AssetManagement.Program
                 entityDao.Update(entity);
                 entityCOADao.Update(entityCOA);
                 ctx.CommitTransaction();
-                result = true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 result = false;
                 errMessage = ex.Message;

@@ -380,6 +380,8 @@
 
             $('#<%=chkIsFromMasterItem.ClientID %>').change(function () {
                 if ($(this).is(':checked')) {
+                    $('#<%=txtItemGroupCode.ClientID %>').removeClass('required');
+                    $('#lblItemGroup').attr('class', 'lblLink');
                     $('#<%=tblItemMaster.ClientID %>').show();
                     $('#<%=txtNonMasterItemName.ClientID %>').hide();
                     $('#lblItem').attr('class', 'lblLink lblMandatory');
@@ -388,6 +390,8 @@
                     cboItemUnit.SetVisible(true);
                 }
                 else {
+                    $('#<%=txtItemGroupCode.ClientID %>').addClass('required');
+                    $('#lblItemGroup').attr('class', 'lblLink lblMandatory');
                     $('#<%=tblItemMaster.ClientID %>').hide();
                     $('#<%=txtNonMasterItemName.ClientID %>').show();
                     $('#lblItem').attr('class', 'lblMandatory');
@@ -559,6 +563,9 @@
             $('#<%=txtDiscountAmount2.ClientID %>').val(entity.DiscountAmount2).trigger('changeValue');
             $('#<%=hdnItemID.ClientID %>').val(entity.ItemID);
             $('#<%=txtQuantity.ClientID %>').val(entity.Quantity);
+            $('#<%=hdnItemGroupID.ClientID %>').val(entity.ItemGroupID);
+            $('#<%=txtItemGroupCode.ClientID %>').val(entity.ItemGroupCode);
+            $('#<%=txtItemGroupName.ClientID %>').val(entity.ItemGroupName1);
 
             var isNonMasterItem = entity.ItemID == $('#<%=hdnNonMasterItemID.ClientID %>').val();
             $('#<%=chkIsFromMasterItem.ClientID %>').prop("checked", !isNonMasterItem);
@@ -573,9 +580,6 @@
             else {
                 $('#<%=txtItemCode.ClientID %>').val(entity.ItemCode);
                 $('#<%=txtItemName.ClientID %>').val(entity.ItemName1);
-                $('#<%=hdnItemGroupID.ClientID %>').val(entity.ItemGroupID);
-                $('#<%=txtItemGroupCode.ClientID %>').val(entity.ItemGroupCode);
-                $('#<%=txtItemGroupName.ClientID %>').val(entity.ItemGroupName1);
 
                 var filterExpression = "<%=OnGetItemQtyOnOrderFilterExpression() %>";
                 filterExpression = filterExpression.replace('[SiteServiceUnitID]', $('#<%=hdnSiteServiceUnitID.ClientID %>').val());
@@ -984,7 +988,7 @@
                                         <td valign="top">
                                             <table style="width: 100%">
                                                 <colgroup>
-                                                    <col style="width: 120px" />
+                                                    <col style="width: 130px" />
                                                     <col style="width: 380px"/>
                                                 </colgroup>
                                                 <tr>

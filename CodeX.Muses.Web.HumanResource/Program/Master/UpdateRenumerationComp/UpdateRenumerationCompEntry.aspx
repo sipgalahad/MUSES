@@ -160,14 +160,14 @@
             if (cboRenumerationAmountSource.GetValue() == '<%=OnGetRenumerationSourceAmountFixed() %>') {
                 $('#<%=trRenumerationComp.ClientID %>').attr('style', 'display:none');
                 $('#<%=trPercentage.ClientID %>').attr('style', 'display:none');
-                if ($('#<%=hdnIsApplyToAll.ClientID %>').val() == '0')
+                if ($('#<%=hdnIsApplyToAll.ClientID %>').val() == '1')
                     $('#<%=trAmount.ClientID %>').removeAttr('style');
                 else
                     $('#<%=trPercentage.ClientID %>').attr('style', 'display:none');
             }
             else if (cboRenumerationAmountSource.GetValue() == '<%=OnGetRenumerationSourceAmountRenumerationCompPercentage() %>') {
                 $('#<%=trAmount.ClientID %>').attr('style', 'display:none');
-                if ($('#<%=hdnIsApplyToAll.ClientID %>').val() == '0')
+                if ($('#<%=hdnIsApplyToAll.ClientID %>').val() == '1')
                     $('#<%=trPercentage.ClientID %>').removeAttr('style');
                 else
                     $('#<%=trPercentage.ClientID %>').attr('style', 'display:none');

@@ -15,8 +15,9 @@ namespace CodeX.Web.AssetManagement.MasterPage
     {
         public void InitializeBanner()
         {
-            FAItem entity = BusinessLayer.GetFAItemList(string.Format("FixedAssetID = {0}", AppSession.FixedAssetID))[0];
+            vFAItemDt entity = BusinessLayer.GetvFAItemDtList(string.Format("FixedAssetDtID = {0}", AppSession.FixedAssetDtID))[0];
             hdnTitleText.Value = entity.FixedAssetName;
+            divCode.InnerHtml = entity.FixedAssetDtCode;
             //divBusinessPartnerCode.InnerHtml = entity.BusinessPartnerCode;
             //divContactPerson.InnerHtml = entity.ContactPerson;
             //divPhoneNo.InnerHtml = entity.cfPhoneNo;

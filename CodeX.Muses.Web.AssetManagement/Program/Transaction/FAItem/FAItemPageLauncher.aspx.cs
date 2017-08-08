@@ -14,7 +14,7 @@ namespace CodeX.Muses.Web.AssetManagement.Program
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            AppSession.FixedAssetID = Convert.ToInt32(Request.QueryString["id"]);
+            AppSession.FixedAssetDtID = Convert.ToInt32(Request.QueryString["id"]);
 
             string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.AssetManagement.FA_ITEM_LIST);
             List<GetUserMenuAccess> lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.ASSET_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);

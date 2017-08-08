@@ -11936,17 +11936,20 @@ namespace CodeX.Data.Model
         private Int32 _FALocationID;
         private Int32 _MethodID;
         private Int32? _ItemID;
+        private Int32 _Quantity;
         private String _SerialNumber;
         private Boolean _IsContractItem;
         private Int32? _BusinessPartnerID;
         private String _BusinessPartnerName;
         private String _ContractNumber;
         private Int32? _PurchaseReceiveID;
+        private Int32? _PurchaseReceiveDtID;
         private String _ProcurementNumber;
         private DateTime _ProcurementDate;
         private Decimal _ProcurementAmount;
         private Decimal _ProcurementQuantity;
         private String _GCProcurementUnit;
+        private Boolean _IsAllowDepreciation;
         private DateTime _DepreciationStartDate;
         private Int16 _DepreciationLength;
         private Decimal _AssetFinalValue;
@@ -12006,6 +12009,12 @@ namespace CodeX.Data.Model
             get { return _ItemID; }
             set { _ItemID = value; }
         }
+        [Column(Name = "Quantity", DataType = "Int32")]
+        public Int32 Quantity
+        {
+            get { return _Quantity; }
+            set { _Quantity = value; }
+        }
         [Column(Name = "SerialNumber", DataType = "String", IsNullable = true)]
         public String SerialNumber
         {
@@ -12042,6 +12051,12 @@ namespace CodeX.Data.Model
             get { return _PurchaseReceiveID; }
             set { _PurchaseReceiveID = value; }
         }
+        [Column(Name = "PurchaseReceiveDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseReceiveDtID
+        {
+            get { return _PurchaseReceiveDtID; }
+            set { _PurchaseReceiveDtID = value; }
+        }
         [Column(Name = "ProcurementNumber", DataType = "String", IsNullable = true)]
         public String ProcurementNumber
         {
@@ -12072,6 +12087,12 @@ namespace CodeX.Data.Model
             get { return _GCProcurementUnit; }
             set { _GCProcurementUnit = value; }
         }
+        [Column(Name = "IsAllowDepreciation", DataType = "Boolean")]
+        public Boolean IsAllowDepreciation
+        {
+            get { return _IsAllowDepreciation; }
+            set { _IsAllowDepreciation = value; }
+        }
         [Column(Name = "DepreciationStartDate", DataType = "DateTime", IsNullable = true)]
         public DateTime DepreciationStartDate
         {
@@ -12096,7 +12117,7 @@ namespace CodeX.Data.Model
             get { return _Remarks; }
             set { _Remarks = value; }
         }
-        [Column(Name = "GCItemStatus", DataType = "String")]
+        [Column(Name = "GCItemStatus", DataType = "String", IsNullable = true)]
         public String GCItemStatus
         {
             get { return _GCItemStatus; }
@@ -12354,6 +12375,140 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region FAItemDt
+    [Serializable]
+    [Table(Name = "FAItemDt")]
+    public class FAItemDt : DbDataModel
+    {
+        private Int32 _FixedAssetDtID;
+        private Int32 _FixedAssetID;
+        private String _FixedAssetDtCode;
+        private Int32 _FALocationID;
+        private String _SerialNumber;
+        private String _Remarks;
+        private String _GCItemStatus;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "FixedAssetDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 FixedAssetDtID
+        {
+            get { return _FixedAssetDtID; }
+            set { _FixedAssetDtID = value; }
+        }
+        [Column(Name = "FixedAssetID", DataType = "Int32")]
+        public Int32 FixedAssetID
+        {
+            get { return _FixedAssetID; }
+            set { _FixedAssetID = value; }
+        }
+        [Column(Name = "FixedAssetDtCode", DataType = "String")]
+        public String FixedAssetDtCode
+        {
+            get { return _FixedAssetDtCode; }
+            set { _FixedAssetDtCode = value; }
+        }
+        [Column(Name = "FALocationID", DataType = "Int32")]
+        public Int32 FALocationID
+        {
+            get { return _FALocationID; }
+            set { _FALocationID = value; }
+        }
+        [Column(Name = "SerialNumber", DataType = "String", IsNullable = true)]
+        public String SerialNumber
+        {
+            get { return _SerialNumber; }
+            set { _SerialNumber = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCItemStatus", DataType = "String", IsNullable = true)]
+        public String GCItemStatus
+        {
+            get { return _GCItemStatus; }
+            set { _GCItemStatus = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FAItemDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FAItemDt));
+        private bool _isAuditLog = false;
+        private const string p_FixedAssetDtID = "@p_FixedAssetDtID";
+        public FAItemDtDao() { }
+        public FAItemDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FAItemDt Get(Int32 FixedAssetDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FixedAssetDtID, FixedAssetDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FAItemDt)_helper.DataRowToObject(row, new FAItemDt());
+        }
+        public int Insert(FAItemDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FAItemDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 FixedAssetDtID)
+        {
+            FAItemDt record;
+            if (_ctx.Transaction == null)
+                record = new FAItemDtDao().Get(FixedAssetDtID);
+            else
+                record = Get(FixedAssetDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region FAItemMovement
     [Serializable]
     [Table(Name = "FAItemMovement")]
@@ -12362,7 +12517,7 @@ namespace CodeX.Data.Model
         private Int32 _MovementID;
         private String _MovementNo;
         private DateTime _MovementDate;
-        private Int32 _FixedAssetID;
+        private Int32 _FixedAssetDtID;
         private Int32 _FromFALocationID;
         private Int32 _ToFALocationID;
         private String _Remarks;
@@ -12390,11 +12545,11 @@ namespace CodeX.Data.Model
             get { return _MovementDate; }
             set { _MovementDate = value; }
         }
-        [Column(Name = "FixedAssetID", DataType = "Int32")]
-        public Int32 FixedAssetID
+        [Column(Name = "FixedAssetDtID", DataType = "Int32")]
+        public Int32 FixedAssetDtID
         {
-            get { return _FixedAssetID; }
-            set { _FixedAssetID = value; }
+            get { return _FixedAssetDtID; }
+            set { _FixedAssetDtID = value; }
         }
         [Column(Name = "FromFALocationID", DataType = "Int32")]
         public Int32 FromFALocationID
@@ -12616,7 +12771,7 @@ namespace CodeX.Data.Model
         private Int32 _FAWriteOffID;
         private String _FAWriteOffNo;
         private DateTime _FAWriteOffDate;
-        private Int32 _FixedAssetID;
+        private Int32 _FixedAssetDtID;
         private String _GCAssetWriteOffType;
         private String _GCAssetSalesType;
         private Decimal _AssetValue;
@@ -12646,11 +12801,11 @@ namespace CodeX.Data.Model
             get { return _FAWriteOffDate; }
             set { _FAWriteOffDate = value; }
         }
-        [Column(Name = "FixedAssetID", DataType = "Int32")]
-        public Int32 FixedAssetID
+        [Column(Name = "FixedAssetDtID", DataType = "Int32")]
+        public Int32 FixedAssetDtID
         {
-            get { return _FixedAssetID; }
-            set { _FixedAssetID = value; }
+            get { return _FixedAssetDtID; }
+            set { _FixedAssetDtID = value; }
         }
         [Column(Name = "GCAssetWriteOffType", DataType = "String")]
         public String GCAssetWriteOffType
@@ -16493,6 +16648,7 @@ namespace CodeX.Data.Model
         private Int32? _ParentID;
         private Int32? _ProductLineID;
         private Boolean _IsControlExpired;
+        private Boolean _IsFixedAsset;
         private Int16 _PrintOrder;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -16553,6 +16709,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsControlExpired; }
             set { _IsControlExpired = value; }
+        }
+        [Column(Name = "IsFixedAsset", DataType = "Boolean")]
+        public Boolean IsFixedAsset
+        {
+            get { return _IsFixedAsset; }
+            set { _IsFixedAsset = value; }
         }
         [Column(Name = "PrintOrder", DataType = "Int16")]
         public Int16 PrintOrder
@@ -25848,6 +26010,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ID;
         private Int32 _PurchaseOrderID;
+        private Int32? _ItemGroupID;
         private Int32 _ItemID;
         private String _ItemName1;
         private Int32? _PurchaseRequestID;
@@ -25883,6 +26046,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseOrderID; }
             set { _PurchaseOrderID = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32", IsNullable = true)]
+        public Int32? ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
         }
         [Column(Name = "ItemID", DataType = "Int32")]
         public Int32 ItemID
@@ -26348,6 +26517,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _PurchaseReceiveID;
         private Int32? _PurchaseOrderID;
+        private Int32? _ItemGroupID;
         private Int32 _ItemID;
         private String _ItemName1;
         private Decimal _Quantity;
@@ -26364,6 +26534,8 @@ namespace CodeX.Data.Model
         private Decimal _LineAmount;
         private Boolean _IsBonusItem;
         private Boolean _IsControlExpired;
+        private String _GCAssetAccrualType;
+        private Boolean _IsProcessAssetClosed;
         private Decimal _QtyBeforeApproved;
         private String _GCItemDetailStatus;
         private Int32? _CreatedBy;
@@ -26388,6 +26560,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseOrderID; }
             set { _PurchaseOrderID = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32", IsNullable = true)]
+        public Int32? ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
         }
         [Column(Name = "ItemID", DataType = "Int32")]
         public Int32 ItemID
@@ -26484,6 +26662,18 @@ namespace CodeX.Data.Model
         {
             get { return _IsControlExpired; }
             set { _IsControlExpired = value; }
+        }
+        [Column(Name = "GCAssetAccrualType", DataType = "String")]
+        public String GCAssetAccrualType
+        {
+            get { return _GCAssetAccrualType; }
+            set { _GCAssetAccrualType = value; }
+        }
+        [Column(Name = "IsProcessAssetClosed", DataType = "Boolean")]
+        public Boolean IsProcessAssetClosed
+        {
+            get { return _IsProcessAssetClosed; }
+            set { _IsProcessAssetClosed = value; }
         }
         [Column(Name = "QtyBeforeApproved", DataType = "Decimal", IsNullable = true)]
         public Decimal QtyBeforeApproved
@@ -26973,6 +27163,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region PurchaseReceiveHdSite
+    [Serializable]
+    [Table(Name = "PurchaseReceiveHdSite")]
+    public class PurchaseReceiveHdSite : DbDataModel
+    {
+        private Int32 _PurchaseReceiveID;
+        private String _SiteID;
+
+        [Column(Name = "PurchaseReceiveID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PurchaseReceiveID
+        {
+            get { return _PurchaseReceiveID; }
+            set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+    }
+
+    public class PurchaseReceiveHdSiteDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PurchaseReceiveHdSite));
+        private bool _isAuditLog = false;
+        private const string p_PurchaseReceiveID = "@p_PurchaseReceiveID";
+        private const string p_SiteID = "@p_SiteID";
+        public PurchaseReceiveHdSiteDao() { }
+        public PurchaseReceiveHdSiteDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PurchaseReceiveHdSite Get(Int32 PurchaseReceiveID, String SiteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PurchaseReceiveID, PurchaseReceiveID);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PurchaseReceiveHdSite)_helper.DataRowToObject(row, new PurchaseReceiveHdSite());
+        }
+        public int Insert(PurchaseReceiveHdSite record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PurchaseReceiveHdSite record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PurchaseReceiveID, String SiteID)
+        {
+            PurchaseReceiveHdSite record;
+            if (_ctx.Transaction == null)
+                record = new PurchaseReceiveHdSiteDao().Get(PurchaseReceiveID, SiteID);
+            else
+                record = Get(PurchaseReceiveID, SiteID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PurchaseReceivePO
     [Serializable]
     [Table(Name = "PurchaseReceivePO")]
@@ -26980,6 +27234,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ID;
         private Int32 _PurchaseReceiveID;
+        private Int32? _ItemGroupID;
         private Int32 _ItemID;
         private String _ItemName1;
         private Int32 _PurchaseOrderID;
@@ -26996,6 +27251,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReceiveID; }
             set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32", IsNullable = true)]
+        public Int32? ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
         }
         [Column(Name = "ItemID", DataType = "Int32")]
         public Int32 ItemID
@@ -44848,7 +45109,7 @@ namespace CodeX.Data.Model
         private Int32? _OrganizationPositionID;
         private Int32? _FamilyStatusID;
         private Int32? _PerformanceIndicatorDtID;
-        private Int16 _WorkingYears;
+        private Int16? _WorkingYears;
         private Decimal _Amount;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -44893,7 +45154,7 @@ namespace CodeX.Data.Model
             set { _PerformanceIndicatorDtID = value; }
         }
         [Column(Name = "WorkingYears", DataType = "Int16", IsNullable = true)]
-        public Int16 WorkingYears
+        public Int16? WorkingYears
         {
             get { return _WorkingYears; }
             set { _WorkingYears = value; }

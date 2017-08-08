@@ -35,7 +35,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = String.Format("GCTransactionStatus NOT IN ('{0}','{1}')", Constant.TransactionStatus.VOID, Constant.TransactionStatus.CLOSED);
+            string filterExpression = String.Format("FixedAssetDtID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}')", AppSession.FixedAssetDtID, Constant.TransactionStatus.VOID, Constant.TransactionStatus.CLOSED);
 
             if (isCountPageCount)
             {
@@ -121,13 +121,13 @@ namespace Codex.Muses.Web.AssetManagement.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             FAItemMovementDao entityDao = new FAItemMovementDao(ctx);
-            FAItemDao entityFAItemDao = new FAItemDao(ctx);
+            FAItemDtDao entityFAItemDao = new FAItemDtDao(ctx);
             try
             {
-                FAItem entityFAItem = entityFAItemDao.Get(AppSession.FixedAssetID);
+                FAItemDt entityFAItem = entityFAItemDao.Get(AppSession.FixedAssetDtID);
                 FAItemMovement entity = new FAItemMovement();
 
-                entity.FixedAssetID = AppSession.FixedAssetID;
+                entity.FixedAssetDtID = AppSession.FixedAssetDtID;
                 entity.FromFALocationID = entityFAItem.FALocationID;
                 entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
                 ControlToEntity(entity);
@@ -163,11 +163,11 @@ namespace Codex.Muses.Web.AssetManagement.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             FAItemMovementDao entityDao = new FAItemMovementDao(ctx);
-            FAItemDao entityFAItemDao = new FAItemDao(ctx);
+            FAItemDtDao entityFAItemDao = new FAItemDtDao(ctx);
             try
             {
                 FAItemMovement entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                FAItem entityFAItem = entityFAItemDao.Get(entity.FixedAssetID);
+                FAItemDt entityFAItem = entityFAItemDao.Get(entity.FixedAssetDtID);
 
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
@@ -199,14 +199,14 @@ namespace Codex.Muses.Web.AssetManagement.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             FAItemMovementDao entityDao = new FAItemMovementDao(ctx);
-            FAItemDao entityFAItemDao = new FAItemDao(ctx);
+            FAItemDtDao entityFAItemDao = new FAItemDtDao(ctx);
             try
             {
                 FAItemMovement entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
 
-                FAItem entityFAItem = entityFAItemDao.Get(AppSession.FixedAssetID);
+                FAItemDt entityFAItem = entityFAItemDao.Get(AppSession.FixedAssetDtID);
                 entityFAItem.FALocationID = entity.FromFALocationID;
                 entityFAItem.LastUpdatedBy = AppSession.UserLogin.UserID;
 

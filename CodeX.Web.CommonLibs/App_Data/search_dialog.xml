@@ -903,11 +903,11 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
-	<!-- #Region Revenue Period Type -->
+	<!-- #Region Revenue Period -->
 	<searchdialog type="revenueperiod" methodname="GetRevenuePeriodList" keyfieldname="RevenuePeriodID" orderbyexpression="StartDate ASC">
 		<gridcolumns>
-			<gridcolumn datafield="StartDate" headertext="Tanggal Awal" width="100px" />
-			<gridcolumn datafield="EndDate" headertext="Tanggal Akhir" width="100px" />
+			<gridcolumn datafield="StartDateInString" headertext="Tanggal Awal" width="100px" />
+			<gridcolumn datafield="EndDateInString" headertext="Tanggal Akhir" width="100px" />
 		</gridcolumns>
 		<intellisensetexts>
 			<intellisensetext datafield="StartDate" headertext="Tanggal Awal" description="" />

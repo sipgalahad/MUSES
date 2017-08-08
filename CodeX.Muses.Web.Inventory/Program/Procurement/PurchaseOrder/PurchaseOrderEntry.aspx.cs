@@ -109,6 +109,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(txtNonMasterItemName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(cboNonMasterItemUnit, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtItemGroupCode, new ControlEntrySetting(true, true, false), "mpTrxPopup");
         }
 
         protected override void SetControlProperties()
@@ -746,6 +747,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             if (chkIsFromMasterItem.Checked)
             {
+                entityDt.ItemGroupID = null;
                 entityDt.ItemName1 = null;
                 entityDt.GCPurchaseUnit = cboItemUnit.Value.ToString().Split('|')[0];
                 entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
@@ -753,6 +755,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             else
             {
+                entityDt.ItemGroupID = Convert.ToInt32(hdnItemGroupID.Value);
+                entityDt.ItemID = 0;
                 entityDt.ItemName1 = txtNonMasterItemName.Text;
                 entityDt.GCPurchaseUnit = entityDt.GCBaseUnit = cboNonMasterItemUnit.Value.ToString();
                 entityDt.ConversionFactor = 1;

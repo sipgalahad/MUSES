@@ -1832,6 +1832,46 @@ namespace CodeX.Data.Model
 
     }
     #endregion
+    #region vPurchaseReceiveDtFixedAsset
+    public partial class vPurchaseReceiveDtFixedAsset
+    {
+        public string ReceivedDateInString
+        {
+            get { return _ReceivedDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public String CustomConversion
+        {
+            get
+            {
+                if (_ItemUnit != _BaseUnit)
+                    return "1.00 " + _ItemUnit + " = " + ConversionFactor.ToString("G29") + " " + _BaseUnit;
+                else
+                    return string.Empty;
+            }
+        }
+
+        public Decimal DiscountAmount
+        {
+            get { return _DiscountAmount1 + _DiscountAmount2; }
+        }
+
+        public Boolean isConfirmed
+        {
+            get
+            {
+                return _GCItemDetailStatus == "X121^002" ? true : false;
+            }
+        }
+    }
+    #endregion
     #region vPurchaseReceiveHd
     public partial class vPurchaseReceiveHd
     {

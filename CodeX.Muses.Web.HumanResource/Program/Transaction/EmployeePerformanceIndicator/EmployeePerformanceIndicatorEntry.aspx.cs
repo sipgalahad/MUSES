@@ -19,10 +19,6 @@ namespace CodeX.Muses.Web.HumanResource.Program
 {
     public partial class EmployeePerformanceIndicatorEntry : BasePageList
     {
-        protected int PageCount = 1;
-        protected int RowCount = 1;
-        protected int RowCountPerPage = 1;
-        protected int CurrPage = 1;     
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.HumanResources.EMPLOYEE_PERFORMANCE_INDICATOR;
@@ -30,14 +26,12 @@ namespace CodeX.Muses.Web.HumanResource.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {            
-            RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
-
             List<StandardCode> listSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.EMPLOYEE_TYPE));
             listSc.Insert(0, new StandardCode { StandardCodeID = "0", StandardCodeName = "" });
             Methods.SetComboBoxField<StandardCode>(cboEmployeeType, listSc, "StandardCodeName", "StandardCodeID");
 
             
-            BindGridView(CurrPage, true, ref PageCount, ref RowCount);
+            BindGridView();
 
 
             Helper.SetControlEntrySetting(cboEmployeeType, new ControlEntrySetting(true, true, false), "mpTrx");
@@ -48,45 +42,41 @@ namespace CodeX.Muses.Web.HumanResource.Program
         {
             return string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsDeleted = 0", AppSession.UserLogin.SiteID);
         }
-        
 
-        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
+        protected string OnGetIndicatorMarkTypeCustom()
         {
-            string filterExpression = OnGetEmployeeFilterExpression();
-            //if (txtJobLevel.Text != "" && txtJobLevel.Text != null)
-            //    filterExpression += String.Format(" AND JobLevelName LIKE '%{0}%' ", txtJobLevel.Text);
-            if (isCountPageCount)
-            {
-                rowCount = BusinessLayer.GetvEmployeeRowCount(filterExpression);
-                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
-            }
-
-            lstPerformanceIndicator = BusinessLayer.GetvPerformanceIndicatorHdList(string.Format(" IsDeleted = 0 "));
-            //List<vJobLevel> lstOp = BusinessLayer.GetvJobLevelList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "JobLevelName ASC");
-
-            if (cboEmployeeType.Value != null && cboEmployeeType.Value.ToString() != "0")
-                filterExpression += String.Format(" AND GCEmployeeType = '{0}' ", cboEmployeeType.Value);
-            if (txtNamaKaryawan.Text != "" && txtNamaKaryawan != null)
-                filterExpression += String.Format(" AND Name LIKE '%{0}%' ", txtNamaKaryawan.Text);
-
-            lstEmployee = BusinessLayer.GetvEmployeeList(string.Format(filterExpression));
-
-            string lstEmpID = string.Join(",", lstEmployee.Select(p => p.EmployeeID).ToList());
-            if (lstEmpID != "")
-                if(tacPeriod.Value != null && tacPeriod.Value != "")
-                    lstEmpPerformance = BusinessLayer.GetEmployeePerformanceIndicatorList(string.Format("EmployeeID IN ({0}) AND RevenuePeriodID = {1} ", lstEmpID, tacPeriod.Value));
-                else
-                    lstEmpPerformance = BusinessLayer.GetEmployeePerformanceIndicatorList(string.Format("EmployeeID IN ({0}) ", lstEmpID));
-            else
-                lstEmpPerformance = new List<EmployeePerformanceIndicator>();
-
-            rptView.DataSource = lstEmployee;
-            rptView.DataBind();
-                        
-            rptPerfomanceIndicatorHd.DataSource = lstPerformanceIndicator;
-            rptPerfomanceIndicatorHd.DataBind();
+            return Constant.IndicatorMarkType.CUSTOM;
         }
 
+        private void BindGridView()
+        {
+            if (tacPeriod.Value != "")
+            {
+                string filterExpression = OnGetEmployeeFilterExpression();
+                lstPerformanceIndicator = BusinessLayer.GetvPerformanceIndicatorHdList(string.Format("IsDeleted = 0"));
+                lstPerformanceIndicatorDt = BusinessLayer.GetPerformanceIndicatorDtList(string.Format("IsDeleted = 0"));
+                if (cboEmployeeType.Value != null && cboEmployeeType.Value.ToString() != "0")
+                    filterExpression += String.Format(" AND GCEmployeeType = '{0}' ", cboEmployeeType.Value);
+                if (txtNamaKaryawan.Text != "" && txtNamaKaryawan != null)
+                    filterExpression += String.Format(" AND Name LIKE '%{0}%' ", txtNamaKaryawan.Text);
+                filterExpression += " ORDER BY EmployeeName";
+                lstEmployee = BusinessLayer.GetvEmployeeList(string.Format(filterExpression));
+
+                string lstEmpID = string.Join(",", lstEmployee.Select(p => p.EmployeeID).ToList());
+                if (lstEmpID != "")
+                    lstEmpPerformance = BusinessLayer.GetEmployeePerformanceIndicatorList(string.Format("EmployeeID IN ({0}) AND RevenuePeriodID = {1} ", lstEmpID, tacPeriod.Value));
+                else
+                    lstEmpPerformance = new List<EmployeePerformanceIndicator>();
+
+                rptView.DataSource = lstEmployee;
+                rptView.DataBind();
+
+                rptPerfomanceIndicatorHd.DataSource = lstPerformanceIndicator;
+                rptPerfomanceIndicatorHd.DataBind();
+            }
+        }
+
+        List<PerformanceIndicatorDt> lstPerformanceIndicatorDt = null;
         List<vPerformanceIndicatorHd> lstPerformanceIndicator = null;
         List<vEmployee> lstEmployee = null;
         List<EmployeePerformanceIndicator> lstEmpPerformance = null;
@@ -106,38 +96,93 @@ namespace CodeX.Muses.Web.HumanResource.Program
             {
                 vEmployee employee = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vEmployee;
                 vPerformanceIndicatorHd performance = (vPerformanceIndicatorHd)e.Item.DataItem;
-                //vPerformanceIndicatorHd renum = lstPerformanceIndicator.FirstOrDefault(p => p.JobLevelID == position.JobLevelID && p.RenumerationCompID == renumComp.RenumerationCompID);
-
-                EmployeePerformanceIndicator empPerformance = lstEmpPerformance.FirstOrDefault(p => p.EmployeeID == employee.EmployeeID && p.PerformanceIndicatorID == performance.PerformanceIndicatorID);
-
                 TextBox txtInput = (TextBox)e.Item.FindControl("txtInput");
-
-                if (empPerformance != null)
-                    txtInput.Text = empPerformance.Value.ToString();
+                DropDownList ddlInput = (DropDownList)e.Item.FindControl("ddlInput");
+                EmployeePerformanceIndicator empPerformance = lstEmpPerformance.FirstOrDefault(p => p.EmployeeID == employee.EmployeeID && p.PerformanceIndicatorID == performance.PerformanceIndicatorID);
+                if (performance.GCIndicatorMarkType == Constant.IndicatorMarkType.CUSTOM)
+                {
+                    ddlInput.Visible = true;
+                    txtInput.Visible = false;
+                    Methods.SetComboBoxField<PerformanceIndicatorDt>(ddlInput, lstPerformanceIndicatorDt.Where(p => p.PerformanceIndicatorID == performance.PerformanceIndicatorID).ToList(), "PerformanceIndicatorDtName", "PerformanceIndicatorDtID");
+                    
+                    if (empPerformance != null)
+                        ddlInput.SelectedValue = empPerformance.PerformanceIndicatorDtID.ToString();
+                    else
+                        ddlInput.SelectedValue = "";
+                }
                 else
-                    txtInput.Text = "0";
+                {
+                    ddlInput.Visible = false;
+                    txtInput.Visible = true;
+
+                    if (empPerformance != null)
+                        txtInput.Text = empPerformance.Value.ToString();
+                    else
+                        txtInput.Text = "0";
+                }
             }
         }
 
-        public void onSaveEmployeePerformanceIndicator(ref string errMessage) 
+        public bool OnSaveEmployeePerformanceIndicator(ref string errMessage) 
         {
+            bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             EmployeePerformanceIndicatorDao entityDao = new EmployeePerformanceIndicatorDao(ctx);
             try 
             {
-                EmployeePerformanceIndicator entity = new EmployeePerformanceIndicator();
-                entity.Value = Convert.ToInt32(hdnInput.Value);
-                entity.PerformanceIndicatorID = Convert.ToInt32(hdnPerformanceID.Value);
-                entity.EmployeeID = Convert.ToInt32(hdnID.Value);
-                entity.RevenuePeriodID = 1;
-                entityDao.Insert(entity);
+                string[] lstSaveValue = hdnListPerformanceID.Value.Split('|');
+                List<EmployeePerformanceIndicator> lstEntity = BusinessLayer.GetEmployeePerformanceIndicatorList(string.Format("EmployeeID = {0} AND RevenuePeriodID = {1}", hdnEmployeeID.Value, tacPeriod.Value), ctx);
+                foreach (string saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(';');
+                    int performanceIndicatorID = Convert.ToInt32(temp[0]);
+                    EmployeePerformanceIndicator entity = lstEntity.FirstOrDefault(p => p.PerformanceIndicatorID == performanceIndicatorID);
+                    if (entity == null)
+                    {
+                        entity = new EmployeePerformanceIndicator();
+                        entity.EmployeeID = Convert.ToInt32(hdnEmployeeID.Value);
+                        entity.RevenuePeriodID = Convert.ToInt32(tacPeriod.Value);
+                        entity.PerformanceIndicatorID = performanceIndicatorID;
+                        if (temp[1] == Constant.IndicatorMarkType.CUSTOM)
+                        {
+                            entity.Value = null;
+                            entity.PerformanceIndicatorDtID = Convert.ToInt32(temp[2]);
+                        }
+                        else
+                        {
+                            entity.PerformanceIndicatorDtID = null;
+                            entity.Value = Convert.ToInt32(temp[2]);
+                        }
+                        entityDao.Insert(entity);
+                    }
+                    else
+                    {
+                        if (temp[1] == Constant.IndicatorMarkType.CUSTOM)
+                        {
+                            entity.Value = null;
+                            entity.PerformanceIndicatorDtID = Convert.ToInt32(temp[2]);
+                        }
+                        else
+                        {
+                            entity.PerformanceIndicatorDtID = null;
+                            entity.Value = Convert.ToInt32(temp[2]);
+                        }
+                        entityDao.Update(entity);
+                        lstEntity.Remove(entity);
+                    }
+                }
+
+                foreach (EmployeePerformanceIndicator entity in lstEntity)
+                {
+                    entityDao.Delete(entity.EmployeeID, entity.RevenuePeriodID, entity.PerformanceIndicatorID);
+                }
 
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
-                //result = false;
+                result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
 
@@ -146,53 +191,26 @@ namespace CodeX.Muses.Web.HumanResource.Program
             {
                 ctx.Close();
             }
+            return result;
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            int pageCount = 1;
-            int rowCount = 1;
-            string result = "";
-            if (e.Parameter != null && e.Parameter != "")
-            {
-                string[] param = e.Parameter.Split('|');
-                if (param[0] == "changepage")
-                {
-                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
-                    result = "changepage";
-                }
-                else // refresh
-                {
-                    BindGridView(1, true, ref pageCount, ref rowCount);
-                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
-                }
-            }
-
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
+            BindGridView();
         }
 
         protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             string result = "";
             string errMessage = "";
-            //String data = GetDataFromFile();
-
-            //int adjustmentID = 0;
             string[] param = e.Parameter.Split('|');
             result = param[0] + "|";
-            //if (param[0] == "save")
-            //{
-            //    //adjustmentID = Convert.ToInt32(hdnTransactionID.Value);
-            //    if (OnSaveEditRecordEntityDt(ref errMessage))
-            //        result += "success";
-            //    else
-            //        result += string.Format("fail|{0}", errMessage);
-            //}
-
             if (param[0] == "save")
             {
-                onSaveEmployeePerformanceIndicator( ref errMessage);
+                if (OnSaveEmployeePerformanceIndicator(ref errMessage))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
             }
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;

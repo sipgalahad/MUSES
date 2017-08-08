@@ -37,7 +37,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
             fieldListText = new string[] { "Code", "Name" };
-            fieldListValue = new string[] { "FixedAssetCode", "FixedAssetName" };
+            fieldListValue = new string[] { "FixedAssetDtCode", "FixedAssetName" };
         }
 
         private string GetFilterExpression()
@@ -54,11 +54,11 @@ namespace Codex.Muses.Web.AssetManagement.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvFAItemRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvFAItemDtRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vFAItem> lstEntity = BusinessLayer.GetvFAItemList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vFAItemDt> lstEntity = BusinessLayer.GetvFAItemDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "FixedAssetDtCode");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

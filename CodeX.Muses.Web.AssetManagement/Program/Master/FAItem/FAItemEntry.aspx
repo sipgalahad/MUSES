@@ -20,6 +20,23 @@ CodeBehind="FAItemEntry.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Progr
                 }
             });
 
+            $('#<%=chkIsAllowDepreciation.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#trDepreciationMethod').removeAttr('style');
+                    $('#trDepreciationStartDate').removeAttr('style');
+                    $('#trDepreciationLength').removeAttr('style');
+                    $('#trDepreciationAssetFinalValue').removeAttr('style');
+                }
+                else {
+                    $('#trDepreciationMethod').attr('style', 'display:none');
+                    $('#trDepreciationStartDate').attr('style', 'display:none');
+                    $('#trDepreciationLength').attr('style', 'display:none');
+                    $('#trDepreciationAssetFinalValue').attr('style', 'display:none');
+                }
+            });
+
+            $('#<%=chkIsAllowDepreciation.ClientID %>').change();
+
             //#region Item
             function onGetItemFilterExpression() {
                 var filterExpression = "<%=OnGetFilterExpressionItem()%>";
@@ -780,6 +797,7 @@ CodeBehind="FAItemEntry.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Progr
             onSubLedgerID6Changed();
 
             if ($('#<%=hdnPurchaseReceiveID.ClientID %>').val() != '' && $('#<%=hdnPurchaseReceiveID.ClientID %>').val() != '0') {
+                $('#<%=txtQuantity.ClientID %>').attr('readonly', 'readonly');
                 $('#<%=txtProcurementNumber.ClientID %>').attr('readonly', 'readonly');
                 $('#<%=txtProcurementDate.ClientID %>').attr('readonly', 'readonly');
                 $('#<%=txtProcurementAmount.ClientID %>').attr('readonly', 'readonly');
@@ -835,6 +853,10 @@ CodeBehind="FAItemEntry.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Progr
                         </td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Quantity")%></label></td>
+                        <td><asp:TextBox ID="txtQuantity" Width="80px" CssClass="number" runat="server" /></td>
+                    </tr>
+                    <tr style="display:none">
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Nomor Seri")%></label></td>
                         <td><asp:TextBox ID="txtSerialNumber" Width="300px" runat="server" /></td>
                     </tr>
@@ -959,6 +981,10 @@ CodeBehind="FAItemEntry.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Progr
                         <col style="width:30%"/>
                     </colgroup>
                     <tr>
+                        <td>&nbsp;</td>
+                        <td><asp:CheckBox ID="chkIsAllowDepreciation" runat="server" /><%=GetLabel("Penyusutan")%></td>
+                    </tr>
+                    <tr id="trDepreciationMethod">
                         <td class="tdLabel"><label class="lblLink lblMandatory" id="lblMethod"><%=GetLabel("Metode Penyusutan")%></label></td>
                         <td>
                             <input type="hidden" id="hdnFADepreciationMethodID" runat="server" />
@@ -976,11 +1002,11 @@ CodeBehind="FAItemEntry.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Progr
                             </table>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="trDepreciationStartDate">
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Hitung")%></label></td>
                         <td><asp:TextBox ID="txtDepreciationStartDate" CssClass="datepicker" Width="120px" runat="server" /></td>
                     </tr>
-                    <tr>
+                    <tr id="trDepreciationLength">
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Estimasi Akhir")%></label></td>
                         <td>
                             <table cellpadding="0" cellspacing="0">
@@ -996,7 +1022,7 @@ CodeBehind="FAItemEntry.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Progr
                             </table>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="trDepreciationAssetFinalValue">
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nilai Akhir")%></label></td>
                         <td><asp:TextBox ID="txtAssetFinalValue" CssClass="txtCurrency" Width="180px" runat="server" /></td>
                     </tr>

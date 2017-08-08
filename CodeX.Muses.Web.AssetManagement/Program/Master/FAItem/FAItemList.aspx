@@ -62,6 +62,12 @@
         }
         //#endregion
 
+        $('.lnkDetail a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/FAItem/FAItemDtEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Detil', 900, 500);
+        });
+
         $('.lnkItem a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl("~/Program/Master/FAItem/FADepreciationEntryCtl.ascx");
@@ -89,11 +95,14 @@
                                 <asp:BoundField DataField="SerialNumber" HeaderText="Serial No" HeaderStyle-Width="100px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="ProcurementNumber" HeaderText="No Penerimaan" HeaderStyle-Width="150px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="ProcurementDateInString" HeaderText="Tgl Penerimaan" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
-                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="gridColumnLink lnkItem"
-                                    HeaderText="Penyusutan" HeaderStyle-Width="80px">
+                                <asp:TemplateField ItemStyle-CssClass="gridColumnLink lnkDetail" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderText="Detil" HeaderStyle-Width="80px">
                                     <ItemTemplate>
-                                        <a>
-                                            <%=GetLabel("Proses") %></a>
+                                        <a><%=GetLabel("Detil") %></a>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField ItemStyle-CssClass="gridColumnLink lnkItem" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderText="Edit" HeaderStyle-Width="80px">
+                                    <ItemTemplate>
+                                        <a <%# Eval("IsAllowDepreciation").ToString() == "False" ? "style='display:none'" : ""%>><%=GetLabel("Proses") %></a>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

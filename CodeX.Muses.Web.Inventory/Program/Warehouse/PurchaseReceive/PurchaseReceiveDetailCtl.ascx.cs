@@ -149,6 +149,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     PurchaseReceiveDt entityPRDt = new PurchaseReceiveDt();
                     entityPRDt.PurchaseReceiveID = purchaseReceiveID;
                     entityPRDt.PurchaseOrderID = Convert.ToInt32(temp[1]);
+                    entityPRDt.ItemGroupID = entityPODt.ItemGroupID;
                     entityPRDt.ItemID = entityPODt.ItemID;
                     entityPRDt.ItemName1 = entityPODt.ItemName1;
                     entityPRDt.Quantity = Convert.ToDecimal(temp[2]);
@@ -172,6 +173,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     PurchaseReceivePO entityPRPO = new PurchaseReceivePO();
                     entityPRPO.PurchaseOrderID = (int)entityPRDt.PurchaseOrderID;
                     entityPRPO.PurchaseReceiveID = entityPRDt.PurchaseReceiveID;
+                    entityPRPO.ItemGroupID = entityPRDt.ItemGroupID;
                     entityPRPO.ItemID = entityPRDt.ItemID;
                     entityPRPO.ItemName1 = entityPRDt.ItemName1;
                     entityPRPO.ReceivedQuantity = entityPRDt.Quantity;

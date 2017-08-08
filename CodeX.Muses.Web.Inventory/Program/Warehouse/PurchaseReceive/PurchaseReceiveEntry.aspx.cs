@@ -94,6 +94,17 @@ namespace CodeX.Muses.Web.Inventory.Program
             Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
+        protected void rptSite_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Site obj = (Site)e.Item.DataItem;
+                CheckBox chkSite = (CheckBox)e.Item.FindControl("chkSite");
+                chkSite.Attributes.Add("sitename", obj.SiteName);
+                chkSite.Attributes.Add("siteid", obj.SiteID);
+            }
+        }
+
         protected string GetVATPercentage()
         {
             return hdnVATPercentage.Value;
@@ -101,6 +112,11 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void SetControlProperties()
         {
+            Repeater rptSite = (Repeater)ddeSite.FindControl("rptSite");
+            List<Site> lstSite = BusinessLayer.GetSiteList(string.Format("IsHeader = 0"));
+            rptSite.DataSource = lstSite;
+            rptSite.DataBind();
+
             List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsDeleted = 0", Constant.StandardCode.CURRENCY_CODE, Constant.StandardCode.CHARGES_TYPE));
             List<Term> listTerm = BusinessLayer.GetTermList(string.Format("isDeleted = 0"));
             Methods.SetComboBoxField<StandardCode>(cboChargesType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CHARGES_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
@@ -138,6 +154,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(true, true, false, hdnDefaultSiteServiceUnitID.Value));
+            SetControlEntrySetting(hdnLstSiteID, new ControlEntrySetting(false, false));
 
             SetControlEntrySetting(txtFinalDiscountAmount, new ControlEntrySetting(true, true, true, "0"));
             SetControlEntrySetting(txtPPN, new ControlEntrySetting(false, false, true, "0"));
@@ -248,6 +265,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString();
             txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
             txtTotalNetTransactionAmount.Text = entity.TotalNetTransactionAmount.ToString();
+            hdnLstSiteID.Value = entity.ListSiteID;
 
             decimal tempTransactionAmount = -1;
             BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
@@ -330,6 +348,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         public void SavePurchaseReceiveHd(IDbContext ctx, ref int PRID, ref string PRNo)
         {
             PurchaseReceiveHdDao entityHdDao = new PurchaseReceiveHdDao(ctx);
+            PurchaseReceiveHdSiteDao entityHdSiteDao = new PurchaseReceiveHdSiteDao(ctx);
             if (hdnPRID.Value == "0")
             {
                 PurchaseReceiveHd entityHd = new PurchaseReceiveHd();
@@ -340,8 +359,19 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
                 entityHd.CreatedBy = AppSession.UserLogin.UserID;
-                entityHdDao.Insert(entityHd);
-                PRID = BusinessLayer.GetPurchaseReceiveHdMaxID(ctx);
+                PRID = entityHdDao.Insert(entityHd);
+
+                if (hdnLstSiteID.Value != "")
+                {
+                    string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                    foreach (string siteID in lstSiteID)
+                    {
+                        PurchaseReceiveHdSite entityDt = new PurchaseReceiveHdSite();
+                        entityDt.PurchaseReceiveID = PRID;
+                        entityDt.SiteID = siteID;
+                        entityHdSiteDao.Insert(entityDt);
+                    }
+                }
                 PRNo = entityHd.PurchaseReceiveNo;
             }
             else
@@ -386,6 +416,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             PurchaseReceiveHdDao entityHdDao = new PurchaseReceiveHdDao(ctx);
+            PurchaseReceiveHdSiteDao entityHdSiteDao = new PurchaseReceiveHdSiteDao(ctx);
             try
             {
                 PurchaseReceiveHd entity = entityHdDao.Get(Convert.ToInt32(hdnPRID.Value));
@@ -394,6 +425,31 @@ namespace CodeX.Muses.Web.Inventory.Program
                     ControlToEntityHd(ctx, entity);
                     entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                     entityHdDao.Update(entity);
+
+                    List<PurchaseReceiveHdSite> lstEntityDt = BusinessLayer.GetPurchaseReceiveHdSiteList(string.Format("PurchaseReceiveID = {0}", entity.PurchaseReceiveID), ctx);
+
+                    if (hdnLstSiteID.Value != "")
+                    {
+                        string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                        foreach (string siteID in lstSiteID)
+                        {
+                            PurchaseReceiveHdSite entityDt = lstEntityDt.FirstOrDefault(p => p.SiteID == siteID);
+                            if (entityDt == null)
+                            {
+                                entityDt = new PurchaseReceiveHdSite();
+                                entityDt.PurchaseReceiveID = entity.PurchaseReceiveID;
+                                entityDt.SiteID = siteID;
+                                entityHdSiteDao.Insert(entityDt);
+                            }
+                            else
+                                lstEntityDt.Remove(entityDt);
+                        }
+                    }
+
+                    foreach (PurchaseReceiveHdSite entityDt in lstEntityDt)
+                    {
+                        entityHdSiteDao.Delete(entityDt.PurchaseReceiveID, entityDt.SiteID);
+                    }
                 }
                 ctx.CommitTransaction();
             }
@@ -473,33 +529,36 @@ namespace CodeX.Muses.Web.Inventory.Program
                             purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                             purchaseDtDao.Update(purchaseDt);
 
-                            ItemPlanning entityItemPlanning = lstItemPlanning.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
-                            decimal purchaseUnitPrice = purchaseDt.UnitPrice;
-                            decimal unitPrice = 0;
-                            if (hdnIsDiscountAppliedToUnitPrice.Value == "1")
+                            if (purchaseDt.ItemID > 0)
                             {
-                                decimal discountAmount1 = (purchaseUnitPrice * purchaseDt.DiscountPercentage1) / 100;
-                                decimal discountAmount2 = ((purchaseUnitPrice - discountAmount1) * purchaseDt.DiscountPercentage2) / 100;
-                                purchaseUnitPrice = purchaseUnitPrice - (discountAmount1 + discountAmount2);
-                            }
-                            unitPrice = purchaseUnitPrice / purchaseDt.ConversionFactor;
-                            if (entityItemPlanning.LastPurchasePrice < unitPrice)
-                            {
-                                entityItemPlanning.LastPurchasePrice = unitPrice;
-                                if (entityItemPlanning.UnitPrice < unitPrice)
+                                ItemPlanning entityItemPlanning = lstItemPlanning.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
+                                decimal purchaseUnitPrice = purchaseDt.UnitPrice;
+                                decimal unitPrice = 0;
+                                if (hdnIsDiscountAppliedToUnitPrice.Value == "1")
                                 {
-                                    entityItemPlanning.UnitPrice = unitPrice;
-                                    entityItemPlanning.PurchaseUnitPrice = purchaseUnitPrice;
+                                    decimal discountAmount1 = (purchaseUnitPrice * purchaseDt.DiscountPercentage1) / 100;
+                                    decimal discountAmount2 = ((purchaseUnitPrice - discountAmount1) * purchaseDt.DiscountPercentage2) / 100;
+                                    purchaseUnitPrice = purchaseUnitPrice - (discountAmount1 + discountAmount2);
                                 }
+                                unitPrice = purchaseUnitPrice / purchaseDt.ConversionFactor;
+                                if (entityItemPlanning.LastPurchasePrice < unitPrice)
+                                {
+                                    entityItemPlanning.LastPurchasePrice = unitPrice;
+                                    if (entityItemPlanning.UnitPrice < unitPrice)
+                                    {
+                                        entityItemPlanning.UnitPrice = unitPrice;
+                                        entityItemPlanning.PurchaseUnitPrice = purchaseUnitPrice;
+                                    }
+                                }
+                                if (!entityItemPlanning.ListPendingPurchaseReceiveID.Contains(string.Format("|{0}|", entity.PurchaseReceiveID)))
+                                {
+                                    entityItemPlanning.ListPendingPurchaseReceiveID += string.Format("|{0}|", entity.PurchaseReceiveID);
+                                    if (entityItemPlanning.ListPendingPurchaseReceiveID.Length > 1000)
+                                        entityItemPlanning.ListPendingPurchaseReceiveID = entityItemPlanning.ListPendingPurchaseReceiveID.Substring(0, 1000);
+                                }
+                                entityItemPlanning.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                itemPlanningDao.Update(entityItemPlanning);
                             }
-                            if (!entityItemPlanning.ListPendingPurchaseReceiveID.Contains(string.Format("|{0}|", entity.PurchaseReceiveID)))
-                            {
-                                entityItemPlanning.ListPendingPurchaseReceiveID += string.Format("|{0}|", entity.PurchaseReceiveID);
-                                if (entityItemPlanning.ListPendingPurchaseReceiveID.Length > 1000)
-                                    entityItemPlanning.ListPendingPurchaseReceiveID = entityItemPlanning.ListPendingPurchaseReceiveID.Substring(0, 1000);
-                            }
-                            entityItemPlanning.LastUpdatedBy = AppSession.UserLogin.UserID;
-                            itemPlanningDao.Update(entityItemPlanning);
                         }
                         entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
                         if (entity.ApprovedDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)

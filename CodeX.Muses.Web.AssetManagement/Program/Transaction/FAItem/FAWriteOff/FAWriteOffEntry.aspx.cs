@@ -33,13 +33,13 @@ namespace Codex.Muses.Web.AssetManagement.Program
 
         protected override void InitializeDataControl()
         {
-            hdnFixedAssetID.Value = AppSession.FixedAssetID.ToString();
+            hdnFixedAssetDtID.Value = AppSession.FixedAssetDtID.ToString();
             string filterExpression = String.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUPPLIER_PAYMENT_METHOD, Constant.StandardCode.WRITE_OFF_TYPE);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
             Methods.SetComboBoxField(cboAssetWriteOffType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.WRITE_OFF_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboAssetSalesType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUPPLIER_PAYMENT_METHOD).ToList(), "StandardCodeName", "StandardCodeID");
 
-            List<FAWriteOff> lstEntity = BusinessLayer.GetFAWriteOffList(String.Format("FixedAssetID = {0} AND GCTransactionStatus = '{1}'", hdnFixedAssetID.Value, Constant.TransactionStatus.APPROVED));
+            List<FAWriteOff> lstEntity = BusinessLayer.GetFAWriteOffList(String.Format("FixedAssetDtID = {0} AND GCTransactionStatus = '{1}'", hdnFixedAssetDtID.Value, Constant.TransactionStatus.APPROVED));
 
             hdnFAWriteOffID.Value = "";
             if (lstEntity.Count > 0)
@@ -64,6 +64,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
         private void EntityToControl(FAWriteOff entity) 
         {
             hdnFAWriteOffID.Value = entity.FAWriteOffID.ToString();
+            txtFAWriteOffNo.Text = entity.FAWriteOffNo;
             txtFAWriteOffDate.Text = entity.FAWriteOffDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboAssetWriteOffType.Value = entity.GCAssetWriteOffType;
             cboAssetSalesType.Value = entity.GCAssetSalesType;
@@ -75,7 +76,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
 
         private void ControlToEntity(FAWriteOff entity) 
         {
-            entity.FixedAssetID = Convert.ToInt32(hdnFixedAssetID.Value);
+            entity.FixedAssetDtID = Convert.ToInt32(hdnFixedAssetDtID.Value);
             entity.FAWriteOffDate = Helper.GetDatePickerValue(txtFAWriteOffDate.Text);
             entity.GCAssetWriteOffType = cboAssetWriteOffType.Value.ToString();
             entity.GCAssetSalesType = cboAssetSalesType.Value.ToString();
@@ -84,62 +85,66 @@ namespace Codex.Muses.Web.AssetManagement.Program
             entity.Remarks = txtRemarks.Text;
         }
 
-        protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
         {
-            IDbContext ctx = DbFactory.Configure(true);
-            FAWriteOffDao faWriteOffDao = new FAWriteOffDao(ctx);
-            FAItemDao faItemDao = new FAItemDao(ctx);
-
-            bool result = true;
-            try
+            if (hdnFAWriteOffID.Value == "" || hdnFAWriteOffID.Value == "0")
             {
-                FAWriteOff faWriteOff = new FAWriteOff();
+                IDbContext ctx = DbFactory.Configure(true);
+                FAWriteOffDao faWriteOffDao = new FAWriteOffDao(ctx);
+                FAItemDtDao faItemDao = new FAItemDtDao(ctx);
 
-                ControlToEntity(faWriteOff);
-                faWriteOff.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                faWriteOff.LastUpdatedBy = faWriteOff.CreatedBy = AppSession.UserLogin.UserID;
-                faWriteOff.FAWriteOffNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.FIXED_ASSET_WRITE_OFF, faWriteOff.FAWriteOffDate, ctx);
-                ctx.CommandType = System.Data.CommandType.Text;
-                ctx.Command.Parameters.Clear();
-                faWriteOffDao.Insert(faWriteOff);
+                bool result = true;
+                try
+                {
+                    FAWriteOff faWriteOff = new FAWriteOff();
 
-                FAItem faItem = faItemDao.Get(faWriteOff.FixedAssetID);
-                faItem.GCItemStatus = Constant.ItemStatus.IN_ACTIVE;
-                faItem.LastUpdatedBy = AppSession.UserLogin.UserID;
-                faItemDao.Update(faItem);
+                    ControlToEntity(faWriteOff);
+                    faWriteOff.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                    faWriteOff.LastUpdatedBy = faWriteOff.CreatedBy = AppSession.UserLogin.UserID;
+                    faWriteOff.FAWriteOffNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.FIXED_ASSET_WRITE_OFF, faWriteOff.FAWriteOffDate, ctx);
+                    ctx.CommandType = System.Data.CommandType.Text;
+                    ctx.Command.Parameters.Clear();
+                    faWriteOffDao.Insert(faWriteOff);
 
-                ctx.CommitTransaction();
+                    FAItemDt faItem = faItemDao.Get(faWriteOff.FixedAssetDtID);
+                    faItem.GCItemStatus = Constant.ItemStatus.IN_ACTIVE;
+                    faItem.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    faItemDao.Update(faItem);
+
+                    ctx.CommitTransaction();
+                }
+                catch (Exception ex)
+                {
+                    Helper.InsertErrorLog(ex);
+                    ctx.RollBackTransaction();
+                    errMessage = ex.Message;
+                    result = false;
+                }
+                finally
+                {
+                    ctx.Close();
+                }
+
+                return result;
             }
-            catch (Exception ex)
+            else
             {
-                ctx.RollBackTransaction();
-                errMessage = ex.Message;
-                result = false;
-            }
-            finally 
-            {
-                ctx.Close();
-            }
+                bool result = true;
+                try
+                {
+                    FAWriteOff faWriteOff = BusinessLayer.GetFAWriteOff(Convert.ToInt32(hdnFAWriteOffID.Value));
+                    faWriteOff.Remarks = txtRemarks.Text;
+                    BusinessLayer.UpdateFAWriteOff(faWriteOff);
+                }
+                catch (Exception ex)
+                {
+                    Helper.InsertErrorLog(ex);
+                    errMessage = ex.Message;
+                    result = false;
+                }
 
-            return result;
-        }
-
-        protected override bool OnSaveEditRecord(ref string errMessage, ref string retval)
-        {
-            bool result = true;
-            try
-            {
-                FAWriteOff faWriteOff = BusinessLayer.GetFAWriteOff(Convert.ToInt32(hdnFAWriteOffID.Value));
-                faWriteOff.Remarks = txtRemarks.Text;
-                BusinessLayer.UpdateFAWriteOff(faWriteOff);
+                return result;
             }
-            catch(Exception ex)
-            {
-                errMessage = ex.Message;
-                result = false;
-            }
-
-            return result;
         }
     }
 }

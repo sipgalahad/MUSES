@@ -41,7 +41,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += String.Format("GCItemStatus = '{0}' AND IsDeleted = 0",Constant.ItemStatus.IN_ACTIVE);
+            filterExpression += String.Format("GCItemStatus = '{0}' AND IsDeleted = 0", Constant.ItemStatus.IN_ACTIVE);
             return filterExpression;
         }
 
@@ -87,19 +87,19 @@ namespace Codex.Muses.Web.AssetManagement.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            FAItemDao faItemDao = new FAItemDao(ctx);
+            FAItemDtDao faItemDao = new FAItemDtDao(ctx);
             FAWriteOffDao faWriteOffDao = new FAWriteOffDao(ctx);
 
             try
             {
                 if (hdnID.Value.ToString() != "")
                 {
-                    FAItem entity = faItemDao.Get(Convert.ToInt32(hdnID.Value));
+                    FAItemDt entity = faItemDao.Get(Convert.ToInt32(hdnID.Value));
                     entity.GCItemStatus = Constant.ItemStatus.ACTIVE;
                     entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                     faItemDao.Update(entity);
 
-                    string filterExpression = String.Format("FixedAssetID = {0} AND GCTransactionStatus = '{1}'", entity.FixedAssetID, Constant.TransactionStatus.APPROVED);
+                    string filterExpression = String.Format("FixedAssetDtID = {0} AND GCTransactionStatus = '{1}'", entity.FixedAssetDtID, Constant.TransactionStatus.APPROVED);
                     FAWriteOff faWriteOff = BusinessLayer.GetFAWriteOffList(filterExpression,ctx)[0];
                     faWriteOff.GCTransactionStatus = Constant.TransactionStatus.VOID;
                     faWriteOffDao.Update(faWriteOff);
@@ -109,6 +109,7 @@ namespace Codex.Muses.Web.AssetManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;

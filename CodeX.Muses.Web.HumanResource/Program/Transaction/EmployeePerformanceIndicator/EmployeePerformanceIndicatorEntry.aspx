@@ -20,52 +20,46 @@
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
         $(function () {
-            var grd = new customGridView2();
-            grd.init('grdStockDetail', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
-
-//            $('#</%=txtJobLevel.ClientID %>').change(function () {
-//                cbpView.PerformCallback('refresh');
-//            });
-
             $('#btnRefresh').click(function () {
                 cbpView.PerformCallback('refresh');
             });
-
         });
 
         $('.grdStockDetail .btnSave').live('click', function (evt) {
             if (IsValid(evt, 'fsTrx', 'mpTrx')) {
                 $tr = $(this).closest('tr');
 
-                $('#<%=hdnID.ClientID %>').val($tr.find('.keyField').html());
-                $('#<%=hdnPerformanceID.ClientID %>').val($tr.find('.hdnPerformanceIndicatorID').val());
-                $('#<%=hdnInput.ClientID %>').val($tr.find('.txtInput').val());
+                $('#<%=hdnEmployeeID.ClientID %>').val($tr.find('.keyField').html());
+
+                var lstIndicatorValue = '';
+                $tr.find('.hdnPerformanceIndicatorID').each(function () {
+                    var performanceIndicatorID = $(this).val();
+                    $td = $(this).closest('td');
+                    var GCIndicatorMarkType = $td.find('.hdnGCIndicatorMarkType').val();
+                    var value = '';
+                    if (GCIndicatorMarkType == '<%=OnGetIndicatorMarkTypeCustom() %>')
+                        value = $td.find('.ddlInput').val();
+                    else
+                        value = $td.find('.txtInput').val();
+                    if (lstIndicatorValue != '')
+                        lstIndicatorValue += '|';
+                    lstIndicatorValue += performanceIndicatorID + ';' + GCIndicatorMarkType + ';' + value;
+                });
+                $('#<%=hdnListPerformanceID.ClientID %>').val(lstIndicatorValue);
                 cbpProcess.PerformCallback('save');
-              
-                
             }
         });
-
-       
 
         function onCbpProcessEndCallback(s) {
             hideLoadingPanel();
             var param = s.cpResult.split('|');
-//            if (param[0] == 'upload') {
-//                if (param[1] == 'fail')
-//                    showToast('Upload Failed', 'Error Message : ' + param[2]);
-//                else
-//                    cbpView.PerformCallback('refresh');
-//            }
-           if (param[0] == 'save') {
+            if (param[0] == 'save') {
                 if (param[1] == 'fail')
                     showToast('Save Failed', 'Error Message : ' + param[2]);
             }
         }
 
-
         $('.lblFormula').live('click', function () {
-            //var id = $(this).closest('tr').find('.keyField').html();
             $td = $(this).closest('td');
             var hdnOp = $td.find('.hdnOrganizationPositionID').val();
             var hdnRenum = $td.find('.hdnPeriodTransID').val();
@@ -75,39 +69,9 @@
             openUserControlPopup(url, id, 'Period Formula', 600, 500);
         });
 
-        //#region Paging
-        var pageCount = parseInt('<%=PageCount %>');
-        var rowCount = parseInt('<%=RowCount %>');
-        var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
-        var currPage = parseInt('<%=CurrPage %>');
-        $(function () {
-            setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
-            setPaging($("#paging"), pageCount, function (page) {
-                cbpView.PerformCallback('changepage|' + page);
-                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
-            }, null, currPage);
-        });
-
         function onCbpViewEndCallback(s) {
             hideLoadingPanel();
-
-            var param = s.cpResult.split('|');
-            if (param[0] == 'refresh') {
-                var pageCount = parseInt(param[1]);
-                var rowCount = parseInt(param[2]);
-                if (pageCount > 0)
-                    $('.grdStockDetail tr:eq(2)').click();
-
-                setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
-                setPaging($("#paging"), pageCount, function (page) {
-                    cbpView.PerformCallback('changepage|' + page);
-                    setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
-                });
-            }
-            else
-                $('.grdStockDetail tr:eq(2)').click();
         }
-        //#endregion
 
         function onTxtSearchViewSearchClick(s) {
             setTimeout(function () {
@@ -143,11 +107,9 @@
                 var filterExpression = onGetPeriodFilterExpression() + " AND RevenuePeriodID = '" + value + "'";
                 Methods.getObject('GetRevenuePeriodList', filterExpression, function (result) {
                     if (result != null) {
-                        //var tempStartDate = setDatePicker(result.StartDate);
-                        //var tempEndDate = setDatePicker(result.EndDate);
                         $('#<%=hdnPeriod.ClientID %>').val(result.RevenuePeriodID);
                         tacPeriod.setValue(result.RevenuePeriodID);
-                        tacPeriod.setText(result.StartDate + "-" + result.EndDate);
+                        tacPeriod.setText(result.StartDateInString + "-" + result.EndDateInString);
                     }
                     else {
                         $('#<%=hdnPeriod.ClientID %>').val(result.PeriodID);
@@ -164,10 +126,10 @@
 
     </script>
     <input type="hidden" value="" id="hdnFilterExpressionQuickSearch" runat="server" />
+    <input type="hidden" value="" id="hdnEmployeeID" runat="server" />
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" value="" id="hdnOrganizationPositionID" runat="server" />
-    <input type="hidden" value="" id="hdnInput" runat="server" />
-    <input type="hidden" value="" id="hdnPerformanceID" runat="server" />
+    <input type="hidden" value="" id="hdnListPerformanceID" runat="server" />
     <input type="hidden" value="" id="hdnPeriod" runat="server" />
     <table width="100%">
         <tr>
@@ -241,11 +203,13 @@
                                                     <ItemTemplate>
                                                         <td align="right">
                                                             <input type="hidden" class="hdnPerformanceIndicatorID" value='<%#Eval("PerformanceIndicatorID") %>' />
+                                                            <input type="hidden" class="hdnGCIndicatorMarkType" value='<%#Eval("GCIndicatorMarkType") %>' />
                                                             <asp:TextBox runat="server" ID="txtInput" class="txtInput number" Width="80px" />
+                                                            <asp:DropDownList ID="ddlInput" CssClass="ddlInput" Width="80px" runat="server" />
                                                         </td>
                                                     </ItemTemplate>
                                                 </asp:Repeater>
-                                                <td><input type="button" class="btnSave btnWhite"  value='<%=GetLabel("Save") %>'/></td>
+                                                <td><input type="button" class="btnSave btnWhite" value='<%=GetLabel("Save") %>'/></td>
                                             </tr>
                                         </ItemTemplate>
                                     </asp:Repeater>

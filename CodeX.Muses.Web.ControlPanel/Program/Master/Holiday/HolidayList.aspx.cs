@@ -42,8 +42,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
-            fieldListText = new string[] { "Zip Code", "County", "City" };
-            fieldListValue = new string[] { "ZipCode", "County", "City" };
+            fieldListText = new string[] { "Holiday Name" };
+            fieldListValue = new string[] { "HolidayName" };
         }
 
         private string GetFilterExpression()
@@ -64,7 +64,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<Holiday> lstEntity = BusinessLayer.GetHolidayList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<Holiday> lstEntity = BusinessLayer.GetHolidayList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "HolidayMonth, HolidayDate");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

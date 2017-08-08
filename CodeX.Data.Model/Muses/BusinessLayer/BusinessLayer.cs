@@ -6114,22 +6114,6 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-        public static Int32 GetFAItemMaxID(IDbContext ctx)
-        {
-            Int32 result = 0;
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(FAItem));
-                ctx.CommandText = helper.SelectMaxColumn("FixedAssetID");
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
         public static List<FAItem> GetFAItemList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "", IDbContext ctx = null)
         {
             List<FAItem> result = new List<FAItem>();
@@ -6155,6 +6139,22 @@ namespace CodeX.Data.Model
             {
                 if (IsCtxNull)
                     ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFAItemRowCount(string filterExpression, IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAItem));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }
@@ -6195,6 +6195,63 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region FAItemDt
+        public static FAItemDt GetFAItemDt(Int32 FixedAssetDtID)
+        {
+            return new FAItemDtDao().Get(FixedAssetDtID);
+        }
+        public static int InsertFAItemDt(FAItemDt record)
+        {
+            return new FAItemDtDao().Insert(record);
+        }
+        public static int UpdateFAItemDt(FAItemDt record)
+        {
+            return new FAItemDtDao().Update(record);
+        }
+        public static int DeleteFAItemDt(Int32 FixedAssetDtID)
+        {
+            return new FAItemDtDao().Delete(FixedAssetDtID);
+        }
+        public static List<FAItemDt> GetFAItemDtList(string filterExpression)
+        {
+            List<FAItemDt> result = new List<FAItemDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAItemDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FAItemDt)helper.IDataReaderToObject(reader, new FAItemDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<FAItemDt> GetFAItemDtList(string filterExpression, IDbContext ctx)
+        {
+            List<FAItemDt> result = new List<FAItemDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAItemDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FAItemDt)helper.IDataReaderToObject(reader, new FAItemDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }
@@ -13420,6 +13477,63 @@ namespace CodeX.Data.Model
                 ctx.CommandText = helper.SelectMaxColumn("PurchaseReceiveID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region PurchaseReceiveHdSite
+        public static PurchaseReceiveHdSite GetPurchaseReceiveHdSite(Int32 PurchaseReceiveID, String SiteID)
+        {
+            return new PurchaseReceiveHdSiteDao().Get(PurchaseReceiveID, SiteID);
+        }
+        public static int InsertPurchaseReceiveHdSite(PurchaseReceiveHdSite record)
+        {
+            return new PurchaseReceiveHdSiteDao().Insert(record);
+        }
+        public static int UpdatePurchaseReceiveHdSite(PurchaseReceiveHdSite record)
+        {
+            return new PurchaseReceiveHdSiteDao().Update(record);
+        }
+        public static int DeletePurchaseReceiveHdSite(Int32 PurchaseReceiveID, String SiteID)
+        {
+            return new PurchaseReceiveHdSiteDao().Delete(PurchaseReceiveID, SiteID);
+        }
+        public static List<PurchaseReceiveHdSite> GetPurchaseReceiveHdSiteList(string filterExpression)
+        {
+            List<PurchaseReceiveHdSite> result = new List<PurchaseReceiveHdSite>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReceiveHdSite));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReceiveHdSite)helper.IDataReaderToObject(reader, new PurchaseReceiveHdSite()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<PurchaseReceiveHdSite> GetPurchaseReceiveHdSiteList(string filterExpression, IDbContext ctx)
+        {
+            List<PurchaseReceiveHdSite> result = new List<PurchaseReceiveHdSite>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReceiveHdSite));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReceiveHdSite)helper.IDataReaderToObject(reader, new PurchaseReceiveHdSite()));
             }
             catch (Exception ex)
             {

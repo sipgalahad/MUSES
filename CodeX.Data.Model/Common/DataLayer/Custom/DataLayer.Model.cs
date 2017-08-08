@@ -6,6 +6,7 @@ using System.Text;
 namespace CodeX.Data.Model
 {
     #region Variable
+    [Serializable]
     public class Variable
     {
         private string _Code;
