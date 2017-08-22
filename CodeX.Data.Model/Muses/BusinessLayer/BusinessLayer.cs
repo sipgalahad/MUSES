@@ -19021,6 +19021,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<SubjectCurriculumSyllabus> GetSubjectCurriculumSyllabusList(string filterExpression, IDbContext ctx)
+        {
+            List<SubjectCurriculumSyllabus> result = new List<SubjectCurriculumSyllabus>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumSyllabus));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumSyllabus)helper.IDataReaderToObject(reader, new SubjectCurriculumSyllabus()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region SubLedgerDt
         public static SubLedgerDt GetSubLedgerDt(Int32 SubLedgerDtID)

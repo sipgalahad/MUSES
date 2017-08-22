@@ -24,6 +24,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected override void InitializeDataControl()
         {
             SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
+            hdnGCSchoolType.Value = BusinessLayer.GetSiteParameter(entitySchoolPeriod.SiteID, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
+            hdnPeriodCurriculumID.Value = entitySchoolPeriod.CurriculumID.ToString();
+            
+            List<vPeriodGrade> lstPeriodGrade = BusinessLayer.GetvPeriodGradeList(string.Format("SchoolPeriodID = {0}", AppSession.SchoolPeriodID));
+            hdnListCurriculumID.Value = string.Join("|", lstPeriodGrade.Select(p => String.Format("{0};{1}", p.GCGrade, p.CurriculumID)));
+
             List<vPeriodGradeClassType> lstClassType = BusinessLayer.GetvPeriodGradeClassTypeList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", entitySchoolPeriod.SchoolPeriodID, Constant.ClassStudyType.REGULAR));
             Methods.SetComboBoxField<vPeriodGradeClassType>(cboClassType, lstClassType, "CurriculumClassTypeName", "CurriculumClassTypeID");
             cboClassType.SelectedIndex = 0;

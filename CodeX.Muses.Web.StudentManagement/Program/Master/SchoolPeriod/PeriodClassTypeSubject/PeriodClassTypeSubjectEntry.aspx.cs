@@ -24,10 +24,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl()
         {
-            hdnSiteID.Value = AppSession.UserLogin.SiteID;
-
             SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
             hdnCurriculumID.Value = entitySchoolPeriod.CurriculumID.ToString();
+
+            hdnSiteID.Value = entitySchoolPeriod.SiteID;
 
             List<vCurriculumMarkTypeClassStudyType> lstMarkType = BusinessLayer.GetvCurriculumMarkTypeClassStudyTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsAllowTask = 1 AND IsDeleted = 0", entitySchoolPeriod.CurriculumID, Constant.ClassStudyType.REGULAR));
             rptFinalMarkFormula.DataSource = lstMarkType;
@@ -43,6 +43,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtCurriculumSubjectGroup, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(tacSubjectCurriculum, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(tacAssistantTeacher, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtNoMeetingHoursInWeek, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtPassingGrade, new ControlEntrySetting(true, true, true), "mpTrx");
         }
@@ -134,10 +135,22 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.SubjectCurriculumID = Convert.ToInt32(tacSubjectCurriculum.Value);
             else
                 entity.SubjectCurriculumID = null;
-            entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
+            entity.IsClassTeacher = chkIsClassTeacher.Checked;
+            if (!entity.IsClassTeacher)
+            {
+                entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
+                if (tacAssistantTeacher.Value != "0" && tacAssistantTeacher.Value != "")
+                    entity.AssistantTeacherID = Convert.ToInt32(tacAssistantTeacher.Value);
+                else
+                    entity.AssistantTeacherID = null;
+            }
+            else
+            {
+                entity.TeacherID = null;
+                entity.AssistantTeacherID = null;
+            }
             entity.NoMeetingHoursInWeek = Convert.ToInt16(txtNoMeetingHoursInWeek.Text);
             entity.PassingGrade = Convert.ToInt16(txtPassingGrade.Text);
-            entity.IsClassTeacher = chkIsClassTeacher.Checked;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
@@ -155,18 +168,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityDao.Insert(entity);
                 entity.PeriodClassTypeSubjectID = BusinessLayer.GetPeriodClassTypeSubjectMaxID(ctx);
 
-                string[] lstSaveValue = hdnSaveValue.Value.Split('|');
-                foreach (string saveValue in lstSaveValue)
+                if (hdnSaveValue.Value != "")
                 {
-                    string[] temp = saveValue.Split(';');
-                    PeriodClassTypeSubjectFinalMarkFormula entityFinalMark = new PeriodClassTypeSubjectFinalMarkFormula();
-                    entityFinalMark.PeriodClassTypeSubjectID = entity.PeriodClassTypeSubjectID;
-                    entityFinalMark.CurriculumMarkTypeID = Convert.ToInt32(temp[0]);
-                    if (temp[1] != "")
-                        entityFinalMark.CurriculumFinalMarkFormulaID = Convert.ToInt32(temp[1]);
-                    else
-                        entityFinalMark.CurriculumFinalMarkFormulaID = null;
-                    entityFinalMarkDao.Insert(entityFinalMark);
+                    string[] lstSaveValue = hdnSaveValue.Value.Split('|');
+                    foreach (string saveValue in lstSaveValue)
+                    {
+                        string[] temp = saveValue.Split(';');
+                        PeriodClassTypeSubjectFinalMarkFormula entityFinalMark = new PeriodClassTypeSubjectFinalMarkFormula();
+                        entityFinalMark.PeriodClassTypeSubjectID = entity.PeriodClassTypeSubjectID;
+                        entityFinalMark.CurriculumMarkTypeID = Convert.ToInt32(temp[0]);
+                        if (temp[1] != "")
+                            entityFinalMark.CurriculumFinalMarkFormulaID = Convert.ToInt32(temp[1]);
+                        else
+                            entityFinalMark.CurriculumFinalMarkFormulaID = null;
+                        entityFinalMarkDao.Insert(entityFinalMark);
+                    }
                 }
 
                 ctx.CommitTransaction();
@@ -200,40 +216,41 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityDao.Update(entity);
 
                 List<PeriodClassTypeSubjectFinalMarkFormula> lstEntityFinalMark = BusinessLayer.GetPeriodClassTypeSubjectFinalMarkFormulaList(string.Format("PeriodClassTypeSubjectID = {0}", entity.PeriodClassTypeSubjectID), ctx);
-                string[] lstSaveValue = hdnSaveValue.Value.Split('|');
-                foreach (string saveValue in lstSaveValue)
+                if (hdnSaveValue.Value != "")
                 {
-                    string[] temp = saveValue.Split(';');
-                    int CurriculumMarkTypeID = Convert.ToInt32(temp[0]);
+                    string[] lstSaveValue = hdnSaveValue.Value.Split('|');
+                    foreach (string saveValue in lstSaveValue)
+                    {
+                        string[] temp = saveValue.Split(';');
+                        int CurriculumMarkTypeID = Convert.ToInt32(temp[0]);
 
-                    PeriodClassTypeSubjectFinalMarkFormula entityFinalMark = lstEntityFinalMark.FirstOrDefault(p => p.CurriculumMarkTypeID == CurriculumMarkTypeID);
-                    if (entityFinalMark == null)
-                    {
-                        entityFinalMark = new PeriodClassTypeSubjectFinalMarkFormula();
-                        entityFinalMark.PeriodClassTypeSubjectID = entity.PeriodClassTypeSubjectID;
-                        entityFinalMark.CurriculumMarkTypeID = CurriculumMarkTypeID;
-                        if (temp[1] != "")
-                            entityFinalMark.CurriculumFinalMarkFormulaID = Convert.ToInt32(temp[1]);
+                        PeriodClassTypeSubjectFinalMarkFormula entityFinalMark = lstEntityFinalMark.FirstOrDefault(p => p.CurriculumMarkTypeID == CurriculumMarkTypeID);
+                        if (entityFinalMark == null)
+                        {
+                            entityFinalMark = new PeriodClassTypeSubjectFinalMarkFormula();
+                            entityFinalMark.PeriodClassTypeSubjectID = entity.PeriodClassTypeSubjectID;
+                            entityFinalMark.CurriculumMarkTypeID = CurriculumMarkTypeID;
+                            if (temp[1] != "")
+                                entityFinalMark.CurriculumFinalMarkFormulaID = Convert.ToInt32(temp[1]);
+                            else
+                                entityFinalMark.CurriculumFinalMarkFormulaID = null;
+                            entityFinalMarkDao.Insert(entityFinalMark);
+                        }
                         else
-                            entityFinalMark.CurriculumFinalMarkFormulaID = null;
-                        entityFinalMarkDao.Insert(entityFinalMark);
-                    }
-                    else
-                    {
-                        if (temp[1] != "")
-                            entityFinalMark.CurriculumFinalMarkFormulaID = Convert.ToInt32(temp[1]);
-                        else
-                            entityFinalMark.CurriculumFinalMarkFormulaID = null;
-                        entityFinalMarkDao.Update(entityFinalMark);
-                        lstEntityFinalMark.Remove(entityFinalMark);
+                        {
+                            if (temp[1] != "")
+                                entityFinalMark.CurriculumFinalMarkFormulaID = Convert.ToInt32(temp[1]);
+                            else
+                                entityFinalMark.CurriculumFinalMarkFormulaID = null;
+                            entityFinalMarkDao.Update(entityFinalMark);
+                            lstEntityFinalMark.Remove(entityFinalMark);
+                        }
                     }
                 }
-
                 foreach (PeriodClassTypeSubjectFinalMarkFormula entityFinalMark in lstEntityFinalMark)
                 {
                     entityFinalMarkDao.Delete(entityFinalMark.PeriodClassTypeSubjectID, entityFinalMark.CurriculumMarkTypeID);
                 }
-
 
                 ctx.CommitTransaction();
                 result = true;

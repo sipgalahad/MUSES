@@ -22,6 +22,42 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSaveValue;
         
         /// <summary>
+        /// hdnGCSchoolType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCSchoolType;
+        
+        /// <summary>
+        /// hdnListCurriculumID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListCurriculumID;
+        
+        /// <summary>
+        /// hdnSelectedCurriculumID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedCurriculumID;
+        
+        /// <summary>
+        /// hdnPeriodCurriculumID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPeriodCurriculumID;
+        
+        /// <summary>
         /// hdnEntryID control.
         /// </summary>
         /// <remarks>

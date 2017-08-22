@@ -60,7 +60,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void BindGridView()
         {
             string filterExpression = "1 = 0";
-            filterExpression = string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID);
+            filterExpression = string.Format("SchoolPeriodID = {0} AND PeriodClassTypeSubjectID IN (SELECT PeriodClassTypeSubjectID FROM ClassSubject WHERE TeacherID = {1} OR ISNULL(AssistantTeacherID,0) = {1} AND IsDeleted = 0) AND IsDeleted = 0", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID);
             List<vPeriodClassTypeSubject> lstEntity = BusinessLayer.GetvPeriodClassTypeSubjectList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvItemTransactionDtList" datasourcehd="GetvItemTransactionHdList" filterexpressionhd="" headertext="Bukti Pemakaian Barang" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="A4_portrait" fontsize="8pt" />
+  <table datasource="GetvItemTransactionDtList" datasourcehd="GetvItemTransactionHdList" filterexpressionhd="" headertext="Bukti Pemakaian Barang" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="F5_portrait" fontsize="8pt" />
   <parameters>
     <parameter code="FP001"/>
   </parameters>

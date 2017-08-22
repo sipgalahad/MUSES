@@ -250,7 +250,7 @@
                                         <td><%#:Eval("cfStudentFeeCompTypeName") %></td>
                                         <td>:</td>
                                         <td><asp:TextBox ID="txtTotalAmount" runat="server" CssClass="txtTotalAmount txtCurrency" Width="120px" /></td>
-                                    </tr>                                     
+                                    </tr>                        
                                     <tr id="trDataHeader1" runat="server">
                                         <td><%=GetLabel("Sudah Dibayar") %></td>
                                         <td>:</td>

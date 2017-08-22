@@ -12,7 +12,37 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#<%=hdnUploadedFile1.ClientID %>').val(e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function getFile(filePath) {
+            return filePath.substr(filePath.lastIndexOf('\\') + 1).split('.')[0];
+        }
+
+        function getoutput() {
+            var fileName = getFile($('#<%=FileUpload1.ClientID %>').val());
+            var extension = $('#<%=FileUpload1.ClientID %>').val().split('.')[1];
+            $('#<%=hdnFileName.ClientID %>').val(fileName + '.' + extension);
+            $('#<%=hdnExtension.ClientID %>').val('.' + extension);
+        }
+
         $(function () {
+            $('#btnUploadFile').click(function () {
+                cbpProcess.PerformCallback('upload');
+            });
+
+            $('#<%=FileUpload1.ClientID %>').change(function () {
+                getoutput();
+                readURL(this);
+            });
+
             setTimeout(function () {
                 if (tacSubjectCurriculum.getValue() != '') {
                     onRefreshGridView();
@@ -259,11 +289,21 @@
 
         function onCbpProcessEndCallback(s) {
             var param = s.cpResult.split('|');
-            if (param[0] == 'fail')
-                showToast('Save Failed', 'Error Message : ' + param[1]);
+            if (param[0] == 'delete') {
+                if (param[1] == 'fail')
+                    showToast('Delete Failed', 'Error Message : ' + param[2]);
+                else {
+                    onAfterSaveRecordSubjectCurriculumSyllabus();
+                    hideLoadingPanel();
+                }
+            }
             else {
-                onAfterSaveRecordSubjectCurriculumSyllabus();
-                hideLoadingPanel();
+                if (param[1] == 'fail')
+                    showToast('Upload Failed', 'Error Message : ' + param[2]);
+                else {
+                    onAfterSaveRecordSubjectCurriculumSyllabus();
+                    hideLoadingPanel();
+                }
             }
         }
 
@@ -289,7 +329,8 @@
         .tblSubjectCurriculumSyllabus             { border-collapse:collapse; table-layout:fixed; width: 440px; }
         .tdName div,         
         .tdReference div         { -ms-word-break: keep-all;word-break: keep-all;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;max-width: 380px; }
-    </style>
+    </style> 
+    
     <input type="hidden" id="hdnSubjectID" runat="server" />
     <input type="hidden" id="hdnEntryID" runat="server" />
     <input type="hidden" id="hdnIsPerSchoolPeriodSection" runat="server" />
@@ -316,6 +357,16 @@
                     <select id="cboSchoolPeriodSection" runat="server" style="width:200px"></select>
                 </td>
             </tr> 
+            <tr>
+                <td></td>
+                <td>
+					<input type="hidden" id="hdnFileName" runat="server" value="" />
+					<input type="hidden" id="hdnExtension" runat="server" value="" />
+					<input type="hidden" id="hdnUploadedFile1" runat="server" value="" />
+                    <asp:FileUpload ID="FileUpload1" runat="server" />
+					<input type="button" id="btnUploadFile" value="Upload" />
+                </td>
+            </tr>
         </table>
     </fieldset>
     <script id="tmplListSubjectCurriculumSyllabus" type="text/x-jquery-tmpl">

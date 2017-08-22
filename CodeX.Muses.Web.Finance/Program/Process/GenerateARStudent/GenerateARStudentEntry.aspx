@@ -342,7 +342,7 @@
         </tr>
         <tr>
             <td></td>
-            <td><asp:CheckBox ID="chkIsShowOnlyInvoiceAvailable" runat="server" /><%=GetLabel("Tampilkan Hanya yang Mempunyai Tagihan") %></td>
+            <td><asp:CheckBox ID="chkIsShowOnlyInvoiceAvailable" Checked="true" runat="server" /><%=GetLabel("Tampilkan Hanya yang Mempunyai Tagihan") %></td>
         </tr>
         <tr>
             <td></td>

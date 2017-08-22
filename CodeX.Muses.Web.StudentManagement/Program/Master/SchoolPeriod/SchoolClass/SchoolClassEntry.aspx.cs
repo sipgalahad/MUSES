@@ -43,6 +43,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             Helper.SetControlEntrySetting(tacRoom, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacAssistantTeacher, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtMaxStudent, new ControlEntrySetting(true, true, false), "mpTrx");
         }
 
@@ -110,6 +111,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.SchoolClassName = txtSchoolClassName.Text;
             entity.RoomID = Convert.ToInt32(tacRoom.Value);
             entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
+            if (tacAssistantTeacher.Value == "" || tacAssistantTeacher.Value == "0")
+                entity.AssistantTeacherID = null;
+            else
+                entity.AssistantTeacherID = Convert.ToInt32(tacAssistantTeacher.Value);
             entity.MaxStudent = Convert.ToInt16(txtMaxStudent.Text);
         }
 

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="CurriculumList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.CurriculumList" %>
+    CodeBehind="SubjectAllList.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.SubjectAllList" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -15,17 +15,17 @@
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
         });
 
-        function onRefreshControl(filterExpression) {
-            $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
-            cbpView.PerformCallback('refresh');
-        }
-
         function onGetCurrID() {
             return $('#<%=hdnID.ClientID %>').val();
         }
 
         function onGetFilterExpression() {
             return $('#<%=hdnFilterExpression.ClientID %>').val();
+        }
+
+        function onRefreshControl(filterExpression) {
+            $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
+            cbpView.PerformCallback('refresh');
         }
 
         //#region Paging
@@ -64,18 +64,19 @@
         }
         //#endregion
 
+        $('.lnkDetail a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSchoolType.GetValue();
+            var url = ResolveUrl('~/Program/Master/Subject/SubjectPageLauncher.aspx?id=' + id);
+            openWindowPopup(url, 'Subject', '1300', '650');
+        });
+
         function onCboSchoolTypeValueChanged() {
             cbpView.PerformCallback('refresh');
         }
-
-        $('.lnkDetail a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl('~/Program/Master/Curriculum/CurriculumPageLauncher.aspx?id=' + id);
-            openWindowPopup(url, 'Subject', '1300', '650');
-        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
+    <input type="hidden" id="hdnListSiteGCSchoolType" runat="server" value="" />
     <table id="tblSchoolType" runat="server">
         <colgroup>
             <col style="width:150px"/>
@@ -99,10 +100,9 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="CurriculumID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="CurriculumCode" HeaderText="Kode" HeaderStyle-Width="100px" />
-                                <asp:BoundField DataField="CurriculumName" HeaderText="Nama" HeaderStyle-Width="200px" />
-                                <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                                <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="SubjectCode" HeaderText="Kode" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="SubjectName" HeaderText="Nama" />
                                 <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>

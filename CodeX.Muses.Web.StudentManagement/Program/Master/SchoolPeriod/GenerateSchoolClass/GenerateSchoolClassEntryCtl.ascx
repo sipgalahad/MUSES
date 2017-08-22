@@ -74,6 +74,31 @@
     }
     //#endregion
 
+    //#region Assistant Teacher
+    $td = null;
+    $('.lblAssistantTeacher.lblLink').die('click');
+    $('.lblAssistantTeacher.lblLink').live('click', function () {
+        $td = $(this).parent();
+        openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
+            onTxtAssistantTeacherChanged(value);
+        });
+    });
+
+    function onTxtAssistantTeacherChanged(value) {
+        var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
+        Methods.getObject('GetvTeacherList', filterExpression, function (result) {
+            if (result != null) {
+                $td.find('.hdnAssistantTeacherID').val(result.TeacherID);
+                $td.find('.lblAssistantTeacher').html(result.TeacherName);
+            }
+            else {
+                $td.find('.hdnAssistantTeacherID').val('0');
+                $td.find('.lblAssistantTeacher').html('Pilih Guru');
+            }
+        });
+    }
+    //#endregion
+
     function onBeforeSaveRecordPopup(errMessage) {
         var isRoomAllowSave = true;
         var isTeacherAllowSave = true;
@@ -82,6 +107,7 @@
         var lstSchoolClassName = [];
         var lstRoomID = [];
         var lstTeacherID = [];
+        var lstAssistantTeacherID = [];
         var lstMaxStudent = [];
         $('#<%=grdView.ClientID %> tr:gt(0)').each(function () {
             $tr = $(this);
@@ -89,6 +115,7 @@
             var schoolClassName = $tr.find('.txtSchoolClassName').val();
             var roomID = $tr.find('.hdnRoomID').val();
             var teacherID = $tr.find('.hdnTeacherID').val();
+            var assistantTeacherID = $tr.find('.hdnAssistantTeacherID').val();
             var maxStudent = $tr.find('.txtMaxStudent').val();
 
             if (roomID == '0')
@@ -99,12 +126,14 @@
             lstSchoolClassName.push(schoolClassName);
             lstRoomID.push(roomID);
             lstTeacherID.push(teacherID);
+            lstAssistantTeacherID.push(assistantTeacherID);
             lstMaxStudent.push(maxStudent);
         });
         $('#<%=hdnListSchoolClassCode.ClientID %>').val(lstSchoolClassCode.join(','));
         $('#<%=hdnListSchoolClassName.ClientID %>').val(lstSchoolClassName.join(','));
         $('#<%=hdnListRoomID.ClientID %>').val(lstRoomID.join(','));
         $('#<%=hdnListTeacherID.ClientID %>').val(lstTeacherID.join(','));
+        $('#<%=hdnListAssistantTeacherID.ClientID %>').val(lstAssistantTeacherID.join(','));
         $('#<%=hdnListMaxStudent.ClientID %>').val(lstMaxStudent.join(','));
 
         if (!isRoomAllowSave) {
@@ -129,6 +158,7 @@
     <input type="hidden" id="hdnListSchoolClassName" value="" runat="server" />
     <input type="hidden" id="hdnListRoomID" value="" runat="server" />
     <input type="hidden" id="hdnListTeacherID" value="" runat="server" />
+    <input type="hidden" id="hdnListAssistantTeacherID" value="" runat="server" />
     <input type="hidden" id="hdnListMaxStudent" value="" runat="server" />
     
     <table class="tblEntryContent" style="width:70%">
@@ -167,10 +197,16 @@
                                     <label class="lblLink lblRoom"><%=GetLabel("Pilih Ruangan") %></label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Wali Kelas" HeaderStyle-Width="250px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
+                            <asp:TemplateField HeaderText="Wali Kelas" HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
                                 <ItemTemplate>
                                     <input type="hidden" value="0" class="hdnTeacherID" />
                                     <label class="lblLink lblTeacher"><%=GetLabel("Pilih Guru")%></label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Wali Kelas 2" HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
+                                <ItemTemplate>
+                                    <input type="hidden" value="0" class="hdnTeacherID" />
+                                    <label class="lblLink lblAssistantTeacher"><%=GetLabel("Pilih Guru")%></label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Kapasitas Siswa" HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">

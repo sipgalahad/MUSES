@@ -4,15 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using CodeX.Web.Common.UI;
-using CodeX.Web.Common;
 using CodeX.Data.Model;
+using CodeX.Web.Common;
+using CodeX.Web.Common.UI;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
 
-namespace CodeX.Muses.Web.ControlPanel.Program
+namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class CurriculumList : BasePageList
+    public partial class SubjectAllList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,16 +20,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.CURRICULUM;
+            return Constant.MenuCode.StudentManagement.SUBJECT_ALL;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            hdnFilterExpression.Value = filterExpression;
-            hdnID.Value = keyValue;
-
             SiteParameter sp = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.SCHOOL_TYPE);
-            if(sp != null)
+            if (sp != null)
                 tblSchoolType.Style.Add("display", "none");
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboSchoolType, lstSc, "StandardCodeName", "StandardCodeID");
@@ -43,15 +40,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                     cboSchoolType.SelectedIndex = 0;
             }
 
-            filterExpression = GetFilterExpression();
-            if (keyValue != "")
-            {
-                int row = BusinessLayer.GetCurriculumRowIndex(filterExpression, keyValue) + 1;
-                CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
-            }
-            else
-                CurrPage = 1;
-
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
@@ -59,7 +47,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
             fieldListText = new string[] { "Kode", "Nama" };
-            fieldListValue = new string[] { "CurriculumCode", "CurriculumName" };
+            fieldListValue = new string[] { "SubjectCode", "SubjectName" };
         }
 
         private string GetFilterExpression()
@@ -67,20 +55,21 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("GCSchoolType = '{0}' AND IsDeleted = 0", cboSchoolType.Value);
+            filterExpression += string.Format("GCSchoolType = '{0}' AND GCClassStudyType = '{1}'", cboSchoolType.Value, Constant.ClassStudyType.REGULAR);
             return filterExpression;
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = GetFilterExpression();
+
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetCurriculumRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvSchoolSubjectRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<Curriculum> lstEntity = BusinessLayer.GetCurriculumList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vSchoolSubject> lstEntity = BusinessLayer.GetvSchoolSubjectList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "SubjectCode");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -107,35 +96,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
-        }
-
-        protected override bool OnAddRecord(ref string url, ref string errMessage)
-        {
-            url = ResolveUrl(string.Format("~/Program/Master/Curriculum/CurriculumEntry.aspx?id=add|{0}", cboSchoolType.Value));
-            return true;
-        }
-
-        protected override bool OnEditRecord(ref string url, ref string errMessage)
-        {
-            if (hdnID.Value.ToString() != "")
-            {
-                url = ResolveUrl(string.Format("~/Program/Master/Curriculum/CurriculumEntry.aspx?id=edit|{0}", hdnID.Value));
-                return true;
-            }
-            return false;
-        }
-
-        protected override bool OnDeleteRecord(ref string errMessage)
-        {
-            if (hdnID.Value.ToString() != "")
-            {
-                Curriculum entity = BusinessLayer.GetCurriculum(Convert.ToInt32(hdnID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateCurriculum(entity);
-                return true;
-            }
-            return false;
         }
     }
 }

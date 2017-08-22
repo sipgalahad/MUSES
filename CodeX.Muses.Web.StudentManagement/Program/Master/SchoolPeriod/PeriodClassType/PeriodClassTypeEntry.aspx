@@ -23,6 +23,8 @@
                     $(this).prop('checked', true);
                     $(this).change();
                 });
+                cboGrade.SetValue('');
+                cboGrade.SetEnabled(true);
                 cboGradePromotionFormula.SetEnabled(false);
                 cboClassType.SetEnabled(true);
                 cboDailySchedulePackage.SetEnabled(true);
@@ -129,7 +131,7 @@
                 $('#<%=txtNoOfClass.ClientID %>').removeAttr('readonly');
             }
             else {
-                cboClassType.SetEnabled(false);
+                //cboClassType.SetEnabled(false);
                 cboDailySchedulePackage.SetEnabled(false);
                 $('#<%=txtNoOfClass.ClientID %>').attr('readonly', 'readonly');
             }
@@ -213,6 +215,10 @@
         }
     </script>
     <input type="hidden" id="hdnSaveValue" runat="server" value="" />
+    <input type="hidden" id="hdnGCSchoolType" runat="server" value="" />
+    <input type="hidden" id="hdnListCurriculumID" runat="server" value="" />
+    <input type="hidden" id="hdnSelectedCurriculumID" runat="server" value="" />
+    <input type="hidden" id="hdnPeriodCurriculumID" runat="server" value="" />
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">

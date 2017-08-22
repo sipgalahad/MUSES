@@ -57,6 +57,21 @@
               <td>:</td>
               <td align="right">{TransactionAmount,N}</td>
             </tr>
+            <tr>
+              <td>Total</td>
+              <td>:</td>
+              <td align="right">{FinalDiscountAmount,N}</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>:</td>
+              <td align="right">{VATAmount,N}</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>:</td>
+              <td align="right">{TotalNetTransactionAmount,N}</td>
+            </tr>
           </table>          
         </td>
        </tr>

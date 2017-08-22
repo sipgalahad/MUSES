@@ -134,6 +134,8 @@ namespace CodeX.Muses.Web.Finance.Program
                     {
                         StudentFee entityStudentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == studentFeeID);
                         entityStudentFee.TotalStudentAmount = entityStudentFee.StudentAmount = totalAmount;
+                        entityStudentFee.TotalDiscountAmount = entityStudentFee.DiscountAmount = entityStudentFee.TransactionAmount - entityStudentFee.TotalStudentAmount;
+                        entityStudentFee.IsDiscountAmountInPercentage = false;
                         entityStudentFee.LineAmount = entityStudentFee.StudentAmount + entityStudentFee.PayerAmount;
                         entityStudentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
                         studentFeeDao.Update(entityStudentFee);

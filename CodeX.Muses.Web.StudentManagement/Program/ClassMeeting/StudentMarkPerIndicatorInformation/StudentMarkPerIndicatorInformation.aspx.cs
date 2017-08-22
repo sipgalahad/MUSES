@@ -126,7 +126,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 if (lstStudentMark1.Count > 0)
                 {
                     string summaryType = Request.Form[hdnCboSummaryType.UniqueID];
-                    if (summaryType == "")
+                    if (summaryType == null)
                         summaryType = hdnCboSummaryType.Value;
                     if (summaryType == "")
                         summaryType = cboSummaryType.Value.ToString();

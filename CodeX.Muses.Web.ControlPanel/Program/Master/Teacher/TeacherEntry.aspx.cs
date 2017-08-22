@@ -75,7 +75,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             Methods.SetComboBoxField<StandardCode>(cboGCOccupationLevel, lstStandardCode.Where(sc => sc.ParentID == Constant.StandardCode.EMPLOYEE_OCCUPATION_LEVEL || sc.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboGCEmployeeStatus, lstStandardCode.Where(sc => sc.ParentID == Constant.StandardCode.EMPLOYMENT_STATUS).ToList(), "StandardCodeName", "StandardCodeID");
 
-            List<vSite> lstSite = BusinessLayer.GetvSiteList(string.Format("DisplayPath LIKE '%/{0}/%'", AppSession.UserLogin.SiteID));
+            List<vSite> lstSite = BusinessLayer.GetvSiteList("");
             Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
         }
 
@@ -85,7 +85,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string defaultGCState = site.GCState == "" ? "" : site.GCState.Split('^')[1];
 
             #region Personal Data
-            SetControlEntrySetting(txtTeacherCode, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtTeacherCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtInitial, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboGCSalutation, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboGCTitle, new ControlEntrySetting(true, true, false));
@@ -102,7 +102,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             #endregion
 
             #region Data Karyawan
-            SetControlEntrySetting(cboSite, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboSite, new ControlEntrySetting(true, true, true, AppSession.UserLogin.SiteID));
             SetControlEntrySetting(cboGCDepartment, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGCOccupation, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGCOccupationLevel, new ControlEntrySetting(true, true, false));
@@ -281,7 +281,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 Address address = new Address();
                 ControlToEntity(entity, entityTeacher, address);
                 entity.GCEmployeeType = Constant.EmployeeType.TEACHER;
-                entity.EmployeeCode = BusinessLayer.GenerateEmployeeCode(entity.GCDepartment, entity.HiredDate, ctx);
+                entity.EmployeeCode = txtTeacherCode.Text;// BusinessLayer.GenerateEmployeeCode(entity.GCDepartment, entity.HiredDate, ctx);
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
                 entity.AddressID = null;

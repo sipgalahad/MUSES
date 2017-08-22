@@ -29,6 +29,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             vPeriodClassTypeSubject entityHd = BusinessLayer.GetvPeriodClassTypeSubjectList(string.Format("PeriodClassTypeSubjectID = {0}", hdnPeriodClassTypeSubjectID.Value)).FirstOrDefault();
             txtSubjectName.Text = entityHd.SubjectName;
             txtNumberMeetingInHours.Text = entityHd.NoMeetingHoursInWeek.ToString();
+            
+            BindGridView(1, true, ref PageCount);
 
             if (param != "")
             {
@@ -38,8 +40,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 hdnSelectedMember.Value = String.Join(",", lstSelected.Select(p => p.TeacherID).ToList());
             }
-
-            BindGridView(1, true, ref PageCount);
         }
 
         protected void rptSelected_ItemDataBound(object sender, RepeaterItemEventArgs e)

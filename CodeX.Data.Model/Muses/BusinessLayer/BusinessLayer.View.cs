@@ -12536,6 +12536,49 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vSchoolSubject> GetvSchoolSubjectList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vSchoolSubject> result = new List<vSchoolSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSchoolSubject));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSchoolSubject)helper.IDataReaderToObject(reader, new vSchoolSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvSchoolSubjectRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSchoolSubject));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region vServiceUnitItemLogistic
         public static List<vServiceUnitItemLogistic> GetvServiceUnitItemLogisticList(string filterExpression, IDbContext ctx)

@@ -21,6 +21,8 @@
                 tacRoom.setText('');
                 tacTeacher.setValue('');
                 tacTeacher.setText('');
+                tacAssistantTeacher.setValue('');
+                tacAssistantTeacher.setText('');
                 $('#<%=txtMaxStudent.ClientID %>').val($('#<%=hdnMaxStudent.ClientID %>').val());
                 $('#entryDetailContainer').show();
             });
@@ -58,6 +60,8 @@
             tacRoom.setText(entity.RoomName);
             tacTeacher.setValue(entity.TeacherID);
             tacTeacher.setText(entity.TeacherName);
+            tacAssistantTeacher.setValue(entity.AssistantTeacherID);
+            tacAssistantTeacher.setText(entity.AssistantTeacherName);
             $('#<%=txtMaxStudent.ClientID %>').val(entity.MaxStudent);
             $('#entryDetailContainer').show();
         });
@@ -115,6 +119,28 @@
         }
 
         function onTacTeacherValueChanged() {
+        }
+        //#endregion
+
+        //#region Assistant Teacher
+        function onTacAssistantTeacherButtonSearchClick() {
+            openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
+                var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
+                Methods.getObject('GetvTeacherList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacAssistantTeacher.setValue(result.TeacherID);
+                        tacAssistantTeacher.setText(result.TeacherName);
+                    }
+                    else {
+                        tacAssistantTeacher.setValue('');
+                        tacAssistantTeacher.setText('');
+                    }
+                });
+            });
+
+        }
+
+        function onTacAssistantTeacherValueChanged() {
         }
         //#endregion
 
@@ -202,6 +228,16 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Wali Kelas 2")%></label></td>
+                                    <td>
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacAssistantTeacher" ClientInstanceName="tacAssistantTeacher" MethodName="GetvTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
+                                            SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacAssistantTeacherButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacAssistantTeacherValueChanged(); }" />
+                                        </cdx:CodeXAutoCompleteTextBox>   
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kapasitas Siswa")%></label></td>
                                     <td><asp:TextBox ID="txtMaxStudent" CssClass="number" Width="120px" runat="server" /></td>
                                 </tr>
@@ -245,6 +281,8 @@
                                         <input type="hidden" value="<%#Eval("RoomName") %>" bindingfield="RoomName" />
                                         <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
+                                        <input type="hidden" value="<%#Eval("AssistantTeacherID") %>" bindingfield="AssistantTeacherID" />
+                                        <input type="hidden" value="<%#Eval("AssistantTeacherName") %>" bindingfield="AssistantTeacherName" />
                                         <input type="hidden" value="<%#Eval("MaxStudent") %>" bindingfield="MaxStudent" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

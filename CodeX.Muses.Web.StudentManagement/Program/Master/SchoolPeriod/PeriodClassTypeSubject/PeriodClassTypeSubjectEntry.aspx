@@ -13,6 +13,17 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
+            $('#<%=chkIsClassTeacher.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#trTeacher').attr('style', 'display:none');
+                    $('#trTeacher2').attr('style', 'display:none');
+                }
+                else {
+                    $('#trTeacher').removeAttr('style');
+                    $('#trTeacher2').removeAttr('style');
+                }
+            });
+
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 tacSubject.setValue('');
@@ -21,15 +32,19 @@
                 tacSubjectCurriculum.setText('');
                 tacTeacher.setValue('');
                 tacTeacher.setText('');
+                tacAssistantTeacher.setValue('');
+                tacAssistantTeacher.setText('');
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val('');
                 $('#<%=txtPassingGrade.ClientID %>').val('0');
                 $('#<%=hdnCurriculumSubjectGroupID.ClientID %>').val('');
                 $('#<%=txtCurriculumSubjectGroup.ClientID %>').val('');
-                $('#<%=chkIsClassTeacher.ClientID %>').prop('checked', false); 
+                $('#<%=chkIsClassTeacher.ClientID %>').prop('checked', false);
 
                 tacSubject.setEnabled(true);
                 tacTeacher.setEnabled(true);
+                tacAssistantTeacher.setEnabled(true);
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').removeAttr('readonly');
+                $('#<%=chkIsClassTeacher.ClientID %>').change();
 
                 $('.chkIsCurriculumFinalMarkDefault input').each(function () {
                     $(this).prop('checked', true);
@@ -86,6 +101,8 @@
             tacSubjectCurriculum.setText(entity.SubjectCurriculumName);
             tacTeacher.setValue(entity.TeacherID);
             tacTeacher.setText(entity.TeacherName);
+            tacAssistantTeacher.setValue(entity.AssistantTeacherID);
+            tacAssistantTeacher.setText(entity.AssistantTeacherName);
             $('#<%=hdnCurriculumSubjectGroupID.ClientID %>').val(entity.CurriculumSubjectGroupID);
             $('#<%=txtCurriculumSubjectGroup.ClientID %>').val(entity.CurriculumSubjectGroupName); 
             $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
@@ -95,7 +112,7 @@
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').attr('readonly', 'readonly');
             else 
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').removeAttr('readonly');
-            
+            $('#<%=chkIsClassTeacher.ClientID %>').change();
 
             var filterExpression = "PeriodClassTypeSubjectID = " + entity.PeriodClassTypeSubjectID;
             Methods.getListObject('GetPeriodClassTypeSubjectFinalMarkFormulaList', filterExpression, function (result) {
@@ -246,6 +263,28 @@
         }
         //#endregion
 
+        //#region Assistant Teacher
+        function onTacAssistantTeacherButtonSearchClick() {
+            openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
+                var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
+                Methods.getObject('GetvTeacherList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacAssistantTeacher.setValue(result.TeacherID);
+                        tacAssistantTeacher.setText(result.TeacherName);
+                    }
+                    else {
+                        tacAssistantTeacher.setValue('');
+                        tacAssistantTeacher.setText('');
+                    }
+                });
+            });
+
+        }
+
+        function onTacAssistantTeacherValueChanged() {
+        }
+        //#endregion
+
         function onCboClassTypeValueChanged(s) {
             $('#btnCancel').click();
             cbpView.PerformCallback('refresh');
@@ -333,13 +372,23 @@
                                         <asp:TextBox runat="server" ID="txtCurriculumSubjectGroup" ReadOnly="true" Width="200px" />
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr id="trTeacher">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Guru")%></label></td>
                                     <td colspan="3">
                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacTeacher" ClientInstanceName="tacTeacher" MethodName="GetvTeacherSubjectList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
                                             SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
                                             <ClientSideEvents ButtonSearchClick="function(){ onTacTeacherButtonSearchClick(); }"
                                                 ValueChanged="function(){ onTacTeacherValueChanged(); }" />
+                                        </cdx:CodeXAutoCompleteTextBox>   
+                                    </td>
+                                </tr>
+                                <tr id="trTeacher2">
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Guru 2")%></label></td>
+                                    <td>
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacAssistantTeacher" ClientInstanceName="tacAssistantTeacher" MethodName="GetvTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
+                                            SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacAssistantTeacherButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacAssistantTeacherValueChanged(); }" />
                                         </cdx:CodeXAutoCompleteTextBox>   
                                     </td>
                                 </tr>
@@ -429,6 +478,8 @@
                                         <input type="hidden" value="<%#Eval("SubjectCurriculumName") %>" bindingfield="SubjectCurriculumName" />
                                         <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
+                                        <input type="hidden" value="<%#Eval("AssistantTeacherID") %>" bindingfield="AssistantTeacherID" />
+                                        <input type="hidden" value="<%#Eval("AssistantTeacherName") %>" bindingfield="AssistantTeacherName" />
                                         <input type="hidden" value="<%#Eval("CurriculumSubjectGroupID") %>" bindingfield="CurriculumSubjectGroupID" />
                                         <input type="hidden" value="<%#Eval("CurriculumSubjectGroupName") %>" bindingfield="CurriculumSubjectGroupName" />
                                         <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />

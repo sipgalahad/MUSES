@@ -8,18 +8,15 @@
   <fields>
     <field fieldtype="autonumber" rowspan="2" headertext="No" width="3"/>
     <field fieldname="ItemName1" rowspan="2" headertext="Item" />
-    <field fieldname="ItemUnit" rowspan="2" headertext="Satuan" width="8" />
+    <field fieldname="ItemUnit" rowspan="2" headertext="Satuan" width="7" />
     <field fieldname="IN_QuantityBEGIN" rowspan="2" headertext="Saldo Awal" width="5" fieldtype="number"/>
-    <boundfield text="Masuk" colspan="4">
+    <boundfield text="Masuk" colspan="3" width="25">
       <field fieldname="IN_PurchaseReceive" headertext="Pembelian" width="5" fieldtype="number"/>
-      <field fieldname="IN_Distribution" headertext="Distribusi" width="5" fieldtype="number"/>
       <field fieldname="IN_Adjustment" headertext="Penyesuaian" width="5" fieldtype="number"/>
       <field fieldname="IN_PriceChanged" headertext="Ubah Harga" width="5" fieldtype="number"/>
     </boundfield>
-    <boundfield text="Keluar" colspan="5">
-      <field fieldname="OUT_Distribution" headertext="Distribusi" width="5" fieldtype="number"/>
+    <boundfield text="Keluar" colspan="3" width="25">
       <field fieldname="OUT_Adjustment" headertext="Penyesuaian" width="5" fieldtype="number"/>
-      <field fieldname="OUT_Pemusnahan" headertext="Pemusnahan" width="5" fieldtype="number"/>
       <field fieldname="OUT_Consumption" headertext="Pemakaian" width="5" fieldtype="number"/>
       <field fieldname="OUT_PriceChanged" headertext="Ubah Harga" width="5" fieldtype="number"/>
     </boundfield>

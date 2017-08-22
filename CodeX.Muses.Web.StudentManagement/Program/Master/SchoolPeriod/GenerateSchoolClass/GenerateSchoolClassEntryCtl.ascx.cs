@@ -69,6 +69,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 string[] lstSchoolClassName = hdnListSchoolClassName.Value.Split(',');
                 string[] lstRoomID = hdnListRoomID.Value.Split(',');
                 string[] lstTeacherID = hdnListTeacherID.Value.Split(',');
+                string[] lstAssistantTeacherID = hdnListAssistantTeacherID.Value.Split(',');
                 string[] lstMaxStudent = hdnListMaxStudent.Value.Split(',');
                 int PeriodClassTypeID = Convert.ToInt32(hdnID.Value);
                 int ct = 0;
@@ -80,6 +81,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entityDt.SchoolClassName = lstSchoolClassName[ct];
                     entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
                     entityDt.TeacherID = Convert.ToInt32(lstTeacherID[ct]);
+                    if (lstAssistantTeacherID[ct] != "" && lstAssistantTeacherID[ct] != "0")
+                        entityDt.AssistantTeacherID = Convert.ToInt32(lstAssistantTeacherID[ct]);
+                    else
+                        entityDt.AssistantTeacherID = null;
                     entityDt.MaxStudent = Convert.ToInt16(lstMaxStudent[ct]);
                     entityDt.CreatedBy = AppSession.UserLogin.UserID;
                     entityDtDao.Insert(entityDt);
