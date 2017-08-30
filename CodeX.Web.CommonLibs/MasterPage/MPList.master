@@ -1,6 +1,8 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/Libs/MasterPage/MPBaseContent.Master" AutoEventWireup="true" 
     CodeBehind="MPList.master.cs" Inherits="CodeX.Web.CommonLibs.MasterPage.MPList" %>
-
+    
+<%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxPopupControl" TagPrefix="dxpc" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -11,9 +13,22 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server">
     <div style="padding:12px;">  
         <div style="float:right; margin-top: 10px;" runat="server" id="divFilter">
-            <qis:QISIntellisenseTextBox runat="server" ClientInstanceName="txtSearchView" ID="txtSearchView" Width="300px" Watermark="Search">
-                <ClientSideEvents SearchClick="function(s){ onTxtSearchViewSearchClick(s); }" />
-            </qis:QISIntellisenseTextBox>
+            <table id="tblMPListQuickSearch" runat="server" style="margin-bottom:5px;">
+                <tr>
+                    <td>
+                        <div style="position:relative;">
+                            <div id="divSearchTooltip" runat="server">
+                                <asp:TextBox ID="txtMPListQuickSearch" runat="server" Width="300px" placeholder="Search" autocomplete="off"/>
+                            </div>
+                            <input type="button" class="btnQuickSearchIcon" />
+                        </div>
+                        <input type="hidden" id="hdnMPListQuickSearchFieldName" runat="server" />
+                    </td>
+                    <td>
+                        <img id="imgMPListQuickSearchExpand" class="imgLink" src='<%=ResolveUrl("~/Libs/Images/Icon/arrow-down.png") %>' height="20px" alt="" />
+                    </td>
+                </tr>
+            </table>
         </div>  
         <div class="pageInformation" >
             <%=GetMenuCaption() %>
@@ -63,6 +78,128 @@
 
             var isTextSearchMasterListExists;
             $(function () {
+                $('#fsMPListAdvancedSearch .datepicker').each(function () {
+                    setDatePickerElement($(this));
+                    $(this).attr('placeholder', 'dd-MM-yyyy');
+                });
+
+                $('.txtMPListAdvancedSearchFromDate').change(function () {
+                    $(this).closest('tr').find('.txtMPListAdvancedSearchToDate').val($(this).val());
+                });
+                $('#<%=txtMPListQuickSearch.ClientID %>').keydown(function (e) {
+                    var code = (e.keyCode ? e.keyCode : e.which);
+                    if (code == 13) {
+                        var filterExpression = "";
+                        var temp = $('#<%=hdnMPListQuickSearchFieldName.ClientID %>').val().split(';');
+                        var value = $(this).val();
+                        for (var i = 0; i < temp.length; ++i) {
+                            $('.txtMPListAdvancedSearch').each(function () {
+                                $td = $(this).parent();
+                                var keyFieldName = $td.find('.hdnAdvancedSearchFieldName').val();
+                                if (keyFieldName == temp[i]) {
+                                    var isDetailTable = $td.find('.hdnAdvancedSearchIsDetailTable').val();
+                                    var detailTableName = $td.find('.hdnAdvancedSearchDetailTableName').val();
+                                    var detailTableFieldName = $td.find('.hdnAdvancedSearchDetailTableFieldName').val();
+                                    var detailTableKeyFieldName = $td.find('.hdnAdvancedSearchDetailTableKeyFieldName').val();
+                                    var detailTableBaseTableKeyFieldName = $td.find('.hdnAdvancedSearchDetailTableBaseTableKeyFieldName').val();
+                                    var detailTableFilterExpression = $td.find('.hdnAdvancedSearchDetailTableFilterExpression').val();
+
+                                    if (isDetailTable == "True") {
+                                        if (filterExpression != "")
+                                            filterExpression += " OR ";
+                                        filterExpression += "(" + detailTableBaseTableKeyFieldName + " IN (SELECT " + detailTableKeyFieldName + " FROM " + detailTableName + " WHERE " + detailTableFieldName + " LIKE '%" + value + "%'))";
+                                    }
+                                    else {
+                                        if (filterExpression != "")
+                                            filterExpression += " OR ";
+                                        filterExpression += "(" + keyFieldName + " LIKE '%" + value + "%')";
+                                    }
+                                }
+                            });
+                        }
+                        filterExpression = "(" + filterExpression + ")";
+                        if (typeof onRefreshControl == 'function')
+                            onRefreshControl(filterExpression);
+                        $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
+                        e.preventDefault();
+                    }
+                });
+                $('#<%=txtMPListQuickSearch.ClientID %>').focus(function (e) {
+                    $(this).parent().addClass('activate');
+                });
+                $('#<%=txtMPListQuickSearch.ClientID %>').blur(function (e) {
+                    $(this).parent().removeClass('activate');
+                });
+                $('#imgMPListQuickSearchExpand').click(function () {
+                    pcMPListAdvancedSearch.Show();
+                });
+                $('#<%=btnClose.ClientID %>').live('click', function () {
+                    pcMPListAdvancedSearch.Hide();
+                });
+
+                $('#<%=btnSearch.ClientID %>').live('click', function (evt) {
+                    if (IsValid(evt, 'fsMPListAdvancedSearch', 'mpMPListAdvancedSearch')) {
+                        var filterExpression = '';
+                        $('.txtMPListAdvancedSearch').each(function () {
+                            $td = $(this).parent();
+                            var value = $(this).val();
+                            var fromDate = $td.find('.txtMPListAdvancedSearchFromDate').val();
+                            var toDate = $td.find('.txtMPListAdvancedSearchToDate').val();
+
+                            var keyFieldName = $td.find('.hdnAdvancedSearchFieldName').val();
+                            var isDetailTable = $td.find('.hdnAdvancedSearchIsDetailTable').val();
+                            var detailTableName = $td.find('.hdnAdvancedSearchDetailTableName').val();
+                            var detailTableFieldName = $td.find('.hdnAdvancedSearchDetailTableFieldName').val();
+                            var detailTableKeyFieldName = $td.find('.hdnAdvancedSearchDetailTableKeyFieldName').val();
+                            var detailTableBaseTableKeyFieldName = $td.find('.hdnAdvancedSearchDetailTableBaseTableKeyFieldName').val();
+                            var detailTableFilterExpression = $td.find('.hdnAdvancedSearchDetailTableFilterExpression').val();
+                            if (isDetailTable == "True") {
+                                if (filterExpression != "")
+                                    filterExpression += " AND ";
+                                filterExpression += "(" + detailTableBaseTableKeyFieldName + " IN (SELECT " + detailTableKeyFieldName + " FROM " + detailTableName + " WHERE " + detailTableFieldName + " LIKE '%" + value + "%'))";
+                            }
+                            else {
+                                if (!$(this).is(':visible')) {
+                                    if (fromDate != "" && toDate != "") {
+                                        fromDate = Methods.getDatePickerDate(fromDate);
+                                        toDate = Methods.getDatePickerDate(toDate);
+                                        if (filterExpression != "")
+                                            filterExpression += " AND ";
+                                        filterExpression += "(" + keyFieldName + " BETWEEN '" + Methods.dateToString(fromDate) + "' AND '" + Methods.dateToString(toDate) + "')";
+                                    }
+                                }
+                                else {
+                                    if (filterExpression != "")
+                                        filterExpression += " AND ";
+                                    if (keyFieldName.indexOf(',') > -1) {
+                                        var tmpFilter = '';
+                                        var lstFieldName = keyFieldName.split(',');
+                                        for (var ctrFilter = 0; ctrFilter < lstFieldName.length; ++ctrFilter) {
+                                            if (tmpFilter != "")
+                                                tmpFilter += " OR ";
+                                            tmpFilter += "(" + lstFieldName[ctrFilter] + " LIKE '%" + value + "%')";
+                                        }
+                                        filterExpression += "(" + tmpFilter + ")";
+                                    }
+                                    else
+                                        filterExpression += "(" + keyFieldName + " LIKE '%" + value + "%')";
+                                }
+                            }
+                        });
+                        filterExpression = "(" + filterExpression + ")";
+                        if (typeof onRefreshControl == 'function')
+                            onRefreshControl(filterExpression);
+                        $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
+                    }
+                });
+
+                $('.txtMPListAdvancedSearch').live('keydown', function (e) {
+                    var code = (e.keyCode ? e.keyCode : e.which);
+                    if (code == 13) {
+                        $('#<%=btnSearch.ClientID %>').click();
+                        e.preventDefault();
+                    }
+                });
                 $('#<%=btnMPListAdd.ClientID %>').click(function () {
                     cbpMPListProcess.PerformCallback('add');
                 });
@@ -167,6 +304,73 @@
                 mapInput.value = value;
                 return mapInput;
             }
+
+            function onCbpMPListProcessEndCallback(s, e) {
+                var result = s.cpResult.split('|');
+                if (result[0] == 'delete') {
+                    if (result[1] == 'success') {
+                        if (typeof onRefreshControl == 'function') {
+                            var filterExpression = '';
+                            if (isTextSearchMasterListExists)
+                                filterExpression = $('#<%=hdnFilterExpression.ClientID %>').val();
+                            onRefreshControl(filterExpression);
+                        }
+                    }
+                    else {
+                        if (result[2] != '')
+                            showToast('Delete Failed', 'Error Message : ' + result[2]);
+                        else
+                            showToast('Delete Failed', '');
+                    }
+                }
+                else if (result[0] == 'add') {
+                    if (result[1] == 'success') {
+                        setDocumentLocationToEntry(s.cpURL);
+                    }
+                    else {
+                        if (result[2] != '')
+                            showToast('Add Failed', 'Error Message : ' + result[2]);
+                        else
+                            showToast('Add Failed', '');
+                    }
+                }
+                else if (result[0] == 'edit') {
+                    if (result[1] == 'success') {
+                        setDocumentLocationToEntry(s.cpURL);
+                    }
+                    else {
+                        if (result[2] != '')
+                            showToast('Edit Failed', 'Error Message : ' + result[2]);
+                        else
+                            showToast('Edit Failed', '');
+                    }
+                }
+                else if (result[0] == 'sync') {
+                    if (result[1] == 'success') {
+                        if (typeof onAfterSyncSuccess == 'function')
+                            onAfterSyncSuccess(s.cpType, s.cpRetval);
+                    }
+                    else {
+                        if (result[2] != '')
+                            showToast('Failed', 'Error Message : ' + result[2]);
+                        else
+                            showToast('Failed', '');
+                    }
+                }
+                else if (result[0] == 'customclick') {
+                    if (result[1] == 'success') {
+                        if (typeof onAfterCustomClickSuccess == 'function')
+                            onAfterCustomClickSuccess(s.cpType, s.cpRetval);
+                    }
+                    else {
+                        if (result[2] != '')
+                            showToast('Failed', 'Error Message : ' + result[2]);
+                        else
+                            showToast('Failed', '');
+                    }
+                }
+                hideLoadingPanel();
+            }
         </script>  
         <asp:ContentPlaceHolder ID="plhList" runat="server">                
         </asp:ContentPlaceHolder>
@@ -185,74 +389,61 @@
                 <ClientSideEvents BeginCallback="function(s,e){
                     showLoadingPanel();
                 }" EndCallback="function(s,e){
-                    var result = s.cpResult.split('|');
-                    if(result[0] == 'delete'){
-                        if(result[1] == 'success'){
-                            if (typeof onRefreshControl == 'function'){
-                                var filterExpression = '';
-                                if(isTextSearchMasterListExists)
-                                    filterExpression = txtSearchView.GenerateFilterExpression();
-                                onRefreshControl(filterExpression);
-                            }
-                        }
-                        else{
-                            if(result[2] != '')
-                                showToast('Delete Failed', 'Error Message : ' + result[2]);
-                            else
-                                showToast('Delete Failed', '');
-                        }
-                    }
-                    else if(result[0] == 'add'){
-                        if(result[1] == 'success'){
-                            setDocumentLocationToEntry(s.cpURL);
-                        }
-                        else{
-                            if(result[2] != '')
-                                showToast('Add Failed', 'Error Message : ' + result[2]);
-                            else
-                                showToast('Add Failed', '');
-                        }
-                    }
-                    else if(result[0] == 'edit'){
-                        if(result[1] == 'success'){
-                            setDocumentLocationToEntry(s.cpURL);
-                        }
-                        else{
-                            if(result[2] != '')
-                                showToast('Edit Failed', 'Error Message : ' + result[2]);
-                            else
-                                showToast('Edit Failed', '');
-                        }
-                    }
-                    else if(result[0] == 'sync'){
-                        if(result[1] == 'success'){
-                            if (typeof onAfterSyncSuccess == 'function')
-                                onAfterSyncSuccess(s.cpType, s.cpRetval);
-                        }
-                        else{
-                            if(result[2] != '')
-                                showToast('Failed', 'Error Message : ' + result[2]);
-                            else
-                                showToast('Failed', '');
-                        }
-                    }
-                    else if(result[0] == 'customclick'){
-                        if(result[1] == 'success'){
-                            if (typeof onAfterCustomClickSuccess == 'function')
-                                onAfterCustomClickSuccess(s.cpType, s.cpRetval);
-                        }
-                        else{
-                            if(result[2] != '')
-                                showToast('Failed', 'Error Message : ' + result[2]);
-                            else
-                                showToast('Failed', '');
-                        }
-                    }
-                    hideLoadingPanel();
+                    onCbpMPListProcessEndCallback(s,e);
                 }" />
             </dxcp:ASPxCallbackPanel>
         </div>
     </div>
+
+    <dxpc:ASPxPopupControl ID="pcMPListAdvancedSearch" runat="server" ClientInstanceName="pcMPListAdvancedSearch" EnableHierarchyRecreation="True"
+        FooterText="" HeaderText="Advanced Search" Modal="True" AllowDragging="True" PopupHorizontalAlign="WindowCenter" Width="500px" Height="200px"
+        PopupVerticalAlign="WindowCenter" CloseAction="CloseButton">
+        <ClientSideEvents Shown="function (s,e) { $('#fsMPListAdvancedSearch .txtMPListAdvancedSearch:eq(0)').focus(); }" 
+            Closing="function(s,e){  }" /> 
+        <ContentCollection>    
+            <dxpc:PopupControlContentControl ID="PopupControlContentControl3" runat="server">
+                <fieldset id="fsMPListAdvancedSearch">
+                    <table>
+                        <colgroup>
+                            <col style="width:180px" />
+                            <col style="width:300px" />
+                        </colgroup>
+                        <asp:Repeater ID="rptMPListAdvancedSearch" runat="server" OnItemDataBound="rptMPListAdvancedSearch_ItemDataBound">
+                            <ItemTemplate>
+                                <tr class="trMPListAdvancedSearch">
+                                    <td class="tdLabel"><%#Eval("HeaderText")%></td>
+                                    <td>
+                                        <input type="hidden" class="hdnAdvancedSearchFieldName" value='<%#Eval("FieldName") %>' />
+                                        <input type="hidden" class="hdnAdvancedSearchIsDetailTable" value='<%#Eval("IsDetailTable") %>' />
+                                        <input type="hidden" class="hdnAdvancedSearchDetailTableName" value='<%#Eval("DetailTableName") %>' />
+                                        <input type="hidden" class="hdnAdvancedSearchDetailTableFieldName" value='<%#Eval("DetailTableFieldName") %>' />
+                                        <input type="hidden" class="hdnAdvancedSearchDetailTableKeyFieldName" value='<%#Eval("DetailTableKeyFieldName") %>' />
+                                        <input type="hidden" class="hdnAdvancedSearchDetailTableBaseTableKeyFieldName" value='<%#Eval("DetailTableBaseTableKeyFieldName") %>' />
+                                        <input type="hidden" class="hdnAdvancedSearchDetailTableFilterExpression" value='<%#Eval("DetailTableFilterExpression") %>' />
+                                        <asp:TextBox ID="txtMPListAdvancedSearch" runat="server" Width="200px" CssClass="txtMPListAdvancedSearch" autocomplete="off" />
+                                        <table id="tblSearchDialogDate" runat="server" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="width:150px"><asp:TextBox ID="txtMPListAdvancedSearchFromDate" Width="120px" runat="server" CssClass="datepicker txtMPListAdvancedSearchFromDate" autocomplete="off"/></td>
+                                                <td> - </td>
+                                                <td style="width:150px"><asp:TextBox ID="txtMPListAdvancedSearchToDate" Width="120px" runat="server" CssClass="datepicker txtMPListAdvancedSearchToDate" autocomplete="off"/></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>    
+                            </ItemTemplate>
+                        </asp:Repeater>
+                                        
+                        <tr>
+                            <td colspan="2">
+                                <input type="button" id="btnSearch" runat="server" class="btnWhite" value='Search'/>
+                                <input type="button" id="btnClose" runat="server" class="btnWhite" value='Close'/>
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>      
+            </dxpc:PopupControlContentControl>           
+        </ContentCollection>
+    </dxpc:ASPxPopupControl>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhToolbar" runat="server"> 

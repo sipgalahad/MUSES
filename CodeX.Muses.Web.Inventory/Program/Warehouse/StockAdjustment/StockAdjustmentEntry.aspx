@@ -26,7 +26,7 @@
 
             //#region Location
             function getLocationFilterExpression() {
-                var filterExpression = "<%=OnGetFilterExpressionLocation() %>";
+                var filterExpression = "<%=OnGetFilterExpressionLocation() %>1 = 1";
                 return filterExpression;
             }
 
@@ -152,7 +152,7 @@
                 if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
                     filterExpression += " AND ItemGroupID = '" + $('#<%=hdnItemGroupID.ClientID %>').val() + "'";
                 if (adjustmentID != '')
-                    filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM ItemTransactionDt WHERE TransactionID = " + adjustmentID + " AND IsDeleted = 0)";
+                    filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM ItemTransactionDt WHERE TransactionID = " + adjustmentID + " AND GCItemDetailStatus != 'X121^999')";
                 filterExpression += " AND ItemID IN (SELECT ItemID FROM ItemBalance WHERE LocationID = " + locationID + ') AND IsDeleted = 0';
                 return filterExpression;
             }

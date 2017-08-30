@@ -109,7 +109,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                ItemAlternateUnit entity = BusinessLayer.GetItemAlternateUnit(Convert.ToInt32(hdnID.Value));
+                ItemAlternateUnit entity = BusinessLayer.GetItemAlternateUnit(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entity.LastUpdatedDate = DateTime.Now;
@@ -128,7 +128,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                ItemAlternateUnit entity = BusinessLayer.GetItemAlternateUnit(Convert.ToInt32(hdnID.Value));
+                ItemAlternateUnit entity = BusinessLayer.GetItemAlternateUnit(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entity.LastUpdatedDate = DateTime.Now;

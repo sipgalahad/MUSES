@@ -5,6 +5,33 @@ using System.Text;
 
 namespace CodeX.Data.Model
 {
+    #region CAdvancedSearch
+    [Serializable]
+    public class CAdvancedSearch
+    {
+        public string FieldName { get; set; }
+        public string HeaderText { get; set; }
+        public string FieldType { get; set; }
+        private bool _IsIncludeInQuickSearch = true;
+        public bool IsIncludeInQuickSearch
+        {
+            get { return _IsIncludeInQuickSearch; }
+            set { _IsIncludeInQuickSearch = value; }
+        }
+
+        private bool _IsDetailTable = false;
+        public bool IsDetailTable
+        {
+            get { return _IsDetailTable; }
+            set { _IsDetailTable = value; }
+        }
+        public string DetailTableName { get; set; }
+        public string DetailTableFieldName { get; set; }
+        public string DetailTableKeyFieldName { get; set; }
+        public string DetailTableBaseTableKeyFieldName { get; set; }
+        public string DetailTableFilterExpression { get; set; }
+    }
+    #endregion
     #region Variable
     [Serializable]
     public class Variable

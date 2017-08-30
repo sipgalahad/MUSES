@@ -128,7 +128,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             else
                 hdnIsEditable.Value = "1";
-            if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN || entity.GCTransactionStatus != Constant.TransactionStatus.VOID)
+            if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN && entity.GCTransactionStatus != Constant.TransactionStatus.VOID)
                 hdnPrintStatus.Value = "true";
             else 
                 hdnPrintStatus.Value = "false";

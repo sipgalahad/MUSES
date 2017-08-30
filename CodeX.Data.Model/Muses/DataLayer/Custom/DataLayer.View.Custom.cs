@@ -346,6 +346,15 @@ namespace CodeX.Data.Model
                 return _LocationName;
             }
         }
+        public String cfServiceUnitName
+        {
+            get
+            {
+                if (_RowIndex > 1)
+                    return "";
+                return _ServiceUnitName;
+            }
+        }
         public String cfDirectPurchaseNo
         {
             get

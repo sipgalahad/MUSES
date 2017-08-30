@@ -142,7 +142,10 @@ namespace CodeX.Muses.Web.Information.Program
 
         public override Control OnGetExportControl(ref bool isShowTitle, ref string fileName)
         {
-            fileName = string.Format("PenerimaanBankMandiri{0}_{1}", Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]).ToString("yyyyMMdd"), Request.Form[hdnSiteName.UniqueID]);
+            int bankID = Convert.ToInt32(BusinessLayer.GetSiteParameter(Request.Form[hdnSiteID.UniqueID], Constant.SiteParameter.DEFAULT_BANK).ParameterValue);
+            Bank bank = BusinessLayer.GetBank(bankID);
+
+            fileName = string.Format("Penerimaan{2}{0}_{1}", Helper.GetDatePickerValue(Request.Form[txtTransactionDate.UniqueID]).ToString("yyyyMMdd"), Request.Form[hdnSiteName.UniqueID], bank.BankName.Replace(" ", ""));
             isShowTitle = false;
 
             string filterExpression = GetFilterExpression();
@@ -160,7 +163,7 @@ namespace CodeX.Muses.Web.Information.Program
             div.Controls.Add(h1Title);
 
             HtmlGenericControl h2Title = new HtmlGenericControl("h2");
-            h2Title.InnerHtml = "BUKTI PENERIMAAN BANK MANDIRI a/c. 128-000-555-3-224";
+            h2Title.InnerHtml = string.Format("BUKTI PENERIMAAN {0} a/c. {1}", bank.BankName.ToUpper(), bank.BankAccountNo);
             div.Controls.Add(h2Title);
 
 

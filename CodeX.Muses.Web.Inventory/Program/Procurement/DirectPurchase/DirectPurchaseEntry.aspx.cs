@@ -163,7 +163,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(hdnSiteServiceUnitID, new ControlEntrySetting(true, true, false, hdnDefaultSiteServiceUnitID.Value));
             SetControlEntrySetting(hdnToSiteServiceUnitID, new ControlEntrySetting(true, true, false, hdnDefaultToSiteServiceUnitID.Value));
 
-            SetControlEntrySetting(cboDirectPurchaseType, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(cboDirectPurchaseType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
@@ -353,13 +353,16 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entityHd.CreatedBy = AppSession.UserLogin.UserID;
                 DirectPurchaseID = entityHdDao.Insert(entityHd);
 
-                string[] lstSiteID = hdnLstSiteID.Value.Split(',');
-                foreach (string siteID in lstSiteID)
+                if (hdnLstSiteID.Value != "")
                 {
-                    DirectPurchaseHdSite entityDt = new DirectPurchaseHdSite();
-                    entityDt.DirectPurchaseID = DirectPurchaseID;
-                    entityDt.SiteID = siteID;
-                    entityHdSiteDao.Insert(entityDt);
+                    string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                    foreach (string siteID in lstSiteID)
+                    {
+                        DirectPurchaseHdSite entityDt = new DirectPurchaseHdSite();
+                        entityDt.DirectPurchaseID = DirectPurchaseID;
+                        entityDt.SiteID = siteID;
+                        entityHdSiteDao.Insert(entityDt);
+                    }
                 }
             }
             else
@@ -371,19 +374,22 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entityHdDao.Update(entityHd);
 
                 List<DirectPurchaseHdSite> lstEntityDt = BusinessLayer.GetDirectPurchaseHdSiteList(string.Format("DirectPurchaseID = {0}", entityHd.DirectPurchaseID), ctx);
-                string[] lstSiteID = hdnLstSiteID.Value.Split(',');
-                foreach (string siteID in lstSiteID)
+                if (hdnLstSiteID.Value != "")
                 {
-                    DirectPurchaseHdSite entityDt = lstEntityDt.FirstOrDefault(p => p.SiteID == siteID);
-                    if (entityDt == null)
+                    string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                    foreach (string siteID in lstSiteID)
                     {
-                        entityDt = new DirectPurchaseHdSite();
-                        entityDt.DirectPurchaseID = entityHd.DirectPurchaseID;
-                        entityDt.SiteID = siteID;
-                        entityHdSiteDao.Insert(entityDt);
+                        DirectPurchaseHdSite entityDt = lstEntityDt.FirstOrDefault(p => p.SiteID == siteID);
+                        if (entityDt == null)
+                        {
+                            entityDt = new DirectPurchaseHdSite();
+                            entityDt.DirectPurchaseID = entityHd.DirectPurchaseID;
+                            entityDt.SiteID = siteID;
+                            entityHdSiteDao.Insert(entityDt);
+                        }
+                        else
+                            lstEntityDt.Remove(entityDt);
                     }
-                    else
-                        lstEntityDt.Remove(entityDt);
                 }
 
                 foreach (DirectPurchaseHdSite entityDt in lstEntityDt)
@@ -434,19 +440,22 @@ namespace CodeX.Muses.Web.Inventory.Program
                     BusinessLayer.UpdateDirectPurchaseHd(entity);
 
                     List<DirectPurchaseHdSite> lstEntityDt = BusinessLayer.GetDirectPurchaseHdSiteList(string.Format("DirectPurchaseID = {0}", entity.DirectPurchaseID), ctx);
-                    string[] lstSiteID = hdnLstSiteID.Value.Split(',');
-                    foreach (string siteID in lstSiteID)
+                    if (hdnLstSiteID.Value != "")
                     {
-                        DirectPurchaseHdSite entityDt = lstEntityDt.FirstOrDefault(p => p.SiteID == siteID);
-                        if (entityDt == null)
+                        string[] lstSiteID = hdnLstSiteID.Value.Split(',');
+                        foreach (string siteID in lstSiteID)
                         {
-                            entityDt = new DirectPurchaseHdSite();
-                            entityDt.DirectPurchaseID = entity.DirectPurchaseID;
-                            entityDt.SiteID = siteID;
-                            entityHdSiteDao.Insert(entityDt);
+                            DirectPurchaseHdSite entityDt = lstEntityDt.FirstOrDefault(p => p.SiteID == siteID);
+                            if (entityDt == null)
+                            {
+                                entityDt = new DirectPurchaseHdSite();
+                                entityDt.DirectPurchaseID = entity.DirectPurchaseID;
+                                entityDt.SiteID = siteID;
+                                entityHdSiteDao.Insert(entityDt);
+                            }
+                            else
+                                lstEntityDt.Remove(entityDt);
                         }
-                        else
-                            lstEntityDt.Remove(entityDt);
                     }
 
                     foreach (DirectPurchaseHdSite entityDt in lstEntityDt)
@@ -525,23 +534,26 @@ namespace CodeX.Muses.Web.Inventory.Program
                             purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                             directPurchaseDtDao.Update(purchaseDt);
 
-                            ItemPlanning entityItemPlanning = lstItemPlanning.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
-                            decimal purchaseUnitPrice = purchaseDt.UnitPrice;
-                            decimal unitPrice = 0;
-                            unitPrice = purchaseUnitPrice / purchaseDt.ConversionFactor;
-                            if (entityItemPlanning.UnitPrice < unitPrice)
+                            if (purchaseDt.ItemID > 0)
                             {
-                                entityItemPlanning.UnitPrice = unitPrice;
-                                entityItemPlanning.PurchaseUnitPrice = purchaseUnitPrice;
+                                ItemPlanning entityItemPlanning = lstItemPlanning.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
+                                decimal purchaseUnitPrice = purchaseDt.UnitPrice;
+                                decimal unitPrice = 0;
+                                unitPrice = purchaseUnitPrice / purchaseDt.ConversionFactor;
+                                if (entityItemPlanning.UnitPrice < unitPrice)
+                                {
+                                    entityItemPlanning.UnitPrice = unitPrice;
+                                    entityItemPlanning.PurchaseUnitPrice = purchaseUnitPrice;
+                                }
+                                if (!entityItemPlanning.ListPendingPurchaseReceiveID.Contains(string.Format("|D{0}|", entity.DirectPurchaseID)))
+                                {
+                                    entityItemPlanning.ListPendingPurchaseReceiveID += string.Format("|D{0}|", entity.DirectPurchaseID);
+                                    if (entityItemPlanning.ListPendingPurchaseReceiveID.Length > 1000)
+                                        entityItemPlanning.ListPendingPurchaseReceiveID = entityItemPlanning.ListPendingPurchaseReceiveID.Substring(0, 1000);
+                                }
+                                entityItemPlanning.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                itemPlanningDao.Update(entityItemPlanning);
                             }
-                            if (!entityItemPlanning.ListPendingPurchaseReceiveID.Contains(string.Format("|D{0}|", entity.DirectPurchaseID)))
-                            {
-                                entityItemPlanning.ListPendingPurchaseReceiveID += string.Format("|D{0}|", entity.DirectPurchaseID);
-                                if (entityItemPlanning.ListPendingPurchaseReceiveID.Length > 1000)
-                                    entityItemPlanning.ListPendingPurchaseReceiveID = entityItemPlanning.ListPendingPurchaseReceiveID.Substring(0, 1000);
-                            }
-                            entityItemPlanning.LastUpdatedBy = AppSession.UserLogin.UserID;
-                            itemPlanningDao.Update(entityItemPlanning);
                         }
                         entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
                         if (entity.ApprovedDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
@@ -788,7 +800,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             if (chkIsFromMasterItem.Checked)
             {
                 entityDt.ItemName1 = null;
-                entityDt.GCItemUnit = cboItemUnit.Value.ToString();
+                entityDt.GCItemUnit = cboItemUnit.Value.ToString().Split('|')[0];
                 entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
                 entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
             }
@@ -903,8 +915,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         #region callBack Trigger
         protected void cboItemUnit_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            List<StandardCode> lst = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND (StandardCodeID IN (SELECT GCAlternateUnit FROM ItemAlternateUnit WHERE ItemID = {1}) OR StandardCodeID = (SELECT GCItemUnit FROM ItemMaster WHERE ItemID = {1}))", Constant.StandardCode.ITEM_UNIT, hdnItemID.Value));
-            Methods.SetComboBoxField<StandardCode>(cboItemUnit, lst, "StandardCodeName", "StandardCodeID");
+            List<vItemAlternateUnitCustom> lst = BusinessLayer.GetvItemAlternateUnitCustomList(string.Format("ItemID = {0}", hdnItemID.Value));
+            Methods.SetComboBoxField<vItemAlternateUnitCustom>(cboItemUnit, lst, "cfAlternateUnit", "cfID");
             cboItemUnit.SelectedIndex = -1;
         }
 

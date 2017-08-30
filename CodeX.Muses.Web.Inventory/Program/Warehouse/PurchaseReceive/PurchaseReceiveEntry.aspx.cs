@@ -744,7 +744,11 @@ namespace CodeX.Muses.Web.Inventory.Program
                     List<PurchaseReceivePO> lstEntityPRPO = BusinessLayer.GetPurchaseReceivePOList(string.Format("PurchaseReceiveID = {0}", hdnPRID.Value), ctx);
 
                     string lstPurchaseOrderID = string.Join(",", lstEntityPODt.GroupBy(p => p.PurchaseOrderID).Select(p => p.Key).ToList());
-                    List<PurchaseRequestPO> lstEntityPQPO = BusinessLayer.GetPurchaseRequestPOList(string.Format("PurchaseOrderID IN ({0})", lstPurchaseOrderID), ctx);
+                    List<PurchaseRequestPO> lstEntityPQPO = null;
+                    if (lstPurchaseOrderID != "")
+                        lstEntityPQPO = BusinessLayer.GetPurchaseRequestPOList(string.Format("PurchaseOrderID IN ({0})", lstPurchaseOrderID), ctx);
+                    else
+                        lstEntityPQPO = new List<PurchaseRequestPO>();
 
                     if (lstEntityPODt.Count > 0)
                     {

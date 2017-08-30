@@ -311,7 +311,7 @@
   </searchdialog>
   <!-- #EndRegion -->
   <!-- #Region Item -->
-  <searchdialog type="item" methodname="GetItemMasterList" keyfieldname="ItemCode" orderbyexpression="ItemName1 ASC">
+  <searchdialog type="item" methodname="GetItemMasterList" keyfieldname="ItemCode" rowcountmethodname="GetItemMasterRowCount" orderbyexpression="ItemName1 ASC">
     <gridcolumns>
       <gridcolumn datafield="ItemCode" headertext="Kode Item" width="100px" />
       <gridcolumn datafield="ItemName1" headertext="Nama Item" width="300px" />

@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using System.Xml.Linq;
 using System.Web;
 using System.Web.UI.HtmlControls;
+using CodeX.Data.Model;
 
 namespace CodeX.Web.Common.UI
 {
@@ -171,6 +172,11 @@ namespace CodeX.Web.Common.UI
         {
             fieldListText = null;
             fieldListValue = null;
+        }
+
+        public virtual List<CAdvancedSearch> SetFilterParameter()
+        {
+            return null;
         }
 
         public virtual bool IsHeadQuarterPage()

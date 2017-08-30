@@ -85,7 +85,10 @@ namespace CodeX.Muses.Web.Information.Program
                 lstARInvoiceReceiving = BusinessLayer.GetvARInvoiceReceivingList(string.Format("ARReceivingID IN ({0}) AND ReceivingAmount != 0", lstARReceivingID));
 
                 lstARReceivingID = string.Join(",", lstARReceivingHd.Where(p => p.InvoiceNo == "").Select(p => p.ARReceivingID).ToList());
-                lstEntityDtReturn = BusinessLayer.GetvARReceivingDtList(string.Format("ARReceivingID IN ({0}) AND PaymentAmount < 0", lstARReceivingID));
+                if (lstARReceivingID != "")
+                    lstEntityDtReturn = BusinessLayer.GetvARReceivingDtList(string.Format("ARReceivingID IN ({0}) AND PaymentAmount < 0", lstARReceivingID));
+                else
+                    lstEntityDtReturn = new List<vARReceivingDt>();
             }
             else
             {

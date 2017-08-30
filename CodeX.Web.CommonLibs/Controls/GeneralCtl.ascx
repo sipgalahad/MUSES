@@ -294,15 +294,31 @@
     //#endregion
 
     //#region Search Dialog
+    $('.btnQuickSearchIcon').live('click', function () {
+        var e = $.Event('keydown');
+        e.which = 13;
+        $(this).parent().find('input').trigger(e);
+    });
+
     var grdSearchID = '<%=grdSearch.ClientID %>';
+    var grdSearchID2 = '<%=grdSearch2.ClientID %>';
     var onClickRowSearchDialogHandler = null;
     var searchDialogSearchType = '';
     var searchDialogFilterExpression = '';
     var isInitSearchDialog = false;
     var lastSearchText = '';
     var lastIndex = '';
+
+    function onPcSearchDialog2Closing() {
+        $('#<%=txtSearchDialogSearch.ClientID %>').val('');
+        $('#' + grdSearchID2).empty();
+        $('.trAdvancedSearchDialog').empty();
+        $('#<%=divAdvancedSearchDialog.ClientID %>').hide();
+        $('#<%=tblSearchDialogQuickSearch.ClientID %>').show();
+    }
     $(function () {
         pcSearchDialog.SetHeaderText('<%= GetLabel("Search Dialog")%>');
+        pcSearchDialog2.SetHeaderText('<%= GetLabel("Search Dialog")%>');
         $imgClose = '<%= ResolveUrl("~/Libs/Images/close-icon.png")%>';
         $td = $('.dxWeb_pcCloseButton').parent();
         $('.dxWeb_pcCloseButton').remove();
@@ -314,11 +330,30 @@
                 highlightText();
         });
 
-        $('#' + grdSearchID + ' tr:gt(0)').live('click', function () {
+        $('#' + grdSearchID + ' tr:gt(0)').live('click', function (e) {
             if ($('#' + grdSearchID + ' td').length > 1) {
                 //showLoadingPanel();
                 onClickRowSearchDialogHandler($(this).find('td:eq(0)').html());
+                e.stopPropagation();
+                e.preventDefault();
+                setTimeout(function () {
+                    $focusBtn.focus();
+                });
                 pcSearchDialog.Hide();
+                //hideLoadingPanel();
+            }
+        });
+
+        $('#' + grdSearchID2 + ' tr:gt(0)').live('click', function (e) {
+            if ($('#' + grdSearchID2 + ' td').length > 1) {
+                //showLoadingPanel();
+                onClickRowSearchDialogHandler($(this).find('td:eq(0)').html());
+                e.stopPropagation();
+                e.preventDefault();
+                setTimeout(function () {
+                    $focusBtn.focus();
+                });
+                pcSearchDialog2.Hide();
                 //hideLoadingPanel();
             }
         });
@@ -385,11 +420,159 @@
         });
     });
 
+    function openSearchDialog2(searchType, filterExpression, functionHandler, defaultText) {
+        searchDialogSearchType = searchType;
+        searchDialogFilterExpression = filterExpression;
+        onClickRowSearchDialogHandler = functionHandler;
+        $('#<%=txtSearchDialogSearch.ClientID %>').val(defaultText);
+
+        pcSearchDialog2.SetSize(800, 500);
+        pcSearchDialog2.Show();
+    }
+
+
+    function openSearchDialogSetSize2(searchType, filterExpression, width, height, functionHandler, defaultText) {
+        searchDialogSearchType = searchType;
+        searchDialogFilterExpression = filterExpression;
+        onClickRowSearchDialogHandler = functionHandler;
+        $('#<%=txtSearchDialogSearch.ClientID %>').val(defaultText);
+
+        pcSearchDialog2.SetSize(width, height);
+        pcSearchDialog2.Show();
+    }
+
+    $('#imgSearchDialogExpand').live('click', function () {
+        $('#<%=tblSearchDialogQuickSearch.ClientID %>').hide();
+        $('#<%=divAdvancedSearchDialog.ClientID %>').slideDown('fast', function () {
+            $('.txtAdvancedSearchDialog:eq(0)').focus();
+        });
+    });
+
+    $('#<%=btnSearch.ClientID %>').live('click', function (evt) {
+        if (IsValid(evt, 'fsSearchDialogAdvancedSearch', 'mpSearchDialogAdvancedSearch')) {
+            var lstSearch = [];
+            $('.txtAdvancedSearchDialog').each(function () {
+                $td = $(this).parent();
+                var value = '';
+                if ($(this).is(':visible'))
+                    value = $(this).val();
+                else {
+                    var fromDate = $td.find('.txtSearchFromSearchDialogDate').val();
+                    var toDate = $td.find('.txtSearchToSearchDialogDate').val();
+                    value = fromDate + ';' + toDate;
+                }
+
+                lstSearch.push(new Array($td.find('.hdnAdvancedSearchDialogFieldName').val(), $td.find('.hdnAdvancedSearchDialogIsDetailTable').val(), value));
+            });
+            $('#<%=hdnAdvancedSearchDialogValue.ClientID %>').val(JSON.stringify(lstSearch));
+            $('#<%=hdnSearchDialog2Type.ClientID %>').val('3');
+            cbpSearchDialog2.PerformCallback('refresh2');
+        }
+    });
+    $('#<%=btnClose.ClientID %>').live('click', function () {
+        $('#<%=divAdvancedSearchDialog.ClientID %>').slideUp('fast');
+        $('#<%=tblSearchDialogQuickSearch.ClientID %>').show();
+    });
+
+    $('.txtAdvancedSearchDialog').live('keydown', function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            $('#<%=btnSearch.ClientID %>').click();
+            e.preventDefault();
+        }
+    });
+
+    $('#<%=txtSearchDialogSearch.ClientID %>').live('focus', function (e) {
+        $(this).parent().addClass('activate');
+    });
+    $('#<%=txtSearchDialogSearch.ClientID %>').live('blur', function (e) {
+        $(this).parent().removeClass('activate');
+    });
+
+    $('#<%=txtSearchDialogSearch.ClientID %>').die('keydown');
+    $('#<%=txtSearchDialogSearch.ClientID %>').live('keydown', function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            $('#<%=hdnSearchDialog2Type.ClientID %>').val('2');
+            cbpSearchDialog2.PerformCallback('refresh');
+            e.preventDefault();
+        }
+    });
+
+    function onCbpContainerSearchDialog2EndCallback(s) {
+        $('#<%=txtSearchDialogSearch.ClientID %>').focus();
+        $('#<%=divAdvancedSearchDialog.ClientID %> .datepicker').each(function () {
+            setDatePickerElement($(this));
+            $(this).attr('placeholder', 'dd-MM-yyyy');
+        });
+
+        $('.txtSearchFromSearchDialogDate').change(function () {
+            $(this).closest('tr').find('.txtSearchToSearchDialogDate').val($(this).val());
+        });
+
+        hideLoadingPanel();
+
+        var rowCountPerPageSearchDialog = 100;
+        var param = s.cpResult.split('|');
+        if (param[0] == 'open') {
+            var pageCount = parseInt(param[1]);
+            var rowCount = parseInt(param[2]);
+            if (pageCount > 1) {
+                $('#containerPagingSearchDialog2').show();
+                setNumEntriesText($('#informationNumEntriesSearchDialog2'), rowCount, 1, rowCountPerPageSearchDialog);
+                setPaging($("#pagingSearchDialog2"), pageCount, function (page) {
+                    cbpSearchDialog2.PerformCallback('changepage|' + page);
+                    setNumEntriesText($('#informationNumEntriesSearchDialog2'), rowCount, page, rowCountPerPageSearchDialog);
+                });
+            }
+            else
+                $('#containerPagingSearchDialog2').hide();
+        }
+    }
+
+    function onCbpSearchDialog2EndCallback(s) {
+        hideLoadingPanel();
+
+        var rowCountPerPageSearchDialog = 100;
+        var param = s.cpResult.split('|');
+        if (param[0] == 'refresh' || param[0] == 'refresh2') {
+            var pageCount = parseInt(param[1]);
+            var rowCount = parseInt(param[2]);
+            if (pageCount > 1) {
+                $('#containerPagingSearchDialog2').show();
+                setNumEntriesText($('#informationNumEntriesSearchDialog2'), rowCount, 1, rowCountPerPageSearchDialog);
+                setPaging($("#pagingSearchDialog2"), pageCount, function (page) {
+                    cbpSearchDialog2.PerformCallback('changepage|' + page);
+                    setNumEntriesText($('#informationNumEntriesSearchDialog2'), rowCount, page, rowCountPerPageSearchDialog);
+                });
+            }
+            else
+                $('#containerPagingSearchDialog2').hide();
+        }
+    }
+
     function openSearchDialog(searchType, filterExpression, functionHandler) {
         searchDialogSearchType = searchType;
         searchDialogFilterExpression = filterExpression;
         onClickRowSearchDialogHandler = functionHandler;
-        pcSearchDialog.Show();
+
+        pcSearchDialog2.SetSize(800, 400);
+        pcSearchDialog2.Show();
+    }
+
+    function onTxtQuickSearchDialogSearchClick(s) {
+        $('#<%=hdnQuickSearchDialogFilterExpression.ClientID %>').val(s.GenerateFilterExpression());
+        cbpSearchDialog.PerformCallback('refresh');
+    }
+
+
+    function openSearchDialogSetSize(searchType, filterExpression, width, height, functionHandler) {
+        searchDialogSearchType = searchType;
+        searchDialogFilterExpression = filterExpression;
+        onClickRowSearchDialogHandler = functionHandler;
+
+        pcSearchDialog2.SetSize(800, 400);
+        pcSearchDialog2.Show();
     }
 
     function highlightText() {
@@ -419,6 +602,11 @@
         }
     }
 
+    $focusBtn = null;
+    $('.btnAutoCompleteSearchMore').live('click', function () {
+        $focusBtn = $(this);
+    });
+
     function onCbpSearchDialogEndCallback(s) {
         if (isInitSearchDialog) {
             var intellisenseHints = $.parseJSON('[' + s.cpIntellisenseHints + ']');
@@ -430,7 +618,56 @@
         //$th = $('#' + grdSearchID + ' th:eq(' + (parseInt(s.cpSortedIndex) + 1) + ')');
         //$th.addClass(s.cpSortedType);
 
-        $('#containerImgLoadingSearchDialog').hide();
+        hideLoadingPanel();
+
+        txtQuickSearchDialog.SetFocus();
+
+        var rowCountPerPageSearchDialog = 100;
+        var param = s.cpResult.split('|');
+        if (param[0] == 'refresh' || param[0] == 'open') {
+            var pageCount = parseInt(param[1]);
+            var rowCount = parseInt(param[2]);
+            if (pageCount > 1) {
+                $('#containerPagingSearchDialog').show();
+                setNumEntriesText($('#informationNumEntriesSearchDialog'), rowCount, 1, rowCountPerPageSearchDialog);
+                setPaging($("#pagingSearchDialog"), pageCount, function (page) {
+                    cbpSearchDialog.PerformCallback('changepage|' + page);
+                    setNumEntriesText($('#informationNumEntriesSearchDialog'), rowCount, page, rowCountPerPageSearchDialog);
+                });
+            }
+            else
+                $('#containerPagingSearchDialog').hide();
+        }
+
+        $('#divContainerGridSearch').focus(function () {
+            $('#<%=grdSearch.ClientID %> tr:eq(1)').addClass('selected');
+        });
+
+        $('#divContainerGridSearch').keydown(function (e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 40 || code == 38) {
+                var rowIndex = $('#<%=grdSearch.ClientID %> tr').index($('#<%=grdSearch.ClientID %> tr.selected'));
+                $('#<%=grdSearch.ClientID %> tr.selected').removeClass('selected');
+                if (code == 40)  //down
+                    rowIndex++;
+                else if (code == 38)  //up
+                    rowIndex--;
+                if (rowIndex == 0)
+                    rowIndex = 1;
+                else if (rowIndex == $('#<%=grdSearch.ClientID %> tr').length)
+                    rowIndex = $('#<%=grdSearch.ClientID %> tr').length - 1;
+
+                $('#<%=grdSearch.ClientID %> tr:eq(' + rowIndex + ')').addClass('selected');
+
+                $('#<%=grdSearch.ClientID %> tr.selected').scrollintoview();
+
+                e.preventDefault();
+            }
+            else if (code == 13) {
+                $('#<%=grdSearch.ClientID %> tr.selected').click();
+                e.preventDefault();
+            }
+        });
     }
     //#endregion
 
@@ -783,6 +1020,56 @@
     #headerRightPanelTitle                          { float: right; padding: 0 5px 0 0; font-size: 1.6em; }
     #imgRightPanelPrint                             { cursor: pointer; }
     #imgRightPanelPrint:hover                       { background-color: #F39200; }
+    
+    [data-tip]:before {
+	    content:'';
+	    /* hides the tooltip when not hovered */
+	    display:none;
+	    content:'';
+	    border-left: 5px solid transparent;
+	    border-right: 5px solid transparent;
+	    border-bottom: 5px solid #E8E9F2;	
+	    position:absolute;
+	    top:30px;
+	    left:35px;
+	    z-index:8;
+	    font-size:0;
+	    line-height:0;
+	    width:0;
+	    height:0;
+    }
+    [data-tip]:after {
+	    display:none;
+	    content:attr(data-tip);
+	    position:absolute;
+	    top:25px;
+	    left:0px;
+	    padding:2px 8px;
+	    
+        background-color:#EAEAEA;
+        border:1px solid #7C7C7C;
+        background: -moz-linear-gradient(top, #FFFFFF 0%, #E8E9F2 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(100%,#E8E9F2)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #FFFFFF 0%,#E8E9F2 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #FFFFFF 0%,#E8E9F2 100%); /* Opera11.10+ */
+        background: linear-gradient(top, #FFFFFF 0%,#E8E9F2 100%); /* W3C */
+        
+	    z-index:9;
+	    font-size: 1em;
+	    height:18px;
+	    line-height:18px;
+	    -webkit-border-radius: 3px;
+	    -moz-border-radius: 3px;
+	    border-radius: 3px;
+	    white-space:nowrap;
+	    word-wrap:normal;
+    }
+    [data-tip].activate:before,
+    [data-tip].activate:after {
+	    display:block;
+    }
+    
+    .btnQuickSearchIcon { position: absolute; top:1px; right:5px; font-size:13px;color:gray;min-width:20px !important; max-width:20px !important; background-color:transparent !important; background-image:url('<%=ResolveUrl("~/Libs/Images/QuickSearchIcon.png")%>'); background-repeat:no-repeat;background-position:left center;outline:0; }
     /* #endregion */
 </style>
 <!--[if IE]>
@@ -887,26 +1174,29 @@
             <table>
                 <tr>
                     <td>
+                        <input type="hidden" id="hdnQuickSearchDialogFilterExpression" runat="server" />
                         <qis:QISIntellisenseTextBox runat="server" ClientInstanceName="txtQuickSearchDialog" ID="txtQuickSearchDialog" Width="300px" Watermark="Search">
-                            <ClientSideEvents SearchClick="function(s){ s.SetBlur(); cbpSearchDialog.PerformCallback('refresh|' + s.GenerateFilterExpression()); }" />
+                            <ClientSideEvents SearchClick="function(s){ s.SetBlur(); onTxtQuickSearchDialogSearchClick(s); }" />
                         </qis:QISIntellisenseTextBox>
                     </td>
                 </tr>
             </table>
             <div style="clear:both"/>
-            <div id="containerSearchResult" style="height:400px;overflow-y:scroll;position:relative">
+            <div id="containerSearchResult" style="height:400px;overflow-y:scroll;position:relative" TabIndex="-1">
                 <dxcp:ASPxCallbackPanel ID="cbpSearchDialog" runat="server" Width="100%" ClientInstanceName="cbpSearchDialog"
                     ShowLoadingPanel="false" OnCallback="cbpSearchDialog_Callback">
-                    <ClientSideEvents BeginCallback="function(s,e){ $('#containerImgLoadingSearchDialog').show(); }"
+                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
                         EndCallback="function(s,e){ onCbpSearchDialogEndCallback(s); }" />
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
-                            <asp:Panel runat="server" ID="pnlQuickMenuArea" Style="width: 100%; margin-left: auto; margin-right: auto">
-                                <asp:GridView ID="grdSearch" Width="100%" runat="server" CssClass="grdView" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
-                                    <EmptyDataTemplate>
-                                        <%=GetLabel("No Data To Display")%>
-                                    </EmptyDataTemplate>
-                                </asp:GridView>
+                            <asp:Panel ID="Panel1" runat="server" Style="width: 100%; margin-left: auto; margin-right: auto">
+                                <div id="divContainerGridSearch" tabindex="0">
+                                    <asp:GridView ID="grdSearch" Width="100%" runat="server" CssClass="grdView" TabIndex="0" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdSearch_RowDataBound">
+                                        <EmptyDataTemplate>
+                                            <%=GetLabel("No Data To Display")%>
+                                        </EmptyDataTemplate>
+                                    </asp:GridView>
+                                </div>
                             </asp:Panel>
                         </dx:PanelContent>
                     </PanelCollection>
@@ -914,8 +1204,120 @@
                 <div class="imgLoadingGrdView" id="containerImgLoadingSearchDialog">
                     <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
                 </div>
-            </div>                
+            </div>
+            <div class="containerPaging" id="containerPagingSearchDialog">
+                <div class="divInformationNumEntries" id="informationNumEntriesSearchDialog"></div>
+                <div class="wrapperPaging">
+                    <div id="pagingSearchDialog"></div>
+                </div>
+            </div> 
         </dxpc:PopupControlContentControl>
+    </ContentCollection>
+</dxpc:ASPxPopupControl>   
+<input type="hidden" id="hdnSearchDialog2Type" runat="server" value="2" />
+<dxpc:ASPxPopupControl ID="pcSearchDialog2" runat="server" ClientInstanceName="pcSearchDialog2" EnableHierarchyRecreation="True"
+    FooterText="" HeaderText="" Modal="True" AllowDragging="True" PopupHorizontalAlign="WindowCenter" Width="800px"
+    PopupVerticalAlign="WindowCenter" CloseAction="CloseButton">
+    <ClientSideEvents Shown="function (s,e) { isInitSearchDialog = true; cbpContainerSearchDialog2.PerformCallback('open|' + searchDialogSearchType + '|' + searchDialogFilterExpression); }" 
+        Closing="function(s,e){ onPcSearchDialog2Closing(); }" /> 
+    <ContentCollection>    
+        <dxpc:PopupControlContentControl ID="PopupControlContentControl3" runat="server">
+            <dxcp:ASPxCallbackPanel ID="cbpContainerSearchDialog2" runat="server" Width="100%" ClientInstanceName="cbpContainerSearchDialog2"
+                ShowLoadingPanel="false" OnCallback="cbpContainerSearchDialog2_Callback">
+                <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                    EndCallback="function(s,e){ onCbpContainerSearchDialog2EndCallback(s); }" />
+                <PanelCollection>
+                    <dx:PanelContent ID="PanelContent4" runat="server">
+                        <asp:Panel ID="Panel2" runat="server" Style="width: 100%; margin-left: auto; margin-right: auto; height:500px; overflow-y: auto;">
+                            <div style="position:relative;">
+                                <table id="tblSearchDialogQuickSearch" runat="server" style="margin-bottom:5px;">
+                                    <tr>
+                                        <td>
+                                            <div style="position:relative;">
+                                                <div id="divSearchTooltip" runat="server">
+                                                    <asp:TextBox ID="txtSearchDialogSearch" runat="server" Width="300px" placeholder="Search" autocomplete="off" />
+                                                </div>
+                                                <input type="button" class="btnQuickSearchIcon" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <img id="imgSearchDialogExpand" class="imgLink" src='<%=ResolveUrl("~/Libs/Images/Icon/arrow-down.png") %>' height="20px" alt="" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div style="border:1px solid; width:500px; padding:2px; background: #EEE; display: none;" id="divAdvancedSearchDialog" runat="server">
+                                    <input type="hidden" id="hdnAdvancedSearchDialogValue" runat="server" />
+                                    <h4><%=GetLabel("Advanced Search") %></h4>
+                                    <fieldset id="fsSearchDialogAdvancedSearch">
+                                        <table>
+                                            <colgroup>
+                                                <col style="width:180px" />
+                                                <col style="width:300px" />
+                                            </colgroup>
+                                            <asp:Repeater ID="rptAdvancedSearchDialog" runat="server" OnItemDataBound="rptAdvancedSearchDialog_ItemDataBound">
+                                                <ItemTemplate>
+                                                    <tr class="trAdvancedSearchDialog">
+                                                        <td class="tdLabel"><%#Eval("StandardCodeName") %></td>
+                                                        <td>
+                                                            <input type="hidden" class="hdnAdvancedSearchDialogFieldName" value='<%#Eval("StandardCodeID") %>' />
+                                                            <input type="hidden" class="hdnAdvancedSearchDialogIsDetailTable" value='<%#Eval("TagProperty") %>' />
+                                                            <asp:TextBox ID="txtAdvancedSearchDialog" runat="server" Width="200px" CssClass="txtAdvancedSearchDialog" autocomplete="off" />
+                                                            <table id="tblSearchDialogDate" runat="server" cellpadding="0" cellspacing="0">
+                                                                <tr>
+                                                                    <td style="width:150px"><asp:TextBox ID="txtSearchFromSearchDialogDate" Width="120px" runat="server" CssClass="datepicker txtSearchFromSearchDialogDate" autocomplete="off"/></td>
+                                                                    <td> - </td>
+                                                                    <td style="width:150px"><asp:TextBox ID="txtSearchToSearchDialogDate" Width="120px" runat="server" CssClass="datepicker txtSearchToSearchDialogDate" autocomplete="off"/></td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>    
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                        
+                                            <tr>
+                                                <td colspan="2">
+                                                    <input type="button" id="btnSearch" runat="server" class="btnWhite" value='Search'/>
+                                                    <input type="button" id="btnClose" runat="server" class="btnWhite" value='Close'/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div id="containerSearchResult2" style="max-height:400px; overflow-y:scroll;position:relative" TabIndex="-1">
+                                <dxcp:ASPxCallbackPanel ID="cbpSearchDialog2" runat="server" Width="100%" ClientInstanceName="cbpSearchDialog2"
+                                    ShowLoadingPanel="false" OnCallback="cbpSearchDialog2_Callback">
+                                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                                        EndCallback="function(s,e){ onCbpSearchDialog2EndCallback(s); }" />
+                                    <PanelCollection>
+                                        <dx:PanelContent ID="PanelContent3" runat="server">
+                                            <asp:Panel ID="Panel3" runat="server" Style="width: 100%; margin-left: auto; margin-right: auto;">
+                                                <div id="div2" tabindex="0">
+                                                    <asp:GridView ID="grdSearch2" Width="100%" runat="server" CssClass="grdView" TabIndex="0" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdSearch_RowDataBound">
+                                                        <EmptyDataTemplate>
+                                                            <%=GetLabel("No Data To Display")%>
+                                                        </EmptyDataTemplate>
+                                                    </asp:GridView>
+                                                </div>
+                                            </asp:Panel>
+                                        </dx:PanelContent>
+                                    </PanelCollection>
+                                </dxcp:ASPxCallbackPanel>
+                                <div class="imgLoadingGrdView" id="containerImgLoadingSearchDialog2">
+                                    <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
+                                </div>
+                            </div>
+                            <div class="containerPaging" id="containerPagingSearchDialog2" style="height:40px;width:99%; overflow:hidden;">
+                                <div class="divInformationNumEntries" id="informationNumEntriesSearchDialog2"></div>
+                                <div class="wrapperPaging">
+                                    <div id="pagingSearchDialog2"></div>
+                                </div>
+                            </div>
+                        </asp:Panel>    
+                    </dx:PanelContent>
+                </PanelCollection>
+            </dxcp:ASPxCallbackPanel>        
+        </dxpc:PopupControlContentControl>           
     </ContentCollection>
 </dxpc:ASPxPopupControl>   
 </div>

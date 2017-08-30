@@ -11,6 +11,9 @@
     <!-- #Region CB003 - Site -->
     <filterparameter code="CB003" name="Cbo Site" caption="Unit" fieldname="SiteID" methodname="GetvSiteList" filterexpression="IsHeader = 0" valuefieldname="SiteID" textfieldname="SiteName" clientinstancename="cboSite" />
     <!-- #Endregion -->
+    <!-- #Region CB004 - Direct Purchase Type -->
+    <filterparameter code="CB004" name="Cbo Direct Purchase Type" caption="Tipe Pembelian" fieldname="GCDirectPurchaseType" methodname="GetStandardCodeList" filterexpression="ParentID = 'X175' AND IsActive = 1 AND IsDeleted = 0" valuefieldname="StandardCodeID" textfieldname="StandardCodeName" clientinstancename="cboStandardCode" />
+    <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
 

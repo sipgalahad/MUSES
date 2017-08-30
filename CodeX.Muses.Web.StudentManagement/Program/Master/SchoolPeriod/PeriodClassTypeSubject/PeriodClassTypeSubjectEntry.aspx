@@ -265,9 +265,9 @@
 
         //#region Assistant Teacher
         function onTacAssistantTeacherButtonSearchClick() {
-            openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
+            openSearchDialog('teachersubject', onGetTeacherFilterExpression(), function (value) {
                 var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
-                Methods.getObject('GetvTeacherList', filterExpression, function (result) {
+                Methods.getObject('GetvTeacherSubjectList', filterExpression, function (result) {
                     if (result != null) {
                         tacAssistantTeacher.setValue(result.TeacherID);
                         tacAssistantTeacher.setText(result.TeacherName);
@@ -383,7 +383,7 @@
                                     </td>
                                 </tr>
                                 <tr id="trTeacher2">
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Guru 2")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Guru 2")%></label></td>
                                     <td>
                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacAssistantTeacher" ClientInstanceName="tacAssistantTeacher" MethodName="GetvTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
                                             SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">

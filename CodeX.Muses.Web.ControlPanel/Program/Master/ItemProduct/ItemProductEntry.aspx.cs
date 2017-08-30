@@ -83,7 +83,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(hdnProductBrandID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtProductBrandCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtProductBrandName, new ControlEntrySetting(false, false, false));
-            SetControlEntrySetting(cboItemStatus, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboItemStatus, new ControlEntrySetting(true, true, true, Constant.ItemStatus.ACTIVE));
             #endregion
 
             #region Finance Information

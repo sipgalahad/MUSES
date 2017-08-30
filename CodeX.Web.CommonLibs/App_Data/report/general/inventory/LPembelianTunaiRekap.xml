@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvDirectPurchaseHdList" headertext="Laporan Pembelian Tunai Rekap" filterexpression="GCTransactionStatus != 'X121^999'" papertype="A4_landscape" fontsize="8pt" isshowtotal="1" totaltext="Total : "/>
+  <parameters>
+    <parameter code="DT005" isshowassubtitle="1"/>
+    <parameter code="CB004" isshowassubtitle="1"/>
+  </parameters>
+  <fields>
+    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldname="DirectPurchaseNo" headertext="Nomor" width="12" />
+    <field fieldname="PurchaseDate" headertext="Tanggal" width="10" fieldtype="date" />
+    <field fieldname="ServiceUnitName" headertext="Bagian" width="10" />
+    <field fieldname="ListSiteName" headertext="Beban Unit" />
+    <field fieldname="Remarks" headertext="Catatan" width="15"/>
+    <field fieldname="TotalNetTransactionAmount" headertext="Total" width="15" fieldtype="currency" isshowsubtotal="1"/>
+  </fields>
+</root>

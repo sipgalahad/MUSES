@@ -145,21 +145,86 @@ namespace CodeX.Web.CommonLibs.MasterPage
 
         private void PopulateFilterParameter()
         {
-            string[] fieldListText = null;
-            string[] fieldListValue = null;
-            _basePageList.SetFilterParameter(ref fieldListText, ref fieldListValue);
-
-            if (fieldListText != null && fieldListValue != null)
+            List<CAdvancedSearch> lstAdvancedSearch = _basePageList.SetFilterParameter();
+            if (lstAdvancedSearch == null)
             {
-                for (int i = 0; i < fieldListText.Length; ++i)
+                string[] fieldListText = null;
+                string[] fieldListValue = null;
+                _basePageList.SetFilterParameter(ref fieldListText, ref fieldListValue);
+
+                if (fieldListText != null && fieldListValue != null)
                 {
-                    if (IntellisenseHints != "")
-                        IntellisenseHints += ",";
-                    IntellisenseHints += string.Format("{{ \"text\":\"{0}\",\"fieldName\":\"{1}\",\"description\":\"{2}\" }}", fieldListText[i], fieldListValue[i], "");
+                    string lstFieldName = "";
+                    string searchTooltip = "";
+                    lstAdvancedSearch = new List<CAdvancedSearch>();
+                    for (int i = 0; i < fieldListText.Length; ++i)
+                    {
+                        lstAdvancedSearch.Add(new CAdvancedSearch { FieldName = fieldListValue[i], HeaderText = fieldListText[i] });
+                        if (lstFieldName != "")
+                            lstFieldName += ";";
+                        lstFieldName += fieldListValue[i];
+                        if (searchTooltip != "")
+                            searchTooltip += " / ";
+                        searchTooltip += string.Format("'{0}'", fieldListText[i]);
+                        //if (IntellisenseHints != "")
+                        //    IntellisenseHints += ",";
+                        //IntellisenseHints += string.Format("{{ \"text\":\"{0}\",\"fieldName\":\"{1}\",\"description\":\"{2}\" }}", fieldListText[i], fieldListValue[i], "");
+                    }
+                    hdnMPListQuickSearchFieldName.Value = lstFieldName;
+                    divSearchTooltip.Attributes.Add("data-tip", searchTooltip);
+                    rptMPListAdvancedSearch.DataSource = lstAdvancedSearch;
+                    rptMPListAdvancedSearch.DataBind();
                 }
+                else
+                    divFilter.Visible = false;
             }
             else
-                divFilter.Visible = false;
+            {
+                string searchTooltip = "";
+                string lstFieldName = "";
+                foreach (CAdvancedSearch advancedSearch in lstAdvancedSearch)
+                {
+                    if (advancedSearch.IsIncludeInQuickSearch)
+                    {
+                        if (searchTooltip != "")
+                            searchTooltip += " / ";
+                        searchTooltip += string.Format("'{0}'", advancedSearch.HeaderText);
+
+                        if (lstFieldName != "")
+                            lstFieldName += ";";
+                        lstFieldName += advancedSearch.FieldName;
+                    }
+
+                }
+                hdnMPListQuickSearchFieldName.Value = lstFieldName;
+                divSearchTooltip.Attributes.Add("data-tip", searchTooltip);
+                rptMPListAdvancedSearch.DataSource = lstAdvancedSearch;
+                rptMPListAdvancedSearch.DataBind();
+            }
+        }
+
+        protected void rptMPListAdvancedSearch_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                CAdvancedSearch entity = (CAdvancedSearch)e.Item.DataItem;
+                TextBox txtMPListAdvancedSearch = (TextBox)e.Item.FindControl("txtMPListAdvancedSearch");
+                TextBox txtMPListAdvancedSearchFromDate = (TextBox)e.Item.FindControl("txtMPListAdvancedSearchFromDate");
+                TextBox txtMPListAdvancedSearchToDate = (TextBox)e.Item.FindControl("txtMPListAdvancedSearchToDate");
+                HtmlTable tblSearchDialogDate = (HtmlTable)e.Item.FindControl("tblSearchDialogDate");
+                if (entity.FieldType == "date")
+                {
+                    txtMPListAdvancedSearch.Attributes.Add("style", "display:none");
+                    tblSearchDialogDate.Attributes.Remove("style");
+                    Helper.SetControlEntrySetting(txtMPListAdvancedSearchFromDate, new ControlEntrySetting(true, true, false), "mpMPListAdvancedSearch");
+                    Helper.SetControlEntrySetting(txtMPListAdvancedSearchToDate, new ControlEntrySetting(true, true, false), "mpMPListAdvancedSearch");
+                }
+                else
+                {
+                    tblSearchDialogDate.Attributes.Add("style", "display:none");
+                    txtMPListAdvancedSearch.Attributes.Remove("style");
+                }
+            }
         }
 
         protected void cbpMPListProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

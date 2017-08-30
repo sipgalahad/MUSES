@@ -21,6 +21,9 @@ namespace CodeX.Web.Finance.MasterPage
             divContactPerson.InnerHtml = entity.ContactPerson;
             divPhoneNo.InnerHtml = entity.cfPhoneNo;
             divAddress.InnerHtml = entity.Address;
+            divBank.InnerHtml = entity.Bank;
+            divBankAccountHolder.InnerHtml = entity.BankAccountHolder;
+            divBankReferenceNo.InnerHtml = entity.BankReferenceNo;
             //hdnPatientGender.Value = entity.GCSex;
         }
 

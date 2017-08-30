@@ -398,7 +398,8 @@ namespace CodeX.Muses.Web.Finance.Program
                                 {
                                     string dateTimeString = tempData.Substring(73, 18);
                                     string[] arr = dateTimeString.Split('/').ToArray();
-                                    DateTime receivingDate = Convert.ToDateTime(String.Format("{0}/{1}/{2}",arr[1],arr[0],arr[2]));
+                                    //DateTime receivingDate = Convert.ToDateTime(String.Format("{0}/{1}/{2}",arr[1],arr[0],arr[2]));
+                                    DateTime receivingDate = Helper.GetDatePickerValue(Request.Form[txtReceivedDate.UniqueID]);
 
                                     ARBalance entityARBalance = null;
                                     if (entityStudent != null)

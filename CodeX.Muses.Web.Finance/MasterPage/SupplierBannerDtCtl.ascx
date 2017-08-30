@@ -36,4 +36,24 @@
         </center>
     </li>
 </ul>
+<h4><%=GetLabel("Informasi Kunjungan")%></h4>
+<ul class="ulHeaderBannerDetailInfo">
+    <li style="width: 190px">
+        <center>
+            <div class="containerTile"><div id="divBank" runat="server"></div></div>
+            <h6 style="background-color: #77B900"><%=GetLabel("Bank")%></h6>
+        </center>
+    </li>
+    <li style="width: 190px">
+        <center>
+            <div class="containerTile"><div id="divBankReferenceNo" runat="server"></div></div>
+            <h6 style="background-color: #AA40FF"><%=GetLabel("No Rekening")%></h6>
+        </center>
+    </li>
+    <li style="width: 190px">
+        <center>
+            <div class="containerTile"><div id="divBankAccountHolder" runat="server"></div></div>
+            <h6 style="background-color: #77B900"><%=GetLabel("Nama Pemegang")%></h6>
+        </center>
+    </li>
 <br />

@@ -43,7 +43,7 @@
 
             //#region Service Unit
             function getLocationFilterExpression() {
-                var filterExpression = "<%=OnGetFilterExpressionLocation() %>";
+                var filterExpression = "<%=OnGetFilterExpressionLocation() %>1 = 1";
                 return filterExpression;
             }
 
