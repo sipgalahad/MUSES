@@ -38,7 +38,7 @@
 
         //#region Location
         function getLocationFilterExpression() {
-            var filterExpression = "<%=OnGetLocationFilterExpression() %>";
+            var filterExpression = "<%=OnGetLocationFilterExpression() %>1 = 1";
             return filterExpression;
         }
 
@@ -54,7 +54,7 @@
         });
 
         function onTxtLocationCodeChanged(value) {
-            var filterExpression = getLocationFilterExpression() + "LocationCode = '" + value + "'";
+            var filterExpression = getLocationFilterExpression() + " AND LocationCode = '" + value + "'";
             Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                 if (result != null) {
                     $('#<%=hdnLocationID.ClientID %>').val(result.LocationID);

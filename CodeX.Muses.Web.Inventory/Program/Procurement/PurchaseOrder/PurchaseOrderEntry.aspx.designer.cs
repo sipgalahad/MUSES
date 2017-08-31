@@ -382,6 +382,15 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboPurchaseOrderType;
         
         /// <summary>
+        /// cboPurchaseItemType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboPurchaseItemType;
+        
+        /// <summary>
         /// cboTerm control.
         /// </summary>
         /// <remarks>

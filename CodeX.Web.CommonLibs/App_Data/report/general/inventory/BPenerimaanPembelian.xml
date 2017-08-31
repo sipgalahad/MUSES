@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvPurchaseReceiveDtList" datasourcehd="GetvPurchaseReceiveHdList" filterexpressionhd="" headertext="BUKTI PENERIMAAN PEMBELIAN" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="F5_portrait" fontsize="8pt"/>
+  <table datasource="GetvPurchaseReceiveDtList" datasourcehd="GetvPurchaseReceiveHdList" filterexpressionhd="" headertext="BUKTI PENERIMAAN PEMBELIAN" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="F5_portrait" fontsize="8pt" noofprintcopy="1"/>
   <parameters>
     <parameter code="FP001"/>
   </parameters>
@@ -29,6 +29,7 @@
             </colgroup>      
             <tr><td>No Penerimaan</td><td align="center">:</td><td>{PurchaseReceiveNo}</td></tr>
             <tr><td>Tanggal Penerimaan</td><td align="center">:</td><td>{ReceivedDateInString}</td></tr>
+            <tr><td>Bagian</td><td align="center">:</td><td>{ServiceUnitName}</td></tr>
             <tr><td>Lokasi</td><td align="center">:</td><td>{LocationName}</td></tr>
           </table>
         </td>
@@ -88,19 +89,22 @@
         <col style="width:50%"/>
       </colgroup>
       <tr>
+        <td colspan="2" valign="top"><div style="word-wrap: break-word; white-space: normal">{cfRemarks}</div></td>
+      </tr>
+      <tr>
         <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
       </tr>
       <tr>
-        <td valign="top" align="center">&nbsp;</td>
         <td valign="top" align="center">Dibuat Oleh</td>
+        <td valign="top" align="center">Diterima Oleh</td>
       </tr>
       <tr>
         <td colspan="2" class="tdSignature">&nbsp;</td>
       </tr>
       <tr>
-        <td valign="top" align="center"></td>
+        <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div></td>
         <td valign="top" align="center">
-          <div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div>
+          <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
         </td>
       </tr>
     </table>

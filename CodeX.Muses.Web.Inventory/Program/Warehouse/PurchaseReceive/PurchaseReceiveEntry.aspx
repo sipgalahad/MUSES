@@ -325,9 +325,9 @@
                 Methods.getObject('GetvPurchaseOrderHdList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnPurchaseOrderID.ClientID %>').val(result.PurchaseOrderID);
-                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
-                        $('#<%=txtServiceUnitCode.ClientID %>').val(result.ServiceUnitCode);
-                        $('#<%=txtServiceUnitCode.ClientID %>').val(result.ServiceUnitName);
+                        $('#<%=hdnSiteServiceUnitID.ClientID %>').val(result.ToSiteServiceUnitID);
+                        $('#<%=txtServiceUnitCode.ClientID %>').val(result.ToServiceUnitCode);
+                        $('#<%=txtServiceUnitCode.ClientID %>').val(result.ToServiceUnitName);
                         $('#<%=chkPPN.ClientID %>').prop('checked', result.IsIncludeVAT);
                         if ($('#<%=txtSupplierCode.ClientID %>').val() == '') {
                             $('#<%=hdnSupplierID.ClientID %>').val(result.BusinessPartnerID);

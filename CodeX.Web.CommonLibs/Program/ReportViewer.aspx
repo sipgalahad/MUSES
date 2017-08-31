@@ -16,6 +16,8 @@
         <script src='<%= ResolveUrl("~/Libs/Scripts/jquery/jquery-1.4.3.js")%>' type='text/javascript'></script>
         <script src='<%= ResolveUrl("~/Libs/Scripts/jquery/jquery-1.7.min.js")%>' type='text/javascript'></script>
         <script src='<%= ResolveUrl("~/Libs/Scripts/jquery/jquery-barcode.js")%>' type='text/javascript'></script>
+        <script src='<%= ResolveUrl("~/Libs/Scripts/PDF/jspdf.min.js")%>' type='text/javascript'></script>
+        <script src='<%= ResolveUrl("~/Libs/Scripts/PDF/html2canvas.min.js?1")%>' type='text/javascript'></script>
         <script type="text/javascript">
             function generateBarcode($elm) {
                 var value = $elm.html();
@@ -84,7 +86,21 @@
 
                 $('#<%=hdnExportExcel.ClientID %>').val($div.html());
 
+                showLoadingPanel();
                 processOverflowDiv1(1);
+
+                var noOfPrintCopy = parseInt('<%=noOfPrintCopy %>');
+                for (var i = 0; i < noOfPrintCopy; ++i) {
+                    var idx = $('.page').length;
+                    $('.page').each(function () {
+                        var p1 = $(this).find('.divcontent');
+
+                        var containerp2 = $("<div class='page'><div id='page" + (idx + 1) + "' class='pageContent'><div class='divPrintCopy'><span>COPY</span></div>" + p1.html() + "</div></div>");
+                        containerp2.insertAfter(p1.parent().parent());
+
+                        idx++;
+                    });
+                }
             });
 
             function processOverflowDiv1(idx) {
@@ -294,6 +310,8 @@
                         $('#cboJumpPage').append($("<option></option>").text(i));
                     }
                     $('#txtTotalPage').val(pageCount);
+
+                    hideLoadingPanel();
                 }
             }
 
@@ -326,8 +344,129 @@
             }
 
             $(function () {
-                $('#imgExportExcel').click(function () {
-                    $('#<%=btnExport.ClientID%>').click();
+                $('#imgExport').click(function () {
+                    if ($('#<%=ddlExportType.ClientID %>').val() == 'pdf') {
+                        /*var ctr = 0;
+                        var count = $('.page').length;
+                        showLoadingPanel();
+                        var lstImage = [];
+                        for (var ctrImage = 0; ctrImage < count; ++ctrImage) {
+                        lstImage.push('');
+                        }
+                        $('.page').each(function () {
+                        var scaleBy = 5;
+                        var div = $(this);
+                        var w = $(this).outerWidth();
+                        var h = $(this).outerHeight();
+                        var canvas = document.createElement('canvas');
+                        canvas.width = w * scaleBy;
+                        canvas.height = h * scaleBy;
+                        canvas.style.width = w + 'px';
+                        canvas.style.height = h + 'px';
+                        var context = canvas.getContext('2d');
+                        context.scale(scaleBy, scaleBy);
+
+                        $('#pageArea').attr('style', 'overflow-y:inherit');
+
+                        html2canvas(div, {}).then(function (canvas) {
+                        //$('#pageArea').attr('style', 'overflow-y:scroll');
+                        var pageNumber = div.find('.pageContent').attr('id').substring(4);
+
+                        ctr++;
+                        var imgData = canvas.toDataURL("image/png");
+                        lstImage[pageNumber - 1] = imgData;
+
+                        if (ctr == count) {
+                        $('#pageArea').attr('style', 'overflow-y:scroll');
+
+                        var paperPortraitLandscape = "<%=paperPortraitLandscape %>".substr(0, 1);
+                        var paperWidth = parseFloat("<%=paperWidth%>");
+                        var paperHeight = parseFloat("<%=paperHeight%>");
+                        var pdf = new jsPDF(paperPortraitLandscape, "mm", "<%=paperSize %>");
+
+                        for (ctrImage = 0; ctrImage < count; ++ctrImage) {
+                        if (ctrImage > 0)
+                        pdf.addPage();
+                        pdf.addImage(lstImage[ctrImage], 'JPEG', 0, 0, paperWidth, paperHeight);  // w h
+                        }
+                        pdf.save($('#<%=hdnReportFileName.ClientID %>').val() + '.pdf');
+                        hideLoadingPanel();
+                        }
+                        });
+                        });*/
+
+
+                        var ctr = 0;
+                        var count = $('.page').length;
+                        showLoadingPanel();
+                        var lstImage = [];
+                        for (var ctrImage = 0; ctrImage < count; ++ctrImage) {
+                            lstImage.push('');
+                        }
+                        $('.page').each(function () {
+                            var bigCanvas = $("<div>").appendTo('body');
+                            var scaledElement = $(this).clone()
+                        .css({
+                            'transform': 'scale(1,1)',
+                            'transform-origin': '0 0'
+                        }).appendTo(bigCanvas);
+                            var oldWidth = scaledElement.outerWidth();
+                            var oldHeight = scaledElement.outerHeight();
+
+                            var newWidth = oldWidth * 2;
+                            var newHeight = oldHeight * 2;
+
+                            bigCanvas.css({
+                                'width': newWidth,
+                                'height': newHeight,
+                                'margin': '0px',
+                                'padding': '0px'
+                            })
+                            var page = bigCanvas.find('.page');
+                            page.css({
+                                'margin': '0px'
+                            });
+
+
+                            html2canvas(bigCanvas, {
+                                onrendered: function (canvasq) {
+                                    //$('#pageArea').attr('style', 'overflow-y:scroll');
+                                    var pageNumber = bigCanvas.find('.pageContent').attr('id').substring(4);
+
+                                    bigCanvas.remove();
+
+                                    var resizeCanvas = document.createElement("canvas");
+                                    resizeCanvas.height = canvasq.height / 2;
+                                    resizeCanvas.width = canvasq.width / 2;
+
+                                    var resizeCtx = resizeCanvas.getContext('2d');
+                                    // Put original canvas contents to the resizing canvas
+                                    resizeCtx.drawImage(canvasq, 0, 0, resizeCanvas.width, resizeCanvas.height, 0, 0, resizeCanvas.width, resizeCanvas.height);
+
+                                    ctr++;
+                                    var imgData = resizeCanvas.toDataURL("image/png");
+                                    lstImage[pageNumber - 1] = imgData;
+
+                                    if (ctr == count) {
+                                        var paperPortraitLandscape = "<%=paperPortraitLandscape %>".substr(0, 1);
+                                        var paperWidth = parseFloat("<%=paperWidth%>");
+                                        var paperHeight = parseFloat("<%=paperHeight%>");
+                                        var pdf = new jsPDF(paperPortraitLandscape, "mm", "<%=paperSize %>", true);
+
+                                        for (ctrImage = 0; ctrImage < count; ++ctrImage) {
+                                            if (ctrImage > 0)
+                                                pdf.addPage();
+                                            pdf.addImage(lstImage[ctrImage], 'JPEG', 0, 0, paperWidth, paperHeight, '', 'FAST');  // w h
+                                        }
+                                        pdf.save($('#<%=hdnReportFileName.ClientID %>').val() + '.pdf');
+                                        hideLoadingPanel();
+                                    }
+                                }
+                            });
+                        });
+                    }
+                    else
+                        $('#<%=btnExport.ClientID%>').click();
                 });
                 $('#imgPrint').click(function () {
                     window.print();
@@ -368,6 +507,13 @@
                     scrollTop: $('#pageArea').scrollTop() + $("#" + id).offset().top - 45
                 });
             }
+            function showLoadingPanel() {
+                $('#loadingPanel').show();
+            }
+
+            function hideLoadingPanel() {
+                $('#loadingPanel').hide();
+            }
         </script>
         <div style="display:none;" id="divStyleExcel">
             * {
@@ -405,6 +551,12 @@
         </div>
 
         <style type="text/css" id="myStyle">
+             #loadingPanel                                   { display: none; }
+            #loadingPanel .divBlanket                       { background-color: #EEE; opacity: 0.65; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=65)"; -moz-opacity: 0.65; -khtml-opacity: 0.65; position: fixed; z-index: 29001; top: 0px; left: 0px; width: 100%; height: 100%; }
+            #loadingPanel .divLoading                       { position: fixed; top: 50%; left: 50%; width: 200px; height: 50px; margin-top: -15px; margin-left: -100px; z-index: 29002; text-align: center; vertical-align: middle; }
+            #loadingPanel .imgLoading                       { float: left; margin-top: 3px; }
+    
+            
             .imgLink        { cursor: pointer; }
             
             body {
@@ -447,7 +599,8 @@
             }
             .page   { position: relative; }
             .pageContent        { height:<%=paperPageContent %>; overflow-y: hidden; }
-            #toolbarArea { background-color: #E0E0E0;  border: 1px #ADADAD solid; border-radius: 3px; width: 400px; position: relative; padding: 5px 5px; }
+            .divMargin          { height:<%=pageContentPaddingTop %>cm; }
+            #toolbarArea { background-color: #E0E0E0;  border: 1px #ADADAD solid; border-radius: 3px; width: 440px; position: relative; padding: 5px 5px; }
             #toolbarArea, #toolbarArea *  { font-family: Segoe UI; font-size: 9pt; }
             p
             { page-break-before: always
@@ -495,7 +648,7 @@
             thead { display:table-row-group; }
             .tdGroupName, .tdSubTotal, .tdGrandTotal        { font-weight: bold; }
             .tdGrandTotal, .tdSubTotal                 { text-align: right; }
-            .tdSubTotalDetail           { border-top: 1px dotted; padding: 0.5mm 0; }
+            .tdSubTotalDetail           { border-top: 1px dotted; padding: 0.5mm 0; white-space: nowrap; }
             .reportBody tr.trGroup0:not(:first-child) > td { padding-top: 20px; }
             .reportBody tr.trGroup0:not(:first-child) > td > tr.trGroup1:not(:first-child) > td { padding-top: 20px; }
             .reportBody .trGroup1Child > td, .reportBody .trGroup2Child > td { padding-top: 20px; }
@@ -522,12 +675,18 @@
             .divPageNumber               { <%=divPageNumberStyle%> }
             
             .tdEntityHeader                 { font-weight: bold !important; }
+            
+            .divPrintCopy                   { position: absolute; top:0; bottom:0; left:0; right:0; width: 80px; height: 40px; margin:auto;-webkit-transform: rotate(-10deg); -moz-transform: rotate(-10deg); filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2); }
+            .divPrintCopy span              { border:1px solid #F00; color: #F00; padding: 5px; font-size:24pt; }
         </style>
     </head>
     <body>
+        <div id="divTest"></div>
         <input type="hidden" id="hdnParam" runat="server" />
         <input type="hidden" id="hdnLang" runat="server" />
         <input type="hidden" id="hdnFacility" runat="server" />
+        <input type="hidden" id="hdnServiceUnit" runat="server" />
+        <input type="hidden" id="hdnPosition" runat="server" />
         <center>
             <div id="toolbarArea">
                 <div style="display:none;">
@@ -550,7 +709,13 @@
                         <td style="width:26px;" align="center"><div class="divCircle"><img src='<%=ResolveUrl("~/Libs/Images/Report/movenext.png") %>' title="Next" id="imgMoveNext" class="imgLink" height="16px" /></div></td>
                         <td style="width:26px;" align="center"><div class="divCircle"><img src='<%=ResolveUrl("~/Libs/Images/Report/movelast.png") %>' title="Last" id="imgMoveLast" class="imgLink" height="16px" /></div></td>
                         <td><span class="separator">|</span></td>
-                        <td align="center"><div class="divCircle"><img src='<%=ResolveUrl("~/Libs/Images/Report/export.png") %>' title="Export" id="imgExportExcel" class="imgLink" height="16px" /></div></td>
+                        <td style="width:26px;" align="center"><div class="divCircle"><img src='<%=ResolveUrl("~/Libs/Images/Report/export.png") %>' title="Export" id="imgExport" class="imgLink" height="16px" /></div></td>
+                        <td align="center" style="padding-left:10px;">
+                            <asp:DropDownList ID="ddlExportType" runat="server" Width="50px">
+                                <asp:ListItem Value="exc" Text="Excel" />
+                                <asp:ListItem Value="pdf" Text="PDF" />
+                            </asp:DropDownList>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -562,6 +727,9 @@
                         <div class="pageFooter" id="divContainerPageFooter" runat="server">
                             <div style="float: right;" class="divPageNumber">Page 1 of [TotalPageCount]</div>
                             <div id="divReportProperties" runat="server"></div>
+                        </div>
+                        <div class="divMargin" style="width:100%;">
+                        
                         </div>
                         <div class="pageHeader">
                             <div class="siteInformation" id="divPageHeader" runat="server">
@@ -589,7 +757,6 @@
                             <div id="divContainerReportHeader" class="divContainerReportHeader" runat="server" style="display:none"></div>
                             <div id="divContainerReportParameter" class="divContainerReportParameter" runat="server"></div>
                         </div>
-                        
                         <div id="divContainerReportBody" runat="server">
                             <asp:Repeater ID="rptReport" runat="server">
                             </asp:Repeater>
@@ -601,6 +768,23 @@
                 </div>
             </div>
         </div>
+        <img id="imgPreview" style="width:100%" />
     </form>
+    <div id="loadingPanel">
+        <div class="divBlanket">
+        </div>
+        <div class="divLoading">
+            <table style="margin-left: auto; margin-right: auto;">
+                <tr>
+                    <td>
+                        <img class="imgLoading" src="<%=ResolveUrl("~/Libs/Images/Loading.gif")%>" alt="0" />
+                    </td>
+                    <td style="padding-left: 5px">
+                        <div class="txtLoading"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

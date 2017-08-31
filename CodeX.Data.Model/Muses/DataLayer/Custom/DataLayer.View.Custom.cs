@@ -1884,6 +1884,15 @@ namespace CodeX.Data.Model
     #region vPurchaseReceiveHd
     public partial class vPurchaseReceiveHd
     {
+        public string cfRemarks
+        {
+            get
+            {
+                if (_Remarks != "")
+                    return string.Format("Catatan :<br/>{0}", _Remarks.Replace("\n", "<br/>"));
+                return "";
+            }
+        }
         public string ReceivedDateInString
         {
             get

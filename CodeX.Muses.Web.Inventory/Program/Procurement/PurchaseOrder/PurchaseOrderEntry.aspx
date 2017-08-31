@@ -939,8 +939,12 @@
                             <col />
                         </colgroup>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Persediaan")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Pembelian")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboPurchaseOrderType" ClientInstanceName="cboPurchaseOrderType" Width="100%" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Persediaan")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboPurchaseItemType" ClientInstanceName="cboPurchaseItemType" Width="100%" runat="server" /></td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Waktu Pembayaran")%></label></td>

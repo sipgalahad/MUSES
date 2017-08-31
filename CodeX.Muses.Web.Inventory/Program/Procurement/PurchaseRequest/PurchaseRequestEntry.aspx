@@ -73,7 +73,7 @@
                         $('#<%=hdnSiteServiceUnitID.ClientID %>').val(result.SiteServiceUnitID);
                         $('#<%=txtServiceUnitName.ClientID %>').val(result.ServiceUnitName);
 
-                        var filterExpression = getLocationFilterExpression() + "LocationID IN (SELECT LocationID FROM ServiceUnitLocation WHERE SiteServiceUnitID = '" + result.SiteServiceUnitID + "')";
+                        var filterExpression = getLocationFilterExpression() + " AND LocationID IN (SELECT LocationID FROM ServiceUnitLocation WHERE SiteServiceUnitID = '" + result.SiteServiceUnitID + "')";
                         Methods.getListObject('GetLocationUserAccessList', filterExpression, function (result) {
                             var lstLocationID = '';
                             for (var i = 0; i < result.length; ++i) {

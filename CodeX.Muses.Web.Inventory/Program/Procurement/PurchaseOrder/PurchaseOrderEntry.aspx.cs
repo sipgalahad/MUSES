@@ -114,9 +114,10 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}','{3}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_ORDER_TYPE, Constant.StandardCode.FRANCO_REGION, Constant.StandardCode.CURRENCY_CODE, Constant.StandardCode.ITEM_UNIT));
+            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PURCHASE_ORDER_TYPE, Constant.StandardCode.FRANCO_REGION, Constant.StandardCode.CURRENCY_CODE, Constant.StandardCode.ITEM_UNIT, Constant.StandardCode.DIRECT_PURCHASE_TYPE));
             List<Term> listTerm = BusinessLayer.GetTermList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<StandardCode>(cboPurchaseOrderType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.PURCHASE_ORDER_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboPurchaseItemType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.DIRECT_PURCHASE_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboFrancoRegion, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.FRANCO_REGION).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboCurrency, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CURRENCY_CODE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboNonMasterItemUnit, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_UNIT).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
@@ -142,6 +143,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, true));
 
             SetControlEntrySetting(cboPurchaseOrderType, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboPurchaseItemType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboTerm, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboFrancoRegion, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboCurrency, new ControlEntrySetting(true, true, true));
@@ -244,6 +246,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtToServiceUnitCode.Text = entity.ToServiceUnitCode;
             txtToServiceUnitName.Text = entity.ToServiceUnitName;
             cboPurchaseOrderType.Value = entity.GCPurchaseOrderType;
+            cboPurchaseItemType.Value = entity.GCPurchaseItemType;
             cboTerm.Value = entity.TermID.ToString();
             txtPaymentRemarks.Text = entity.PaymentRemarks;
             txtNotes.Text = entity.Remarks;
@@ -329,6 +332,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
             entity.OrderDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
             entity.GCPurchaseOrderType = cboPurchaseOrderType.Value.ToString();
+            entity.GCPurchaseItemType = cboPurchaseItemType.Value.ToString();
             entity.TermID = Convert.ToInt32(cboTerm.Value.ToString());
             entity.GCFrancoRegion = cboFrancoRegion.Value.ToString();
             entity.GCCurrencyCode = cboCurrency.Value.ToString();

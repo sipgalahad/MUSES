@@ -623,6 +623,8 @@
     <Content Include="Scripts\jquery\jquery.paginate.js" />
     <Content Include="Scripts\jquery\jquery.tmpl.min.js" />
     <Content Include="Scripts\jquery\jquery.validate.min.js" />
+    <Content Include="Scripts\PDF\html2canvas.min.js" />
+    <Content Include="Scripts\PDF\jspdf.min.js" />
     <Content Include="Scripts\jquery\scroll\jquery.ad-gallery.js" />
     <Content Include="Scripts\jquery\ui\i18n\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery\ui\i18n\jquery.ui.datepicker-af.js" />

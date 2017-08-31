@@ -239,6 +239,7 @@
                 cboGLAPOther.SetValue(entity.GLAPOtherID);
                 $('#<%=txtPurchaseRcvNo.ClientID %>').val(entity.PurchaseReceiveNo);
                 $('#<%=txtInvoiceNo.ClientID %>').val(entity.ReferenceNo);
+                $('#<%=txtInvoiceDate.ClientID %>').val(entity.ReferenceDate); 
                 $('#<%=txtTransactionAmount.ClientID %>').val(entity.TransactionAmount).trigger('changeValue');
                 $('#<%=txtDiscTransAmount.ClientID %>').val(entity.DiscountAmount).trigger('changeValue');
                 $('#<%=txtDiscountAmount.ClientID %>').val(entity.FinalDiscountAmount).trigger('changeValue');
@@ -724,7 +725,7 @@
                                                         <input type="hidden" bindingfield="PurchaseReceiveNo" value='<%# Eval("PurchaseReceiveNo")%>' />
                                                         <input type="hidden" bindingfield="GLAPOtherID" value='<%# Eval("GLAPOtherID")%>' />
                                                         <input type="hidden" bindingfield="ReferenceNo" value='<%# Eval("ReferenceNo")%>' />
-                                                        <input type="hidden" bindingfield="ReferenceDate" value='<%# Eval("ReferenceDateInString")%>' />
+                                                        <input type="hidden" bindingfield="ReferenceDate" value='<%# Eval("ReferenceDate", "{0:dd-MM-yyyy}")%>' />
                                                         <input type="hidden" bindingfield="VATAmount" value='<%# Eval("VATAmount")%>' />
                                                         <input type="hidden" bindingfield="PPH23Amount" value='<%# Eval("PPH23Amount")%>' />
                                                         <input type="hidden" bindingfield="PPH25Amount" value='<%# Eval("PPH25Amount")%>' />

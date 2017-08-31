@@ -19,6 +19,10 @@ namespace CodeX.Web.Common
 {
     public partial class Helper
     {
+        public static String GetAppName()
+        {
+            return "I-SMART";
+        }
         public static String GenerateItemCode(IDbContext ctx, String ItemName)
         {
             string itemName2Char = ItemName.Trim().Substring(0, 2).ToUpper();

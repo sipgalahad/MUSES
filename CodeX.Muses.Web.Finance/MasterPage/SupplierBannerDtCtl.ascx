@@ -46,14 +46,14 @@
     </li>
     <li style="width: 190px">
         <center>
-            <div class="containerTile"><div id="divBankReferenceNo" runat="server"></div></div>
+            <div class="containerTile" style="font-size: 18px;"><div id="divBankReferenceNo" runat="server"></div></div>
             <h6 style="background-color: #AA40FF"><%=GetLabel("No Rekening")%></h6>
         </center>
     </li>
     <li style="width: 190px">
         <center>
-            <div class="containerTile"><div id="divBankAccountHolder" runat="server"></div></div>
-            <h6 style="background-color: #77B900"><%=GetLabel("Nama Pemegang")%></h6>
+            <div class="containerTile" style="font-size: 18px;"><div id="divBankAccountHolder" runat="server"></div></div>
+            <h6 style="background-color: #FF2E12"><%=GetLabel("Nama Pemegang")%></h6>
         </center>
     </li>
 <br />

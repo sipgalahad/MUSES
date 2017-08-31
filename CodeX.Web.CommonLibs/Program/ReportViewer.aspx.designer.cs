@@ -94,6 +94,24 @@ namespace CodeX.Web.CommonLibs.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFacility;
         
         /// <summary>
+        /// hdnServiceUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnServiceUnit;
+        
+        /// <summary>
+        /// hdnPosition control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPosition;
+        
+        /// <summary>
         /// btnTemp control.
         /// </summary>
         /// <remarks>
@@ -119,6 +137,15 @@ namespace CodeX.Web.CommonLibs.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnExportExcel;
+        
+        /// <summary>
+        /// ddlExportType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlExportType;
         
         /// <summary>
         /// divContainerPageFooter control.

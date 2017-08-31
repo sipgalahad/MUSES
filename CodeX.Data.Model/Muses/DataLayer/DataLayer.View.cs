@@ -22629,6 +22629,8 @@ namespace CodeX.Data.Model
         private DateTime _POExpiredDate;
         private String _GCPurchaseOrderType;
         private String _PurchaseOrderType;
+        private String _GCPurchaseItemType;
+        private String _PurchaseItemType;
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerCode;
         private String _BusinessPartnerName;
@@ -22779,6 +22781,18 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseOrderType; }
             set { _PurchaseOrderType = value; }
+        }
+        [Column(Name = "GCPurchaseItemType", DataType = "String")]
+        public String GCPurchaseItemType
+        {
+            get { return _GCPurchaseItemType; }
+            set { _GCPurchaseItemType = value; }
+        }
+        [Column(Name = "PurchaseItemType", DataType = "String")]
+        public String PurchaseItemType
+        {
+            get { return _PurchaseItemType; }
+            set { _PurchaseItemType = value; }
         }
         [Column(Name = "BusinessPartnerID", DataType = "Int32")]
         public Int32 BusinessPartnerID

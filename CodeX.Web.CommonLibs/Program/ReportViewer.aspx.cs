@@ -23,7 +23,7 @@ namespace CodeX.Web.CommonLibs.Program
     //}
     public partial class ReportViewer : BasePage
     {
-        vSite oSite = null;
+        static vSite oSite = null;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -34,6 +34,10 @@ namespace CodeX.Web.CommonLibs.Program
                     hdnLang.Value = Request.Form["lang"].ToString();
                 if (Request.Form["facility"] != null)
                     hdnFacility.Value = Request.Form["facility"].ToString();
+                if (Request.Form["serviceunit"] != null)
+                    hdnServiceUnit.Value = Request.Form["serviceunit"].ToString();
+                if (Request.Form["position"] != null)
+                    hdnPosition.Value = Request.Form["position"].ToString();
                 param = hdnParam.Value.Split('|');
                 string reportCode = Page.Request.QueryString["id"];
                 List<ReportMaster> lstReportMaster = BusinessLayer.GetReportMasterList(string.Format("ReportCode = '{0}'", reportCode));
@@ -46,7 +50,7 @@ namespace CodeX.Web.CommonLibs.Program
 
                 hdnFilterExpression.Value = "";
 
-                divReportProperties.InnerHtml = string.Format("{0} - {1}, Print Date/Time:{2}, User ID:{3}", "I-SMART", reportMaster.ReportCode, DateTime.Now.ToString("dd-MMM-yyyy/HH:mm:ss"), AppSession.UserLogin.UserName);
+                divReportProperties.InnerHtml = string.Format("{0} - {1}, Print Date/Time:{2}, User ID:{3}", Helper.GetAppName(), reportMaster.ReportCode, DateTime.Now.ToString("dd-MMM-yyyy/HH:mm:ss"), AppSession.UserLogin.UserName);
                 divPrintDateTime.InnerHtml = string.Format("{0}", DateTime.Now.ToString("dd-MMM-yyyy/HH:mm:ss"));
 
                 oSite = BusinessLayer.GetvSiteList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
@@ -66,6 +70,7 @@ namespace CodeX.Web.CommonLibs.Program
         ReportMaster reportMaster = null;
         List<GroupField> lstGroupField = null;
         List<TemplateField> lstTemplateField = null;
+        List<ConditionalStyle> lstConditionalStyle = null;
 
         protected decimal paperWidth = 0;
         protected decimal paperHeight = 0;
@@ -81,10 +86,12 @@ namespace CodeX.Web.CommonLibs.Program
         protected string fontWeight = "";
         protected string h1FontSize = "";
         protected string pagePaperPadding = "";
+        protected string pageContentPaddingTop = "";
         protected string leftRightPosition = "";
         protected string divPageNumberStyle = "";
         protected string customMargin = "";
         protected string borderBottomDetail = "";
+        protected int noOfPrintCopy = 0;
 
         protected string GetImageLogo()
         {
@@ -106,7 +113,7 @@ namespace CodeX.Web.CommonLibs.Program
         }
 
         List<Variable> lstParameterCodeValue = new List<Variable>();
-        private List<Variable> GenerateFilterExpressionSP(List<ReportParameter> lstReportParameter, bool isShowParameter)
+        private List<Variable> GenerateFilterExpressionSP(List<ReportParameter> lstReportParameter, bool isShowParameter, bool isFooterTemplate = false)
         {
             string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/filterparameter.xml", reportMaster.ReportUrl));
             string physicalPath = HttpContext.Current.Request.MapPath(reportXML);
@@ -139,11 +146,12 @@ namespace CodeX.Web.CommonLibs.Program
                     else
                     {
                         string paramText = paramSplit[1];
-                        lstVariable.Add(new Variable { Code = reportParameter.FieldName, Value = GetFilterExpression(value) });
+                        if (lstReportParameter[i].IsIncludeAsFilterExpressionDt || isFooterTemplate)
+                            lstVariable.Add(new Variable { Code = reportParameter.FieldName, Value = GetFilterExpression(value) });
 
                         if (paramText != "")
                         {
-                            if (lstReportParameter[i].IsShowAsSubTitle)
+                            if (lstReportParameter[i].IsShowAsSubTitle && !isFooterTemplate)
                             {
                                 subHeaderText.Style.Remove("display");
                                 if (subHeaderText.InnerHtml != "")
@@ -170,17 +178,23 @@ namespace CodeX.Web.CommonLibs.Program
                     }
                 }
                 else
-                    lstVariable.Add(new Variable { Code = reportParameter.FieldName, Value = value });
+                {
+                    if (lstReportParameter[i].IsIncludeAsFilterExpressionDt || isFooterTemplate)
+                        lstVariable.Add(new Variable { Code = reportParameter.FieldName, Value = value });
+                }
                 displayParameter += "</table>";
             }
-            if (isShowParameter)
-                divContainerReportParameter.InnerHtml = displayParameter;
-            else
-                divContainerReportParameter.Style.Add("display", "none");
+            if (!isFooterTemplate)
+            {
+                if (isShowParameter)
+                    divContainerReportParameter.InnerHtml = displayParameter;
+                else
+                    divContainerReportParameter.Style.Add("display", "none");
+            }
             return lstVariable;
         }
 
-        private string GenerateFilterExpression(List<ReportParameter> lstReportParameter, bool isShowParameter)
+        private string GenerateFilterExpression(List<ReportParameter> lstReportParameter, bool isShowParameter, bool isDataSourceFromSP, bool isFooterTemplate)
         {
             string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/filterparameter.xml", reportMaster.ReportUrl));
             string physicalPath = HttpContext.Current.Request.MapPath(reportXML);
@@ -208,10 +222,13 @@ namespace CodeX.Web.CommonLibs.Program
                 string filterParameter = String.Empty;
                 if (reportParameter.Type == Constant.FilterParameterType.FREE_TEXT)
                 {
-                    if (i > 0 && filterExpression != "")
-                        filterExpression += " AND ";
-                    filterParameter += param[i];
-                    filterExpression += filterParameter;
+                    if (lstReportParameter[i].IsIncludeAsFilterExpressionDt || isFooterTemplate)
+                    {
+                        filterParameter += param[i];
+                        if (i > 0 && filterExpression != "")
+                            filterExpression += " AND ";
+                        filterExpression += filterParameter;
+                    }
                 }
                 else
                 {
@@ -219,24 +236,30 @@ namespace CodeX.Web.CommonLibs.Program
                         reportParameter.Type == Constant.FilterParameterType.PAST_PERIOD ||
                         reportParameter.Type == Constant.FilterParameterType.UPCOMING_PERIOD)
                     {
-                        if (i > 0 && filterExpression != "")
-                            filterExpression += " AND ";
                         string[] date = param[i].Split(';');
                         paramText = date[1];
-                        string startDate = date[0].Substring(0, 8);
-                        string endDate = date[0].Substring(8, 8);
-                        filterParameter = string.Format("{0} BETWEEN '{1}' AND '{2}'", reportParameter.FieldName, startDate, endDate);
-                        filterExpression += filterParameter;
+                        if (lstReportParameter[i].IsIncludeAsFilterExpressionDt || isFooterTemplate)
+                        {
+                            string startDate = date[0].Substring(0, 8);
+                            string endDate = date[0].Substring(8, 8);
+                            filterParameter = string.Format("{0} BETWEEN '{1}' AND '{2}'", reportParameter.FieldName, startDate, endDate);
+                            if (i > 0 && filterExpression != "")
+                                filterExpression += " AND ";
+                            filterExpression += filterParameter;
+                        }
                     }
                     else if (reportParameter.Type == Constant.FilterParameterType.SINGLE_DATE)
                     {
                         string[] paramSplit = param[i].Split(';');
                         paramText = paramSplit[1];
                         string value = paramSplit[0];
-                        if (i > 0 && filterExpression != "")
-                            filterExpression += " AND ";
-                        filterParameter = string.Format("{0} = '{1}'", reportParameter.FieldName, value);
-                        filterExpression += filterParameter;
+                        if (lstReportParameter[i].IsIncludeAsFilterExpressionDt || isFooterTemplate)
+                        {
+                            filterParameter = string.Format("{0} = '{1}'", reportParameter.FieldName, value);
+                            if (i > 0 && filterExpression != "")
+                                filterExpression += " AND ";
+                            filterExpression += filterParameter;
+                        }
                     }
                     else if (reportParameter.Type == Constant.FilterParameterType.COMBO_BOX || reportParameter.Type == Constant.FilterParameterType.YEAR_COMBO_BOX || reportParameter.Type == Constant.FilterParameterType.CUSTOM_COMBO_BOX || reportParameter.Type == Constant.FilterParameterType.SEARCH_DIALOG)
                     {
@@ -245,46 +268,52 @@ namespace CodeX.Web.CommonLibs.Program
                         if (value != "")
                         {
                             paramText = paramSplit[1];
-                            if (i > 0 && filterExpression != "")
+                            if (lstReportParameter[i].IsIncludeAsFilterExpressionDt || isFooterTemplate)
                             {
+                                if (i > 0 && filterExpression != "")
+                                {
+                                    if (lstReportParameter[i].IsRequired || value != "")
+                                        filterExpression += " AND ";
+                                }
                                 if (lstReportParameter[i].IsRequired || value != "")
-                                    filterExpression += " AND ";
+                                {
+                                    if (reportParameter.SearchType == "=")
+                                        filterParameter = string.Format("{0} = '{1}'", reportParameter.FieldName, value);
+                                    else
+                                        filterParameter = string.Format("{0} LIKE '%{1}%'", reportParameter.FieldName, reportParameter.LikeFormula.Replace("{0}", value));
+                                }
+                                filterExpression += filterParameter;
                             }
-                            if (lstReportParameter[i].IsRequired || value != "")
-                            {
-                                if (reportParameter.SearchType == "=")
-                                    filterParameter = string.Format("{0} = '{1}'", reportParameter.FieldName, value);
-                                else
-                                    filterParameter = string.Format("{0} LIKE '%{1}%'", reportParameter.FieldName, reportParameter.LikeFormula.Replace("{0}", value));
-                            }
-                            filterExpression += filterParameter;
                         }
                     }
                     else
                     {
-                        if (i > 0 && filterExpression != "")
-                            filterExpression += " AND ";
                         string[] paramSplit = param[i].Split(';');
                         paramText = paramSplit[1];
-                        StringBuilder sbFilterExpressionVal = new StringBuilder();
-                        StringBuilder sbTemp = new StringBuilder();
-
-                        for (int idxValue = 0; idxValue < paramSplit.Length; idxValue++)
+                        if (lstReportParameter[i].IsIncludeAsFilterExpressionDt || isFooterTemplate)
                         {
-                            string value = paramSplit[idxValue];
-                            if (sbTemp.ToString() != "")
-                                sbTemp.Append(",");
+                            if (i > 0 && filterExpression != "")
+                                filterExpression += " AND ";
+                            StringBuilder sbFilterExpressionVal = new StringBuilder();
+                            StringBuilder sbTemp = new StringBuilder();
 
-                            sbTemp.Append("'").Append(value).Append("'");
+                            for (int idxValue = 0; idxValue < paramSplit.Length; idxValue++)
+                            {
+                                string value = paramSplit[idxValue];
+                                if (sbTemp.ToString() != "")
+                                    sbTemp.Append(",");
+
+                                sbTemp.Append("'").Append(value).Append("'");
+                            }
+                            sbFilterExpressionVal.Append(" IN (").Append(sbTemp.ToString()).Append(")");
+                            filterParameter = string.Format("{0}{1}", reportParameter.FieldName, sbFilterExpressionVal.ToString());
+                            filterExpression += filterParameter;
                         }
-                        sbFilterExpressionVal.Append(" IN (").Append(sbTemp.ToString()).Append(")");
-                        filterParameter = string.Format("{0}{1}", reportParameter.FieldName, sbFilterExpressionVal.ToString());
-                        filterExpression += filterParameter;
                     }
                 }
                 if (paramText != "")
                 {
-                    if (lstReportParameter[i].IsShowAsSubTitle)
+                    if (lstReportParameter[i].IsShowAsSubTitle && !isFooterTemplate && !isDataSourceFromSP)
                     {
                         subHeaderText.Style.Remove("display");
                         if (subHeaderText.InnerHtml != "")
@@ -310,16 +339,22 @@ namespace CodeX.Web.CommonLibs.Program
                 }
             }
             displayParameter += "</table>";
-            if (isShowParameter)
-                divContainerReportParameter.InnerHtml = displayParameter;
-            else
-                divContainerReportParameter.Style.Add("display", "none");
+            if (!isFooterTemplate)
+            {
+                if (!isDataSourceFromSP)
+                {
+                    if (isShowParameter)
+                        divContainerReportParameter.InnerHtml = displayParameter;
+                    else
+                        divContainerReportParameter.Style.Add("display", "none");
+                }
+            }
             return filterExpression;
         }
         #endregion
 
         #region Regex Header Footer
-        private string SetTemplateText(string templateText, string dataSourceHd, object entityHd)
+        private static string SetTemplateText(string templateText, string dataSourceHd, object entityHd)
         {
             Regex regex = new Regex(@"{Site\.([(a-zA-Z0-9_.,)]*)}");
             MatchCollection collection = regex.Matches(templateText);
@@ -388,7 +423,7 @@ namespace CodeX.Web.CommonLibs.Program
                     throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, dataSourceHd));
                 var fieldValue = prop.GetValue(entityHd, null).ToString();
                 fieldValue = System.Web.HttpUtility.HtmlDecode(fieldValue);
-                templateText = templateText.Replace("{" + columnName + "}", Server.HtmlDecode(fieldValue));
+                templateText = templateText.Replace("{" + columnName + "}", HttpContext.Current.Server.HtmlDecode(fieldValue));
             }
             return templateText;
         }
@@ -400,19 +435,7 @@ namespace CodeX.Web.CommonLibs.Program
             #region Load Report File
             string reportXML = "";
             string physicalPath = "";
-            if (hdnLang.Value == "")
-            {
-                reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/{0}/{1}.xml", AppConfigManager.CDXAppClientID, reportMaster.ReportUrl));
-                physicalPath = HttpContext.Current.Request.MapPath(reportXML);
-                if (!File.Exists(physicalPath))
-                {
-                    reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ReportUrl));
-                    physicalPath = HttpContext.Current.Request.MapPath(reportXML);
-                    if (!File.Exists(physicalPath))
-                        return;
-                }
-            }
-            else
+            if (hdnServiceUnit.Value != "")
             {
                 string[] temp = reportMaster.ReportUrl.Split('/');
                 string reportUrlFolder = "";
@@ -423,7 +446,7 @@ namespace CodeX.Web.CommonLibs.Program
                     reportUrlFolder += temp[i];
                 }
                 string reportUrl = temp[temp.Length - 1];
-                reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/{0}/{1}/lang/{2}/{3}.xml", AppConfigManager.CDXAppClientID, reportUrlFolder, hdnLang.Value, reportUrl));
+                reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/{0}/{1}/serviceunit/{2}/{3}.xml", AppConfigManager.CDXAppClientID, reportUrlFolder, hdnServiceUnit.Value, reportUrl));
                 physicalPath = HttpContext.Current.Request.MapPath(reportXML);
                 if (!File.Exists(physicalPath))
                 {
@@ -431,14 +454,55 @@ namespace CodeX.Web.CommonLibs.Program
                     physicalPath = HttpContext.Current.Request.MapPath(reportXML);
                     if (!File.Exists(physicalPath))
                     {
-                        reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}/lang/{1}/{2}.xml", reportUrlFolder, hdnLang.Value, reportUrl));
+                        reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ReportUrl));
+                        physicalPath = HttpContext.Current.Request.MapPath(reportXML);
+                        if (!File.Exists(physicalPath))
+                            return;
+                    }
+                }
+            }
+            else
+            {
+                if (hdnLang.Value == "")
+                {
+                    reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/{0}/{1}.xml", AppConfigManager.CDXAppClientID, reportMaster.ReportUrl));
+                    physicalPath = HttpContext.Current.Request.MapPath(reportXML);
+                    if (!File.Exists(physicalPath))
+                    {
+                        reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ReportUrl));
+                        physicalPath = HttpContext.Current.Request.MapPath(reportXML);
+                        if (!File.Exists(physicalPath))
+                            return;
+                    }
+                }
+                else
+                {
+                    string[] temp = reportMaster.ReportUrl.Split('/');
+                    string reportUrlFolder = "";
+                    for (int i = 0; i < temp.Length - 1; ++i)
+                    {
+                        if (reportUrlFolder != "")
+                            reportUrlFolder += "/";
+                        reportUrlFolder += temp[i];
+                    }
+                    string reportUrl = temp[temp.Length - 1];
+                    reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/{0}/{1}/lang/{2}/{3}.xml", AppConfigManager.CDXAppClientID, reportUrlFolder, hdnLang.Value, reportUrl));
+                    physicalPath = HttpContext.Current.Request.MapPath(reportXML);
+                    if (!File.Exists(physicalPath))
+                    {
+                        reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/{0}/{1}.xml", AppConfigManager.CDXAppClientID, reportMaster.ReportUrl));
                         physicalPath = HttpContext.Current.Request.MapPath(reportXML);
                         if (!File.Exists(physicalPath))
                         {
-                            reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ReportUrl));
+                            reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}/lang/{1}/{2}.xml", reportUrlFolder, hdnLang.Value, reportUrl));
                             physicalPath = HttpContext.Current.Request.MapPath(reportXML);
                             if (!File.Exists(physicalPath))
-                                return;
+                            {
+                                reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ReportUrl));
+                                physicalPath = HttpContext.Current.Request.MapPath(reportXML);
+                                if (!File.Exists(physicalPath))
+                                    return;
+                            }
                         }
                     }
                 }
@@ -450,6 +514,8 @@ namespace CodeX.Web.CommonLibs.Program
                                          IsCustom = sd.Attribute("iscustom") != null ? sd.Attribute("iscustom").Value == "1" : false,
                                          CustomReportURL = sd.Attribute("customreporturl") != null ? sd.Attribute("customreporturl").Value : "",
                                          DataSource = sd.Attribute("datasource") != null ? sd.Attribute("datasource").Value : "",
+                                         DataSourceTableFooter = sd.Attribute("datasourcetablefooter") != null ? sd.Attribute("datasourcetablefooter").Value : "",
+                                         IsDataSourceTableFooterFromSP = sd.Attribute("isdatasourcetablefooterfromsp") != null ? sd.Attribute("isdatasourcetablefooterfromsp").Value == "1" : false,
                                          FilterExpression = sd.Attribute("filterexpression") != null ? sd.Attribute("filterexpression").Value : "",
                                          FilterExpressionHd = sd.Attribute("filterexpressionhd") != null ? sd.Attribute("filterexpressionhd").Value : "",
                                          DataSourceHd = sd.Attribute("datasourcehd") != null ? sd.Attribute("datasourcehd").Value : "",
@@ -473,8 +539,11 @@ namespace CodeX.Web.CommonLibs.Program
                                          CustomPadding = sd.Attribute("custompadding") != null ? sd.Attribute("custompadding").Value : "",
                                          CustomMargin = sd.Attribute("custommargin") != null ? sd.Attribute("custommargin").Value : "0px",
                                          IsShowHeaderBorder = sd.Attribute("isshowheaderborder") != null ? sd.Attribute("isshowheaderborder").Value == "1" : false,
-                                         IsReportItemShowBorderBottom = sd.Attribute("isreportitemshowborderbottom") != null ? sd.Attribute("isreportitemshowborderbottom").Value == "1" : false
+                                         IsReportItemShowBorderBottom = sd.Attribute("isreportitemshowborderbottom") != null ? sd.Attribute("isreportitemshowborderbottom").Value == "1" : false,
+                                         NoOfPrintCopy = sd.Attribute("noofprintcopy") != null ? Convert.ToInt32(sd.Attribute("noofprintcopy").Value) : 0
                                      }).FirstOrDefault();
+
+            noOfPrintCopy = tempReportSetting.NoOfPrintCopy;
             borderBottomDetail = "0px";
             if (tempReportSetting.IsReportItemShowBorderBottom)
                 borderBottomDetail = "1px dotted black";
@@ -582,10 +651,11 @@ namespace CodeX.Web.CommonLibs.Program
                                                         select new ReportParameter
                                                         {
                                                             Code = sd.Attribute("code").Value,
-                                                            IsShowAsSubTitle = sd.Attribute("isshowassubtitle") != null ? sd.Attribute("isshowassubtitle").Value == "1" : false
+                                                            IsShowAsSubTitle = sd.Attribute("isshowassubtitle") != null ? sd.Attribute("isshowassubtitle").Value == "1" : false,
+                                                            IsIncludeAsFilterExpressionDt = sd.Attribute("isincludeasfilterexpressiondt") != null ? sd.Attribute("isincludeasfilterexpressiondt").Value == "1" : true
                                                         }).ToList<ReportParameter>();
-            if (!tempReportSetting.IsDataSourceFromSP)
-                reportFilterExpression = GenerateFilterExpression(lstReportParameter, tempReportSetting.IsShowParameter);
+            //if (!tempReportSetting.IsDataSourceFromSP)
+            reportFilterExpression = GenerateFilterExpression(lstReportParameter, tempReportSetting.IsShowParameter, tempReportSetting.IsDataSourceFromSP, false);
             #endregion
 
             #region Load Paper
@@ -604,8 +674,26 @@ namespace CodeX.Web.CommonLibs.Program
                                      PrintHeight = Convert.ToDecimal(sd.Attribute("printheight").Value),
                                      PageContent = sd.Attribute("pagecontent").Value,
                                      PrintPageContent = sd.Attribute("printpagecontent").Value,
-                                     PaperPortraitLandscape = sd.Attribute("landscape").Value == "1" ? "landscape" : "portrait"
+                                     PaperPortraitLandscape = sd.Attribute("landscape").Value == "1" ? "landscape" : "portrait",
+                                     Positions = (from grd in sd.Descendants("position")
+                                                  select new
+                                                  {
+                                                      Position = grd.Attribute("position").Value,
+                                                      PaddingTop = grd.Attribute("paddingtop").Value
+                                                  }).ToList(),
                                  }).FirstOrDefault();
+
+            if (hdnPosition.Value != "0" && hdnPosition.Value != "" && hdnPosition.Value != "1")
+            {
+                var tempPaperSizePadding = tempPaperSize.Positions.FirstOrDefault(p => p.Position == hdnPosition.Value);
+                if (tempPaperSizePadding != null)
+                    pageContentPaddingTop = tempPaperSizePadding.PaddingTop;
+                else
+                    pageContentPaddingTop = "";
+            }
+            else
+                pageContentPaddingTop = "0";
+
             paperPortraitLandscape = tempPaperSize.PaperPortraitLandscape;
             paperHeight = tempPaperSize.Height;
             paperWidth = tempPaperSize.Width;
@@ -693,13 +781,20 @@ namespace CodeX.Web.CommonLibs.Program
                                         InnerHtml = sd.Value,
                                         Align = sd.Attribute("align") != null ? sd.Attribute("align").Value : "left",
                                     }).ToList<TemplateField>();
+
+                lstConditionalStyle = (from itx in xdocReport.Descendants("conditionalstyle")
+                                       select new ConditionalStyle
+                                       {
+                                           DataField = itx.Attribute("datafield").Value,
+                                           Style = itx.Attribute("style").Value
+                                       }).ToList<ConditionalStyle>();
                 #endregion
 
                 #region Repeater Builder
                 rptReport.HeaderTemplate = new MyTemplate(ListItemType.Header, lstTemplateField, lstGroupField, 0, xdocReport.Root.Elements("fields"), tempReportSetting.IsShowHeaderBorder, lstParameterCodeValue);
                 if (lstTemplateField.Count > 0)
                 {
-                    rptReport.ItemTemplate = new MyTemplate(ListItemType.Item, lstTemplateField, lstGroupField, 0, tempReportSetting.TotalType, tempReportSetting.TotalText);
+                    rptReport.ItemTemplate = new MyTemplate(ListItemType.Item, lstTemplateField, lstConditionalStyle, lstGroupField, 0, tempReportSetting.TotalType, tempReportSetting.TotalText, xdocReport, tempReportSetting.DataSource);
 
                     object obj = null;
                     if (!tempReportSetting.IsDataSourceFromSP)
@@ -718,7 +813,32 @@ namespace CodeX.Web.CommonLibs.Program
                         obj = BusinessLayer.GetDataReport(tempReportSetting.DataSource, lstVariable);
                     }
 
-                    rptReport.FooterTemplate = new MyTemplate(ListItemType.Footer, lstTemplateField, (IEnumerable<object>)obj, tempReportSetting.IsShowTotal, tempReportSetting.TotalType, tempReportSetting.TotalText);
+                    List<dynamic> lstEntityFooter = null;
+                    string tableFooterTemplate = "";
+                    if (tempReportSetting.DataSourceTableFooter != "")
+                    {
+                        if (tempReportSetting.IsDataSourceTableFooterFromSP)
+                        {
+                            List<Variable> lstVariable = GenerateFilterExpressionSP(lstReportParameter, tempReportSetting.IsShowParameter, true);
+                            lstEntityFooter = BusinessLayer.GetDataReport(tempReportSetting.DataSourceTableFooter, lstVariable);
+                        }
+                        else
+                        {
+                            string filterExpressionDt = reportFilterExpression;
+                            if (filterExpressionDt != "" && tempReportSetting.FilterExpression != "")
+                                filterExpressionDt += " AND ";
+                            filterExpressionDt += tempReportSetting.FilterExpression;
+
+                            MethodInfo method = typeof(BusinessLayer).GetMethod(tempReportSetting.DataSourceTableFooter, new[] { typeof(string) });
+                            lstEntityFooter = (List<dynamic>)method.Invoke(null, new object[] { filterExpressionDt });
+                        }
+
+                        x1 = xdocReport.Descendants("tablefootertemplate");
+                        if (x1.Count() > 0)
+                            tableFooterTemplate = x1.Single().Value;
+                    }
+
+                    rptReport.FooterTemplate = new MyTemplate(ListItemType.Footer, lstTemplateField, (IEnumerable<object>)obj, tempReportSetting.IsShowTotal, tempReportSetting.TotalType, tempReportSetting.TotalText, lstEntityFooter, tableFooterTemplate, tempReportSetting.DataSourceTableFooter);
 
                     if (lstGroupField.Count > 0)
                     {
@@ -742,6 +862,14 @@ namespace CodeX.Web.CommonLibs.Program
                         {
                             lst2 = lst.GroupBy(c => c.GetType().GetProperty(groupField.FieldName).GetValue(c, null))
                                 .Select(group => new { GroupName = group.Key, Level = 0, Items = group.ToList() }).ToList();
+                        }
+
+                        IEnumerable<object> tempLst2 = (IEnumerable<object>)lst2;
+                        foreach (object tempEntiy in tempLst2)
+                        {
+                            IList temp = (IList)(tempEntiy.GetType().GetProperty("Items").GetValue(tempEntiy, null));
+                            object a = temp[0];
+
                         }
                         rptReport.ItemDataBound += new RepeaterItemEventHandler(rptReport_ItemDataBound);
                         rptReport.DataSource = lst2;
@@ -798,6 +926,7 @@ namespace CodeX.Web.CommonLibs.Program
             public string Code { get; set; }
             public bool IsShowAsSubTitle { get; set; }
             public bool IsRequired { get; set; }
+            public bool IsIncludeAsFilterExpressionDt { get; set; }
         }
         #endregion
 
@@ -833,10 +962,30 @@ namespace CodeX.Web.CommonLibs.Program
         }
         #endregion
 
+        #region ConditionalStyle
+        class ConditionalStyle
+        {
+            private String _DataField;
+            public String DataField
+            {
+                get { return _DataField; }
+                set { _DataField = value; }
+            }
+
+            private String _Style;
+            public String Style
+            {
+                get { return _Style; }
+                set { _Style = value; }
+            }
+        }
+        #endregion
+
         class MyTemplate : ITemplate
         {
             ListItemType _type;
             List<TemplateField> _lstTemplateField;
+            List<ConditionalStyle> _lstConditionalStyle;
             List<GroupField> _lstGroupField;
             int _level;
             bool _isShowTotal;
@@ -846,14 +995,22 @@ namespace CodeX.Web.CommonLibs.Program
             string _totalText;
             IEnumerable<XElement> _lstField;
             List<Variable> _lstParameterCodeValue;
-            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<GroupField> lstGroupField, int level, string totalType, string totalText)
+            List<dynamic> _lstEntityFooter;
+            string _tableFooterTemplate;
+            string _dataSourceTableFooter;
+            string _dataSourceDt;
+            XDocument _xdocReport;
+            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<ConditionalStyle> lstConditionalStyle, List<GroupField> lstGroupField, int level, string totalType, string totalText, XDocument xdocReport, string dataSourceDt)
             {
                 _type = type;
                 _lstTemplateField = lstTemplateField;
+                _lstConditionalStyle = lstConditionalStyle;
                 _level = level;
                 _lstGroupField = lstGroupField;
                 _totalType = totalType;
                 _totalType = totalType;
+                _xdocReport = xdocReport;
+                _dataSourceDt = dataSourceDt;
             }
             public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<GroupField> lstGroupField, int level, IEnumerable<XElement> lstField, bool isShowHeaderBorder, List<Variable> lstParameterCodeValue)
             {
@@ -865,7 +1022,7 @@ namespace CodeX.Web.CommonLibs.Program
                 _isShowHeaderBorder = isShowHeaderBorder;
                 _lstParameterCodeValue = lstParameterCodeValue;
             }
-            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, IEnumerable<object> lstEntity, bool isShowTotal, string totalType, string totalText)
+            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, IEnumerable<object> lstEntity, bool isShowTotal, string totalType, string totalText, List<dynamic> lstEntityFooter, string tableFooterTemplate, string dataSourceTableFooter)
             {
                 _type = type;
                 _lstTemplateField = lstTemplateField;
@@ -873,6 +1030,9 @@ namespace CodeX.Web.CommonLibs.Program
                 _lstEntity = lstEntity;
                 _totalText = totalText;
                 _totalType = totalType;
+                _lstEntityFooter = lstEntityFooter;
+                _tableFooterTemplate = tableFooterTemplate;
+                _dataSourceTableFooter = dataSourceTableFooter;
             }
 
             #region Generate Table Header
@@ -911,7 +1071,7 @@ namespace CodeX.Web.CommonLibs.Program
                         colSpanText = string.Format(" colspan='{0}'", Colspan);
 
                     string widthText = "";
-                    if (Colspan < 1)
+                    if (Colspan < 1 && Width > 0)
                         widthText = string.Format(" style='width:{0}%;'", Width);
 
                     if (FieldType == "customfield")
@@ -1075,6 +1235,16 @@ namespace CodeX.Web.CommonLibs.Program
                             lcSubTotal.Text += "</tr>";
                             container.Controls.Add(lcSubTotal);
                         }
+                        if (_lstEntityFooter != null)
+                        {
+                            foreach (object obj1 in _lstEntityFooter)
+                            {
+                                Literal lcSubTotal = new Literal();
+                                string tableFooterTemplate = SetTemplateText(_tableFooterTemplate, _dataSourceTableFooter, obj1);
+                                lcSubTotal.Text += string.Format("<tr class='trGrandTotal trReportBody'>{0}</tr>", tableFooterTemplate);
+                                container.Controls.Add(lcSubTotal);
+                            }
+                        }
                         container.Controls.Add(new LiteralControl("</tbody></table>"));
                         break;
 
@@ -1085,7 +1255,7 @@ namespace CodeX.Web.CommonLibs.Program
                             Literal lc = new Literal();
                             Repeater rptDetail = new Repeater();
                             rptDetail.ID = "rptDetail";
-                            rptDetail.ItemTemplate = new MyTemplate(ListItemType.Item, _lstTemplateField, _lstGroupField, _level + 1, _totalType, _totalText);
+                            rptDetail.ItemTemplate = new MyTemplate(ListItemType.Item, _lstTemplateField, _lstConditionalStyle, _lstGroupField, _level + 1, _totalType, _totalText, _xdocReport, _dataSourceDt);
 
                             container.Controls.Add(lc);
                             container.Controls.Add(rptDetail);
@@ -1099,6 +1269,18 @@ namespace CodeX.Web.CommonLibs.Program
                             RepeaterItem container1 = (RepeaterItem)container;
                             container.DataBinding += (o, e) =>
                             {
+                                string innerHtml = "";
+                                IEnumerable<XElement> x1 = _xdocReport.Descendants("grouptemplate" + (_level + 1));
+                                if (x1.Count() > 0)
+                                {
+                                    string groupTemplate = x1.Single().Value;
+                                    IList temp = (IList)DataBinder.Eval(container1.DataItem, "Items");
+                                    object bindEntity = temp[0];
+                                    groupTemplate = SetTemplateText(groupTemplate, _dataSourceDt, bindEntity);
+                                    innerHtml = groupTemplate;
+                                }
+                                else
+                                    innerHtml = _lstGroupField[_level].HeaderText.Replace("[GroupName]", DataBinder.Eval(container1.DataItem, "GroupName").ToString());
                                 int tdLocation = _lstGroupField[_level].TdLocation;
                                 if (tdLocation > 0)
                                 {
@@ -1109,10 +1291,10 @@ namespace CodeX.Web.CommonLibs.Program
                                     string className = "";
                                     if (_lstGroupField[_level].IsShowBorderTop)
                                         className = " borderTop";
-                                    lc.Text += string.Format("<td class='tdGroupName{2}' colspan='{1}'>{0}</td></tr>", _lstGroupField[_level].HeaderText.Replace("[GroupName]", DataBinder.Eval(container1.DataItem, "GroupName").ToString()), _lstTemplateField.Count - tdLocation, className);
+                                    lc.Text += string.Format("<td id='tdContainerGroup' runat='server' class='tdGroupName{2}' colspan='{1}'>{0}</td></tr>", innerHtml, _lstTemplateField.Count - tdLocation, className);
                                 }
                                 else
-                                    lc.Text += string.Format("<tr class='trGroup{2} trReportBody'><td class='tdGroupName' colspan='{1}' style='padding-left:{3}0px;'>{0}</td></tr>", _lstGroupField[_level].HeaderText.Replace("[GroupName]", DataBinder.Eval(container1.DataItem, "GroupName").ToString()), _lstTemplateField.Count, _level, _level * 2);
+                                    lc.Text += string.Format("<tr id='tdContainerGroup' runat='server' class='trGroup{2} trReportBody'><td class='tdGroupName' colspan='{1}' style='padding-left:{3}0px;'>{0}</td></tr>", innerHtml, _lstTemplateField.Count, _level, _level * 2);
                                 if (lcSubTotal != null)
                                 {
                                     List<TemplateField> lstTemplateFieldShowSubTotal = new List<TemplateField>();
@@ -1181,13 +1363,24 @@ namespace CodeX.Web.CommonLibs.Program
                             RepeaterItem container1 = (RepeaterItem)container;
                             container.DataBinding += (o, e) =>
                             {
+                                string customStyle = "";
+                                foreach (ConditionalStyle conditionalStyle in _lstConditionalStyle)
+                                {
+                                    bool conditionalValue = (bool)DataBinder.Eval(container1.DataItem, conditionalStyle.DataField);
+                                    if (conditionalValue)
+                                        customStyle = conditionalStyle.Style + " !important;";
+                                }
                                 lc.Text += "<tr class='trReportBody'>";
                                 int ctr = 0;
+
                                 foreach (TemplateField tf in _lstTemplateField)
                                 {
                                     string stylePaddingLeftTag = "";
                                     if (ctr == 0 && _lstGroupField.Count > 0)
-                                        stylePaddingLeftTag = string.Format(" style='padding-left:{0}0px;'", _lstGroupField.Count);
+                                        stylePaddingLeftTag = string.Format(" style='padding-left:{0}0px;{1}'", _lstGroupField.Count, customStyle);
+                                    else if (customStyle != "")
+                                        stylePaddingLeftTag = string.Format(" style='{0}'", customStyle);
+
                                     if (tf.FieldType == "customfield")
                                     {
                                         string innerHtml = tf.InnerHtml;

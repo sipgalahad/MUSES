@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvDirectPurchaseDtList" datasourcehd="GetvDirectPurchaseHdList" custompadding="0.2cm 1.3cm" filterexpressionhd="" headertext="BUKTI PEMBELIAN TUNAI" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="F5_portrait" fontsize="8pt"/>
+  <table datasource="GetvDirectPurchaseDtList" datasourcehd="GetvDirectPurchaseHdList" custompadding="0.2cm 1.3cm" filterexpressionhd="" headertext="BUKTI PEMBELIAN TUNAI" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="F5_portrait" fontsize="8pt" noofprintcopy="1"/>
   <parameters>
     <parameter code="FP001"/>
   </parameters>
