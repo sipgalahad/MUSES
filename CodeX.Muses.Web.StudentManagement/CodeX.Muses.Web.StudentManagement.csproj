@@ -125,6 +125,7 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx" />
+    <Content Include="Program\ClassMeeting\ClassTask\ClassTaskFileEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolAnnouncement\TemplateContentViewCtl.ascx" />
     <Content Include="Program\Master\SchoolAnnouncement\SchoolAnnouncementEntry.aspx" />
     <Content Include="Program\Master\SchoolAnnouncement\SchoolAnnouncementList.aspx" />
@@ -673,6 +674,13 @@
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTask\ClassTaskFileEntryCtl.ascx.cs">
+      <DependentUpon>ClassTaskFileEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTask\ClassTaskFileEntryCtl.ascx.designer.cs">
+      <DependentUpon>ClassTaskFileEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolAnnouncement\TemplateContentViewCtl.ascx.cs">
       <DependentUpon>TemplateContentViewCtl.ascx</DependentUpon>

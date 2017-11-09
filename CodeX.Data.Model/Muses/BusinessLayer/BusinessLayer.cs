@@ -2313,6 +2313,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassSubjectTaskFile
+        public static ClassSubjectTaskFile GetClassSubjectTaskFile(Int32 ClassSubjectTaskFileID)
+        {
+            return new ClassSubjectTaskFileDao().Get(ClassSubjectTaskFileID);
+        }
+        public static int InsertClassSubjectTaskFile(ClassSubjectTaskFile record)
+        {
+            return new ClassSubjectTaskFileDao().Insert(record);
+        }
+        public static int UpdateClassSubjectTaskFile(ClassSubjectTaskFile record)
+        {
+            return new ClassSubjectTaskFileDao().Update(record);
+        }
+        public static int DeleteClassSubjectTaskFile(Int32 ClassSubjectTaskFileID)
+        {
+            return new ClassSubjectTaskFileDao().Delete(ClassSubjectTaskFileID);
+        }
+        public static List<ClassSubjectTaskFile> GetClassSubjectTaskFileList(string filterExpression)
+        {
+            List<ClassSubjectTaskFile> result = new List<ClassSubjectTaskFile>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubjectTaskFile));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSubjectTaskFile)helper.IDataReaderToObject(reader, new ClassSubjectTaskFile()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ClassSubjectTaskIndicator
         public static ClassSubjectTaskIndicator GetClassSubjectTaskIndicator(Int32 ClassSubjectTaskIndicatorID)
         {

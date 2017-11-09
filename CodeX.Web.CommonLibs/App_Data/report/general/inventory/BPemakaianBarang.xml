@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvItemTransactionDtList" datasourcehd="GetvItemTransactionHdList" filterexpressionhd="" headertext="Bukti Pemakaian Barang" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="F5_portrait" fontsize="8pt" />
+  <table datasource="GetvItemTransactionDtList" datasourcehd="GetvItemTransactionHdList" filterexpressionhd="" headertext="Bukti Pemakaian Barang" filterexpression="GCItemDetailStatus != 'X121^999'" papertype="F5_portrait" fontsize="8pt" noofprintcopy="1"/>
   <parameters>
     <parameter code="FP001"/>
   </parameters>
@@ -48,27 +48,29 @@
   </headertemplate>
   <footertemplate>
     <![CDATA[
-     <table style="width:100%" cellspacing="0" cellpadding="0">
-      <colgroup>
-        <col style="width:50%"/>
-      </colgroup>
-      <tr>
-        <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
-      </tr>
-      <tr>
-        <td valign="top" align="center">Dibuat Oleh</td>
-        <td valign="top" align="center">Diterima Oleh</td>
-      </tr>
-      <tr>
-        <td colspan="2" class="tdSignature">&nbsp;</td>
-      </tr>
-      <tr>
-        <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div></td>
-        <td valign="top" align="center">
-          <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
-        </td>
-      </tr>
-    </table>
+      <div style="margin:10px; bottom: 35px;" class="divCustomFooter">
+       <table style="width:100%" cellspacing="0" cellpadding="0">
+        <colgroup>
+          <col style="width:50%"/>
+        </colgroup>
+        <tr>
+          <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="top" align="center">Dibuat Oleh</td>
+          <td valign="top" align="center">Diterima Oleh</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="tdSignatureSmall">&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div></td>
+          <td valign="top" align="center">
+            <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
+          </td>
+        </tr>
+      </table>
+      </div>
     ]]>
   </footertemplate>
 </root>

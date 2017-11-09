@@ -428,7 +428,6 @@
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
             var consumptionID = $('#<%=hdnConsumptionID.ClientID %>').val();
             var printStatus = $('#<%=hdnPrintStatus.ClientID %>').val();
-            alert(printStatus);
             if (printStatus == 'true') {
                 if (consumptionID == '' || consumptionID == '0') {
                     errMessage.text = 'Please Set Transaction First!';

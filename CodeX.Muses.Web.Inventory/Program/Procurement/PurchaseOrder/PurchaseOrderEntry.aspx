@@ -366,6 +366,7 @@
                     $('#<%=lblSiteServiceUnit.ClientID %>').attr('class', 'lblDisabled');
                     $('#<%=txtServiceUnitCode.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=txtStockServiceUnit.ClientID %>').val('');
+                    $('#<%=txtNotesDt.ClientID %>').val('');
                     lastTransactionAmount = $('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal');
                     editedLineAmount = 0;
                     cboItemUnit.SetValue('');
@@ -566,6 +567,7 @@
             $('#<%=hdnItemGroupID.ClientID %>').val(entity.ItemGroupID);
             $('#<%=txtItemGroupCode.ClientID %>').val(entity.ItemGroupCode);
             $('#<%=txtItemGroupName.ClientID %>').val(entity.ItemGroupName1);
+            $('#<%=txtNotesDt.ClientID %>').val(entity.Remarks);
 
             var isNonMasterItem = entity.ItemID == $('#<%=hdnNonMasterItemID.ClientID %>').val();
             $('#<%=chkIsFromMasterItem.ClientID %>').prop("checked", !isNonMasterItem);
@@ -1248,6 +1250,7 @@
                                                     <input type="hidden" value="<%#Eval("GCItemDetailStatus") %>" bindingfield="GCItemDetailStatus" />
                                                     <input type="hidden" value="<%#Eval("LineAmount") %>" bindingfield="LineAmount" />
                                                     <input type="hidden" value="<%#Eval("CustomTotal") %>" bindingfield="CustomTotal" />
+                                                    <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>

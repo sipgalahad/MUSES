@@ -448,39 +448,50 @@ namespace CodeX.Muses.Web.Accounting.Program
                 if (itemTransactionHd.GCTransactionStatus == Constant.TransactionStatus.OPEN)
                 {
                     TreasuryBook entityBook = entityBookDao.Get(itemTransactionHd.BookID);
-
-                    GLTransactionHd entityHd = new GLTransactionHd();
-                    entityHd.JournalDate = itemTransactionHd.TransactionDate;
-                    entityHd.GCJournalGroup = Constant.JournalGroup.MEMORIAL;
-                    if (entityBook.GCTreasuryBookType == Constant.TreasuryBookType.CASH)
+                    
+                    GLTransactionHd entityHd = null;
+                    if (itemTransactionHd.GLTransactionID == null)
                     {
-                        if (itemTransactionHd.GCVoucherGroup == Constant.VoucherGroup.RECEIVE)
-                            entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_CASH_IN;
+                        entityHd = new GLTransactionHd();
+                        entityHd.JournalDate = itemTransactionHd.TransactionDate;
+                        entityHd.GCJournalGroup = Constant.JournalGroup.MEMORIAL;
+                        if (entityBook.GCTreasuryBookType == Constant.TreasuryBookType.CASH)
+                        {
+                            if (itemTransactionHd.GCVoucherGroup == Constant.VoucherGroup.RECEIVE)
+                                entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_CASH_IN;
+                            else
+                                entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_CASH_OUT;
+                        }
                         else
-                            entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_CASH_OUT;
+                        {
+                            if (itemTransactionHd.GCVoucherGroup == Constant.VoucherGroup.RECEIVE)
+                                entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_BANK_IN;
+                            else
+                                entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_BANK_OUT;
+                        }
+                        TransactionType entityTransactionType = entityTransactionTypeDao.Get(entityHd.TransactionCode);
+
+                        entityHd.IsGeneratedBySystem = true;
+                        //entityHd.Remarks = txtRemarks.Text;
+                        entityHd.Remarks = "";
+                        entityHd.SiteServiceUnitID = itemTransactionHd.SiteServiceUnitID;
+                        entityHd.JournalNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.JournalDate, entityTransactionType.TransactionInitial, ctx);
+                        entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+
+                        ctx.CommandType = CommandType.Text;
+                        ctx.Command.Parameters.Clear();
+                        entityHd.CreatedBy = AppSession.UserLogin.UserID;
+                        entityHd.GLTransactionID = entityHdDao.Insert(entityHd);
                     }
                     else
                     {
-                        if (itemTransactionHd.GCVoucherGroup == Constant.VoucherGroup.RECEIVE)
-                            entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_BANK_IN;
-                        else
-                            entityHd.TransactionCode = Constant.TransactionCode.JOURNAL_MEMORIAL_BANK_OUT;
+                        entityHd = entityHdDao.Get((int)itemTransactionHd.GLTransactionID);
+                        entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                        entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityHdDao.Update(entityHd);
                     }
-                    TransactionType entityTransactionType = entityTransactionTypeDao.Get(entityHd.TransactionCode);
 
-                    entityHd.IsGeneratedBySystem = true;
-                    //entityHd.Remarks = txtRemarks.Text;
-                    entityHd.Remarks = "";
-                    entityHd.SiteServiceUnitID = itemTransactionHd.SiteServiceUnitID;
-                    entityHd.JournalNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.JournalDate, entityTransactionType.TransactionInitial, ctx);
-                    entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-
-                    ctx.CommandType = CommandType.Text;
-                    ctx.Command.Parameters.Clear();
-                    entityHd.CreatedBy = AppSession.UserLogin.UserID;
-                    int GLTransactionID = entityHdDao.Insert(entityHd);
-
-                    itemTransactionHd.GLTransactionID = GLTransactionID;
+                    itemTransactionHd.GLTransactionID = entityHd.GLTransactionID;
                     itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
                     itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                     TreasuryHdDao.Update(itemTransactionHd);
@@ -488,7 +499,7 @@ namespace CodeX.Muses.Web.Accounting.Program
                     {
                         GLTransactionDt entityDt = new GLTransactionDt();
                         entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
-                        entityDt.GLTransactionID = GLTransactionID;
+                        entityDt.GLTransactionID = entityHd.GLTransactionID;
                         entityDt.GLAccount = entityBook.GLAccount;
                         entityDt.SubLedger = entityBook.SubLedger;
                         entityDt.Remarks = entityHd.Remarks;
@@ -520,7 +531,7 @@ namespace CodeX.Muses.Web.Accounting.Program
 
                         GLTransactionDt entityDt = new GLTransactionDt();
                         entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
-                        entityDt.GLTransactionID = GLTransactionID;
+                        entityDt.GLTransactionID = entityHd.GLTransactionID;
                         entityDt.GLAccount = GlTransactionDt.GLAccount;
                         entityDt.SubLedger = GlTransactionDt.SubLedger;
                         entityDt.Remarks = GlTransactionDt.Remarks;

@@ -32,7 +32,7 @@
             <tr><td>No Permintaan</td><td align="center">:</td><td>{DirectPurchaseNo}</td></tr>
             <tr><td>Bagian</td><td align="center">:</td><td>{ServiceUnitName}</td></tr>
             <tr><td>Ke Bagian</td><td align="center">:</td><td>{ToServiceUnitName}</td></tr>
-            <tr><td>Lokasi</td><td align="center">:</td><td>{LocationName}</td></tr>
+            <tr style="display:none"><td>Lokasi</td><td align="center">:</td><td>{LocationName}</td></tr>
           </table>
         </td>
         <td valign="top">
@@ -51,51 +51,65 @@
   </headertemplate>
   <footertemplate>
     <![CDATA[
-     <table style="width:100%;" cellspacing="0" cellpadding="0">
-       <tr>
-        <td align="right" class="tdReportTotal">
-          <table>
-            <colgroup>
-             <col style="width:90px"/>
-             <col style="width:5px"/>
-             <col style="width:60px"/>
-            </colgroup> 
-            <tr>
-              <td>Total</td>
-              <td>:</td>
-              <td align="right">{TransactionAmount,N}</td>
-            </tr>
-          </table>          
-        </td>
-       </tr>
-     </table>
-     <table style="width:100%" cellspacing="0" cellpadding="0">
-      <colgroup>
-        <col style="width:50%"/>
-      </colgroup>
-      <tr>
-        <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
-      </tr>
-      <tr>
-        <td colspan="2" valign="top"><div style="word-wrap: break-word; white-space: normal">{cfRemarks}</div></td>
-      </tr>
-      <tr>
-        <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
-      </tr>
-      <tr>
-        <td valign="top" align="center">Dibuat Oleh</td>
-        <td valign="top" align="center">Diterima Oleh</td>
-      </tr>
-      <tr>
-        <td colspan="2" class="tdSignature">&nbsp;</td>
-      </tr>
-      <tr>
-        <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div></td>
-        <td valign="top" align="center">
-          <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
-        </td>
-      </tr>
-    </table>
+      <div style="margin:10px; bottom: 35px;" class="divCustomFooter">
+        <table style="width:100%;" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="right" class="tdReportTotal">
+              <table>
+                <colgroup>
+                  <col style="width:90px"/>
+                  <col style="width:5px"/>
+                  <col style="width:60px"/>
+                </colgroup> 
+                <tr>
+                  <td>Sub Total</td>
+                  <td>:</td>
+                  <td align="right">{TransactionAmount,N}</td>
+                </tr>
+                <tr>
+                  <td>PPN</td>
+                  <td>:</td>
+                  <td align="right">{VATAmount,N}</td>
+                </tr>
+                <tr>
+                  <td>Diskon Final</td>
+                  <td>:</td>
+                  <td align="right">{FinalDiscountAmount,N}</td>
+                </tr>
+                <tr>
+                  <td>Total</td>
+                  <td>:</td>
+                  <td align="right">{TotalNetTransactionAmount,N}</td>
+                </tr>
+              </table>          
+            </td>
+          </tr>
+        </table>
+       <table style="width:100%" cellspacing="0" cellpadding="0">
+        <colgroup>
+          <col style="width:50%"/>
+        </colgroup>
+        <tr>
+          <td colspan="2" valign="top"><div style="word-wrap: break-word; white-space: normal">{cfRemarks}</div></td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="top" align="center">Dibuat Oleh</td>
+          <td valign="top" align="center">Diterima Oleh</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="tdSignatureSmall">&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div></td>
+          <td valign="top" align="center">
+            <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
+          </td>
+        </tr>
+      </table>
+     </div>
     ]]>
   </footertemplate>
 </root>

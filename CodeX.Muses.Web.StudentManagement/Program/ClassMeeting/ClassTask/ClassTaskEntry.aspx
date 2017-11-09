@@ -137,6 +137,13 @@
             openUserControlPopup(url, id, 'Remidi', 900, 550);
         });
 
+        $('.divFile').live('click', function () {
+            $li = $(this).parent();
+            var id = $li.find('.hdnClassSubjectTaskID').val();
+            var url = ResolveUrl("~/Program/ClassMeeting/ClassTask/ClassTaskFileEntryCtl.ascx");
+            openUserControlPopup(url, id, 'File', 900, 550);
+        }); 
+
         function onCboFilterTaskTypeValueChanged() {
             cbpView.PerformCallback('refresh');
         }
@@ -228,6 +235,7 @@
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit divEdit"><%=GetLabel("Edit")%></div>
                                         <div style='float:right;margin-right:10px;color:Red;' class="divDetailEdit divRemedial"><%=GetLabel("Remidi")%></div>
+                                        <div style='float:right;margin-right:10px;color:Red;' class="divDetailEdit divFile"><%=GetLabel("File")%></div>
                                         <input type="hidden" value='<%# Eval("ClassSubjectTaskID") %>' class="hdnClassSubjectTaskID" />
                                         <input type="hidden" value='<%# Eval("GCMarkType") %>' class="hdnGCMarkType" />
                                         <input type="hidden" value='<%# Eval("MarkTypeID") %>' class="hdnMarkTypeID" />

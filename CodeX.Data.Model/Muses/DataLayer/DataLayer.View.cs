@@ -3541,6 +3541,119 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassSubjectTaskFile
+    [Serializable]
+    [Table(Name = "vClassSubjectTaskFile")]
+    public class vClassSubjectTaskFile
+    {
+        private Int32 _ClassSubjectTaskFileID;
+        private Int32 _ClassSubjectTaskID;
+        private Int32 _SubjectID;
+        private String _SubjectName;
+        private String _FileName;
+        private String _Path;
+        private String _Extension;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private String _CreatedByName;
+        private DateTime _CreatedDate;
+        private Int32 _LastUpdatedBy;
+        private String _LastUpdatedByName;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ClassSubjectTaskFileID", DataType = "Int32")]
+        public Int32 ClassSubjectTaskFileID
+        {
+            get { return _ClassSubjectTaskFileID; }
+            set { _ClassSubjectTaskFileID = value; }
+        }
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
+        public Int32 ClassSubjectTaskID
+        {
+            get { return _ClassSubjectTaskID; }
+            set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "FileName", DataType = "String")]
+        public String FileName
+        {
+            get { return _FileName; }
+            set { _FileName = value; }
+        }
+        [Column(Name = "Path", DataType = "String")]
+        public String Path
+        {
+            get { return _Path; }
+            set { _Path = value; }
+        }
+        [Column(Name = "Extension", DataType = "String")]
+        public String Extension
+        {
+            get { return _Extension; }
+            set { _Extension = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedByName", DataType = "String")]
+        public String CreatedByName
+        {
+            get { return _CreatedByName; }
+            set { _CreatedByName = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32")]
+        public Int32 LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedByName", DataType = "String")]
+        public String LastUpdatedByName
+        {
+            get { return _LastUpdatedByName; }
+            set { _LastUpdatedByName = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime")]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+    #endregion
     #region vClassSubjectTaskIndicator
     [Serializable]
     [Table(Name = "vClassSubjectTaskIndicator")]
@@ -21874,6 +21987,7 @@ namespace CodeX.Data.Model
         private String _ReceivedInformation;
         private Decimal _ReceivedQuantity;
         private Decimal _LineAmount;
+        private String _Remarks;
         private Boolean _IsControlExpired;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
@@ -22100,6 +22214,12 @@ namespace CodeX.Data.Model
         {
             get { return _LineAmount; }
             set { _LineAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
         [Column(Name = "IsControlExpired", DataType = "Boolean")]
         public Boolean IsControlExpired

@@ -4521,6 +4521,133 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ClassSubjectTaskFile
+    [Serializable]
+    [Table(Name = "ClassSubjectTaskFile")]
+    public class ClassSubjectTaskFile : DbDataModel
+    {
+        private Int32 _ClassSubjectTaskFileID;
+        private Int32 _ClassSubjectTaskID;
+        private String _FileName;
+        private String _Path;
+        private String _Extension;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ClassSubjectTaskFileID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ClassSubjectTaskFileID
+        {
+            get { return _ClassSubjectTaskFileID; }
+            set { _ClassSubjectTaskFileID = value; }
+        }
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
+        public Int32 ClassSubjectTaskID
+        {
+            get { return _ClassSubjectTaskID; }
+            set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "FileName", DataType = "String")]
+        public String FileName
+        {
+            get { return _FileName; }
+            set { _FileName = value; }
+        }
+        [Column(Name = "Path", DataType = "String")]
+        public String Path
+        {
+            get { return _Path; }
+            set { _Path = value; }
+        }
+        [Column(Name = "Extension", DataType = "String")]
+        public String Extension
+        {
+            get { return _Extension; }
+            set { _Extension = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ClassSubjectTaskFileDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassSubjectTaskFile));
+        private bool _isAuditLog = false;
+        private const string p_ClassSubjectTaskFileID = "@p_ClassSubjectTaskFileID";
+        public ClassSubjectTaskFileDao() { }
+        public ClassSubjectTaskFileDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassSubjectTaskFile Get(Int32 ClassSubjectTaskFileID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassSubjectTaskFileID, ClassSubjectTaskFileID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassSubjectTaskFile)_helper.DataRowToObject(row, new ClassSubjectTaskFile());
+        }
+        public int Insert(ClassSubjectTaskFile record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassSubjectTaskFile record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassSubjectTaskFileID)
+        {
+            ClassSubjectTaskFile record;
+            if (_ctx.Transaction == null)
+                record = new ClassSubjectTaskFileDao().Get(ClassSubjectTaskFileID);
+            else
+                record = Get(ClassSubjectTaskFileID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassSubjectTaskIndicator
     [Serializable]
     [Table(Name = "ClassSubjectTaskIndicator")]

@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvPurchaseOrderDtList" datasourcehd="GetvPurchaseOrderHdList" custompadding="0.2cm 1.3cm" filterexpressionhd="" headertext="SURAT PESANAN BARANG" filterexpression="IsDeleted = 0" papertype="A4_portrait" fontsize="9pt"/>
+  <table datasource="GetvPurchaseOrderDtList" datasourcehd="GetvPurchaseOrderHdList" custompadding="0.2cm 1.3cm" filterexpressionhd="" headertext="SURAT PESANAN BARANG" filterexpression="IsDeleted = 0" papertype="A4_portrait" fontsize="8pt"/>
   <parameters>
     <parameter code="FP001"/>
   </parameters>
   <fields>
     <field fieldtype="autonumber" headertext="No" width="5"/>
     <field fieldname="ItemName1" headertext="Item"/>
-    <field fieldname="Quantity" headertext="Quantity" width="10" fieldtype="number"/>
+    <field fieldname="Quantity" headertext="Qty" width="5" fieldtype="number"/>
     <field fieldname="PurchaseUnit" headertext="Satuan" width="10" />
+    <field fieldname="Remarks" headertext="Catatan" width="25" />
   </fields>
   <headertemplate>
     <![CDATA[
