@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("ParentID = '{0}' AND IsDeleted = 0", Constant.StandardCode.SCHOOL_TYPE);
+            filterExpression += string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_TYPE);
             return filterExpression;
         }
 

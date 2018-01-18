@@ -5,6 +5,8 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPBase" runat="server">
     <style type="text/css">
@@ -95,6 +97,11 @@
                         <tr>
                             <td style="padding-top: 50px;">
                                 <%=GetLabel("Login with your account")%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <dxe:ASPxComboBox runat="server" ID="cboSite" ClientInstanceName="cboSite" Width="300px" />
                             </td>
                         </tr>
                         <tr>

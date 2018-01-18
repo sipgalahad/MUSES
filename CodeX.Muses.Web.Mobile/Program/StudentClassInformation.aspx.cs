@@ -279,15 +279,18 @@ namespace CodeX.Muses.Web.Mobile.Program
                     rptClassMeeting.DataSource = lstClassMeeting;
                     rptClassMeeting.DataBind();
 
-                    List<vClassSubjectTask> lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("SchoolClassID = {0} AND EndDate = '{1}' AND IsDeleted = 0", classStudent.SchoolClassID, schoolDate.ToString("yyyyMMdd")));
+                    List<vClassSubjectTask> lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("SchoolClassID = {0} AND TaskDate <= '{1}' AND EndDate >= '{1}' AND IsDeleted = 0", classStudent.SchoolClassID, schoolDate.ToString("yyyyMMdd")));
                     if (lstClassTask.Count > 0)
                     {
                         string lstClassTaskID = string.Join(",", lstClassTask.Select(p => p.ClassSubjectTaskID).ToList());
                         lstStudentTaskMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", lstClassTaskID));
+                        lstTaskFile = BusinessLayer.GetvClassSubjectTaskFileList(string.Format("ClassSubjectTaskID IN ({0}) AND IsDeleted = 0", lstClassTaskID));
                     }
                     else
+                    {
                         lstStudentTaskMark = new List<ClassStudentSubjectTaskMark>();
-
+                        lstTaskFile = new List<vClassSubjectTaskFile>();
+                    }
                     rptClassTask.DataSource = lstClassTask;
                     rptClassTask.DataBind();
                 }
@@ -295,6 +298,7 @@ namespace CodeX.Muses.Web.Mobile.Program
         }
 
         private List<ClassStudentSubjectTaskMark> lstStudentTaskMark = null;
+        private List<vClassSubjectTaskFile> lstTaskFile = null;
         protected void rptClassTask_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -311,8 +315,21 @@ namespace CodeX.Muses.Web.Mobile.Program
                 if (lstMark.Count > 0)
                 {
                     HtmlGenericControl divAttendanceStatus = (HtmlGenericControl)e.Item.FindControl("divAttendanceStatus");
-                    divAttendanceStatus.InnerHtml = lstMark.Average(p => p.Mark).ToString();
+                    divAttendanceStatus.InnerHtml = lstMark.Average(p => p.Mark).ToString("N");
                 }
+                Repeater rptClassTaskFile = (Repeater)e.Item.FindControl("rptClassTaskFile");
+                rptClassTaskFile.DataSource = lstTaskFile.Where(p => p.ClassSubjectTaskID == classTask.ClassSubjectTaskID).ToList();
+                rptClassTaskFile.DataBind();
+            }
+        }
+
+        protected void rptClassTaskFile_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                vClassSubjectTaskFile entity = (vClassSubjectTaskFile)e.Item.DataItem;
+                HtmlInputHidden hdnDownloadedFile = (HtmlInputHidden)e.Item.FindControl("hdnDownloadedFile");
+                hdnDownloadedFile.Value = string.Format("{0}Project/{1}/{2}/{3}", AppConfigManager.CDXVirtualDirectory, entity.ClassSubjectID, entity.ClassSubjectTaskID, entity.Path);
             }
         }
 

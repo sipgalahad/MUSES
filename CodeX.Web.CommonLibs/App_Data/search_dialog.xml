@@ -151,6 +151,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Curriculum-->
+  <searchdialog type="curriculum" methodname="GetCurriculumList" keyfieldname="CurriculumCode" orderbyexpression="CurriculumName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="CurriculumCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="CurriculumName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="CurriculumName" headertext="Nama" description="" />
+      <intellisensetext datafield="CurriculumCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Curriculum Mark Type Dt -->
   <searchdialog type="curriculummarktypedt" methodname="GetCurriculumMarkTypeDtList" keyfieldname="CurriculumMarkTypeDtID" orderbyexpression="CurriculumMarkTypeDtName ASC">
     <gridcolumns>

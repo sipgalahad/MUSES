@@ -130,6 +130,8 @@
     <Content Include="Program\Main.aspx" />
     <Content Include="Program\RemoteLogon.aspx" />
     <Content Include="Program\StudentManagement\ClassScheduleInfo.aspx" />
+    <Content Include="Program\StudentManagement\TeacherClassRealizationInfo.aspx" />
+    <Content Include="Program\StudentManagement\SyllabusInfo.aspx" />
     <Content Include="Program\StudentManagement\StudentMarkPerClass\StudentMarkPerClassInfo.aspx" />
     <Content Include="Program\StudentManagement\StudentMarkPerClass\StudentMarkPerClassInfoDtCtl.ascx" />
     <Content Include="Program\StudentManagement\StudentMarkPerTeacher\ClassMeetingHistoryDtCtl.ascx" />
@@ -575,6 +577,20 @@
     </Compile>
     <Compile Include="Program\StudentManagement\ClassScheduleInfo.aspx.designer.cs">
       <DependentUpon>ClassScheduleInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentManagement\TeacherClassRealizationInfo.aspx.cs">
+      <DependentUpon>TeacherClassRealizationInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentManagement\TeacherClassRealizationInfo.aspx.designer.cs">
+      <DependentUpon>TeacherClassRealizationInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentManagement\SyllabusInfo.aspx.cs">
+      <DependentUpon>SyllabusInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentManagement\SyllabusInfo.aspx.designer.cs">
+      <DependentUpon>SyllabusInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentManagement\StudentMarkPerClass\StudentMarkPerClassInfo.aspx.cs">
       <DependentUpon>StudentMarkPerClassInfo.aspx</DependentUpon>

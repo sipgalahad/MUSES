@@ -5,10 +5,10 @@
     <parameter code="FP001"/>
   </parameters>
   <fields>
-    <field fieldtype="autonumber" headertext="No" width="3"/>
-    <field fieldname="ItemCode" width="10" headertext="Kode Barang"/>
-    <field fieldname="ItemName1" headertext="Nama Barang"/>
-    <field headertext="Quantity" width="10" fieldtype="customfield" align="right">
+    <field fieldtype="autonumber" headertext="No" width="4"/>
+    <field fieldname="ItemCode" width="10" headertext="Kode"/>
+    <field fieldname="ItemName1" headertext="Item"/>
+    <field headertext="Quantity" width="15" fieldtype="customfield" align="right">
       <![CDATA[
         {Quantity} {ItemUnit}
       ]]>
@@ -47,27 +47,30 @@
   </headertemplate>
   <footertemplate>
     <![CDATA[
-     <table style="width:100%" cellspacing="0" cellpadding="0">
-      <colgroup>
-        <col style="width:50%"/>
-      </colgroup>
-      <tr>
-        <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
-      </tr>
-      <tr>
-        <td valign="top" align="center">Dibuat Oleh</td>
-        <td valign="top" align="center">Disetujui Oleh</td>
-      </tr>
-      <tr>
-        <td colspan="2" class="tdSignature">&nbsp;</td>
-      </tr>
-      <tr>
-        <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">&nbsp;</div></td>
-        <td valign="top" align="center">
-          <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
-        </td>
-      </tr>
-    </table>
+       <table style="width:100%" cellspacing="0" cellpadding="0">
+        <colgroup>
+          <col style="width:50%"/>
+        </colgroup>
+        <tr>
+          <td colspan="2" valign="top"><div style="word-wrap: break-word; white-space: normal">{cfDeliveryRemarks}</div></td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="top" align="center">Dibuat Oleh</td>
+          <td valign="top" align="center">Diterima Oleh</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="tdSignatureSmall">&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">&nbsp;</div></td>
+          <td valign="top" align="center">
+            <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
+          </td>
+        </tr>
+      </table>
     ]]>
   </footertemplate>
 </root>

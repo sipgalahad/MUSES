@@ -50,6 +50,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtPassingGrade.Text = entity.PassingGrade.ToString();
             hdnSchoolClassID.Value = entity.SchoolClassID.ToString();
 
+            txtTaskStartDate.Text = txtEndStartDate.Text = txtTaskEndDate.Text = txtEndEndDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+
             List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND CurriculumSubjectGroupID = {2} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, entity.SubjectID, entity.CurriculumSubjectGroupID));
             lstCurriculumMarkType.Insert(0, new vCurriculumSubjectMarkType { CurriculumMarkTypeID = 0, CurriculumMarkTypeName = " -- Semua -- " });
             Methods.SetComboBoxField<vCurriculumSubjectMarkType>(cboFilterTaskType, lstCurriculumMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
@@ -63,6 +65,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", AppSession.ClassSubject.PeriodSectionID, AppSession.ClassSubject.ClassSubjectID);
             if (cboFilterTaskType.Value != null && cboFilterTaskType.Value.ToString() != "0")
                 filterExpression += string.Format(" AND CurriculumMarkTypeID = {0}", cboFilterTaskType.Value);
+            if (!chkIsTaskDateAll.Checked)
+                filterExpression += string.Format(" AND TaskDate BETWEEN '{0}' AND '{1}'", Helper.GetDatePickerValue(Request.Form[txtTaskStartDate.UniqueID]), Helper.GetDatePickerValue(Request.Form[txtTaskEndDate.UniqueID]));
+            if (!chkIsEndDateAll.Checked)
+                filterExpression += string.Format(" AND EndDate BETWEEN '{0}' AND '{1}'", Helper.GetDatePickerValue(Request.Form[txtEndStartDate.UniqueID]), Helper.GetDatePickerValue(Request.Form[txtEndEndDate.UniqueID]));
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvClassSubjectTaskRowCount(filterExpression);

@@ -24,6 +24,10 @@ namespace CodeX.Muses.Web.ControlPanel
                 else
                     hdnSiteID.Value = BusinessLayer.GetSiteList(string.Format("IsHeader = 0")).FirstOrDefault().SiteID;
 
+                List<vSite> lstSite = BusinessLayer.GetvSiteList("");
+                Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+                cboSite.Value = hdnSiteID.Value;
+
                 txtUserName.Attributes.Add("validationgroup", "mpLogin");
                 txtPassword.Attributes.Add("validationgroup", "mpLogin");
                 Helper.AddCssClass(txtUserName, "required");
@@ -56,7 +60,7 @@ namespace CodeX.Muses.Web.ControlPanel
                     else
                         userLogin.UserFullName = user.FullName;
                     userLogin.EmployeeID = user.EmployeeID;
-                    Site site = BusinessLayer.GetSite(hdnSiteID.Value);
+                    Site site = BusinessLayer.GetSite(cboSite.Value.ToString());
                     userLogin.SiteID = site.SiteID;
                     userLogin.SiteName = site.SiteName;
                     List<vUserInRole> lstUserRole = BusinessLayer.GetvUserInRoleList(string.Format("UserID = {0} AND SiteID = '{1}'", userLogin.UserID, userLogin.SiteID));

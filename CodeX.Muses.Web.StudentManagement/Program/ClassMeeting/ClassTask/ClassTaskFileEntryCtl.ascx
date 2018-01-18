@@ -85,7 +85,8 @@
 
     $('.lblDownload').die('click');
     $('.lblDownload').live('click', function () {
-        document.location = $(this).closest('tr').find('.hdnDownloadedFile').val();
+        window.open($(this).closest('tr').find('.hdnDownloadedFile').val(), '_blank');
+        //document.location = $(this).closest('tr').find('.hdnDownloadedFile').val();
     });
 </script>
 

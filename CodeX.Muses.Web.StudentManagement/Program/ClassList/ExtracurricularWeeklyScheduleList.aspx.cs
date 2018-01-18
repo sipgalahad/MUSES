@@ -25,6 +25,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.ClassStudyType.EXTRACURRICULAR;
         }
 
+        protected string OnGetPeriodSectionNowFilterExpression()
+        {
+            return string.Format("'{0}' BETWEEN StartDate AND EndDate", DateTime.Now.ToString("yyyyMMdd"));
+        }
+
+        protected string OnGetSchoolPeriodNowFilterExpression()
+        {
+            return string.Format("GCSchoolPeriodStatus != '{0}' AND StartDate <= '{1}' AND EndDate >= '{1}'", Constant.SchoolPeriodStatus.VOID, DateTime.Now.ToString("yyyyMMdd"));
+        }
+
         protected string OnGetPeriodSectionFilterExpression()
         {
             return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
@@ -55,24 +65,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             tdSchoolDay5.Style.Add("width", string.Format("{0}%", width));
             tdSchoolDay6.Style.Add("width", string.Format("{0}%", width));
 
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("GCSchoolPeriodStatus != '{0}' AND SiteID = '{1}'", Constant.SchoolPeriodStatus.VOID, AppSession.UserLogin.SiteID));
-            Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
-            if (selectedSchoolPeriod == null)
-                cboSchoolPeriod.SelectedIndex = 0;
-            else
-                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(String.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsHeader = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
 
-            if (cboSchoolPeriod.Value != "")
-            {
-                List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("SchoolPeriodID = {0} AND '{1}' BETWEEN StartDate AND EndDate", cboSchoolPeriod.Value, DateTime.Now.ToString("yyyyMMdd")));
-                if (lstPeriodSection.Count > 0)
-                {
-                    PeriodSection periodSection = lstPeriodSection.FirstOrDefault();
-                    tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
-                    tacPeriodSection.Text = periodSection.PeriodSectionName;
-                }
-            }
 
             BindGridView();
         }
@@ -82,9 +78,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (tacSchoolClass.Value != "")
             {
-                if (cboSchoolPeriod.Value != null && cboSchoolPeriod.Value.ToString() != "0")
+                if (tacSchoolPeriod.Value != "" && tacSchoolPeriod.Value.ToString() != "0")
                 {
-                    List<vClassSchedule> lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND SchoolClassID = {1} AND GCClassStudyType = '{2}' AND IsDeleted = 0", cboSchoolPeriod.Value, tacSchoolClass.Value, Constant.ClassStudyType.EXTRACURRICULAR));
+                    List<vClassSchedule> lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND SchoolClassID = {1} AND GCClassStudyType = '{2}' AND IsDeleted = 0", tacSchoolPeriod.Value, tacSchoolClass.Value, Constant.ClassStudyType.EXTRACURRICULAR));
 
                     rptDay1.DataSource = lstClassSchedule.Where(p => p.DayNumber == 1).ToList();
                     rptDay1.DataBind();

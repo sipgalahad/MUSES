@@ -45,6 +45,37 @@
                 $('#<%=btnExport.ClientID%>').click();
             });
 
+            $('#<%=chkIsTaskDateAll.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#<%=txtTaskStartDate.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtTaskEndDate.ClientID %>').attr('readonly', 'readonly');
+                }
+                else {
+                    $('#<%=txtTaskStartDate.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtTaskEndDate.ClientID %>').removeAttr('readonly');
+                }
+            });
+
+            $('#<%=chkIsEndDateAll.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#<%=txtEndStartDate.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtEndEndDate.ClientID %>').attr('readonly', 'readonly');
+                }
+                else {
+                    $('#<%=txtEndStartDate.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtEndEndDate.ClientID %>').removeAttr('readonly');
+                }
+            });
+
+            $('#btnRefresh').click(function () {
+                cbpView.PerformCallback('refresh');
+            });
+
+            setDatePicker('<%=txtTaskStartDate.ClientID %>');
+            setDatePicker('<%=txtEndStartDate.ClientID %>');
+            setDatePicker('<%=txtTaskEndDate.ClientID %>');
+            setDatePicker('<%=txtEndEndDate.ClientID %>');
+
             registerViewListClickHandler();
         });
 
@@ -212,6 +243,18 @@
                 </dxe:ASPxComboBox>
             </td>
         </tr>
+        <tr>
+            <td class="tdLabel"><%=GetLabel("Tgl Tugas") %></td>
+            <td><asp:CheckBox ID="chkIsTaskDateAll" runat="server" Checked="true" /><%=GetLabel("Semua") %> &nbsp; <asp:TextBox ID="txtTaskStartDate" runat="server" Width="120px" CssClass="datepicker" ReadOnly="true" /> -  <asp:TextBox ID="txtTaskEndDate" runat="server" Width="120px" CssClass="datepicker" ReadOnly="true" /></td>
+        </tr>
+        <tr>
+            <td class="tdLabel"><%=GetLabel("Deadline") %></td>
+            <td><asp:CheckBox ID="chkIsEndDateAll" runat="server" Checked="true" /><%=GetLabel("Semua") %> &nbsp; <asp:TextBox ID="txtEndStartDate" runat="server" Width="120px" CssClass="datepicker" ReadOnly="true" /> -  <asp:TextBox ID="txtEndEndDate" runat="server" Width="120px" CssClass="datepicker" ReadOnly="true" /></td>
+        </tr>
+        <tr>
+            <td class="tdLabel"></td>
+            <td><input type="button" id="btnRefresh" value='<%=GetLabel("Refresh") %>' /></td>
+        </tr>
     </table>
     <table style="width:100%">
         <colgroup>
@@ -243,7 +286,7 @@
                                         <input type="hidden" value='<%# Eval("MaxValue") %>' class="hdnMaxValue" />
                                         <div class="divMeetingDate"><%# Eval("TaskDate", "{0:dd MMM}")%><br /><%# Eval("TaskDate", "{0:yyyy}")%></div>
                                         <div style="font-size: 24px; font-weight: 100;"><%#Eval("Topic") %> (<%#Eval("ClassTaskCode")%>)</div>
-                                        <div style="font-size: 12px;"><%#Eval("CurriculumMarkTypeDtName") %> (<%#Eval("CurriculumMarkTypeName")%>)<br /><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
+                                        <div style="font-size: 12px;"><%#Eval("CurriculumMarkTypeDtName") %> (<%#Eval("CurriculumMarkTypeName")%>)<br /><%#Eval("StartDate", "{0:dd MMM}")%> - <%#Eval("EndDate", "{0:dd MMM}")%></div>
                                     </li>                        
                                 </ItemTemplate>
                                 <FooterTemplate>

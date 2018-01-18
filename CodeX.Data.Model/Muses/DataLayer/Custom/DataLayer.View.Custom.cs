@@ -820,6 +820,15 @@ namespace CodeX.Data.Model
     #region vItemDistributionHd
     public partial class vItemDistributionHd
     {
+        public string cfDeliveryRemarks
+        {
+            get
+            {
+                if (_DeliveryRemarks != "")
+                    return string.Format("Catatan :<br/>{0}", _DeliveryRemarks.Replace("\n", "<br/>"));
+                return "";
+            }
+        }
         public string DeliveryDateInString
         {
             get

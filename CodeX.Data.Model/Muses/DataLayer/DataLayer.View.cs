@@ -2012,6 +2012,8 @@ namespace CodeX.Data.Model
         private String _SubjectName;
         private Int32 _PeriodSectionID;
         private Int32 _SchoolClassID;
+        private String _SchoolClassInitial;
+        private String _SchoolClassName;
         private Int32 _PeriodClassTypeSubjectID;
         private DateTime _MeetingDate;
         private String _StartTime;
@@ -2058,6 +2060,18 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolClassID; }
             set { _SchoolClassID = value; }
+        }
+        [Column(Name = "SchoolClassInitial", DataType = "String")]
+        public String SchoolClassInitial
+        {
+            get { return _SchoolClassInitial; }
+            set { _SchoolClassInitial = value; }
+        }
+        [Column(Name = "SchoolClassName", DataType = "String")]
+        public String SchoolClassName
+        {
+            get { return _SchoolClassName; }
+            set { _SchoolClassName = value; }
         }
         [Column(Name = "PeriodClassTypeSubjectID", DataType = "Int32")]
         public Int32 PeriodClassTypeSubjectID
@@ -3548,6 +3562,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectTaskFileID;
         private Int32 _ClassSubjectTaskID;
+        private Int32 _ClassSubjectID;
         private Int32 _SubjectID;
         private String _SubjectName;
         private String _FileName;
@@ -3573,6 +3588,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectTaskID; }
             set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
         }
         [Column(Name = "SubjectID", DataType = "Int32")]
         public Int32 SubjectID

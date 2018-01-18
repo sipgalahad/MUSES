@@ -151,6 +151,12 @@
             var url = ResolveUrl("~/Program/TemplateContentViewCtl.ascx");
             openUserControlPopup(url, id, 'Detil Pengumuman', 700, 600);
         });
+
+        $('.lblDownloadFile').die('click');
+        $('.lblDownloadFile').live('click', function () {
+            window.open($(this).closest('tr').find('.hdnDownloadedFile').val(), '_blank');
+            //document.location = $(this).closest('tr').find('.hdnDownloadedFile').val();
+        });
     </script>
     <style type="text/css">
         .tblBill tr th, .tblBill tr td          { border: 1px solid #EAEAEA; font-size: 16px; padding: 2px 5px; word-wrap:break-word; }
@@ -534,22 +540,40 @@
                                 <colgroup>
                                     <col style="width:180px"/>
                                     <col style="width:350px"/>
+                                    <col style="width:120px"/>
+                                    <col style="width:120px"/>
                                     <col style="width:80px"/>
                                     <col style="width:80px"/>
+                                    <col style="width:180px"/>
                                 </colgroup>
                                 <tr>
                                     <th class="thLeft">Mata Pelajaran</th>
                                     <th>Topik</th>
+                                    <th>Tgl Tugas</th>
+                                    <th>Deadline</th>
                                     <th>Nilai</th>
                                     <th>Rata-Rata</th>
+                                    <th>File</th>
                                 </tr>
                                 <asp:Repeater ID="rptClassTask" runat="server" OnItemDataBound="rptClassTask_ItemDataBound">
                                     <ItemTemplate>
                                         <tr>
                                             <td><%#Eval("SubjectName") %></td>
                                             <td><%#Eval("Topic") %></td>
+                                            <td align="center"><%#Eval("TaskDate", "{0:dd-MMM-yyyy}") %></td>
+                                            <td align="center"><%#Eval("EndDate", "{0:dd-MMM-yyyy}") %></td>
                                             <td align="right"><div id="divMark" runat="server">-</div></td>
                                             <td align="right"><div id="divAttendanceStatus" runat="server">-</div></td>
+                                            <td align="center">
+                                                <asp:Repeater id="rptClassTaskFile" runat="server" OnItemDataBound="rptClassTaskFile_ItemDataBound">
+                                                    <ItemTemplate>
+                                                        <div>
+                                                            <input type="hidden" id="hdnDownloadedFile" runat="server" class="hdnDownloadedFile" />
+                                                            <label class="lblDownloadFile lblLink"><%#Eval("FileName") %></label> - <%#Eval("Remarks") %>
+                                                        </div>
+                                                    </ItemTemplate>
+                                                </asp:Repeater>
+                                            </td>
                                         </tr>    
                                     </ItemTemplate>
                                 </asp:Repeater>
